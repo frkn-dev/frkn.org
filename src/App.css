@@ -1,4 +1,5 @@
 #root {
   max-width: 1152px;
   margin: 0 auto;
+  position: relative;
 }

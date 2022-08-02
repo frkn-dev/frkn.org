@@ -15,4 +15,8 @@ export const content: { [key: string]: any } = {
     ru: 'Поддержать нас',
     en: 'Support us',
   },
+  subscribe: {
+    ru: 'Подпишитесь на нашу рассылку',
+    en: 'Subscribe to our newsletter',
+  },
 };
