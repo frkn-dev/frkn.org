@@ -13,7 +13,6 @@ import { content } from '../content/home';
 import MailchimpFormContainer from '../components/MailchimpFormContainer';
 
 const Home = () => {
-  const [modalOpen, setModalOpen] = useState(false);
   const appContext = useContext(DataContext);
   if (!appContext) return null;
   const { lang, setLang } = appContext;
@@ -47,12 +46,6 @@ const Home = () => {
             <Button text={content.install[lang]} url="/" role="primary" />
             <Button text={content.donate[lang]} url="/donate" />
           </div>
-          <button
-            className="mt-8 text-zinc-600 hover:underline underline-offset-4"
-            onClick={() => setModalOpen(true)}
-          >
-            {content.subscribe[lang]}
-          </button>
           <div className="flex justify-center gap-8 mt-12 lg:justify-start">
             <SocialLink icon={faTwitter} url="https://twitter.com/FuckRKN1" />
             <SocialLink icon={faTelegram} url="https://t.me/FuckRKN1" />
@@ -61,11 +54,9 @@ const Home = () => {
               url="https://github.com/nezavisimost/FuckRKN1"
             />
           </div>
+          <MailchimpFormContainer />
         </div>
       </main>
-      {modalOpen && (
-        <MailchimpFormContainer setModalOpen={setModalOpen} lang={lang} />
-      )}
     </div>
   );
 };

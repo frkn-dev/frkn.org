@@ -1,18 +1,10 @@
 export const content: { [key: string]: any } = {
-  header: {
+  button: {
     ru: `Подпишитесь на нашу рассылку`,
     en: `Subscribe to our newsletter`,
   },
-  label: {
-    ru: 'Почта',
-    en: 'Email',
-  },
-  subscribe: {
-    ru: 'Подписаться',
-    en: 'Subscribe',
-  },
-  close: {
-    ru: 'Закрыть',
-    en: 'Close',
+  subtext: {
+    ru: `(без хуйни, только по делу)`,
+    en: `(no bullshit, emergency only)`,
   },
 };

@@ -32,33 +32,40 @@ const MailchimpForm = ({ status, message, onValidated }: FormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col mt-auto mb-12 p-4">
-      <h3 className="text-2xl mb-12 font-semibold">{content.header[lang]}</h3>
-      <label className="mb-2">Email</label>
-      <input
-        type="email"
-        onChange={handleInputChange}
-        value={email}
-        required
-        className="p-4 focus-visible:outline-zinc-900 mb-4 rounded-lg border border-zinc-200"
-      />
-      {status === 'sending' && (
-        <p className="text-teal-zinc-600">Subscribing...</p>
-      )}
-      {status === 'error' && (
-        <p className="text-red-600">{message as string}</p>
-      )}
-      {status === 'success' && (
-        <p className="text-teal-600">{message as string}</p>
-      )}
-      <input
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col md:flex-row md:items-stretch mt-12"
+    >
+      <div className="flex-1 flex-col">
+        <input
+          type="email"
+          placeholder="Email"
+          onChange={handleInputChange}
+          value={email}
+          required
+          className="w-full p-4 focus-visible:outline-zinc-900 rounded-lg border border-zinc-200"
+        />
+        {status === 'sending' && (
+          <p className="text-left text-teal-zinc-600 mt-2">Subscribing...</p>
+        )}
+        {status === 'error' && (
+          <p className="text-left text-red-600 mt-2">{message as string}</p>
+        )}
+        {status === 'success' && (
+          <p className="text-left text-teal-600 mt-2">{message as string}</p>
+        )}
+      </div>
+
+      <button
         type="submit"
-        value={content.subscribe[lang]}
         disabled={
           status === 'success' || email === '' || email.indexOf('@') === -1
         }
-        className="flex-auto lg:flex-initial text-center min-w-fit py-4 lg:px-8 px-6 rounded-lg lg:text-xl lg:leading-tight transition-all duration-200 bg-zinc-800 text-zinc-50 hover:bg-red-900 mt-4 disabled:bg-zinc-400"
-      />
+        className="flex flex-col h-14 px-4 items-center md:items-start justify-center text-zinc-500 hover:underline underline-offset-4 cursor-pointer"
+      >
+        {content.button[lang]}
+        <span className="text-sm text-zinc-900">{content.subtext[lang]}</span>
+      </button>
     </form>
   );
 };
