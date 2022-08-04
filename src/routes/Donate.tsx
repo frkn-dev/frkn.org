@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { DataContext } from '../App';
+import { DataContext } from '../providers/DataProvider';
 import { content } from '../content/donate';
 import DonateCard from '../components/DonateCard';
 import Navbar from '../components/Navbar';

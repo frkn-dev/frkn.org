@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { DataContext } from '../App';
+import { DataContext } from '../providers/DataProvider';
 import Button from './Button';
 import LangSwitch from './LangSwitch';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import MailchimpFormContainer from './MailchimpFormContainer';
 import { content } from '../content/home';
-import { Lang, links } from '../content/navbar';
 import NavLinks from './NavLinks';
 
 const Navbar = () => {

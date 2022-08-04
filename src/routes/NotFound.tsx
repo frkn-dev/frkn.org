@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { DataContext } from '../App';
+import { DataContext } from '../providers/DataProvider';
 import Button from '../components/Button';
 import NavLinks from '../components/NavLinks';
 import { content } from '../content/home';
@@ -9,7 +9,7 @@ import { notFound } from '../content/notFound';
 const NotFound = () => {
   const appContext = useContext(DataContext);
   if (!appContext) return null;
-  const { lang, setLang } = appContext;
+  const { lang} = appContext;
   console.log(lang);
 
   return (

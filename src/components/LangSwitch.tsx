@@ -1,11 +1,7 @@
 import React from 'react';
+import {ILanguage} from "../hooks/useLanguage";
 
-interface SwitchProps {
-  lang: string;
-  setLang: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const LangSwitch = ({ lang, setLang }: SwitchProps) => {
+const LangSwitch = ({ lang, setLang }: ILanguage) => {
   return (
     <div className="flex">
       <div
