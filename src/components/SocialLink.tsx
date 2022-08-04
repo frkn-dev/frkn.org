@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  IconLookup,
-  IconDefinition,
-  findIconDefinition,
-} from '@fortawesome/fontawesome-svg-core';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface SocialProps {

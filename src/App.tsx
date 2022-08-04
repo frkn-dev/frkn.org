@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './routes/Home';
 import Donate from './routes/Donate';
+import NotFound from './routes/NotFound';
 
 interface DataContextType {
   lang: string;
@@ -19,7 +20,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="donate" element={<Donate />} />
+          <Route path="support" element={<Donate />} />
+          {/* <Route path="about" element={<About />} />
+          <Route path="installation" element={<Install />} /> */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </DataContext.Provider>

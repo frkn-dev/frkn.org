@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { DataContext } from '../App';
-import { content } from '../content/modal';
+import { content } from '../content/subscribe';
 
 interface FormProps {
   status: 'sending' | 'error' | 'success' | null;
@@ -34,7 +34,7 @@ const MailchimpForm = ({ status, message, onValidated }: FormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col md:flex-row md:items-stretch mt-12"
+      className="flex w-full flex-col md:flex-row md:items-stretch"
     >
       <div className="flex-1 flex-col">
         <input

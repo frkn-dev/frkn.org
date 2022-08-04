@@ -44,9 +44,9 @@ const Home = () => {
           </p>
           <div className="flex flex-wrap mt-10 gap-4">
             <Button text={content.install[lang]} url="/" role="primary" />
-            <Button text={content.donate[lang]} url="/donate" />
+            <Button text={content.donate[lang]} url="support" />
           </div>
-          <div className="flex justify-center gap-8 mt-12 lg:justify-start">
+          <div className="flex justify-center gap-8 mt-12 lg:justify-start mb-12">
             <SocialLink icon={faTwitter} url="https://twitter.com/FuckRKN1" />
             <SocialLink icon={faTelegram} url="https://t.me/FuckRKN1" />
             <SocialLink
