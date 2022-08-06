@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { DataContext } from '../App';
+import { DataContext } from '../providers/DataProvider';
 import { content } from '../content/subscribe';
 
 interface FormProps {

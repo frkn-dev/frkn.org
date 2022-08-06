@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { DataContext } from '../App';
+import { DataContext } from '../providers/DataProvider';
 import { Lang, links } from '../content/navbar';
 
 const NavLinks = () => {

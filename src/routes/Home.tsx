@@ -5,7 +5,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { DataContext } from '../App';
+import { DataContext } from '../providers/DataProvider';
 import Button from '../components/Button';
 import LangSwitch from '../components/LangSwitch';
 import SocialLink from '../components/SocialLink';
