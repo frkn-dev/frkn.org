@@ -5,6 +5,7 @@ import Home from './routes/Home';
 import Donate from './routes/Donate';
 import NotFound from './routes/NotFound';
 import {DataProvider} from "./providers/DataProvider";
+import Installation from './routes/Installation';
 
 function App() {
 
@@ -14,8 +15,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="support" element={<Donate />} />
-          {/* <Route path="about" element={<About />} />
-          <Route path="installation" element={<Install />} /> */}
+          {/* <Route path="about" element={<About />} />*/}
+          <Route path="install" element={<Installation />} /> 
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
