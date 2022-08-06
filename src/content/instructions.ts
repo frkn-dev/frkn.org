@@ -169,7 +169,7 @@ export const content: { [key: string]: any } = {
                 },
                 {
                     ru: `Переместите файл в папку <b>iPhone.</b>`,
-                    en: `Переместите файл в папку <b>iPhone.</b> Move the file to the <b>On my iPhone</b> folder`,
+                    en: `Move the file to the <b>On my iPhone</b> folder`,
                 },
                 {
                     ru: `Зайдите в <b>Настройки</b> и <b>установите</b> профиль.`,
