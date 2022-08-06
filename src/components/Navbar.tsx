@@ -74,7 +74,7 @@ const Navbar = () => {
             className="flex w-fit"
             onClick={() => (document.body.style.overflowY = 'scroll')}
           >
-            <Button text={content.install[lang]} url="/" role="primary" />
+            <Button text={content.install[lang]} url="/install" role="primary" />
           </div>
         </div>
       </nav>

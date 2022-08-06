@@ -43,7 +43,7 @@ const Home = () => {
             {content.subheader[lang]}
           </p>
           <div className="flex flex-wrap mt-10 gap-4">
-            <Button text={content.install[lang]} url="/" role="primary" />
+            <Button text={content.install[lang]} url="install" role="primary" />
             <Button text={content.donate[lang]} url="support" />
           </div>
           <div className="flex justify-center gap-8 mt-12 lg:justify-start mb-12">
