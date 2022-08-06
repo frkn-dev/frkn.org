@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import { content } from "../../../content/instructions";
-import { DataContext } from "../../../App";
+import { DataContext } from '../../../providers/DataProvider';
 
 const Screeencast: React.FC<{ platform: string }> = (props) => {
     const appContext = useContext(DataContext);
@@ -11,7 +11,7 @@ const Screeencast: React.FC<{ platform: string }> = (props) => {
     const { subtitle, text, textLink } = content.screencastSection;
     const { url, preload, controls, poster, type } =
         content.instructions[props.platform].video;
-    console.log("screencast");
+
     return (
         <div>
             <h3 className="text-2xl font-semibold pb-2">{subtitle[lang]}</h3>

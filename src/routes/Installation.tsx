@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 
-import { DataContext } from "../App";
+import { DataContext } from '../providers/DataProvider';
 import { content } from "../content/instructions";
 import Navbar from "../components/Navbar";
 import PlatformNavigation from "../components/PlatformNavigation";

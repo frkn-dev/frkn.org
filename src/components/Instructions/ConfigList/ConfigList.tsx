@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import { content } from "../../../content/instructions";
-import { DataContext } from "../../../App";
+import { DataContext } from '../../../providers/DataProvider';
 
 const ConfigList: React.FC<{ platform: string }> = (props) => {
     const appContext = useContext(DataContext);

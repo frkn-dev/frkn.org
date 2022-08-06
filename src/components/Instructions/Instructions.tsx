@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import { content } from "../../content/instructions";
-import { DataContext } from "../../App";
+import { DataContext } from '../../providers/DataProvider';
 import ConfigList from "./ConfigList/ConfigList";
 import InstructionsList from "./InstructionsList/InstructionsList";
 import Screeencast from "./Screencast/Screencast";
