@@ -15,7 +15,7 @@ const Screeencast: React.FC<{ platform: string }> = (props) => {
   return (
     <div>
       <h3 className="text-2xl font-semibold pb-2">{subtitle[lang]}</h3>
-      <video key={url} controls={controls} preload={preload} poster={poster}>
+      <video key={url} controls={controls} preload={preload} poster={poster} className="max-h-[80vh]">
         <source src={url} type={type} />
         <p>
           {text[lang]}

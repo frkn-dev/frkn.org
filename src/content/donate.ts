@@ -11,6 +11,10 @@ export const content: { [key: string]: any } = {
     ru: 'Копировать адрес',
     en: 'Copy address',
   },
+  coped: {
+    ru: 'Скопировано!',
+    en: 'Copied!',
+  },
   options: {
     common: {
       patreon: {
