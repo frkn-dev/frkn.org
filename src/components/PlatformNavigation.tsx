@@ -19,7 +19,7 @@ const PlatformNavigation: React.FC<{
   const { options } = content;
 
   const liClassName =
-    "flex flex-auto lg:flex-initial bg-zinc-100 py-4 px-4 md:px-4 lg:pr-10 rounded-lg cursor-pointer hover:bg-zinc-200 transition-all duration-200 relative";
+    "flex flex-auto lg:flex-initial bg-zinc-100 py-4 px-4 md:px-4 lg:px-5 rounded-lg cursor-pointer hover:bg-zinc-200 transition-all duration-200 relative";
   const liActiveClassName = "bg-zinc-300";
 
   return (
