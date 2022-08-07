@@ -8,10 +8,10 @@ export const content: { [key: string]: any } = {
     en: 'Crypto',
   },
   copy: {
-    ru: 'Копировать адрес',
+    ru: 'Скопировать адрес',
     en: 'Copy address',
   },
-  coped: {
+  copied: {
     ru: 'Скопировано!',
     en: 'Copied!',
   },
@@ -50,7 +50,7 @@ export const content: { [key: string]: any } = {
         img: '/logos/btc.png',
         title: 'Bitcoin',
         text: {
-          ru: 'Копировать адрес',
+          ru: 'Aдрес',
           en: 'Copy address',
         },
         address: 'bc1qe76609xu8qay4wt7tnvrxhx4spnjrywwh2jwf3',
@@ -59,7 +59,7 @@ export const content: { [key: string]: any } = {
         img: '/logos/eth.png',
         title: 'Ethereum',
         text: {
-          ru: 'Копировать адрес',
+          ru: 'Aдрес',
           en: 'Copy address',
         },
         address: '0xE92d1695483bd9E82A1AeEEa02E60797B055c53C',
@@ -68,7 +68,7 @@ export const content: { [key: string]: any } = {
         img: '/logos/near.png',
         title: 'Near',
         text: {
-          ru: 'Копировать адрес',
+          ru: 'Aдрес',
           en: 'Copy address',
         },
         address:
@@ -78,7 +78,7 @@ export const content: { [key: string]: any } = {
         img: '/logos/usdt.png',
         title: 'USDT(ETH)',
         text: {
-          ru: 'Копировать адрес',
+          ru: 'Aдрес',
           en: 'Copy address',
         },
         address: '0xE92d1695483bd9E82A1AeEEa02E60797B055c53C',
@@ -87,7 +87,7 @@ export const content: { [key: string]: any } = {
         img: '/logos/usdt.png',
         title: 'USDT(TRON)',
         text: {
-          ru: 'Копировать адрес',
+          ru: 'Aдрес',
           en: 'Copy address',
         },
         address: 'TKuMVvLHW9orkuVwKpC8AhTDUDQV91ZfeX',
@@ -96,7 +96,7 @@ export const content: { [key: string]: any } = {
         img: '/logos/usdt.png',
         title: 'BUSD(Binance)',
         text: {
-          ru: 'Копировать адрес',
+          ru: 'Aдрес',
           en: 'Copy address',
         },
         address: '0xE92d1695483bd9E82A1AeEEa02E60797B055c53C',

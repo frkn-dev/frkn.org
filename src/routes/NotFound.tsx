@@ -9,7 +9,7 @@ import { notFound } from '../content/notFound';
 const NotFound = () => {
   const appContext = useContext(DataContext);
   if (!appContext) return null;
-  const { lang} = appContext;
+  const { lang } = appContext;
   console.log(lang);
 
   return (
@@ -27,7 +27,7 @@ const NotFound = () => {
         </div>
 
         <div className="flex ">
-          <Button text={content.install[lang]} url="/" role="primary" />
+          <Button text={content.install[lang]} url="install" role="primary" />
         </div>
       </main>
     </div>

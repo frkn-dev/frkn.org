@@ -71,10 +71,14 @@ const Navbar = () => {
             <MailchimpFormContainer />
           </div>
           <div
-            className="flex w-fit"
+            className={`flex w-fit ${location === '/install' && 'hidden'}`}
             onClick={() => (document.body.style.overflowY = 'scroll')}
           >
-            <Button text={content.install[lang]} url="/install" role="primary" />
+            <Button
+              text={content.install[lang]}
+              url="/install"
+              role="primary"
+            />
           </div>
         </div>
       </nav>

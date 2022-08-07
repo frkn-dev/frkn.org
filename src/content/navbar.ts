@@ -11,14 +11,7 @@ export interface NavLink {
 export const links: NavLink[] = [
   {
     text: {
-      ru: 'Главная',
-      en: 'Home',
-    },
-    url: '/',
-  },
-  {
-    text: {
-      ru: 'О проекте',
+      ru: 'О нас',
       en: 'About us',
     },
     url: '/about',

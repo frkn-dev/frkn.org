@@ -17,7 +17,7 @@ const NavLinks = () => {
             to={link.url}
             onClick={() => (document.body.style.overflowY = 'scroll')}
             className={`${
-              location === link.url && 'text-zinc-900'
+              location === link.url && 'hidden'
             } text-xl text-zinc-500 lg:text-lg p-4 rounded-lg w-full hover:bg-zinc-100 hover:text-zinc-900 flex justify-center lg:justify-start whitespace-nowrap`}
           >
             {link.text[lang as keyof Lang]}

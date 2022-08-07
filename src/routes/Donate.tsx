@@ -33,11 +33,11 @@ const Donate = () => {
         <h1 className="font-semibold text-3xl lg:text-[40px] text-zinc-800 mt-6 whitespace-pre-wrap mb-12">
           {content.header[lang]}
         </h1>
-        <div className="flex flex-col md:flex-row flex-wrap gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {getDonateOptions('common')}
         </div>
         <h2 className="mt-12 text-2xl font-semibold">{content.crypto[lang]}</h2>
-        <div className="flex flex-col md:flex-row gap-4 mt-6 flex-wrap">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
           {getDonateOptions('crypto')}
         </div>
       </main>
