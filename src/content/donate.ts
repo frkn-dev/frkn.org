@@ -18,7 +18,7 @@ export const content: { [key: string]: any } = {
   options: {
     common: {
       patreon: {
-        img: '/logos/patreon.png',
+        img: '/logos/patreon.svg',
         title: 'Patreon',
         text: {
           ru: '2pizza',
@@ -27,7 +27,7 @@ export const content: { [key: string]: any } = {
         url: 'https://www.patreon.com/2pizza',
       },
       boosty: {
-        img: '/logos/boosty.png',
+        img: '/logos/boosty.svg',
         title: 'Boosty',
         text: {
           ru: '2pizza',
@@ -36,7 +36,7 @@ export const content: { [key: string]: any } = {
         url: 'https://boosty.to/the2pizza',
       },
       credo: {
-        img: '/logos/boosty.png',
+        img: '/logos/creedo.svg',
         title: 'Credo',
         text: {
           ru: 'GE21CD0360000028302649',
@@ -47,7 +47,7 @@ export const content: { [key: string]: any } = {
     },
     crypto: {
       bitcoin: {
-        img: '/logos/btc.png',
+        img: '/logos/bitcoin.svg',
         title: 'Bitcoin',
         text: {
           ru: 'Aдрес',
@@ -56,7 +56,7 @@ export const content: { [key: string]: any } = {
         address: 'bc1qe76609xu8qay4wt7tnvrxhx4spnjrywwh2jwf3',
       },
       ethereum: {
-        img: '/logos/eth.png',
+        img: '/logos/ethereum.svg',
         title: 'Ethereum',
         text: {
           ru: 'Aдрес',
@@ -65,7 +65,7 @@ export const content: { [key: string]: any } = {
         address: '0xE92d1695483bd9E82A1AeEEa02E60797B055c53C',
       },
       near: {
-        img: '/logos/near.png',
+        img: '/logos/near.svg',
         title: 'Near',
         text: {
           ru: 'Aдрес',
@@ -75,7 +75,7 @@ export const content: { [key: string]: any } = {
           '2e1a065b84f27e3e8b7c9cd64200b7cf00ccd7b624da5996aba1185408ba5b5b',
       },
       usdteth: {
-        img: '/logos/usdt.png',
+        img: '/logos/tether.svg',
         title: 'USDT(ETH)',
         text: {
           ru: 'Aдрес',
@@ -84,7 +84,7 @@ export const content: { [key: string]: any } = {
         address: '0xE92d1695483bd9E82A1AeEEa02E60797B055c53C',
       },
       usdttron: {
-        img: '/logos/usdt.png',
+        img: '/logos/tether.svg',
         title: 'USDT(TRON)',
         text: {
           ru: 'Aдрес',
@@ -93,7 +93,7 @@ export const content: { [key: string]: any } = {
         address: 'TKuMVvLHW9orkuVwKpC8AhTDUDQV91ZfeX',
       },
       busd: {
-        img: '/logos/usdt.png',
+        img: '/logos/tether.svg',
         title: 'BUSD(Binance)',
         text: {
           ru: 'Aдрес',
