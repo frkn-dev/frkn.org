@@ -48,7 +48,8 @@ const DonateCard = ({ img, title, text, url, address }: CardProps) => {
         </>
       )}
       {url && (
-        <a href={url} className="absolute top-0 left-0 w-full h-full"></a>
+        <a href={url} className="absolute top-0 left-0 w-full h-full" target="_blank"
+        rel="noopener noreferrer"></a>
       )}
     </article>
   );
