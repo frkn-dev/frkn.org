@@ -9,13 +9,13 @@ const Screeencast: React.FC<{ platform: string }> = (props) => {
   const { lang } = appContext;
 
   const { subtitle, text, textLink } = content.screencastSection;
-  const { url, preload, controls, poster, type } =
+  const { url, preload, controls, poster, type, width, height } =
     content.instructions[props.platform].video;
-  console.log("screencast");
+
   return (
     <div>
       <h3 className="text-2xl font-semibold pb-2">{subtitle[lang]}</h3>
-      <video key={url} controls={controls} preload={preload} poster={poster} className="max-h-[80vh]">
+      <video key={url} controls={controls} preload={preload} poster={poster} className="max-h-[80vh]" height={height} width={width}>
         <source src={url} type={type} />
         <p>
           {text[lang]}

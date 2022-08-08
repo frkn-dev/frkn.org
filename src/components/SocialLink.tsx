@@ -12,6 +12,9 @@ const SocialLink = ({ icon, url }: SocialProps) => {
     <a
       href={url}
       className="cursor-pointer hover:text-zinc-600 transition-all duration-200"
+      target="_blank" 
+      rel="noopener noreferrer"
+      title={url}
     >
       <FontAwesomeIcon icon={icon} size="3x" />
     </a>

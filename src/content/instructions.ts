@@ -41,7 +41,7 @@ export const content: { [key: string]: any } = {
     ],
     configSection: {
         subtitle: {
-            ru: "Файлы концфигурации",
+            ru: "Файлы конфигурации",
             en: "Config files",
         },
     },
@@ -118,6 +118,8 @@ export const content: { [key: string]: any } = {
                 poster: "/media/video/posters/windows-poster.png",
                 controls: "1",
                 type: "video/mp4; codecs=avc1.4D401E,mp4a.40.2",
+                width: "600",
+                height:"400"
             },
         },
         macos: {
@@ -138,20 +140,22 @@ export const content: { [key: string]: any } = {
                     en: `Double-click it, you'll get a OS notification.`,
                 },
                 {
-                    ru: `Откройте <b> → System Preferences → Profiles</b> и установите профиль.`,
-                    en: `Open <b> → System Preferences → Profiles</b> and install the profile.`,
+                    ru: `Откройте <b>&#63743; → System Preferences → Profiles</b> и установите профиль.`,
+                    en: `Open <b>&#63743; → System Preferences → Profiles</b> and install the profile.`,
                 },
                 {
-                    ru: `Откройте <b> → System Preferences → Network</b> и подключайтесь.`,
-                    en: `Open <b> → System Preferences → Network</b> and connect.`,
+                    ru: `Откройте <b>&#63743; → System Preferences → Network</b> и подключайтесь.`,
+                    en: `Open <b>&#63743; → System Preferences → Network</b> and connect.`,
                 },
             ],
             video: {
-                url: "./media/video/screencasts/macos-screencast.h264.mp4",
+                url: "./media/video/screencasts/macos-screencast.av1.mp4",
                 preload: "metadata",
                 poster: "/media/video/posters/macos-poster.png",
                 controls: "1",
-                type: "video/mp4; codecs=avc1.4D401E,mp4a.40.2",
+                type: "video/mp4; codecs=av01.0.05M.08,opus",
+                width: "600",
+                height:"400"
             },
         },
         ios: {
@@ -186,6 +190,8 @@ export const content: { [key: string]: any } = {
                 poster: "/media/video/posters/ios-poster.png",
                 controls: "1",
                 type: "video/mp4; codecs=avc1.4D401E,mp4a.40.2",
+                width: "600",
+                height:"400"
             },
         },
         android: {
@@ -224,6 +230,8 @@ export const content: { [key: string]: any } = {
                 poster: "/media/video/posters/android-poster.png",
                 controls: "1",
                 type: "video/mp4; codecs=avc1.4D401E,mp4a.40.2",
+                width: "400",
+                height:"600"
             },
         },
         oculus: {
