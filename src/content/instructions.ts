@@ -149,11 +149,11 @@ export const content: { [key: string]: any } = {
                 },
             ],
             video: {
-                url: "./media/video/screencasts/macos-screencast.h264.mp4",
+                url: "./media/video/screencasts/macos-screencast.av1.mp4",
                 preload: "metadata",
                 poster: "/media/video/posters/macos-poster.png",
                 controls: "1",
-                type: "video/mp4; codecs=avc1.4D401E,mp4a.40.2",
+                type: "video/mp4; codecs=av01.0.05M.08,opus",
                 width: "600",
                 height:"400"
             },
