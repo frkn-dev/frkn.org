@@ -6,7 +6,7 @@ import ConfigList from "./ConfigList/ConfigList";
 import InstructionsList from "./InstructionsList/InstructionsList";
 import Screeencast from "./Screencast/Screencast";
 
-const Instructions: React.FC<{ platform: string }> = ({ platform }) => {
+const Instructions: React.FC<{ platform: string; refProps: React.RefObject<HTMLElement> }> = ({ platform, refProps }) => {
   const appContext = useContext(DataContext);
   if (!appContext) return null;
 
@@ -18,7 +18,7 @@ const Instructions: React.FC<{ platform: string }> = ({ platform }) => {
   const { video } = instObj;
 
   return (
-    <article className="flex flex-col">
+    <article className="flex flex-col" ref={refProps}>
       <h2 className="font-semibold text-3xl lg:text-[40px] text-zinc-800 mt-6 whitespace-pre-wrap mb-6">
         {title}
       </h2>
