@@ -1,4 +1,4 @@
-import { useContext, useState, useRef } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 
 import { DataContext } from "../providers/DataProvider";
 import { content } from "../content/instructions";
@@ -18,6 +18,13 @@ const Installation = () => {
 
   const [platform, setPlatform] = useState<string>(getOS());
   const articleRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    console.log("effect")
+    if (screenWidth < MOBILE_BREACKPOINT) {
+      scrollCallback();
+    }
+  }, []);
 
   function getOS(): string {
     let userAgent = window.navigator.userAgent,
