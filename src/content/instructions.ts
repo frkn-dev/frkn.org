@@ -70,13 +70,21 @@ export const content: { [key: string]: any } = {
             title: "Windows",
             configFiles: [
                 {
-                    ikev2_config_import:
-                        "https://s.fuckrkn1.xyz/client-conf/0.0.2/ikev2_config_import.cmd",
+                    title: "Config ikev2_config_import.cmd",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/ikev2_config_import.cmd",
                 },
                 {
-                    vpnclient:
-                        "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.p12",
+                    title: "GPG ikev2_config_import.cmd.gpg",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/ikev2_config_import.cmd.gpg",
                 },
+                {
+                    title: "Config vpnclient.p12",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.p12",
+                },
+                {
+                    title: "GPG vpnclient.p12.gpg",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.p12.gpg",
+                }
             ],
             steps: [
                 {
@@ -126,8 +134,12 @@ export const content: { [key: string]: any } = {
             title: "macOS",
             configFiles: [
                 {
-                    vpnclient:
-                        "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.mobileconfig",
+                    title: "Config vpnclient.mobileconfig",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.mobileconfig",
+                },
+                {
+                    title: "GPG vpnclient.mobileconfig.gpg",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.mobileconfig.gpg",
                 },
             ],
             steps: [
@@ -162,8 +174,12 @@ export const content: { [key: string]: any } = {
             title: "iOS (iPhone/iPad)",
             configFiles: [
                 {
-                    vpnclient:
-                        "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.mobileconfig",
+                    title: "Config vpnclient.mobileconfig",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.mobileconfig",
+                },
+                {
+                    title: "GPG vpnclient.mobileconfig.gpg",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.mobileconfig.gpg",
                 },
             ],
             steps: [
@@ -198,14 +214,18 @@ export const content: { [key: string]: any } = {
             title: "Android",
             configFiles: [
                 {
-                    vpnclient:
-                        "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.sswan",
+                    title: "Config vpnclient.sswan",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.sswan",
+                },
+                {
+                    title: "GPG vpnclient.sswan.gpg",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.sswan.gpg",
                 },
             ],
             steps: [
                 {
-                    ru: `Загрузите <a href="https://play.google.com/store/apps/details?id=org.strongswan.android" target="_blank" rel="noopener noreferrer">strongSwan VPN Client</a> из Google Play`,
-                    en: `Download <a href="https://play.google.com/store/apps/details?id=org.strongswan.android" target="_blank" rel="noopener noreferrer">strongSwan VPN Client</a> from Google Play`,
+                    ru: `Загрузите <a href="https://play.google.com/store/apps/details?id=org.strongswan.android" target="_blank" rel="noopener noreferrer">strongSwan VPN Client</a> из Google Play. Или загрузите APK strongSwan <a href="https://download.strongswan.org/Android/" target="_blank" rel="noopener noreferrer">здесь</a>.`,
+                    en: `Download <a href="https://play.google.com/store/apps/details?id=org.strongswan.android" target="_blank" rel="noopener noreferrer">strongSwan VPN Client</a> from Google Play. Or downloads strongSwan APK <a href="https://download.strongswan.org/Android/" target="_blank" rel="noopener noreferrer">here</a>.`,
                 },
                 {
                     ru: `Сохраните файл <b>vpnclient.sswan</b> на ваше устройство.`,
@@ -238,8 +258,12 @@ export const content: { [key: string]: any } = {
             title: "Oculus Quest",
             configFiles: [
                 {
-                    vpnclient:
-                        "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.sswan",
+                    title: "Config vpnclient.sswan",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.sswan",
+                },
+                {
+                    title: "GPG vpnclient.sswan.gpg",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.sswan.gpg",
                 },
             ],
             steps: [
@@ -308,9 +332,13 @@ export const content: { [key: string]: any } = {
             title: "Linux",
             configFiles: [
                 {
-                    vpnclient:
-                        "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.p12",
+                    title: "Config vpnclient.p12",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.p12",
                 },
+                {
+                    title: "GPG vpnclient.p12.gpg",
+                    link: "https://s.fuckrkn1.xyz/client-conf/0.0.2/vpnclient.p12.gpg",
+                }
             ],
             steps: [
                 {
