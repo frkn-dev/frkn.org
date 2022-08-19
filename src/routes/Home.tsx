@@ -32,7 +32,7 @@ const Home = () => {
       <main className="flex my-auto flex-col lg:flex-row p-6">
         <div className="flex-1">
           <img
-            src="/images/icon512x512.png"
+            src="/Images/icon512x512.png"
             alt="Logo"
             className="w-3/4 lg:w-4/5 mx-auto"
           />

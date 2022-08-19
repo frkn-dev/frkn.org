@@ -30,7 +30,7 @@ const Navbar = () => {
         <div className="flex w-full lg:flex-1 justify-between lg:w-auto">
           <Link to="/" className="flex items-center gap-2 lg:gap-4">
             <img
-              src="/images/icon512x512.png"
+              src="/Images/icon512x512.png"
               alt="Logo"
               className="h-12 mx-auto hidden lg:flex"
             />
@@ -62,7 +62,7 @@ const Navbar = () => {
           } lg:flex flex-col items-center justify-center h-full lg:h-auto gap-4 lg:ml-12 lg:flex-row`}
         >
           <img
-            src="/images/icon512x512.png"
+            src="/Images/icon512x512.png"
             alt="Logo"
             className="h-40 lg:hidden"
           />
