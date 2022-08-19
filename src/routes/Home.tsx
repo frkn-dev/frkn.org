@@ -26,6 +26,8 @@ const Home = () => {
         <div className="lg:flex-1 lg:ml-[50%]">
           <LangSwitch lang={lang} setLang={setLang} />
         </div>
+
+        
       </nav>
       <main className="flex my-auto flex-col lg:flex-row p-6">
         <div className="flex-1">
@@ -45,6 +47,7 @@ const Home = () => {
           <div className="flex flex-wrap mt-10 gap-4">
             <Button text={content.install[lang]} url="install" role="primary" />
             <Button text={content.donate[lang]} url="support" />
+            <Button text={content.about[lang]} url="about" />
           </div>
           <div className="flex justify-center gap-8 mt-12 lg:justify-start mb-12">
             <SocialLink icon={faTwitter} url="https://twitter.com/FuckRKN1" />
