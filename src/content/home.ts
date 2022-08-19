@@ -19,4 +19,8 @@ export const content: { [key: string]: any } = {
     ru: 'Подпишитесь на нашу рассылку',
     en: 'Subscribe to our newsletter',
   },
+  about: {
+    ru: 'О нас',
+    en: 'About us',
+  },
 };
