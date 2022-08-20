@@ -10,9 +10,8 @@ interface FormProps {
 
 const MailchimpForm = ({ status, message, onValidated }: FormProps) => {
   const [email, setEmail] = useState('');
-  const appContext = useContext(DataContext);
-  if (!appContext) return null;
-  const { lang, setLang } = appContext;
+  const appContext = useContext(DataContext)!;
+  const { lang } = appContext;
 
   useEffect(() => {
     if (status === 'success') setEmail('');
@@ -27,7 +26,7 @@ const MailchimpForm = ({ status, message, onValidated }: FormProps) => {
     email &&
       email.indexOf('@') > -1 &&
       onValidated({
-        'mce-EMAIL': email,
+        EMAIL: email,
       });
   };
 
