@@ -18,7 +18,7 @@ PersistentKeepalive = 25`
 
 const createURI = (text) => `data:text/plain;charset=utf-8,${encodeURIComponent(createConfig(text))}`
 
-fetch('https://api.fuckrkn1.xyz/locations')
+fetch('https://api.fuckrkn1.org/locations')
     .then((res) => res.json())
     .then((data) => {
         data.forEach((server) => {
@@ -31,7 +31,7 @@ fetch('https://api.fuckrkn1.xyz/locations')
         })
     })
 
-fetch('https://api.fuckrkn1.xyz/peer')
+fetch('https://api.fuckrkn1.org/peer')
     .then((res) => res.json())
     .then((data) => {
         Link.setAttribute('href', createURI(data))
@@ -56,8 +56,8 @@ Select.addEventListener('change', () => {
     Image.setAttribute('src', '/Images/qr-placeholder.svg')
 
     const url = Select.value.length
-        ? `https://api.fuckrkn1.xyz/peer?location=${Select.value}`
-        : 'https://api.fuckrkn1.xyz/peer'
+        ? `https://api.fuckrkn1.org/peer?location=${Select.value}`
+        : 'https://api.fuckrkn1.org/peer'
 
     fetch(url)
         .then((res) => res.json())
