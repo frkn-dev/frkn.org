@@ -54,12 +54,9 @@ h2 {
 
 a {
     text-decoration: none;
-    color: inherit;
+    font-weight: 600;
+    color: #ef5018;
     outline: none;
-}
-
-a:visited {
-    color: #7f788e;
 }
 
 a:hover {
