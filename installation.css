@@ -181,26 +181,62 @@ code {
 /* Main content */
 
 .main-content {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    gap: 1.421rem;
-    background: #fafafa;
-    margin: auto;
-    min-height: 90vh;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    grid-auto-rows: max-content;
+    gap: var(--gap-size);
+
     box-sizing: border-box;
-    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+
+    min-height: 90vh;
     max-width: 1024px;
-    height: auto;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Instructions */
+
+.instructions {
+    display: grid;
+    grid-auto-rows: max-content;
+    gap: var(--gap-size);
 }
 
 /* Installation */
 
+.installation {
+    display: grid;
+    grid-auto-rows: max-content;
+    gap: var(--gap-size);
+
+    max-width: 320px;
+}
+
+.installation__label {
+    padding-bottom: 8px;
+
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
 .installation__select {
+    display: block;
     position: relative;
+
     border: 3px solid var(--text-color);
     border-radius: 7px;
     padding: 9px 28px 9px 10px;
+
+    width: 100%;
+
     font-size: 16px;
     font-weight: 600;
     appearance: none;
@@ -212,31 +248,37 @@ code {
     background-repeat: no-repeat;
 }
 
-.installation__options {
-    display: grid;
-
-    max-width: 384px;
-    padding-top: var(--gap-size);
-
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: var(--gap-size);
-    align-items: center;
+.installation__select:disabled {
+    background-color: rgba(0, 0, 0, 0.2);
+    background-image: none;
+    color: var(--text-color);
+    cursor: default;
 }
 
-@media (max-width: 768px) {
-    .installation__options {
-        grid-template-columns: minmax(0, 1fr);
+@keyframes skeleton {
+    0% {
+        background-position: -100px;
+    }
+  
+    100% {
+        background-position: calc(100% + 100px);
     }
 }
 
+.installation__select.loading {
+    background-image: linear-gradient(100deg, transparent 0px, white 40px, transparent 80px);
+    background-size: 100px 100%;
+    background-position: center center;
+    animation: skeleton 1s infinite linear
+}
+
 .installation__link {
-    display: inline-block;
+    display: block;
     position: relative;
 
     padding: 9px 10px;
     border: solid 3px var(--text-color);
     border-radius: 7px;
-    box-shadow: 0px 0px 10px rgb(0 0 0 / 10%);
 
     font-size: 16px;
     font-weight: 600;
@@ -250,8 +292,16 @@ code {
     background-color: var(--text-color);
 }
 
-.installation__link:not([href]),
-.installation__link[href=""] {
+.installation__link.disabled {
+    opacity: 0.7;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: var(--text-color);
+
+    cursor: default;
+}
+
+.installation__link:not([href]):not(.disabled),
+.installation__link[href=""]:not(.disabled) {
     font-size: 0px;
 
     background-color: transparent;
@@ -259,8 +309,8 @@ code {
     cursor: default;
 }
 
-.installation__link:not([href])::after,
-.installation__link[href=""]::after {
+.installation__link:not([href]):not(.disabled)::after,
+.installation__link[href=""]:not(.disabled)::after {
     content: '';
     display: inline-block;
     position: absolute;
@@ -283,14 +333,27 @@ code {
     }
 }
 
+.installation__error {
+    color: #ce2029;
+    font-weight: 600;
+}
+
+.installation__error.hidden {
+    display: none;
+}
+
 .installation__qr-wrapper {
+    display: block;
     padding: 16px;
 
-    /* border: 3px solid var(--accent-color); */
     background-color: var(--card-bg-color);
     border-radius: 7px;
 
     overflow: hidden;
+}
+
+.installation__qr-wrapper.disabled {
+    display: none;
 }
 
 .installation__qr {
