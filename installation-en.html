@@ -104,6 +104,59 @@
                     <li>Click on the <strong>"Connect"</strong> button</li>
                     <li>Done!</li>
                 </ol>
+
+                <h2>Linux</h2>
+                <h3>Installation from configuration file</h3>
+                <ol>
+                    <li>
+                        Before installing, check available updates on your system. Install them if it necessary:
+                        <code class="code-scroll-box">
+                            # Ubuntu и Debian
+                            sudo apt-get update && sudo apt-get upgrade
+                        </code>
+                    </li>
+                    <li>
+                        Run <a href="https://www.wireguard.com/install/">WireGuard installation via your distribution's package manager</a>:
+                        <code class="code-scroll-box">
+                            # Ubuntu и Debian
+                            sudo apt-get install wireguard
+                        </code>
+                    </li>
+                    <li>
+                        Download the configuration file by clicking on the
+                        <a href="/installation-ru.html#installation">"Download configuration file"</a> button
+                    </li>
+                    <li>
+                        Move the downloaded configuration file into the <b>/etc/wireguard/</b> directory:
+                        <code class="code-scroll-box">sudo mv [file path]/fuckrkn1.conf /etc/wireguard/</code>
+                    </li>
+
+                    <li> Done!
+                        <ol>
+                            <li>
+                                Use <b>wg-quick</b> command, to start the connection:
+                                <code class="code-scroll-box">sudo wg-quick up fuckrkn1.conf</code>
+
+                                <details>
+                                    <summary><b>/usr/bin/wg-quick: line 32: resolvconf: command not found</b> error:</summary>
+                                    <p>If this error is thrown at the moment of trying to connect, install the <b>resolvconf</b> package and try again:</p>
+                                    <code class="code-scroll-box">
+                                        # Ubuntu и Debian
+                                        sudo apt-get install resolvconf && sudo wg-quick up fuckrkn1.conf
+                                    </code>
+                                </details>
+                            </li>
+                            <li>
+                                To find out the connection status, run run the following command:
+                                <code class="code-scroll-box">sudo wg show</code>
+                            </li>
+                            <li>
+                                Use <b>wg-quick</b> command with <b>down</b> attribute to turn off the connection:
+                                <code class="code-scroll-box">sudo wg-quick down fuckrkn1</code>
+                            </li>
+                        </ol>
+                    </li>
+                </ol>
             </div>
 
             <div class="installation" id="installation">
