@@ -47,6 +47,20 @@ ol {
     padding: 10px 0 10px 40px;
 }
 
+:is(ol, ul) :is(ol, ul) {
+    padding: 0 0 0 16px;
+}
+
+ol {
+    list-style: none;
+    counter-reset: li;
+}
+
+li:before {
+    counter-increment: li;
+    content: counters(li, ".") ". ";
+}
+
 h2 {
     font-size: 20px;
     font-weight: 800;
@@ -259,7 +273,7 @@ code {
     0% {
         background-position: -100px;
     }
-  
+
     100% {
         background-position: calc(100% + 100px);
     }
@@ -369,7 +383,7 @@ code {
     background: #efefef;
     width: 100%;
     max-width: 1024px;
-    white-space: pre;
+    white-space: pre-line;
     font-size: 14px;
     line-height: 1.55;
     padding: 1rem 2.5rem 1rem 1rem;
