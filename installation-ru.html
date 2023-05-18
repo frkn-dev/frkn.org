@@ -69,7 +69,7 @@
                     </li>
                     <li>
                         Скачайте файл конфигурации, нажав на кнопку
-                        <a href="/installation-ru.html#installation">"Cкачать файл конфигурации"</a>
+                        <a href="/installation-ru.html#installation">"Скачать файл конфигурации"</a>
                     </li>
                     <li>Зайдите в установленное приложение</li>
                     <li>В правом верхнем углу нажмите на <strong>+</strong></li>
@@ -95,13 +95,66 @@
                     </li>
                     <li>
                         Скачайте файл конфигурации, нажав на кнопку
-                        <a href="/installation-ru.html#installation">"Cкачать файл конфигурации"</a>
+                        <a href="/installation-ru.html#installation">"Скачать файл конфигурации"</a>
                     </li>
                     <li>Зайдите в установленное приложение</li>
                     <li>Нажмите на кнопку <strong>"Импорт туннелей из файла"</strong></li>
                     <li>Выберите файл конфигурации, который вы скачали с сайта</li>
                     <li>Нажмите кнопку <strong>"Подключить"</strong></li>
                     <li>Готово!</li>
+                </ol>
+
+                <h2>Linux</h2>
+                <h3>Установка из файла конфигурации</h3>
+                <ol>
+                    <li>
+                        Перед установкой проверьте наличие доступных обновлений в вашей системе. При необходимости установите их:
+                        <code class="code-scroll-box">
+                            # Ubuntu и Debian
+                            sudo apt-get update && sudo apt-get upgrade
+                        </code>
+                    </li>
+                    <li>
+                        Запустите <a href="https://www.wireguard.com/install/">установку WireGuard с помощью пакетного менеджера вашего дистрибутива</a>:
+                        <code class="code-scroll-box">
+                            # Ubuntu и Debian
+                            sudo apt-get install wireguard
+                        </code>
+                    </li>
+                    <li>
+                        Скачайте файл конфигурации, нажав на кнопку
+                        <a href="/installation-ru.html#installation">"Скачать файл конфигурации"</a>
+                    </li>
+                    <li>
+                        Переместите скачанный конфиг в директорию <b>/etc/wireguard/</b>:
+                        <code class="code-scroll-box">sudo mv [путь до файла]/fuckrkn1.conf /etc/wireguard/</code>
+                    </li>
+
+                    <li>Готово!
+                        <ol>
+                            <li>
+                                Для установки соединения используйте команду <b>wg-quick</b>:
+                                <code class="code-scroll-box">sudo wg-quick up fuckrkn1.conf</code>
+
+                                <details>
+                                    <summary>Ошибка <b>/usr/bin/wg-quick: line 32: resolvconf: command not found</b>:</summary>
+                                    <p>Если при попытке соединения выскочила эта ошибка — установите пакет <b>resolvconf</b> и повторите попытку:</p>
+                                    <code class="code-scroll-box">
+                                        # Ubuntu и Debian
+                                        sudo apt-get install resolvconf && sudo wg-quick up fuckrkn1.conf
+                                    </code>
+                                </details>
+                            </li>
+                            <li>
+                                Для выяснения статуса подключения, используйте следующую команду:
+                                <code class="code-scroll-box">sudo wg show</code>
+                            </li>
+                            <li>
+                                Для отключения соедиенения используйте <b>wg-quick</b>, но с атрибутом <b>down</b>:
+                                <code class="code-scroll-box">sudo wg-quick down fuckrkn1</code>
+                            </li>
+                        </ol>
+                    </li>
                 </ol>
             </div>
 
