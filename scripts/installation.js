@@ -49,7 +49,7 @@ const setLoadingLink = (isLoading, data) => {
         Link.removeAttribute('download')
     } else {
         Link.setAttribute('href', createURI(data))
-        Link.setAttribute('download', 'fuckrkn1.conf')
+        Link.setAttribute('download', 'frkn.conf')
     }
 }
 
@@ -101,7 +101,7 @@ const setConfigs = (data) => {
 
 /* Main */
 
-fetch('https://api.fuckrkn1.org/locations')
+fetch('https://api.frkn.org/locations')
     .then((res) => res.json())
     .then((data) => setOptions(data))
     .catch(() => {
@@ -124,7 +124,7 @@ Select.addEventListener('change', () => {
     setDisabledLink(false)
     setLoadingSelect(true)
 
-    fetch(`https://api.fuckrkn1.org/peer?location=${Select.value}`)
+    fetch(`https://api.frkn.org/peer?location=${Select.value}`)
         .then((res) => res.json())
         .then((data) => setConfigs(data))
         .catch(() => {
