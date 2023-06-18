@@ -117,10 +117,10 @@ code {
     --text-color: #000000;
     --gray-color: #808080;
     --page-max-width: 1024px;
-    --accent-color: #EF5018;
+    --accent-color: #ef5018;
     --footer-bg-color: #161616;
     --gap-size: 1.421rem;
-    --card-bg-color: #EFEFEF;
+    --card-bg-color: #efefef;
 }
 
 /* Header */
@@ -280,10 +280,15 @@ code {
 }
 
 .installation__select.loading {
-    background-image: linear-gradient(100deg, transparent 0px, white 40px, transparent 80px);
+    background-image: linear-gradient(
+        100deg,
+        transparent 0px,
+        white 40px,
+        transparent 80px
+    );
     background-size: 100px 100%;
     background-position: center center;
-    animation: skeleton 1s infinite linear
+    animation: skeleton 1s infinite linear;
 }
 
 .installation__link {
@@ -325,7 +330,7 @@ code {
 
 .installation__link:not([href]):not(.disabled)::after,
 .installation__link[href=""]:not(.disabled)::after {
-    content: '';
+    content: "";
     display: inline-block;
     position: absolute;
     top: calc(50% - 12px);
@@ -334,7 +339,8 @@ code {
     height: 24px;
     border-radius: 50%;
     border: 3px solid var(--accent-color);
-    border-color: var(--accent-color) var(--accent-color) var(--accent-color) transparent;
+    border-color: var(--accent-color) var(--accent-color) var(--accent-color)
+        transparent;
     animation: spinner 0.5s linear infinite;
 }
 

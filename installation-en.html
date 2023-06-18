@@ -1,206 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>FuckRKN1 VPN: Freedom of speech</title>
+        <link rel="icon" type="image/x-icon" href="/Images/favicon.ico" />
+        <meta property="og:locale" content="en_US" />
+        <link rel="canonical" href="https://FuckRKN1.org" />
+        <meta property="og:url" content="https://FuckRKN1.org" />
+        <meta
+            property="og:site_name"
+            content="FuckRKN1 VPN: Freedom of speech"
+        />
+        <meta name="twitter:card" content="summary" />
+        <meta
+            property="twitter:title"
+            content="FuckRKN1 VPN: freedom of speech"
+        />
+        <meta property="twitter:image" content="/Images/icon512x512.png" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@FuckRKN1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#157878" />
+        <link rel="stylesheet" href="installation.css" />
+    </head>
 
-<head>
-    <meta charset="UTF-8" />
-    <title>FuckRKN1 VPN: Freedom of speech</title>
-    <link rel="icon" type="image/x-icon" href="/Images/favicon.ico" />
-    <meta property="og:locale" content="en_US" />
-    <link rel="canonical" href="https://FuckRKN1.org" />
-    <meta property="og:url" content="https://FuckRKN1.org" />
-    <meta property="og:site_name" content="FuckRKN1 VPN: Freedom of speech" />
-    <meta name="twitter:card" content="summary" />
-    <meta property="twitter:title" content="FuckRKN1 VPN: freedom of speech" />
-    <meta property="twitter:image" content="/Images/icon512x512.png" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@FuckRKN1" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#157878" />
-    <link rel="stylesheet" href="installation.css" />
-</head>
-
-<body>
-    <header class="page-header">
-        <div class="header-wrapper">
-            <section class="logoContainer">
-                <a class="logo" href="https://FuckRKN1.org">
-                    <img class="logoImage" src="Images/TransparentWhiteLogo.png" alt="FuckRKN1" />
-                    <h1 class="header-title">FuckRKN1: Freedom of speech</h1>
-                </a>
-            </section>
-            <a class="main__links white-text" href="/installation-ru.html">Русский</a>
-            <h5 class="header-slogan">Roskomnadzor, go fuck yourself!</h5>
-        </div>
-    </header>
-
-    <main>
-        <div class="main-content">
-            <div class="instructions">
-                <h1>Installation</h1>
-
-                <h2>iOS | Android</h2>
-                <h3>Main installation</h3>
-                <ol>
-                    <li>
-                        Install the WireGuard app for your device (
-                        <a href="https://apps.apple.com/us/app/wireguard/id1441195209">iOS</a>
-                        |
-                        <a href="https://play.google.com/store/apps/details?id=com.wireguard.android">Android</a>
-                        )
-                    </li>
-                    <li>Open the installed app</li>
-                    <li>In the top right corner, press <strong>+</strong></li>
-                    <li>Select the <strong>"Create from QR code"</strong> option</li>
-                    <li>
-                        Use your phone's camera to scan the QR code generated on the
-                        <a href="/installation-en.html#installation">website</a>
-                    </li>
-                    <li>Done!</li>
-                </ol>
-
-                <h3>Installation from configuration file</h3>
-                <ol>
-                    <li>
-                        Install the WireGuard app for your device (
-                        <a href="https://apps.apple.com/us/app/wireguard/id1441195209">iOS</a>
-                        |
-                        <a href="https://play.google.com/store/apps/details?id=com.wireguard.android">Android</a>
-                        )
-                    </li>
-                    <li>
-                        Download the configuration file by clicking on the
-                        <a href="/installation-en.html#installation">"Download configuration file"</a>
-                        button
-                    </li>
-                    <li>Open the installed app</li>
-                    <li>In the top right corner, press <strong>+</strong></li>
-                    <li>Select the <strong>"Create from file or archive"</strong> option</li>
-                    <li>
-                        Go to the folder where you saved the configuration file
-                        (it should have the <strong>.conf</strong> extension) and select it
-                    </li>
-                    <li>Use the switch to turn the VPN on/off</li>
-                    <li>Done!</li>
-                </ol>
-
-                <h2>MacOS | Windows</h2>
-                <h3>Installation from configuration file</h3>
-                <ol>
-                    <li>
-                        Install the WireGuard app for your device (
-                        <a href="https://apps.apple.com/us/app/wireguard/id1451685025">MacOS</a>
-                        |
-                        <a href="https://www.wireguard.com/install/">Windows</a>
-                        )
-                    </li>
-                    <li>
-                        Download the configuration file by clicking on the
-                        <a href="/installation-en.html#installation">"Download configuration file"</a>
-                        button
-                    </li>
-                    <li>Open the installed app</li>
-                    <li>Click on the <strong>"Import tunnels from file"</strong> button</li>
-                    <li>Go to the folder where you saved the configuration file and select it</li>
-                    <li>Click on the <strong>"Connect"</strong> button</li>
-                    <li>Done!</li>
-                </ol>
-
-
-                <h2>Linux</h2>
-                <h3>Installation from configuration file</h3>
-                <ol>
-                    <li>
-                        Before installing, check available updates on your system. Install them if it necessary:
-                        <code class="code-scroll-box">
-                            # Ubuntu и Debian
-                            sudo apt-get update && sudo apt-get upgrade
-                        </code>
-                    </li>
-                    <li>
-                        Run <a href="https://www.wireguard.com/install/">WireGuard installation via your distribution's package manager</a>:
-                        <code class="code-scroll-box">
-                            # Ubuntu и Debian
-                            sudo apt-get install wireguard
-                        </code>
-                    </li>
-                    <li>
-                        Download the configuration file by clicking on the
-                        <a href="/installation-ru.html#installation">"Download configuration file"</a> button
-                    </li>
-                    <li>
-                        Move the downloaded configuration file into the <b>/etc/wireguard/</b> directory:
-                        <code class="code-scroll-box">sudo mv [file path]/fuckrkn1.conf /etc/wireguard/</code>
-                    </li>
-
-                    <li>Done!
-                        <ol>
-                            <li>
-                                Use <b>wg-quick</b> command, to start the connection:
-                                <code class="code-scroll-box">sudo wg-quick up fuckrkn1.conf</code>
-
-                                <details>
-                                    <summary><b>/usr/bin/wg-quick: line 32: resolvconf: command not found</b> error:</summary>
-                                    <p>If this error is thrown at the moment of trying to connect, install the <b>resolvconf</b> package and try again:</p>
-                                    <code class="code-scroll-box">
-                                        # Ubuntu и Debian
-                                        sudo apt-get install resolvconf && sudo wg-quick up fuckrkn1.conf
-                                    </code>
-                                </details>
-                            </li>
-                            <li>
-                                To find out the connection status, run run the following command:
-                                <code class="code-scroll-box">sudo wg show</code>
-                            </li>
-                            <li>
-                                Use <b>wg-quick</b> command with <b>down</b> attribute to turn off the connection:
-                                <code class="code-scroll-box">sudo wg-quick down fuckrkn1</code>
-                            </li>
-                        </ol>
-                    </li>
-                </ol>
-            </div>
-
-            <div class="installation" id="installation">
-                <h2>QR-code and configuration file</h2>
-                <label>
-                    <div class="installation__label">Server:</div>
-                    <select class="installation__select loading" disabled>
-                        <option value="" selected>🤷‍♂️ Not chosen</option>
-                    </select>
-                </label>
-                <a
-                    class="installation__link disabled"
-                    data-disabled-text="Choose server"
-                    data-text="Download configuration file"
+    <body>
+        <header class="page-header">
+            <div class="header-wrapper">
+                <section class="logoContainer">
+                    <a class="logo" href="https://FuckRKN1.org">
+                        <img
+                            class="logoImage"
+                            src="Images/TransparentWhiteLogo.png"
+                            alt="FuckRKN1"
+                        />
+                        <h1 class="header-title">
+                            FuckRKN1: Freedom of speech
+                        </h1>
+                    </a>
+                </section>
+                <a class="main__links white-text" href="/installation-ru.html"
+                    >Русский</a
                 >
-                    Download configuration file
-                </a>
-                <div class="installation__error hidden">
-                    Server is not available. Try again later.
+                <h5 class="header-slogan">Roskomnadzor, go fuck yourself!</h5>
+            </div>
+        </header>
+
+        <main>
+            <div class="main-content">
+                <div class="instructions">
+                    <h1>Installation</h1>
+
+                    <h2>iOS | Android</h2>
+                    <h3>Main installation</h3>
+                    <ol>
+                        <li>
+                            Install the WireGuard app for your device (
+                            <a
+                                href="https://apps.apple.com/us/app/wireguard/id1441195209"
+                                >iOS</a
+                            >
+                            |
+                            <a
+                                href="https://play.google.com/store/apps/details?id=com.wireguard.android"
+                                >Android</a
+                            >
+                            )
+                        </li>
+                        <li>Open the installed app</li>
+                        <li>
+                            In the top right corner, press <strong>+</strong>
+                        </li>
+                        <li>
+                            Select the
+                            <strong>"Create from QR code"</strong> option
+                        </li>
+                        <li>
+                            Use your phone's camera to scan the QR code
+                            generated on the
+                            <a href="/installation-en.html#installation"
+                                >website</a
+                            >
+                        </li>
+                        <li>Done!</li>
+                    </ol>
+
+                    <h3>Installation from configuration file</h3>
+                    <ol>
+                        <li>
+                            Install the WireGuard app for your device (
+                            <a
+                                href="https://apps.apple.com/us/app/wireguard/id1441195209"
+                                >iOS</a
+                            >
+                            |
+                            <a
+                                href="https://play.google.com/store/apps/details?id=com.wireguard.android"
+                                >Android</a
+                            >
+                            )
+                        </li>
+                        <li>
+                            Download the configuration file by clicking on the
+                            <a href="/installation-en.html#installation"
+                                >"Download configuration file"</a
+                            >
+                            button
+                        </li>
+                        <li>Open the installed app</li>
+                        <li>
+                            In the top right corner, press <strong>+</strong>
+                        </li>
+                        <li>
+                            Select the
+                            <strong>"Create from file or archive"</strong>
+                            option
+                        </li>
+                        <li>
+                            Go to the folder where you saved the configuration
+                            file (it should have the
+                            <strong>.conf</strong> extension) and select it
+                        </li>
+                        <li>Use the switch to turn the VPN on/off</li>
+                        <li>Done!</li>
+                    </ol>
+
+                    <h2>MacOS | Windows</h2>
+                    <h3>Installation from configuration file</h3>
+                    <ol>
+                        <li>
+                            Install the WireGuard app for your device (
+                            <a
+                                href="https://apps.apple.com/us/app/wireguard/id1451685025"
+                                >MacOS</a
+                            >
+                            |
+                            <a href="https://www.wireguard.com/install/"
+                                >Windows</a
+                            >
+                            )
+                        </li>
+                        <li>
+                            Download the configuration file by clicking on the
+                            <a href="/installation-en.html#installation"
+                                >"Download configuration file"</a
+                            >
+                            button
+                        </li>
+                        <li>Open the installed app</li>
+                        <li>
+                            Click on the
+                            <strong>"Import tunnels from file"</strong> button
+                        </li>
+                        <li>
+                            Go to the folder where you saved the configuration
+                            file and select it
+                        </li>
+                        <li>Click on the <strong>"Connect"</strong> button</li>
+                        <li>Done!</li>
+                    </ol>
+
+                    <h2>Linux</h2>
+                    <h3>Installation from configuration file</h3>
+                    <ol>
+                        <li>
+                            Before installing, check available updates on your
+                            system. Install them if it necessary:
+                            <code class="code-scroll-box">
+                                # Ubuntu и Debian sudo apt-get update && sudo
+                                apt-get upgrade
+                            </code>
+                        </li>
+                        <li>
+                            Run
+                            <a href="https://www.wireguard.com/install/"
+                                >WireGuard installation via your distribution's
+                                package manager</a
+                            >:
+                            <code class="code-scroll-box">
+                                # Ubuntu и Debian sudo apt-get install wireguard
+                            </code>
+                        </li>
+                        <li>
+                            Download the configuration file by clicking on the
+                            <a href="/installation-ru.html#installation"
+                                >"Download configuration file"</a
+                            >
+                            button
+                        </li>
+                        <li>
+                            Move the downloaded configuration file into the
+                            <b>/etc/wireguard/</b> directory:
+                            <code class="code-scroll-box"
+                                >sudo mv [file path]/fuckrkn1.conf
+                                /etc/wireguard/</code
+                            >
+                        </li>
+
+                        <li>
+                            Done!
+                            <ol>
+                                <li>
+                                    Use <b>wg-quick</b> command, to start the
+                                    connection:
+                                    <code class="code-scroll-box"
+                                        >sudo wg-quick up fuckrkn1.conf</code
+                                    >
+
+                                    <details>
+                                        <summary>
+                                            <b
+                                                >/usr/bin/wg-quick: line 32:
+                                                resolvconf: command not found</b
+                                            >
+                                            error:
+                                        </summary>
+                                        <p>
+                                            If this error is thrown at the
+                                            moment of trying to connect, install
+                                            the <b>resolvconf</b> package and
+                                            try again:
+                                        </p>
+                                        <code class="code-scroll-box">
+                                            # Ubuntu и Debian sudo apt-get
+                                            install resolvconf && sudo wg-quick
+                                            up fuckrkn1.conf
+                                        </code>
+                                    </details>
+                                </li>
+                                <li>
+                                    To find out the connection status, run run
+                                    the following command:
+                                    <code class="code-scroll-box"
+                                        >sudo wg show</code
+                                    >
+                                </li>
+                                <li>
+                                    Use <b>wg-quick</b> command with
+                                    <b>down</b> attribute to turn off the
+                                    connection:
+                                    <code class="code-scroll-box"
+                                        >sudo wg-quick down fuckrkn1</code
+                                    >
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
                 </div>
-                <div class="installation__qr-wrapper disabled">
-                    <img class="installation__qr" alt="Install via QR-code">
+
+                <div class="installation" id="installation">
+                    <h2>QR-code and configuration file</h2>
+                    <label>
+                        <div class="installation__label">Server:</div>
+                        <select class="installation__select loading" disabled>
+                            <option value="" selected>🤷‍♂️ Not chosen</option>
+                        </select>
+                    </label>
+                    <a
+                        class="installation__link disabled"
+                        data-disabled-text="Choose server"
+                        data-text="Download configuration file"
+                    >
+                        Download configuration file
+                    </a>
+                    <div class="installation__error hidden">
+                        Server is not available. Try again later.
+                    </div>
+                    <div class="installation__qr-wrapper disabled">
+                        <img
+                            class="installation__qr"
+                            alt="Install via QR-code"
+                        />
+                    </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-    <footer class="page-footer">
-        <div class="footer-wrapper">
-            <section class="footer-content">
-                <p class="white-text">
-                    Vive la résistance<br />
-                    Contacts -
-                    <a class="main__links white-text" href="https://t.me/kira2pizza" target="_blank"
-                        rel="noopener noreferrer">Telegram</a>
-                    <a class="main__links white-text" href="mailto:the2pizza@proton.me">E-mail</a>
-                </p>
-            </section>
-        </div>
-    </footer>
+        <footer class="page-footer">
+            <div class="footer-wrapper">
+                <section class="footer-content">
+                    <p class="white-text">
+                        Vive la résistance<br />
+                        Contacts -
+                        <a
+                            class="main__links white-text"
+                            href="https://t.me/kira2pizza"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >Telegram</a
+                        >
+                        <a
+                            class="main__links white-text"
+                            href="mailto:the2pizza@proton.me"
+                            >E-mail</a
+                        >
+                    </p>
+                </section>
+            </div>
+        </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcode-svg@1.0.0/dist/qrcode.min.js"></script>
-    <script src="/scripts/installation.js"></script>
-</body>
-
+        <script src="https://cdn.jsdelivr.net/npm/qrcode-svg@1.0.0/dist/qrcode.min.js"></script>
+        <script src="/scripts/installation.js"></script>
+    </body>
 </html>
