@@ -4,7 +4,7 @@ const langArr = {
         'en' : 'Roskomnadzor, go fuck yourself!',
     },
     'welcome' : {
-        'ru' : 'Cвободный VPN для свободных людей.',
+        'ru' : 'Свободный VPN для свободных людей.',
         'en' : 'Free VPN for free humans',
     },
     'welcome-text1' : {
@@ -12,7 +12,7 @@ const langArr = {
         'en' : 'We are for freedom of speech and against any kind of censorship.',
     },
     'welcome-text2' : {
-        'ru' : 'Делаем некомерческий',
+        'ru' : 'Делаем некоммерческий',
         'en' : 'We are making a non-commercial',
     },
     'welcome-text3' : {
