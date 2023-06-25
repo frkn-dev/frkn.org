@@ -162,7 +162,10 @@
               Before installing, check available updates on your system. Install
               them if it necessary:
               <!-- prettier-ignore -->
-              <code class="code-scroll-box"># Ubuntu и Debian sudo apt-get update && sudo apt-get upgrade</code>
+              <code class="code-scroll-box">
+                # Ubuntu и Debian
+                sudo apt-get update && sudo apt-get upgrade
+              </code>
             </li>
             <li>
               Run
@@ -171,7 +174,10 @@
               </a>
               :
               <!-- prettier-ignore -->
-              <code class="code-scroll-box"># Ubuntu и Debian sudo apt-get install wireguard</code>
+              <code class="code-scroll-box">
+                # Ubuntu и Debian
+                sudo apt-get install wireguard
+              </code>
             </li>
             <li>
               Download the configuration file by clicking on the
@@ -185,7 +191,7 @@
               <b>/etc/wireguard/</b>
               directory:
               <!-- prettier-ignore -->
-              <code class="code-scroll-box">sudo mv [file path]/fuckrkn1.conf/etc/wireguard/</code>
+              <code class="code-scroll-box">sudo mv [file path]/frkn.conf/ etc/wireguard/</code>
             </li>
 
             <li>
@@ -196,7 +202,7 @@
                   <b>wg-quick</b>
                   command, to start the connection:
                   <!-- prettier-ignore -->
-                  <code class="code-scroll-box">sudo wg-quick up fuckrkn1.conf</code>
+                  <code class="code-scroll-box">sudo wg-quick up frkn</code>
 
                   <details>
                     <summary>
@@ -213,8 +219,9 @@
                       package and try again:
                     </p>
                     <!-- prettier-ignore -->
-                    <code class="code-scroll-box"># Ubuntu и Debian 
-                      sudo apt-get install resolvconf && sudo wg-quick up fuckrkn1.conf</code>
+                    <code class="code-scroll-box">
+                      # Ubuntu и Debian
+                      sudo apt-get install resolvconf && sudo wg-quick up frkn</code>
                   </details>
                 </li>
                 <li>
@@ -229,7 +236,7 @@
                   <b>down</b>
                   attribute to turn off the connection:
                   <!-- prettier-ignore -->
-                  <code class="code-scroll-box">sudo wg-quick down fuckrkn1</code>
+                  <code class="code-scroll-box">sudo wg-quick down frkn</code>
                 </li>
               </ol>
             </li>

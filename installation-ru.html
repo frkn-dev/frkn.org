@@ -153,7 +153,10 @@
               Перед установкой проверьте наличие доступных обновлений в вашей
               системе. При необходимости установите их:
               <!-- prettier-ignore -->
-              <code class="code-scroll-box"># Ubuntu и Debian sudo apt-get update && sudo apt-get upgrade</code>
+              <code class="code-scroll-box">
+                # Ubuntu и Debian
+                sudo apt-get update && sudo apt-get upgrade
+              </code>
             </li>
             <li>
               Запустите
@@ -163,7 +166,10 @@
               </a>
               :
               <!-- prettier-ignore -->
-              <code class="code-scroll-box"># Ubuntu и Debian sudo apt-get install wireguard</code>
+              <code class="code-scroll-box">
+                # Ubuntu и Debian
+                sudo apt-get install wireguard
+              </code>
             </li>
             <li>
               Скачайте файл конфигурации, нажав на кнопку
@@ -176,7 +182,7 @@
               <b>/etc/wireguard/</b>
               :
               <!-- prettier-ignore -->
-              <code class="code-scroll-box">sudo mv [путь до файла]/fuckrkn1.conf/etc/wireguard/</code>
+              <code class="code-scroll-box">sudo mv [путь до файла]/frkn.conf /etc/wireguard/</code>
             </li>
 
             <li>
@@ -187,7 +193,7 @@
                   <b>wg-quick</b>
                   :
                   <!-- prettier-ignore -->
-                  <code class="code-scroll-box">sudo wg-quick up fuckrkn1.conf</code>
+                  <code class="code-scroll-box">sudo wg-quick up frkn</code>
 
                   <details>
                     <summary>
@@ -205,8 +211,10 @@
                       и повторите попытку:
                     </p>
                     <!-- prettier-ignore -->
-                    <code class="code-scroll-box"># Ubuntu и Debian 
-                      sudo apt-get install resolvconf && sudo wg-quick up fuckrkn1.conf</code>
+                    <code class="code-scroll-box">
+                      # Ubuntu и Debian
+                      sudo apt-get install resolvconf && sudo wg-quick up frkn
+                    </code>
                   </details>
                 </li>
                 <li>
@@ -221,7 +229,7 @@
                   <b>down</b>
                   :
                   <!-- prettier-ignore -->
-                  <code class="code-scroll-box">sudo wg-quick down fuckrkn1</code>
+                  <code class="code-scroll-box">sudo wg-quick down frkn</code>
                 </li>
               </ol>
             </li>
