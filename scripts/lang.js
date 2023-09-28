@@ -1,7 +1,7 @@
 const langArr = {
     'header-slogan': {
-        'ru' : 'Роскомнадзор, иди на хуй!',
-        'en' : 'Roskomnadzor, go fuck yourself!',
+        'ru' : 'Flighty Raptor Kicks Network',
+        'en' : 'Flighty Raptor Kicks Network',
     },
     'welcome' : {
         'ru' : 'Свободный VPN для свободных людей.',
