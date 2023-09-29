@@ -24,16 +24,20 @@ const langArr = {
         'en' : 'Today, freedom of speech is especially vulnerable. Independent media are banned, people are brainwashed with propaganda, VPN services are blocked, and it is dangerous to express one\'s position and opinion. This is the reason why we took on this project. It is non-commercial, no profit is pursued either. We are rather small, but yet, we have a great potential. You can support us with donations or any other contribution to improve the service. Pulling requests and creating issues also helps us a lot.',
     },
     'link-install' : {
-        'ru' : 'Инструкция по установке',
-        'en' : 'Install Instructions',
+        'ru' : 'Установить IPSec/IKeV2',
+        'en' : 'Install IPSec/IKeV2',
+    },
+    'link-install2' : {
+        'ru' : 'Установить WIREGUARD',
+        'en' : 'Install WIREGUARD',
     },
     'donation' : {
-        'ru' : 'Мы open source проект. Вы можете нас поддержать',
+        'ru' : 'Мы open source проект. Вы можете нас поддержать.',
         'en' : 'We are OpenSource. You can support us.',
     },
     'donation2' : {
-        'ru' : 'Больше способов',
-        'en' : 'More options'
+        'ru' : 'Поддержать проект',
+        'en' : 'Donate'
     },
     'contacts' : {
         'ru' : 'Обратная связь - ',
