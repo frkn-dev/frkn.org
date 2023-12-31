@@ -15,7 +15,7 @@ PrivateKey = ${iface.key}
 [Peer]
 PublicKey = ${peer.pubkey}
 AllowedIPs = ${peer.allowed_ips}
-PresharedKey - ${peer.psk}
+PresharedKey = ${peer.psk}
 Endpoint = ${peer.endpoint}
 PersistentKeepalive = 25`
 )
