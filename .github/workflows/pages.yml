@@ -23,26 +23,21 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
       - name: Setup Pages
-        uses: actions/configure-pages@v2
+        uses: actions/configure-pages@v1
+      - name: Build and generate static content
+        run: |
+          # Add your build commands here, e.g., npm install and npm run build
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: github-pages # Change this to match the name you are using in actions/download-artifact step
+          name: github-pages
           path: ./ 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          # Upload entire repository
-          path: '.'
-     - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
         with:
