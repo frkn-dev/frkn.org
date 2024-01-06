@@ -29,17 +29,18 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup Pages
         uses: actions/configure-pages@v1
-      - name: Build and generate static content
+      - name: Create clean artifact
         run: |
-          # Add your build commands here, e.g., npm install and npm run build
+          find . -type f -print0 | tar czf clean-artifact.tar.gz --null -T -
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: github-pages
-          path: .
+          path: clean-artifact.tar.gz
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           artifact: github-pages
+      
