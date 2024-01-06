@@ -31,12 +31,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Setup Pages
-        uses: actions/configure-pages@v1
+        uses: actions/configure-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: github-pages # Change this to match the name you are using in actions/download-artifact step
+          path: ./ 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
           path: '.'
-      - name: Deploy to GitHub Pages
+     - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@main
+        uses: actions/deploy-pages@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifact: github-pages
