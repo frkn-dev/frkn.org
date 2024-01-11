@@ -166,7 +166,7 @@ body {
 
 .card {
   background-color: var(--card-bg-color);
-  border-radius: 8px;
+  border-radius: 25px;
 }
 
 .footer-content {
