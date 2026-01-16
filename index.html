@@ -1,237 +1,341 @@
-<!DOCTYPE html>
-<html lang="ru-RU">
+<!doctype html>
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FRKN VPN</title>
-
-    <link href="https://frkn.org" rel="canonical" />
-    <meta content="FRKN VPN" name="title" />
-    <meta content="Cвободный VPN для свободных людей" name="description" />
-    <meta
-      content="VPN,свободный VPN,бесплатный VPN,свобода слова"
-      name="keywords"
-    />
-
-    <meta content="website" property="og:type" />
-    <meta content="FRKN VPN" property="og:site_name" />
-    <meta content="ru-RU" property="og:locale" />
-    <meta content="FRKN VPN" property="og:title" />
-    <meta
-      content="Cвободный VPN для свободных людей"
-      property="og:description"
-    />
-    <meta content="/Images/icon512x512.png" property="og:image" />
-    <meta content="512" property="og:image:width" />
-    <meta content="https://frkn.org" property="og:url" />
-
-    <meta content="summary" name="twitter:card" />
-    <meta content="FRKN VPN" name="twitter:title" />
-    <meta
-      content="Cвободный VPN для свободных людей"
-      property="twitter:description"
-    />
-    <meta content="/Images/icon512x512.png" property="twitter:image" />
-    <meta content="@frkn_org" property="twitter:site" />
-
-    <link rel="icon" type="image/x-icon" href="/Images/favicon.ico" />
-
-    <meta content="FRKN VPN" name="apple-mobile-web-app-title" />
-    <meta content="FRKN VPN" name="application-name" />
-    <meta content="#157878" name="theme-color" />
-    <meta content="#157878" name="msapplication-TileColor" />
-    <!-- Mailchimp styles block -->
-    <link
-      href="//cdn-images.mailchimp.com/embedcode/classic-10_7_dtp.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <style type="text/css">
-      #mc_embed_signup {
-        background: #fff;
-        clear: left;
-        font: 14px Helvetica, Arial, sans-serif;
-        border-radius: 5px;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FRKN Privacy Company</title>
+    <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
+    <style>
+      :root {
+        --bg: #0b0d12;
+        --card: #121621;
+        --text: #e6e8ef;
+        --muted: #9aa1b2;
+        --accent: #5b7cfa;
+        --accent-2: #22d3ee;
+        --border: #1f2433;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto,
+          sans-serif;
+        background:
+          radial-gradient(
+            1200px 600px at 70% -10%,
+            rgba(91, 124, 250, 0.15),
+            transparent
+          ),
+          var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0 32px;
+      }
+      .logo {
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo img {
+        width: 60px;
+        height: 48px;
+        border-radius: 12px;
+      }
+      .badge {
+        font-size: 12px;
+        color: var(--accent-2);
+        border: 1px solid rgba(34, 211, 238, 0.3);
+        padding: 4px 10px;
+        border-radius: 999px;
+      }
+      .hero {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 40px;
+        padding: 40px 0 80px;
+      }
+      .hero h1 {
+        font-size: 48px;
+        line-height: 1.1;
+        margin: 0 0 20px;
+      }
+      .hero p {
+        color: var(--muted);
+        font-size: 18px;
+        margin-bottom: 32px;
+      }
+      .cta {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+      .btn {
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        padding: 14px 22px;
+        border-radius: 12px;
         font-weight: 600;
+        border: none;
+        cursor: pointer;
+      }
+      .btn.secondary {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .card {
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent),
+          var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 24px;
+      }
+      .dashboard-card.id-card {
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent),
+          var(--card);
+        padding: 24px;
+        font-size: 13px;
+        border-radius: 12px; /* чуть меньше скругление */
+        max-width: 400px; /* ограничиваем ширину */
+        margin: 0 auto; /* центрируем */
+      }
+      .dashboard-card.id-card input {
+        padding: 10px 12px; /* меньше высота полей */
+        font-size: 13px; /* чуть меньше текст */
+      }
+      .dashboard-card.id-card button {
+        padding: 10px 16px; /* компактная кнопка */
+        font-size: 12px;
+      }
+      .features {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 80px;
+      }
+      .feature h3 {
+        margin-top: 0;
+      }
+      .feature p {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .trial {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+        align-items: center;
+        margin-bottom: 100px;
+      }
+      .trial form {
+        display: grid;
+        gap: 16px;
+      }
+      input {
+        background: #0f1320;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 14px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+      }
+      .message {
+        font-size: 14px;
+        color: var(--accent-2);
+      }
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 32px 0;
+        color: var(--muted);
+        font-size: 14px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      @media (max-width: 900px) {
+        .hero,
+        .trial {
+          grid-template-columns: 1fr;
+        }
+        .features {
+          grid-template-columns: 1fr;
+        }
+        .hero h1 {
+          font-size: 36px;
+        }
       }
     </style>
-    <link rel="stylesheet" href="style.css" />
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "FRKN VPN",
-        "url": "https://frkn.org",
-        "logo": "https://frkn.org/Images/icon512x512.png",
-        "sameAs": [
-          "https://twitter.com/frkn_org",
-          "https://t.me/frkn_dev",
-          "https://github.com/frkn-dev"
-        ]
-      }
-    </script>
-    <script id="mcjs">
-      !(function (c, h, i, m, p) {
-        (m = c.createElement(h)),
-          (p = c.getElementsByTagName(h)[0]),
-          (m.async = 1),
-          (m.src = i),
-          p.parentNode.insertBefore(m, p);
-      })(
-        document,
-        'script',
-        'https://chimpstatic.com/mcjs-connected/js/users/dfb34919cc8f0c7307e49ca3f/d77ae5fc7807fe31fc2f881bc.js'
-      );
-    </script>
   </head>
   <body>
-    <header class="page-header">
-      <div class="header-wrapper">
-        <section class="logoContainer">
-          <a class="logo" href="/">
-            <img
-              class="logoImage"
-              src="Images/TransparentWhiteLogo.png"
-              alt="FRKN logo"
-            />
-            <h1 class="header-title">FRKN VPN</h1>
-          </a>
-        </section>
-        <button class="lang-switch main__links white-text" value=""></button>
-        <p class="lng-header-slogan">Flighty Raptor Kicks Network</p>
-      </div>
-    </header>
-    <section class="main-content">
-      <section>
-        <h2 class="lng-welcome"><strike>Свободный</strike> VPN для свободных людей.</h2>
-        <p class="welcome-text">
-          <span class="lng-welcome-text1">
-            Мы за свободу слова и против какой-либо цензуры.
-          </span>
-          <br />
-          <span class="lng-welcome-text2">Делаем <strike>не</strike>коммерческий</span>
-          <a
-            href="https://ru.wikipedia.org/wiki/VPN"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            VPN
-          </a>
-          <span class="lng-welcome-text3">, не собирающий никаких данных.</span>
-          <br />
-          <br />
-          <span class="lng-welcome-text4">
-            ЗДЕСЬ БУДЕТ ТЕКСТ // ВЕДУТСЯ ТЕХНИЧЕСКИЕ РАБОТЫ  
-          </span>
-
-           <section class="card paddings">
-        <section class="card paddings">
-          <div class="main-content">
-            <div class="instructions">
-              <p class="welcome-text">
-              По всем вопросам обращайтесь в ТГ
-              <div class="donation-box" style="margin-top: 32px">
-                <span class="copy-credits">@frkn_support</span>
-              </div>
-            </div> 
-
-            <div class="instructions">
-              <p class="welcome-text">
-                Подписывайтесь на канал чтоб быть в курсе новостей
-
-              <div class="donation-box" style="margin-top: 32px">
-                <span class="copy-credits">@frkn_org</span>
-              </div>
-            </div> 
-
-
-          </div>
-          </p>
-        </section>
-      </section>
-      
-        </a>
-        </p>
-      </section>
-      <section class="install-section">
-        <a
-          class="lng-link-install2 btn btn-primary"
-          href="installation-ru.html"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Установить XRAY VLESS
-        </a>
-      </section>
-      <img class="ptero-img" src="Images/Ptero.jpg" alt="Ptero" />
-      <section class="card paddings two-columns-grid">
-        <ul class="links-list">
-          <li>
-            <a
-              class="bold-text"
-              href="https://t.me/FRKN_org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Telegram
-            </a>
-          </li>
-          <li>
-            <a
-              class="bold-text"
-              href="https://t.me/frkn_dev"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Чатик
-            </a>
-          </li>
-          <li>
-            <a
-              class="bold-text"
-              href="https://twitter.com/frkn_org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Twitter
-            </a>
-          </li>
-          <li>
-            <a
-              class="bold-text"
-              href="https://github.com/frkn-dev"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </a>
-          </li>
-        </ul>
-        <div class="donation-box">
-          <h5 class="lng-donation bold-text">
-             Вы можете нас
-          </h5>
-          <a class="btn btn-primary lng-donation2" href="donations.html">
-            поддержать
-          </a>
+    <div class="container">
+      <header>
+        <div class="logo">
+          <img src="Images/icon512x512.png" alt="FRKN Logo" />
+          FRKN
         </div>
-        
-      </section>
-    </section>
-    <footer class="page-footer">
-      <div class="footer-wrapper">
-        <section class="footer-content">
-          <p class="white-text">
-            Vive la résistance
-            <br />
-           
-            
-           
+        <div class="badge">PRIVATE VPN</div>
+      </header>
+
+      <section class="hero">
+        <div>
+          <h1>Свободный VPN<br />без хуйни</h1>
+          <p>
+            FRKN — быстрый и минималистичный VPN без логов и с современными
+            протоколами
           </p>
-        </section>
-      </div>
-    </footer>
-    <script src="./scripts/copyCredits.js"></script>
+          <div class="cta">
+            <a href="#trial" class="btn">1 день триала</a>
+          </div>
+        </div>
+        <div class="card">
+          <pre
+            style="margin: 0; color: #9aa1b2; font-size: 13px; overflow: auto"
+          >
+$ curl frkn.org
+✔ WireGuard
+✔ VLESS / Reality
+✔ Freedom</pre
+          >
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="card feature">
+          <h3>Без логов</h3>
+          <p>Мы не храним историю соединений и трафика.</p>
+        </div>
+        <div class="card feature">
+          <h3>Современные протоколы</h3>
+          <p>WireGuard, Vless, Reality, Xhttp, Grpc.</p>
+        </div>
+        <div class="card feature">
+          <h3>Open Source</h3>
+          <p>Собственный код и контроль каждой ноды.</p>
+        </div>
+
+        <div class="card feature">
+          <h3>Доступные страны</h3>
+          <p>
+            🇬🇧 Великобритания, 🇨🇿 Чехия, 🇮🇱 Израиль, 🇰🇿 Казахстан, 🇷🇺 Россия
+          </p>
+        </div>
+
+        <div class="card feature">
+          <h3>Стоимость</h3>
+          <p>Плати сколько хочешь</p>
+        </div>
+
+        <div class="dashboard-card id-card">
+          <h2>Подписка / Subscription</h2>
+          <p>Введите ваш ID:</p>
+          <form id="dashboardForm">
+            <input
+              type="text"
+              name="sub_id"
+              placeholder="AAAAAAAA-BBBB-CCCC-DDDD-FFFFFFFFFFFF"
+              required
+            />
+            <button class="btn" type="submit">Перейти</button>
+          </form>
+        </div>
+      </section>
+
+      <section id="trial" class="trial">
+        <div>
+          <h2>Получить 1 день триала</h2>
+          <p class="muted">
+            Оставь email или Telegram — мы выдадим доступ на 24 часа.
+          </p>
+        </div>
+        <div class="card">
+          <form id="trialForm">
+            <input type="email" name="email" placeholder="Email" required />
+            <input
+              type="text"
+              name="telegram"
+              placeholder="Telegram (опционально)"
+            />
+            <button class="btn" type="submit">Получить доступ</button>
+            <div class="message" id="message"></div>
+          </form>
+        </div>
+      </section>
+
+      <footer>
+        <div>Vive la résistance!</div>
+        <div>
+          <a href="https://t.me/frkn_support">Поддержка</a> ·
+          <a href="https://t.me/frkn_org">Новости </a> ·
+          <a href="https://github.com/frkn-dev">GitHub</a> ·
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      const dashboardForm = document.getElementById("dashboardForm");
+
+      dashboardForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const id = dashboardForm.sub_id.value.trim();
+        if (id) {
+          window.location.href = `https://api.frkn.org/sub/info?id=${encodeURIComponent(id)}`;
+        }
+      });
+    </script>
+
+    <script>
+      const form = document.getElementById("trialForm");
+      const msg = document.getElementById("message");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        msg.textContent = "Отправка...";
+        const formData = new FormData(form);
+        const payload = {
+          email: formData.get("email"),
+          telegram: formData.get("telegram") || "",
+        };
+
+        try {
+          const res = await fetch("http://api.frkn.org/trial", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+          if (data.status === "ok") {
+            msg.textContent =
+              " Ваша заявка принята! Проверьте email или напишите @frkn_support.";
+            form.reset();
+          } else {
+            msg.textContent = "❌ " + data.message;
+          }
+        } catch (err) {
+          msg.textContent = "❌ Ошибка сервера: " + err.message;
+        }
+      });
+    </script>
   </body>
 </html>
