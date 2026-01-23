@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>FRKN Privacy Company</title>
+		<link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
+		<style>
+			:root {
+				--bg: #0b0d12;
+				--card: #121621;
+				--text: #e6e8ef;
+				--muted: #9aa1b2;
+				--accent: #5b7cfa;
+				--accent-2: #22d3ee;
+				--border: #1f2433;
+			}
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+				font-family:
+					-apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
+					Roboto, sans-serif;
+				background:
+					radial-gradient(
+						1200px 600px at 70% -10%,
+						rgba(91, 124, 250, 0.15),
+						transparent
+					),
+					var(--bg);
+				color: var(--text);
+				line-height: 1.6;
+			}
+			a {
+				color: inherit;
+				text-decoration: none;
+			}
+			.container {
+				max-width: 1100px;
+				margin: 0 auto;
+				padding: 24px;
+			}
+			header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 16px 0 32px;
+			}
+			.logo {
+				font-weight: 700;
+				letter-spacing: 0.08em;
+				display: flex;
+				align-items: center;
+				gap: 12px;
+			}
+			.logo img {
+				width: 60px;
+				height: 48px;
+				border-radius: 12px;
+			}
+			.badge {
+				font-size: 12px;
+				color: var(--accent-2);
+				border: 1px solid rgba(34, 211, 238, 0.3);
+				padding: 4px 10px;
+				border-radius: 999px;
+			}
+			.hero {
+				display: grid;
+				grid-template-columns: 1.2fr 1fr;
+				gap: 40px;
+				padding: 40px 0 80px;
+			}
+			.hero h1 {
+				font-size: 48px;
+				line-height: 1.1;
+				margin: 0 0 20px;
+			}
+			.hero p {
+				color: var(--muted);
+				font-size: 18px;
+				margin-bottom: 32px;
+			}
+			.cta {
+				display: flex;
+				gap: 16px;
+				align-items: center;
+				margin-bottom: 0px;
+			}
+			.cta p {
+				margin: 0;
+			}
+
+			.price {
+				display: flex;
+				gap: 10px;
+				align-items: center;
+				background: linear-gradient(
+					135deg,
+					rgba(91, 124, 250, 0.15),
+					rgba(34, 211, 238, 0.15)
+				);
+				padding: 14px 22px;
+				color: var(--text);
+				font-weight: 700;
+				border-radius: 15px;
+				border: none;
+				font-size: 16px;
+				line-height: 1;
+			}
+
+			.btn {
+				background: linear-gradient(
+					135deg,
+					var(--accent),
+					var(--accent-2)
+				);
+				color: #05060a;
+				padding: 14px 22px;
+				border-radius: 12px;
+				font-weight: 600;
+				border: none;
+				cursor: pointer;
+				font-size: 16px;
+				line-height: 1;
+			}
+			.btn.secondary {
+				background: linear-gradient(
+					135deg,
+					rgba(91, 124, 250, 0.15),
+					rgba(34, 211, 238, 0.15)
+				);
+				padding: 14px 22px;
+				color: var(--text);
+				font-weight: 700;
+				border-radius: 15px;
+				border: none;
+				font-size: 14px;
+				line-height: 1;
+			}
+			.card {
+				background:
+					linear-gradient(
+						180deg,
+						rgba(255, 255, 255, 0.03),
+						transparent
+					),
+					var(--card);
+				border: 1px solid var(--border);
+				border-radius: 20px;
+				padding: 24px;
+			}
+
+			.plans {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 30px;
+				margin-bottom: 20px;
+				margin-top: 0px;
+			}
+			.plan h3 {
+				margin-top: 0;
+			}
+			.plan p {
+				color: var(--muted);
+				font-size: 14px;
+			}
+			.trial {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 32px;
+				align-items: center;
+				margin-bottom: 100px;
+				margin-top: 100px;
+			}
+			.trial form {
+				display: grid;
+				gap: 16px;
+			}
+			.buy-panel {
+				background: var(--card);
+				border: 1px solid var(--border);
+				border-radius: 12px;
+				padding: 5px;
+
+				max-height: 0;
+				overflow: hidden;
+				opacity: 0;
+				transform: translateY(-6px);
+				transition:
+					max-height 0.4s ease,
+					opacity 0.3s ease,
+					transform 0.3s ease;
+
+				margin-top: 20px;
+				margin-bottom: 0px;
+			}
+
+			.buy-panel.open {
+				max-height: 200px;
+				opacity: 1;
+				transform: translateY(0);
+			}
+
+			input {
+				background: #0f1320;
+				border: 1px solid var(--border);
+				color: var(--text);
+				padding: 14px 16px;
+				border-radius: 12px;
+				font-size: 14px;
+			}
+			.message {
+				font-size: 14px;
+				color: var(--accent-2);
+			}
+			footer {
+				border-top: 1px solid var(--border);
+				padding: 32px 0;
+				color: var(--muted);
+				font-size: 14px;
+				display: flex;
+				justify-content: space-between;
+				flex-wrap: wrap;
+				gap: 16px;
+			}
+			@media (max-width: 900px) {
+				.hero,
+				.trial {
+					grid-template-columns: 1fr;
+				}
+				.plan {
+					grid-template-columns: 1fr;
+				}
+				.hero h1 {
+					font-size: 36px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<div class="logo">
+					<img src="Images/icon512x512.png" alt="FRKN Logo" />
+					FRKN
+				</div>
+				<div class="badge">PRIVATE VPN</div>
+			</header>
+
+			<section class="hero">
+				<div>
+					<h1>Реферальная программа</h1>
+					<p>Зови друзей и получай бесплатные дни к своей подписке</p>
+				</div>
+			</section>
+
+			<section class="plans">
+				<div class="plan card">
+					Поделись своим кодом реферальной программы с друзьями и за
+					каждого друга, который приобрёл подписку получи <br />
+					✓ На 1 месяц - 15 дней бесплатно <br />
+					✓ На 12 месяцев - 2 месяца бесплатно <br />
+					✓ На 36 месяцев - 6 месяцев бесплатно
+				</div>
+				<div class="plan card"></div>
+
+				<div class="plan card">
+					Свой Реферальный код можно найти на странице Подписки после
+					оплаты
+				</div>
+			</section>
+
+			<section id="trial" class="trial">
+				<div>
+					Получить <b>1 день триала</b>
+					<p class="muted">
+						Оставь email или Telegram — мы выдадим доступ на 24
+						часа.
+					</p>
+				</div>
+				<div class="card">
+					<form id="trialForm">
+						<input
+							type="email"
+							name="email"
+							placeholder="Email"
+							required
+						/>
+						<input
+							type="text"
+							name="telegram"
+							placeholder="Telegram (опционально)"
+						/>
+						<button class="btn" type="submit">
+							Получить пробный доступ
+						</button>
+						<div class="message" id="message"></div>
+					</form>
+				</div>
+			</section>
+
+			<footer>
+				<div>Vive la résistance!</div>
+				<div>
+					<a href="/price.html">Купить</a> ·
+					<a href="https://t.me/frkn_support">Поддержка</a> ·
+					<a href="https://t.me/frkn_org">Новости </a> ·
+					<a href="https://github.com/frkn-dev">GitHub</a> ·
+					<a href="https://x.com/frkn_org">Twitter</a>
+				</div>
+			</footer>
+		</div>
+
+		<script>
+			const dashboardForm = document.getElementById("dashboardForm");
+
+			dashboardForm.addEventListener("submit", (e) => {
+				e.preventDefault();
+				const id = dashboardForm.sub_id.value.trim();
+				if (id) {
+					window.location.href = `https://api.frkn.org/sub/info?id=${encodeURIComponent(id)}`;
+				}
+			});
+		</script>
+
+		<script>
+			const form = document.getElementById("trialForm");
+			const msg = document.getElementById("message");
+
+			form.addEventListener("submit", async (e) => {
+				e.preventDefault();
+				msg.textContent = "Отправка...";
+				const formData = new FormData(form);
+				const payload = {
+					email: formData.get("email"),
+					telegram: formData.get("telegram") || "",
+				};
+
+				try {
+					const res = await fetch("https://api.frkn.org/trial", {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify(payload),
+					});
+					const data = await res.json();
+					if (data.status === "ok") {
+						msg.textContent =
+							" Ваша заявка принята! Проверьте email или напишите @frkn_support.";
+						form.reset();
+					} else {
+						msg.textContent = "❌ " + data.message;
+					}
+				} catch (err) {
+					msg.textContent = "❌ Ошибка сервера: " + err.message;
+				}
+			});
+		</script>
+
+		<script>
+			const buyBtn = document.getElementById("buyBtn");
+			const buyPanel = document.getElementById("buyPanel");
+
+			buyBtn.addEventListener("click", () => {
+				buyPanel.classList.toggle("open");
+			});
+		</script>
+
+		<script>
+			const buyBtn1 = document.getElementById("buyBtn1");
+			const buyPanel1 = document.getElementById("buyPanel1");
+
+			buyBtn1.addEventListener("click", () => {
+				buyPanel1.classList.toggle("open");
+			});
+		</script>
+
+		<script>
+			const buyBtn2 = document.getElementById("buyBtn2");
+			const buyPanel2 = document.getElementById("buyPanel2");
+
+			buyBtn2.addEventListener("click", () => {
+				buyPanel2.classList.toggle("open");
+			});
+		</script>
+	</body>
+</html>

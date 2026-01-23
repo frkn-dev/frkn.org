@@ -93,6 +93,24 @@
         margin: 0;
       }
 
+      .price {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        background: linear-gradient(
+          135deg,
+          rgba(91, 124, 250, 0.15),
+          rgba(34, 211, 238, 0.15)
+        );
+        padding: 14px 22px;
+        color: var(--text);
+        font-weight: 700;
+        border-radius: 15px;
+        border: none;
+        font-size: 16px;
+        line-height: 1;
+      }
+
       .btn {
         background: linear-gradient(135deg, var(--accent), var(--accent-2));
         color: #05060a;
@@ -115,10 +133,11 @@
         font-weight: 700;
         border-radius: 15px;
         border: none;
-        font-size: 16px;
+        font-size: 14px;
         line-height: 1;
+        margin-top: 20px;
+        margin-bottom: 0px;
       }
-
       .card {
         background:
           linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent),
@@ -128,19 +147,21 @@
         padding: 24px;
       }
 
-      .features {
+      .plans {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
+        gap: 30px;
         margin-bottom: 20px;
         margin-top: 0px;
       }
-      .feature h3 {
-        margin-top: 0;
+      .plan h3 {
+        margin-top: 20px;
+        margin-bottom: 0px;
       }
-      .feature p {
+      .plan p {
         color: var(--muted);
         font-size: 14px;
+        margin-top: 0px;
       }
       .trial {
         display: grid;
@@ -148,11 +169,37 @@
         gap: 32px;
         align-items: center;
         margin-bottom: 100px;
+        margin-top: 100px;
       }
       .trial form {
         display: grid;
         gap: 16px;
       }
+      .buy-panel {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 5px;
+
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition:
+          max-height 0.4s ease,
+          opacity 0.3s ease,
+          transform 0.3s ease;
+
+        margin-top: 20px;
+        margin-bottom: 0px;
+      }
+
+      .buy-panel.open {
+        max-height: 200px;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
       input {
         background: #0f1320;
         border: 1px solid var(--border);
@@ -180,7 +227,7 @@
         .trial {
           grid-template-columns: 1fr;
         }
-        .features {
+        .plan {
           grid-template-columns: 1fr;
         }
         .hero h1 {
@@ -201,62 +248,71 @@
 
       <section class="hero">
         <div>
-          <h1>Свободный VPN<br />без хуйни</h1>
-          <p>
-            FRKN — быстрый и минималистичный VPN без логов и с современными
-            протоколами
-          </p>
-          <div class="cta">
-            <p><a href="#trial" class="btn">1 день триала</a></p>
-            <p>
-              <a href="/price.html" class="btn secondary">
-                &nbsp Купить Подписку &nbsp
-              </a>
-            </p>
-          </div>
+          <h1>Подписки</h1>
+          <p>Мы предлагаем несколько уровней подписок</p>
         </div>
       </section>
 
-      <section class="features">
-        <div class="card feature">
-          <h3>Без логов и регистрации</h3>
-          <p>Мы не храним историю соединений и трафик</p>
+      <section class="plans">
+        <div class="card plan">
+          <h3>На месяц</h3>
+          <p>✓ Любое количество устройств без ограничений</p>
+          <p>✓ Безлимитный Трафик</p>
+          <p>✓ Доступно 5 стран и пополняются</p>
+          <p>&nbsp</p>
+
+          <br /><br />
+
+          <button id="buyBtn" class="btn secondary">Купить за 500₽</button>
+          <div id="buyPanel" class="buy-panel">
+            <p>Для приобретения подписки напишите нам в Telegram:</p>
+            <a href="https://t.me/frkn_support" class="btn"
+              >Написать в @frkn_support</a
+            >
+          </div>
         </div>
-        <div class="card feature">
-          <h3>Без ограничений</h3>
-          <p>Любое количество устройств и безлимитный трафик</p>
-        </div>
-        <div class="card feature">
-          <h3>Современные протоколы и шифрование</h3>
+
+        <div class="card plan">
+          <h3>На 12 Месяцев</h3>
+          <p>✓ Любое количество устройств без ограничений</p>
+          <p>✓ Безлимитный Трафик</p>
+          <p>✓ Доступно 5 стран и пополняются</p>
+          <p>✓ Скидка <b style="color: white">15 процентов</b></p>
           <p>
-            WireGuard, Vless, Reality, Xhttp, Grpc <br />
+            Обычная цена <strike>6000₽</strike>
             <br />
-            Используется не только инженерами и разработчиками, но и теми, кому
-            важна приватность
+            <br />
+            <button id="buyBtn1" class="btn secondary">Купить за 5000₽</button>
           </p>
-        </div>
-        <div class="card feature">
-          <h3>Open Source</h3>
-          <p>Собственный код и контроль каждой ноды</p>
+
+          <div id="buyPanel1" class="buy-panel">
+            <p>Для приобретения подписки напишите нам в Telegram:</p>
+            <a href="https://t.me/frkn_support" class="btn"
+              >Написать в @frkn_support</a
+            >
+          </div>
         </div>
 
-        <div class="card feature">
-          <h3>Доступные страны</h3>
+        <div class="card plan">
+          <h3>На 36 месяцев</h3>
+          <p>✓ Любое количество устройств без ограничений</p>
+          <p>✓ Безлимитный Трафик</p>
+          <p>✓ Доступно 5 стран и пополняются</p>
+          <p>✓ Скидка <b style="color: white">40 процентов</b></p>
           <p>
-            🇬🇧 Великобритания, 🇨🇿 Чехия, 🇮🇱 Израиль, 🇰🇿 Казахстан, 🇷🇺 Россия
-          </p>
-        </div>
-
-        <div class="card feature">
-          <h3>Стоимость</h3>
-          <p>
-            От 500 рублей в месяц <br /><br />
+            Обычная цена <strike>18000₽</strike>
+            <br />
             <br />
 
-            &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-            &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-            <a href="/price.html" class="btn secondary">Все цены</a>
+            <button id="buyBtn2" class="btn secondary">Купить за 10000₽</button>
           </p>
+
+          <div id="buyPanel2" class="buy-panel">
+            <p>Для приобретения подписки напишите нам в Telegram:</p>
+            <a href="https://t.me/frkn_support" class="btn"
+              >Написать в @frkn_support</a
+            >
+          </div>
         </div>
       </section>
 
@@ -323,6 +379,33 @@
         } catch (err) {
           msg.textContent = "❌ Ошибка сервера: " + err.message;
         }
+      });
+    </script>
+
+    <script>
+      const buyBtn = document.getElementById("buyBtn");
+      const buyPanel = document.getElementById("buyPanel");
+
+      buyBtn.addEventListener("click", () => {
+        buyPanel.classList.toggle("open");
+      });
+    </script>
+
+    <script>
+      const buyBtn1 = document.getElementById("buyBtn1");
+      const buyPanel1 = document.getElementById("buyPanel1");
+
+      buyBtn1.addEventListener("click", () => {
+        buyPanel1.classList.toggle("open");
+      });
+    </script>
+
+    <script>
+      const buyBtn2 = document.getElementById("buyBtn2");
+      const buyPanel2 = document.getElementById("buyPanel2");
+
+      buyBtn2.addEventListener("click", () => {
+        buyPanel2.classList.toggle("open");
       });
     </script>
   </body>
