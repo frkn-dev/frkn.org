@@ -149,7 +149,7 @@
 
       .plans {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 30px;
         margin-bottom: 20px;
         margin-top: 0px;
@@ -249,7 +249,6 @@
       <section class="hero">
         <div>
           <h1>Подписки</h1>
-          <p>Мы предлагаем несколько уровней подписок</p>
         </div>
       </section>
 
@@ -273,6 +272,28 @@
         </div>
 
         <div class="card plan">
+          <h3>На 3 месяца</h3>
+          <p>✓ Любое количество устройств без ограничений</p>
+          <p>✓ Безлимитный Трафик</p>
+          <p>✓ Доступно 5 стран и пополняются</p>
+          <p>✓ Скидка <b style="color: white">10 процентов</b></p>
+
+          <p>
+            Обычная цена <strike>1500</strike>
+            <br />
+            <br />
+            <button id="buyBtn12" class="btn secondary">Купить за 1350</button>
+          </p>
+
+          <div id="buyPanel3" class="buy-panel">
+            <p>Для приобретения подписки напишите нам в Telegram:</p>
+            <a href="https://t.me/frkn_support" class="btn"
+              >Написать в @frkn_support</a
+            >
+          </div>
+        </div>
+
+        <div class="card plan">
           <h3>На 12 Месяцев</h3>
           <p>✓ Любое количество устройств без ограничений</p>
           <p>✓ Безлимитный Трафик</p>
@@ -282,10 +303,10 @@
             Обычная цена <strike>6000₽</strike>
             <br />
             <br />
-            <button id="buyBtn1" class="btn secondary">Купить за 5000₽</button>
+            <button id="buyBtn12" class="btn secondary">Купить за 5000₽</button>
           </p>
 
-          <div id="buyPanel1" class="buy-panel">
+          <div id="buyPanel12" class="buy-panel">
             <p>Для приобретения подписки напишите нам в Telegram:</p>
             <a href="https://t.me/frkn_support" class="btn"
               >Написать в @frkn_support</a
@@ -304,10 +325,12 @@
             <br />
             <br />
 
-            <button id="buyBtn2" class="btn secondary">Купить за 10000₽</button>
+            <button id="buyBtn36" class="btn secondary">
+              Купить за 10000₽
+            </button>
           </p>
 
-          <div id="buyPanel2" class="buy-panel">
+          <div id="buyPanel36" class="buy-panel">
             <p>Для приобретения подписки напишите нам в Telegram:</p>
             <a href="https://t.me/frkn_support" class="btn"
               >Написать в @frkn_support</a
@@ -392,20 +415,29 @@
     </script>
 
     <script>
-      const buyBtn1 = document.getElementById("buyBtn1");
-      const buyPanel1 = document.getElementById("buyPanel1");
+      const buyBtn3 = document.getElementById("buyBtn3");
+      const buyPanel3 = document.getElementById("buyPanel3");
 
-      buyBtn1.addEventListener("click", () => {
-        buyPanel1.classList.toggle("open");
+      buyBtn3.addEventListener("click", () => {
+        buyPanel3.classList.toggle("open");
       });
     </script>
 
     <script>
-      const buyBtn2 = document.getElementById("buyBtn2");
-      const buyPanel2 = document.getElementById("buyPanel2");
+      const buyBtn12 = document.getElementById("buyBtn12");
+      const buyPanel12 = document.getElementById("buyPanel12");
 
-      buyBtn2.addEventListener("click", () => {
-        buyPanel2.classList.toggle("open");
+      buyBtn12.addEventListener("click", () => {
+        buyPanel12.classList.toggle("open");
+      });
+    </script>
+
+    <script>
+      const buyBtn36 = document.getElementById("buyBtn35");
+      const buyPanel36 = document.getElementById("buyPanel36");
+
+      buyBtn36.addEventListener("click", () => {
+        buyPanel36.classList.toggle("open");
       });
     </script>
   </body>
