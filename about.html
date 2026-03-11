@@ -88,27 +88,10 @@
 				gap: 16px;
 				align-items: center;
 				margin-bottom: 0px;
+				margin-left: 0px;
 			}
 			.cta p {
 				margin: 0;
-			}
-
-			.price {
-				display: flex;
-				gap: 10px;
-				align-items: center;
-				background: linear-gradient(
-					135deg,
-					rgba(91, 124, 250, 0.15),
-					rgba(34, 211, 238, 0.15)
-				);
-				padding: 14px 22px;
-				color: var(--text);
-				font-weight: 700;
-				border-radius: 15px;
-				border: none;
-				font-size: 16px;
-				line-height: 1;
 			}
 
 			.btn {
@@ -123,7 +106,6 @@
 				font-weight: 600;
 				border: none;
 				cursor: pointer;
-				font-size: 16px;
 				line-height: 1;
 			}
 			.btn.secondary {
@@ -132,14 +114,14 @@
 					rgba(91, 124, 250, 0.15),
 					rgba(34, 211, 238, 0.15)
 				);
-				padding: 14px 22px;
+				padding: 16px 22px;
 				color: var(--text);
 				font-weight: 700;
 				border-radius: 15px;
 				border: none;
-				font-size: 14px;
 				line-height: 1;
 			}
+
 			.card {
 				background:
 					linear-gradient(
@@ -162,18 +144,21 @@
 				transform: translateY(-4px);
 				border-color: rgba(91, 124, 250, 0.5);
 			}
+			.big {
+				grid-row: span 2;
+			}
 
-			.plans {
+			.features {
 				display: grid;
 				grid-template-columns: repeat(2, 1fr);
-				gap: 30px;
+				gap: 20px;
 				margin-bottom: 20px;
 				margin-top: 0px;
 			}
-			.plan h3 {
+			.feature h3 {
 				margin-top: 0;
 			}
-			.plan p {
+			.feature p {
 				color: var(--muted);
 				font-size: 14px;
 			}
@@ -183,37 +168,11 @@
 				gap: 32px;
 				align-items: center;
 				margin-bottom: 100px;
-				margin-top: 100px;
 			}
 			.trial form {
 				display: grid;
 				gap: 16px;
 			}
-			.buy-panel {
-				background: var(--card);
-				border: 1px solid var(--border);
-				border-radius: 12px;
-				padding: 5px;
-
-				max-height: 0;
-				overflow: hidden;
-				opacity: 0;
-				transform: translateY(-6px);
-				transition:
-					max-height 0.4s ease,
-					opacity 0.3s ease,
-					transform 0.3s ease;
-
-				margin-top: 20px;
-				margin-bottom: 0px;
-			}
-
-			.buy-panel.open {
-				max-height: 200px;
-				opacity: 1;
-				transform: translateY(0);
-			}
-
 			input {
 				background: #0f1320;
 				border: 1px solid var(--border);
@@ -241,7 +200,7 @@
 				.trial {
 					grid-template-columns: 1fr;
 				}
-				.plan {
+				.features {
 					grid-template-columns: 1fr;
 				}
 				.hero h1 {
@@ -262,25 +221,37 @@
 
 			<section class="hero">
 				<div>
-					<h1>Реферальная программа</h1>
-					<p>Зови друзей и получай бесплатные дни к своей подписке</p>
+					<h1>Рилзопровод</h1>
+					<p>
+						<br />Стабильный доступ к интернету без блокировок.
+						Защищённый канал, который возвращает интернет таким,
+						каким он должен быть — свободным.
+					</p>
+					<div class="cta">
+						<p><a href="#trial" class="btn">Попробовать</a></p>
+						<p>
+							<a href="/price.html" class="btn secondary">
+								Купить
+							</a>
+						</p>
+					</div>
 				</div>
 			</section>
 
-			<section class="plans">
-				<div class="plan card">
-					Поделись своим кодом реферальной программы с друзьями и за
-					каждого друга, который приобрёл подписку получи <br />
-					✓ На 1 месяц - 5 дней бесплатно <br />
-					✓ На 3 месяца - 15 дней бесплатно <br />
-					✓ На 6 месяцев - 1 месяц бесплатно <br />
-					✓ На 12 месяцев - 2 месяца бесплатно <br />
-				</div>
-				<div class="plan card"></div>
-
-				<div class="plan card">
-					Свой Реферальный код можно найти на странице Подписки после
-					оплаты
+			<section class="features">
+				<div class="card feature big">
+					<h3>Что такое Рилзопровод</h3>
+					<p>
+						Рилзопровод — это сервис, который помогает сохранить
+						свободный доступ к интернету. Он создаёт защищённый
+						канал связи между вашим устройством и сервером, через
+						который проходит весь интернет-трафик. Это позволяет
+						продолжать пользоваться интернетом без ограничений —
+						так, как он должен работать изначально.
+						<br /><br />Рилзопровод возвращает доступ к любимому
+						контенту и социальным сетям. Информация должна быть
+						свободной
+					</p>
 				</div>
 			</section>
 
@@ -328,18 +299,6 @@
 		</div>
 
 		<script>
-			const dashboardForm = document.getElementById("dashboardForm");
-
-			dashboardForm.addEventListener("submit", (e) => {
-				e.preventDefault();
-				const id = dashboardForm.sub_id.value.trim();
-				if (id) {
-					window.location.href = `https://api.frkn.org/sub/info?id=${encodeURIComponent(id)}`;
-				}
-			});
-		</script>
-
-		<script>
 			const form = document.getElementById("trialForm");
 			const msg = document.getElementById("message");
 
@@ -369,33 +328,6 @@
 				} catch (err) {
 					msg.textContent = "❌ Ошибка сервера: " + err.message;
 				}
-			});
-		</script>
-
-		<script>
-			const buyBtn = document.getElementById("buyBtn");
-			const buyPanel = document.getElementById("buyPanel");
-
-			buyBtn.addEventListener("click", () => {
-				buyPanel.classList.toggle("open");
-			});
-		</script>
-
-		<script>
-			const buyBtn1 = document.getElementById("buyBtn1");
-			const buyPanel1 = document.getElementById("buyPanel1");
-
-			buyBtn1.addEventListener("click", () => {
-				buyPanel1.classList.toggle("open");
-			});
-		</script>
-
-		<script>
-			const buyBtn2 = document.getElementById("buyBtn2");
-			const buyPanel2 = document.getElementById("buyPanel2");
-
-			buyBtn2.addEventListener("click", () => {
-				buyPanel2.classList.toggle("open");
 			});
 		</script>
 	</body>
