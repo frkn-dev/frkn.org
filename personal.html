@@ -1,385 +1,408 @@
 <!doctype html>
 <html lang="ru">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>FRKN Privacy Company</title>
-		<link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
-		<style>
-			:root {
-				--bg: #0b0d12;
-				--card: #121621;
-				--text: #e6e8ef;
-				--muted: #9aa1b2;
-				--accent: #5b7cfa;
-				--accent-2: #22d3ee;
-				--border: #1f2433;
-			}
-			* {
-				box-sizing: border-box;
-			}
-			body {
-				margin: 0;
-				font-family:
-					-apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
-					Roboto, sans-serif;
-				background:
-					radial-gradient(
-						1200px 600px at 70% -10%,
-						rgba(91, 124, 250, 0.15),
-						transparent
-					),
-					var(--bg);
-				color: var(--text);
-				line-height: 1.6;
-			}
-			a {
-				color: inherit;
-				text-decoration: none;
-			}
-			.container {
-				max-width: 1100px;
-				margin: 0 auto;
-				padding: 24px;
-			}
-			header {
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				padding: 16px 0 32px;
-			}
-			.buy-panel {
-				background: var(--card);
-				border: 1px solid var(--border);
-				border-radius: 12px;
-				padding: 5px;
 
-				max-height: 0;
-				overflow: hidden;
-				opacity: 0;
-				transform: translateY(-6px);
-				transition:
-					max-height 0.4s ease,
-					opacity 0.3s ease,
-					transform 0.3s ease;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FRKN Privacy Company</title>
+  <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --card: #121621;
+      --text: #e6e8ef;
+      --muted: #9aa1b2;
+      --accent: #5b7cfa;
+      --accent-2: #22d3ee;
+      --border: #1f2433;
+    }
 
-				margin-top: 20px;
-				margin-bottom: 0px;
-			}
+    * {
+      box-sizing: border-box;
+    }
 
-			.buy-panel.open {
-				max-height: 200px;
-				opacity: 1;
-				transform: translateY(0);
-			}
+    body {
+      margin: 0;
+      font-family:
+        -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
+        Roboto, sans-serif;
+      background:
+        radial-gradient(1200px 600px at 70% -10%,
+          rgba(91, 124, 250, 0.15),
+          transparent),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-			.logo {
-				font-weight: 700;
-				letter-spacing: 0.08em;
-				display: flex;
-				align-items: center;
-				gap: 12px;
-			}
-			.logo img {
-				width: 60px;
-				height: 48px;
-				border-radius: 12px;
-			}
-			.badge {
-				font-size: 12px;
-				color: var(--accent-2);
-				border: 1px solid rgba(34, 211, 238, 0.3);
-				padding: 4px 10px;
-				border-radius: 999px;
-			}
-			.hero {
-				display: grid;
-				grid-template-columns: 1.2fr 1fr;
-				gap: 40px;
-				padding: 40px 0 80px;
-			}
-			.hero h1 {
-				font-size: 48px;
-				line-height: 1.1;
-				margin: 0 0 20px;
-			}
-			.hero p {
-				color: var(--muted);
-				font-size: 18px;
-				margin-bottom: 32px;
-			}
-			.cta {
-				display: flex;
-				gap: 16px;
-				align-items: center;
-				margin-bottom: 0px;
-				margin-left: 0px;
-			}
-			.cta p {
-				margin: 0;
-			}
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-			.btn {
-				background: linear-gradient(
-					135deg,
-					var(--accent),
-					var(--accent-2)
-				);
-				color: #05060a;
-				padding: 14px 22px;
-				border-radius: 12px;
-				font-weight: 600;
-				border: none;
-				cursor: pointer;
-				line-height: 1;
-			}
-			.btn.secondary {
-				background: linear-gradient(
-					135deg,
-					rgba(91, 124, 250, 0.15),
-					rgba(34, 211, 238, 0.15)
-				);
-				padding: 16px 22px;
-				color: var(--text);
-				font-weight: 700;
-				border-radius: 15px;
-				border: none;
-				line-height: 1;
-			}
-			.card {
-                 transition: transform 0.2s ease, border-color 0.2s ease;
-                 }
-                 
-                 .card:hover {
-                 transform: translateY(-4px);
-                 border-color: rgba(91,124,250,0.5);
-                }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
 
-			.card {
-				background:
-					linear-gradient(
-						180deg,
-						rgba(255, 255, 255, 0.03),
-						transparent
-					),
-					var(--card);
-				border: 1px solid var(--border);
-				border-radius: 20px;
-				padding: 24px;
-			}
-			.big {
-                	grid-row: span 2;
-                }
-                
-             .features {
-                	display: grid;
-                	grid-template-columns: 2fr 1fr;
-                	grid-template-rows: auto auto;
-                	gap: 20px;
-                }
-			.feature h3 {
-				margin-top: 0;
-			}
-			.feature p {
-				color: var(--muted);
-				font-size: 14px;
-			}
-			.trial {
-				display: grid;
-				grid-template-columns: 1fr 1fr;
-				gap: 32px;
-				align-items: center;
-				margin-bottom: 100px;
-			}
-			.trial form {
-				display: grid;
-				gap: 16px;
-			}
-			input {
-				background: #0f1320;
-				border: 1px solid var(--border);
-				color: var(--text);
-				padding: 14px 16px;
-				border-radius: 12px;
-				font-size: 14px;
-			}
-			.message {
-				font-size: 14px;
-				color: var(--accent-2);
-			}
-			footer {
-				border-top: 1px solid var(--border);
-				padding: 32px 0;
-				color: var(--muted);
-				font-size: 14px;
-				display: flex;
-				justify-content: space-between;
-				flex-wrap: wrap;
-				gap: 16px;
-			}
-			@media (max-width: 900px) {
-				.hero,
-				.trial {
-					grid-template-columns: 1fr;
-				}
-				.features {
-					grid-template-columns: 1fr;
-				}
-				.hero h1 {
-					font-size: 36px;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-			<header>
-				<div class="logo">
-					<img src="Images/icon512x512.png" alt="FRKN Logo" />
-					<a href="/"> FRKN</a>
-				</div>
-				<div class="badge">Хехе 😏</div>
-			</header>
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0 32px;
+    }
 
-			<section class="hero">
-				<div>
-					<h1>Персональный Рилзопровод</h1>
-					<p>Ваш собственный сервер с выделенным каналом только для вас</p>
+    .buy-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 5px;
 
-					<div class="cta">
-                      <button class="btn"><a href="#buyPanel">Получить персональный сервер</a></button>
-                    </div>
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition:
+        max-height 0.4s ease,
+        opacity 0.3s ease,
+        transform 0.3s ease;
 
-					
-				</div>
-			</section>
+      margin-top: 20px;
+      margin-bottom: 0px;
+    }
 
-			<section class="features">
-				<div class="card feature big">
-					<h3>Что такое персональный рилзопровод?</h3>
-					<p> Обычный рилзопровод даёт доступ к сервису, но этот доступ разделяется между несколькими пользователями.
-                        В большинстве случаев канала хватает всем, но в пиковые часы скорость может снижаться, если другие пользователи смотрят тяжёлое видео или скачивают большие файлы. </p>
-                        
-                        <p>Персональный рилзопровод — это выделенный сервер только для вас.</p>
-                        
-                        Вы получаете собственный канал и используете его единолично.
-                        Можно делиться доступом с друзьями или коллегами, либо использовать всю пропускную способность самому.
-                        
-                        Никаких ограничений по трафику или количеству пользователей.
+    .buy-panel.open {
+      max-height: 200px;
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-					<p>После оплаты в <b>течение 24 часов</b> мы поднимаем и настраиваем сервер специально для вас.
-                        
-                        <p>Вы можете выбрать:
-                            <ul>
-                              <li>локацию сервера </li>
-                              <li>протоколы </li>
-                              <li>сетевые настройки </li>
-                            </ul>
-                       </p> 
-                    <p>Если потребуется, наша поддержка ответит на любые вопросы и скорректирует настройки сервера.</p>
-					<p>А так же в дополнение к Персональному железу, Вы получите доступ ко всем остальным странам, серверам и протоколам.</p>
+    .logo {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      width: 60px;
+      height: 48px;
+      border-radius: 12px;
+    }
+
+    .badge {
+      font-size: 12px;
+      color: var(--accent-2);
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 40px;
+      padding: 40px 0 80px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      line-height: 1.1;
+      margin: 0 0 20px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 18px;
+      margin-bottom: 32px;
+    }
+
+    .cta {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 0px;
+      margin-left: 0px;
+    }
+
+    .cta p {
+      margin: 0;
+    }
+
+    .btn {
+      background: linear-gradient(135deg,
+          var(--accent),
+          var(--accent-2));
+      color: #05060a;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .btn.secondary {
+      background: linear-gradient(135deg,
+          rgba(91, 124, 250, 0.15),
+          rgba(34, 211, 238, 0.15));
+      padding: 16px 22px;
+      color: var(--text);
+      font-weight: 700;
+      border-radius: 15px;
+      border: none;
+      line-height: 1;
+    }
+
+    .card {
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(91, 124, 250, 0.5);
+    }
+
+    .card {
+      background:
+        linear-gradient(180deg,
+          rgba(255, 255, 255, 0.03),
+          transparent),
+        var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .big {
+      grid-row: span 2;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 20px;
+    }
+
+    .feature h3 {
+      margin-top: 0;
+    }
+
+    .feature p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .trial {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 100px;
+    }
+
+    .trial form {
+      display: grid;
+      gap: 16px;
+    }
+
+    input {
+      background: #0f1320;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    .message {
+      font-size: 14px;
+      color: var(--accent-2);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      color: var(--muted);
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) {
+
+      .hero,
+      .trial {
+        grid-template-columns: 1fr;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <img src="Images/icon512x512.png" alt="FRKN Logo" />
+        <a href="/"> FRKN</a>
+      </div>
+      <div class="badge">Хехе 😏</div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Персональный Рилзопровод</h1>
+        <p>Ваш собственный сервер с выделенным каналом только для вас</p>
+
+        <div class="cta">
+          <button class="btn"><a href="#buyPanel">Получить персональный сервер</a></button>
+        </div>
 
 
-					<p>Стоимость 
-						<ul> 
-							<li><b>1 месяц</b> — 3 000 ₽</li>
-							<li><b>3 месяца</b> — 9 000 ₽</li>
-							<li><b>6 месяцев</b> — 15 000 ₽</li>
-							<li><b>12 месяцев</b> — 21 000 ₽</li>
-						</ul>
-					</p>
+      </div>
+    </section>
 
-					<button id="buyBtn" class="btn secondary">Купить</button>
-					<div id="buyPanel" class="buy-panel">
-						<p>
-							Для приобретения подписки напишите нам в Telegram:
-						</p>
-						<a href="https://t.me/frkn_support" class="btn"
-							>@frkn_support</a
-						>
-					</div>
+    <section class="features">
+      <div class="card feature big">
+        <h3>Что такое персональный рилзопровод?</h3>
+        <p> Обычный рилзопровод даёт доступ к сервису, но этот доступ разделяется между несколькими пользователями.
+          В большинстве случаев канала хватает всем, но в пиковые часы скорость может снижаться, если другие
+          пользователи смотрят тяжёлое видео или скачивают большие файлы. </p>
 
-				</div>
+        <p>Персональный рилзопровод — это выделенный сервер только для вас.</p>
 
-				<div class="card feature">
-                    <h3>Что вы получаете</h3>
-                    <ul>
-                    <li> 1 Gbps канал</li>
-                    <li> Выделенный сервер</li>
-                    <li> Любая локация</li>
-                    <li> WireGuard / Xray / Hysteria2</li>
-                    <li> Без ограничений трафика</li>
-                    <li> Без ограничений пользователей</li>
-                </ul>
-                   
-				</div>
+        Вы получаете собственный канал и используете его единолично.
+        Можно делиться доступом с друзьями или коллегами, либо использовать всю пропускную способность самому.
 
-				<div class="card feature">
-                    <h3>Простота</h3>
-                    Вам не нужно настраивать сервер самостоятельно.
-                    Мы полностью настраиваем и поддерживаем инфраструктуру. 
-                    Вы просто получаете готовый доступ к своему серверу.
+        Никаких ограничений по трафику или количеству пользователей.
 
-                    <p>Фактически это выглядит как ваш собственный VPN сервер, настроенный и поддерживаемый нашей командой.</p>
-                   
-				</div>
-			</section>
+        <p>После оплаты в <b>течение 24 часов</b> мы поднимаем и настраиваем сервер специально для вас.
 
-			<footer>
-                 <div>Vive la résistance!</div>
-                 <div>
-                   <a href="/personal.html">Персональный рилзопровод</a> ·
-                   <a href="/reverse.html">Обратный рилзопровод</a> ·
-                   <a href="/ref.html">Реферальная программа</a> <br />
-                   <a href="https://t.me/frkn_support">Поддержка</a> ·
-                   <a href="https://t.me/frkn_org">Новости </a> ·
-                   <a href="https://github.com/frkn-dev">GitHub</a> ·
-                   <a href="https://x.com/frkn_org">Twitter</a>
-                 </div>
-            </footer>
-		</div>
+        <p>Вы можете выбрать:
+        <ul>
+          <li>локацию сервера </li>
+          <li>протоколы </li>
+          <li>сетевые настройки </li>
+        </ul>
+        </p>
+        <p>Если потребуется, наша поддержка ответит на любые вопросы и скорректирует настройки сервера.</p>
+        <p>А так же в дополнение к Персональному железу, Вы получите доступ ко всем остальным странам, серверам и
+          протоколам.</p>
 
-		<script>
-			const buyBtn = document.getElementById("buyBtn");
-			const buyPanel = document.getElementById("buyPanel");
 
-			buyBtn.addEventListener("click", () => {
-				buyPanel.classList.toggle("open");
-			});
-		</script>
+        <p>Стоимость
+        <ul>
+          <li><b>1 месяц</b> — 3 000 ₽</li>
+          <li><b>3 месяца</b> — 9 000 ₽</li>
+          <li><b>6 месяцев</b> — 15 000 ₽</li>
+          <li><b>12 месяцев</b> — 21 000 ₽</li>
+        </ul>
+        </p>
 
-		<script>
-			const form = document.getElementById("trialForm");
-			const msg = document.getElementById("message");
+        <button id="buyBtn" class="btn secondary">Купить</button>
+        <div id="buyPanel" class="buy-panel">
+          <p>
+            Для приобретения подписки напишите нам в Telegram:
+          </p>
+          <a href="https://t.me/frkn_support" class="btn">@frkn_support</a>
+        </div>
 
-			form.addEventListener("submit", async (e) => {
-				e.preventDefault();
-				msg.textContent = "Отправка...";
-				const formData = new FormData(form);
-				const payload = {
-					env: "ru",
-					email: formData.get("email"),
-					telegram: formData.get("telegram") || "",
-				};
+      </div>
 
-				try {
-					const res = await fetch("https://api.frkn.org/trial", {
-						method: "POST",
-						headers: { "Content-Type": "application/json" },
-						body: JSON.stringify(payload),
-					});
-					const data = await res.json();
-					if (data.status === "ok") {
-						msg.textContent =
-							" Ваша заявка принята! Проверьте email или напишите @frkn_support.";
-						form.reset();
-					} else {
-						msg.textContent = "❌ " + data.message;
-					}
-				} catch (err) {
-					msg.textContent = "❌ Ошибка сервера: " + err.message;
-				}
-			});
-		</script>
-	</body>
+      <div class="card feature">
+        <h3>Что вы получаете</h3>
+        <ul>
+          <li> 1 Gbps канал</li>
+          <li> Выделенный сервер</li>
+          <li> Любая локация</li>
+          <li> WireGuard / Xray / Hysteria2</li>
+          <li> Без ограничений трафика</li>
+          <li> Без ограничений пользователей</li>
+        </ul>
+
+      </div>
+
+      <div class="card feature">
+        <h3>Простота</h3>
+        Вам не нужно настраивать сервер самостоятельно.
+        Мы полностью настраиваем и поддерживаем инфраструктуру.
+        Вы просто получаете готовый доступ к своему серверу.
+
+        <p>Фактически это выглядит как ваш собственный VPN сервер, настроенный и поддерживаемый нашей командой.</p>
+
+      </div>
+    </section>
+
+    <footer>
+      <div>Vive la résistance!</div>
+      <div>
+        <a href="/personal.html">Персональный рилзопровод</a> ·
+        <a href="/reverse.html">Обратный рилзопровод</a> ·
+        <a href="/ref.html">Реферальная программа</a> <br />
+        <a href="https://t.me/frkn_support">Поддержка</a> ·
+        <a href="https://t.me/frkn_org">Новости </a> ·
+        <a href="https://github.com/frkn-dev">GitHub</a> ·
+        <a href="https://x.com/frkn_org">Twitter</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const buyBtn = document.getElementById("buyBtn");
+    const buyPanel = document.getElementById("buyPanel");
+
+    buyBtn.addEventListener("click", () => {
+      buyPanel.classList.toggle("open");
+    });
+  </script>
+
+  <script>
+    const form = document.getElementById("trialForm");
+    const msg = document.getElementById("message");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.textContent = "Отправка...";
+      const formData = new FormData(form);
+      const payload = {
+        env: "ru",
+        email: formData.get("email"),
+        telegram: formData.get("telegram") || "",
+      };
+
+      try {
+        const res = await fetch("https://api.frkn.org/trial", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (data.status === "ok") {
+          msg.textContent =
+            " Ваша заявка принята! Проверьте email или напишите @frkn_support.";
+          form.reset();
+        } else {
+          msg.textContent = "❌ " + data.message;
+        }
+      } catch (err) {
+        msg.textContent = "❌ Ошибка сервера: " + err.message;
+      }
+    });
+  </script>
+  <script src="/analytics.js" defer></script>
+</body>
+
 </html>
