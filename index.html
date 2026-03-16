@@ -152,6 +152,10 @@
       padding: 24px;
     }
 
+    .big {
+      grid-row: span 2;
+    }
+
     .card {
       transition:
         transform 0.2s ease,
@@ -165,7 +169,7 @@
 
     .features {
       display: grid;
-      grid-template-columns: repeat(3, 2fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 20px;
       margin-bottom: 20px;
       margin-top: 0px;
@@ -257,7 +261,7 @@
 
     <section class="features">
       <a href="/reelsprovod.html">
-        <div class="card feature">
+        <div class="card feature big">
           <h2>Рилзопровод<br><br></h2>
 
           <p> Безопасный и быстрый доступ к интернету из России </p>
@@ -281,6 +285,17 @@
         </div>
       </a>
 
+
+
+
+      <a href="/b">
+        <div class="card feature ">
+          <h2>Страницы ФРКН<br><br></h2>
+          <p>О технологиях и как они работают</p>
+
+        </div>
+      </a>
+
       <p><br><br><br><br><br><br><br><br><br></p>
     </section>
 
@@ -288,7 +303,7 @@
     <footer>
       <div>Vive la résistance!</div>
       <div>
-
+        <a href="/b">Страницы</a> ·
         <a href="/ref.html">Реферальная программа</a> ·
         <a href="https://t.me/frkn_support">Поддержка</a> ·
         <a href="https://t.me/frkn_org">Новости </a> ·
