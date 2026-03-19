@@ -65,7 +65,9 @@
       justify-content: space-between;
       align-items: center;
       padding: 16px 0 32px;
+      gap: 20px;
     }
+
 
     .logo {
       font-weight: 700;
@@ -89,11 +91,22 @@
       border-radius: 999px;
     }
 
+    .badge.services {
+      display: flex;
+      flex-direction: column;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 8px 12px;
+      max-width: 400px;
+    }
+
+
     .hero {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
       gap: 40px;
-      padding: 40px 0 80px;
+      padding: 0px 0 80px;
     }
 
     .hero h1 {
@@ -104,7 +117,7 @@
 
     .hero p {
       color: var(--muted);
-      font-size: 18px;
+      font-size: 20px;
       margin-bottom: 32px;
     }
 
@@ -222,6 +235,52 @@
       gap: 16px;
     }
 
+    .services {
+      margin-top: 10px;
+      padding: 12px 25px;
+      border-radius: 16px;
+    }
+
+    .services-title {
+      font-size: 12px;
+      color: var(--accent-2);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .services-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .service,
+    .service-black {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 2px 4px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .service img,
+    .service-black img {
+      width: 16px;
+      height: 16px;
+    }
+
+    .service-black img {
+      filter: invert(1) brightness(1.2);
+    }
+
+    .service:hover {
+      color: var(--text);
+      transform: translateX(2px);
+    }
+
     @media (max-width: 900px) {
 
       .hero,
@@ -245,9 +304,30 @@
     <header>
       <div class="logo">
         <img src="Images/icon512x512.png" alt="FRKN Logo" />
-        <a href="/"> FRKN</a>
+
       </div>
-      <div class="badge">Хехе 😏</div>
+
+      <div class="badge services">
+        <div class="services-title">Сервисы снова доступны </div>
+
+        <div class="services-list">
+          <div class="service"><img src="https://cdn.simpleicons.org/telegram" /> Telegram</div>
+          <div class="service"><img src="https://cdn.simpleicons.org/instagram" /> Instagram</div>
+          <div class="service"><img src="https://cdn.simpleicons.org/youtube" /> YouTube</div>
+          <div class="service-black"><img src="https://cdn.simpleicons.org/tiktok" /> TikTok</div>
+          <div class="service"><img src="https://cdn.simpleicons.org/whatsapp" /> WhatsApp</div>
+          <div class="service-black"><img src="https://cdn.simpleicons.org/x" /> Twitter</div>
+          <div class="service"><img src="https://cdn.simpleicons.org/netflix" /> Netflix</div>
+          <div class="service"><img src="https://cdn.simpleicons.org/discord" /> Discord</div>
+          <div class="service-black"> <img src="/Images/openai.png" /> ChatGPT</div>
+          <div class="service"> <img src="https://cdn.simpleicons.org/google" /> Google Gemini</div>
+          <div class="service"> <img src="https://cdn.simpleicons.org/facebook" /> Facebook</div>
+          <div class="service-black"><img src="https://cdn.simpleicons.org/roblox" /> Roblox</div>
+          <div class="service"> <img src="/Images/linkedin-logo.png" /> LinkdeIn</div>
+          <div class="service"> Госуслуги</div>
+
+        </div>
+      </div>
     </header>
 
     <section class="hero">
@@ -258,6 +338,8 @@
         </p>
 
     </section>
+
+
 
     <section class="features">
       <a href="/reelsprovod.html">
@@ -272,18 +354,24 @@
       <a href="/reverse.html">
         <div class="card feature">
           <h2>Обратный<br> Рилзопровод</h2>
-          <p> Безопасного ди быстрый оступ к интернету из-за границы </p>
+          <p> Безопасный и быстрый доступ к рунету из-за границы </p>
           <p class="text-link"> Подробнее </p>
         </div>
       </a>
+      <div class="card feature">
+
+      </div>
 
       <a href="/personal.html">
         <div class="card feature">
-          <h2>Перcональный Рилзопровод</h2>
+          <h2>Перcональный<br> Рилзопровод</h2>
           <p> Премиум доступ к интернету на высокой скорости </p>
           <p class="text-link"> Подробнее </p>
         </div>
       </a>
+
+
+
 
 
 

@@ -234,6 +234,62 @@
       gap: 16px;
     }
 
+    .badge.services {
+      display: flex;
+      flex-direction: column;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 8px 12px;
+      max-width: 400px;
+    }
+
+    .services {
+      margin-top: 10px;
+      padding: 12px 25px;
+      border-radius: 16px;
+    }
+
+    .services-title {
+      font-size: 12px;
+      color: var(--accent-2);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .services-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .service,
+    .service-black {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 2px 4px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .service img,
+    .service-black img {
+      width: 16px;
+      height: 16px;
+    }
+
+    .service-black img {
+      filter: invert(1) brightness(1.2);
+    }
+
+    .service:hover {
+      color: var(--text);
+      transform: translateX(2px);
+    }
+
     @media (max-width: 900px) {
 
       .hero,
@@ -259,7 +315,27 @@
         <img src="Images/icon512x512.png" alt="FRKN Logo" />
         <a href="/"> FRKN</a>
       </div>
-      <div class="badge">Хехе 😏</div>
+
+
+      <div class="badge services">
+        <div class="services-title">Сервисы снова доступны </div>
+
+        <div class="services-list">
+          <div class="service"><img src="https://cdn.simpleicons.org/telegram" /> Telegram</div>
+          <div class="service"><img src="https://cdn.simpleicons.org/instagram" /> Instagram</div>
+          <div class="service"><img src="https://cdn.simpleicons.org/youtube" /> YouTube</div>
+          <div class="service-black"><img src="https://cdn.simpleicons.org/tiktok" /> TikTok</div>
+          <div class="service"><img src="https://cdn.simpleicons.org/whatsapp" /> WhatsApp</div>
+          <div class="service-black"><img src="https://cdn.simpleicons.org/x" /> Twitter</div>
+          <div class="service"><img src="https://cdn.simpleicons.org/netflix" /> Netflix</div>
+          <div class="service"><img src="https://cdn.simpleicons.org/discord" /> Discord</div>
+          <div class="service-black"> <img src="/Images/openai.png" /> ChatGPT</div>
+          <div class="service"> <img src="https://cdn.simpleicons.org/google" /> Google Gemini</div>
+          <div class="service"> <img src="https://cdn.simpleicons.org/facebook" /> Facebook</div>
+          <div class="service-black"><img src="https://cdn.simpleicons.org/roblox" /> Roblox</div>
+          <div class="service"> <img src="/Images/linkedin-logo.png" /> LinkdeIn</div>
+        </div>
+      </div>
     </header>
 
     <section class="hero">
