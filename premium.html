@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FRKN Privacy Company</title>
+  <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <img src="Images/icon512x512.png" alt="FRKN Logo" />
+        <a href="/"> FRKN</a>
+      </div>
+
+
+
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Персональный Рилзопровод</h1>
+        <p>Ваш собственный сервер с выделенным каналом только для вас</p>
+
+        <div class="cta">
+          <button class="btn" id="scrollToBuy">Получить персональный сервер</button>
+        </div>
+
+
+      </div>
+
+      <div id="services-container"></div>
+
+    </section>
+
+    <section class="features">
+      <div class="card feature big">
+        <h3>Что такое персональный рилзопровод?</h3>
+        <p> Обычный рилзопровод даёт доступ к сервису, но этот доступ разделяется между несколькими пользователями.
+          В большинстве случаев канала хватает всем, но в пиковые часы скорость может снижаться, если другие
+          пользователи смотрят тяжёлое видео или скачивают большие файлы. </p>
+
+        <p>Персональный рилзопровод — это выделенный сервер только для вас.</p>
+
+        Вы получаете собственный канал и используете его единолично.
+        Можно делиться доступом с друзьями или коллегами, либо использовать всю пропускную способность самому.
+
+        Никаких ограничений по трафику или количеству пользователей.
+
+        <p>После оплаты в <b>течение 24 часов</b> мы поднимаем и настраиваем сервер специально для вас.
+
+        <p>Вы можете выбрать:
+        <ul>
+          <li>локацию сервера </li>
+          <li>протоколы </li>
+          <li>сетевые настройки </li>
+        </ul>
+        </p>
+        <p>Если потребуется, наша поддержка ответит на любые вопросы и скорректирует настройки сервера.</p>
+        <p>А так же в дополнение к Персональному железу, Вы получите доступ ко всем остальным странам, серверам и
+          протоколам.</p>
+
+
+        <p>Стоимость
+        <ul>
+          <li><b>1 месяц</b> — 3 000 ₽</li>
+          <li><b>3 месяца</b> — 9 000 ₽</li>
+          <li><b>6 месяцев</b> — 15 000 ₽</li>
+          <li><b>12 месяцев</b> — 21 000 ₽</li>
+        </ul>
+        </p>
+
+        <button id="buyBtn" class="btn secondary">Купить</button>
+        <div id="buyPanel" class="buy-panel">
+          <p>
+            Для приобретения персонального сервера напишите нам в Telegram:
+          </p>
+          <a href="https://t.me/frkn_support" class="btn">@frkn_support</a>
+        </div>
+
+      </div>
+
+      <div class="card feature">
+        <h3>Что вы получаете</h3>
+        <ul>
+          <li> 1 Gbps канал</li>
+          <li> Выделенный сервер</li>
+          <li> Любая локация</li>
+          <li> WireGuard / Xray / Hysteria2</li>
+          <li> Без ограничений трафика</li>
+          <li> Без ограничений пользователей</li>
+        </ul>
+
+      </div>
+
+      <div class="card feature">
+        <h3>Простота</h3>
+        Вам не нужно настраивать сервер самостоятельно.
+        Мы полностью настраиваем и поддерживаем инфраструктуру.
+        Вы просто получаете готовый доступ к своему серверу.
+
+        <p>Фактически это выглядит как ваш собственный VPN сервер, настроенный и поддерживаемый нашей командой.</p>
+
+      </div>
+    </section>
+
+    <div id="footer-container"></div>
+  </div>
+
+  <script>
+    const buyBtn = document.getElementById("buyBtn");
+    const buyPanel = document.getElementById("buyPanel");
+
+    buyBtn.addEventListener("click", () => {
+      buyPanel.classList.toggle("open");
+    });
+  </script>
+
+
+  <script src="/analytics.js" defer></script>
+
+
+  <script>
+    fetch('/footer.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('footer-container').innerHTML = html;
+      });
+  </script>
+
+  <script>
+    fetch('/services.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('services-container').innerHTML = html;
+      });
+  </script>
+
+  <script>
+    const scrollBtn = document.getElementById("scrollToBuy");
+    const buySection = document.getElementById("buyBtn");
+
+    scrollBtn.addEventListener("click", () => {
+      buySection.scrollIntoView({behavior: "smooth"});
+    });
+  </script>
+</body>
+
+</html>

@@ -2,301 +2,28 @@
 <html lang="ru">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta property="og:title" content="FRKN — свободный интернет" />
-  <meta property="og:description" content="FRKN — сервис безопасного и свободного доступа к интернету." />
-  <meta property="og:image" content="https://frkn.org/Images/preview.png" />
+  <meta property="og:title" content="FRKN — свободный интернет без ограничений" />
+  <meta property="og:site_name" content="FRKN" />
+  <meta name="theme-color" content="#0b0d12" />
+  <link rel="canonical" href="https://frkn.org" />
+  <meta property="og:description"
+    content="Безопасный и быстрый доступ к интернету без ограничений. FRKN — приватность и свобода в один клик." />
+  <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:url" content="https://frkn.org" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="FRKN — свободный интернет" />
+  <meta name="twitter:title" content="FRKN — свободный интернет без ограничений" />
   <meta name="twitter:description" content="Безопасный доступ к интернету без ограничений." />
-  <meta name="twitter:image" content="https://frkn.org/Images/preview.png" />
+  <meta name="twitter:image" content="https://frkn.org/Images/preview.jpeg" />
+  <meta name="robots" content="index, follow" />
 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FRKN Privacy Company</title>
   <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
-  <style>
-    :root {
-      --bg: #0b0d12;
-      --card: #121621;
-      --text: #e6e8ef;
-      --muted: #9aa1b2;
-      --accent: #5b7cfa;
-      --accent-2: #22d3ee;
-      --border: #1f2433;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family:
-        -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto,
-        sans-serif;
-      background:
-        radial-gradient(1200px 600px at 70% -10%,
-          rgba(91, 124, 250, 0.15),
-          transparent),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .text-link {
-      text-decoration: underline;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 0 32px;
-      gap: 20px;
-    }
-
-
-    .logo {
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo img {
-      width: 60px;
-      height: 48px;
-      border-radius: 12px;
-    }
-
-    .badge {
-      font-size: 12px;
-      color: var(--accent-2);
-      border: 1px solid rgba(34, 211, 238, 0.3);
-      padding: 4px 10px;
-      border-radius: 999px;
-    }
-
-    .badge.services {
-      display: flex;
-      flex-direction: column;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 8px 12px;
-      max-width: 400px;
-    }
-
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 40px;
-      padding: 0px 0 80px;
-    }
-
-    .hero h1 {
-      font-size: 48px;
-      line-height: 1.1;
-      margin: 0 0 20px;
-    }
-
-    .hero p {
-      color: var(--muted);
-      font-size: 20px;
-      margin-bottom: 32px;
-    }
-
-    .cta {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      margin-bottom: 0px;
-      margin-left: 0px;
-    }
-
-    .cta p {
-      margin: 0;
-    }
-
-    .btn {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #05060a;
-      padding: 14px 22px;
-      border-radius: 12px;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      line-height: 1;
-    }
-
-    .btn.secondary {
-      background: linear-gradient(135deg,
-          rgba(91, 124, 250, 0.15),
-          rgba(34, 211, 238, 0.15));
-      padding: 16px 22px;
-      color: var(--text);
-      font-weight: 700;
-      border-radius: 15px;
-      border: none;
-      line-height: 1;
-    }
-
-    .card {
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent),
-        var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 24px;
-    }
-
-    .big {
-      grid-row: span 2;
-    }
-
-    .card {
-      transition:
-        transform 0.2s ease,
-        border-color 0.2s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(91, 124, 250, 0.5);
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      margin-bottom: 20px;
-      margin-top: 0px;
-    }
-
-    .feature h3 {
-      margin-top: 0;
-    }
-
-    .feature p {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .trial {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      align-items: center;
-      margin-bottom: 100px;
-    }
-
-    .trial form {
-      display: grid;
-      gap: 16px;
-    }
-
-    input {
-      background: #0f1320;
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 14px 16px;
-      border-radius: 12px;
-      font-size: 14px;
-    }
-
-    .message {
-      font-size: 14px;
-      color: var(--accent-2);
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 0;
-      color: var(--muted);
-      font-size: 14px;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .services {
-      margin-top: 10px;
-      padding: 12px 25px;
-      border-radius: 16px;
-    }
-
-    .services-title {
-      font-size: 12px;
-      color: var(--accent-2);
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .services-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .service,
-    .service-black {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 12px;
-      color: var(--muted);
-      padding: 2px 4px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .service img,
-    .service-black img {
-      width: 16px;
-      height: 16px;
-    }
-
-    .service-black img {
-      filter: invert(1) brightness(1.2);
-    }
-
-    .service:hover {
-      color: var(--text);
-      transform: translateX(2px);
-    }
-
-    @media (max-width: 900px) {
-
-      .hero,
-      .trial {
-        grid-template-columns: 1fr;
-      }
-
-      .features {
-        grid-template-columns: 1fr;
-      }
-
-      .hero h1 {
-        font-size: 36px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 
 <body>
@@ -304,106 +31,161 @@
     <header>
       <div class="logo">
         <img src="Images/icon512x512.png" alt="FRKN Logo" />
-
+        <a href="/"> FRKN</a>
       </div>
 
-      <div class="badge services">
-        <div class="services-title">Сервисы снова доступны </div>
 
-        <div class="services-list">
-          <div class="service"><img src="https://cdn.simpleicons.org/telegram" /> Telegram</div>
-          <div class="service"><img src="https://cdn.simpleicons.org/instagram" /> Instagram</div>
-          <div class="service"><img src="https://cdn.simpleicons.org/youtube" /> YouTube</div>
-          <div class="service-black"><img src="https://cdn.simpleicons.org/tiktok" /> TikTok</div>
-          <div class="service"><img src="https://cdn.simpleicons.org/whatsapp" /> WhatsApp</div>
-          <div class="service-black"><img src="https://cdn.simpleicons.org/x" /> Twitter</div>
-          <div class="service"><img src="https://cdn.simpleicons.org/netflix" /> Netflix</div>
-          <div class="service"><img src="https://cdn.simpleicons.org/discord" /> Discord</div>
-          <div class="service-black"> <img src="/Images/openai.png" /> ChatGPT</div>
-          <div class="service"> <img src="https://cdn.simpleicons.org/google" /> Google Gemini</div>
-          <div class="service"> <img src="https://cdn.simpleicons.org/facebook" /> Facebook</div>
-          <div class="service-black"><img src="https://cdn.simpleicons.org/roblox" /> Roblox</div>
-          <div class="service"> <img src="/Images/linkedin-logo.png" /> LinkdeIn</div>
-          <div class="service"> Госуслуги</div>
 
-        </div>
-      </div>
     </header>
 
     <section class="hero">
       <div>
-        <h1>FRKN</h1>
+        <h1
+          title="Стабильный доступ к интернету без блокировок. Защищённый канал, который возвращает интернет таким, каким он должен быть — свободным">
+          Рилзопровод</h1>
         <p>
-          Самый лучший <br>Сервис безопасного и быстрого доступа к интернету
-        </p>
+          Быстрый и Стабильный доступ к интернету. Защищённый канал, который возвращает интернет таким, каким он должен
+          быть — свободным</p>
 
+        <div class="cta">
+          <button class="btn subscribe" id="scrollToSubscribe">Попробовать</button>
+          <p>
+            <a href="/price.html" class="btn secondary">Купить </a>
+          </p>
+          <div class="small"> <a href=/about.html class=text-link>Что такое рилзопровод?</a></div>
+
+        </div>
+      </div>
+      <div id="services-container"></div>
     </section>
-
-
 
     <section class="features">
-      <a href="/reelsprovod.html">
-        <div class="card feature big">
-          <h2>Рилзопровод<br><br></h2>
-
-          <p> Безопасный и быстрый доступ к интернету из России </p>
-          <p class="text-link"> Подробнее </p>
-        </div>
-      </a>
-
-      <a href="/reverse.html">
-        <div class="card feature">
-          <h2>Обратный<br> Рилзопровод</h2>
-          <p> Безопасный и быстрый доступ к рунету из-за границы </p>
-          <p class="text-link"> Подробнее </p>
-        </div>
-      </a>
       <div class="card feature">
-
+        <h3>Без логов и регистрации</h3>
+        <p>Мы не храним историю просмотора ваших рилзиков</p>
+      </div>
+      <div class="card feature">
+        <h3>Без ограничений</h3>
+        <p>
+          Любое количество устройств и безлимитный трафик для доступа к самым
+          свежим рилзикам
+        </p>
+      </div>
+      <div class="card feature">
+        <h3>Современные протоколы и шифрование</h3>
+        <p>
+          <strong class="accent">
+            <bold><a href="https://ru.wikipedia.org/wiki/VLESS" class="text-link">VLESS Reality/Xhttp/Grpc </a>·
+              <a href="https://ru.wikipedia.org/wiki/MTProto" class="text-link">MTproto</a> ·
+              <a href="https://ru.wikipedia.org/wiki/WireGuard" class="text-link">Wireguard</a> ·
+              <a href="https://trusttunnel.ru/" class="text-link">TrustTunnel</a> ·
+              <a href="https://docs.amnezia.org/ru/documentation/amnezia-wg/" class="text-link">Amnezia Wireguard</a> ·
+              <a href="https://habr.com/ru/articles/1008554/" class="text-link">Hysteria2</a>
+          </strong> <br />
+          <br />
+          Используется не только инженерами и разработчиками, но и теми, кому
+          важны свежие рилзики
+        </p>
+      </div>
+      <div class="card feature">
+        <h3>Open Source</h3>
+        <p>
+          Собственный код и контроль каждой ноды, для рилзиков без тормозов
+        </p>
       </div>
 
-      <a href="/personal.html">
-        <div class="card feature">
-          <h2>Перcональный<br> Рилзопровод</h2>
-          <p> Премиум доступ к интернету на высокой скорости </p>
-          <p class="text-link"> Подробнее </p>
-        </div>
-      </a>
+      <div class="card feature">
+        <h3>Доступные страны</h3>
+        <p>
+          🇨🇿 Чехия <br />
+          🇺🇸 Соединённые Штаты <br />
+          🇮🇱 Израиль <br />
+          🇰🇿 Казахстан <br />
+          🇷🇺 Россия
+        </p>
+      </div>
 
+      <div class="card feature">
+        <h3>Стоимость</h3>
+        <p>
+          От 278 рублей в месяц <br /><br />
+          <br />
 
-
-
-
-
-
-      <a href="/b">
-        <div class="card feature ">
-          <h2>Страницы ФРКН<br><br></h2>
-          <p>О технологиях и как они работают</p>
-
-        </div>
-      </a>
-
-      <p><br><br><br><br><br><br><br><br><br></p>
+          &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+          &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+          <a href="/price.html" class="btn secondary">Все цены</a>
+        </p>
+      </div>
     </section>
 
-
-    <footer>
-      <div>Vive la résistance!</div>
+    <section id="subscribe" class="trial">
       <div>
-        <a href="/about.html">О нас</a> ·
-        <a href="/b">Страницы</a> ·
-        <a href="/ref.html">Реферальная программа</a> ·
-        <a href="https://t.me/frkn_support">Поддержка</a> ·
-        <a href="mailto:pigeon@frkn.org">pigeon@frkn.org</a> ·
-        <a href="https://t.me/frkn_org">Новости </a> ·
-        <a href="https://github.com/frkn-dev">GitHub</a> ·
-        <a href="https://x.com/frkn_org">Twitter</a>
+        <p class="muted">
 
+        </p>
       </div>
-    </footer>
+      <div class="card trialCard">
+        <form id="trialForm">
+          <input type="email" name="email" placeholder="e-mail" required />
+          <input type="text" id="code" name="code" placeholder="Промо или Реферальный код (необязательно)" />
+          <button class="btn" type="submit">
+            Получить доступ
+          </button>
+          <div class="message" id="message"></div>
+          <div>24 часа бесплатно</div>
+          <div class="small">Мы не храним ваш e-mail и не используем его для рассылок – он необходим только для отправки
+            информации о подписке</strong></div>
+          <div class="small right"><a href="/subscription.html" class="text-link">Что такое подписка?</a></div>
+
+
+        </form>
+      </div>
+
+    </section>
+
+    <div id="footer-container"></div>
   </div>
+
   <script src="/analytics.js" defer></script>
+  <script src="/trial.js"></script>
+  <script>
+    fetch('/footer.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('footer-container').innerHTML = html;
+      });
+  </script>
+
+  <script>
+    fetch('/services.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('services-container').innerHTML = html;
+      });
+  </script>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const promo = params.get("code");
+
+    if (promo) {
+      const promoInput = document.getElementById("code");
+      if (promoInput) {
+        promoInput.value = promo;
+        promoInput.style.borderColor = "#22c55e";
+      }
+    }
+  </script>
+
+
+  <script>
+    const scrollBtn = document.getElementById("scrollToSubscribe");
+    const buySection = document.getElementById("subscribe");
+
+    scrollBtn.addEventListener("click", () => {
+      buySection.scrollIntoView({behavior: "smooth"});
+    });
+  </script>
 </body>
 
 </html>

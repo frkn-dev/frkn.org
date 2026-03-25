@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FRKN Privacy Company</title>
+  <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <img src="Images/icon512x512.png" alt="FRKN Logo" />
+        <a href="/"> FRKN</a>
+      </div>
+
+      <div id="services-container"></div>
+
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1 title="Ключи Активации">
+          Ключи Активации</h1>
+        <p>
+          Для получения ключей активации обратитесь в поддержку @frkn_support или pigeon@frkn.org
+
+        </p>
+        <div class="cta">
+          <p><a href="/#subscribe" class="btn">Попробовать</a></p>
+          <p>
+            <a href="/price.html" class="btn secondary">Купить </a>
+          </p>
+          <div class="small"> <a href=/about.html class=text-link>Что такое рилзопровод?</a></div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:20px;">
+      <h1>Что такое ключ активации?</h1>
+
+      <p class="stat">
+        Ключ активации — это уникальный код, который позволяет <b>получить доступ</b> к сервисам FRKN на определённый
+        срок.
+        Он работает как цифровой пропуск: вводишь его — активируется подписка, появляется доступ к cервису.
+
+      </p>
+
+      <div class="stat">
+        <h3>Зачем нужны ключи?</h3>
+        <ul>
+          <li>Безопасный доступ к интернету через FRKN;</li>
+          <li>Контроль и учет использования сервисов;</li>
+          <li>Возможность подарить доступ друзьям через ключи активации;</li>
+          <li>Удобная активация без регистрации и долгих форм;</li>
+          <li>Нет привязки к платёжной системе;</li>
+          <li>Ключ активации невозможно отследить;</li>
+        </ul>
+      </div>
+
+      <div class="stat">
+        <h3>Как использовать ключ?</h3>
+        <ol>
+          <li>Скопируйте ключ из письма или личного сообщения.</li>
+          <li>Перейдите на страницу <a href="/subscription.html" class="text-link">подписки</a>.</li>
+          <li>Вставьте ключ в поле "Активировать ключ" и нажмите кнопку.</li>
+          <li>Подождите пару секунд — доступ активирован, и время подписки обновится.</li>
+        </ol>
+      </div>
+
+
+      <div class="small" style="margin-top:12px;">
+        Если возникли проблемы с ключом — обратитесь в <a href="https://t.me/frkn_support"
+          class="text-link">поддержку</a>.
+      </div>
+    </section>
+
+    <div id="footer-container"></div>
+  </div>
+
+  <script src="/analytics.js" defer></script>
+
+  <script>
+    fetch('/footer.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('footer-container').innerHTML = html;
+      });
+  </script>
+</body>
+
+</html>
