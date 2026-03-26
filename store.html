@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FRKN Privacy Company</title>
+  <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <img src="Images/icon512x512.png" alt="FRKN Logo" />
+        <a href="/"> FRKN</a>
+      </div>
+
+      <div id="services-container"></div>
+
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1 title="Купить ключи активации">
+          Купить ключи активации</h1>
+        <p>
+
+
+        </p>
+        <div class="cta">
+          <p><a href="/#subscribe" class="btn">Попробовать</a></p>
+          <div class="small"> <a href=/about.html class=text-link>Что такое рилзопровод?</a></div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:20px;">
+
+
+
+      <div class="small" style="margin-top:12px;">
+        Если возникли проблемы с ключом — обратитесь в <a href="https://t.me/frkn_support"
+          class="text-link">поддержку</a>.
+      </div>
+    </section>
+
+
+    <span class="digiseller-body" id="digiseller-body" data-partner-id="" data-cat="0" data-logo="0" data-downmenu="0"
+      data-purchases="0" data-langs="0" data-cart="0" data-search="0"></span>
+
+
+    <div id="footer-container"></div>
+  </div>
+
+
+  <script>!function (e) {var l = function (l) {return e.cookie.match(new RegExp("(?:^|; )digiseller-" + l + "=([^;]*)"))}, i = l("lang"), s = l("cart_uid"), t = i ? "&lang=" + i[1] : "", d = s ? "&cart_uid=" + s[1] : "", r = e.getElementsByTagName("head")[0] || e.documentElement, n = e.createElement("link"), a = e.createElement("script"); n.type = "text/css", n.rel = "stylesheet", n.id = "digiseller-css", n.href = "//shop.digiseller.com/xml/store2_css.asp?seller_id=1446016", a.async = !0, a.id = "digiseller-js", a.src = "//digiseller.com/store2/digiseller-api.js.asp?seller_id=1446016&lang=ru", !e.getElementById(n.id) && r.appendChild(n), !e.getElementById(a.id) && r.appendChild(a)}(document);</script>
+
+  <script src="/analytics.js" defer></script>
+
+  <script>
+    fetch('/footer.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('footer-container').innerHTML = html;
+      });
+  </script>
+</body>
+
+</html>
