@@ -1,3 +1,13 @@
+const isLocal =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+
+const API_BASE = isLocal
+  ? "http://localhost:3005"
+  : "https://api.frkn.org";
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("trialForm");
   const msg = document.getElementById("message");
@@ -15,8 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
       ...(promo ? { referred_by: promo } : {}),
     };
 
+
     try {
-      const res = await fetch("https://api.frkn.org/trial", {
+      const res = await fetch(`${API_BASE}/trial`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

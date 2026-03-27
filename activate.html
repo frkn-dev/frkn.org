@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FRKN Privacy Company</title>
+  <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <a href="/">
+          <img src="Images/icon512x512.png" alt="FRKN Logo" />
+          FRKN</a>
+      </div>
+      <div class="badge">Хехе 😏</div>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <h1>Активация ключа</h1>
+        <p>Введи ключ чтобы получить доступ</p>
+
+        <form id="activateKeyForm">
+          <input type="text" name="code" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX" required />
+
+          <input type="email" name="email" placeholder="Email (необязательно)" /><br>
+
+          <button class="btn activate" type="submit">Активировать</button>
+        </form>
+        <div class="small">если оставишь email мы продублируем инфу туда тоже</div>
+
+        <div id="message"></div>
+
+
+
+        <div id="result" style="display:none;"></div>
+      </div>
+    </section>
+
+    <div id="footer-container"></div>
+  </div>
+  <script src="/activate.js"></script>
+
+  <script src="/analytics.js" defer></script>
+  <script>
+    fetch('/footer.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('footer-container').innerHTML = html;
+      });
+  </script>
+</body>
+
+</html>

@@ -132,6 +132,11 @@ button {
   line-height: 1;
 }
 
+.btn.activate {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
 .btn.subscribe {
   font-size: 18px;
   padding: 16px 22px;
