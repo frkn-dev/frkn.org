@@ -12,10 +12,7 @@
 <body>
   <div class="container">
     <header>
-      <div class="logo">
-        <img src="Images/icon512x512.png" alt="FRKN Logo" />
-        <a href="/"> FRKN</a>
-      </div>
+      <div id="logo-container"></div>
       <div class="badge">Хехе 😏</div>
     </header>
 
@@ -28,9 +25,9 @@
           каким он должен быть — свободным.
         </p>
         <div class="cta">
-          <p><a href="/#subscribe" class="btn">Попробовать</a></p>
+          <p><a href="/#trial" class="btn">Попробовать</a></p>
           <p>
-            <a href="/price.html" class="btn secondary">
+            <a href="/price" class="btn secondary">
               Купить
             </a>
           </p>
@@ -87,13 +84,7 @@
 
   </div>
   <script src="/analytics.js" defer></script>
-  <script>
-    fetch('/footer.html')
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('footer-container').innerHTML = html;
-      });
-  </script>
+  <script src="/scripts/containers.js"></script>
 </body>
 
 </html>

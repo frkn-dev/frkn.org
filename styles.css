@@ -41,7 +41,7 @@ a {
   padding: 24px;
 }
 
-.righttttttttttttttttttttttt {
+.right {
   text-align: right;
 }
 
@@ -61,12 +61,20 @@ header {
   gap: 20px;
 }
 
+
+.logo a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .logo {
   font-weight: 700;
   letter-spacing: 0.08em;
   display: flex;
   align-items: center;
   gap: 12px;
+  width: fit-content;
+
 }
 
 .logo img {
@@ -74,6 +82,8 @@ header {
   height: 48px;
   border-radius: 12px;
 }
+
+
 
 .badge {
   font-size: 12px;
@@ -137,8 +147,8 @@ button {
   margin-bottom: 10px;
 }
 
-.btn.subscribe {
-  font-size: 18px;
+.btn.try {
+  font-size: 16px;
   padding: 16px 22px;
   font-weight: 700;
 }
@@ -184,9 +194,19 @@ button {
 .trialCard {
   border-radius: 10px;
   border: 1px solid var(--border);
-  padding: 20px;
+  padding: 20px, 40px;
   font-weight: 500;
   margin-top: 55px;
+}
+
+.activateCard {
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  padding: 20px, 40px;
+  font-weight: 500;
+  margin-top: 55px;
+
+
 }
 
 /* ================= PLANS ================= */
@@ -210,6 +230,36 @@ button {
 
 .buy-panel.open {
   display: block;
+}
+
+.plan .btn {
+  width: 100%;
+  margin-top: 12px;
+
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #05060a;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  padding: 16px;
+  border-radius: 14px;
+
+  box-shadow:
+    0 0 0 rgba(91, 124, 250, 0),
+    0 10px 30px rgba(91, 124, 250, 0.25);
+
+  transition: all 0.2s ease;
+}
+
+.plan .btn:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 0 20px rgba(91, 124, 250, 0.6),
+    0 12px 40px rgba(34, 211, 238, 0.35);
+
+  filter: brightness(1.05);
 }
 
 /* ================= FEATURES ================= */
@@ -248,6 +298,12 @@ button {
 .trial form {
   display: grid;
   gap: 16px;
+}
+
+.hero form {
+  display: grid;
+  gap: 16px;
+
 }
 
 input {

@@ -12,11 +12,7 @@
 <body>
   <div class="container">
     <header>
-      <div class="logo">
-        <a href="/">
-          <img src="Images/icon512x512.png" alt="FRKN Logo" />
-          FRKN</a>
-      </div>
+      <div id="logo-container"></div>
       <div class="badge">Хехе 😏</div>
     </header>
 
@@ -31,14 +27,8 @@
 
     <div id="footer-container"></div>
   </div>
-  <script src="/analytics.js" defer></script>
-  <script>
-    fetch('/footer.html')
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('footer-container').innerHTML = html;
-      });
-  </script>
+  <script src="/scripts/containers.js"></script>
+
 </body>
 
 </html>
