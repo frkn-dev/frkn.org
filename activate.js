@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.disabled = true;
 
     try {
-      const res = await fetch(`${AUTH_BASE}/key`, {
+      const res = await fetch(`${AUTH_BASE}/activate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
