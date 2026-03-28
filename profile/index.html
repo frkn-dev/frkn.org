@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Личный кабинет — FRKN Privacy Company</title>
+  <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div id="logo-container"></div>
+      <div class="badge">Хехе 😏</div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Доступ к подписке</h1>
+        <div class="card trialCard">
+          <form id="subscriptionForm">
+            <input type="text" name="id" id="sub_id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" required />
+
+            <button class="btn" type="submit">
+              Открыть подписку
+            </button>
+
+            <div class="small">
+              Вставь свой ID, чтобы посмотреть информацию о подписке
+            </div>
+
+            <div class="message" id="subMessage"></div>
+
+            <a href="/info/subscriptions" class="small text-link right">
+              Что такое подписка?
+            </a>
+
+          </form>
+
+        </div>
+    </section>
+
+    <div id="footer-container"></div>
+  </div>
+
+  <script src="/scripts/analytics.js" defer></script>
+  <script src="/scripts/trial.js"></script>
+  <script src="/scripts/containers.js"></script>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const promo = params.get("code");
+
+    if (promo) {
+      const promoInput = document.getElementById("code");
+      if (promoInput) {
+        promoInput.value = promo;
+        promoInput.style.borderColor = "#22c55e";
+      }
+    }
+  </script>
+
+
+  <script>
+    const scrollBtn = document.getElementById("scrollToTrial");
+    const buySection = document.getElementById("trialForm");
+
+    scrollBtn.addEventListener("click", () => {
+      buySection.scrollIntoView({behavior: "smooth"});
+    });
+  </script>
+
+  <script>
+    const isLocal1 =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+
+    const API_BASE1 = isLocal1
+      ? "http://localhost:5005"
+      : "https://api.frkn.org";
+    const subForm = document.getElementById("subscriptionForm");
+    const subMessage = document.getElementById("subMessage");
+    if (!subForm) {
+      console.error("subscriptionForm not found");
+    } else {
+
+      subForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const id = document.getElementById("sub_id").value.trim();
+
+        if (!id) {
+          subMessage.textContent = "Введите ID";
+          return;
+        }
+
+        const uuidRegex =
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+        if (!uuidRegex.test(id)) {
+          subMessage.textContent = "Некорректный ID";
+          return;
+        }
+
+        subMessage.textContent = "Открываем подписку...";
+
+        window.location.href = `${API_BASE1}/sub/info?id=${encodeURIComponent(id)}`;
+      });
+    }
+  </script>
+</body>
+
+</html>

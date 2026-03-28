@@ -191,13 +191,6 @@ button {
   border-color: rgba(91, 124, 250, 0.5);
 }
 
-.trialCard {
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  padding: 20px, 40px;
-  font-weight: 500;
-  margin-top: 55px;
-}
 
 .activateCard {
   border-radius: 10px;
@@ -291,9 +284,21 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
-  align-items: center;
+  align-items: stretch;
   margin-bottom: 100px;
 }
+
+.trialCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-weight: 500;
+  margin-top: 55px;
+}
+
+
 
 .trial form {
   display: grid;

@@ -30,6 +30,7 @@
   <div class="container">
     <header>
       <div id="logo-container"></div>
+      <div class="badge"><a href=/profile> Личный кабинет 😏</a></div>
     </header>
 
     <section class="hero">
@@ -71,14 +72,12 @@
           <strong class="accent">
             <bold><a href="https://ru.wikipedia.org/wiki/VLESS" class="text-link">VLESS Reality/Xhttp/Grpc </a>·
               <a href="https://ru.wikipedia.org/wiki/MTProto" class="text-link">MTproto</a> ·
+              <a href="https://docs.amnezia.org/ru/documentation/amnezia-wg/" class="text-link">Amnezia Wireguard</a> ·
               <a href="https://ru.wikipedia.org/wiki/WireGuard" class="text-link">Wireguard</a> ·
               <a href="https://trusttunnel.ru/" class="text-link">TrustTunnel</a> ·
-              <a href="https://docs.amnezia.org/ru/documentation/amnezia-wg/" class="text-link">Amnezia Wireguard</a> ·
               <a href="https://habr.com/ru/articles/1008554/" class="text-link">Hysteria2</a>
-          </strong> <br />
-          <br />
-          Используется не только инженерами и разработчиками, но и теми, кому
-          важны свежие рилзики
+          </strong>
+
         </p>
       </div>
       <div class="card feature">
@@ -113,11 +112,7 @@
     </section>
 
     <section id="trial" class="trial">
-      <div>
-        <p class="muted">
-
-        </p>
-      </div>
+      <div class="empty"></div>
       <div class="card trialCard">
         <form id="trialForm">
           <input type="email" name="email" placeholder="e-mail" required />
@@ -129,10 +124,10 @@
             отправки
             информации о подписке</strong></div>
           <div class="message" id="message"></div>
-          <div>24 часа бесплатно <div>
-              <div class="right"> <a href="/activate" class="small text-link">У меня есть ключ</a><br>
-                <a href="/info/subscriptions" class=" small text-link">Что такое подписка?</a>
-              </div>
+          <div>24 часа бесплатно</div>
+          <div class="right"> <a href="/activate" class="small text-link">У меня есть ключ</a><br>
+            <a href="/info/subscriptions" class=" small text-link">Что такое подписка?</a>
+          </div>
         </form>
       </div>
 
@@ -161,11 +156,50 @@
 
   <script>
     const scrollBtn = document.getElementById("scrollToTrial");
-    const buySection = document.getElementById("trial");
+    const buySection = document.getElementById("trialForm");
 
     scrollBtn.addEventListener("click", () => {
       buySection.scrollIntoView({behavior: "smooth"});
     });
+  </script>
+
+  <script>
+    const isLocal1 =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+
+    const API_BASE1 = isLocal1
+      ? "http://localhost:5005"
+      : "https://api.frkn.org";
+    const subForm = document.getElementById("subscriptionForm");
+    const subMessage = document.getElementById("subMessage");
+    if (!subForm) {
+      console.error("subscriptionForm not found");
+    } else {
+
+      subForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const id = document.getElementById("sub_id").value.trim();
+
+        if (!id) {
+          subMessage.textContent = "Введите ID";
+          return;
+        }
+
+        const uuidRegex =
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+        if (!uuidRegex.test(id)) {
+          subMessage.textContent = "Некорректный ID";
+          return;
+        }
+
+        subMessage.textContent = "Открываем подписку...";
+
+        window.location.href = `${API_BASE1}/sub/info?id=${encodeURIComponent(id)}`;
+      });
+    }
   </script>
 </body>
 
