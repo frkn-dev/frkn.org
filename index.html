@@ -29,108 +29,71 @@
 <body>
   <div class="container">
     <header>
-      <div id="logo-container"></div>
-      <div class="badge"><a href=/profile> Личный кабинет 😏</a></div>
+      <div id="logo-container">
+        <div class="logo">
+          <a href="/"><img src="/Images/logo.png" alt="FRKN">FRKN</a>
+        </div>
+      </div>
+      <div class="header-nav">
+        <div class="badge"><a href="/profile">Личный кабинет </a></div>
+        <div class="badge"><a href="/premium">Premium 😏</a></div>
+      </div>
     </header>
 
     <section class="hero">
-      <div>
-        <h1
-          title="Стабильный доступ к интернету без блокировок. Защищённый канал, который возвращает интернет таким, каким он должен быть — свободным">
-          Рилзопровод</h1>
-        <p>
-          Быстрый и Стабильный доступ к интернету. Защищённый канал, который возвращает интернет таким, каким он должен
-          быть — свободным</p>
-
-        <div class="cta">
-          <button class="btn try" id="scrollToTrial">Попробовать</button>
-          <p>
-            <a href="/price" class="btn secondary">Купить </a>
-          </p>
-          <div class="small"> <a href=/about class=text-link>Что такое рилзопровод?</a></div>
-
+      <div class="hero-content">
+        <h1 class="hero-title">Рилзопровод</h1>
+        <p class="hero-subtitle">Твой личный тоннель в свободный интернет. Без лагов и цензуры — для Reels и YouTube в
+          4K.</p>
+        <div class="cta-group">
+          <button class="btn try pulse" id="scrollToTrial">Попробовать бесплатно</button>
+          <a href="/price" class="btn secondary">Все тарифы</a>
         </div>
       </div>
       <div id="services-container"></div>
     </section>
 
-    <section class="features">
+    <section class="features-grid">
       <div class="card feature">
-        <h3>Без логов и регистрации</h3>
-        <p>Мы не храним историю просмотора ваших рилзиков</p>
+        <h3>Без логов</h3>
+        <p>Мы не храним историю ваших просмотров. Вообще.</p>
       </div>
       <div class="card feature">
-        <h3>Без ограничений</h3>
-        <p>
-          Любое количество устройств и безлимитный трафик для доступа к самым
-          свежим рилзикам
-        </p>
-      </div>
-      <div class="card feature">
-        <h3>Современные протоколы и шифрование</h3>
-        <p>
-          <strong class="accent">
-            <bold><a href="https://ru.wikipedia.org/wiki/VLESS" class="text-link">VLESS Reality/Xhttp/Grpc </a>·
-              <a href="https://ru.wikipedia.org/wiki/MTProto" class="text-link">MTproto</a> ·
-              <a href="https://docs.amnezia.org/ru/documentation/amnezia-wg/" class="text-link">Amnezia Wireguard</a> ·
-              <a href="https://ru.wikipedia.org/wiki/WireGuard" class="text-link">Wireguard</a> ·
-              <a href="https://trusttunnel.ru/" class="text-link">TrustTunnel</a> ·
-              <a href="https://habr.com/ru/articles/1008554/" class="text-link">Hysteria2</a>
-          </strong>
-
-        </p>
+        <h3>Без лимитов</h3>
+        <p>Любое количество устройств и безлимитный трафик 24/7.</p>
       </div>
       <div class="card feature">
         <h3>Open Source</h3>
-        <p>
-          Собственный код и контроль каждой ноды, для рилзиков без тормозов
-        </p>
+        <p>Собственный код и контроль каждой ноды.</p>
       </div>
-
-      <div class="card feature">
-        <h3>Доступные страны</h3>
-        <p>
-          🇨🇿 Чехия <br />
-          🇺🇸 Соединённые Штаты <br />
-          🇮🇱 Израиль <br />
-          🇰🇿 Казахстан <br />
-          🇷🇺 Россия
-        </p>
-      </div>
-
-      <div class="card feature">
-        <h3>Стоимость</h3>
-        <p>
-          От 278 рублей в месяц <br /><br />
-          <br />
-
-          &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-          &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
-          <a href="/price" class="btn secondary">Все цены</a>
-        </p>
+      <div class="card feature-wide">
+        <h3>Современные протоколы</h3>
+        <div class="protocols-cloud">
+          <span>VLESS Reality</span> <span>MTproto</span> <span>Wireguard</span> <span>Hysteria2</span>
+          <span>Shadowsocks</span> <span>Trust Tunnel</span> <span>Amnezia</span>
+        </div>
       </div>
     </section>
 
-    <section id="trial" class="trial">
-      <div class="empty"></div>
-      <div class="card trialCard">
-        <form id="trialForm">
-          <input type="email" name="email" placeholder="e-mail" required />
-          <input type="text" id="code" name="code" placeholder="Промо или Реферальный код (необязательно)" />
-          <button class="btn" type="submit">
-            Получить пробный доступ
-          </button>
-          <div class="small">Мы не храним ваш e-mail и не используем его для рассылок – он необходим только для
-            отправки
-            информации о подписке</strong></div>
-          <div class="message" id="message"></div>
-          <div>24 часа бесплатно</div>
-          <div class="right"> <a href="/activate" class="small text-link">У меня есть ключ</a><br>
-            <a href="/info/subscriptions" class=" small text-link">Что такое подписка?</a>
+    <section id="trial" class="trial-section">
+      <div class="trial-container card highlight-border">
+        <div class="trial-info">
+          <h2>Тест-драйв</h2>
+          <p>Даём 24 часа полного доступа. Без привязки карты. Просто введи почту и получай доступ.</p>
+          <div class="trial-steps">
+            <div class="step"><span>1</span> Почта</div>
+            <div class="step"><span>2</span> Ключ</div>
+            <div class="step"><span>3</span> Свобода</div>
           </div>
+        </div>
+
+        <form id="trialForm" class="trial-form">
+          <input type="email" name="email" placeholder="Твой e-mail" required />
+          <input type="text" id="code" name="code" placeholder="Промокод (если есть)" />
+          <button class="btn shadow-blue" type="submit">Получить доступ</button>
+          <p class="small">Отправим ключ доступа в течение минуты.</p>
         </form>
       </div>
-
     </section>
 
     <div id="footer-container"></div>
