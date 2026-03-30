@@ -147,8 +147,18 @@ header {
     text-align: center;
   }
 
-  .cta-group {
+  cta-group {
+    display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 100px;
+    width: 100%;
+    margin-top: 30px;
+  }
+
+  .cta-group a {
+    text-decoration: none;
+    display: inline-flex;
   }
 
   .trial-container {
@@ -329,6 +339,21 @@ a {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+}
+
+
+
+.price-card .cost {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 15px 0;
+  color: var(--text);
+}
+
+/* Стили для кнопок внутри карточек */
+.price-card .btn {
+  width: 100%;
+  margin-top: 20px;
 }
 
 .price-card:hover {
@@ -552,6 +577,7 @@ button {
 
 .btn {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  filter: brightness(1.1);
   color: #05060a;
   padding: 14px 22px;
   border-radius: 12px;
@@ -582,13 +608,16 @@ button {
 }
 
 .btn.secondary {
+  margin-top: 10px;
+  margin-left: 20px;
+  filter: brightness(1.1);
   background: linear-gradient(135deg,
       rgba(91, 124, 250, 0.15),
       rgba(34, 211, 238, 0.15));
   padding: 16px 22px;
   color: var(--text);
   font-weight: 700;
-  border-radius: 15px;
+  border-radius: 12px;
   border: none;
   line-height: 1;
 }
