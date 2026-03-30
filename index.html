@@ -91,9 +91,12 @@
           <input type="email" name="email" placeholder="Твой e-mail" required />
           <input type="text" id="code" name="code" placeholder="Промокод (если есть)" />
           <button class="btn shadow-blue" type="submit">Получить доступ</button>
+          <p id="message" class="status-message"></p>
+
           <p class="small">Отправим ключ доступа в течение минуты.</p>
         </form>
       </div>
+
     </section>
 
     <div id="footer-container"></div>
@@ -124,45 +127,6 @@
     scrollBtn.addEventListener("click", () => {
       buySection.scrollIntoView({behavior: "smooth"});
     });
-  </script>
-
-  <script>
-    const isLocal1 =
-      window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1";
-
-    const API_BASE1 = isLocal1
-      ? "http://localhost:5005"
-      : "https://api.frkn.org";
-    const subForm = document.getElementById("subscriptionForm");
-    const subMessage = document.getElementById("subMessage");
-    if (!subForm) {
-      console.error("subscriptionForm not found");
-    } else {
-
-      subForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        const id = document.getElementById("sub_id").value.trim();
-
-        if (!id) {
-          subMessage.textContent = "Введите ID";
-          return;
-        }
-
-        const uuidRegex =
-          /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-
-        if (!uuidRegex.test(id)) {
-          subMessage.textContent = "Некорректный ID";
-          return;
-        }
-
-        subMessage.textContent = "Открываем подписку...";
-
-        window.location.href = `${API_BASE1}/sub/info?id=${encodeURIComponent(id)}`;
-      });
-    }
   </script>
 </body>
 

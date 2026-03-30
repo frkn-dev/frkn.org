@@ -14,7 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    msg.textContent = "Отправка...";
+
+    // Сбрасываем классы и ставим статус отправки
+    if (msg) {
+      msg.textContent = "Отправка...";
+      msg.className = "status-message";
+    }
+
     const formData = new FormData(form);
     const promo = formData.get("code");
 
@@ -22,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
       email: formData.get("email"),
       ...(promo ? { referred_by: promo } : {}),
     };
-
 
     try {
       const res = await fetch(`${AUTH_BASE}/trial`, {
@@ -34,14 +39,22 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       if (data.status === 200) {
-        msg.textContent =
-          "Ваша заявка принята! Проверьте ваш e-mail или напишите @frkn_support.";
+        if (msg) {
+          msg.textContent = "Ваша заявка принята! Проверьте e-mail.";
+          msg.classList.add("success");
+        }
         form.reset();
       } else {
-        msg.textContent = "❌ " + (data.message || "Неизвестная ошибка");
+        if (msg) {
+          msg.textContent = "❌ " + (data.message || "Ошибка доступа");
+          msg.classList.add("error");
+        }
       }
     } catch (err) {
-      msg.textContent = "❌ Ошибка сервера: " + err.message;
+      if (msg) {
+        msg.textContent = "❌ Ошибка сети: " + err.message;
+        msg.classList.add("error");
+      }
     }
   });
 });
