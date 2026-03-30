@@ -102,7 +102,7 @@ header {
   gap: 15px;
 }
 
-/* Адаптивность */
+/*  */
 @media (max-width: 800px) {
   .hero {
     grid-template-columns: 1fr;
