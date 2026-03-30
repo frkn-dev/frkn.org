@@ -40,10 +40,18 @@ header {
   border: 1px solid var(--border);
 }
 
+.feature-country {
+  grid-column: 3 / -2;
+  background: linear-gradient(90deg, var(--card), #1a1f2e);
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
 .protocols-cloud {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 20px;
   margin-top: 15px;
 }
 
@@ -56,7 +64,33 @@ header {
   border: 1px solid rgba(34, 211, 238, 0.2);
 }
 
-/* Блок Триала (наводим порядок) */
+.protocols-cloud span:hover {
+
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.country-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.country-cloud span {
+
+  background: rgba(91, 180, 180, 0.3);
+  color: var(--accent-2);
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  border: 1px solid rgba(34, 211, 238, 0.2);
+}
+
+.country-cloud span:hover {
+
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
 .trial-section {
   margin: 60px 0 100px;
 }
@@ -100,6 +134,10 @@ header {
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+.no-wrap {
+  white-space: nowrap;
 }
 
 /*  */
@@ -653,7 +691,7 @@ button {
 
 
 .feature h3 {
-  margin-top: 0;
+  margin-top: 20;
 }
 
 .feature p {
@@ -767,6 +805,11 @@ input {
 }
 
 .service:hover {
+  color: var(--text);
+  transform: translateX(2px);
+}
+
+.service-black:hover {
   color: var(--text);
   transform: translateX(2px);
 }
