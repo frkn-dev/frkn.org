@@ -127,7 +127,6 @@ header {
 .hero-title {
   font-size: clamp(40px, 8vw, 72px);
   background: linear-gradient(to right, var(--accent), var(--accent-2));
-  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 0 15px rgba(91, 124, 250, 0.3));
   margin-bottom: 10px;
@@ -273,9 +272,10 @@ a {
 }
 
 .price-card.best-value {
-  border: 1px solid var(--accent);
-  background: rgba(91, 124, 250, 0.07);
-  box-shadow: 0 0 20px rgba(91, 124, 250, 0.15);
+  border: 1px solid #1d4ed8;
+  box-shadow: 0 0 20px rgba(29, 78, 216, 0.3);
+  position: relative;
+  overflow: hidden;
 }
 
 .price-card .period {
@@ -305,7 +305,7 @@ a {
   font-size: 10px;
   font-weight: 900;
   padding: 4px 12px;
-  border-bottom-left-radius: 12px;
+  border-bottom-left-radius: 10px;
 }
 
 
@@ -315,6 +315,56 @@ a {
   border: 1px solid rgba(34, 211, 238, 0.3);
   padding: 6px 8px;
   border-radius: 12px;
+}
+
+/* Пульсирующий блик на подписи */
+.tagline {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  color: #60a5fa;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  animation: pulse-blue 2s infinite;
+}
+
+@keyframes pulse-blue {
+  0% {
+    opacity: 0.7;
+  }
+
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 8px #60a5fa;
+  }
+
+  100% {
+    opacity: 0.7;
+  }
+}
+
+
+
+.label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+
+.label.basic {
+  color: #ea868f;
+}
+
+.label.pro {
+  color: #60a5fa;
+}
+
+.label.average {
+  color: #28a745
 }
 
 /* ================= COMPARISON CARDS ================= */
@@ -357,7 +407,6 @@ a {
   gap: 10px;
 }
 
-/* Стили для обычной карточки (тусклая) */
 .card.shared {
   opacity: 0.7;
   background: rgba(255, 255, 255, 0.02);
@@ -368,15 +417,12 @@ a {
   color: var(--muted);
 }
 
-/* Стили для ПЕРСОНАЛЬНОЙ карточки (яркая и важная) */
 .card.personal.highlight {
   background: linear-gradient(180deg, rgba(91, 124, 250, 0.1), transparent), var(--card);
   border: 1px solid var(--accent);
   box-shadow: 0 0 30px rgba(91, 124, 250, 0.15);
-  /* Мягкое свечение всей карточки */
   position: relative;
   transform: scale(1.02);
-  /* Чуть больше по размеру */
 }
 
 .card.personal.highlight h4 {
@@ -572,7 +618,6 @@ button {
 
 .feature-main {
   grid-column: span 2;
-  /* Растягиваем важную карточку */
   background: linear-gradient(135deg, var(--card), #1a1f2e);
   border: 1px solid var(--accent);
 }
@@ -753,7 +798,6 @@ footer {
   color: var(--accent-2);
 }
 
-/* Центрируем кнопку и текст под тарифами */
 .final-cta {
   text-align: center;
   margin-top: 30px;
@@ -766,7 +810,6 @@ footer {
   color: var(--muted);
 }
 
-/* Кнопка с эффектом пульсации */
 .btn.pulse {
   display: inline-block;
   animation: shadow-pulse 2s infinite;
@@ -786,36 +829,29 @@ footer {
   }
 }
 
-/* Сравнение на всю ширину */
 .comparison-section {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
 }
 
-/* Стили для контейнера сообщения */
 .status-message {
   margin-top: 15px;
   padding: 10px 15px;
   font-size: 14px;
   line-height: 1.4;
   border-radius: 8px;
-  /* В стиле твоих карточек */
   transition: all 0.3s ease;
   min-height: 1.4em;
-  /* Чтобы верстка не прыгала при появлении текста */
   text-align: center;
 }
 
-/* Состояние «Отправка...» или обычный инфо-текст */
 .status-message:not(:empty) {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #ccc;
 }
 
-/* Если хочешь динамически менять цвет через JS (добавляя классы),
-   вот заготовки под успех и ошибку: */
 
 .status-message.success {
   background: rgba(40, 167, 69, 0.15);

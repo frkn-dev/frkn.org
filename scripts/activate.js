@@ -67,13 +67,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const sub = data.response?.instance?.Subscription;
 
+        console.log(sub.expires_at);
+
+        console.log(sub);
+
+        const expiresDate = sub.expires_at
+          ? new Date(sub.expires_at).toLocaleString(undefined, {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          })
+          : "—";
+
         if (sub) {
           result.innerHTML = `
             <h3>Твоя подписка</h3>
             <div style="font-size: small;">ID это твой уникальный идентификатор подписки, рекомендуем его записать или запомнить</div>
             <p><b>ID:</b> ${sub.id}</p>
 
-            <p><b>Активна до:</b> ${sub.expires_at || "—"}</p>
+            <p><b>Активна до:</b> ${expiresDate || "—"}</p>
+
+
+            <div id="countdown" style="margin-bottom: 20px; font-weight: bold; color: #60a5fa;"></div>
 
             <a href="${API_BASE}/sub/info?id=${sub.id}"
             style="display: inline-block;
@@ -87,6 +104,10 @@ document.addEventListener("DOMContentLoaded", () => {
             </a>`;
 
           result.style.display = "block";
+
+          if (sub.expires_at) {
+            startCountdown(sub.expires_at);
+          }
         }
 
         form.reset();
@@ -99,4 +120,53 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.disabled = false;
     }
   });
+
+
 });
+
+
+function startCountdown(endTimeStr) {
+  const timerElement = document.getElementById("countdown");
+  if (!timerElement) return;
+
+  const endTime = new Date(endTimeStr).getTime();
+
+  console.log(endTimeStr);
+
+  // Вспомогательная функция для склонения (чисто инженерный подход к UX)
+  const getDaysWord = (n) => {
+    const last = n % 10;
+    const lastTwo = n % 100;
+    if (last === 1 && lastTwo !== 11) return 'день';
+    if (last >= 2 && last <= 4 && (lastTwo < 10 || lastTwo >= 20)) return 'дня';
+    return 'дней';
+  };
+
+  const update = () => {
+    const now = new Date().getTime();
+    const diff = endTime - now;
+
+    if (diff <= 0) {
+      timerElement.textContent = "Срок действия истек";
+      return;
+    }
+
+    // Расчеты
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    // Собираем строку: если дней 0, не показываем их
+    let timeString = "Осталось: ";
+    if (days > 0) {
+      timeString += `${days} ${getDaysWord(days)} `;
+    }
+    timeString += `${hours}ч ${minutes}м ${seconds}с`;
+
+    timerElement.textContent = timeString;
+  };
+
+  update();
+  setInterval(update, 1000);
+}
