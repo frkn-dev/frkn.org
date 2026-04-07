@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <title>FRKN Node Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --card: #181818;
+      --accent: #36a2eb;
+      --text: #e0e0e0;
+      --border: #2a2a2a;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding: 0 10px;
+    }
+
+    h1 {
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    select {
+      padding: 10px 15px;
+      border-radius: 8px;
+      background: var(--card);
+      color: white;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      min-width: 300px;
+      outline: none;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 20px;
+    }
+
+    .chart-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border);
+    }
+
+    .chart-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .chart-tags {
+      font-size: 0.7rem;
+      color: #555;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .status-online {
+      color: #4caf50;
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+
+    canvas {
+      max-height: 220px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <h1>FRKN // NODE MONITOR</h1>
+    <select id="node-selector">
+      <option value="">Загрузка нод...</option>
+    </select>
+  </div>
+  <div id="dashboard" class="dashboard-grid"></div>
+
+  <script>
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const API_URL = isLocal ? 'http://localhost:5005' : 'https://api.frkn.org';
+    const WS_URL = isLocal ? 'ws://localhost:5005' : 'wss://api.frkn.org';
+
+    const nodeSelector = document.getElementById('node-selector');
+    const dashboard = document.getElementById('dashboard');
+    let activeSockets = [];
+    let charts = {};
+
+    function formatValue(value, metricKey) {
+      if (metricKey.toLowerCase().includes('loadavg')) return value.toFixed(2);
+      if (metricKey.includes('percent') || metricKey.includes('usage')) return value.toFixed(2) + '%';
+      if (metricKey.includes('bytes') || metricKey.includes('bps')) {
+        if (value <= 0 || !isFinite(value)) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+        const i = Math.floor(Math.log(value) / Math.log(k));
+        return parseFloat((value / Math.pow(k, Math.max(0, i))).toFixed(2)) + ' ' + sizes[Math.max(0, i)];
+      }
+      return value;
+    }
+
+    function createChartCard(nodeId, metric) {
+      const card = document.createElement('div');
+      card.className = 'chart-card';
+      const tagsStr = Object.entries(metric.tags).map(([k, v]) => `${k}:${v}`).join(' | ');
+      card.innerHTML = `
+        <div class="chart-title">
+          <span>${metric.name.replace('sys.', '').replace('net.', '').toUpperCase()}</span>
+          <span class="status-online" id="status-${metric.key}">● LIVE</span>
+        </div>
+        <div class="chart-tags">${tagsStr}</div>
+        <canvas id="canvas-${metric.key}"></canvas>
+      `;
+      dashboard.appendChild(card);
+      const ctx = document.getElementById(`canvas-${metric.key}`).getContext('2d');
+      charts[metric.key] = new Chart(ctx, {
+        type: 'line',
+        data: {
+          datasets: metric.key.includes('group') ? [] : [{
+            data: [], borderColor: getRandomColor(metric.name), borderWidth: 2, pointRadius: 0, fill: true,
+            backgroundColor: 'rgba(54, 162, 235, 0.05)', tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          scales: {
+            x: {type: 'time', time: {unit: 'second'}, grid: {display: false}, ticks: {color: '#444', font: {size: 10}}},
+            y: {beginAtZero: true, grid: {color: '#222'}, ticks: {color: '#666', font: {size: 10}, callback: (v) => formatValue(v, metric.key)}}
+          },
+          plugins: {legend: {display: metric.key.includes('group'), labels: {color: '#888', boxWidth: 10}}},
+          animation: false
+        }
+      });
+    }
+
+    async function loadNodes() {
+      try {
+        const res = await fetch(`${API_URL}/nodes`);
+        const data = await res.json();
+        const nodes = data.response || [];
+        nodeSelector.innerHTML = '<option value="">-- Выберите сервер --</option>';
+        nodes.forEach(node => {
+          const opt = document.createElement('option');
+          opt.value = node.uuid;
+          opt.innerText = `${node.label || 'Node'} (${node.hostname})`;
+          nodeSelector.appendChild(opt);
+        });
+        const urlId = new URLSearchParams(window.location.search).get('id');
+        if (urlId) {nodeSelector.value = urlId; renderDashboard(nodes.find(n => n.uuid === urlId));}
+        nodeSelector.onchange = (e) => {
+          const selected = nodes.find(n => n.uuid === e.target.value);
+          if (selected) {renderDashboard(selected); window.history.pushState({}, '', `?id=${selected.uuid}`);}
+        };
+      } catch (e) {console.error(e);}
+    }
+
+    const priorityMetrics = ['sys.heartbeat', 'sys.loadavg_5', 'sys.mem_used', 'sys.disk.root.usage_percent', 'net.total_rx_bps', 'net.total_tx_bps'];
+
+    function renderDashboard(node) {
+      activeSockets.forEach(s => s.close());
+      activeSockets = [];
+      dashboard.innerHTML = '';
+      charts = {};
+      if (!node || !node.metrics) return;
+
+      // 1. Сортируем
+      const sorted = [...node.metrics].sort((a, b) => {
+        const idxA = priorityMetrics.findIndex(p => a.key.includes(p));
+        const idxB = priorityMetrics.findIndex(p => b.key.includes(p));
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+        if (idxA !== -1) return -1;
+        if (idxB !== -1) return 1;
+        return a.key.localeCompare(b.key);
+      });
+
+      // 2. Рендерим
+      sorted.forEach(metric => {
+
+
+        createChartCard(node.uuid, metric);
+        startWebSocket(node.uuid, metric.key, metric.key, 0);
+
+      });
+    }
+
+    function addDatasetToChart(groupKey, label) {
+      const chart = charts[groupKey];
+      // Ищем, нет ли уже такого лейбла
+      let idx = chart.data.datasets.findIndex(d => d.label === label);
+      if (idx !== -1) return idx;
+
+      // Цветовая схема для нагрузки
+      const colors = {'Load 1m': '#36a2eb', 'Load 5m': '#9966ff', 'Load 15m': '#ff6384'};
+
+      chart.data.datasets.push({
+        label: label,
+        data: [],
+        borderColor: colors[label] || getRandomColor(label),
+        borderWidth: 2,
+        pointRadius: 0,
+        fill: false,
+        tension: 0.3
+      });
+      chart.update();
+      return chart.data.datasets.length - 1;
+    }
+
+    function startWebSocket(nodeId, metricKey, chartKey, datasetIndex) {
+      const encoded = encodeURIComponent(metricKey);
+      const ws = new WebSocket(`${WS_URL}/metrics/${nodeId}/${encoded}/ws`);
+
+      ws.onmessage = (event) => {
+        const chart = charts[chartKey];
+        if (!chart) return;
+
+        const dataset = chart.data.datasets[datasetIndex];
+        if (!dataset) return;
+
+        const newData = JSON.parse(event.data);
+
+        // Обновляем данные конкретной линии
+        let combined = dataset.data.concat(newData);
+        const unique = new Map();
+        combined.forEach(p => unique.set(p.x, p.y));
+        const cutoff = Date.now() - 300000;
+
+        dataset.data = Array.from(unique, ([x, y]) => ({x, y}))
+          .filter(p => p.x > cutoff)
+          .sort((a, b) => a.x - b.x);
+
+        chart.update('none');
+      };
+
+      ws.onclose = () => {
+        const el = document.getElementById(`status-${chartKey}`);
+        if (el) {el.innerText = '○ OFF'; el.style.color = '#ff5252';}
+      };
+
+      activeSockets.push(ws);
+    }
+
+    function getRandomColor(str) {
+      const colors = ['#36a2eb', '#ff6384', '#4bc0c0', '#ff9f40', '#9966ff', '#ffcd56'];
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      return colors[Math.abs(hash) % colors.length];
+    }
+
+    loadNodes();
+  </script>
+</body>
+
+</html>
