@@ -130,16 +130,21 @@
     function createChartCard(nodeId, metric) {
       const card = document.createElement('div');
       card.className = 'chart-card';
-      const tagsStr = Object.entries(metric.tags).map(([k, v]) => `${k}:${v}`).join(' | ');
+      const allowedKeys = ['label', 'country', 'env'];
+
+      const tagsStr = Object.entries(metric.tags)
+        .filter(([k, v]) => allowedKeys.includes(k)) // Оставляем только нужные
+        .map(([k, v]) => `${k}:${v}`)
+        .join(' | ');
 
       card.innerHTML = `
           <div class="chart-title">
-            <span>${metric.name.replace('sys.', '').replace('net.', '').toUpperCase()}</span>
-            <span class="status-online" id="status-${metric.key}">● LIVE</span>
+              <span>${metric.name.replace('sys.', '').replace('net.', '').toUpperCase()}</span>
+              <span class="status-online" id="status-${metric.key}">● LIVE</span>
           </div>
           <div class="chart-tags">${tagsStr}</div>
           <canvas id="canvas-${metric.key}"></canvas>
-        `;
+      `;
       dashboard.appendChild(card);
 
       const ctx = document.getElementById(`canvas-${metric.key}`).getContext('2d');
