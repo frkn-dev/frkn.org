@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <title>FRKN // GLOBAL AGGREGATE</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --card: #181818;
+      --text: #e0e0e0;
+      --border: #2a2a2a;
+      --accent: #36a2eb;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      margin: 0;
+    }
+
+    .header {
+      margin-bottom: 25px;
+      border-left: 4px solid var(--accent);
+      padding-left: 15px;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin: 0;
+      text-transform: uppercase;
+    }
+
+    #metric-label {
+      color: var(--accent);
+      opacity: 0.8;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .chart-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      height: 550px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <h1>FRKN // NETWORK STATUS: <span id="metric-label">INITIALIZING...</span></h1>
+  </div>
+
+  <div id="dashboard" class="dashboard-grid">
+    <div class="chart-card">
+      <canvas id="aggregateChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const API_URL = isLocal ? 'http://localhost:5005' : 'https://api.frkn.org';
+    const WS_URL = isLocal ? 'ws://localhost:5005' : 'wss://api.frkn.org';
+
+    const params = new URLSearchParams(window.location.search);
+    const tagK = params.get('tk') || 'env';
+    const tagV = params.get('tv') || 'experimental';
+    const metricName = params.get('m') || 'sys.heartbeat';
+
+    document.getElementById('metric-label').innerText = `${tagK}:${tagV} -> ${metricName}`;
+
+    let allNodes = [];
+    const ctx = document.getElementById('aggregateChart').getContext('2d');
+
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {datasets: []},
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            type: 'time',
+            time: {unit: 'second', displayFormats: {second: 'HH:mm:ss'}},
+            grid: {color: '#222'},
+            ticks: {color: '#666', font: {size: 10}}
+          },
+          y: {
+            beginAtZero: true,
+            grid: {color: '#222'},
+            ticks: {color: '#666'}
+          }
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom',
+            labels: {color: '#999', font: {size: 11}, boxWidth: 10, usePointStyle: true}
+          }
+        },
+        animation: false,
+        spanGaps: true
+      }
+    });
+
+    function startAggregateWS() {
+      const ws = new WebSocket(`${WS_URL}/metrics/aggregate/${tagK}/${tagV}/${metricName}/ws`);
+
+      ws.onmessage = (event) => {
+        let response;
+        try {
+          response = JSON.parse(event.data);
+        } catch (e) {return;}
+
+        if (response.type !== 'aggregated_update') return;
+
+        const nodesData = response.data;
+        const now = Date.now();
+
+        Object.entries(nodesData).forEach(([nodeId, points]) => {
+          let dataset = chart.data.datasets.find(d => d.nodeId === nodeId);
+
+          if (!dataset) {
+            const nodeMeta = allNodes.find(n => n.uuid === nodeId);
+            const displayName = nodeMeta ? (nodeMeta.label || nodeMeta.hostname) : nodeId.substring(0, 8);
+
+            console.log("New node detected:", nodeId, "Coloring...");
+
+            dataset = {
+              label: displayName,
+              nodeId: nodeId,
+              data: [],
+              borderColor: getRandomColor(nodeId),
+              borderWidth: 2,
+              pointRadius: 0,
+              tension: 0.1,
+              fill: false,
+              showLine: true,
+              spanGaps: true,
+
+            };
+            chart.data.datasets.push(dataset);
+          }
+
+          let newData = [];
+          if (points && points.length > 0) {
+            newData = points.map(p => ({x: p[0], y: p[1]}));
+            const lastPointTs = points[points.length - 1][0];
+            if (now - lastPointTs > 5000) {
+              newData.push({x: now, y: 1});
+            }
+          } else {
+            newData.push({x: now, y: 1});
+          }
+
+          let combined = dataset.data.concat(newData);
+          const unique = new Map();
+          combined.forEach(p => unique.set(p.x, p.y));
+
+          const cutoff = now - 300000;
+          dataset.data = Array.from(unique, ([x, y]) => ({x, y}))
+            .filter(p => p.x > cutoff)
+            .sort((a, b) => a.x - b.x);
+        });
+
+        chart.update('none');
+      };
+
+      ws.onclose = () => {
+        console.log("WS closed. Reconnecting...");
+        setTimeout(startAggregateWS, 3000);
+      };
+    }
+
+    function getRandomColor(str) {
+      const colors = [
+        '#00f5d4', // Тиффани/Бирюза (очень яркий)
+        '#fee440', // Кибер-желтый
+        '#f15bb5', // Неоновый розовый
+        '#00bbf9', // Глубокий голубой
+        '#9b5de5', // Фиолетовый электрик
+        '#ff5d8f', // Коралловый неон
+        '#00f260', // Кислотно-зеленый
+        '#ff9100'  // Яркий оранжевый
+      ];
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash |= 0;
+      }
+      return colors[Math.abs(hash) % colors.length];
+    }
+
+    async function fetchNodes() {
+      try {
+        const res = await fetch(`${API_URL}/nodes`);
+        const json = await res.json();
+        allNodes = json.response || [];
+      } catch (e) {
+        console.error("Node metadata fetch failed:", e);
+      }
+      startAggregateWS();
+    }
+
+    fetchNodes();
+  </script>
+</body>
+
+</html>

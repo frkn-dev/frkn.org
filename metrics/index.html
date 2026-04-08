@@ -112,10 +112,12 @@
     let activeSockets = [];
     let charts = {};
 
-    function formatValue(value, metricKey) {
-      if (metricKey.toLowerCase().includes('loadavg')) return value.toFixed(2);
-      if (metricKey.includes('percent') || metricKey.includes('usage')) return value.toFixed(2) + '%';
-      if (metricKey.includes('bytes') || metricKey.includes('bps')) {
+    function formatValue(value, name) {
+      if (!name) return value;
+      const n = name.toLowerCase();
+      if (n.includes('loadavg')) return value.toFixed(2);
+      if (n.includes('percent') || n.includes('usage')) return value.toFixed(2) + '%';
+      if (n.includes('bytes') || n.includes('bps')) {
         if (value <= 0 || !isFinite(value)) return '0 B';
         const k = 1024;
         const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
@@ -129,31 +131,42 @@
       const card = document.createElement('div');
       card.className = 'chart-card';
       const tagsStr = Object.entries(metric.tags).map(([k, v]) => `${k}:${v}`).join(' | ');
+
       card.innerHTML = `
-        <div class="chart-title">
-          <span>${metric.name.replace('sys.', '').replace('net.', '').toUpperCase()}</span>
-          <span class="status-online" id="status-${metric.key}">● LIVE</span>
-        </div>
-        <div class="chart-tags">${tagsStr}</div>
-        <canvas id="canvas-${metric.key}"></canvas>
-      `;
+          <div class="chart-title">
+            <span>${metric.name.replace('sys.', '').replace('net.', '').toUpperCase()}</span>
+            <span class="status-online" id="status-${metric.key}">● LIVE</span>
+          </div>
+          <div class="chart-tags">${tagsStr}</div>
+          <canvas id="canvas-${metric.key}"></canvas>
+        `;
       dashboard.appendChild(card);
+
       const ctx = document.getElementById(`canvas-${metric.key}`).getContext('2d');
       charts[metric.key] = new Chart(ctx, {
         type: 'line',
         data: {
-          datasets: metric.key.includes('group') ? [] : [{
-            data: [], borderColor: getRandomColor(metric.name), borderWidth: 2, pointRadius: 0, fill: true,
-            backgroundColor: 'rgba(54, 162, 235, 0.05)', tension: 0.3
+          datasets: [{
+            data: [],
+            borderColor: getRandomColor(metric.name),
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: true,
+            backgroundColor: 'rgba(54, 162, 235, 0.05)',
+            tension: 0.3
           }]
         },
         options: {
           responsive: true, maintainAspectRatio: false,
           scales: {
             x: {type: 'time', time: {unit: 'second'}, grid: {display: false}, ticks: {color: '#444', font: {size: 10}}},
-            y: {beginAtZero: true, grid: {color: '#222'}, ticks: {color: '#666', font: {size: 10}, callback: (v) => formatValue(v, metric.key)}}
+            y: {
+              beginAtZero: true,
+              grid: {color: '#222'},
+              ticks: {color: '#666', font: {size: 10}, callback: (v) => formatValue(v, metric.name)}
+            }
           },
-          plugins: {legend: {display: metric.key.includes('group'), labels: {color: '#888', boxWidth: 10}}},
+          plugins: {legend: {display: false}},
           animation: false
         }
       });
@@ -171,8 +184,14 @@
           opt.innerText = `${node.label || 'Node'} (${node.hostname})`;
           nodeSelector.appendChild(opt);
         });
+
         const urlId = new URLSearchParams(window.location.search).get('id');
-        if (urlId) {nodeSelector.value = urlId; renderDashboard(nodes.find(n => n.uuid === urlId));}
+        if (urlId) {
+          nodeSelector.value = urlId;
+          const n = nodes.find(n => n.uuid === urlId);
+          if (n) renderDashboard(n);
+        }
+
         nodeSelector.onchange = (e) => {
           const selected = nodes.find(n => n.uuid === e.target.value);
           if (selected) {renderDashboard(selected); window.history.pushState({}, '', `?id=${selected.uuid}`);}
@@ -180,7 +199,7 @@
       } catch (e) {console.error(e);}
     }
 
-    const priorityMetrics = ['sys.heartbeat', 'sys.loadavg_5', 'sys.mem_used', 'sys.disk.root.usage_percent', 'net.total_rx_bps', 'net.total_tx_bps'];
+    const priorityMetrics = ['sys.heartbeat', 'sys.loadavg_1', 'sys.mem_available', 'sys.disk.root.used_bytes'];
 
     function renderDashboard(node) {
       activeSockets.forEach(s => s.close());
@@ -189,65 +208,51 @@
       charts = {};
       if (!node || !node.metrics) return;
 
-      // 1. Сортируем
       const sorted = [...node.metrics].sort((a, b) => {
-        const idxA = priorityMetrics.findIndex(p => a.key.includes(p));
-        const idxB = priorityMetrics.findIndex(p => b.key.includes(p));
+        const idxA = priorityMetrics.findIndex(p => a.name.includes(p));
+        const idxB = priorityMetrics.findIndex(p => b.name.includes(p));
         if (idxA !== -1 && idxB !== -1) return idxA - idxB;
         if (idxA !== -1) return -1;
         if (idxB !== -1) return 1;
-        return a.key.localeCompare(b.key);
+        return a.name.localeCompare(b.name);
       });
 
-      // 2. Рендерим
       sorted.forEach(metric => {
-
-
         createChartCard(node.uuid, metric);
-        startWebSocket(node.uuid, metric.key, metric.key, 0);
-
+        startWebSocket(node.uuid, metric.key);
       });
     }
 
-    function addDatasetToChart(groupKey, label) {
-      const chart = charts[groupKey];
-      // Ищем, нет ли уже такого лейбла
-      let idx = chart.data.datasets.findIndex(d => d.label === label);
-      if (idx !== -1) return idx;
-
-      // Цветовая схема для нагрузки
-      const colors = {'Load 1m': '#36a2eb', 'Load 5m': '#9966ff', 'Load 15m': '#ff6384'};
-
-      chart.data.datasets.push({
-        label: label,
-        data: [],
-        borderColor: colors[label] || getRandomColor(label),
-        borderWidth: 2,
-        pointRadius: 0,
-        fill: false,
-        tension: 0.3
-      });
-      chart.update();
-      return chart.data.datasets.length - 1;
-    }
-
-    function startWebSocket(nodeId, metricKey, chartKey, datasetIndex) {
-      const encoded = encodeURIComponent(metricKey);
-      const ws = new WebSocket(`${WS_URL}/metrics/${nodeId}/${encoded}/ws`);
+    function startWebSocket(nodeId, metricHash) {
+      const ws = new WebSocket(`${WS_URL}/metrics/all/${nodeId}/${metricHash}/ws`);
 
       ws.onmessage = (event) => {
-        const chart = charts[chartKey];
+        const chart = charts[metricHash];
         if (!chart) return;
 
-        const dataset = chart.data.datasets[datasetIndex];
-        if (!dataset) return;
+        const dataset = chart.data.datasets[0];
+        let response;
 
-        const newData = JSON.parse(event.data);
+        try {
+          response = JSON.parse(event.data);
+        } catch (e) {
+          console.error("Ошибка парсинга:", e);
+          return;
+        }
 
-        // Обновляем данные конкретной линии
+        const rawPoints = response.data || (Array.isArray(response) ? response : []);
+
+        const newData = rawPoints.map(p => ({
+          x: p[0],
+          y: p[1]
+        }));
+
+        if (newData.length === 0) return;
+
         let combined = dataset.data.concat(newData);
         const unique = new Map();
         combined.forEach(p => unique.set(p.x, p.y));
+
         const cutoff = Date.now() - 300000;
 
         dataset.data = Array.from(unique, ([x, y]) => ({x, y}))
@@ -256,9 +261,8 @@
 
         chart.update('none');
       };
-
       ws.onclose = () => {
-        const el = document.getElementById(`status-${chartKey}`);
+        const el = document.getElementById(`status-${metricHash}`);
         if (el) {el.innerText = '○ OFF'; el.style.color = '#ff5252';}
       };
 

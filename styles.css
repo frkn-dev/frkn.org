@@ -171,8 +171,6 @@ header {
   }
 }
 
-
-
 .hero-content {
   display: flex;
   flex-direction: column;
@@ -248,8 +246,6 @@ a {
 
 
 /* ================= HEADER ================= */
-
-
 
 
 .logo {
@@ -401,11 +397,21 @@ a {
 
 
 .badge {
+  display: inline-flex;
+  margin-bottom: 15px;
+  /* Только под размер текста */
+  align-items: center;
+  padding: 4px 10px;
   font-size: 12px;
-  color: var(--accent-2);
-  border: 1px solid rgba(34, 211, 238, 0.3);
-  padding: 6px 8px;
-  border-radius: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+  /* Запрещаем перенос текста внутри бейджа */
 }
 
 /* Пульсирующий блик на подписи */
