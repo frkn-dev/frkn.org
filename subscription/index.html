@@ -285,6 +285,17 @@
       font-weight: 600;
     }
 
+    status-warning {
+      color: #ffbd4d !important;
+      background: rgba(255, 189, 77, 0.1);
+      padding: 4px 12px !important;
+      border-radius: 8px;
+      width: fit-content;
+      display: inline-flex !important;
+      justify-content: center;
+      font-weight: 600;
+    }
+
     /* Поправляем плашки статуса, чтобы они были ровными */
     .status-active,
     .status-expired {
@@ -838,42 +849,79 @@
   }
 
   function renderSubscriptionData(data, subId, currentEnv) {
-    // Статус и дни
     const statusEl = document.getElementById('status-text');
     const badge = document.getElementById('env-badge');
-    const isActive = data.days > 0;
+    const daysEl = document.getElementById('days');
+    const expiryDate = new Date(data.expires);
 
+    // 1. Логика таймера и статуса
+    function updateDisplay() {
+      const now = new Date();
+      const diffMs = expiryDate - now;
+      const diffSec = Math.floor(diffMs / 1000);
+      const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+      if (diffMs <= 0) {
+        // Если время вышло
+        statusEl.innerText = "Истекла";
+        statusEl.className = "status-expired";
+        daysEl.innerText = "0";
+        daysEl.style.color = "#ff4d4d";
+        return;
+      }
+
+      if (diffDays < 1) {
+        // Если осталось меньше суток — запускаем тикающий таймер
+        statusEl.innerText = "Почти истекла";
+        statusEl.className = "status-warning";
+
+        const h = Math.floor(diffSec / 3600).toString().padStart(2, '0');
+        const m = Math.floor((diffSec % 3600) / 60).toString().padStart(2, '0');
+        const s = (diffSec % 60).toString().padStart(2, '0');
+
+        daysEl.innerText = `${h}:${m}:${s}`;
+        daysEl.style.fontSize = "1.8rem"; // Уменьшаем, чтобы влез формат 00:00:00
+        daysEl.style.color = "#ffbd4d";  // Оранжевый предупреждающий
+        daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
+
+        setTimeout(updateDisplay, 1000); // Обновляем каждую секунду
+      } else {
+        // Если больше 1 дня — показываем просто число
+        const fullDays = Math.floor(diffDays);
+        statusEl.innerText = "Активна";
+        statusEl.className = "status-active";
+        daysEl.innerText = fullDays;
+        daysEl.style.fontSize = "2.5rem";
+
+        if (fullDays < 4) {
+          daysEl.style.color = "#ff4d4d";
+          daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
+        } else {
+          daysEl.style.color = "#10b981";
+          daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
+        }
+      }
+    }
+
+    // Запускаем отображение статуса и дней
+    updateDisplay();
+
+    // 2. Окружение (Badge)
     if (badge) {
       badge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
     }
 
-    statusEl.innerText = isActive ? "Активна" : "Истекла";
-    statusEl.className = isActive ? "status-active" : "status-expired";
+    // 3. ID подписки и дата истечения
+    const subIdEl = document.getElementById('sub-id');
+    subIdEl.innerText = data.id;
+    subIdEl.onclick = () => copyText(data.id, "ID скопирован");
 
-    const daysEl = document.getElementById('days');
-    const daysLeft = parseInt(data.days) || 0;
-
-    daysEl.innerText = daysLeft;
-
-    if (daysLeft < 4) {
-      // Яркий красный (светящийся)
-      daysEl.style.color = "#ff4d4d";
-      daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
-    } else {
-      // Твой текущий или сочный зеленый
-      daysEl.style.color = "#10b981";
-      daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
-    }
-
-    document.getElementById('sub-id').innerText = data.id;
-
-    const expiryDate = new Date(data.expires);
     document.getElementById('expires').innerText = expiryDate.toLocaleString('ru-RU', {
       day: '2-digit', month: '2-digit', year: 'numeric',
       hour: '2-digit', minute: '2-digit'
     });
 
-    // Рефералка
+    // 4. Реферальная система
     const refCode = data.ref_code || '---';
     const refLink = `${window.location.origin}/?code=${refCode}#trial`;
     document.getElementById('ref-code').innerText = refCode;
@@ -882,7 +930,7 @@
     document.getElementById('copy-ref-btn').onclick = () => copyText(refCode, "Код скопирован");
     document.getElementById('copy-ref-link').onclick = () => copyText(refLink, "Ссылка скопирована");
 
-    // Переключатель регионов
+    // 5. Переключатель регионов (Switcher)
     const switcher = document.getElementById('env-switcher');
     if (switcher && data.locations) {
       switcher.innerHTML = '';
@@ -897,17 +945,12 @@
       });
     }
 
-    // Рендер протоколов
+    // 6. Рендер протоколов (Xray / Hysteria2)
     const loc = data.locations?.find(l => l.env === currentEnv) || data.locations?.[0];
     if (loc) {
       renderXray(data.id, loc.env, loc.has_xray);
       renderH2(data.id, loc.env, loc.has_hysteria);
     }
-
-    const subIdEl = document.getElementById('sub-id');
-    subIdEl.onclick = () => {
-      copyText(subIdEl.innerText, "ID скопирован в буфер");
-    };
   }
 
   function renderXray(id, env, has) {
