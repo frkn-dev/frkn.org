@@ -82,7 +82,7 @@
 
     const params = new URLSearchParams(window.location.search);
     const tagK = params.get('tk') || 'type';
-    const tagV = params.get('tv') || 'common';
+    const tagV = params.get('tv') || 'Common';
     const metricName = params.get('m') || 'sys.heartbeat';
 
     document.getElementById('metric-label').innerText = `${tagK}:${tagV} -> ${metricName}`;
