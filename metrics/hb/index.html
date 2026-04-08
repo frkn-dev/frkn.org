@@ -81,8 +81,8 @@
     const WS_URL = isLocal ? 'ws://localhost:5005' : 'wss://api.frkn.org';
 
     const params = new URLSearchParams(window.location.search);
-    const tagK = params.get('tk') || 'env';
-    const tagV = params.get('tv') || 'experimental';
+    const tagK = params.get('tk') || 'type';
+    const tagV = params.get('tv') || 'common';
     const metricName = params.get('m') || 'sys.heartbeat';
 
     document.getElementById('metric-label').innerText = `${tagK}:${tagV} -> ${metricName}`;
