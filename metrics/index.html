@@ -181,12 +181,16 @@
       try {
         const res = await fetch(`${API_URL}/nodes`);
         const data = await res.json();
-        const nodes = data.response || [];
+
+        const nodes = (data.response || []).filter(node => node.type === 'common');
+
         nodeSelector.innerHTML = '<option value="">-- Выберите сервер --</option>';
+
         nodes.forEach(node => {
           const opt = document.createElement('option');
           opt.value = node.uuid;
-          opt.innerText = `${node.label || 'Node'} (${node.hostname})`;
+          const flag = node.country ? `${node.country} ` : '';
+          opt.innerText = `${flag}${node.label || 'Node'} (${node.hostname})`;
           nodeSelector.appendChild(opt);
         });
 
@@ -199,9 +203,14 @@
 
         nodeSelector.onchange = (e) => {
           const selected = nodes.find(n => n.uuid === e.target.value);
-          if (selected) {renderDashboard(selected); window.history.pushState({}, '', `?id=${selected.uuid}`);}
+          if (selected) {
+            renderDashboard(selected);
+            window.history.pushState({}, '', `?id=${selected.uuid}`);
+          }
         };
-      } catch (e) {console.error(e);}
+      } catch (e) {
+        console.error("Ошибка загрузки нод:", e);
+      }
     }
 
     const priorityMetrics = ['sys.heartbeat', 'sys.loadavg_1', 'sys.mem_available', 'sys.disk.root.used_bytes'];
