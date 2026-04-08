@@ -792,13 +792,12 @@
     'wl': 'Белые списки',
     'ru': 'Обратный рилзопровод',
     'dev': 'Рилзопровод',
-    'experimental': 'Экспериментальный'
   };
 
   async function initPage() {
     const params = new URLSearchParams(window.location.search);
     const subId = params.get('id');
-    const currentEnv = params.get('env') || 'experimental';
+    const currentEnv = params.get('env') || 'dev';
 
     const mainEl = document.getElementById('main-content');
     const errorEl = document.getElementById('error-content');
@@ -828,6 +827,7 @@
         return;
       }
 
+      console.log(data);
       // 2. Если всё ок, заполняем данные
       renderSubscriptionData(data, subId, currentEnv);
 
