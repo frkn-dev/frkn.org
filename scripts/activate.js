@@ -2,9 +2,9 @@ const isLocal =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1";
 
-const API_BASE = isLocal
-  ? "http://localhost:5005"
-  : "https://api.frkn.org";
+const BASE = isLocal
+  ? "http://localhost:8000"
+  : "https://frkn.org";
 
 const AUTH_BASE = isLocal
   ? "http://localhost:3005"
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             <div id="countdown" style="margin-bottom: 20px; font-weight: bold; color: #60a5fa;"></div>
 
-            <a href="${API_BASE}/sub/info?id=${sub.id}"
+            <a href="${BASE}/subscription?id=${sub.id}"
             style="display: inline-block;
               padding: 12px 24px;
               background-color: #1d4ed8;
