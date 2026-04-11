@@ -801,7 +801,6 @@
   const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
   const API_BASE = isLocal ? "http://localhost:5005" : "https://api.frkn.org";
 
-  // Конфиг имен для окружений
   const ENV_NAMES = {
     'wl': 'Белые списки',
     'ru': 'Обратный рилзопровод',
@@ -969,17 +968,19 @@
 
     container.innerHTML = `
 
+      <ul class="proxy-list">
+          <li class="proxy-item" onclick="copyText('${subUrlTxt}')"><div class="proxy-label">TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
+          <li class="proxy-item" onclick="copyText('${subUrlPlain}')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
+          <li class="proxy-item" onclick="copyText('${subUrlClash}')"><div class="proxy-label">Clash</div><div class="proxy-action">Копировать</div></li>
+      </ul>
+
       <div class="qr-row">
-          <div class="qr-item"><span>TXT</span><canvas id="qr-xray-txt"></canvas></div>
+          <div class="qr-item"><span>TXT (Универсальная) </span><canvas id="qr-xray-txt"></canvas></div>
           <div class="qr-item"><span>B64</span><canvas id="qr-xray-plain"></canvas></div>
           <div class="qr-item"><span>Clash</span><canvas id="qr-xray-clash"></canvas></div>
       </div>
 
-        <ul class="proxy-list">
-            <li class="proxy-item" onclick="copyText('${subUrlTxt}')"><div class="proxy-label">TXT</div><div class="proxy-action">Копировать</div></li>
-            <li class="proxy-item" onclick="copyText('${subUrlPlain}')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
-            <li class="proxy-item" onclick="copyText('${subUrlClash}')"><div class="proxy-label">Clash</div><div class="proxy-action">Копировать</div></li>
-        </ul>
+
 
     `;
 
@@ -1000,15 +1001,17 @@
 
     container.innerHTML = `
 
+      <ul class="proxy-list">
+          <li class="proxy-item" onclick="copyText('${subUrlTxt}')"><div class="proxy-label">TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
+          <li class="proxy-item" onclick="copyText('${subUrlPlain}')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
+      </ul>
+
       <div class="qr-row">
-          <div class="qr-item"><span>TXT</span><canvas id="qr-h2-txt"></canvas></div>
+          <div class="qr-item"><span>TXT (Универсальная)</span><canvas id="qr-h2-txt"></canvas></div>
           <div class="qr-item"><span>Base64</span><canvas id="qr-h2-plain"></canvas></div>
       </div>
 
-        <ul class="proxy-list">
-            <li class="proxy-item" onclick="copyText('${subUrlTxt}')"><div class="proxy-label">TXT</div><div class="proxy-action">Копировать</div></li>
-            <li class="proxy-item" onclick="copyText('${subUrlPlain}')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
-        </ul>
+
 
     `;
 
