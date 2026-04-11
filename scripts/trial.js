@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // Сбрасываем классы и ставим статус отправки
+    const btn = form.querySelector("button");
+
     if (msg) {
       msg.textContent = "Отправка...";
       msg.className = "status-message";
@@ -24,8 +25,30 @@ document.addEventListener("DOMContentLoaded", () => {
     const formData = new FormData(form);
     const promo = formData.get("code");
 
+    const emailRaw = formData.get("email") || "";
+    const emailLow = emailRaw.toString().toLowerCase().trim();
+
+    const protonDomains = ["@proton.me", "@protonmail.com", "@pm.me", "@protonmail.ch"];
+    if (protonDomains.some(domain => emailLow.endsWith(domain))) {
+      if (msg) {
+        msg.textContent = "❌ Сорян, на Proton письмо не дойдёт. Используй другую почту.";
+        msg.classList.add("error");
+      }
+      return;
+    }
+
+    if (!emailLow) {
+      if (msg) {
+        msg.textContent = "❌ Введи почту, зай";
+        msg.classList.add("error");
+      }
+      return;
+    }
+
+    if (btn) btn.disabled = true;
+
     const payload = {
-      email: formData.get("email"),
+      email: emailLow,
       ...(promo ? { referred_by: promo } : {}),
     };
 
@@ -40,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (data.status === 200) {
         if (msg) {
-          msg.textContent = "Ваша заявка принята! Проверьте e-mail.";
+          msg.textContent = "✅ Заявка на тест-драйв принята! Проверь e-mail. Если чо, папку спам тоже глянь.";
           msg.classList.add("success");
         }
         form.reset();
@@ -55,6 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
         msg.textContent = "❌ Ошибка сети: " + err.message;
         msg.classList.add("error");
       }
+    } finally {
+      if (btn) btn.disabled = false;
     }
   });
 });

@@ -32,6 +32,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const code = formData.get("code");
     const email = formData.get("email");
 
+    const emailLow = email.toLowerCase();
+
+    if (emailLow.endsWith("@proton.me") || emailLow.endsWith("@protonmail.com") || emailLow.endsWith("@pm.me")) {
+      if (msg) {
+        msg.textContent = "❌ Сорян, на Proton письмо не дойдёт. Используй другую почту.";
+        msg.className = "status-message error";
+      }
+      return;
+    }
+
     if (!isValidCode(code)) {
       msg.textContent = "❌ Неверный формат ключа";
       return;
