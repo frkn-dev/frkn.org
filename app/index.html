@@ -324,8 +324,7 @@
     function copy(text) {
       navigator.clipboard.writeText(text);
       tg.HapticFeedback.notificationOccurred('success');
-      tg.showScanQrPopup({text: "Ссылка скопирована!"});
-      setTimeout(() => tg.closeScanQrPopup(), 1000);
+      tg.showAlert("Ссылка скопирована!");
     }
 
     async function activateKey() {
