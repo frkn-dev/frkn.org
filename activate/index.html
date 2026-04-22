@@ -18,7 +18,7 @@
 
     <section class="hero">
       <div class="card activateCard">
-        <div class="small right"> <a href="/store" class="text-link">Купить ключ</a></div>
+        <div class="small right"> <a href="/pay" class="text-link">Купить ключ</a></div>
 
         <h1>Активация ключа</h1>
         <div class="small">Введи ключ чтобы получить доступ <br>
@@ -29,8 +29,7 @@
 
 
         <form id="activateKeyForm">
-          <input type="text" name="code" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-X" required />
-
+          <input type="text" id="code" name="code" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-X" required />
           <input type="email" name="email" placeholder="Email (необязательно)" /><br>
 
           <button class="btn activate" type="submit">Активировать</button>
@@ -46,6 +45,22 @@
   <script src="/scripts/activate.js"></script>
   <script src="/scripts/analytics.js" defer></script>
   <script src="/scripts/containers.js"></script>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const activationCode = params.get("code");
+
+    if (activationCode) {
+      const activationCodeInput = document.getElementById("code");
+
+      if (activationCodeInput) {
+        activationCodeInput.value = activationCode;
+        activationCodeInput.style.borderColor = "#22c55e";
+
+        activationCodeInput.style.boxShadow = "0 0 10px rgba(34, 197, 94, 0.2)";
+      }
+    }
+  </script>
 </body>
 
 </html>

@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FRKN Privacy - Цены</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #1a1a1a;
+      padding: 40px;
+      border-radius: 24px;
+      border: 1px solid #333;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      color: #666;
+      font-size: 24px;
+    }
+
+    .form-group {
+      margin-top: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #888;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      background: #000;
+      border: 1px solid #333;
+      border-radius: 12px;
+      color: #fff;
+      outline: none;
+    }
+
+    .modal-footer {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-pay {
+      background: #fff;
+      color: #000;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      /* Размытие заднего плана */
+      display: none;
+      /* Скрыт по умолчанию */
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Активное состояние оверлея */
+    .popup-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    /* Контент попапа */
+    .popup-content {
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid #333;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .popup-overlay.active .popup-content {
+      transform: translateY(0);
+    }
+
+    .popup-icon {
+      font-size: 50px;
+      margin-bottom: 15px;
+    }
+
+    .popup-content h2 {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .popup-content p {
+      color: #aaa;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    /* Кнопка внутри попапа */
+    .popup-content .btn {
+      background: #22c55e;
+      color: #fff;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    .popup-content .btn:hover {
+      background: #16a34a;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div id="logo-container"></div>
+    <header>
+
+      <h1 class="hero-title">Тарифы <br> В ПРОЦЕССЕ НАСТРОЙКИ - НЕ ИСПОЛЬЗОВАТЬ</h1>
+
+
+    </header>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>1 месяц</h3>
+        <div class="cost">500₽</div>
+        <button class="buy-button" data-duration="30" data-price="500">Купить</button>
+      </div>
+      <div class="price-card">
+        <h3>3 месяца</h3>
+        <div class="cost">1500₽</div>
+        <button class="buy-button" data-duration="90" data-price="1500">Купить</button>
+      </div>
+      <div class="price-card">
+        <h3>6 месяцев</h3>
+        <div class="cost">2700₽</div>
+        <button class="buy-button" data-duration="180" data-price="2700">Купить</button>
+      </div>
+      <div class="price-card popular">
+        <h3>12 месяцев</h3>
+        <div class="cost">5000₽</div>
+        <button class="buy-button" data-duration="365" data-price="5000">Купить</button>
+      </div>
+
+    </div>
+    <div id="footer-container"></div>
+    </section>
+
+
+
+    <div id="payment-modal" class="modal-overlay">
+      <div class="modal-content">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <h2 id="modal-title">Оформление</h2>
+
+        <div class="form-group">
+          <label>Промокод</label>
+          <input type="text" id="user-promo" placeholder="Если есть">
+        </div>
+        <div class="modal-footer">
+          <span id="modal-total" style="font-size: 20px; font-weight: bold;"></span>
+          <button class="btn-pay" id="final-pay-btn">Оплатить</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let currentOrder = null;
+
+      function openModal(duration, price) {
+        currentOrder = {duration, price};
+        document.getElementById('modal-title').innerText = `Подписка на ${duration} дней.`;
+        document.getElementById('modal-total').innerText = `${price}₽`;
+        document.getElementById('payment-modal').style.display = 'flex';
+      }
+
+      function closeModal() {document.getElementById('payment-modal').style.display = 'none';}
+
+      document.querySelectorAll('.buy-button').forEach(btn => {
+        btn.onclick = (e) => openModal(e.target.dataset.duration, e.target.dataset.price);
+      });
+
+      function showError(message) {
+        const popup = document.getElementById('error-popup');
+        document.getElementById('popup-message').innerText = message;
+
+        popup.classList.add('active');
+      }
+
+      // Функция для закрытия
+      function closePopup() {
+        const popup = document.getElementById('error-popup');
+        popup.classList.remove('active');
+      }
+
+      // Твой обновленный обработчик кнопки оплаты
+      document.getElementById('final-pay-btn').onclick = async () => {
+        const btn = document.getElementById('final-pay-btn');
+        btn.disabled = true; btn.innerText = "Проверка...";
+
+        try {
+          const res = await fetch('http://localhost:8080/platega/payments/create', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              duration: parseInt(currentOrder.duration),
+              promocode: document.getElementById('user-promo').value.trim() || null,
+              provider: "Mock",
+            })
+          });
+
+          if (!res.ok) {
+            // Пытаемся распарсить JSON с ошибкой от Rust (если сделали handle_rejection)
+            const errorData = await res.json().catch(() => ({error: "Ошибка сервера"}));
+            throw new Error(errorData.error || "Не удалось создать платеж");
+          }
+
+          const data = await res.json();
+          if (data.redirect) window.location.href = data.redirect;
+
+        } catch (e) {
+          // ВМЕСТО alert(e.message) используем наш попап
+          showError(e.message);
+        } finally {
+          btn.disabled = false; btn.innerText = "Оплатить";
+        }
+      };
+    </script>
+
+    <div id="error-popup" class="popup-overlay">
+      <div class="popup-content">
+        <div class="popup-icon">⚠️</div>
+        <h2 id="popup-title">Ошибка</h2>
+        <p id="popup-message">Что-то пошло не так.</p>
+        <button class="btn" onclick="closePopup()">Ясно</button>
+      </div>
+    </div>
+
+
+    <script src="/scripts/analytics.js" defer></script>
+    <script src="/scripts/containers.js"></script>
+
+</body>
+
+</html>

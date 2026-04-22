@@ -320,6 +320,7 @@ a {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   margin: 32px 0;
+  margin-bottom: 100px;
 }
 
 /* Базовая карточка тарифа */
@@ -850,6 +851,7 @@ input {
   color: var(--text);
   transform: translateX(2px);
 }
+
 
 /* ================= FOOTER ================= */
 

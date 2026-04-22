@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FRKN Panel</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+  <style>
+    :root {
+      --bg: var(--tg-theme-bg-color, #0b0d12);
+      --card: var(--tg-theme-secondary-bg-color, #121621);
+      --text: var(--tg-theme-text-color, #e6e8ef);
+      --muted: var(--tg-theme-hint-color, #9aa1b2);
+      --accent: var(--tg-theme-button-color, #5b7cfa);
+      --accent-text: var(--tg-theme-button-text-color, #ffffff);
+      --border: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid var(--border);
+    }
+
+    /* Твои крутые статы */
+    .hero-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .stat b {
+      display: block;
+      font-size: 1.5rem;
+      color: #22d3ee;
+    }
+
+    .btn-main {
+      background: var(--accent);
+      color: var(--accent-text);
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.2);
+      color: white;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .status-active {
+      color: #10b981;
+    }
+
+    .status-expired {
+      color: #ef4444;
+    }
+
+    /* QR и прочее оставляем как в твоем оригинале... */
+  </style>
+</head>
+
+<body>
+
+  <div id="main-app">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="margin:0">FRKN Dashboard</h2>
+        <span id="badge" class="stat" style="font-size: 10px; padding: 4px 8px;">DEV</span>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">Дней осталось<b id="days">...</b></div>
+        <div class="stat">Статус<span id="status-text" style="display:block; font-weight:bold">...</span></div>
+      </div>
+
+      <p class="muted" style="font-size: 12px; text-align: center;">ID: <span id="sub-id"
+          style="cursor:pointer">...</span></p>
+    </div>
+
+    <div class="card" id="activation-card">
+      <h3 style="margin-top:0">Докинуть дней</h3>
+      <input type="text" id="keyInput" placeholder="Введите ключ AIF3R-...">
+      <button class="btn-main" onclick="activateKey()">Активировать ключ</button>
+    </div>
+
+    <button class="btn-main" style="background: #1d4ed8;" onclick="window.open('https://frkn.org/pay', '_blank')">💎
+      Купить подписку</button>
+  </div>
+
+  <div id="error-screen" class="hidden card" style="text-align: center;">
+    <h2>Подписка не найдена</h2>
+    <p>Похоже, ты еще не получил триал или не активировал ключ.</p>
+    <button class="btn-main" onclick="tg.close()">Вернуться в бот</button>
+  </div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+    tg.ready();
+
+    const isLocal = location.hostname === 'localhost';
+    const API_BASE = isLocal ? "http://localhost:5005" : "https://api.frkn.org";
+
+    let currentSubId = new URLSearchParams(window.location.search).get('id');
+
+    async function loadData() {
+      // Если ID нет в URL, пробуем найти по telegram_id через твой API
+      if (!currentSubId && tg.initDataUnsafe?.user?.id) {
+        try {
+          const res = await fetch(`${API_BASE}/user-subscription/${tg.initDataUnsafe.user.id}`);
+          const data = await res.json();
+          currentSubId = data.subscriptionId;
+        } catch (e) {console.error("User not found");}
+      }
+
+      if (!currentSubId) {
+        document.getElementById('main-app').classList.add('hidden');
+        document.getElementById('error-screen').classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/subscription/${currentSubId}`);
+        const data = await res.json();
+        render(data);
+      } catch (e) {
+        console.error("Fetch error");
+      }
+    }
+
+    function render(data) {
+      document.getElementById('sub-id').innerText = data.id;
+      document.getElementById('days').innerText = data.days;
+      const statusEl = document.getElementById('status-text');
+
+      if (data.days > 0) {
+        statusEl.innerText = "АКТИВНА";
+        statusEl.className = "status-active";
+      } else {
+        statusEl.innerText = "ИСТЕКЛА";
+        statusEl.className = "status-expired";
+      }
+    }
+
+    async function activateKey() {
+      const code = document.getElementById('keyInput').value;
+      if (!code) return tg.showAlert("Введите ключ!");
+
+      tg.MainButton.showProgress();
+      try {
+        const res = await fetch(`${API_BASE}/key/activate`, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({code, subscription_id: currentSubId})
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          tg.HapticFeedback.notificationOccurred('success');
+          tg.showAlert("Успешно продлено!");
+          location.reload();
+        } else {
+          tg.showAlert("Ошибка: " + data.message);
+        }
+      } catch (e) {
+        tg.showAlert("Ошибка сервера");
+      } finally {
+        tg.MainButton.hideProgress();
+      }
+    }
+
+    loadData();
+  </script>
+</body>
+
+</html>
