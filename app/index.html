@@ -323,8 +323,14 @@
 
     function copy(text) {
       navigator.clipboard.writeText(text);
-      tg.HapticFeedback.notificationOccurred('success');
-      tg.showAlert("Ссылка скопирована!");
+      tg.HapticFeedback.selectionChanged();
+
+      const toast = document.getElementById("toast");
+      if (toast) {
+        toast.innerText = "Скопировано!";
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2000);
+      }
     }
 
     async function activateKey() {
