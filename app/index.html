@@ -27,6 +27,13 @@
       padding-bottom: 40px;
     }
 
+    #sub-id {
+      user-select: all;
+      word-break: break-all;
+      font-family: monospace;
+      opacity: 0.8;
+    }
+
     .card {
       background: var(--card);
       border-radius: 16px;
@@ -262,7 +269,7 @@
     }
 
     function render(data) {
-      document.getElementById('sub-id').innerText = data.id.split('-')[0] + '...';
+      document.getElementById('sub-id').innerText = data.id;
       document.getElementById('days').innerText = data.days;
 
       const statusEl = document.getElementById('status-text');
