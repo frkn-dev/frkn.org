@@ -4,19 +4,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>FRKN Panel</title>
+  <title>FRKN App</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-
   <style>
     :root {
-      --bg: var(--tg-theme-bg-color, #0b0d12);
-      --card: var(--tg-theme-secondary-bg-color, #121621);
-      --text: var(--tg-theme-text-color, #e6e8ef);
-      --muted: var(--tg-theme-hint-color, #9aa1b2);
-      --accent: var(--tg-theme-button-color, #5b7cfa);
-      --accent-text: var(--tg-theme-button-text-color, #ffffff);
-      --border: rgba(255, 255, 255, 0.1);
+      --bg: #0b0d12;
+      --card: #121621;
+      --text: #e6e8ef;
+      --muted: #9aa1b2;
+      --accent: #5b7cfa;
+      --accent-2: #22d3ee;
+      --border: #1f2433;
     }
 
     body {
@@ -25,9 +24,7 @@
       color: var(--text);
       margin: 0;
       padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      padding-bottom: 40px;
     }
 
     .card {
@@ -35,54 +32,149 @@
       border-radius: 16px;
       padding: 20px;
       border: 1px solid var(--border);
+      margin-bottom: 16px;
     }
 
-    /* Твои крутые статы */
+    /* Hero Stats */
     .hero-stats {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-top: 16px;
+      margin: 16px 0;
     }
 
     .stat {
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(30, 41, 59, 0.4);
       padding: 12px;
       border-radius: 12px;
       text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .stat span {
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
     }
 
     .stat b {
+      font-size: 1.8rem;
+      color: var(--accent-2);
       display: block;
-      font-size: 1.5rem;
-      color: #22d3ee;
+      margin-top: 4px;
     }
 
-    .btn-main {
-      background: var(--accent);
-      color: var(--accent-text);
-      width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      border: none;
-      font-weight: 700;
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
       cursor: pointer;
-      margin-top: 10px;
+      font-weight: 600;
     }
 
+    .tab.active {
+      background: var(--border);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Proxy Items */
+    .proxy-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .proxy-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .proxy-item:active {
+      transform: scale(0.98);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .proxy-label {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .proxy-action {
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* QR Codes */
+    .qr-row {
+      display: flex;
+      overflow-x: auto;
+      gap: 12px;
+      margin-top: 12px;
+      padding-bottom: 8px;
+    }
+
+    .qr-item {
+      min-width: 120px;
+      text-align: center;
+      background: #fff;
+      padding: 8px;
+      border-radius: 12px;
+    }
+
+    .qr-item span {
+      font-size: 9px;
+      color: #000;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+    }
+
+    /* UI Elements */
     input {
       width: 100%;
       padding: 12px;
       border-radius: 10px;
       border: 1px solid var(--border);
-      background: rgba(0, 0, 0, 0.2);
-      color: white;
+      background: #000;
+      color: #fff;
+      margin-bottom: 8px;
       box-sizing: border-box;
-      margin-bottom: 10px;
     }
 
-    .hidden {
-      display: none;
+    .btn-main {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
     }
 
     .status-active {
@@ -93,7 +185,15 @@
       color: #ef4444;
     }
 
-    /* QR и прочее оставляем как в твоем оригинале... */
+    .hidden {
+      display: none;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
   </style>
 </head>
 
@@ -101,33 +201,43 @@
 
   <div id="main-app">
     <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 style="margin:0">FRKN Dashboard</h2>
-        <span id="badge" class="stat" style="font-size: 10px; padding: 4px 8px;">DEV</span>
-      </div>
-
+      <h2
+        style="margin:0; font-size: 1.2rem; background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        Рилзопровод: Подписка
+      </h2>
       <div class="hero-stats">
-        <div class="stat">Дней осталось<b id="days">...</b></div>
-        <div class="stat">Статус<span id="status-text" style="display:block; font-weight:bold">...</span></div>
+        <div class="stat"><span>Дней</span><b id="days">...</b></div>
+        <div class="stat"><span>Статус</span><b id="status-text" style="font-size: 1rem; margin-top: 12px;">...</b>
+        </div>
       </div>
-
-      <p class="muted" style="font-size: 12px; text-align: center;">ID: <span id="sub-id"
-          style="cursor:pointer">...</span></p>
+      <div class="muted">ID: <span id="sub-id" style="text-decoration: underline;">...</span></div>
     </div>
 
-    <div class="card" id="activation-card">
-      <h3 style="margin-top:0">Докинуть дней</h3>
-      <input type="text" id="keyInput" placeholder="Введите ключ AIF3R-...">
-      <button class="btn-main" onclick="activateKey()">Активировать ключ</button>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('xray')">Xray</button>
+      <button class="tab" onclick="switchTab('h2')">Hysteria2</button>
     </div>
 
-    <button class="btn-main" style="background: #1d4ed8;" onclick="window.open('https://frkn.org/pay', '_blank')">💎
-      Купить подписку</button>
+    <div id="content-xray" class="card">
+      <div id="xray-list" class="proxy-list"></div>
+      <div id="xray-qr" class="qr-row"></div>
+    </div>
+
+    <div id="content-h2" class="card hidden">
+      <div id="h2-list" class="proxy-list"></div>
+      <div id="h2-qr" class="qr-row"></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0; font-size: 1rem;">⚡ Докинуть дней</h3>
+      <input type="text" id="keyInput" placeholder="Введите ключ">
+      <button class="btn-main" onclick="activateKey()">Активировать</button>
+    </div>
   </div>
 
-  <div id="error-screen" class="hidden card" style="text-align: center;">
-    <h2>Подписка не найдена</h2>
-    <p>Похоже, ты еще не получил триал или не активировал ключ.</p>
+  <div id="error-screen" class="card hidden" style="text-align: center;">
+    <h2 style="color: #ef4444;">Подписка не найдена</h2>
+    <p class="muted">Похоже, срок действия истек или ID не верен.</p>
     <button class="btn-main" onclick="tg.close()">Вернуться в бот</button>
   </div>
 
@@ -136,41 +246,26 @@
     tg.expand();
     tg.ready();
 
-    const isLocal = location.hostname === 'localhost';
+    const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
     const API_BASE = isLocal ? "http://localhost:5005" : "https://api.frkn.org";
+    const subId = new URLSearchParams(window.location.search).get('id');
 
-    let currentSubId = new URLSearchParams(window.location.search).get('id');
-
-    async function loadData() {
-      // Если ID нет в URL, пробуем найти по telegram_id через твой API
-      if (!currentSubId && tg.initDataUnsafe?.user?.id) {
-        try {
-          const res = await fetch(`${API_BASE}/user-subscription/${tg.initDataUnsafe.user.id}`);
-          const data = await res.json();
-          currentSubId = data.subscriptionId;
-        } catch (e) {console.error("User not found");}
-      }
-
-      if (!currentSubId) {
-        document.getElementById('main-app').classList.add('hidden');
-        document.getElementById('error-screen').classList.remove('hidden');
-        return;
-      }
+    async function load() {
+      if (!subId) return showState('error');
 
       try {
-        const res = await fetch(`${API_BASE}/subscription/${currentSubId}`);
+        const res = await fetch(`${API_BASE}/subscription/${subId}`);
+        if (!res.ok) throw new Error();
         const data = await res.json();
         render(data);
-      } catch (e) {
-        console.error("Fetch error");
-      }
+      } catch (e) {showState('error');}
     }
 
     function render(data) {
-      document.getElementById('sub-id').innerText = data.id;
+      document.getElementById('sub-id').innerText = data.id.split('-')[0] + '...';
       document.getElementById('days').innerText = data.days;
-      const statusEl = document.getElementById('status-text');
 
+      const statusEl = document.getElementById('status-text');
       if (data.days > 0) {
         statusEl.innerText = "АКТИВНА";
         statusEl.className = "status-active";
@@ -178,36 +273,81 @@
         statusEl.innerText = "ИСТЕКЛА";
         statusEl.className = "status-expired";
       }
+
+      // Рендерим протоколы (берем первую локацию для примера)
+      const loc = data.locations?.[0] || {env: 'dev', has_xray: true, has_hysteria: true};
+
+      setupProto('xray', data.id, loc.env, ['TXT', 'Base64', 'Clash']);
+      setupProto('h2', data.id, loc.env, ['TXT', 'Base64']);
+    }
+
+    function setupProto(proto, id, env, formats) {
+      const listContainer = document.getElementById(`${proto}-list`);
+      const qrContainer = document.getElementById(`${proto}-qr`);
+
+      formats.forEach(fmt => {
+        const url = `${API_BASE}/sub?id=${id}&env=${env}&proto=${proto === 'xray' ? 'Xray' : 'Hysteria2'}&format=${fmt.toLowerCase()}`;
+
+        // Добавляем в список
+        const item = document.createElement('div');
+        item.className = 'proxy-item';
+        item.innerHTML = `<div class="proxy-label">${fmt}</div><div class="proxy-action">Копировать</div>`;
+        item.onclick = () => copy(url);
+        listContainer.appendChild(item);
+
+        // Генерим QR
+        const qrBox = document.createElement('div');
+        qrBox.className = 'qr-item';
+        qrBox.innerHTML = `<span>${fmt}</span><canvas id="qr-${proto}-${fmt}"></canvas>`;
+        qrContainer.appendChild(qrBox);
+
+        setTimeout(() => {
+          QRCode.toCanvas(document.getElementById(`qr-${proto}-${fmt}`), url, {width: 120, margin: 1});
+        }, 50);
+      });
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('content-xray').classList.toggle('hidden', tab !== 'xray');
+      document.getElementById('content-h2').classList.toggle('hidden', tab !== 'h2');
+    }
+
+    function copy(text) {
+      navigator.clipboard.writeText(text);
+      tg.HapticFeedback.notificationOccurred('success');
+      tg.showScanQrPopup({text: "Ссылка скопирована!"});
+      setTimeout(() => tg.closeScanQrPopup(), 1000);
     }
 
     async function activateKey() {
       const code = document.getElementById('keyInput').value;
-      if (!code) return tg.showAlert("Введите ключ!");
+      if (!code) return;
 
       tg.MainButton.showProgress();
-      try {
-        const res = await fetch(`${API_BASE}/key/activate`, {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({code, subscription_id: currentSubId})
-        });
-        const data = await res.json();
+      const res = await fetch(`${API_BASE}/key/activate`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({code, subscription_id: subId})
+      });
 
-        if (res.ok) {
-          tg.HapticFeedback.notificationOccurred('success');
-          tg.showAlert("Успешно продлено!");
-          location.reload();
-        } else {
-          tg.showAlert("Ошибка: " + data.message);
-        }
-      } catch (e) {
-        tg.showAlert("Ошибка сервера");
-      } finally {
-        tg.MainButton.hideProgress();
+      if (res.ok) {
+        tg.HapticFeedback.notificationOccurred('success');
+        location.reload();
+      } else {
+        tg.HapticFeedback.notificationOccurred('error');
+        alert("Ошибка ключа");
       }
+      tg.MainButton.hideProgress();
     }
 
-    loadData();
+    function showState(s) {
+      document.getElementById('main-app').classList.toggle('hidden', s === 'error');
+      document.getElementById('error-screen').classList.toggle('hidden', s !== 'error');
+    }
+
+    load();
   </script>
 </body>
 
