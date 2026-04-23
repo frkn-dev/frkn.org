@@ -4,164 +4,92 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>frkn Privacy</title>
+  <title>frkn Privacy — Оплата</title>
   <link rel="stylesheet" href="/styles.css" />
   <style>
-    .key-display {
-      background: #000;
-      border: 1px dashed #22c55e;
-      color: #22c55e;
-      padding: 18px;
-      border-radius: 12px;
-      font-family: monospace;
-      font-size: 13px;
-      margin: 20px 0;
-      letter-spacing: 1px;
-    }
-
-    .small {
-      text-align: left;
-      line-height: 1.6;
-    }
-
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(10px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background: #1a1a1a;
-      padding: 40px;
-      border-radius: 24px;
-      border: 1px solid #333;
-      width: 90%;
-      max-width: 400px;
-      position: relative;
-    }
-
-    .close-modal {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      cursor: pointer;
-      color: #666;
-      font-size: 24px;
-    }
-
-    .form-group {
-      margin-top: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      color: #888;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 12px;
-      background: #000;
-      border: 1px solid #333;
-      border-radius: 12px;
-      color: #fff;
-      outline: none;
-    }
-
-    .modal-footer {
-      margin-top: 30px;
+    /* Все твои стили из сообщения остаются здесь */
+    .key-container {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 15px;
+      gap: 12px;
+      transition: border-color 0.2s;
+    }
+
+    .key-text {
+      flex-grow: 1;
+      font-family: monospace;
+      font-size: 14px;
+      color: #eee;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .copy-icon-btn {
+      background: none;
+      border: none;
+      color: #007aff;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .copy-hint {
+      font-size: 10px;
+      color: #22c55e;
+      text-align: right;
+      display: none;
+      margin-bottom: 10px;
+    }
+
+    /* Скрываем блок результата до момента оплаты */
+    #success-section {
+      display: none;
+      margin-top: 30px;
+      border-top: 1px solid #333;
+      padding-top: 30px;
+    }
+
+    .loader {
+      border: 3px solid #333;
+      border-top: 3px solid #fff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
     }
 
     .btn-pay {
       background: #fff;
       color: #000;
-      padding: 12px 24px;
+      padding: 14px;
       border-radius: 12px;
       font-weight: bold;
       border: none;
       cursor: pointer;
-    }
-
-    .popup-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
       width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .popup-overlay.active {
-      display: flex;
-      opacity: 1;
-    }
-
-    .popup-content {
-      background: #1a1a1a;
-      padding: 30px;
-      border-radius: 20px;
-      border: 1px solid #333;
-      text-align: center;
-      max-width: 400px;
-      width: 90%;
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .popup-overlay.active .popup-content {
-      transform: translateY(0);
-    }
-
-    .popup-icon {
-      font-size: 50px;
-      margin-bottom: 15px;
-    }
-
-    .popup-content h2 {
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .popup-content p {
-      color: #aaa;
-      margin-bottom: 25px;
-      line-height: 1.5;
-    }
-
-    .popup-content .btn {
-      background: #22c55e;
-      color: #fff;
-      border: none;
-      padding: 12px 30px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.2s;
-    }
-
-    .popup-content .btn:hover {
-      background: #16a34a;
     }
   </style>
 </head>
@@ -170,131 +98,117 @@
   <div class="container">
     <header>
       <div id="logo-container"></div>
-      <h1 class="hero-title">Ждём оплату</h1>
+      <h1 class="hero-title">Оплата</h1>
     </header>
 
-    <div id="error-popup" class="popup-overlay">
-      <div class="popup-content">
-        <div class="popup-icon">⚠️</div>
-        <h2 id="popup-title">Ошибка</h2>
-        <p id="popup-message">Пупупупууу. Что-то пошло не так. </p>
-        <button class="btn" onclick="closePopup()">Ясно</button>
+    <div id="waiting-section">
+      <h2 style="font-size: 20px;">Проверяем платёж...</h2>
+      <div class="loader"></div>
+      <p id="status" style="color: #888; font-size: 14px;">Как только подтверждение придет от банка, здесь появится ваш
+        ключ.</p>
+    </div>
+
+    <div id="success-section">
+      <h2 style="color: #22c55e;">Оплата принята! 🚀</h2>
+      <p style="color: #aaa; font-size: 14px; margin-bottom: 25px;">Ваш ключ активации готов:</p>
+
+      <div class="form-group">
+        <button class="btn-pay" style="margin-bottom: 15px;" id="auto-activate-btn">
+          🚀 Активировать сейчас
+        </button>
+
+        <label style="color: #666; font-size: 11px; margin-bottom: 5px; text-align: left; display: block;">КЛЮЧ
+          ПОДПИСКИ:</label>
+
+        <div class="key-container">
+          <div class="key-text" id="subscription-key">ЗАГРУЗКА...</div>
+          <button class="copy-icon-btn" onclick="copyKey()" title="Копировать">
+            <span id="copy-icon">📋</span>
+          </button>
+        </div>
+        <div id="copy-success" class="copy-hint">Ключ скопирован!</div>
+
+        <div class="small" style="color: #888; font-size: 12px; margin-top: 20px; text-align: left;">
+          <p style="color: #666; font-size: 11px; line-height: 1.5;">
+            <strong>Как использовать:</strong><br>
+            1. Нажми «Активировать» для быстрой привязки.<br>
+            2. Или скопируй ключ для ручного ввода или подарка.<br>
+            3. Срок подписки пойдет только после активации.
+          </p>
+        </div>
       </div>
     </div>
 
-    <class="container">
-      <h1>Проверяем оплату...</h1>
-      <div class="loader"></div>
-      <p id="status">Как только платёж подтвердится, мы выдадим ключ.</p>
-
-      <br><br><br><br><br><br><br>
-
-      <div id="footer-container"></div>
-
-
-      <div id="success-modal" class="modal-overlay" style="display:none;">
-        <div class="modal-content">
-          <div id="logo-container"></div>
-          <div class="popup-icon">✅</div>
-          <h2>Оплата прошла!</h2>
-          <p>Ваш ключ подписки:</p>
-
-          <div class="key-display" id="generated-key">XXXXX-XXXXX-XXXXX</div>
-
-          <div class="form-group">
-            <button class="btn-pay" style="width: 100%; margin-bottom: 10px;" id="auto-activate-btn">
-              🚀 Активировать сейчас
-            </button>
-            <div class="small" style="color: #888; font-size: 12px; margin-top: 15px;">
-
-              <p id="modal-info" style="color: #666; font-size: 11px; text-align: left; margin-top: 20px;">
-                <strong>Как использовать:</strong><br>
-                1. Если никогда не пользовался FRKN – Нажми кнопку выше для авто-активации.<br>
-                2. Или скопируйте ключ и введите его на вашей странице подписки.<br>
-                3. Ключ одноразовый. Срок действия начинается с момена активации. <br>
-                <br> Ключ можно подарить.
-              </p>
-
-            </div>
-          </div>
-        </div>
-      </div>
+    <div id="footer-container" style="margin-top: 50px;"></div>
   </div>
 
-
-  <script src="/scripts/analytics.js" defer></script>
-  <script src="/scripts/containers.js"></script>
-
+  <div id="error-popup" class="popup-overlay">
+    <div class="popup-content">
+      <div class="popup-icon">⚠️</div>
+      <h2 id="popup-title">Ошибка</h2>
+      <p id="popup-message"></p>
+      <button class="btn" onclick="closePopup()">Ясно</button>
+    </div>
+  </div>
 
   <script>
-
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-    const BASE = isLocal
-      ? "http://localhost:8000"
-      : "https://frkn.org";
-
-    const AUTH_BASE = isLocal
-      ? "http://localhost:3005"
-      : "https://api.frkn.org";
-
-    const API_BASE = isLocal
-      ? "http://localhost:5005"
-      : "https://api.frkn.org";
-
-    const PAYMENT_API_BASE = isLocal
-      ? "http://localhost:8080"
-      : "https://api.frkn.org";
-
+    const BASE = isLocal ? "http://localhost:8000" : "https://frkn.org";
+    const PAYMENT_API_BASE = isLocal ? "http://localhost:8080" : "https://api.frkn.org";
 
     const params = new URLSearchParams(window.location.search);
     const txid = params.get("txid");
 
-    function closePopup() {
-      document.getElementById('error-popup').classList.remove('active');
+    function closePopup() {document.getElementById('error-popup').classList.remove('active');}
+
+    function copyKey() {
+      const keyText = document.getElementById('subscription-key').innerText;
+      const hint = document.getElementById('copy-success');
+      const icon = document.getElementById('copy-icon');
+
+      navigator.clipboard.writeText(keyText).then(() => {
+        hint.style.display = 'block';
+        icon.innerText = '✅';
+        setTimeout(() => {hint.style.display = 'none'; icon.innerText = '📋';}, 2000);
+      });
     }
 
     async function poll() {
-      if (!txid) {
-        document.getElementById('status').innerText = "Ошибка: ID транзакции не найден.";
-        return;
-      }
+      if (!txid) return;
+
       try {
         const res = await fetch(`${PAYMENT_API_BASE}/payment/check/${txid}`);
-
-        if (!res.ok) throw new Error("Ошибка связи с сервером");
+        if (!res.ok) throw new Error("Сервер не отвечает");
 
         const data = await res.json();
 
+        // Если в ответе пришел код (ключ)
         if (data.code) {
-          const loader = document.querySelector('.loader');
-          if (loader) loader.style.display = 'none';
-          document.getElementById('status').style.display = 'none';
+          document.getElementById('waiting-section').style.display = 'none';
+          document.getElementById('success-section').style.display = 'block';
 
-          document.getElementById('generated-key').innerText = data.code;
+          const keyDisplay = document.getElementById('subscription-key');
+          keyDisplay.innerText = data.code;
 
           document.getElementById('auto-activate-btn').onclick = () => {
             window.location.href = `${BASE}/activate?code=${data.code}`;
           };
-
-          document.getElementById('success-modal').style.display = 'flex';
-
         } else {
+          // Если кода еще нет, ждем 2 сек и спрашиваем снова
           setTimeout(poll, 2000);
         }
       } catch (e) {
-        console.error("Ошибка при опросе:", e);
+        console.error("Poll error:", e);
         setTimeout(poll, 5000);
       }
     }
+
     if (txid) {
       poll();
     } else {
-      document.getElementById('status').innerText = "Нет данных для проверки оплаты.";
+      document.getElementById('status').innerText = "Транзакция не найдена. Проверьте ссылку.";
     }
   </script>
-
-
 </body>
 
 </html>
