@@ -276,7 +276,10 @@
           }
 
           const data = await res.json();
-          if (data.redirect) window.location.href = data.redirect;
+          console.log("DEBUG: ", data);
+
+          if (data.url) window.location.href = data.url;
+
 
         } catch (e) {
           showError(e.message);
