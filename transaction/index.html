@@ -4,58 +4,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>frkn Privacy — Оплата</title>
+  <title>frkn Privacy — Активация</title>
   <link rel="stylesheet" href="/styles.css" />
   <style>
-    /* Все твои стили из сообщения остаются здесь */
+    body {
+      background-color: #0a0a0a;
+      color: #fff;
+      font-family: -apple-system, system-ui, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 400px;
+      width: 90%;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    /* Контейнер для ключа */
     .key-container {
       display: flex;
       align-items: center;
-      background: #222;
+      background: #1a1a1a;
       border: 1px solid #333;
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin-bottom: 15px;
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 20px;
       gap: 12px;
-      transition: border-color 0.2s;
     }
 
     .key-text {
       flex-grow: 1;
-      font-family: monospace;
+      font-family: 'SF Mono', monospace;
       font-size: 14px;
-      color: #eee;
+      color: #22c55e;
+      /* Сделал ключ зеленым, как на скрине */
+      letter-spacing: 0.5px;
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
     }
 
     .copy-icon-btn {
       background: none;
       border: none;
-      color: #007aff;
+      color: #555;
       cursor: pointer;
       font-size: 18px;
+      transition: color 0.2s;
     }
 
-    .copy-hint {
-      font-size: 10px;
-      color: #22c55e;
-      text-align: right;
-      display: none;
-      margin-bottom: 10px;
+    .copy-icon-btn:hover {
+      color: #fff;
     }
 
-    /* Скрываем блок результата до момента оплаты */
+    .btn-pay {
+      background: #fff;
+      color: #000;
+      padding: 16px;
+      border-radius: 14px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+      transition: transform 0.1s;
+    }
+
+    .btn-pay:active {
+      transform: scale(0.98);
+    }
+
     #success-section {
       display: none;
-      margin-top: 30px;
-      border-top: 1px solid #333;
-      padding-top: 30px;
     }
 
     .loader {
-      border: 3px solid #333;
+      border: 3px solid #222;
       border-top: 3px solid #fff;
       border-radius: 50%;
       width: 40px;
@@ -65,90 +93,80 @@
     }
 
     @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-
       100% {
         transform: rotate(360deg);
       }
     }
 
-    .container {
-      max-width: 400px;
-      margin: 0 auto;
-      padding: 40px 20px;
-      text-align: center;
+    /* Попап ошибок — теперь фиксированный по центру */
+    .popup-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
     }
 
-    .btn-pay {
-      background: #fff;
-      color: #000;
-      padding: 14px;
-      border-radius: 12px;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      width: 100%;
+    .popup-overlay.active {
+      display: flex;
+    }
+
+    .popup-content {
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 24px;
+      border: 1px solid #333;
+      max-width: 320px;
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <header>
-      <div id="logo-container"></div>
-      <h1 class="hero-title">Оплата</h1>
-    </header>
-
     <div id="waiting-section">
-      <h2 style="font-size: 20px;">Проверяем платёж...</h2>
+      <h1 class="hero-title" style="font-size: 24px; margin-bottom: 10px;">Проверяем платёж</h1>
       <div class="loader"></div>
-      <p id="status" style="color: #888; font-size: 14px;">Как только подтверждение придет от банка, здесь появится ваш
-        ключ.</p>
+      <p id="status" style="color: #666; font-size: 14px;">Обычно это занимает не больше минуты.</p>
     </div>
 
     <div id="success-section">
-      <h2 style="color: #22c55e;">Оплата принята! 🚀</h2>
-      <p style="color: #aaa; font-size: 14px; margin-bottom: 25px;">Ваш ключ активации готов:</p>
+      <h2 style="color: #22c55e; font-size: 24px; margin-bottom: 10px;">Оплата принята! 🚀</h2>
+      <p style="color: #888; font-size: 14px; margin-bottom: 30px;">Ваш ключ активации готов:</p>
 
-      <div class="form-group">
-        <button class="btn-pay" style="margin-bottom: 15px;" id="auto-activate-btn">
-          🚀 Активировать сейчас
-        </button>
+      <label
+        style="color: #555; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; display: block; text-align: left; margin-bottom: 8px; margin-left: 5px;">Ключ
+        подписки</label>
+      <div class="key-container">
+        <div class="key-text" id="subscription-key">ЗАГРУЗКА...</div>
+        <button class="copy-icon-btn" onclick="copyKey()" id="copy-btn">📋</button>
+      </div>
 
-        <label style="color: #666; font-size: 11px; margin-bottom: 5px; text-align: left; display: block;">КЛЮЧ
-          ПОДПИСКИ:</label>
+      <button class="btn-pay" id="auto-activate-btn">
+        🚀 Активировать сейчас
+      </button>
 
-        <div class="key-container">
-          <div class="key-text" id="subscription-key">ЗАГРУЗКА...</div>
-          <button class="copy-icon-btn" onclick="copyKey()" title="Копировать">
-            <span id="copy-icon">📋</span>
-          </button>
-        </div>
-        <div id="copy-success" class="copy-hint">Ключ скопирован!</div>
-
-        <div class="small" style="color: #888; font-size: 12px; margin-top: 20px; text-align: left;">
-          <p style="color: #666; font-size: 11px; line-height: 1.5;">
-            <strong>Как использовать:</strong><br>
-            1. Нажми «Активировать» для быстрой привязки.<br>
-            2. Или скопируй ключ для ручного ввода или подарка.<br>
-            3. Срок подписки пойдет только после активации.
-          </p>
-        </div>
+      <div style="color: #444; font-size: 12px; margin-top: 25px; text-align: left; line-height: 1.6;">
+        <strong>Инфо:</strong><br>
+        1. Нажми кнопку для мгновенной привязки.<br>
+        2. Или используй ключ вручную.<br>
+        3. Ключ можно подарить.
       </div>
     </div>
 
-    <div id="footer-container" style="margin-top: 50px;"></div>
-  </div>
-
-  <div id="error-popup" class="popup-overlay">
-    <div class="popup-content">
-      <div class="popup-icon">⚠️</div>
-      <h2 id="popup-title">Ошибка</h2>
-      <p id="popup-message"></p>
-      <button class="btn" onclick="closePopup()">Ясно</button>
+    <div id="error-popup" class="popup-overlay">
+      <div class="popup-content">
+        <div style="font-size: 40px; margin-bottom: 15px;">⚠️</div>
+        <h2 style="margin: 0 0 10px 0; font-size: 20px;">Ошибка</h2>
+        <p id="popup-message" style="color: #888; font-size: 14px; margin-bottom: 20px;"></p>
+        <button onclick="closePopup()"
+          style="background: #333; color: #fff; border: none; padding: 12px 25px; border-radius: 12px; cursor: pointer; width: 100%;">Ясно</button>
+      </div>
     </div>
+
+    <div id="footer-container" style="margin-top: 40px; opacity: 0.3;"></div>
   </div>
 
   <script>
@@ -163,51 +181,36 @@
 
     function copyKey() {
       const keyText = document.getElementById('subscription-key').innerText;
-      const hint = document.getElementById('copy-success');
-      const icon = document.getElementById('copy-icon');
-
+      const btn = document.getElementById('copy-btn');
       navigator.clipboard.writeText(keyText).then(() => {
-        hint.style.display = 'block';
-        icon.innerText = '✅';
-        setTimeout(() => {hint.style.display = 'none'; icon.innerText = '📋';}, 2000);
+        btn.innerText = '✅';
+        setTimeout(() => {btn.innerText = '📋';}, 2000);
       });
     }
 
     async function poll() {
       if (!txid) return;
-
       try {
         const res = await fetch(`${PAYMENT_API_BASE}/payment/check/${txid}`);
-        if (!res.ok) throw new Error("Сервер не отвечает");
-
         const data = await res.json();
 
-        // Если в ответе пришел код (ключ)
         if (data.code) {
           document.getElementById('waiting-section').style.display = 'none';
           document.getElementById('success-section').style.display = 'block';
-
-          const keyDisplay = document.getElementById('subscription-key');
-          keyDisplay.innerText = data.code;
-
+          document.getElementById('subscription-key').innerText = data.code;
           document.getElementById('auto-activate-btn').onclick = () => {
             window.location.href = `${BASE}/activate?code=${data.code}`;
           };
         } else {
-          // Если кода еще нет, ждем 2 сек и спрашиваем снова
           setTimeout(poll, 2000);
         }
       } catch (e) {
-        console.error("Poll error:", e);
         setTimeout(poll, 5000);
       }
     }
 
-    if (txid) {
-      poll();
-    } else {
-      document.getElementById('status').innerText = "Транзакция не найдена. Проверьте ссылку.";
-    }
+    if (txid) poll();
+    else document.getElementById('status').innerText = "Транзакция не найдена.";
   </script>
 </body>
 
