@@ -103,9 +103,7 @@
       height: 100%;
       background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(5px);
-      /* Размытие заднего плана */
       display: none;
-      /* Скрыт по умолчанию */
       align-items: center;
       justify-content: center;
       z-index: 1000;
@@ -113,13 +111,11 @@
       transition: opacity 0.3s ease;
     }
 
-    /* Активное состояние оверлея */
     .popup-overlay.active {
       display: flex;
       opacity: 1;
     }
 
-    /* Контент попапа */
     .popup-content {
       background: #1a1a1a;
       padding: 30px;
@@ -153,7 +149,6 @@
       line-height: 1.5;
     }
 
-    /* Кнопка внутри попапа */
     .popup-content .btn {
       background: #22c55e;
       color: #fff;
@@ -188,10 +183,13 @@
       </div>
     </div>
 
-    <div class="container">
+    <class="container">
       <h1>Проверяем оплату...</h1>
       <div class="loader"></div>
-      <p id="status">Как только платеж подтвердится, мы выдадим ключ.</p>
+      <p id="status">Как только платёж подтвердится, мы выдадим ключ.</p>
+
+      <div id="footer-container"></div>
+
 
       <div id="success-modal" class="modal-overlay" style="display:none;">
         <div class="modal-content">
@@ -213,68 +211,77 @@
           </div>
         </div>
       </div>
-    </div>
+  </div>
 
 
+  <script src="/scripts/analytics.js" defer></script>
+  <script src="/scripts/containers.js"></script>
 
-    <script>
-      // 1. Достаем txid из URL
-      const params = new URLSearchParams(window.location.search);
-      const txid = params.get("txid");
 
-      // Функция для закрытия попапа ошибки (если он вылезет)
-      function closePopup() {
-        document.getElementById('error-popup').classList.remove('active');
+  <script>
+    const BASE = isLocal
+      ? "http://localhost:8000"
+      : "https://frkn.org";
+
+    const AUTH_BASE = isLocal
+      ? "http://localhost:3005"
+      : "https://api.frkn.org";
+
+    const API_BASE = isLocal
+      ? "http://localhost:5005"
+      : "https://api.frkn.org";
+
+    const PAYMENT_API_BASE = isLocal
+      ? "http://localhost:8080"
+      : "https://api.frkn.org";
+
+
+    const params = new URLSearchParams(window.location.search);
+    const txid = params.get("txid");
+
+    function closePopup() {
+      document.getElementById('error-popup').classList.remove('active');
+    }
+
+    async function poll() {
+      if (!txid) {
+        document.getElementById('status').innerText = "Ошибка: ID транзакции не найден.";
+        return;
       }
+      try {
+        const res = await fetch(`${PAYMENT_API_BASE}/payments/check/${txid}`);
 
-      async function poll() {
-        if (!txid) {
-          document.getElementById('status').innerText = "Ошибка: ID транзакции не найден.";
-          return;
+        if (!res.ok) throw new Error("Ошибка связи с сервером");
+
+        const data = await res.json();
+
+        if (data.code) {
+          const loader = document.querySelector('.loader');
+          if (loader) loader.style.display = 'none';
+          document.getElementById('status').style.display = 'none';
+
+          document.getElementById('generated-key').innerText = data.code;
+
+          document.getElementById('auto-activate-btn').onclick = () => {
+            window.location.href = `${BASE}/activate?code=${data.code}`;
+          };
+
+          document.getElementById('success-modal').style.display = 'flex';
+
+        } else {
+          setTimeout(poll, 2000);
         }
-
-        try {
-          const res = await fetch(`http://localhost:8080/payments/check/${txid}`);
-
-          if (!res.ok) throw new Error("Ошибка связи с сервером");
-
-          const data = await res.json();
-
-          if (data.code) {
-            // Успех! Скрываем лишнее
-            const loader = document.querySelector('.loader');
-            if (loader) loader.style.display = 'none';
-            document.getElementById('status').style.display = 'none';
-
-            // Заполняем данные ключа
-            document.getElementById('generated-key').innerText = data.code;
-
-            // Навешиваем клик на кнопку
-            document.getElementById('auto-activate-btn').onclick = () => {
-              window.location.href = `http://localhost:8000/activate?code=${data.code}`;
-            };
-
-            // Показываем модалку
-            document.getElementById('success-modal').style.display = 'flex';
-
-          } else {
-            // Ключа еще нет, проверяем снова через 2 сек
-            setTimeout(poll, 2000);
-          }
-        } catch (e) {
-          console.error("Ошибка при опросе:", e);
-          // Если сервер упал, пробуем реже (через 5 сек)
-          setTimeout(poll, 5000);
-        }
+      } catch (e) {
+        console.error("Ошибка при опросе:", e);
+        setTimeout(poll, 5000);
       }
-
-      // 2. ЗАПУСКАЕМ процесс
-      if (txid) {
-        poll();
-      } else {
-        document.getElementById('status').innerText = "Нет данных для проверки оплаты.";
-      }
-    </script>
+    }
+    if (txid) {
+      poll();
+    } else {
+      document.getElementById('status').innerText = "Нет данных для проверки оплаты.";
+    }
+  </script>
 
 
 </body>

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FRKN Privacy - Цены</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .key-display {
+      background: #000;
+      border: 1px dashed #22c55e;
+      color: #22c55e;
+      padding: 18px;
+      border-radius: 12px;
+      font-family: monospace;
+      font-size: 13px;
+      margin: 20px 0;
+      letter-spacing: 1px;
+    }
+
+    .small {
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #1a1a1a;
+      padding: 40px;
+      border-radius: 24px;
+      border: 1px solid #333;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      color: #666;
+      font-size: 24px;
+    }
+
+    .form-group {
+      margin-top: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #888;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      background: #000;
+      border: 1px solid #333;
+      border-radius: 12px;
+      color: #fff;
+      outline: none;
+    }
+
+    .modal-footer {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-pay {
+      background: #fff;
+      color: #000;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .popup-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .popup-content {
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid #333;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .popup-overlay.active .popup-content {
+      transform: translateY(0);
+    }
+
+    .popup-icon {
+      font-size: 50px;
+      margin-bottom: 15px;
+    }
+
+    .popup-content h2 {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .popup-content p {
+      color: #aaa;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    .popup-content .btn {
+      background: #22c55e;
+      color: #fff;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    .popup-content .btn:hover {
+      background: #16a34a;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1 class="hero-title">Ошибка оплаты</h1>
+    </header>
+
+
+
+
+    <class="container">
+      <h1>Пупупуууу</h1>
+      <p id="status">Что-то пошло не так с оплатой. Свяжитесь с <a class="text-link"
+          href="https://t.me/frkn_support">Поддержкой</a></p>
+
+      <br><br><br><br><br><br>
+
+      <div id="footer-container"></div>
+
+
+
+
+
+      <script src="/scripts/analytics.js" defer></script>
+      <script src="/scripts/containers.js"></script>
+
+</body>
+
+</html>

@@ -209,6 +209,24 @@
     </div>
 
     <script>
+
+      const BASE = isLocal
+        ? "http://localhost:8000"
+        : "https://frkn.org";
+
+      const AUTH_BASE = isLocal
+        ? "http://localhost:3005"
+        : "https://api.frkn.org";
+
+      const API_BASE = isLocal
+        ? "http://localhost:5005"
+        : "https://api.frkn.org";
+
+      const PAYMENT_API_BASE = isLocal
+        ? "http://localhost:8080"
+        : "https://api.frkn.org";
+
+
       let currentOrder = null;
 
       function openModal(duration, price) {
@@ -231,19 +249,17 @@
         popup.classList.add('active');
       }
 
-      // Функция для закрытия
       function closePopup() {
         const popup = document.getElementById('error-popup');
         popup.classList.remove('active');
       }
 
-      // Твой обновленный обработчик кнопки оплаты
       document.getElementById('final-pay-btn').onclick = async () => {
         const btn = document.getElementById('final-pay-btn');
         btn.disabled = true; btn.innerText = "Проверка...";
 
         try {
-          const res = await fetch('http://localhost:8080/platega/payments/create', {
+          const res = await fetch('${PAYMENT_API_BASE}/payment/platega/create', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -254,7 +270,6 @@
           });
 
           if (!res.ok) {
-            // Пытаемся распарсить JSON с ошибкой от Rust (если сделали handle_rejection)
             const errorData = await res.json().catch(() => ({error: "Ошибка сервера"}));
             throw new Error(errorData.error || "Не удалось создать платеж");
           }
@@ -263,7 +278,6 @@
           if (data.redirect) window.location.href = data.redirect;
 
         } catch (e) {
-          // ВМЕСТО alert(e.message) используем наш попап
           showError(e.message);
         } finally {
           btn.disabled = false; btn.innerText = "Оплатить";
