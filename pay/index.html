@@ -4,152 +4,217 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FRKN Privacy - Цены</title>
+  <title>FRKN Privacy — Тарифы</title>
   <link rel="stylesheet" href="/styles.css" />
   <style>
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(10px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
+    :root {
+      --bg-color: #0a0a0a;
+      --card-bg: #1a1a1a;
+      --accent-color: #007aff;
+      --text-main: #ffffff;
+      --text-dim: #aaa;
+      --border-color: #333;
     }
 
-    .modal-content {
-      background: #1a1a1a;
-      padding: 40px;
-      border-radius: 24px;
-      border: 1px solid #333;
-      width: 90%;
-      max-width: 400px;
-      position: relative;
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
     }
 
-    .close-modal {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      cursor: pointer;
-      color: #666;
-      font-size: 24px;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
     }
 
-    .form-group {
-      margin-top: 20px;
+    .hero-title {
+      text-align: center;
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 50px;
+      letter-spacing: -1px;
     }
 
-    .form-group label {
-      display: block;
-      color: #888;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
+    Слушай,
+    отличная идея. Когда тарифов становится семь,
+    огромные карточки начинают выглядеть как бесконечный список,
+    который заставляет юзера слишком долго скроллить. Давай сделаем их более компактными,
+    горизонтально-ориентированными или просто плотными. Это создаст ощущение «витрины»,
+    где всё перед глазами. Что мы меняем: Уменьшаем паддинги: Карточка станет ниже. Шрифт цены: Чуть поменьше,
+    чтобы не «кричал»,
+    но оставался четким. Горизонтальная сетка: Сделаем так,
+    чтобы на десктопе они вставали по 4 в ряд,
+    а на планшетах по 3. Минимализм: Уберем лишние отступы и сделаем кнопки чуть изящнее. Обновленные стили (замени в <style>): CSS
 
-    .form-group input {
-      width: 100%;
-      padding: 12px;
-      background: #000;
-      border: 1px solid #333;
-      border-radius: 12px;
-      color: #fff;
-      outline: none;
-    }
-
-    .modal-footer {
+    /* Обновленная сетка: карточки поменьше */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      /* Уменьшили минимальную ширину */
+      gap: 15px;
+      /* Плотнее друг к другу */
       margin-top: 30px;
+    }
+
+    /* Компактная карточка */
+    .price-card {
+      background: #161616;
+      border: 1px solid #282828;
+      border-radius: 18px;
+      /* Чуть меньше скругление для строгости */
+      padding: 20px;
+      /* Ужали внутренние отступы */
+      text-align: center;
+      transition: all 0.2s ease-out;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .btn-pay {
-      background: #fff;
-      color: #000;
-      padding: 12px 24px;
-      border-radius: 12px;
-      font-weight: bold;
-      border: none;
+    .price-card:hover {
+      transform: translateY(-4px);
+      border-color: #444;
+      background: #1c1c1c;
+    }
+
+    .price-card h3 {
+      font-size: 14px;
+      /* Маленький аккуратный заголовок */
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin: 0 0 10px 0;
+    }
+
+    .price-card .cost {
+      font-size: 28px;
+      /* Компактная цена */
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    /* Компактная кнопка */
+    .buy-button {
+      width: 100%;
+      padding: 10px;
+      background: #222;
+      color: #ccc;
+      border: 1px solid #333;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
+      transition: all 0.2s;
     }
 
-    .popup-overlay {
+    /* Выделение популярного тарифа */
+    .price-card.popular {
+      border: 1px solid #007aff;
+      background: rgba(0, 122, 255, 0.05);
+    }
+
+    .price-card.popular::before {
+      content: "HIT";
+      top: 8px;
+      font-size: 9px;
+      background: #007aff;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .price-card.popular .cost {
+      color: #007aff;
+    }
+
+    /* Модалка */
+    .modal-overlay {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px);
-      /* Размытие заднего плана */
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #111;
+      color: white;
+      padding: 40px;
+      border-radius: 30px;
+      width: 90%;
+      max-width: 420px;
+      position: relative;
+      border: 1px solid #333;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 30px;
+      color: #555;
+      cursor: pointer;
+    }
+
+    .btn-pay {
+      width: 100%;
+      padding: 18px;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 15px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px;
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 12px;
+      color: white;
+      margin-top: 10px;
+      margin-bottom: 25px;
+      box-sizing: border-box;
+    }
+
+    /* Попап ошибок */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
       display: none;
-      /* Скрыт по умолчанию */
       align-items: center;
       justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      z-index: 3000;
     }
 
-    /* Активное состояние оверлея */
     .popup-overlay.active {
       display: flex;
-      opacity: 1;
     }
 
-    /* Контент попапа */
     .popup-content {
       background: #1a1a1a;
       padding: 30px;
-      border-radius: 20px;
-      border: 1px solid #333;
+      border-radius: 24px;
       text-align: center;
-      max-width: 400px;
-      width: 90%;
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .popup-overlay.active .popup-content {
-      transform: translateY(0);
-    }
-
-    .popup-icon {
-      font-size: 50px;
-      margin-bottom: 15px;
-    }
-
-    .popup-content h2 {
-      color: #fff;
-      margin-bottom: 10px;
-    }
-
-    .popup-content p {
-      color: #aaa;
-      margin-bottom: 25px;
-      line-height: 1.5;
-    }
-
-    /* Кнопка внутри попапа */
-    .popup-content .btn {
-      background: #22c55e;
-      color: #fff;
-      border: none;
-      padding: 12px 30px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.2s;
-    }
-
-    .popup-content .btn:hover {
-      background: #16a34a;
+      border: 1px solid #ff453a;
     }
   </style>
 </head>
@@ -158,150 +223,147 @@
   <div class="container">
     <div id="logo-container"></div>
     <header>
-
-      <h1 class="hero-title">Тарифы <br> В ПРОЦЕССЕ НАСТРОЙКИ - НЕ ИСПОЛЬЗОВАТЬ</h1>
-
-
+      <h1 class="hero-title">Тарифы</h1>
     </header>
 
     <div class="pricing-grid">
       <div class="price-card">
+        <h3>3 дня</h3>
+        <div class="cost">100₽</div>
+        <button class="buy-button" data-duration="3" data-price="100">Выбрать</button>
+      </div>
+
+      <div class="price-card">
+        <h3>7 дней</h3>
+        <div class="cost">200₽</div>
+        <button class="buy-button" data-duration="7" data-price="200">Выбрать</button>
+      </div>
+
+      <div class="price-card">
+        <h3>14 дней</h3>
+        <div class="cost">300₽</div>
+        <button class="buy-button" data-duration="14" data-price="300">Выбрать</button>
+      </div>
+
+      <div class="price-card">
         <h3>1 месяц</h3>
         <div class="cost">500₽</div>
-        <button class="buy-button" data-duration="30" data-price="500">Купить</button>
+        <button class="buy-button" data-duration="30" data-price="500">Выбрать</button>
       </div>
+
       <div class="price-card">
         <h3>3 месяца</h3>
         <div class="cost">1500₽</div>
-        <button class="buy-button" data-duration="90" data-price="1500">Купить</button>
+        <button class="buy-button" data-duration="90" data-price="1500">Выбрать</button>
       </div>
+
       <div class="price-card">
         <h3>6 месяцев</h3>
         <div class="cost">2700₽</div>
-        <button class="buy-button" data-duration="180" data-price="2700">Купить</button>
+        <button class="buy-button" data-duration="180" data-price="2700">Выбрать</button>
       </div>
+
       <div class="price-card popular">
-        <h3>12 месяцев</h3>
+        <h3>1 год</h3>
         <div class="cost">5000₽</div>
-        <button class="buy-button" data-duration="365" data-price="5000">Купить</button>
+        <button class="buy-button" data-duration="365" data-price="5000">Выбрать</button>
       </div>
-
     </div>
+
     <div id="footer-container"></div>
-    </section>
+  </div>
 
-
-
-    <div id="payment-modal" class="modal-overlay">
-      <div class="modal-content">
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-        <h2 id="modal-title">Оформление</h2>
-
-        <div class="form-group">
-          <label>Промокод</label>
-          <input type="text" id="user-promo" placeholder="Если есть">
-        </div>
-        <div class="modal-footer">
-          <span id="modal-total" style="font-size: 20px; font-weight: bold;"></span>
-          <button class="btn-pay" id="final-pay-btn">Оплатить</button>
-        </div>
+  <div id="payment-modal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">&times;</span>
+      <h2 id="modal-title">Оформление</h2>
+      <div class="form-group">
+        <label style="color: #888; font-size: 14px;">Промокод</label>
+        <input type="text" id="user-promo" placeholder="FRKN_MEME_2026">
       </div>
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div id="modal-total" style="font-size: 32px; font-weight: 800;"></div>
+      </div>
+      <button class="btn-pay" id="final-pay-btn">Оплатить</button>
+      <p id="modal-info" style="color: #666; font-size: 11px; text-align: center; margin-top: 20px;">
+        Нажимая «Оплатить», вы переходите на шлюз Platega. Мы не храним ваши данные.
+      </p>
     </div>
+  </div>
 
-    <script>
-      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  <div id="error-popup" class="popup-overlay">
+    <div class="popup-content">
+      <div style="font-size: 40px; margin-bottom: 10px;">⚠️</div>
+      <h2 style="margin: 0 0 10px 0;">Ошибка</h2>
+      <p id="popup-message" style="color: #aaa;"></p>
+      <button onclick="closePopup()"
+        style="background: #333; color: #fff; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer;">Понятно</button>
+    </div>
+  </div>
 
-      const BASE = isLocal
-        ? "http://localhost:8000"
-        : "https://frkn.org";
+  <script>
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const PAYMENT_API_BASE = isLocal ? "http://localhost:8080" : "https://api.frkn.org";
 
-      const AUTH_BASE = isLocal
-        ? "http://localhost:3005"
-        : "https://api.frkn.org";
+    let currentOrder = null;
 
-      const API_BASE = isLocal
-        ? "http://localhost:5005"
-        : "https://api.frkn.org";
+    function openModal(duration, price) {
+      currentOrder = {duration, price};
+      document.getElementById('modal-title').innerText = `Подписка: ${duration} дн.`;
+      document.getElementById('modal-total').innerText = `${price}₽`;
+      document.getElementById('payment-modal').style.display = 'flex';
+    }
 
-      const PAYMENT_API_BASE = isLocal
-        ? "http://localhost:8080"
-        : "https://api.frkn.org";
+    function closeModal() {document.getElementById('payment-modal').style.display = 'none';}
 
+    document.querySelectorAll('.buy-button').forEach(btn => {
+      btn.onclick = (e) => openModal(e.target.dataset.duration, e.target.dataset.price);
+    });
 
-      let currentOrder = null;
+    function showError(message) {
+      document.getElementById('popup-message').innerText = message;
+      document.getElementById('error-popup').classList.add('active');
+    }
 
-      function openModal(duration, price) {
-        currentOrder = {duration, price};
-        document.getElementById('modal-title').innerText = `Подписка на ${duration} дней.`;
-        document.getElementById('modal-total').innerText = `${price}₽`;
-        document.getElementById('payment-modal').style.display = 'flex';
-      }
+    function closePopup() {document.getElementById('error-popup').classList.remove('active');}
 
-      function closeModal() {document.getElementById('payment-modal').style.display = 'none';}
+    document.getElementById('final-pay-btn').onclick = async () => {
+      const btn = document.getElementById('final-pay-btn');
+      btn.disabled = true; btn.innerText = "Создаем счет...";
 
-      document.querySelectorAll('.buy-button').forEach(btn => {
-        btn.onclick = (e) => openModal(e.target.dataset.duration, e.target.dataset.price);
-      });
+      try {
+        const res = await fetch(`${PAYMENT_API_BASE}/payment/platega/create`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            duration: parseInt(currentOrder.duration),
+            promocode: document.getElementById('user-promo').value.trim() || null,
+            provider: "Platega",
+          })
+        });
 
-      function showError(message) {
-        const popup = document.getElementById('error-popup');
-        document.getElementById('popup-message').innerText = message;
-
-        popup.classList.add('active');
-      }
-
-      function closePopup() {
-        const popup = document.getElementById('error-popup');
-        popup.classList.remove('active');
-      }
-
-      document.getElementById('final-pay-btn').onclick = async () => {
-        const btn = document.getElementById('final-pay-btn');
-        btn.disabled = true; btn.innerText = "Проверка...";
-
-        try {
-          const res = await fetch(`${PAYMENT_API_BASE}/payment/platega/create`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-              duration: parseInt(currentOrder.duration),
-              promocode: document.getElementById('user-promo').value.trim() || null,
-              provider: "Platega",
-            })
-          });
-
-          if (!res.ok) {
-            const errorData = await res.json().catch(() => ({error: "Ошибка сервера"}));
-            throw new Error(errorData.error || "Не удалось создать платеж");
-          }
-
-          const data = await res.json();
-          console.log("DEBUG: ", data);
-
-          if (data.url) window.location.href = data.url;
-
-
-        } catch (e) {
-          showError(e.message);
-        } finally {
-          btn.disabled = false; btn.innerText = "Оплатить";
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({error: "Ошибка сервера"}));
+          throw new Error(errorData.error || "Не удалось создать платеж");
         }
-      };
-    </script>
 
-    <div id="error-popup" class="popup-overlay">
-      <div class="popup-content">
-        <div class="popup-icon">⚠️</div>
-        <h2 id="popup-title">Ошибка</h2>
-        <p id="popup-message">Что-то пошло не так.</p>
-        <button class="btn" onclick="closePopup()">Ясно</button>
-      </div>
-    </div>
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          throw new Error("API не вернул ссылку на оплату");
+        }
 
+      } catch (e) {
+        showError(e.message);
+      } finally {
+        btn.disabled = false; btn.innerText = "Оплатить";
+      }
+    };
+  </script>
 
-    <script src="/scripts/analytics.js" defer></script>
-    <script src="/scripts/containers.js"></script>
-
+  <script src="/scripts/analytics.js" defer></script>
+  <script src="/scripts/containers.js"></script>
 </body>
 
 </html>
