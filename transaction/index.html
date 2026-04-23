@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FRKN Privacy - Цены</title>
+  <title>frkn Privacy</title>
   <link rel="stylesheet" href="/styles.css" />
   <style>
     .key-display {
@@ -169,6 +169,7 @@
 <body>
   <div class="container">
     <header>
+      <div id="logo-container"></div>
       <h1 class="hero-title">Ждём оплату </h1>
     </header>
 
@@ -252,7 +253,7 @@
         return;
       }
       try {
-        const res = await fetch(`${PAYMENT_API_BASE}/payments/check/${txid}`);
+        const res = await fetch(`${PAYMENT_API_BASE}/payment/check/${txid}`);
 
         if (!res.ok) throw new Error("Ошибка связи с сервером");
 
