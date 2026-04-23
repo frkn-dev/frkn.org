@@ -260,13 +260,13 @@
         btn.disabled = true; btn.innerText = "Проверка...";
 
         try {
-          const res = await fetch('${PAYMENT_API_BASE}/payment/platega/create', {
+          const res = await fetch(`${PAYMENT_API_BASE}/payment/platega/create`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
               duration: parseInt(currentOrder.duration),
               promocode: document.getElementById('user-promo').value.trim() || null,
-              provider: "Mock",
+              provider: "Platega",
             })
           });
 
