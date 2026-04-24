@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(sub);
 
         const expiresDate = sub.expires_at
-          ? new Date(sub.expires_at).toLocaleString(undefined, {
+          ? new Date(sub.expires).toLocaleString(undefined, {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
