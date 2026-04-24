@@ -30,17 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData(form);
     const code = formData.get("code");
-    const email = formData.get("email");
+    const subscription_id = formData.get("id");
 
-    const emailLow = email.toLowerCase();
-
-    if (emailLow.endsWith("@proton.me") || emailLow.endsWith("@protonmail.com") || emailLow.endsWith("@pm.me")) {
-      if (msg) {
-        msg.textContent = "❌ Сорян, на Proton письмо не дойдёт. Используй другую почту.";
-        msg.className = "status-message error";
-      }
-      return;
-    }
 
     if (!isValidCode(code)) {
       msg.textContent = "❌ Неверный формат ключа";
@@ -52,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const payload = {
       code: code,
-      ...(email ? { email: email } : {}),
+      ...(id ? { id: id } : {}),
     };
 
     const btn = form.querySelector("button");
@@ -94,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (sub) {
           result.innerHTML = `
             <h3>Твоя подписка</h3>
-            <div style="font-size: small;">ID это твой уникальный идентификатор подписки, рекомендуем его записать или запомнить</div>
+            <div style="font-size: small;">ID это твой уникальный идентификатор подписки, рекомендуем его записать или сделать скришот</div>
             <p><b>ID:</b> ${sub.id}</p>
 
             <p><b>Активна до:</b> ${expiresDate || "—"}</p>
@@ -143,7 +134,6 @@ function startCountdown(endTimeStr) {
 
   console.log(endTimeStr);
 
-  // Вспомогательная функция для склонения (чисто инженерный подход к UX)
   const getDaysWord = (n) => {
     const last = n % 10;
     const lastTwo = n % 100;
@@ -167,7 +157,6 @@ function startCountdown(endTimeStr) {
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-    // Собираем строку: если дней 0, не показываем их
     let timeString = "Осталось: ";
     if (days > 0) {
       timeString += `${days} ${getDaysWord(days)} `;

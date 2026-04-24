@@ -802,7 +802,7 @@
 <script>
   const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
   const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-  const API_BASE = isLocal ? "http://localhost:5005" : "https://api.frkn.org";
+  const AUTH_BASE = isLocal ? "http://localhost:3005" : "https://api.frkn.org";
 
   const ENV_NAMES = {
     'wl': 'Белые слоны',
@@ -1081,7 +1081,7 @@
     }
 
     try {
-      const res = await fetch(`${API_BASE}/key/activate`, {
+      const res = await fetch(`${AUTH_BASE}/activate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

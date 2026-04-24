@@ -13,19 +13,23 @@
 <body>
   <div class="container">
     <header>
+      <h1 class="hero-title">Доступ к подписке</h1>
       <div id="logo-container"></div>
-      <div class="header-nav">
-        <div class="badge"><a href="/activate">Регистрация</a></div>
-        <div class="badge"><a href="/premium">Premium 😏</a></div>
-      </div>
+
     </header>
 
     <section class="hero">
       <div class="hero-content">
-        <h1 class="hero-title">Доступ к подписке</h1>
         <div class="card trialCard">
           <form id="subscriptionForm">
-            <input type="text" name="id" id="sub_id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" required />
+            <div class="small right"> <a href="/info/subscriptions" class="text-link">
+                Что такое подписка?
+              </a> |
+
+              <a href="/pay" class="text-link">
+                У меня нет подписки </a>
+            </div>
+            <input type="text" name="id" id="sub_id" placeholder="aaaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee" required />
 
             <button class="btn" type="submit">
               Открыть подписку
@@ -37,12 +41,7 @@
 
             <div class="message" id="subMessage"></div>
 
-            <a href="/info/subscriptions" class="small text-link right">
-              Что такое подписка?
-            </a>
 
-            <a href="/pay" class="small text-link right">
-              У меня нет подписки </a>
 
           </form>
 

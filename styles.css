@@ -19,6 +19,9 @@ header {
 }
 
 .header-nav {
+  flex-direction: column;
+
+  margin-top: 10px;
   display: flex;
   gap: 10px;
 }
@@ -239,6 +242,12 @@ a {
   text-align: right;
 }
 
+.right-pos {
+
+  width: fit-content;
+  margin-left: auto;
+}
+
 .center {
   text-align: center;
 }
@@ -255,8 +264,10 @@ a {
   align-items: center;
   gap: 12px;
   width: fit-content;
+  flex-direction: column;
 
 }
+
 
 #logo-container img {
   box-shadow:
@@ -399,15 +410,15 @@ a {
 
 .badge {
   display: inline-flex;
-  margin-bottom: 15px;
+  margin-bottom: 0px;
   /* Только под размер текста */
   align-items: center;
   padding: 4px 10px;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: 8px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 6px;
+  letter-spacing: 0.02em;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.1);
   color: #94a3b8;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -869,6 +880,11 @@ footer {
 .small {
   font-size: 13px;
   color: #94a3b8;
+}
+
+.average {
+  font-size: 15px;
+  color: var(--text)
 }
 
 .card.feature.big {

@@ -12,24 +12,31 @@
 <body>
   <div class="container">
     <header>
+      <h1 class="hero-title">Активация ключа</h1>
       <div id="logo-container"></div>
-      <div class="badge"><a href=/profile> Личный кабинет 😏</a></div>
     </header>
 
     <section class="hero">
       <div class="card activateCard">
-        <div class="small right"> <a href="/pay" class="text-link">Купить ключ</a></div>
+        <div class="small right">
+          <a href="/pay" class="text-link">Купить ключ</a> |
+          <a class="text-link" href="/info/activation-keys/"> Что такое ключ активации? </a>
+        </div>
 
-        <h1>Активация ключа</h1>
-        <div class="small">Введи ключ чтобы получить доступ <br>
-          Если оставишь email мы продублируем инфу туда <br>
-          <a class="text-link" href="https://frkn.org/info/activation-keys/"> Что такое ключ активации? </a>
+        <div><br><br>Введи ключ чтобы получить доступ
+
         </div>
 
         <p></p>
         <form id="activateKeyForm">
-          <input type="text" id="code" name="code" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-X" required />
-          <input type="email" name="email" placeholder="Email (необязательно)" /><br>
+          <input type="text" id="code" name="code" placeholder="Ключ: KKKKK-LLLLL-MMMMM-NNNNN-FFFFF-X" required />
+
+          <div class="small">
+
+            <br> Необязательно – Мы создадим новую если не укажешь ID подписки
+          </div>
+          <input type="text" id="id" name="id" placeholder="ID Подписки: aaaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee" />
+
 
           <button class="btn activate" type="submit">Активировать</button>
         </form>

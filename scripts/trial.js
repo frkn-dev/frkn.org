@@ -2,6 +2,10 @@ const isLocal =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1";
 
+const BASE = isLocal
+  ? "http://localhost:8000"
+  : "https://frkn.org";
+
 const AUTH_BASE = isLocal
   ? "http://localhost:3005"
   : "https://api.frkn.org";
@@ -39,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!emailLow) {
       if (msg) {
-        msg.textContent = "❌ Введи почту, зай";
+        msg.textContent = "❌ Введи почту";
         msg.classList.add("error");
       }
       return;
@@ -64,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.status === 200) {
         if (msg) {
           msg.textContent = "✅ Заявка на тест-драйв принята! Проверь e-mail. Если чо, папку спам тоже глянь.";
+
           msg.classList.add("success");
         }
         form.reset();
@@ -75,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } catch (err) {
       if (msg) {
-        msg.textContent = "❌ Ошибка сети: " + err.message;
+        msg.textContent = "❌ Ошибка: " + err.message;
         msg.classList.add("error");
       }
     } finally {
