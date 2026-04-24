@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const payload = {
       code: code,
-      ...(id ? { id: id } : {}),
+      ...(id ? { subscription_id: id } : {}),
     };
 
     const btn = form.querySelector("button");
