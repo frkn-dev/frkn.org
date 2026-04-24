@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (res.ok) {
         msg.textContent = "✅ Ключ активирован";
 
-        const sub = data.response?.instance?.Subscription;
+        const sub = data.response?.instance?.SubscriptionResponse;
 
         console.log(sub.expires);
 
