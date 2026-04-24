@@ -220,6 +220,10 @@
       <div class="muted">ID: <span id="sub-id" style="text-decoration: underline;">...</span></div>
     </div>
 
+    <div id="env-selector" class="card"
+      style="padding: 10px; margin-top: 10px; display: flex; gap: 8px; overflow-x: auto; white-space: nowrap;">
+    </div>
+
     <div class="tabs">
       <button class="tab active" onclick="switchTab('xray')">Xray</button>
       <button class="tab" onclick="switchTab('h2')">Hysteria2</button>
@@ -255,7 +259,16 @@
 
     const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
     const API_BASE = isLocal ? "http://localhost:5005" : "https://api.frkn.org";
-    const subId = new URLSearchParams(window.location.search).get('id');
+    const AUTH_BASE = API_BASE; // Убедись, что AUTH_BASE определен
+    const params = new URLSearchParams(window.location.search);
+    const subId = params.get('id');
+    let currentEnv = params.get('env') || 'dev';
+
+    const ENV_NAMES = {
+      'wl': '🐘 Белые слоны',
+      'ru': '🇷🇺 Обратный',
+      'dev': '🚀 Рилзопровод',
+    };
 
     async function load() {
       if (!subId) return showState('error');
@@ -265,7 +278,9 @@
         if (!res.ok) throw new Error();
         const data = await res.json();
         render(data);
-      } catch (e) {showState('error');}
+      } catch (e) {
+        showState('error');
+      }
     }
 
     function render(data) {
@@ -273,19 +288,49 @@
       document.getElementById('days').innerText = data.days;
 
       const statusEl = document.getElementById('status-text');
-      if (data.days > 0) {
-        statusEl.innerText = "АКТИВНА";
-        statusEl.className = "status-active";
-      } else {
-        statusEl.innerText = "ИСТЕКЛА";
-        statusEl.className = "status-expired";
+      statusEl.innerText = data.days > 0 ? "АКТИВНА" : "ИСТЕКЛА";
+      statusEl.className = data.days > 0 ? "status-active" : "status-expired";
+
+      const envContainer = document.getElementById('env-selector');
+      envContainer.innerHTML = '';
+
+      if (data.locations && data.locations.length > 0) {
+        data.locations.forEach(loc => {
+          const btn = document.createElement('button');
+          btn.className = `tab ${loc.env === currentEnv ? 'active' : ''}`;
+          btn.style.fontSize = '0.8rem';
+          btn.style.padding = '5px 12px';
+          btn.innerText = ENV_NAMES[loc.env] || loc.env.toUpperCase();
+
+          btn.onclick = () => {
+            currentEnv = loc.env;
+            render(data);
+            tg.HapticFeedback.selectionChanged();
+          };
+          envContainer.appendChild(btn);
+        });
       }
 
-      // Рендерим протоколы (берем первую локацию для примера)
-      const loc = data.locations?.[0] || {env: 'dev', has_xray: true, has_hysteria: true};
+      const activeLoc = data.locations?.find(l => l.env === currentEnv) || data.locations?.[0];
 
-      setupProto('xray', data.id, loc.env, ['TXT', 'Base64', 'Clash']);
-      setupProto('h2', data.id, loc.env, ['TXT', 'Base64']);
+      document.getElementById('xray-list').innerHTML = '';
+      document.getElementById('xray-qr').innerHTML = '';
+      document.getElementById('h2-list').innerHTML = '';
+      document.getElementById('h2-qr').innerHTML = '';
+
+      if (activeLoc) {
+        if (activeLoc.has_xray) {
+          setupProto('xray', data.id, activeLoc.env, ['TXT', 'Base64', 'Clash']);
+        } else {
+          document.getElementById('xray-list').innerHTML = '<p class="muted">Недоступно в этом регионе</p>';
+        }
+
+        if (activeLoc.has_hysteria) {
+          setupProto('h2', data.id, activeLoc.env, ['TXT', 'Base64']);
+        } else {
+          document.getElementById('h2-list').innerHTML = '<p class="muted">Недоступно в этом регионе</p>';
+        }
+      }
     }
 
     function setupProto(proto, id, env, formats) {
@@ -295,21 +340,20 @@
       formats.forEach(fmt => {
         const url = `${API_BASE}/sub?id=${id}&env=${env}&proto=${proto === 'xray' ? 'Xray' : 'Hysteria2'}&format=${fmt.toLowerCase()}`;
 
-        // Добавляем в список
         const item = document.createElement('div');
         item.className = 'proxy-item';
         item.innerHTML = `<div class="proxy-label">${fmt}</div><div class="proxy-action">Копировать</div>`;
         item.onclick = () => copy(url);
         listContainer.appendChild(item);
 
-        // Генерим QR
         const qrBox = document.createElement('div');
         qrBox.className = 'qr-item';
-        qrBox.innerHTML = `<span>${fmt}</span><canvas id="qr-${proto}-${fmt}"></canvas>`;
+        qrBox.innerHTML = `<span>${fmt}</span><canvas id="qr-${proto}-${fmt}-${env}"></canvas>`;
         qrContainer.appendChild(qrBox);
 
         setTimeout(() => {
-          QRCode.toCanvas(document.getElementById(`qr-${proto}-${fmt}`), url, {width: 120, margin: 1});
+          const canvas = document.getElementById(`qr-${proto}-${fmt}-${env}`);
+          if (canvas) QRCode.toCanvas(canvas, url, {width: 120, margin: 1});
         }, 50);
       });
     }
@@ -332,7 +376,7 @@
       if (!code) return;
 
       tg.MainButton.showProgress();
-      const res = await fetch(`${API_BASE}/key/activate`, {
+      const res = await fetch(`${AUTH_BASE}/activate`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({code, subscription_id: subId})
