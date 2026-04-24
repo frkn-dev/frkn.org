@@ -68,11 +68,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const sub = data.response?.instance?.Subscription;
 
-        console.log(sub.expires_at);
+        console.log(sub.expires);
 
         console.log(sub);
 
-        const expiresDate = sub.expires_at
+        const expiresDate = sub.expires
           ? new Date(sub.expires).toLocaleString(undefined, {
             day: '2-digit',
             month: '2-digit',
@@ -106,8 +106,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
           result.style.display = "block";
 
-          if (sub.expires_at) {
-            startCountdown(sub.expires_at);
+          if (sub.expires) {
+            startCountdown(sub.expires);
           }
         }
 
