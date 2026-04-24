@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData(form);
     const code = formData.get("code");
-    const subscription_id = formData.get("id");
+    const id = formData.get("id");
 
 
     if (!isValidCode(code)) {
