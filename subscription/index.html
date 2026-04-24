@@ -803,6 +803,7 @@
   const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
   const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
   const AUTH_BASE = isLocal ? "http://localhost:3005" : "https://api.frkn.org";
+  const API_BASE = isLocal ? "http://localhost:5005" : "https://api.frkn.org";
 
   const ENV_NAMES = {
     'wl': 'Белые слоны',
