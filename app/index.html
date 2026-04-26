@@ -284,6 +284,9 @@
 
   <div id="main-app">
     <div class="card">
+      <div class="logo">
+        <a href="/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN</a>
+      </div>
       <h2
         style="margin:0; font-size: 1.2rem; background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
         Рилзопровод: Подписка
@@ -400,7 +403,7 @@
         statusEl.className = "status-expired";
         daysEl.innerText = "0";
         daysEl.className = "days-red";
-        daysEl.style.fontSize = "1.8rem";
+        daysEl.style.fontSize = "1.4rem";
       } else if (diffDays < 1) {
         // Меньше дня - показываем часы:минуты:секунды
         const diffSec = Math.floor(diffMs / 1000);
@@ -421,7 +424,7 @@
         statusEl.innerText = "АКТИВНА";
         statusEl.className = "status-active";
         daysEl.innerText = fullDays;
-        daysEl.style.fontSize = "1.8rem";
+        daysEl.style.fontSize = "1.4rem";
 
         // Цвет дней: красный если <= 3, иначе зеленый
         if (fullDays <= 3) {
