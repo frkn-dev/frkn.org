@@ -726,7 +726,7 @@
     <div id="env-switcher"></div>
   </header>
 
-  <div class="main-content">
+  <div class="main-content" id="main-content">
     <section class="hero">
       <h3 class="hero-title">Рилзопровод: Подписка</h3>
       <div class="hero-content">
@@ -867,7 +867,13 @@
 
     async function initPage() {
       const params = new URLSearchParams(window.location.search);
-      const subId = params.get("id") || localStorage.getItem("frkn_sub_id");
+      const subId = getSubId();
+
+      if (subId) {
+        localStorage.setItem("frkn_sub_id", subId);
+      }
+
+
       const currentEnv = params.get('env') || 'dev';
 
       const mainEl = document.getElementById('main-content');
@@ -1130,7 +1136,7 @@
       const resultEl = document.getElementById("keyResult");
 
       const params = new URLSearchParams(window.location.search);
-      const subId = params.get("id") || localStorage.getItem("frkn_sub_id");
+      const subId = getSubId();
 
       if (!subId) {
         resultEl.innerText = "❌ Нет subscription ID";
@@ -1174,6 +1180,21 @@
       } catch (e) {
         resultEl.innerText = "Ошибка";
       }
+    }
+
+    function getSubId() {
+      const params = new URLSearchParams(window.location.search);
+
+      const urlId = params.get("id");
+      const stored = localStorage.getItem("frkn_sub_id");
+
+      const id = urlId || stored;
+
+      if (urlId) {
+        localStorage.setItem("frkn_sub_id", urlId);
+      }
+
+      return id;
     }
 
     function showToast(text) {
