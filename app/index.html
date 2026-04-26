@@ -257,21 +257,25 @@
       margin-top: 10px;
     }
 
+    .center {
+      text-align: center;
+    }
+
     .muted {
       color: var(--muted);
       font-size: 12px;
       text-align: center;
+    }
+
+    .stat b {
+      transition: all 0.3s ease;
     }
   </style>
 </head>
 
 <body>
 
-  <div id="error-screen" class="card hidden" style="text-align: center;">
-    <h2 style="color: #ef4444;">Подписка не найдена</h2>
-    <p class="muted">Похоже, срок действия истек или ID не верен.</p>
-    <button class="btn-main" onclick="tg.close()">Вернуться в бот</button>
-  </div>
+
 
   <div id="main-app">
     <div class="card">
@@ -280,10 +284,8 @@
         Рилзопровод: Подписка
       </h2>
       <div class="hero-stats">
-        <div class="stat"><span>Дней</span><b id="days" style="font-size: 1rem; color: " #ff4d4d"; margin-top:
-            12px;>...</b></div>
-        <div class="stat"><span>Статус</span><b id="status-text" style="font-size: 1rem; color: " #ff4d4d"; margin-top:
-            12px;">...</b>
+        <div class="stat"><span>Дней</span><b id="days">...</b></div>
+        <div class="stat"><span>Статус</span><b id="status-text">...</b>
         </div>
       </div>
       <div class="muted">ID: <span id="sub-id" style="text-decoration: underline;">...</span></div>
@@ -294,8 +296,8 @@
     </div>
 
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('xray')">Xray</button>
-      <button class="tab" onclick="switchTab('h2')">Hysteria2</button>
+      <button class="tab active" onclick="switchTab('xray', this)">Xray</button>
+      <button class="tab" onclick="switchTab('h2', this)">Hysteria2</button>
     </div>
 
     <div id="content-xray" class="card">
@@ -317,6 +319,12 @@
       <input type="text" id="keyInput" placeholder="Введите ключ">
       <button class="btn-main" onclick="activateKey()">Активировать</button>
     </div>
+  </div>
+
+  <div id="error-screen" class="card hidden" style="text-align: center;">
+    <h2 style="color: #ef4444;">Подписка не найдена</h2>
+    <p class="muted">Похоже, срок действия истек или ID не верен.</p>
+    <button class="btn-main" onclick="tg.close()">Вернуться в бот</button>
   </div>
 
 
@@ -495,7 +503,6 @@
       document.getElementById('content-xray').classList.toggle('hidden', tab !== 'xray');
       document.getElementById('content-h2').classList.toggle('hidden', tab !== 'h2');
     }
-
     function copy(text, message = "Скопировано") {
       navigator.clipboard.writeText(text);
       tg.HapticFeedback.notificationOccurred('success');
