@@ -867,7 +867,7 @@
 
     async function initPage() {
       const params = new URLSearchParams(window.location.search);
-      const subId = params.get('id');
+      const subId = params.get("id") || localStorage.getItem("frkn_sub_id");
       const currentEnv = params.get('env') || 'dev';
 
       const mainEl = document.getElementById('main-content');
