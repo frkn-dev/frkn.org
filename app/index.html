@@ -263,7 +263,6 @@
     }
 
 
-    /* Или если хочешь зелёный как у статуса "Активна" */
     .text-link {
       color: #10b981 !important;
       text-decoration: underline;
@@ -283,6 +282,73 @@
 
     .stat b {
       transition: all 0.3s ease;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: fit-content;
+      flex-direction: column;
+
+    }
+
+
+    #logo-container img {
+      box-shadow:
+        0 0 10px rgba(0, 150, 255, 0.4),
+        0 0 20px rgba(0, 100, 255, 0.2);
+
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+    }
+
+    .logo img {
+
+      width: 50px;
+      height: 34px;
+
+      border-radius: 12%;
+      object-fit: contain;
+
+      background-color: #ffffff;
+
+      box-shadow: 0 0 10px rgba(91, 124, 250, 0.2);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .logo img:hover {
+      filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.8));
+      transform: scale(1.05);
+    }
+
+    .logo:hover img {
+      /* Усиливаем свечение квадрата */
+      box-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
+    }
+
+    .logo a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.01);
+      /* Увеличиваем всё вместе */
+    }
+
+    .logo:hover a {
+      color: #fff;
+      /* Добавляем неоновое свечение буквам */
+      text-shadow:
+        0 0 8px rgba(91, 124, 250, 0.8),
+        0 0 15px rgba(34, 211, 238, 0.4);
     }
   </style>
 </head>
