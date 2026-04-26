@@ -137,6 +137,7 @@
       gap: 12px;
       margin-top: 12px;
       padding-bottom: 8px;
+      justify-content: center;
     }
 
     .qr-item {
@@ -252,6 +253,10 @@
       display: none;
     }
 
+    .apps {
+      margin-top: 10px;
+    }
+
     .muted {
       color: var(--muted);
       font-size: 12px;
@@ -261,6 +266,12 @@
 </head>
 
 <body>
+
+  <div id="error-screen" class="card hidden" style="text-align: center;">
+    <h2 style="color: #ef4444;">Подписка не найдена</h2>
+    <p class="muted">Похоже, срок действия истек или ID не верен.</p>
+    <button class="btn-main" onclick="tg.close()">Вернуться в бот</button>
+  </div>
 
   <div id="main-app">
     <div class="card">
@@ -290,11 +301,15 @@
     <div id="content-xray" class="card">
       <div id="xray-list" class="proxy-list"></div>
       <div id="xray-qr" class="qr-row"></div>
+      <div class="apps center"><a href="/setup">Как настроить?</a></div>
+
     </div>
 
     <div id="content-h2" class="card hidden">
       <div id="h2-list" class="proxy-list"></div>
       <div id="h2-qr" class="qr-row"></div>
+      <div class="apps center"><a href="/setup">Как настроить?</a></div>
+
     </div>
 
     <div class="card">
@@ -304,11 +319,7 @@
     </div>
   </div>
 
-  <div id="error-screen" class="card hidden" style="text-align: center;">
-    <h2 style="color: #ef4444;">Подписка не найдена</h2>
-    <p class="muted">Похоже, срок действия истек или ID не верен.</p>
-    <button class="btn-main" onclick="tg.close()">Вернуться в бот</button>
-  </div>
+
 
   <script>
     const tg = window.Telegram.WebApp;
