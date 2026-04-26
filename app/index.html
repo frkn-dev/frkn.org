@@ -259,7 +259,7 @@
 
     const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
     const API_BASE = isLocal ? "http://localhost:5005" : "https://api.frkn.org";
-    const AUTH_BASE = API_BASE; // Убедись, что AUTH_BASE определен
+    const AUTH_BASE = isLocal ? "http://localhost:3005" : "https://api.frkn.org";
     const params = new URLSearchParams(window.location.search);
     const subId = getSubId();
     let currentEnv = params.get('env') || 'dev';
