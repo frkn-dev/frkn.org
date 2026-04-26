@@ -5,6 +5,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
+
+
+  <meta name="description" content="Подписка на FRKN Рилзопровод">
+  <link rel="canonical" href="https://frkn.org/subscription/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://frkn.org/subscription/">
+  <meta property="og:site_name" content="FRKN">
+  <meta property="og:title" content="Подписка на FRKN Рилзопровод">
+  <meta property="og:description" content="Подписка на FRKN Рилзопровод">
+  <meta property="og:image" content="https://frkn.org/Images/logo.png">
+  <meta property="og:image:alt" content="Подписка на FRKN Рилзопровод">
+  <meta property="og:image:type" content="image/png">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Купить подписку на FRKN">
+  <meta name="twitter:description" content="Купить подписку на FRKN">
+  <meta name="twitter:image" content="https://frkn.org/Images/logo.png">
+  <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
+
   <title>Информация о подписке</title>
   <style>
     :root {
@@ -162,6 +182,7 @@
     #env-switcher {
       display: flex;
       gap: 8px;
+      flex-direction: column;
     }
 
     #env-switcher .env-badge {
@@ -698,284 +719,316 @@
 
 <div class="card">
   <header>
+
     <div class="logo">
       <a href="/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN</a>
     </div>
     <div id="env-switcher"></div>
   </header>
 
-  <section class="hero">
-    <div class="hero-content">
-      <div class="title-group">
-        <h1 class="hero-title">Рилзопровод:</h1>
-        <h3 class="hero-title-small">Подписка</h3>
-        <span id="env-badge" class="env-badge available">...</span>
+  <div class="main-content">
+    <section class="hero">
+      <h3 class="hero-title">Рилзопровод: Подписка</h3>
+      <div class="hero-content">
+
+        <div class="title-group">
+
+          <span id="env-badge" class="env-badge available">...</span>
+        </div>
+      </div>
+
+      <div id="error-content" class="error-state">
+        <h2>Пупупууу! Подписка не найдена</h2>
+        <p class="small">Похоже, ссылка неверна или срок действия ключа истёк.</p>
+
+        <!-- 🔑 Ввод ID -->
+        <div style="margin: 20px 0;">
+          <input type="text" id="sub-id-input" placeholder="Вставь свой Subscription ID" style="
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 10px;
+          " />
+
+          <br>
+
+          <button id="open-sub-btn" class="button btn-primary" style="padding: 10px 20px; border-radius: 8px;">
+            Открыть подписку
+          </button>
+
+          <div id="sub-error" style="color: #f87171; font-size: 13px; margin-top: 5px;"></div>
+        </div>
+
+        <div class="error-actions">
+          <a href="https://t.me/frkn_support" class="button btn-primary"
+            style="padding: 10px 20px; border-radius: 8px; color: white;">
+            Написать в саппорт
+          </a>
+
+          <a href="/pay" class="button" style="padding: 10px 20px; border-radius: 8px; background: var(--border);">
+            Купить ключ
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">Статус<span id="status-text">...</span></div>
+        <div class="stat">
+          Осталось дней <b id="days">...</b>
+        </div>
+        <div class="stat">Истекает <span id="expires">...</span></div>
+
+
+      </div>
+      <div class="small-id">ID: <span id="sub-id">...</span></div>
+    </section>
+
+    <hr>
+
+    <div style="text-align: right; margin-bottom: 20px;">
+      <a class="small-add" id="scrollToAdd">⚡ Докинуть дней</a>
+    </div>
+
+    <h3>Ссылки для подключения</h3>
+
+    <div class="tabs">
+      <button class="tab active" data-tab="xray">Xray</button>
+      <button class="tab" data-tab="hysteria">Hysteria2</button>
+    </div>
+
+    <div id="tab-xray" class="tab-content active">
+      <div id="xray-content">
+        <div class="small">Загрузка подключений...</div>
       </div>
     </div>
 
-    <div id="error-content" class="error-state">
-      <h2>Пупупууу! Подписка не найдена</h2>
-      <p class="small">Похоже, ссылка неверна или срок действия ключа совсем истёк.</p>
-      <div class="error-actions">
-        <a href="https://t.me/frkn_support" class="button btn-primary"
-          style="padding: 10px 20px; border-radius: 8px; color: white;">Написать в саппорт</a>
-        <a href="https://t.me/frkn_support" class="button"
-          style="padding: 10px 20px; border-radius: 8px; background: var(--border);">Купить ключ</a>
+    <div id="tab-hysteria" class="tab-content">
+      <div id="hysteria-content"></div>
+    </div>
+
+    <hr>
+    <div class="key" id="key">
+      <h3>Докинуть дней</h3>
+      <div class="key">
+        <input id="keyInput" placeholder="Введите ключ" style="padding:8px; width:270px;" />
+        <button onclick="activateKey()">Активировать</button>
+        <a href="/info/activation-keys/" target="_blank" class="small text-link">
+          Что такое ключ активации и где его взять?
+
+        </a>
+        <a href="/pay" target="_blank" class="small text-link">Купить ключ активации </a>
+
+      </div>
+      <div id="keyResult" class="small"></div>
+    </div>
+
+    <hr>
+    <div class="ref-code">Твой реферальный код: <b id="ref-code">...</b><br>
+      <div>
+        <button id="copy-ref-btn">Копировать код</button>
+        <button id="copy-ref-link">Копировать ссылку для друга</button>
       </div>
     </div>
+    <div class="small">Вы пригласили: <span id="invited-count">0</span><br> Добавим по 7 дней доступа и тебе и другу
+    </div>
 
-    <div class="hero-stats">
-      <div class="stat">Статус<span id="status-text">...</span></div>
-      <div class="stat">
-        Осталось дней <b id="days">...</b>
+
+    <br>
+    <hr>
+    <div class="footer-line">
+      <div class="small-viva">
+
+        <a href="https://t.me/frkn_support">Поддержка</a>
       </div>
-      <div class="stat">Истекает <span id="expires">...</span></div>
-
-
+      <div class="small-viva">· Vive la résistance!</div>
     </div>
-    <div class="small-id">ID: <span id="sub-id">...</span></div>
-  </section>
-
-  <hr>
-
-  <div style="text-align: right; margin-bottom: 20px;">
-    <a class="small-add" id="scrollToAdd">⚡ Докинуть дней</a>
+    <div id="toast" class="toast"></div>
+    </>
   </div>
 
-  <h3>Ссылки для подключения</h3>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
-  <div class="tabs">
-    <button class="tab active" data-tab="xray">Xray</button>
-    <button class="tab" data-tab="hysteria">Hysteria2</button>
-  </div>
+  <script>
+    const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
+    const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+    const AUTH_BASE = isLocal ? "http://localhost:3005" : "https://api.frkn.org";
+    const API_BASE = isLocal ? "http://localhost:5005" : "https://api.frkn.org";
 
-  <div id="tab-xray" class="tab-content active">
-    <div id="xray-content">
-      <div class="small">Загрузка подключений...</div>
-    </div>
-  </div>
-
-  <div id="tab-hysteria" class="tab-content">
-    <div id="hysteria-content"></div>
-  </div>
-
-  <hr>
-  <div class="key" id="key">
-    <h3>Докинуть дней</h3>
-    <div class="key">
-      <input id="keyInput" placeholder="Введите ключ" style="padding:8px; width:270px;" />
-      <button onclick="activateKey()">Активировать</button>
-      <a href="/info/activation-keys/" target="_blank" class="small text-link">
-        Что такое ключ активации и где его взять?
-
-      </a>
-      <a href="/pay" target="_blank" class="small text-link">Купить ключ активации </a>
-
-    </div>
-    <div id="keyResult" class="small"></div>
-  </div>
-
-  <hr>
-  <div class="ref-code">Твой реферальный код: <b id="ref-code">...</b><br>
-    <div><button id="copy-ref-btn">Копировать код</button>
-      <button id="copy-ref-link">Копировать ссылку для друга</button>
-    </div>
-  </div>
-  <div class="small">Вы пригласили: <span id="invited-count">0</span><br> Добавим по 7 дней доступа и тебе и другу</div>
-
-
-  <br>
-  <hr>
-  <div class="footer-line">
-    <div class="small-viva">
-
-      <a href="https://t.me/frkn_support">Поддержка</a>
-    </div>
-    <div class="small-viva">· Vive la résistance!</div>
-  </div>
-
-  </body>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-
-<script>
-  const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
-  const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-  const AUTH_BASE = isLocal ? "http://localhost:3005" : "https://api.frkn.org";
-  const API_BASE = isLocal ? "http://localhost:5005" : "https://api.frkn.org";
-
-  const ENV_NAMES = {
-    'wl': '🐘 БС - Белые слоны',
-    'ru': '🇷🇺 Обратный рилзопровод',
-    'dev': '⌯✈︎ Рилзопровод',
-  };
-
-  async function initPage() {
-    const params = new URLSearchParams(window.location.search);
-    const subId = params.get('id');
-    const currentEnv = params.get('env') || 'dev';
-
-    const mainEl = document.getElementById('main-content');
-    const errorEl = document.getElementById('error-content');
-
-    // 1. Внутренняя функция для показа ошибки
-    const showError = () => {
-      if (mainEl) mainEl.style.display = 'none';
-      if (errorEl) errorEl.style.display = 'flex';
+    const ENV_NAMES = {
+      'wl': '🐘 БС - Белые слоны',
+      'ru': '🇷🇺 Обратный',
+      'dev': '⌯✈︎ Основной',
     };
 
-    // Проверка наличия ID
-    if (!subId) {
-      showError();
-      return;
-    }
+    window.addEventListener('load', initPage);
 
-    try {
-      const response = await fetch(`${API_BASE}/subscription/${subId}`);
-      if (!response.ok) {
+
+    async function initPage() {
+      const params = new URLSearchParams(window.location.search);
+      const subId = params.get('id');
+      const currentEnv = params.get('env') || 'dev';
+
+      const mainEl = document.getElementById('main-content');
+      const errorEl = document.getElementById('error-content');
+
+      // 1. Внутренняя функция для показа ошибки
+      const showError = () => {
+        if (mainEl) mainEl.style.display = 'none';
+        if (errorEl) errorEl.style.display = 'flex';
+      };
+
+      // Проверка наличия ID
+      if (!subId) {
         showError();
         return;
       }
 
-      const data = await response.json();
-      if (!data || !data.id) {
+      try {
+        const response = await fetch(`${API_BASE}/subscription/${subId}`);
+        if (!response.ok) {
+          showError();
+          return;
+        }
+
+        const data = await response.json();
+        if (!data || !data.id) {
+          showError();
+          return;
+        }
+
+        console.log(data);
+        renderSubscriptionData(data, subId, currentEnv);
+
+      } catch (err) {
+        console.error("❌ Критическая ошибка:", err);
         showError();
-        return;
       }
-
-      console.log(data);
-      // 2. Если всё ок, заполняем данные
-      renderSubscriptionData(data, subId, currentEnv);
-
-    } catch (err) {
-      console.error("❌ Критическая ошибка:", err);
-      showError();
     }
-  }
 
-  function renderSubscriptionData(data, subId, currentEnv) {
-    const statusEl = document.getElementById('status-text');
-    const badge = document.getElementById('env-badge');
-    const daysEl = document.getElementById('days');
-    const expiryDate = new Date(data.expires);
+    function renderSubscriptionData(data, subId, currentEnv) {
+      const statusEl = document.getElementById('status-text');
+      const badge = document.getElementById('env-badge');
+      const daysEl = document.getElementById('days');
+      const expiryDate = new Date(data.expires);
 
-    // 1. Логика таймера и статуса
-    function updateDisplay() {
-      const now = new Date();
-      const diffMs = expiryDate - now;
-      const diffSec = Math.floor(diffMs / 1000);
-      const diffDays = diffMs / (1000 * 60 * 60 * 24);
+      // 1. Логика таймера и статуса
+      function updateDisplay() {
+        const now = new Date();
+        const diffMs = expiryDate - now;
+        const diffSec = Math.floor(diffMs / 1000);
+        const diffDays = diffMs / (1000 * 60 * 60 * 24);
 
-      if (diffMs <= 0) {
-        // Если время вышло
-        statusEl.innerText = "Истекла";
-        statusEl.className = "status-expired";
-        daysEl.innerText = "0";
-        daysEl.style.color = "#ff4d4d";
-        return;
-      }
-
-      if (diffDays < 1) {
-        // Если осталось меньше суток — запускаем тикающий таймер
-        statusEl.innerText = "Почти истекла";
-        statusEl.className = "status-warning";
-
-        const h = Math.floor(diffSec / 3600).toString().padStart(2, '0');
-        const m = Math.floor((diffSec % 3600) / 60).toString().padStart(2, '0');
-        const s = (diffSec % 60).toString().padStart(2, '0');
-
-        daysEl.innerText = `${h}:${m}:${s}`;
-        daysEl.style.fontSize = "1.8rem"; // Уменьшаем, чтобы влез формат 00:00:00
-        daysEl.style.color = "#ffbd4d";  // Оранжевый предупреждающий
-        daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
-
-        setTimeout(updateDisplay, 1000); // Обновляем каждую секунду
-      } else {
-        // Если больше 1 дня — показываем просто число
-        const fullDays = Math.floor(diffDays);
-        statusEl.innerText = "Активна";
-        statusEl.className = "status-active";
-        daysEl.innerText = fullDays;
-        daysEl.style.fontSize = "2.5rem";
-
-        if (fullDays < 4) {
+        if (diffMs <= 0) {
+          // Если время вышло
+          statusEl.innerText = "Истекла";
+          statusEl.className = "status-expired";
+          daysEl.innerText = "0";
           daysEl.style.color = "#ff4d4d";
-          daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
+          return;
+        }
+
+        if (diffDays < 1) {
+          // Если осталось меньше суток — запускаем тикающий таймер
+          statusEl.innerText = "Почти истекла";
+          statusEl.className = "status-warning";
+
+          const h = Math.floor(diffSec / 3600).toString().padStart(2, '0');
+          const m = Math.floor((diffSec % 3600) / 60).toString().padStart(2, '0');
+          const s = (diffSec % 60).toString().padStart(2, '0');
+
+          daysEl.innerText = `${h}:${m}:${s}`;
+          daysEl.style.fontSize = "1.8rem"; // Уменьшаем, чтобы влез формат 00:00:00
+          daysEl.style.color = "#ffbd4d";  // Оранжевый предупреждающий
+          daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
+
+          setTimeout(updateDisplay, 1000); // Обновляем каждую секунду
         } else {
-          daysEl.style.color = "#10b981";
-          daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
+          // Если больше 1 дня — показываем просто число
+          const fullDays = Math.floor(diffDays);
+          statusEl.innerText = "Активна";
+          statusEl.className = "status-active";
+          daysEl.innerText = fullDays;
+          daysEl.style.fontSize = "2.5rem";
+
+          if (fullDays < 4) {
+            daysEl.style.color = "#ff4d4d";
+            daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
+          } else {
+            daysEl.style.color = "#10b981";
+            daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
+          }
         }
       }
-    }
 
-    // Запускаем отображение статуса и дней
-    updateDisplay();
+      // Запускаем отображение статуса и дней
+      updateDisplay();
 
-    // 2. Окружение (Badge)
-    if (badge) {
-      badge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
-    }
+      // 2. Окружение (Badge)
+      if (badge) {
+        badge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
+      }
 
-    // 3. ID подписки и дата истечения
-    const subIdEl = document.getElementById('sub-id');
-    subIdEl.innerText = data.id;
-    subIdEl.onclick = () => copyText(data.id, "ID скопирован");
+      // 3. ID подписки и дата истечения
+      const subIdEl = document.getElementById('sub-id');
+      subIdEl.innerText = data.id;
+      subIdEl.onclick = () => copyText(data.id, "ID скопирован");
 
-    document.getElementById('expires').innerText = expiryDate.toLocaleString('ru-RU', {
-      day: '2-digit', month: '2-digit', year: 'numeric',
-      hour: '2-digit', minute: '2-digit'
-    });
-
-    // 4. Реферальная система
-    const refCode = data.ref_code || '---';
-    const refLink = `${window.location.origin}/?code=${refCode}#trial`;
-    document.getElementById('ref-code').innerText = refCode;
-    document.getElementById('invited-count').innerText = data.invited_count || 0;
-
-    document.getElementById('copy-ref-btn').onclick = () => copyText(refCode, "Код скопирован");
-    document.getElementById('copy-ref-link').onclick = () => copyText(refLink, "Ссылка скопирована");
-
-    // 5. Переключатель регионов (Switcher)
-    const switcher = document.getElementById('env-switcher');
-    if (switcher && data.locations) {
-      switcher.innerHTML = '';
-      data.locations.forEach(l => {
-        if (l.env === currentEnv) return;
-        const a = document.createElement('a');
-        a.href = `?id=${subId}&env=${l.env}`;
-        a.className = `env-badge`;
-        a.style.marginLeft = '8px';
-        a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
-        switcher.appendChild(a);
+      document.getElementById('expires').innerText = expiryDate.toLocaleString('ru-RU', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
       });
+
+      // 4. Реферальная система
+      const refCode = data.ref_code || '---';
+      const refLink = `${window.location.origin}/?code=${refCode}#trial`;
+      document.getElementById('ref-code').innerText = refCode;
+      document.getElementById('invited-count').innerText = data.invited_count || 0;
+
+      document.getElementById('copy-ref-btn').onclick = () => copyText(refCode, "Код скопирован! Поделись с другом");
+      document.getElementById('copy-ref-link').onclick = () => copyText(refLink, "Ссылка скопирована! Поделись с другом");
+
+      // 5. Переключатель регионов (Switcher)
+      const switcher = document.getElementById('env-switcher');
+      if (switcher && data.locations) {
+        switcher.innerHTML = '';
+        data.locations.forEach(l => {
+          if (l.env === currentEnv) return;
+          const a = document.createElement('a');
+          a.href = `?id=${subId}&env=${l.env}`;
+          a.className = `env-badge`;
+          a.style.marginLeft = '8px';
+          a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
+          switcher.appendChild(a);
+        });
+      }
+
+      // 6. Рендер протоколов (Xray / Hysteria2)
+      const loc = data.locations?.find(l => l.env === currentEnv) || data.locations?.[0];
+      if (loc) {
+        renderXray(data.id, loc.env, loc.has_xray);
+        renderH2(data.id, loc.env, loc.has_hysteria);
+      }
     }
 
-    // 6. Рендер протоколов (Xray / Hysteria2)
-    const loc = data.locations?.find(l => l.env === currentEnv) || data.locations?.[0];
-    if (loc) {
-      renderXray(data.id, loc.env, loc.has_xray);
-      renderH2(data.id, loc.env, loc.has_hysteria);
-    }
-  }
+    function renderXray(id, env, has) {
+      const container = document.getElementById('xray-content');
+      if (!has) {
+        container.innerHTML = `<div class="small">Xray недоступен в этом регионе</div>`;
+        return;
+      }
 
-  function renderXray(id, env, has) {
-    const container = document.getElementById('xray-content');
-    if (!has) {
-      container.innerHTML = `<div class="small">Xray недоступен в этом регионе</div>`;
-      return;
-    }
+      const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=txt`;
+      const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=plain`;
+      const subUrlClash = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=clash`;
 
-    const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=txt`;
-    const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=plain`;
-    const subUrlClash = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=clash`;
-
-    container.innerHTML = `
+      container.innerHTML = `
 
       <ul class="proxy-list">
-          <li class="proxy-item" onclick="copyText('${subUrlTxt}')"><div class="proxy-label">TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
-          <li class="proxy-item" onclick="copyText('${subUrlPlain}')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
-          <li class="proxy-item" onclick="copyText('${subUrlClash}')"><div class="proxy-label">Clash</div><div class="proxy-action">Копировать</div></li>
+          <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')"><div class="proxy-label">TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
+          <li class="proxy-item" onclick="copyText('${subUrlPlain}','Ссылка скопирована!')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
+          <li class="proxy-item" onclick="copyText('${subUrlClash}','Ссылка скопирована!')"><div class="proxy-label">Clash</div><div class="proxy-action">Копировать</div></li>
       </ul>
 
       <div class="qr-row">
@@ -988,26 +1041,26 @@
 
     `;
 
-    QRCode.toCanvas(document.getElementById("qr-xray-txt"), subUrlTxt, {width: 140});
-    QRCode.toCanvas(document.getElementById("qr-xray-plain"), subUrlPlain, {width: 140});
-    QRCode.toCanvas(document.getElementById("qr-xray-clash"), subUrlClash, {width: 140});
-  }
-
-  function renderH2(id, env, has) {
-    const container = document.getElementById('hysteria-content');
-    if (!has) {
-      container.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе</div>`;
-      return;
+      QRCode.toCanvas(document.getElementById("qr-xray-txt"), subUrlTxt, {width: 140});
+      QRCode.toCanvas(document.getElementById("qr-xray-plain"), subUrlPlain, {width: 140});
+      QRCode.toCanvas(document.getElementById("qr-xray-clash"), subUrlClash, {width: 140});
     }
 
-    const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=txt`;
-    const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=plain`;
+    function renderH2(id, env, has) {
+      const container = document.getElementById('hysteria-content');
+      if (!has) {
+        container.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе</div>`;
+        return;
+      }
 
-    container.innerHTML = `
+      const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=txt`;
+      const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=plain`;
+
+      container.innerHTML = `
 
       <ul class="proxy-list">
-          <li class="proxy-item" onclick="copyText('${subUrlTxt}')"><div class="proxy-label">TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
-          <li class="proxy-item" onclick="copyText('${subUrlPlain}')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
+          <li class="proxy-item" onclick="copyText('${subUrlTxt}','Ссылка скопирована!')"><div class="proxy-label">TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
+          <li class="proxy-item" onclick="copyText('${subUrlPlain}','Ссылка скопирована!')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
       </ul>
 
       <div class="qr-row">
@@ -1019,123 +1072,164 @@
 
     `;
 
-    QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, {width: 140});
-    QRCode.toCanvas(document.getElementById("qr-h2-plain"), subUrlPlain, {width: 140});
-  }
-
-  document.querySelectorAll(".tab").forEach(btn => {
-    btn.onclick = () => {
-      const name = btn.dataset.tab;
-      document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
-      document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById("tab-" + name).classList.add("active");
-    };
-  });
-
-  function copyText(text, message = "Скопировано") {
-    navigator.clipboard.writeText(text).then(() => showToast(message));
-  }
-
-  function showToast(text) {
-    const toast = document.getElementById("toast");
-    if (!toast) return;
-    toast.innerText = text;
-    toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 2000);
-  }
-
-  window.addEventListener('load', initPage);
-</script>
-
-<script>
-  document.querySelectorAll(".tab").forEach(btn => {
-    btn.onclick = () => {
-      const name = btn.dataset.tab;
-
-      document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
-      document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
-
-      btn.classList.add("active");
-      document.getElementById("tab-" + name).classList.add("active");
-    };
-  });
-</script>
-<script>
-  const scrollBtn = document.getElementById("scrollToAdd");
-  const keySection = document.getElementById("key");
-
-  if (scrollBtn && keySection) {
-    scrollBtn.addEventListener("click", () => {
-      keySection.scrollIntoView({behavior: "smooth"});
-    });
-  }
-</script>
-
-<script>async function activateKey() {
-    const key = document.getElementById("keyInput").value;
-    const resultEl = document.getElementById("keyResult");
-
-    if (!key) {
-      resultEl.innerText = "Введите ключ";
-      return;
+      QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, {width: 140});
+      QRCode.toCanvas(document.getElementById("qr-h2-plain"), subUrlPlain, {width: 140});
     }
 
-    try {
-      const res = await fetch(`${AUTH_BASE}/activate`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          code: key,
-          subscription_id: new URLSearchParams(window.location.search).get('id')
-        })
+    document.querySelectorAll(".tab").forEach(btn => {
+      btn.onclick = () => {
+        const name = btn.dataset.tab;
+        document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("tab-" + name).classList.add("active");
+      };
+    });
+
+    function copyText(text, message = "Копировано") {
+      navigator.clipboard.writeText(text).then(() => showToast(message));
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById("toast");
+      if (!toast) return;
+      toast.innerText = text;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2000);
+    }
+
+  </script>
+
+  <script>
+    document.querySelectorAll(".tab").forEach(btn => {
+      btn.onclick = () => {
+        const name = btn.dataset.tab;
+
+        document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
+        document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+
+        btn.classList.add("active");
+        document.getElementById("tab-" + name).classList.add("active");
+      };
+    });
+  </script>
+  <script>
+    const scrollBtn = document.getElementById("scrollToAdd");
+    const keySection = document.getElementById("key");
+
+    if (scrollBtn && keySection) {
+      scrollBtn.addEventListener("click", () => {
+        keySection.scrollIntoView({behavior: "smooth"});
       });
-
-      const data = await res.json();
-
-      if (res.ok && data.status === 200 && data.response) {
-        const {days, expires_at} = data.response;
-
-        if (days && expires_at) {
-          document.getElementById("days").innerText = days;
-          document.getElementById("expires").innerText = expires_at;
-        }
-        setTimeout(() => location.reload(), 1000);
-        const key = data.response?.instance?.Key;
-        if (key) {
-          const addedDays = key.days;
-          resultEl.innerText = `✅ Ключ активирован! +${addedDays} дней`;
-        }
-      } else {
-        resultEl.innerText = "❌ " + data.message;
-      }
-    } catch (e) {
-      resultEl.innerText = "Ошибка сети";
     }
-  }
+  </script>
 
-  function showToast(text) {
-    const toast = document.getElementById("toast");
-    if (!toast) return;
+  <script>
+    async function activateKey() {
+      const key = document.getElementById("keyInput").value;
+      const resultEl = document.getElementById("keyResult");
 
-    toast.innerText = text;
-    toast.classList.add("show");
+      const params = new URLSearchParams(window.location.search);
+      const subId = params.get("id") || localStorage.getItem("frkn_sub_id");
 
-    setTimeout(() => {
-      toast.classList.remove("show");
-    }, 2000);
-  }
+      if (!subId) {
+        resultEl.innerText = "❌ Нет subscription ID";
+        return;
+      }
 
-  function copyText(text) {
-    navigator.clipboard.writeText(text).then(() => {
-      showToast("Скопировано");
+      if (!key) {
+        resultEl.innerText = "Введите ключ";
+        return;
+      }
+
+      resultEl.innerText = "⏳ Активирую...";
+
+      try {
+        const res = await fetch(`${AUTH_BASE}/activate`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            code: key,
+            subscription_id: subId
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          resultEl.innerText = "❌ " + (data.message || "Ошибка");
+          return;
+        }
+
+        const addedDays = data.response?.instance?.Key?.days;
+
+        resultEl.innerText = addedDays
+          ? `✅ Активировано (+${addedDays} дней)`
+          : "✅ Активировано";
+
+        setTimeout(() => location.reload(), 1000);
+
+      } catch (e) {
+        resultEl.innerText = "Ошибка";
+      }
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById("toast");
+      if (!toast) return;
+
+      toast.innerText = text;
+      toast.classList.add("show");
+
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2000);
+    }
+  </script>
+
+  <script>
+    const input = document.getElementById("sub-id-input");
+    const btn = document.getElementById("open-sub-btn");
+    const error = document.getElementById("sub-error");
+
+    function isValidUUID(id) {
+      return /^[0-9a-fA-F-]{36}$/.test(id);
+    }
+
+    btn.addEventListener("click", () => {
+      const id = input.value.trim();
+
+      if (!isValidUUID(id)) {
+        error.textContent = "❌ Неверный формат ID";
+        return;
+      }
+
+      // редирект
+      window.location.href = `/subscription?id=${id}`;
     });
-  }
 
-</script>
-<div id="toast" class="toast">Скопировано</div>
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        btn.click();
+      }
+    });
+  </script>
 
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    if (!id) {
+      const savedId =
+        localStorage.getItem("frkn_sub_id");
+
+      if (savedId) {
+        window.location.href = `/subscription?id=${savedId}`;
+      }
+    }
+  </script>
 
 </html>

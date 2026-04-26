@@ -261,7 +261,7 @@
     const API_BASE = isLocal ? "http://localhost:5005" : "https://api.frkn.org";
     const AUTH_BASE = API_BASE; // Убедись, что AUTH_BASE определен
     const params = new URLSearchParams(window.location.search);
-    const subId = params.get('id');
+    const subId = getSubId();
     let currentEnv = params.get('env') || 'dev';
 
     const ENV_NAMES = {
@@ -271,7 +271,21 @@
 
     };
 
+    function getSubId() {
+      const params = new URLSearchParams(window.location.search);
+
+      return (
+        params.get("id") ||
+        localStorage.getItem("frkn_sub_id") ||
+        tg.initDataUnsafe?.start_param ||   // если ты передаешь через deep link
+        null
+      );
+    }
+
     async function load() {
+      if (subId) {
+        localStorage.setItem("frkn_sub_id", subId);
+      }
       if (!subId) return showState('error');
 
       try {
@@ -344,7 +358,7 @@
         const item = document.createElement('div');
         item.className = 'proxy-item';
         item.innerHTML = `<div class="proxy-label">${fmt}</div><div class="proxy-action">Копировать</div>`;
-        item.onclick = () => copy(url);
+        item.onclick = () => copy(url, "Ссылка скопирована");
         listContainer.appendChild(item);
 
         const qrBox = document.createElement('div');
@@ -359,37 +373,54 @@
       });
     }
 
-    function switchTab(tab) {
+    function switchTab(tab, el) {
       document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
+      el.classList.add('active');
+
       document.getElementById('content-xray').classList.toggle('hidden', tab !== 'xray');
       document.getElementById('content-h2').classList.toggle('hidden', tab !== 'h2');
     }
 
-    function copy(text) {
+    function copy(text, message = "Скопировано") {
       navigator.clipboard.writeText(text);
       tg.HapticFeedback.notificationOccurred('success');
-      tg.showAlert("Ссылка скопирована!");
+      tg.showAlert(message);
     }
 
     async function activateKey() {
       const code = document.getElementById('keyInput').value;
+      const subId = getSubId();
+
       if (!code) return;
 
-      tg.MainButton.showProgress();
-      const res = await fetch(`${AUTH_BASE}/activate`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({code, subscription_id: subId})
-      });
+      if (!subId) {
+        tg.showAlert("Нет subscription ID");
+        return;
+      }
 
-      if (res.ok) {
+      tg.MainButton.showProgress();
+
+      try {
+        const res = await fetch(`${AUTH_BASE}/activate`, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({code, subscription_id: subId})
+        });
+
+        if (!res.ok) {
+          tg.HapticFeedback.notificationOccurred('error');
+          tg.showAlert("Ошибка ключа");
+          return;
+        }
+
         tg.HapticFeedback.notificationOccurred('success');
         location.reload();
-      } else {
+
+      } catch {
         tg.HapticFeedback.notificationOccurred('error');
-        alert("Ошибка ключа");
+        tg.showAlert("Ошибка сети");
       }
+
       tg.MainButton.hideProgress();
     }
 
