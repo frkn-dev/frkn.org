@@ -478,7 +478,9 @@
         statusEl.className = "status-expired";
         daysEl.innerText = "0";
         daysEl.className = "days-red";
-        daysEl.style.fontSize = "1.4rem";
+        daysEl.style.fontSize = "1.8rem";
+        statusEl.style.fontSize = "1.4rem";
+
       } else if (diffDays < 1) {
         // Меньше дня - показываем часы:минуты:секунды
         const diffSec = Math.floor(diffMs / 1000);
@@ -488,9 +490,10 @@
 
         statusEl.innerText = "ПОЧТИ ИСТЕКЛА";
         statusEl.className = "status-warning";
+        statusEl.style.fontSize = "1.4rem";
         daysEl.innerText = `${h}:${m}:${s}`;
         daysEl.className = "days-warning";
-        daysEl.style.fontSize = "1.4rem";
+        daysEl.style.fontSize = "1.8rem";
 
         // Обновляем каждую секунду
         setTimeout(() => render(data), 1000);
@@ -498,8 +501,9 @@
         // Активна
         statusEl.innerText = "АКТИВНА";
         statusEl.className = "status-active";
+        statusEl.style.fontSize = "1.4rem";
         daysEl.innerText = fullDays;
-        daysEl.style.fontSize = "1.2rem";
+        daysEl.style.fontSize = "1.8rem";
 
         // Цвет дней: красный если <= 3, иначе зеленый
         if (fullDays <= 3) {
