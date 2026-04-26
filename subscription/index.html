@@ -873,6 +873,12 @@
         localStorage.setItem("frkn_sub_id", subId);
       }
 
+      // Проверка наличия ID
+      if (!subId) {
+        showError();
+        return;
+      }
+
 
       const currentEnv = params.get('env') || 'dev';
 
@@ -885,11 +891,7 @@
         if (errorEl) errorEl.style.display = 'flex';
       };
 
-      // Проверка наличия ID
-      if (!subId) {
-        showError();
-        return;
-      }
+
 
       try {
         const response = await fetch(`${API_BASE}/subscription/${subId}`);
