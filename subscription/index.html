@@ -448,9 +448,6 @@
       color: var(--muted);
     }
 
-
-
-
     .right {
       text-align: right;
       display: block;
@@ -1035,7 +1032,7 @@
             <div class="qr-item"><span>B64</span><canvas id="qr-xray-plain"></canvas></div>
             <div class="qr-item"><span>Clash</span><canvas id="qr-xray-clash"></canvas></div>
           </div>
-          <div class="apps right"><a href="/setup">Как настроить?</a></div>
+          <div class="apps center"><a href="/setup">Как настроить?</a></div>
         `;
 
       QRCode.toCanvas(document.getElementById("qr-xray-txt"), subUrlTxt, {width: 140});
@@ -1062,7 +1059,7 @@
             <div class="qr-item"><span>TXT (Универсальная)</span><canvas id="qr-h2-txt"></canvas></div>
             <div class="qr-item"><span>Base64</span><canvas id="qr-h2-plain"></canvas></div>
           </div>
-          <div class="apps right"><a href="/setup">Как настроить?</a></div>
+          <div class="apps center"><a href="/setup">Как настроить?</a></div>
         `;
 
       QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, {width: 140});
