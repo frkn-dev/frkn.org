@@ -277,9 +277,11 @@
       const urlId = params.get("id");
       const stored = localStorage.getItem("frkn_sub_id");
 
-      const id = stored || urlId;
+      const id = urlId || stored;
 
-      if (id) localStorage.setItem("frkn_sub_id", id);
+      if (urlId) {
+        localStorage.setItem("frkn_sub_id", urlId);
+      }
 
       return id;
     }
