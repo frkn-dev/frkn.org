@@ -274,12 +274,14 @@
     function getSubId() {
       const params = new URLSearchParams(window.location.search);
 
-      return (
-        params.get("id") ||
-        localStorage.getItem("frkn_sub_id") ||
-        tg.initDataUnsafe?.start_param ||   // если ты передаешь через deep link
-        null
-      );
+      const urlId = params.get("id");
+      const stored = localStorage.getItem("frkn_sub_id");
+
+      const id = stored || urlId;
+
+      if (id) localStorage.setItem("frkn_sub_id", id);
+
+      return id;
     }
 
     async function load() {
