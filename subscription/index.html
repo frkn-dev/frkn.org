@@ -869,6 +869,22 @@
       const params = new URLSearchParams(window.location.search);
       const subId = getSubId();
 
+      const currentEnv = params.get('env') || 'dev';
+
+      const mainEl = document.getElementById('main-content');
+      const errorEl = document.getElementById('error-content');
+
+      const showError = () => {
+        if (mainEl) mainEl.style.display = 'none';
+        if (errorEl) errorEl.style.display = 'flex';
+      };
+
+      const showSuccess = () => {
+        if (mainEl) mainEl.style.display = 'block';
+        if (errorEl) errorEl.style.display = 'none';
+      };
+
+
       if (subId) {
         localStorage.setItem("frkn_sub_id", subId);
       }
@@ -878,19 +894,6 @@
         showError();
         return;
       }
-
-
-      const currentEnv = params.get('env') || 'dev';
-
-      const mainEl = document.getElementById('main-content');
-      const errorEl = document.getElementById('error-content');
-
-      // 1. Внутренняя функция для показа ошибки
-      const showError = () => {
-        if (mainEl) mainEl.style.display = 'none';
-        if (errorEl) errorEl.style.display = 'flex';
-      };
-
 
 
       try {
@@ -905,7 +908,7 @@
           showError();
           return;
         }
-
+        showSuccess();
         console.log(data);
         renderSubscriptionData(data, subId, currentEnv);
 
