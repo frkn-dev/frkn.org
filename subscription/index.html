@@ -852,6 +852,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
     <script>
       const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
       const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
@@ -864,13 +866,20 @@
         'dev': '⌯✈︎ Основной',
       };
 
-      window.addEventListener('load', initPage);
-
+      function getSubId() {
+        const params = new URLSearchParams(window.location.search);
+        const urlId = params.get("id");
+        const stored = localStorage.getItem("frkn_sub_id");
+        const id = urlId || stored;
+        if (urlId) {
+          localStorage.setItem("frkn_sub_id", urlId);
+        }
+        return id;
+      }
 
       async function initPage() {
         const params = new URLSearchParams(window.location.search);
         const subId = getSubId();
-
         const currentEnv = params.get('env') || 'dev';
 
         const mainEl = document.getElementById('main-content');
@@ -886,17 +895,13 @@
           if (errorEl) errorEl.style.display = 'none';
         };
 
-
-        if (subId) {
-          localStorage.setItem("frkn_sub_id", subId);
-        }
-
-        // Проверка наличия ID
+        // Если нет ID - показываем ошибку
         if (!subId) {
           showError();
           return;
         }
 
+        localStorage.setItem("frkn_sub_id", subId);
 
         try {
           const response = await fetch(`${API_BASE}/subscription/${subId}`);
@@ -910,10 +915,9 @@
             showError();
             return;
           }
-          showSuccess();
-          console.log(data);
-          renderSubscriptionData(data, subId, currentEnv);
 
+          showSuccess();
+          renderSubscriptionData(data, subId, currentEnv);
         } catch (err) {
           console.error("❌ Критическая ошибка:", err);
           showError();
@@ -926,7 +930,6 @@
         const daysEl = document.getElementById('days');
         const expiryDate = new Date(data.expires);
 
-        // 1. Логика таймера и статуса
         function updateDisplay() {
           const now = new Date();
           const diffMs = expiryDate - now;
@@ -934,7 +937,6 @@
           const diffDays = diffMs / (1000 * 60 * 60 * 24);
 
           if (diffMs <= 0) {
-            // Если время вышло
             statusEl.innerText = "Истекла";
             statusEl.className = "status-expired";
             daysEl.innerText = "0";
@@ -943,28 +945,22 @@
           }
 
           if (diffDays < 1) {
-            // Если осталось меньше суток — запускаем тикающий таймер
             statusEl.innerText = "Почти истекла";
             statusEl.className = "status-warning";
-
             const h = Math.floor(diffSec / 3600).toString().padStart(2, '0');
             const m = Math.floor((diffSec % 3600) / 60).toString().padStart(2, '0');
             const s = (diffSec % 60).toString().padStart(2, '0');
-
             daysEl.innerText = `${h}:${m}:${s}`;
-            daysEl.style.fontSize = "1.8rem"; // Уменьшаем, чтобы влез формат 00:00:00
-            daysEl.style.color = "#ffbd4d";  // Оранжевый предупреждающий
+            daysEl.style.fontSize = "1.8rem";
+            daysEl.style.color = "#ffbd4d";
             daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
-
-            setTimeout(updateDisplay, 1000); // Обновляем каждую секунду
+            setTimeout(updateDisplay, 1000);
           } else {
-            // Если больше 1 дня — показываем просто число
             const fullDays = Math.floor(diffDays);
             statusEl.innerText = "Активна";
             statusEl.className = "status-active";
             daysEl.innerText = fullDays;
             daysEl.style.fontSize = "2.5rem";
-
             if (fullDays < 4) {
               daysEl.style.color = "#ff4d4d";
               daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
@@ -975,15 +971,12 @@
           }
         }
 
-        // Запускаем отображение статуса и дней
         updateDisplay();
 
-        // 2. Окружение (Badge)
         if (badge) {
           badge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
         }
 
-        // 3. ID подписки и дата истечения
         const subIdEl = document.getElementById('sub-id');
         subIdEl.innerText = data.id;
         subIdEl.onclick = () => copyText(data.id, "ID скопирован");
@@ -993,7 +986,6 @@
           hour: '2-digit', minute: '2-digit'
         });
 
-        // 4. Реферальная система
         const refCode = data.ref_code || '---';
         const refLink = `${window.location.origin}/?code=${refCode}#trial`;
         document.getElementById('ref-code').innerText = refCode;
@@ -1002,7 +994,6 @@
         document.getElementById('copy-ref-btn').onclick = () => copyText(refCode, "Код скопирован! Поделись с другом");
         document.getElementById('copy-ref-link').onclick = () => copyText(refLink, "Ссылка скопирована! Поделись с другом");
 
-        // 5. Переключатель регионов (Switcher)
         const switcher = document.getElementById('env-switcher');
         if (switcher && data.locations) {
           switcher.innerHTML = '';
@@ -1017,7 +1008,6 @@
           });
         }
 
-        // 6. Рендер протоколов (Xray / Hysteria2)
         const loc = data.locations?.find(l => l.env === currentEnv) || data.locations?.[0];
         if (loc) {
           renderXray(data.id, loc.env, loc.has_xray);
@@ -1037,24 +1027,18 @@
         const subUrlClash = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=clash`;
 
         container.innerHTML = `
-
-      <ul class="proxy-list">
-          <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')"><div class="proxy-label">TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
-          <li class="proxy-item" onclick="copyText('${subUrlPlain}','Ссылка скопирована!')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
-          <li class="proxy-item" onclick="copyText('${subUrlClash}','Ссылка скопирована!')"><div class="proxy-label">Clash</div><div class="proxy-action">Копировать</div></li>
-      </ul>
-
-      <div class="qr-row">
-          <div class="qr-item"><span>TXT (Универсальная) </span><canvas id="qr-xray-txt"></canvas></div>
-          <div class="qr-item"><span>B64</span><canvas id="qr-xray-plain"></canvas></div>
-          <div class="qr-item"><span>Clash</span><canvas id="qr-xray-clash"></canvas></div>
-      </div>
-
-       <div class="apps"><a href=/setup>Как настроить?</a></div>
-
-
-
-    `;
+          <ul class="proxy-list">
+            <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')"><div class="proxy-label">TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
+            <li class="proxy-item" onclick="copyText('${subUrlPlain}','Ссылка скопирована!')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
+            <li class="proxy-item" onclick="copyText('${subUrlClash}','Ссылка скопирована!')"><div class="proxy-label">Clash</div><div class="proxy-action">Копировать</div></li>
+          </ul>
+          <div class="qr-row">
+            <div class="qr-item"><span>TXT (Универсальная) </span><canvas id="qr-xray-txt"></canvas></div>
+            <div class="qr-item"><span>B64</span><canvas id="qr-xray-plain"></canvas></div>
+            <div class="qr-item"><span>Clash</span><canvas id="qr-xray-clash"></canvas></div>
+          </div>
+          <div class="apps"><a href="/setup">Как настроить?</a></div>
+        `;
 
         QRCode.toCanvas(document.getElementById("qr-xray-txt"), subUrlTxt, {width: 140});
         QRCode.toCanvas(document.getElementById("qr-xray-plain"), subUrlPlain, {width: 140});
@@ -1072,38 +1056,22 @@
         const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=plain`;
 
         container.innerHTML = `
-
-      <ul class="proxy-list">
-          <li class="proxy-item" onclick="copyText('${subUrlTxt}','Ссылка скопирована!')"><div class="proxy-label">TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
-          <li class="proxy-item" onclick="copyText('${subUrlPlain}','Ссылка скопирована!')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
-      </ul>
-
-      <div class="qr-row">
-          <div class="qr-item"><span>TXT (Универсальная)</span><canvas id="qr-h2-txt"></canvas></div>
-          <div class="qr-item"><span>Base64</span><canvas id="qr-h2-plain"></canvas></div>
-      </div>
-
-      <div class="apps"><a href=/setup>Как настроить?</a></div>
-
-
-
-    `;
+          <ul class="proxy-list">
+            <li class="proxy-item" onclick="copyText('${subUrlTxt}','Ссылка скопирована!')"><div class="proxy-label">TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
+            <li class="proxy-item" onclick="copyText('${subUrlPlain}','Ссылка скопирована!')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
+          </ul>
+          <div class="qr-row">
+            <div class="qr-item"><span>TXT (Универсальная)</span><canvas id="qr-h2-txt"></canvas></div>
+            <div class="qr-item"><span>Base64</span><canvas id="qr-h2-plain"></canvas></div>
+          </div>
+          <div class="apps"><a href="/setup">Как настроить?</a></div>
+        `;
 
         QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, {width: 140});
         QRCode.toCanvas(document.getElementById("qr-h2-plain"), subUrlPlain, {width: 140});
       }
 
-      document.querySelectorAll(".tab").forEach(btn => {
-        btn.onclick = () => {
-          const name = btn.dataset.tab;
-          document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
-          document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
-          btn.classList.add("active");
-          document.getElementById("tab-" + name).classList.add("active");
-        };
-      });
-
-      function copyText(text, message = "Копировано") {
+      function copyText(text, message = "Скопировано") {
         navigator.clipboard.writeText(text).then(() => showToast(message));
       }
 
@@ -1115,38 +1083,9 @@
         setTimeout(() => toast.classList.remove("show"), 2000);
       }
 
-    </script>
-
-    <script>
-      document.querySelectorAll(".tab").forEach(btn => {
-        btn.onclick = () => {
-          const name = btn.dataset.tab;
-
-          document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
-          document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
-
-          btn.classList.add("active");
-          document.getElementById("tab-" + name).classList.add("active");
-        };
-      });
-    </script>
-    <script>
-      const scrollBtn = document.getElementById("scrollToAdd");
-      const keySection = document.getElementById("key");
-
-      if (scrollBtn && keySection) {
-        scrollBtn.addEventListener("click", () => {
-          keySection.scrollIntoView({behavior: "smooth"});
-        });
-      }
-    </script>
-
-    <script>
       async function activateKey() {
         const key = document.getElementById("keyInput").value;
         const resultEl = document.getElementById("keyResult");
-
-        const params = new URLSearchParams(window.location.search);
         const subId = getSubId();
 
         if (!subId) {
@@ -1164,13 +1103,8 @@
         try {
           const res = await fetch(`${AUTH_BASE}/activate`, {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              code: key,
-              subscription_id: subId
-            })
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({code: key, subscription_id: subId})
           });
 
           const data = await res.json();
@@ -1181,87 +1115,59 @@
           }
 
           const addedDays = data.response?.instance?.Key?.days;
-
-          resultEl.innerText = addedDays
-            ? `✅ Активировано (+${addedDays} дней)`
-            : "✅ Активировано";
-
+          resultEl.innerText = addedDays ? `✅ Активировано (+${addedDays} дней)` : "✅ Активировано";
           setTimeout(() => location.reload(), 1000);
-
         } catch (e) {
           resultEl.innerText = "Ошибка";
         }
       }
 
-      function getSubId() {
-        const params = new URLSearchParams(window.location.search);
+      // Инициализация после загрузки DOM
+      window.addEventListener('DOMContentLoaded', () => {
+        initPage();
 
-        const urlId = params.get("id");
-        const stored = localStorage.getItem("frkn_sub_id");
+        // Обработчики вкладок (ОДИН РАЗ)
+        document.querySelectorAll(".tab").forEach(btn => {
+          btn.onclick = () => {
+            const name = btn.dataset.tab;
+            document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
+            document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+            btn.classList.add("active");
+            document.getElementById("tab-" + name).classList.add("active");
+          };
+        });
 
-        const id = urlId || stored;
-
-        if (urlId) {
-          localStorage.setItem("frkn_sub_id", urlId);
+        // Скролл
+        const scrollBtn = document.getElementById("scrollToAdd");
+        const keySection = document.getElementById("key");
+        if (scrollBtn && keySection) {
+          scrollBtn.addEventListener("click", () => {
+            keySection.scrollIntoView({behavior: "smooth"});
+          });
         }
 
-        return id;
-      }
+        // Ввод ID
+        const input = document.getElementById("sub-id-input");
+        const btn = document.getElementById("open-sub-btn");
+        const error = document.getElementById("sub-error");
 
-      function showToast(text) {
-        const toast = document.getElementById("toast");
-        if (!toast) return;
-
-        toast.innerText = text;
-        toast.classList.add("show");
-
-        setTimeout(() => {
-          toast.classList.remove("show");
-        }, 2000);
-      }
-    </script>
-
-    <script>
-      const input = document.getElementById("sub-id-input");
-      const btn = document.getElementById("open-sub-btn");
-      const error = document.getElementById("sub-error");
-
-      function isValidUUID(id) {
-        return /^[0-9a-fA-F-]{36}$/.test(id);
-      }
-
-      btn.addEventListener("click", () => {
-        const id = input.value.trim();
-
-        if (!isValidUUID(id)) {
-          error.textContent = "❌ Неверный формат ID";
-          return;
+        if (btn) {
+          btn.addEventListener("click", () => {
+            const id = input?.value.trim();
+            if (!id || !/^[0-9a-fA-F-]{36}$/.test(id)) {
+              if (error) error.textContent = "❌ Неверный формат ID";
+              return;
+            }
+            window.location.href = `/subscription?id=${id}`;
+          });
         }
 
-        // редирект
-        window.location.href = `/subscription?id=${id}`;
-      });
-
-      input.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-          btn.click();
+        if (input) {
+          input.addEventListener("keypress", (e) => {
+            if (e.key === "Enter" && btn) btn.click();
+          });
         }
       });
-    </script>
-
-
-    <script>
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get("id");
-
-      if (!id) {
-        const savedId =
-          localStorage.getItem("frkn_sub_id");
-
-        if (savedId) {
-          window.location.href = `/subscription?id=${savedId}`;
-        }
-      }
     </script>
 </body>
 
