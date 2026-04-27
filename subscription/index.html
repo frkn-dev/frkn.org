@@ -20,8 +20,8 @@
   <meta property="og:image:type" content="image/png">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Купить подписку на FRKN">
-  <meta name="twitter:description" content="Купить подписку на FRKN">
+  <meta name="twitter:title" content="Подписка на FRKN">
+  <meta name="twitter:description" content="Подписка на FRKN">
   <meta name="twitter:image" content="https://frkn.org/Images/logo.png">
   <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
 
@@ -762,7 +762,8 @@
         </a>
 
         <a href="/pay" class="button" style="padding: 10px 20px; border-radius: 8px; background: var(--border);">
-          Купить ключ
+          Купить ключ активации
+
         </a>
       </div>
     </div>
@@ -801,6 +802,7 @@
       <div class="tabs">
         <button class="tab active" data-tab="xray">Xray</button>
         <button class="tab" data-tab="hysteria">Hysteria2</button>
+        <button class="tab" data-tab="mtproto">Mtproto</button>
       </div>
 
       <div id="tab-xray" class="tab-content active">
@@ -812,6 +814,11 @@
       <div id="tab-hysteria" class="tab-content">
         <div id="hysteria-content"></div>
       </div>
+
+      <div id="tab-mtproto" class="tab-content">
+        <div id="mtproto-content"></div>
+      </div>
+
 
       <hr>
       <div class="key" id="key">
@@ -1013,6 +1020,7 @@
       if (loc) {
         renderXray(data.id, loc.env, loc.has_xray);
         renderH2(data.id, loc.env, loc.has_hysteria);
+        renderMtproto(data.id, loc.env, loc.has_mtproto);
       }
     }
 
@@ -1070,6 +1078,16 @@
 
       QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, {width: 140});
       QRCode.toCanvas(document.getElementById("qr-h2-plain"), subUrlPlain, {width: 140});
+    }
+
+    function renderMtproto(id, env, has) {
+      const container = document.getElementById('mtproto-content');
+      if (!has) {
+        container.innerHTML = `<div class="small">Mptoroto (TG-Proxy) недоступен в этом регионе</div>`;
+        return;
+      }
+
+      container.innerHTML = `<div class="small"> Mptoroto(TG-Proxy) Скоро будет доступен</div> `;
     }
 
     function copyText(text, message = "Скопировано") {
