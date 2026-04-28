@@ -476,6 +476,176 @@
       }
     }
 
+    function renderXray(id, env, has) {
+      const container = document.getElementById('xray-content');
+      if (!has) {
+        container.innerHTML = `<div class="small">Xray недоступен в этом регионе</div>`;
+        return;
+      }
+
+      const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=txt`;
+      const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=plain`;
+      const subUrlClash = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=clash`;
+
+      container.innerHTML = `
+          <ul class="proxy-list">
+            <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')">
+                 <div class="proxy-label black">
+                 <img src="/Images/xray.svg" style="width: 16px; height: 16px;" class="black">&nbsp;&nbsp;&nbsp;TXT (Универсальная)</div>
+                 <div class="proxy-action">Копировать</div></li>
+            <li class="proxy-item" onclick="copyText('${subUrlPlain}','Ссылка скопирована!')">
+            <div class="proxy-label black ">
+            <img src="/Images/xray.svg" style="width: 16px; height: 16px;" class="black">&nbsp;&nbsp;&nbsp;Base64</div>
+            <div class="proxy-action">Копировать</div></li>
+
+            <li class="proxy-item" onclick="copyText('${subUrlClash}','Ссылка скопирована!')"><div class="proxy-label">
+            <img src="/Images/clash.png" style="width: 16px; height: 16px;">&nbsp;&nbsp;&nbsp;Clash</div>
+            <div class="proxy-action">Копировать</div></li>
+          </ul>
+          <div class="qr-row">
+            <div class="qr-item"><span>TXT (Универсальная) </span><canvas id="qr-xray-txt"></canvas></div>
+            <div class="qr-item"><span>B64</span><canvas id="qr-xray-plain"></canvas></div>
+            <div class="qr-item"><span>Clash</span><canvas id="qr-xray-clash"></canvas></div>
+          </div>
+          <div class="apps center"><a href="/setup">Как настроить?</a></div>
+        `;
+
+      QRCode.toCanvas(document.getElementById("qr-xray-txt"), subUrlTxt, {width: 140});
+      QRCode.toCanvas(document.getElementById("qr-xray-plain"), subUrlPlain, {width: 140});
+      QRCode.toCanvas(document.getElementById("qr-xray-clash"), subUrlClash, {width: 140});
+    }
+
+    function renderH2(id, env, has) {
+      const container = document.getElementById('hysteria-content');
+      if (!has) {
+        container.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе</div>`;
+        return;
+      }
+
+      const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=txt`;
+      const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=plain`;
+
+      container.innerHTML = `
+          <ul class="proxy-list gray">
+          <img src="/Images/h2.svg" >
+            <li class="proxy-item" onclick="copyText('${subUrlTxt}','Ссылка скопирована!')"><div class="proxy-label">  TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
+            <li class="proxy-item" onclick="copyText('${subUrlPlain}','Ссылка скопирована!')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
+          </ul>
+          <div class="qr-row">
+            <div class="qr-item"><span>TXT (Универсальная)</span><canvas id="qr-h2-txt"></canvas></div>
+            <div class="qr-item"><span>Base64</span><canvas id="qr-h2-plain"></canvas></div>
+          </div>
+          <div class="apps center"><a href="/setup">Как настроить?</a></div>
+        `;
+
+      QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, {width: 140});
+      QRCode.toCanvas(document.getElementById("qr-h2-plain"), subUrlPlain, {width: 140});
+    }
+
+    function renderMtproto(id, env, has) {
+      const container = document.getElementById('mtproto-content');
+
+      if (!has) {
+        container.innerHTML = `<div class="small">MTProto недоступен в этом регионе</div>`;
+        return;
+      }
+
+      const url = `${API_BASE}/info/connections/mtproto?id=${id}&env=${env}`;
+
+      container.innerHTML = `<div class="small">Загрузка MTProto...</div>`;
+
+      fetch(url)
+        .then(r => r.json())
+        .then(data => {
+          const connections = data.connections || [];
+
+          container.innerHTML = `
+            <ul class="proxy-list">
+              ${connections.map(c => `
+                <li class="proxy-item" onclick="window.open('${c.url}', '_blank')">
+                  <div class="proxy-label"><img src="https://cdn.simpleicons.org/telegram" /> ${c.label}</div>
+                  <div class="proxy-action">Connect</div>
+                </li>
+              `).join("")}
+            </ul>
+          `;
+        })
+        .catch(() => {
+          container.innerHTML = `<div class="small">Ошибка загрузки MTProto</div>`;
+        });
+    }
+
+    function renderWireguard(id, env, has) {
+      const container = document.getElementById("wg-content");
+
+      if (!has) {
+        container.innerHTML = `<div class="small">WireGuard недоступен</div>`;
+        return;
+      }
+
+      const url = `${API_BASE}/info/connections/wireguard?id=${id}&env=${env}`;
+
+      container.innerHTML = `<div class="small">Загрузка WireGuard...</div>`;
+
+      fetch(url)
+        .then(r => r.json())
+        .then(data => {
+          const nodes = data.nodes || [];
+
+          container.innerHTML = `
+            <ul class="proxy-list">
+              ${nodes.map((n, i) => `
+                <li class="proxy-item">
+                  <div class="proxy-label black">
+                    <img src="/Images/wireguard.svg">  ${n.label}
+                    <span class="badge">WG</span>
+                  </div>
+
+                  <div style="display:flex; gap:10px;">
+                    <button onclick="copyText(\`${escapeBackticks(n.config)}\`, 'Скопировано')">
+                      Copy
+                    </button>
+
+                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${n.label}')">
+                      Download
+                    </button>
+                  </div>
+                </li>
+
+                <div class="qr-item" style="margin-bottom: 16px;">
+                  <span>${n.label}</span>
+                  <canvas id="wg-qr-${i}"></canvas>
+                </div>
+              `).join("")}
+            </ul>
+          `;
+
+          nodes.forEach((n, i) => {
+            QRCode.toCanvas(
+              document.getElementById(`wg-qr-${i}`),
+              n.config,
+              {width: 160}
+            );
+          });
+        })
+        .catch(() => {
+          container.innerHTML = `<div class="small">Ошибка загрузки WireGuard</div>`;
+        });
+    }
+
+
+    function downloadWG(content, name) {
+      const blob = new Blob([content], {type: "text/plain"});
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${name}.conf`;
+      a.click();
+
+      URL.revokeObjectURL(url);
+    }
+
     function render(data) {
       document.getElementById('sub-id').innerText = data.id;
 
@@ -558,117 +728,97 @@
       document.getElementById('h2-qr').innerHTML = '';
 
       if (activeLoc) {
-        if (activeLoc.has_xray) {
-          setupProto('xray', data.id, activeLoc.env, ['TXT', 'Base64', 'Clash']);
-        } else {
-          document.getElementById('xray-list').innerHTML = '<p class="muted">Недоступно в этом регионе</p>';
-        }
+        renderXray(data.id, loc.env, loc.has_xray);
+        renderH2(data.id, loc.env, loc.has_h2);
+        renderMtproto(data.id, loc.env, loc.has_mtproto);
+        renderWireguard(data.id, loc.env, loc.has_wg);
 
-        if (activeLoc.has_hysteria) {
-          setupProto('h2', data.id, activeLoc.env, ['TXT', 'Base64']);
-        } else {
-          document.getElementById('h2-list').innerHTML = '<p class="muted">Недоступно в этом регионе</p>';
-        }
-
-        if (activeLoc.has_wg) {
-          setupProto('wg', data.id, activeLoc.env, ['TXT']);
-        } else {
-          document.getElementById('wg-list').innerHTML = '<p class="muted">Недоступно в этом регионе</p>';
-        }
-
-        if (activeLoc.has_mtproto) {
-          setupProto('mtproto', data.id, activeLoc.env, ['LINK']);
-        } else {
-          document.getElementById('mtproto-list').innerHTML = '<p class="muted">Недоступно в этом регионе</p>';
-        }
       }
 
-    }
+      function setupProto(proto, id, env, formats) {
+        const listContainer = document.getElementById(`${proto}-list`);
+        const qrContainer = document.getElementById(`${proto}-qr`);
 
-    function setupProto(proto, id, env, formats) {
-      const listContainer = document.getElementById(`${proto}-list`);
-      const qrContainer = document.getElementById(`${proto}-qr`);
+        formats.forEach(fmt => {
+          const url = `${API_BASE}/sub?id=${id}&env=${env}&proto=${proto === 'xray' ? 'Xray' : 'Hysteria2'}&format=${fmt.toLowerCase()}`;
 
-      formats.forEach(fmt => {
-        const url = `${API_BASE}/sub?id=${id}&env=${env}&proto=${proto === 'xray' ? 'Xray' : 'Hysteria2'}&format=${fmt.toLowerCase()}`;
+          const item = document.createElement('div');
+          item.className = 'proxy-item';
+          item.innerHTML = `<div class="proxy-label">${fmt}</div><div class="proxy-action">Копировать</div>`;
+          item.onclick = () => copy(url, "Ссылка скопирована");
+          listContainer.appendChild(item);
 
-        const item = document.createElement('div');
-        item.className = 'proxy-item';
-        item.innerHTML = `<div class="proxy-label">${fmt}</div><div class="proxy-action">Копировать</div>`;
-        item.onclick = () => copy(url, "Ссылка скопирована");
-        listContainer.appendChild(item);
+          const qrBox = document.createElement('div');
+          qrBox.className = 'qr-item';
+          qrBox.innerHTML = `<span>${fmt}</span><canvas id="qr-${proto}-${fmt}-${env}"></canvas>`;
+          qrContainer.appendChild(qrBox);
 
-        const qrBox = document.createElement('div');
-        qrBox.className = 'qr-item';
-        qrBox.innerHTML = `<span>${fmt}</span><canvas id="qr-${proto}-${fmt}-${env}"></canvas>`;
-        qrContainer.appendChild(qrBox);
-
-        setTimeout(() => {
-          const canvas = document.getElementById(`qr-${proto}-${fmt}-${env}`);
-          if (canvas) QRCode.toCanvas(canvas, url, {width: 120, margin: 1});
-        }, 50);
-      });
-    }
-
-    function switchTab(tab, el) {
-      document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-      el.classList.add('active');
-
-      const tabs = ['xray', 'h2', 'wg', 'mtproto'];
-
-      tabs.forEach(t => {
-        document.getElementById(`content-${t}`).classList.toggle('hidden', t !== tab);
-      });
-    }
-    function copy(text, message = "Скопировано") {
-      navigator.clipboard.writeText(text);
-      tg.HapticFeedback.notificationOccurred('success');
-      tg.showAlert(message);
-    }
-
-    async function activateKey() {
-      const code = document.getElementById('keyInput').value;
-      const subId = getSubId();
-
-      if (!code) return;
-
-      if (!subId) {
-        tg.showAlert("Нет subscription ID");
-        return;
-      }
-
-      tg.MainButton.showProgress();
-
-      try {
-        const res = await fetch(`${AUTH_BASE}/activate`, {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({code, subscription_id: subId})
+          setTimeout(() => {
+            const canvas = document.getElementById(`qr-${proto}-${fmt}-${env}`);
+            if (canvas) QRCode.toCanvas(canvas, url, {width: 120, margin: 1});
+          }, 50);
         });
+      }
 
-        if (!res.ok) {
-          tg.HapticFeedback.notificationOccurred('error');
-          tg.showAlert("Ошибка ключа");
+      function switchTab(tab, el) {
+        document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+
+        const tabs = ['xray', 'h2', 'wg', 'mtproto'];
+
+        tabs.forEach(t => {
+          document.getElementById(`content-${t}`).classList.toggle('hidden', t !== tab);
+        });
+      }
+      function copy(text, message = "Скопировано") {
+        navigator.clipboard.writeText(text);
+        tg.HapticFeedback.notificationOccurred('success');
+        tg.showAlert(message);
+      }
+
+      async function activateKey() {
+        const code = document.getElementById('keyInput').value;
+        const subId = getSubId();
+
+        if (!code) return;
+
+        if (!subId) {
+          tg.showAlert("Нет subscription ID");
           return;
         }
 
-        tg.HapticFeedback.notificationOccurred('success');
-        location.reload();
+        tg.MainButton.showProgress();
 
-      } catch {
-        tg.HapticFeedback.notificationOccurred('error');
-        tg.showAlert("Ошибка сети");
+        try {
+          const res = await fetch(`${AUTH_BASE}/activate`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({code, subscription_id: subId})
+          });
+
+          if (!res.ok) {
+            tg.HapticFeedback.notificationOccurred('error');
+            tg.showAlert("Ошибка ключа");
+            return;
+          }
+
+          tg.HapticFeedback.notificationOccurred('success');
+          location.reload();
+
+        } catch {
+          tg.HapticFeedback.notificationOccurred('error');
+          tg.showAlert("Ошибка сети");
+        }
+
+        tg.MainButton.hideProgress();
       }
 
-      tg.MainButton.hideProgress();
-    }
+      function showState(s) {
+        document.getElementById('main-app').classList.toggle('hidden', s === 'error');
+        document.getElementById('error-screen').classList.toggle('hidden', s !== 'error');
+      }
 
-    function showState(s) {
-      document.getElementById('main-app').classList.toggle('hidden', s === 'error');
-      document.getElementById('error-screen').classList.toggle('hidden', s !== 'error');
-    }
-
-    load();
+      load();
   </script>
 </body>
 
