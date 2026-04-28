@@ -385,25 +385,25 @@
       <button class="tab" onclick="switchTab('mtproto', this)">MTProto</button>
     </div>
 
-    <div id="content-xray" class="card">
+    <div id="xray-content" class="card">
       <div id="xray-list" class="proxy-list"></div>
       <div id="xray-qr" class="qr-row"></div>
       <div class="apps center"><a href="/setup" class="text-link">Как настроить?</a></div>
     </div>
 
-    <div id="content-h2" class="card hidden">
+    <div id="h2-content" class="card hidden">
       <div id="h2-list" class="proxy-list"></div>
       <div id="h2-qr" class="qr-row"></div>
       <div class="apps center"><a href="/setup" class="text-link">Как настроить?</a></div>
     </div>
 
-    <div id="content-wg" class="card hidden">
+    <div id="wg-content" class="card hidden">
       <div id="wg-list" class="proxy-list"></div>
       <div id="wg-qr" class="qr-row"></div>
       <div class="apps center"><a href="/setup" class="text-link">Как настроить?</a></div>
     </div>
 
-    <div id="content-mtproto" class="card hidden">
+    <div id="mtproto-content" class="card hidden">
       <div id="mtproto-list" class="proxy-list"></div>
       <div id="mtproto-qr" class="qr-row"></div>
       <div class="apps center"><a href="/setup" class="text-link">Как настроить?</a></div>
@@ -633,6 +633,18 @@
         });
     }
 
+    function switchTab(tab, el) {
+      document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+
+      const tabs = ['xray', 'h2', 'wg', 'mtproto'];
+
+      tabs.forEach(t => {
+        const el = document.getElementById(`content-${t}`);
+        if (el) el.classList.toggle('hidden', t !== tab);
+      });
+    }
+
 
     function downloadWG(content, name) {
       const blob = new Blob([content], {type: "text/plain"});
@@ -760,16 +772,8 @@
         });
       }
 
-      function switchTab(tab, el) {
-        document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-        el.classList.add('active');
 
-        const tabs = ['xray', 'h2', 'wg', 'mtproto'];
 
-        tabs.forEach(t => {
-          document.getElementById(`content-${t}`).classList.toggle('hidden', t !== tab);
-        });
-      }
       function copy(text, message = "Скопировано") {
         navigator.clipboard.writeText(text);
         tg.HapticFeedback.notificationOccurred('success');
