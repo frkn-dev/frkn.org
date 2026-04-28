@@ -381,6 +381,8 @@
     <div class="tabs">
       <button class="tab active" onclick="switchTab('xray', this)">Xray</button>
       <button class="tab" onclick="switchTab('h2', this)">Hysteria2</button>
+      <button class="tab" onclick="switchTab('wg', this)">WireGuard</button>
+      <button class="tab" onclick="switchTab('mtproto', this)">MTProto</button>
     </div>
 
     <div id="content-xray" class="card">
@@ -395,11 +397,25 @@
       <div class="apps center"><a href="/setup" class="text-link">Как настроить?</a></div>
     </div>
 
+    <div id="content-wg" class="card hidden">
+      <div id="wg-list" class="proxy-list"></div>
+      <div id="wg-qr" class="qr-row"></div>
+      <div class="apps center"><a href="/setup" class="text-link">Как настроить?</a></div>
+    </div>
+
+    <div id="content-mtproto" class="card hidden">
+      <div id="mtproto-list" class="proxy-list"></div>
+      <div id="mtproto-qr" class="qr-row"></div>
+      <div class="apps center"><a href="/setup" class="text-link">Как настроить?</a></div>
+    </div>
+
     <div class="card">
       <h3 style="margin-top:0; font-size: 1rem;">⚡ Докинуть дней</h3>
       <input type="text" id="keyInput" placeholder="Введите ключ">
       <button class="btn-main" onclick="activateKey()">Активировать</button>
     </div>
+
+
   </div>
 
   <div id="error-screen" class="card hidden" style="text-align: center;">
@@ -553,7 +569,20 @@
         } else {
           document.getElementById('h2-list').innerHTML = '<p class="muted">Недоступно в этом регионе</p>';
         }
+
+        if (activeLoc.has_wg) {
+          setupProto('wg', data.id, activeLoc.env, ['TXT']);
+        } else {
+          document.getElementById('wg-list').innerHTML = '<p class="muted">Недоступно в этом регионе</p>';
+        }
+
+        if (activeLoc.has_mtproto) {
+          setupProto('mtproto', data.id, activeLoc.env, ['LINK']);
+        } else {
+          document.getElementById('mtproto-list').innerHTML = '<p class="muted">Недоступно в этом регионе</p>';
+        }
       }
+
     }
 
     function setupProto(proto, id, env, formats) {
@@ -585,8 +614,11 @@
       document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
       el.classList.add('active');
 
-      document.getElementById('content-xray').classList.toggle('hidden', tab !== 'xray');
-      document.getElementById('content-h2').classList.toggle('hidden', tab !== 'h2');
+      const tabs = ['xray', 'h2', 'wg', 'mtproto'];
+
+      tabs.forEach(t => {
+        document.getElementById(`content-${t}`).classList.toggle('hidden', t !== tab);
+      });
     }
     function copy(text, message = "Скопировано") {
       navigator.clipboard.writeText(text);

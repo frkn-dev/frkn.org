@@ -67,15 +67,11 @@
     }
 
     .logo img {
-
       width: 50px;
       height: 34px;
-
       border-radius: 12%;
       object-fit: contain;
-
       background-color: #ffffff;
-
       box-shadow: 0 0 10px rgba(91, 124, 250, 0.2);
       transition: box-shadow 0.3s ease;
     }
@@ -86,7 +82,6 @@
     }
 
     .logo:hover img {
-      /* Усиливаем свечение квадрата */
       box-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
     }
 
@@ -101,19 +96,17 @@
 
     .logo:hover {
       transform: scale(1.01);
-      /* Увеличиваем всё вместе */
     }
 
     .logo:hover a {
       color: #fff;
-      /* Добавляем неоновое свечение буквам */
       text-shadow:
         0 0 8px rgba(91, 124, 250, 0.8),
         0 0 15px rgba(34, 211, 238, 0.4);
     }
 
 
-    title-group {
+    .title-group {
       display: flex;
       align-items: center;
       gap: 12px;
@@ -124,21 +117,7 @@
     .hero-title-small {
       font-family: var(--font-main);
       letter-spacing: -0.04em;
-      /* Сближаем буквы, как в лого */
       text-transform: none;
-      /* Если хочешь строго как в лого, можно добавить uppercase */
-    }
-
-    .hero-title {
-      font-size: 2.8rem;
-      margin-bottom: -5px;
-      /* Уменьшаем разрыв между строками */
-    }
-
-    .hero-title-small {
-      font-size: 3.2rem;
-      filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.4));
-      /* Добавляем легкое неоновое свечение */
     }
 
     .hero-title {
@@ -164,7 +143,6 @@
     .env-badge {
       display: inline-flex;
       margin-bottom: 15px;
-      /* Только под размер текста */
       align-items: center;
       padding: 4px 10px;
       font-size: 12px;
@@ -176,7 +154,6 @@
       color: #94a3b8;
       border: 1px solid rgba(255, 255, 255, 0.2);
       white-space: nowrap;
-      /* Запрещаем перенос текста внутри бейджа */
     }
 
     #env-switcher {
@@ -221,28 +198,14 @@
       display: flex;
       color: var(--muted);
       flex-direction: column;
-      /* Центрируем содержимое колонки */
       align-items: center;
       text-align: left;
       gap: 8px;
-      /* Увеличили отступ между подписью и значением */
     }
 
-    /* Общий стиль для подписей (Статус, Осталось дней, Истекает) */
-    .stat::first-line {
-      font-size: 0.7rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-
-    /* Огромная цифра дней */
     .stat b {
       font-size: 2.5rem;
-      /* Сделали еще больше */
       color: #22d3ee;
-      /* Яркий акцент */
       text-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
       line-height: 1;
       margin: 4px 0;
@@ -251,15 +214,11 @@
     .key {
       margin-top: 10px;
       margin-bottom: 10px;
-
-      display: flex;
       flex-direction: column;
       display: inline-flex;
-      /* Центрируем содержимое колонки */
       align-items: left;
       text-align: left;
       gap: 8px;
-      /* Увеличили отступ между подписью и значением */
     }
 
 
@@ -271,20 +230,15 @@
       color: var(--muted);
       flex-direction: column;
       display: inline-flex;
-      /* Центрируем содержимое колонки */
       align-items: left;
       text-align: left;
       gap: 8px;
-      /* Увеличили отступ между подписью и значением */
     }
 
 
-    /* Огромная цифра дней */
     .ref-code b {
       font-size: 1.5rem;
-      /* Сделали еще больше */
       color: #22a3ee;
-      /* Яркий акцент */
       text-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
       line-height: 1;
       margin: 4px 0;
@@ -293,7 +247,6 @@
     .status-active {
       margin-top: 10px;
       color: #10b981 !important;
-      /* Добавляем важность */
       background: rgba(239, 10, 68, 0.1);
       padding: 2px 8px;
       border-radius: 6px;
@@ -319,7 +272,6 @@
       font-weight: 600;
     }
 
-    /* Поправляем плашки статуса, чтобы они были ровными */
     .status-active,
     .status-expired,
     .status-warning {
@@ -412,7 +364,6 @@
     .qr-row {
       display: flex;
       flex-wrap: wrap;
-      /* Чтобы на мобилках всё же переносились */
       gap: 20px;
       margin-top: 20px;
       margin-left: 22px;
@@ -717,11 +668,52 @@
     .apps {
       margin-top: 10px;
     }
+
+    .server-card {
+      margin-bottom: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .server-header {
+      padding: 14px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.03);
+      font-weight: 600;
+    }
+
+    .server-body {
+      padding: 12px;
+    }
+
+    .mt-card {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.6);
+      margin-bottom: 8px;
+      text-decoration: none;
+      color: white;
+    }
+
+    .proxy-label img {
+      width: 16px;
+      height: 16px;
+    }
+
+    .black img {
+      filter: invert(1) brightness(1.2);
+    }
+
+    .gray img {
+      filter: brightness(1.6) contrast(0.6);
+    }
   </style>
 </head>
 
 <body>
-
   <div class="card">
     <header>
 
@@ -735,7 +727,6 @@
       <h2>Пупупууу! Подписка не найдена</h2>
       <p class="small">Похоже, ссылка неверна или срок действия ключа истёк.</p>
 
-      <!-- 🔑 Ввод ID -->
       <div style="margin: 20px 0;">
         <input type="text" id="sub-id-input" placeholder="Вставь свой Subscription ID" style="
         width: 100%;
@@ -803,6 +794,7 @@
         <button class="tab active" data-tab="xray">Xray</button>
         <button class="tab" data-tab="hysteria">Hysteria2</button>
         <button class="tab" data-tab="mtproto">Mtproto</button>
+        <button class="tab" data-tab="wireguard">WireGuard</button>
       </div>
 
       <div id="tab-xray" class="tab-content active">
@@ -817,6 +809,10 @@
 
       <div id="tab-mtproto" class="tab-content">
         <div id="mtproto-content"></div>
+      </div>
+
+      <div class="tab-content" id="tab-wireguard">
+        <div id="wg-content"></div>
       </div>
 
 
@@ -1016,11 +1012,14 @@
         });
       }
 
+      console.log(data);
+
       const loc = data.locations?.find(l => l.env === currentEnv) || data.locations?.[0];
       if (loc) {
         renderXray(data.id, loc.env, loc.has_xray);
-        renderH2(data.id, loc.env, loc.has_hysteria);
+        renderH2(data.id, loc.env, loc.has_h2);
         renderMtproto(data.id, loc.env, loc.has_mtproto);
+        renderWireguard(data.id, loc.env, loc.has_wg);
       }
     }
 
@@ -1037,9 +1036,18 @@
 
       container.innerHTML = `
           <ul class="proxy-list">
-            <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')"><div class="proxy-label">TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
-            <li class="proxy-item" onclick="copyText('${subUrlPlain}','Ссылка скопирована!')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
-            <li class="proxy-item" onclick="copyText('${subUrlClash}','Ссылка скопирована!')"><div class="proxy-label">Clash</div><div class="proxy-action">Копировать</div></li>
+            <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')">
+                 <div class="proxy-label black">
+                 <img src="/Images/xray.svg" style="width: 16px; height: 16px;" class="black">&nbsp;&nbsp;&nbsp;TXT (Универсальная)</div>
+                 <div class="proxy-action">Копировать</div></li>
+            <li class="proxy-item" onclick="copyText('${subUrlPlain}','Ссылка скопирована!')">
+            <div class="proxy-label black ">
+            <img src="/Images/xray.svg" style="width: 16px; height: 16px;" class="black">&nbsp;&nbsp;&nbsp;Base64</div>
+            <div class="proxy-action">Копировать</div></li>
+
+            <li class="proxy-item" onclick="copyText('${subUrlClash}','Ссылка скопирована!')"><div class="proxy-label">
+            <img src="/Images/clash.png" style="width: 16px; height: 16px;">&nbsp;&nbsp;&nbsp;Clash</div>
+            <div class="proxy-action">Копировать</div></li>
           </ul>
           <div class="qr-row">
             <div class="qr-item"><span>TXT (Универсальная) </span><canvas id="qr-xray-txt"></canvas></div>
@@ -1065,8 +1073,9 @@
       const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=plain`;
 
       container.innerHTML = `
-          <ul class="proxy-list">
-            <li class="proxy-item" onclick="copyText('${subUrlTxt}','Ссылка скопирована!')"><div class="proxy-label">TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
+          <ul class="proxy-list gray">
+          <img src="/Images/h2.svg" >
+            <li class="proxy-item" onclick="copyText('${subUrlTxt}','Ссылка скопирована!')"><div class="proxy-label">  TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
             <li class="proxy-item" onclick="copyText('${subUrlPlain}','Ссылка скопирована!')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
           </ul>
           <div class="qr-row">
@@ -1082,13 +1091,109 @@
 
     function renderMtproto(id, env, has) {
       const container = document.getElementById('mtproto-content');
+
       if (!has) {
-        container.innerHTML = `<div class="small">Mptoroto (TG-Proxy) недоступен в этом регионе</div>`;
+        container.innerHTML = `<div class="small">MTProto недоступен в этом регионе</div>`;
         return;
       }
 
-      container.innerHTML = `<div class="small"> Mptoroto(TG-Proxy) Скоро будет доступен</div> `;
+      const url = `${API_BASE}/info/connections/mtproto?id=${id}&env=${env}`;
+
+      container.innerHTML = `<div class="small">Загрузка MTProto...</div>`;
+
+      fetch(url)
+        .then(r => r.json())
+        .then(data => {
+          const connections = data.connections || [];
+
+          container.innerHTML = `
+            <ul class="proxy-list">
+              ${connections.map(c => `
+                <li class="proxy-item" onclick="window.open('${c.url}', '_blank')">
+                  <div class="proxy-label"><img src="https://cdn.simpleicons.org/telegram" /> ${c.label}</div>
+                  <div class="proxy-action">Connect</div>
+                </li>
+              `).join("")}
+            </ul>
+          `;
+        })
+        .catch(() => {
+          container.innerHTML = `<div class="small">Ошибка загрузки MTProto</div>`;
+        });
     }
+
+    function renderWireguard(id, env, has) {
+      const container = document.getElementById("wg-content");
+
+      if (!has) {
+        container.innerHTML = `<div class="small">WireGuard недоступен</div>`;
+        return;
+      }
+
+      const url = `${API_BASE}/info/connections/wireguard?id=${id}&env=${env}`;
+
+      container.innerHTML = `<div class="small">Загрузка WireGuard...</div>`;
+
+      fetch(url)
+        .then(r => r.json())
+        .then(data => {
+          const nodes = data.nodes || [];
+
+          container.innerHTML = `
+            <ul class="proxy-list">
+              ${nodes.map((n, i) => `
+                <li class="proxy-item">
+                  <div class="proxy-label black">
+                    <img src="/Images/wireguard.svg">  ${n.label}
+                    <span class="badge">WG</span>
+                  </div>
+
+                  <div style="display:flex; gap:10px;">
+                    <button onclick="copyText(\`${escapeBackticks(n.config)}\`, 'Скопировано')">
+                      Copy
+                    </button>
+
+                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${n.label}')">
+                      Download
+                    </button>
+                  </div>
+                </li>
+
+                <div class="qr-item" style="margin-bottom: 16px;">
+                  <span>${n.label}</span>
+                  <canvas id="wg-qr-${i}"></canvas>
+                </div>
+              `).join("")}
+            </ul>
+          `;
+
+          nodes.forEach((n, i) => {
+            QRCode.toCanvas(
+              document.getElementById(`wg-qr-${i}`),
+              n.config,
+              {width: 160}
+            );
+          });
+        })
+        .catch(() => {
+          container.innerHTML = `<div class="small">Ошибка загрузки WireGuard</div>`;
+        });
+    }
+
+
+    function downloadWG(content, name) {
+      const blob = new Blob([content], {type: "text/plain"});
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${name}.conf`;
+      a.click();
+
+      URL.revokeObjectURL(url);
+    }
+
+
 
     function copyText(text, message = "Скопировано") {
       navigator.clipboard.writeText(text).then(() => showToast(message));
