@@ -1049,6 +1049,7 @@
           data.locations?.find((l) => l.env === currentEnv) ||
           data.locations?.[0];
         if (loc) {
+          if (!l.has_xray && !l.has_h2 && !l.has_mtproto && !l.has_wg) return;
           renderXray(data.id, loc.env, loc.has_xray);
           renderH2(data.id, loc.env, loc.has_h2);
           renderMtproto(data.id, loc.env, loc.has_mtproto);
