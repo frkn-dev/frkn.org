@@ -1032,6 +1032,7 @@
           switcher.innerHTML = "";
           data.locations.forEach((l) => {
             if (l.env === "production") return;
+            if (l.env === "experimental") return;
             if (!l.has_xray && !l.has_h2 && !l.has_mtproto && !l.has_wg) return;
             const a = document.createElement("a");
             a.href = `?id=${subId}&env=${l.env}`;
