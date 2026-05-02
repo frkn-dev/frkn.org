@@ -7,21 +7,21 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
 
-    <meta name="description" content="Подписка на FRKN Рилзопровод" />
+    <meta name="description" content="Подписка FRKN Рилзопровод" />
     <link rel="canonical" href="https://frkn.org/subscription/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://frkn.org/subscription/" />
     <meta property="og:site_name" content="FRKN" />
-    <meta property="og:title" content="Подписка на FRKN Рилзопровод" />
-    <meta property="og:description" content="Подписка на FRKN Рилзопровод" />
+    <meta property="og:title" content="Подписка FRKN Рилзопровод" />
+    <meta property="og:description" content="Подписка FRKN Рилзопровод" />
     <meta property="og:image" content="https://frkn.org/Images/logo.png" />
-    <meta property="og:image:alt" content="Подписка на FRKN Рилзопровод" />
+    <meta property="og:image:alt" content="Подписка FRKN Рилзопровод" />
     <meta property="og:image:type" content="image/png" />
 
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Подписка на FRKN" />
-    <meta name="twitter:description" content="Подписка на FRKN" />
+    <meta name="twitter:title" content="Подписка FRKN" />
+    <meta name="twitter:description" content="Подписка FRKN" />
     <meta name="twitter:image" content="https://frkn.org/Images/logo.png" />
     <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
 
@@ -868,208 +868,206 @@
         <div id="toast" class="toast"></div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  </body>
+</html>
 
-    <script>
-      const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
-      const isLocal = ["localhost", "127.0.0.1"].includes(
-        window.location.hostname,
-      );
-      const AUTH_BASE = isLocal
-        ? "http://localhost:3005"
-        : "https://api.frkn.org";
-      const API_BASE = isLocal
-        ? "http://localhost:5005"
-        : "https://api.frkn.org";
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
-      const ENV_NAMES = {
-        wl: "🐘 БС - Белые слоны",
-        ru: "🇷🇺 Обратный",
-        dev: "⌯✈︎ Основной",
-      };
+<script>
+  const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
+  const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+  const AUTH_BASE = isLocal ? "http://localhost:3005" : "https://api.frkn.org";
+  const API_BASE = isLocal ? "http://localhost:3000" : "https://api.frkn.org";
 
-      function getSubId() {
-        const params = new URLSearchParams(window.location.search);
-        const urlId = params.get("id");
-        const stored = localStorage.getItem("frkn_sub_id");
-        const id = urlId || stored;
-        if (urlId) {
-          localStorage.setItem("frkn_sub_id", urlId);
-        }
-        return id;
+  const ENV_NAMES = {
+    wl: "🐘 БС - Белые слоны",
+    ru: "🇷🇺 Обратный",
+    dev: "⌯✈︎ Основной",
+  };
+
+  function getSubId() {
+    const params = new URLSearchParams(window.location.search);
+    const urlId = params.get("id");
+    const stored = localStorage.getItem("frkn_sub_id");
+    const id = urlId || stored;
+    if (urlId) {
+      localStorage.setItem("frkn_sub_id", urlId);
+    }
+    return id;
+  }
+
+  async function initPage() {
+    const params = new URLSearchParams(window.location.search);
+    const subId = getSubId();
+    const currentEnv = params.get("env") || "dev";
+
+    const mainEl = document.getElementById("main-content");
+    const errorEl = document.getElementById("error-content");
+
+    const showError = () => {
+      if (mainEl) mainEl.style.display = "none";
+      if (errorEl) errorEl.style.display = "flex";
+    };
+
+    const showSuccess = () => {
+      if (mainEl) mainEl.style.display = "block";
+      if (errorEl) errorEl.style.display = "none";
+    };
+
+    // Если нет ID - показываем ошибку
+    if (!subId) {
+      showError();
+      return;
+    }
+
+    localStorage.setItem("frkn_sub_id", subId);
+
+    try {
+      const response = await fetch(`${API_BASE}/subscription/${subId}`);
+      if (!response.ok) {
+        showError();
+        return;
       }
 
-      async function initPage() {
-        const params = new URLSearchParams(window.location.search);
-        const subId = getSubId();
-        const currentEnv = params.get("env") || "dev";
-
-        const mainEl = document.getElementById("main-content");
-        const errorEl = document.getElementById("error-content");
-
-        const showError = () => {
-          if (mainEl) mainEl.style.display = "none";
-          if (errorEl) errorEl.style.display = "flex";
-        };
-
-        const showSuccess = () => {
-          if (mainEl) mainEl.style.display = "block";
-          if (errorEl) errorEl.style.display = "none";
-        };
-
-        // Если нет ID - показываем ошибку
-        if (!subId) {
-          showError();
-          return;
-        }
-
-        localStorage.setItem("frkn_sub_id", subId);
-
-        try {
-          const response = await fetch(`${API_BASE}/subscription/${subId}`);
-          if (!response.ok) {
-            showError();
-            return;
-          }
-
-          const data = await response.json();
-          if (!data || !data.id) {
-            showError();
-            return;
-          }
-
-          showSuccess();
-          renderSubscriptionData(data, subId, currentEnv);
-        } catch (err) {
-          console.error("❌ Критическая ошибка:", err);
-          showError();
-        }
+      const data = await response.json();
+      if (!data || !data.id) {
+        showError();
+        return;
       }
 
-      function renderSubscriptionData(data, subId, currentEnv) {
-        const statusEl = document.getElementById("status-text");
-        const badge = document.getElementById("env-badge");
-        const daysEl = document.getElementById("days");
-        const expiryDate = new Date(data.expires);
+      showSuccess();
+      renderSubscriptionData(data, subId, currentEnv);
+    } catch (err) {
+      console.error("❌ Критическая ошибка:", err);
+      showError();
+    }
+  }
 
-        function updateDisplay() {
-          const now = new Date();
-          const diffMs = expiryDate - now;
-          const diffSec = Math.floor(diffMs / 1000);
-          const diffDays = diffMs / (1000 * 60 * 60 * 24);
+  function renderSubscriptionData(data, subId, currentEnv) {
+    const statusEl = document.getElementById("status-text");
+    const badge = document.getElementById("env-badge");
+    const daysEl = document.getElementById("days");
+    const expiryDate = new Date(data.expires);
 
-          if (diffMs <= 0) {
-            statusEl.innerText = "Истекла";
-            statusEl.className = "status-expired";
-            daysEl.innerText = "0";
-            daysEl.style.color = "#ff4d4d";
-            return;
-          }
+    function updateDisplay() {
+      const now = new Date();
+      const diffMs = expiryDate - now;
+      const diffSec = Math.floor(diffMs / 1000);
+      const diffDays = diffMs / (1000 * 60 * 60 * 24);
 
-          if (diffDays < 1) {
-            statusEl.innerText = "Почти истекла";
-            statusEl.className = "status-warning";
-            const h = Math.floor(diffSec / 3600)
-              .toString()
-              .padStart(2, "0");
-            const m = Math.floor((diffSec % 3600) / 60)
-              .toString()
-              .padStart(2, "0");
-            const s = (diffSec % 60).toString().padStart(2, "0");
-            daysEl.innerText = `${h}:${m}:${s}`;
-            daysEl.style.fontSize = "1.8rem";
-            daysEl.style.color = "#ffbd4d";
-            daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
-            setTimeout(updateDisplay, 1000);
-          } else {
-            const fullDays = Math.floor(diffDays);
-            statusEl.innerText = "Активна";
-            statusEl.className = "status-active";
-            daysEl.innerText = fullDays;
-            daysEl.style.fontSize = "2.5rem";
-            if (fullDays < 4) {
-              daysEl.style.color = "#ff4d4d";
-              daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
-            } else {
-              daysEl.style.color = "#10b981";
-              daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
-            }
-          }
-        }
-
-        updateDisplay();
-
-        if (badge) {
-          badge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
-        }
-
-        const subIdEl = document.getElementById("sub-id");
-        subIdEl.innerText = data.id;
-        subIdEl.onclick = () => copyText(data.id, "ID скопирован");
-
-        document.getElementById("expires").innerText =
-          expiryDate.toLocaleString("ru-RU", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          });
-
-        const refCode = data.ref_code || "---";
-        const refLink = `${window.location.origin}/?code=${refCode}#trial`;
-        document.getElementById("ref-code").innerText = refCode;
-        document.getElementById("invited-count").innerText =
-          data.invited_count || 0;
-
-        document.getElementById("copy-ref-btn").onclick = () =>
-          copyText(refCode, "Код скопирован! Поделись с другом");
-        document.getElementById("copy-ref-link").onclick = () =>
-          copyText(refLink, "Ссылка скопирована! Поделись с другом");
-
-        const switcher = document.getElementById("env-switcher");
-        if (switcher && data.locations) {
-          switcher.innerHTML = "";
-          data.locations.forEach((l) => {
-            if (l.env === "production") return;
-            if (l.env === "experimental") return;
-            if (!l.has_xray && !l.has_h2 && !l.has_mtproto && !l.has_wg) return;
-            const a = document.createElement("a");
-            a.href = `?id=${subId}&env=${l.env}`;
-            a.className = `env-badge`;
-            a.style.marginLeft = "8px";
-            a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
-            switcher.appendChild(a);
-          });
-        }
-
-        console.log(data);
-
-        const loc =
-          data.locations?.find((l) => l.env === currentEnv) ||
-          data.locations?.[0];
-        if (loc) {
-          if (!loc.has_xray && !loc.has_h2 && !loc.has_mtproto && !loc.has_wg)
-            return;
-          renderXray(data.id, loc.env, loc.has_xray);
-          renderH2(data.id, loc.env, loc.has_h2);
-          renderMtproto(data.id, loc.env, loc.has_mtproto);
-          renderWireguard(data.id, loc.env, loc.has_wg);
-        }
+      if (diffMs <= 0) {
+        statusEl.innerText = "Истекла";
+        statusEl.className = "status-expired";
+        daysEl.innerText = "0";
+        daysEl.style.color = "#ff4d4d";
+        return;
       }
 
-      function renderXray(id, env, has) {
-        const container = document.getElementById("xray-content");
-        if (!has) {
-          container.innerHTML = `<div class="small">Xray недоступен в этом регионе</div>`;
-          return;
+      if (diffDays < 1) {
+        statusEl.innerText = "Почти истекла";
+        statusEl.className = "status-warning";
+        const h = Math.floor(diffSec / 3600)
+          .toString()
+          .padStart(2, "0");
+        const m = Math.floor((diffSec % 3600) / 60)
+          .toString()
+          .padStart(2, "0");
+        const s = (diffSec % 60).toString().padStart(2, "0");
+        daysEl.innerText = `${h}:${m}:${s}`;
+        daysEl.style.fontSize = "1.8rem";
+        daysEl.style.color = "#ffbd4d";
+        daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
+        setTimeout(updateDisplay, 1000);
+      } else {
+        const fullDays = Math.floor(diffDays);
+        statusEl.innerText = "Активна";
+        statusEl.className = "status-active";
+        daysEl.innerText = fullDays;
+        daysEl.style.fontSize = "2.5rem";
+        if (fullDays < 4) {
+          daysEl.style.color = "#ff4d4d";
+          daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
+        } else {
+          daysEl.style.color = "#10b981";
+          daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
         }
+      }
+    }
 
-        const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=txt`;
-        const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=plain`;
-        const subUrlClash = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=clash`;
+    updateDisplay();
 
-        container.innerHTML = `
+    if (badge) {
+      badge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
+    }
+
+    const subIdEl = document.getElementById("sub-id");
+    subIdEl.innerText = data.id;
+    subIdEl.onclick = () => copyText(data.id, "ID скопирован");
+
+    document.getElementById("expires").innerText = expiryDate.toLocaleString(
+      "ru-RU",
+      {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      },
+    );
+
+    const refCode = data.ref_code || "---";
+    const refLink = `${window.location.origin}/?code=${refCode}#trial`;
+    document.getElementById("ref-code").innerText = refCode;
+    document.getElementById("invited-count").innerText =
+      data.invited_count || 0;
+
+    document.getElementById("copy-ref-btn").onclick = () =>
+      copyText(refCode, "Код скопирован! Поделись с другом");
+    document.getElementById("copy-ref-link").onclick = () =>
+      copyText(refLink, "Ссылка скопирована! Поделись с другом");
+
+    const switcher = document.getElementById("env-switcher");
+    if (switcher && data.locations) {
+      switcher.innerHTML = "";
+      data.locations.forEach((l) => {
+        if (l.env === "production") return;
+        if (l.env === "experimental") return;
+        if (!l.has_xray && !l.has_h2 && !l.has_mtproto && !l.has_wg) return;
+        const a = document.createElement("a");
+        a.href = `?id=${subId}&env=${l.env}`;
+        a.className = `env-badge`;
+        a.style.marginLeft = "8px";
+        a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
+        switcher.appendChild(a);
+      });
+    }
+
+    console.log(data);
+
+    const loc =
+      data.locations?.find((l) => l.env === currentEnv) || data.locations?.[0];
+    if (loc) {
+      if (!loc.has_xray && !loc.has_h2 && !loc.has_mtproto && !loc.has_wg)
+        return;
+      renderXray(data.id, loc.env, loc.has_xray);
+      renderH2(data.id, loc.env, loc.has_h2);
+      renderMtproto(data.id, loc.env, loc.has_mtproto);
+      renderWireguard(data.id, loc.env, loc.has_wg);
+    }
+  }
+
+  function renderXray(id, env, has) {
+    const container = document.getElementById("xray-content");
+    if (!has) {
+      container.innerHTML = `<div class="small">Xray недоступен в этом регионе</div>`;
+      return;
+    }
+
+    const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=txt`;
+    const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=plain`;
+    const subUrlClash = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=clash`;
+
+    container.innerHTML = `
           <ul class="proxy-list">
             <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')">
                  <div class="proxy-label black">
@@ -1092,28 +1090,28 @@
           <div class="apps center"><a href="/setup">Как настроить?</a></div>
         `;
 
-        QRCode.toCanvas(document.getElementById("qr-xray-txt"), subUrlTxt, {
-          width: 140,
-        });
-        QRCode.toCanvas(document.getElementById("qr-xray-plain"), subUrlPlain, {
-          width: 140,
-        });
-        QRCode.toCanvas(document.getElementById("qr-xray-clash"), subUrlClash, {
-          width: 140,
-        });
-      }
+    QRCode.toCanvas(document.getElementById("qr-xray-txt"), subUrlTxt, {
+      width: 140,
+    });
+    QRCode.toCanvas(document.getElementById("qr-xray-plain"), subUrlPlain, {
+      width: 140,
+    });
+    QRCode.toCanvas(document.getElementById("qr-xray-clash"), subUrlClash, {
+      width: 140,
+    });
+  }
 
-      function renderH2(id, env, has) {
-        const container = document.getElementById("hysteria-content");
-        if (!has) {
-          container.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе</div>`;
-          return;
-        }
+  function renderH2(id, env, has) {
+    const container = document.getElementById("hysteria-content");
+    if (!has) {
+      container.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе</div>`;
+      return;
+    }
 
-        const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=txt`;
-        const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=plain`;
+    const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=txt`;
+    const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=plain`;
 
-        container.innerHTML = `
+    container.innerHTML = `
           <ul class="proxy-list gray">
           <img src="/Images/h2.svg" >
             <li class="proxy-item" onclick="copyText('${subUrlTxt}','Ссылка скопирована!')"><div class="proxy-label">  TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
@@ -1126,32 +1124,32 @@
           <div class="apps center"><a href="/setup">Как настроить?</a></div>
         `;
 
-        QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, {
-          width: 140,
-        });
-        QRCode.toCanvas(document.getElementById("qr-h2-plain"), subUrlPlain, {
-          width: 140,
-        });
-      }
+    QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, {
+      width: 140,
+    });
+    QRCode.toCanvas(document.getElementById("qr-h2-plain"), subUrlPlain, {
+      width: 140,
+    });
+  }
 
-      function renderMtproto(id, env, has) {
-        const container = document.getElementById("mtproto-content");
+  function renderMtproto(id, env, has) {
+    const container = document.getElementById("mtproto-content");
 
-        if (!has) {
-          container.innerHTML = `<div class="small">MTProto недоступен в этом регионе</div>`;
-          return;
-        }
+    if (!has) {
+      container.innerHTML = `<div class="small">MTProto недоступен в этом регионе</div>`;
+      return;
+    }
 
-        const url = `${API_BASE}/info/connections/mtproto?id=${id}&env=${env}`;
+    const url = `${API_BASE}/info/connections/mtproto?id=${id}&env=${env}`;
 
-        container.innerHTML = `<div class="small">Загрузка MTProto...</div>`;
+    container.innerHTML = `<div class="small">Загрузка MTProto...</div>`;
 
-        fetch(url)
-          .then((r) => r.json())
-          .then((data) => {
-            const connections = data.connections || [];
+    fetch(url)
+      .then((r) => r.json())
+      .then((data) => {
+        const connections = data.connections || [];
 
-            container.innerHTML = `
+        container.innerHTML = `
             <ul class="proxy-list">
               ${connections
                 .map(
@@ -1165,30 +1163,30 @@
                 .join("")}
             </ul>
           `;
-          })
-          .catch(() => {
-            container.innerHTML = `<div class="small">Ошибка загрузки MTProto</div>`;
-          });
-      }
+      })
+      .catch(() => {
+        container.innerHTML = `<div class="small">Ошибка загрузки MTProto</div>`;
+      });
+  }
 
-      function renderWireguard(id, env, has) {
-        const container = document.getElementById("wg-content");
+  function renderWireguard(id, env, has) {
+    const container = document.getElementById("wg-content");
 
-        if (!has) {
-          container.innerHTML = `<div class="small">WireGuard недоступен</div>`;
-          return;
-        }
+    if (!has) {
+      container.innerHTML = `<div class="small">WireGuard недоступен</div>`;
+      return;
+    }
 
-        const url = `${API_BASE}/info/connections/wireguard?id=${id}&env=${env}`;
+    const url = `${API_BASE}/info/connections/wireguard?id=${id}&env=${env}`;
 
-        container.innerHTML = `<div class="small">Загрузка WireGuard...</div>`;
+    container.innerHTML = `<div class="small">Загрузка WireGuard...</div>`;
 
-        fetch(url)
-          .then((r) => r.json())
-          .then((data) => {
-            const nodes = data.nodes || [];
+    fetch(url)
+      .then((r) => r.json())
+      .then((data) => {
+        const nodes = data.nodes || [];
 
-            container.innerHTML = `
+        container.innerHTML = `
             <ul class="proxy-list">
               ${nodes
                 .map(
@@ -1220,132 +1218,130 @@
             </ul>
           `;
 
-            nodes.forEach((n, i) => {
-              QRCode.toCanvas(document.getElementById(`wg-qr-${i}`), n.config, {
-                width: 160,
-              });
-            });
-          })
-          .catch(() => {
-            container.innerHTML = `<div class="small">Ошибка загрузки WireGuard</div>`;
+        nodes.forEach((n, i) => {
+          QRCode.toCanvas(document.getElementById(`wg-qr-${i}`), n.config, {
+            width: 160,
           });
-      }
-
-      function downloadWG(content, name) {
-        const blob = new Blob([content], { type: "text/plain" });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `${name}.conf`;
-        a.click();
-
-        URL.revokeObjectURL(url);
-      }
-
-      function copyText(text, message = "Скопировано") {
-        navigator.clipboard.writeText(text).then(() => showToast(message));
-      }
-
-      function showToast(text) {
-        const toast = document.getElementById("toast");
-        if (!toast) return;
-        toast.innerText = text;
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 2000);
-      }
-
-      async function activateKey() {
-        const key = document.getElementById("keyInput").value;
-        const resultEl = document.getElementById("keyResult");
-        const subId = getSubId();
-
-        if (!subId) {
-          resultEl.innerText = "❌ Нет subscription ID";
-          return;
-        }
-
-        if (!key) {
-          resultEl.innerText = "Введите ключ";
-          return;
-        }
-
-        resultEl.innerText = "⏳ Активирую...";
-
-        try {
-          const res = await fetch(`${AUTH_BASE}/activate`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ code: key, subscription_id: subId }),
-          });
-
-          const data = await res.json();
-
-          if (!res.ok) {
-            resultEl.innerText = "❌ " + (data.message || "Ошибка");
-            return;
-          }
-
-          const addedDays = data.response?.instance?.Key?.days;
-          resultEl.innerText = addedDays
-            ? `✅ Активировано (+${addedDays} дней)`
-            : "✅ Активировано";
-          setTimeout(() => location.reload(), 1000);
-        } catch (e) {
-          resultEl.innerText = "Ошибка";
-        }
-      }
-
-      // Инициализация после загрузки DOM
-      window.addEventListener("DOMContentLoaded", () => {
-        initPage();
-
-        // Обработчики вкладок (ОДИН РАЗ)
-        document.querySelectorAll(".tab").forEach((btn) => {
-          btn.onclick = () => {
-            const name = btn.dataset.tab;
-            document
-              .querySelectorAll(".tab")
-              .forEach((el) => el.classList.remove("active"));
-            document
-              .querySelectorAll(".tab-content")
-              .forEach((el) => el.classList.remove("active"));
-            btn.classList.add("active");
-            document.getElementById("tab-" + name).classList.add("active");
-          };
         });
-
-        // Скролл
-        const scrollBtn = document.getElementById("scrollToAdd");
-        const keySection = document.getElementById("key");
-        if (scrollBtn && keySection) {
-          scrollBtn.addEventListener("click", () => {
-            keySection.scrollIntoView({ behavior: "smooth" });
-          });
-        }
-
-        // Ввод ID
-        const input = document.getElementById("sub-id-input");
-        const btn = document.getElementById("open-sub-btn");
-        const error = document.getElementById("sub-error");
-
-        if (btn) {
-          btn.addEventListener("click", () => {
-            const id = input?.value.trim();
-            if (!id || !/^[0-9a-fA-F-]{36}$/.test(id)) {
-              if (error) error.textContent = "❌ Неверный формат ID";
-              return;
-            }
-            window.location.href = `/subscription?id=${id}`;
-          });
-        }
-
-        if (input) {
-          input.addEventListener("keypress", (e) => {
-            if (e.key === "Enter" && btn) btn.click();
-          });
-        }
+      })
+      .catch(() => {
+        container.innerHTML = `<div class="small">Ошибка загрузки WireGuard</div>`;
       });
-    </script>
-  </body>
-</html>
+  }
+
+  function downloadWG(content, name) {
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${name}.conf`;
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
+
+  function copyText(text, message = "Скопировано") {
+    navigator.clipboard.writeText(text).then(() => showToast(message));
+  }
+
+  function showToast(text) {
+    const toast = document.getElementById("toast");
+    if (!toast) return;
+    toast.innerText = text;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 2000);
+  }
+
+  async function activateKey() {
+    const key = document.getElementById("keyInput").value;
+    const resultEl = document.getElementById("keyResult");
+    const subId = getSubId();
+
+    if (!subId) {
+      resultEl.innerText = "❌ Нет subscription ID";
+      return;
+    }
+
+    if (!key) {
+      resultEl.innerText = "Введите ключ";
+      return;
+    }
+
+    resultEl.innerText = "⏳ Активирую...";
+
+    try {
+      const res = await fetch(`${AUTH_BASE}/activate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: key, subscription_id: subId }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        resultEl.innerText = "❌ " + (data.message || "Ошибка");
+        return;
+      }
+
+      const addedDays = data.response?.instance?.Key?.days;
+      resultEl.innerText = addedDays
+        ? `✅ Активировано (+${addedDays} дней)`
+        : "✅ Активировано";
+      setTimeout(() => location.reload(), 1000);
+    } catch (e) {
+      resultEl.innerText = "Ошибка";
+    }
+  }
+
+  // Инициализация после загрузки DOM
+  window.addEventListener("DOMContentLoaded", () => {
+    initPage();
+
+    // Обработчики вкладок (ОДИН РАЗ)
+    document.querySelectorAll(".tab").forEach((btn) => {
+      btn.onclick = () => {
+        const name = btn.dataset.tab;
+        document
+          .querySelectorAll(".tab")
+          .forEach((el) => el.classList.remove("active"));
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((el) => el.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("tab-" + name).classList.add("active");
+      };
+    });
+
+    // Скролл
+    const scrollBtn = document.getElementById("scrollToAdd");
+    const keySection = document.getElementById("key");
+    if (scrollBtn && keySection) {
+      scrollBtn.addEventListener("click", () => {
+        keySection.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+
+    // Ввод ID
+    const input = document.getElementById("sub-id-input");
+    const btn = document.getElementById("open-sub-btn");
+    const error = document.getElementById("sub-error");
+
+    if (btn) {
+      btn.addEventListener("click", () => {
+        const id = input?.value.trim();
+        if (!id || !/^[0-9a-fA-F-]{36}$/.test(id)) {
+          if (error) error.textContent = "❌ Неверный формат ID";
+          return;
+        }
+        window.location.href = `/subscription?id=${id}`;
+      });
+    }
+
+    if (input) {
+      input.addEventListener("keypress", (e) => {
+        if (e.key === "Enter" && btn) btn.click();
+      });
+    }
+  });
+</script>
