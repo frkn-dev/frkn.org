@@ -2,13 +2,9 @@ const isLocal =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1";
 
-const BASE = isLocal
-  ? "http://localhost:8000"
-  : "https://frkn.org";
+const BASE = isLocal ? "http://localhost:8000" : "https://frkn.org";
 
-const AUTH_BASE = isLocal
-  ? "http://localhost:3005"
-  : "https://api.frkn.org";
+const API_BASE = isLocal ? "http://localhost:3005" : "https://api.frkn.org";
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("trialForm");
@@ -32,10 +28,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailRaw = formData.get("email") || "";
     const emailLow = emailRaw.toString().toLowerCase().trim();
 
-    const protonDomains = ["@proton.me", "@protonmail.com", "@pm.me", "@protonmail.ch"];
-    if (protonDomains.some(domain => emailLow.endsWith(domain))) {
+    const protonDomains = [
+      "@proton.me",
+      "@protonmail.com",
+      "@pm.me",
+      "@protonmail.ch",
+    ];
+    if (protonDomains.some((domain) => emailLow.endsWith(domain))) {
       if (msg) {
-        msg.textContent = "❌ Сорян, на Proton письмо не дойдёт. Используй другую почту.";
+        msg.textContent =
+          "❌ Сорян, на Proton письмо не дойдёт. Используй другую почту.";
         msg.classList.add("error");
       }
       return;
@@ -57,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      const res = await fetch(`${AUTH_BASE}/trial`, {
+      const res = await fetch(`${API_BASE}/trial`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -67,7 +69,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (data.status === 200) {
         if (msg) {
-          msg.textContent = "✅ Заявка на тест-драйв принята! Проверь e-mail. Если чо, папку спам тоже глянь.";
+          msg.textContent =
+            "✅ Заявка на тест-драйв принята! Проверь e-mail. Если чо, папку спам тоже глянь.";
 
           msg.classList.add("success");
         }

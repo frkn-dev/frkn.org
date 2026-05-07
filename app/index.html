@@ -1,656 +1,728 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <meta name="description" content="Подписка на FRKN Рилзопровод" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="description" content="Подписка на FRKN Рилзопровод">
+    <!-- Telegram Mini App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- Telegram Mini App SDK -->
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>FRKN — Подписка</title>
 
-  <title>FRKN — Подписка</title>
+    <style>
+      :root {
+        --bg: #0b0d12;
+        --card: #121621;
+        --text: #e6e8ef;
+        --muted: #9aa1b2;
+        --accent: #5b7cfa;
+        --accent-2: #22d3ee;
+        --border: #1f2433;
+      }
 
-  <style>
-    :root {
-      --bg: #0b0d12;
-      --card: #121621;
-      --text: #e6e8ef;
-      --muted: #9aa1b2;
-      --accent: #5b7cfa;
-      --accent-2: #22d3ee;
-      --border: #1f2433;
-    }
+      html {
+        scroll-behavior: smooth;
+      }
 
-    html {
-      scroll-behavior: smooth;
-    }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 0 40px;
+      }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 0 40px;
-    }
+      .logo {
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: fit-content;
+      }
 
-    .logo {
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      width: fit-content;
-    }
+      #logo-container img {
+        box-shadow:
+          0 0 10px rgba(0, 150, 255, 0.4),
+          0 0 20px rgba(0, 100, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
 
-    #logo-container img {
-      box-shadow: 0 0 10px rgba(0, 150, 255, 0.4), 0 0 20px rgba(0, 100, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
+      .logo img {
+        width: 50px;
+        height: 34px;
+        border-radius: 12%;
+        object-fit: contain;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(91, 124, 250, 0.2);
+        transition: box-shadow 0.3s ease;
+      }
 
-    .logo img {
-      width: 50px;
-      height: 34px;
-      border-radius: 12%;
-      object-fit: contain;
-      background-color: #ffffff;
-      box-shadow: 0 0 10px rgba(91, 124, 250, 0.2);
-      transition: box-shadow 0.3s ease;
-    }
+      .logo img:hover {
+        filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.8));
+        transform: scale(1.05);
+      }
 
-    .logo img:hover {
-      filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.8));
-      transform: scale(1.05);
-    }
+      .logo a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text);
+        text-decoration: none;
+        transition:
+          color 0.3s ease,
+          text-shadow 0.3s ease;
+      }
 
-    .logo a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--text);
-      text-decoration: none;
-      transition: color 0.3s ease, text-shadow 0.3s ease;
-    }
+      .logo:hover a {
+        color: #fff;
+        text-shadow:
+          0 0 8px rgba(91, 124, 250, 0.8),
+          0 0 15px rgba(34, 211, 238, 0.4);
+      }
 
-    .logo:hover a {
-      color: #fff;
-      text-shadow: 0 0 8px rgba(91, 124, 250, 0.8), 0 0 15px rgba(34, 211, 238, 0.4);
-    }
+      .title-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
 
-    .title-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
+      .hero-title {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.2;
+      }
 
-    .hero-title {
-      margin: 0;
-      font-size: 2.0rem;
-      font-weight: 800;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      line-height: 1.2;
-    }
+      .env-badge {
+        display: inline-flex;
+        margin-bottom: 15px;
+        align-items: center;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #94a3b8;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        white-space: nowrap;
+      }
 
-    .env-badge {
-      display: inline-flex;
-      margin-bottom: 15px;
-      align-items: center;
-      padding: 4px 10px;
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      color: #94a3b8;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      white-space: nowrap;
-    }
+      #env-switcher {
+        display: flex;
+        gap: 8px;
+        flex-direction: column;
+      }
 
-    #env-switcher {
-      display: flex;
-      gap: 8px;
-      flex-direction: column;
-    }
+      #env-switcher .env-badge {
+        margin-bottom: 0;
+        cursor: pointer;
+        background: rgba(56, 189, 248, 0.05);
+        transition: all 0.2s ease;
+      }
 
-    #env-switcher .env-badge {
-      margin-bottom: 0;
-      cursor: pointer;
-      background: rgba(56, 189, 248, 0.05);
-      transition: all 0.2s ease;
-    }
+      #env-switcher .env-badge:hover {
+        background: rgba(56, 189, 248, 0.2);
+        border-color: var(--accent);
+        color: #fff;
+      }
 
-    #env-switcher .env-badge:hover {
-      background: rgba(56, 189, 248, 0.2);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .hero-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 16px;
-      background: rgba(30, 41, 59, 0.4);
-      padding: 20px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      margin-bottom: 24px;
-    }
-
-    .stat {
-      margin: 0;
-      display: flex;
-      color: var(--muted);
-      flex-direction: column;
-      align-items: center;
-      text-align: left;
-      gap: 8px;
-    }
-
-    .stat b {
-      font-size: 2.5rem;
-      color: #22d3ee;
-      text-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
-      line-height: 1;
-      margin: 4px 0;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      max-width: 720px;
-      margin: 20px auto;
-      padding: 24px;
-    }
-
-    .card {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 0 0 1px var(--border);
-    }
-
-    button {
-      display: inline-flex;
-      margin-top: 6px;
-      padding: 6px 12px;
-      border-radius: 6px;
-      border: none;
-      background: var(--border);
-      color: var(--text);
-      cursor: pointer;
-      transition: 0.15s ease;
-    }
-
-    button:hover {
-      background: #334155;
-    }
-
-    button:active {
-      transform: scale(0.97);
-    }
-
-    .proxy-list {
-      list-style: none;
-      padding: 0;
-      margin: 20px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .proxy-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 18px;
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid rgba(148, 163, 184, 0.15);
-      border-radius: 14px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-
-    .proxy-item:hover {
-      background: rgba(30, 41, 59, 0.9);
-      border-color: rgba(56, 189, 248, 0.6);
-      transform: translateY(-2px);
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.3), 0 8px 24px rgba(0, 0, 0, 0.4);
-    }
-
-    .proxy-label {
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-    }
-
-    .proxy-action {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 10px;
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border-radius: 6px;
-      background: var(--card);
-      color: var(--muted);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      white-space: nowrap;
-    }
-
-    .qr-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 20px;
-      justify-content: center;
-    }
-
-    .qr-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 10px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-    }
-
-    .qr-item span {
-      font-size: 10px;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    canvas {
-      max-width: 100%;
-      height: auto !important;
-      border-radius: 4px;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: rgba(15, 23, 42, 0.95);
-      color: var(--text);
-      padding: 12px 18px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.25s ease;
-      z-index: 9999;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-
-    .tab {
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-    }
-
-    .tab.active {
-      background: var(--border);
-      color: var(--text);
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    .error-state {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 40px 20px;
-      gap: 16px;
-    }
-
-    .error-state h2 {
-      color: #ef4444;
-      margin: 0;
-    }
-
-    .btn-primary {
-      background: var(--accent) !important;
-      font-weight: 600;
-    }
-
-    hr {
-      border: none;
-      height: 2px;
-      background: linear-gradient(90deg, rgba(229, 231, 235, 0) 0%, rgba(20, 20, 200, 0.6) 50%, rgba(229, 231, 235, 0) 100%);
-      box-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
-      margin: 24px 0;
-    }
-
-    .small {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .small-id {
-      font-family: 'Courier New', monospace;
-      font-size: 10px;
-      color: var(--muted);
-      text-align: right;
-      letter-spacing: 1px;
-      opacity: 0.7;
-      margin-top: 10px;
-      text-transform: uppercase;
-      border-right: 2px solid var(--accent);
-      padding-right: 8px;
-    }
-
-    .small-add {
-      font-size: 13px;
-      color: var(--accent);
-      text-align: right;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .small-add:hover {
-      opacity: 0.8;
-    }
-
-    .status-active {
-      color: #10b981 !important;
-      background: rgba(16, 185, 129, 0.1);
-      padding: 4px 12px !important;
-      border-radius: 8px;
-      width: fit-content;
-      display: inline-flex !important;
-      justify-content: center;
-      font-weight: 600;
-    }
-
-    .status-expired {
-      color: #ef4444 !important;
-      background: rgba(239, 68, 68, 0.1);
-      padding: 4px 12px !important;
-      border-radius: 8px;
-      width: fit-content;
-      display: inline-flex !important;
-      justify-content: center;
-      font-weight: 600;
-    }
-
-    .status-warning {
-      color: #ffbd4d !important;
-      background: rgba(255, 189, 77, 0.1);
-      padding: 4px 12px !important;
-      border-radius: 8px;
-      width: fit-content;
-      display: inline-flex !important;
-      justify-content: center;
-      font-weight: 600;
-    }
-
-    .text-link {
-      text-decoration: underline;
-    }
-
-    .tg-close-btn {
-      background: transparent;
-      border: 1px solid var(--border);
-      font-size: 14px;
-      padding: 4px 12px;
-    }
-
-    .key {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    #keyInput {
-      padding: 8px;
-      width: 100%;
-      max-width: 270px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-    }
-  </style>
-</head>
-
-<body>
-  <div class="card">
-    <header>
-      <div class="logo">
-        <a href="/">
-          <img src="https://frkn.org/Images/logo.png" alt="FRKN Logo" />FRKN
-        </a>
-      </div>
-      <div style="display: flex; gap: 10px;">
-        <div id="env-switcher"></div>
-        <button id="tg-close" class="tg-close-btn">✕</button>
-      </div>
-    </header>
-
-    <div id="error-content" class="error-state">
-      <h2>Пупупууу! Подписка не найдена</h2>
-      <p class="small">Похоже, ссылка неверна или срок действия ключа истёк.</p>
-      <div style="margin: 20px 0;">
-        <input type="text" id="sub-id-input" placeholder="Вставь свой Subscription ID" style="
-        width: 100%;
-        max-width: 400px;
-        padding: 10px;
-        border-radius: 8px;
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 16px;
+        background: rgba(30, 41, 59, 0.4);
+        padding: 20px;
+        border-radius: 16px;
         border: 1px solid var(--border);
-        margin-bottom: 10px;
+        margin-bottom: 24px;
+      }
+
+      .stat {
+        margin: 0;
+        display: flex;
+        color: var(--muted);
+        flex-direction: column;
+        align-items: center;
+        text-align: left;
+        gap: 8px;
+      }
+
+      .stat b {
+        font-size: 2.5rem;
+        color: #22d3ee;
+        text-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+        line-height: 1;
+        margin: 4px 0;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto,
+          sans-serif;
         background: var(--bg);
         color: var(--text);
-      " />
-        <button id="open-sub-btn" class="btn-primary" style="padding: 10px 20px; border-radius: 8px;">Открыть
-          подписку</button>
-        <div id="sub-error" style="color: #f87171; font-size: 13px; margin-top: 5px;"></div>
+        max-width: 720px;
+        margin: 20px auto;
+        padding: 24px;
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 0 0 1px var(--border);
+      }
+
+      button {
+        display: inline-flex;
+        margin-top: 6px;
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: none;
+        background: var(--border);
+        color: var(--text);
+        cursor: pointer;
+        transition: 0.15s ease;
+      }
+
+      button:hover {
+        background: #334155;
+      }
+
+      button:active {
+        transform: scale(0.97);
+      }
+
+      .proxy-list {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .proxy-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 18px;
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        border-radius: 14px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .proxy-item:hover {
+        background: rgba(30, 41, 59, 0.9);
+        border-color: rgba(56, 189, 248, 0.6);
+        transform: translateY(-2px);
+        box-shadow:
+          0 0 0 1px rgba(56, 189, 248, 0.3),
+          0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+
+      .proxy-label {
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+      }
+
+      .proxy-action {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-radius: 6px;
+        background: var(--card);
+        color: var(--muted);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        white-space: nowrap;
+      }
+
+      .qr-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 20px;
+        justify-content: center;
+      }
+
+      .qr-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 10px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+      }
+
+      .qr-item span {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 800;
+      }
+
+      canvas {
+        max-width: 100%;
+        height: auto !important;
+        border-radius: 4px;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: rgba(15, 23, 42, 0.95);
+        color: var(--text);
+        padding: 12px 18px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.25s ease;
+        z-index: 9999;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+
+      .tab {
+        padding: 8px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      .tab.active {
+        background: var(--border);
+        color: var(--text);
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .error-state {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 40px 20px;
+        gap: 16px;
+      }
+
+      .error-state h2 {
+        color: #ef4444;
+        margin: 0;
+      }
+
+      .btn-primary {
+        background: var(--accent) !important;
+        font-weight: 600;
+      }
+
+      hr {
+        border: none;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          rgba(229, 231, 235, 0) 0%,
+          rgba(20, 20, 200, 0.6) 50%,
+          rgba(229, 231, 235, 0) 100%
+        );
+        box-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+        margin: 24px 0;
+      }
+
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .small-id {
+        font-family: "Courier New", monospace;
+        font-size: 10px;
+        color: var(--muted);
+        text-align: right;
+        letter-spacing: 1px;
+        opacity: 0.7;
+        margin-top: 10px;
+        text-transform: uppercase;
+        border-right: 2px solid var(--accent);
+        padding-right: 8px;
+      }
+
+      .small-add {
+        font-size: 13px;
+        color: var(--accent);
+        text-align: right;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .small-add:hover {
+        opacity: 0.8;
+      }
+
+      .status-active {
+        color: #10b981 !important;
+        background: rgba(16, 185, 129, 0.1);
+        padding: 4px 12px !important;
+        border-radius: 8px;
+        width: fit-content;
+        display: inline-flex !important;
+        justify-content: center;
+        font-weight: 600;
+      }
+
+      .status-expired {
+        color: #ef4444 !important;
+        background: rgba(239, 68, 68, 0.1);
+        padding: 4px 12px !important;
+        border-radius: 8px;
+        width: fit-content;
+        display: inline-flex !important;
+        justify-content: center;
+        font-weight: 600;
+      }
+
+      .status-warning {
+        color: #ffbd4d !important;
+        background: rgba(255, 189, 77, 0.1);
+        padding: 4px 12px !important;
+        border-radius: 8px;
+        width: fit-content;
+        display: inline-flex !important;
+        justify-content: center;
+        font-weight: 600;
+      }
+
+      .text-link {
+        text-decoration: underline;
+      }
+
+      .tg-close-btn {
+        background: transparent;
+        border: 1px solid var(--border);
+        font-size: 14px;
+        padding: 4px 12px;
+      }
+
+      .key {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      #keyInput {
+        padding: 8px;
+        width: 100%;
+        max-width: 270px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <header>
+        <div class="logo">
+          <a href="/">
+            <img src="https://frkn.org/Images/logo.png" alt="FRKN Logo" />FRKN
+          </a>
+        </div>
+        <div style="display: flex; gap: 10px">
+          <div id="env-switcher"></div>
+          <button id="tg-close" class="tg-close-btn">✕</button>
+        </div>
+      </header>
+
+      <div id="error-content" class="error-state">
+        <h2>Пупупууу! Подписка не найдена</h2>
+        <p class="small">
+          Похоже, ссылка неверна или срок действия ключа истёк.
+        </p>
+        <div style="margin: 20px 0">
+          <input
+            type="text"
+            id="sub-id-input"
+            placeholder="Вставь свой Subscription ID"
+            style="
+              width: 100%;
+              max-width: 400px;
+              padding: 10px;
+              border-radius: 8px;
+              border: 1px solid var(--border);
+              margin-bottom: 10px;
+              background: var(--bg);
+              color: var(--text);
+            "
+          />
+          <button
+            id="open-sub-btn"
+            class="btn-primary"
+            style="padding: 10px 20px; border-radius: 8px"
+          >
+            Открыть подписку
+          </button>
+          <div
+            id="sub-error"
+            style="color: #f87171; font-size: 13px; margin-top: 5px"
+          ></div>
+        </div>
+        <div
+          class="error-actions"
+          style="display: flex; gap: 12px; margin-top: 10px"
+        >
+          <a
+            href="https://t.me/frkn_support"
+            class="btn-primary"
+            style="
+              padding: 10px 20px;
+              border-radius: 8px;
+              color: white;
+              text-decoration: none;
+            "
+            >Написать в поддержку</a
+          >
+          <a
+            href="/pay"
+            style="
+              padding: 10px 20px;
+              border-radius: 8px;
+              background: var(--border);
+              color: var(--text);
+              text-decoration: none;
+            "
+            >Купить ключ активации</a
+          >
+        </div>
       </div>
-      <div class="error-actions" style="display: flex; gap: 12px; margin-top: 10px;">
-        <a href="https://t.me/frkn_support" class="btn-primary"
-          style="padding: 10px 20px; border-radius: 8px; color: white; text-decoration: none;">Написать в поддержку</a>
-        <a href="/pay"
-          style="padding: 10px 20px; border-radius: 8px; background: var(--border); color: var(--text); text-decoration: none;">Купить
-          ключ активации</a>
+
+      <div class="main-content" id="main-content" style="display: none">
+        <section class="hero">
+          <h3 class="hero-title">Рилзопровод: Подписка</h3>
+          <div class="title-group">
+            <span id="env-badge" class="env-badge">...</span>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">Статус<span id="status-text">...</span></div>
+            <div class="stat">Осталось дней <b id="days">...</b></div>
+            <div class="stat">Истекает <span id="expires">...</span></div>
+          </div>
+          <div class="small-id">ID: <span id="sub-id">...</span></div>
+        </section>
+
+        <hr />
+
+        <div style="text-align: right; margin-bottom: 20px">
+          <a class="small-add" id="scrollToAdd">⚡ Докинуть дней</a>
+        </div>
+
+        <h3>Ссылки для подключения</h3>
+
+        <div class="tabs">
+          <button class="tab active" data-tab="xray">Xray</button>
+          <button class="tab" data-tab="hysteria">Hysteria2</button>
+          <button class="tab" data-tab="mtproto">Mtproto</button>
+          <button class="tab" data-tab="wireguard">WireGuard</button>
+        </div>
+
+        <div id="tab-xray" class="tab-content active">
+          <div id="xray-content">
+            <div class="small">Загрузка подключений...</div>
+          </div>
+        </div>
+
+        <div id="tab-hysteria" class="tab-content">
+          <div id="hysteria-content"></div>
+        </div>
+
+        <div id="tab-mtproto" class="tab-content">
+          <div id="mtproto-content"></div>
+        </div>
+
+        <div id="tab-wireguard" class="tab-content">
+          <div id="wg-content"></div>
+        </div>
+
+        <hr />
+
+        <div class="key" id="key">
+          <h3>Докинуть дней</h3>
+          <div>
+            <input id="keyInput" placeholder="Введите ключ" />
+            <button onclick="activateKey()">Активировать</button>
+          </div>
+          <div>
+            <a
+              href="/info/activation-keys/"
+              target="_blank"
+              class="small text-link"
+              >Что такое ключ активации и где его взять?</a
+            >
+            <br />
+            <a href="/pay" target="_blank" class="small text-link"
+              >Купить ключ активации</a
+            >
+          </div>
+          <div id="keyResult" class="small"></div>
+        </div>
+
+        <hr />
+
+        <div class="ref-code" style="margin: 20px 0">
+          Твой реферальный код: <b id="ref-code">...</b><br />
+          <div style="margin-top: 10px">
+            <button id="copy-ref-btn">Копировать код</button>
+            <button id="copy-ref-link">Копировать ссылку для друга</button>
+          </div>
+        </div>
+        <div class="small">
+          Вы пригласили: <span id="invited-count">0</span><br />
+          Добавим по 7 дней доступа и тебе и другу
+        </div>
+
+        <br />
+        <hr />
+        <div
+          class="footer-line"
+          style="display: flex; justify-content: flex-end; gap: 8px"
+        >
+          <a
+            href="https://t.me/frkn_support"
+            style="color: var(--muted); text-decoration: none"
+            >Поддержка</a
+          >
+          <span class="small-viva" style="color: var(--muted)"
+            >· Vive la résistance!</span
+          >
+        </div>
       </div>
     </div>
+    <div id="toast" class="toast"></div>
 
-    <div class="main-content" id="main-content" style="display: none;">
-      <section class="hero">
-        <h3 class="hero-title">Рилзопровод: Подписка</h3>
-        <div class="title-group">
-          <span id="env-badge" class="env-badge">...</span>
-        </div>
-        <div class="hero-stats">
-          <div class="stat">Статус<span id="status-text">...</span></div>
-          <div class="stat">Осталось дней <b id="days">...</b></div>
-          <div class="stat">Истекает <span id="expires">...</span></div>
-        </div>
-        <div class="small-id">ID: <span id="sub-id">...</span></div>
-      </section>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
-      <hr>
-
-      <div style="text-align: right; margin-bottom: 20px;">
-        <a class="small-add" id="scrollToAdd">⚡ Докинуть дней</a>
-      </div>
-
-      <h3>Ссылки для подключения</h3>
-
-      <div class="tabs">
-        <button class="tab active" data-tab="xray">Xray</button>
-        <button class="tab" data-tab="hysteria">Hysteria2</button>
-        <button class="tab" data-tab="mtproto">Mtproto</button>
-        <button class="tab" data-tab="wireguard">WireGuard</button>
-      </div>
-
-      <div id="tab-xray" class="tab-content active">
-        <div id="xray-content">
-          <div class="small">Загрузка подключений...</div>
-        </div>
-      </div>
-
-      <div id="tab-hysteria" class="tab-content">
-        <div id="hysteria-content"></div>
-      </div>
-
-      <div id="tab-mtproto" class="tab-content">
-        <div id="mtproto-content"></div>
-      </div>
-
-      <div id="tab-wireguard" class="tab-content">
-        <div id="wg-content"></div>
-      </div>
-
-      <hr>
-
-      <div class="key" id="key">
-        <h3>Докинуть дней</h3>
-        <div>
-          <input id="keyInput" placeholder="Введите ключ" />
-          <button onclick="activateKey()">Активировать</button>
-        </div>
-        <div>
-          <a href="/info/activation-keys/" target="_blank" class="small text-link">Что такое ключ активации и где его
-            взять?</a>
-          <br>
-          <a href="/pay" target="_blank" class="small text-link">Купить ключ активации</a>
-        </div>
-        <div id="keyResult" class="small"></div>
-      </div>
-
-      <hr>
-
-      <div class="ref-code" style="margin: 20px 0;">
-        Твой реферальный код: <b id="ref-code">...</b><br>
-        <div style="margin-top: 10px;">
-          <button id="copy-ref-btn">Копировать код</button>
-          <button id="copy-ref-link">Копировать ссылку для друга</button>
-        </div>
-      </div>
-      <div class="small">Вы пригласили: <span id="invited-count">0</span><br> Добавим по 7 дней доступа и тебе и другу
-      </div>
-
-      <br>
-      <hr>
-      <div class="footer-line" style="display: flex; justify-content: flex-end; gap: 8px;">
-        <a href="https://t.me/frkn_support" style="color: var(--muted); text-decoration: none;">Поддержка</a>
-        <span class="small-viva" style="color: var(--muted);">· Vive la résistance!</span>
-      </div>
-    </div>
-  </div>
-  <div id="toast" class="toast"></div>
-
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-
-  <script>
-    // --- Telegram WebApp Init ---
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.expand();
-      tg.ready();
-    }
-
-    document.getElementById('tg-close')?.addEventListener('click', () => {
-      if (tg) tg.close();
-      else window.close();
-    });
-
-    // --- Конфиги ---
-    const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-    const AUTH_BASE = isLocal ? "http://localhost:3005" : "https://api.frkn.org";
-    const API_BASE = isLocal ? "http://localhost:5005" : "https://api.frkn.org";
-
-    const ENV_NAMES = {
-      'wl': '🐘 БС - Белые слоны',
-      'ru': '🇷🇺 Обратный',
-      'dev': '⌯✈︎ Основной',
-    };
-
-    function getSubId() {
-      const params = new URLSearchParams(window.location.search);
-      let urlId = params.get("id");
-      if (!urlId && tg && tg.initDataUnsafe?.start_param) {
-        urlId = tg.initDataUnsafe.start_param;
-      }
-      const stored = localStorage.getItem("frkn_sub_id");
-      const id = urlId || stored;
-      if (urlId) {
-        localStorage.setItem("frkn_sub_id", urlId);
-      }
-      return id;
-    }
-
-    function showToast(text) {
-      const toast = document.getElementById("toast");
-      if (!toast) return;
-      toast.innerText = text;
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2000);
-    }
-
-    function copyText(text, message = "Скопировано") {
-      navigator.clipboard.writeText(text).then(() => showToast(message));
-    }
-
-    function downloadWG(content, name) {
-      const blob = new Blob([content], {type: "text/plain"});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${name}.conf`;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function escapeBackticks(str) {
-      return str.replace(/`/g, '\\`').replace(/\$/g, '\\$');
-    }
-
-    function renderXray(id, env, has) {
-      const container = document.getElementById('xray-content');
-      if (!has) {
-        container.innerHTML = `<div class="small">Xray недоступен в этом регионе</div>`;
-        return;
+    <script>
+      // --- Telegram WebApp Init ---
+      const tg = window.Telegram?.WebApp;
+      if (tg) {
+        tg.expand();
+        tg.ready();
       }
 
-      const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=txt`;
-      const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=plain`;
-      const subUrlClash = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=clash`;
+      document.getElementById("tg-close")?.addEventListener("click", () => {
+        if (tg) tg.close();
+        else window.close();
+      });
 
-      container.innerHTML = `
+      // --- Конфиги ---
+      const isLocal = ["localhost", "127.0.0.1"].includes(
+        window.location.hostname,
+      );
+      const API_BASE = isLocal
+        ? "http://localhost:3000"
+        : "https://api.frkn.org";
+
+      const ENV_NAMES = {
+        wl: "🐘 БС - Белые слоны",
+        ru: "🇷🇺 Обратный",
+        dev: "⌯✈︎ Основной",
+      };
+
+      function getSubId() {
+        const params = new URLSearchParams(window.location.search);
+        let urlId = params.get("id");
+        if (!urlId && tg && tg.initDataUnsafe?.start_param) {
+          urlId = tg.initDataUnsafe.start_param;
+        }
+        const stored = localStorage.getItem("frkn_sub_id");
+        const id = urlId || stored;
+        if (urlId) {
+          localStorage.setItem("frkn_sub_id", urlId);
+        }
+        return id;
+      }
+
+      function showToast(text) {
+        const toast = document.getElementById("toast");
+        if (!toast) return;
+        toast.innerText = text;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2000);
+      }
+
+      function copyText(text, message = "Скопировано") {
+        navigator.clipboard.writeText(text).then(() => showToast(message));
+      }
+
+      function downloadWG(content, name) {
+        const blob = new Blob([content], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${name}.conf`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function escapeBackticks(str) {
+        return str.replace(/`/g, "\\`").replace(/\$/g, "\\$");
+      }
+
+      function renderXray(id, env, has) {
+        const container = document.getElementById("xray-content");
+        if (!has) {
+          container.innerHTML = `<div class="small">Xray недоступен в этом регионе</div>`;
+          return;
+        }
+
+        const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=txt`;
+        const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=plain`;
+        const subUrlClash = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=clash`;
+
+        container.innerHTML = `
       <ul class="proxy-list">
         <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')">
           <div class="proxy-label"><img src="https://frkn.org/Images/xray.svg" style="width: 16px; height: 16px;" onerror="this.style.display='none'">&nbsp;&nbsp;&nbsp;TXT (Универсальная)</div>
@@ -673,27 +745,27 @@
       <div class="apps center" style="text-align: center; margin-top: 16px;"><a href="/setup" style="color: var(--accent);">Как настроить?</a></div>
     `;
 
-      setTimeout(() => {
-        const qrTxt = document.getElementById("qr-xray-txt");
-        const qrPlain = document.getElementById("qr-xray-plain");
-        const qrClash = document.getElementById("qr-xray-clash");
-        if (qrTxt) QRCode.toCanvas(qrTxt, subUrlTxt, {width: 140});
-        if (qrPlain) QRCode.toCanvas(qrPlain, subUrlPlain, {width: 140});
-        if (qrClash) QRCode.toCanvas(qrClash, subUrlClash, {width: 140});
-      }, 100);
-    }
-
-    function renderH2(id, env, has) {
-      const container = document.getElementById('hysteria-content');
-      if (!has) {
-        container.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе</div>`;
-        return;
+        setTimeout(() => {
+          const qrTxt = document.getElementById("qr-xray-txt");
+          const qrPlain = document.getElementById("qr-xray-plain");
+          const qrClash = document.getElementById("qr-xray-clash");
+          if (qrTxt) QRCode.toCanvas(qrTxt, subUrlTxt, { width: 140 });
+          if (qrPlain) QRCode.toCanvas(qrPlain, subUrlPlain, { width: 140 });
+          if (qrClash) QRCode.toCanvas(qrClash, subUrlClash, { width: 140 });
+        }, 100);
       }
 
-      const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=txt`;
-      const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=plain`;
+      function renderH2(id, env, has) {
+        const container = document.getElementById("hysteria-content");
+        if (!has) {
+          container.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе</div>`;
+          return;
+        }
 
-      container.innerHTML = `
+        const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=txt`;
+        const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=plain`;
+
+        container.innerHTML = `
       <ul class="proxy-list">
         <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')">
           <div class="proxy-label">TXT (Универсальная)</div>
@@ -711,69 +783,75 @@
       <div class="apps center" style="text-align: center; margin-top: 16px;"><a href="/setup" style="color: var(--accent);">Как настроить?</a></div>
     `;
 
-      setTimeout(() => {
-        const qrTxt = document.getElementById("qr-h2-txt");
-        const qrPlain = document.getElementById("qr-h2-plain");
-        if (qrTxt) QRCode.toCanvas(qrTxt, subUrlTxt, {width: 140});
-        if (qrPlain) QRCode.toCanvas(qrPlain, subUrlPlain, {width: 140});
-      }, 100);
-    }
-
-    function renderMtproto(id, env, has) {
-      const container = document.getElementById('mtproto-content');
-      if (!has) {
-        container.innerHTML = `<div class="small">MTProto недоступен в этом регионе</div>`;
-        return;
+        setTimeout(() => {
+          const qrTxt = document.getElementById("qr-h2-txt");
+          const qrPlain = document.getElementById("qr-h2-plain");
+          if (qrTxt) QRCode.toCanvas(qrTxt, subUrlTxt, { width: 140 });
+          if (qrPlain) QRCode.toCanvas(qrPlain, subUrlPlain, { width: 140 });
+        }, 100);
       }
 
-      const url = `${API_BASE}/info/connections/mtproto?id=${id}&env=${env}`;
-      container.innerHTML = `<div class="small">Загрузка MTProto...</div>`;
+      function renderMtproto(id, env, has) {
+        const container = document.getElementById("mtproto-content");
+        if (!has) {
+          container.innerHTML = `<div class="small">MTProto недоступен в этом регионе</div>`;
+          return;
+        }
 
-      fetch(url)
-        .then(r => r.json())
-        .then(data => {
-          const connections = data.connections || [];
-          if (connections.length === 0) {
-            container.innerHTML = `<div class="small">Нет доступных MTProto подключений</div>`;
-            return;
-          }
-          container.innerHTML = `
+        const url = `${API_BASE}/info/connections/mtproto?id=${id}&env=${env}`;
+        container.innerHTML = `<div class="small">Загрузка MTProto...</div>`;
+
+        fetch(url)
+          .then((r) => r.json())
+          .then((data) => {
+            const connections = data.connections || [];
+            if (connections.length === 0) {
+              container.innerHTML = `<div class="small">Нет доступных MTProto подключений</div>`;
+              return;
+            }
+            container.innerHTML = `
           <ul class="proxy-list">
-            ${connections.map(c => `
+            ${connections
+              .map(
+                (c) => `
               <li class="proxy-item" onclick="window.open('${c.url}', '_blank')">
                 <div class="proxy-label"><img src="https://cdn.simpleicons.org/telegram" style="width: 16px; height: 16px;"> ${c.label}</div>
                 <div class="proxy-action">Connect</div>
               </li>
-            `).join("")}
+            `,
+              )
+              .join("")}
           </ul>
         `;
-        })
-        .catch(() => {
-          container.innerHTML = `<div class="small">Ошибка загрузки MTProto</div>`;
-        });
-    }
-
-    function renderWireguard(id, env, has) {
-      const container = document.getElementById("wg-content");
-      if (!has) {
-        container.innerHTML = `<div class="small">WireGuard недоступен</div>`;
-        return;
+          })
+          .catch(() => {
+            container.innerHTML = `<div class="small">Ошибка загрузки MTProto</div>`;
+          });
       }
 
-      const url = `${API_BASE}/info/connections/wireguard?id=${id}&env=${env}`;
-      container.innerHTML = `<div class="small">Загрузка WireGuard...</div>`;
+      function renderWireguard(id, env, has) {
+        const container = document.getElementById("wg-content");
+        if (!has) {
+          container.innerHTML = `<div class="small">WireGuard недоступен</div>`;
+          return;
+        }
 
-      fetch(url)
-        .then(r => r.json())
-        .then(data => {
-          const nodes = data.nodes || [];
-          if (nodes.length === 0) {
-            container.innerHTML = `<div class="small">Нет доступных WireGuard конфигураций</div>`;
-            return;
-          }
-          container.innerHTML = `
+        const url = `${API_BASE}/info/connections/wireguard?id=${id}&env=${env}`;
+        container.innerHTML = `<div class="small">Загрузка WireGuard...</div>`;
+
+        fetch(url)
+          .then((r) => r.json())
+          .then((data) => {
+            const nodes = data.nodes || [];
+            if (nodes.length === 0) {
+              container.innerHTML = `<div class="small">Нет доступных WireGuard конфигураций</div>`;
+              return;
+            }
+            container.innerHTML = `
           <ul class="proxy-list">
-            ${nodes.map((n, i) => `
+            ${nodes
+              .map(
+                (n, i) => `
               <li class="proxy-item" style="flex-direction: column; align-items: stretch; gap: 12px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <div class="proxy-label">
@@ -790,235 +868,256 @@
                   <canvas id="wg-qr-${i}"></canvas>
                 </div>
               </li>
-            `).join("")}
+            `,
+              )
+              .join("")}
           </ul>
         `;
 
-          setTimeout(() => {
-            nodes.forEach((n, i) => {
-              const canvas = document.getElementById(`wg-qr-${i}`);
-              if (canvas) QRCode.toCanvas(canvas, n.config, {width: 160});
-            });
-          }, 100);
-        })
-        .catch(() => {
-          container.innerHTML = `<div class="small">Ошибка загрузки WireGuard</div>`;
-        });
-    }
-
-    async function initPage() {
-      const subId = getSubId();
-      const mainEl = document.getElementById('main-content');
-      const errorEl = document.getElementById('error-content');
-
-      if (!subId) {
-        if (mainEl) mainEl.style.display = 'none';
-        if (errorEl) errorEl.style.display = 'flex';
-        return;
+            setTimeout(() => {
+              nodes.forEach((n, i) => {
+                const canvas = document.getElementById(`wg-qr-${i}`);
+                if (canvas) QRCode.toCanvas(canvas, n.config, { width: 160 });
+              });
+            }, 100);
+          })
+          .catch(() => {
+            container.innerHTML = `<div class="small">Ошибка загрузки WireGuard</div>`;
+          });
       }
 
-      localStorage.setItem("frkn_sub_id", subId);
+      async function initPage() {
+        const subId = getSubId();
+        const mainEl = document.getElementById("main-content");
+        const errorEl = document.getElementById("error-content");
 
-      try {
-        const response = await fetch(`${API_BASE}/subscription/${subId}`);
-        if (!response.ok) throw new Error();
-        const data = await response.json();
-        if (!data || !data.id) throw new Error();
-
-        if (mainEl) mainEl.style.display = 'block';
-        if (errorEl) errorEl.style.display = 'none';
-
-        renderSubscriptionData(data, subId);
-      } catch (err) {
-        console.error("❌ Критическая ошибка:", err);
-        if (mainEl) mainEl.style.display = 'none';
-        if (errorEl) errorEl.style.display = 'flex';
-      }
-    }
-
-    function renderSubscriptionData(data, subId) {
-      const params = new URLSearchParams(window.location.search);
-      const currentEnv = params.get('env') || 'dev';
-
-      // Статус и дни
-      const statusEl = document.getElementById('status-text');
-      const daysEl = document.getElementById('days');
-      const expiryDate = new Date(data.expires);
-
-      function updateDisplay() {
-        const now = new Date();
-        const diffMs = expiryDate - now;
-        const diffSec = Math.floor(diffMs / 1000);
-        const diffDays = diffMs / (1000 * 60 * 60 * 24);
-
-        if (diffMs <= 0) {
-          statusEl.innerText = "Истекла";
-          statusEl.className = "status-expired";
-          daysEl.innerText = "0";
-          daysEl.style.color = "#ff4d4d";
+        if (!subId) {
+          if (mainEl) mainEl.style.display = "none";
+          if (errorEl) errorEl.style.display = "flex";
           return;
         }
 
-        if (diffDays < 1) {
-          statusEl.innerText = "Почти истекла";
-          statusEl.className = "status-warning";
-          const h = Math.floor(diffSec / 3600).toString().padStart(2, '0');
-          const m = Math.floor((diffSec % 3600) / 60).toString().padStart(2, '0');
-          const s = (diffSec % 60).toString().padStart(2, '0');
-          daysEl.innerText = `${h}:${m}:${s}`;
-          daysEl.style.fontSize = "1.8rem";
-          daysEl.style.color = "#ffbd4d";
-          daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
-          setTimeout(updateDisplay, 1000);
-        } else {
-          const fullDays = Math.floor(diffDays);
-          statusEl.innerText = "Активна";
-          statusEl.className = "status-active";
-          daysEl.innerText = fullDays;
-          daysEl.style.fontSize = "2.5rem";
-          if (fullDays < 4) {
+        localStorage.setItem("frkn_sub_id", subId);
+
+        try {
+          const response = await fetch(`${API_BASE}/subscription/${subId}`);
+          if (!response.ok) throw new Error();
+          const data = await response.json();
+          if (!data || !data.id) throw new Error();
+
+          if (mainEl) mainEl.style.display = "block";
+          if (errorEl) errorEl.style.display = "none";
+
+          renderSubscriptionData(data, subId);
+        } catch (err) {
+          console.error("❌ Критическая ошибка:", err);
+          if (mainEl) mainEl.style.display = "none";
+          if (errorEl) errorEl.style.display = "flex";
+        }
+      }
+
+      function renderSubscriptionData(data, subId) {
+        const params = new URLSearchParams(window.location.search);
+        const currentEnv = params.get("env") || "dev";
+
+        // Статус и дни
+        const statusEl = document.getElementById("status-text");
+        const daysEl = document.getElementById("days");
+        const expiryDate = new Date(data.expires);
+
+        function updateDisplay() {
+          const now = new Date();
+          const diffMs = expiryDate - now;
+          const diffSec = Math.floor(diffMs / 1000);
+          const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+          if (diffMs <= 0) {
+            statusEl.innerText = "Истекла";
+            statusEl.className = "status-expired";
+            daysEl.innerText = "0";
             daysEl.style.color = "#ff4d4d";
-            daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
-          } else {
-            daysEl.style.color = "#10b981";
-            daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
-          }
-        }
-      }
-
-      updateDisplay();
-
-      const badge = document.getElementById('env-badge');
-      if (badge) badge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
-
-      const subIdEl = document.getElementById('sub-id');
-      subIdEl.innerText = data.id;
-      subIdEl.onclick = () => copyText(data.id, "ID скопирован");
-
-      document.getElementById('expires').innerText = expiryDate.toLocaleString('ru-RU', {
-        day: '2-digit', month: '2-digit', year: 'numeric',
-        hour: '2-digit', minute: '2-digit'
-      });
-
-      const refCode = data.ref_code || '---';
-      const refLink = `${window.location.origin}/?code=${refCode}#trial`;
-      document.getElementById('ref-code').innerText = refCode;
-      document.getElementById('invited-count').innerText = data.invited_count || 0;
-
-      document.getElementById('copy-ref-btn').onclick = () => copyText(refCode, "Код скопирован! Поделись с другом");
-      document.getElementById('copy-ref-link').onclick = () => copyText(refLink, "Ссылка скопирована! Поделись с другом");
-
-      const switcher = document.getElementById('env-switcher');
-      if (switcher && data.locations) {
-        switcher.innerHTML = '';
-        data.locations.forEach(l => {
-          if (l.env === currentEnv) return;
-          const a = document.createElement('a');
-          a.href = `?id=${subId}&env=${l.env}`;
-          a.className = `env-badge`;
-          a.style.marginLeft = '8px';
-          a.style.textDecoration = 'none';
-          a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
-          switcher.appendChild(a);
-        });
-      }
-
-      const loc = data.locations?.find(l => l.env === currentEnv) || data.locations?.[0];
-      if (loc) {
-        renderXray(data.id, loc.env, loc.has_xray);
-        renderH2(data.id, loc.env, loc.has_h2);
-        renderMtproto(data.id, loc.env, loc.has_mtproto);
-        renderWireguard(data.id, loc.env, loc.has_wg);
-      }
-    }
-
-    async function activateKey() {
-      const key = document.getElementById("keyInput").value;
-      const resultEl = document.getElementById("keyResult");
-      const subId = getSubId();
-
-      if (!subId) {
-        resultEl.innerText = "❌ Нет subscription ID";
-        return;
-      }
-
-      if (!key) {
-        resultEl.innerText = "Введите ключ";
-        return;
-      }
-
-      resultEl.innerText = "⏳ Активирую...";
-
-      try {
-        const res = await fetch(`${AUTH_BASE}/activate`, {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({code: key, subscription_id: subId})
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          resultEl.innerText = "❌ " + (data.message || "Ошибка");
-          return;
-        }
-
-        const addedDays = data.response?.instance?.Key?.days;
-        resultEl.innerText = addedDays ? `✅ Активировано (+${addedDays} дней)` : "✅ Активировано";
-        setTimeout(() => location.reload(), 1000);
-      } catch (e) {
-        resultEl.innerText = "❌ Ошибка соединения";
-      }
-    }
-
-    // Инициализация и обработчики
-    window.addEventListener('DOMContentLoaded', () => {
-      initPage();
-
-      document.querySelectorAll(".tab").forEach(btn => {
-        btn.onclick = () => {
-          const name = btn.dataset.tab;
-          document.querySelectorAll(".tab").forEach(el => el.classList.remove("active"));
-          document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
-          btn.classList.add("active");
-          document.getElementById("tab-" + name).classList.add("active");
-        };
-      });
-
-      const scrollBtn = document.getElementById("scrollToAdd");
-      const keySection = document.getElementById("key");
-      if (scrollBtn && keySection) {
-        scrollBtn.addEventListener("click", () => {
-          keySection.scrollIntoView({behavior: "smooth"});
-        });
-      }
-
-      const input = document.getElementById("sub-id-input");
-      const btn = document.getElementById("open-sub-btn");
-      const error = document.getElementById("sub-error");
-
-      if (btn) {
-        btn.addEventListener("click", () => {
-          const id = input?.value.trim();
-          if (!id || !/^[0-9a-fA-F-]{36}$/.test(id)) {
-            if (error) error.textContent = "❌ Неверный формат ID";
             return;
           }
-          window.location.href = `/subscription?id=${id}`;
-        });
+
+          if (diffDays < 1) {
+            statusEl.innerText = "Почти истекла";
+            statusEl.className = "status-warning";
+            const h = Math.floor(diffSec / 3600)
+              .toString()
+              .padStart(2, "0");
+            const m = Math.floor((diffSec % 3600) / 60)
+              .toString()
+              .padStart(2, "0");
+            const s = (diffSec % 60).toString().padStart(2, "0");
+            daysEl.innerText = `${h}:${m}:${s}`;
+            daysEl.style.fontSize = "1.8rem";
+            daysEl.style.color = "#ffbd4d";
+            daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
+            setTimeout(updateDisplay, 1000);
+          } else {
+            const fullDays = Math.floor(diffDays);
+            statusEl.innerText = "Активна";
+            statusEl.className = "status-active";
+            daysEl.innerText = fullDays;
+            daysEl.style.fontSize = "2.5rem";
+            if (fullDays < 4) {
+              daysEl.style.color = "#ff4d4d";
+              daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
+            } else {
+              daysEl.style.color = "#10b981";
+              daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
+            }
+          }
+        }
+
+        updateDisplay();
+
+        const badge = document.getElementById("env-badge");
+        if (badge)
+          badge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
+
+        const subIdEl = document.getElementById("sub-id");
+        subIdEl.innerText = data.id;
+        subIdEl.onclick = () => copyText(data.id, "ID скопирован");
+
+        document.getElementById("expires").innerText =
+          expiryDate.toLocaleString("ru-RU", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+        const refCode = data.ref_code || "---";
+        const refLink = `${window.location.origin}/?code=${refCode}#trial`;
+        document.getElementById("ref-code").innerText = refCode;
+        document.getElementById("invited-count").innerText =
+          data.invited_count || 0;
+
+        document.getElementById("copy-ref-btn").onclick = () =>
+          copyText(refCode, "Код скопирован! Поделись с другом");
+        document.getElementById("copy-ref-link").onclick = () =>
+          copyText(refLink, "Ссылка скопирована! Поделись с другом");
+
+        const switcher = document.getElementById("env-switcher");
+        if (switcher && data.locations) {
+          switcher.innerHTML = "";
+          data.locations.forEach((l) => {
+            if (l.env === currentEnv) return;
+            const a = document.createElement("a");
+            a.href = `?id=${subId}&env=${l.env}`;
+            a.className = `env-badge`;
+            a.style.marginLeft = "8px";
+            a.style.textDecoration = "none";
+            a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
+            switcher.appendChild(a);
+          });
+        }
+
+        const loc =
+          data.locations?.find((l) => l.env === currentEnv) ||
+          data.locations?.[0];
+        if (loc) {
+          renderXray(data.id, loc.env, loc.has_xray);
+          renderH2(data.id, loc.env, loc.has_h2);
+          renderMtproto(data.id, loc.env, loc.has_mtproto);
+          renderWireguard(data.id, loc.env, loc.has_wg);
+        }
       }
 
-      if (input) {
-        input.addEventListener("keypress", (e) => {
-          if (e.key === "Enter" && btn) btn.click();
-        });
+      async function activateKey() {
+        const key = document.getElementById("keyInput").value;
+        const resultEl = document.getElementById("keyResult");
+        const subId = getSubId();
+
+        if (!subId) {
+          resultEl.innerText = "❌ Нет subscription ID";
+          return;
+        }
+
+        if (!key) {
+          resultEl.innerText = "Введите ключ";
+          return;
+        }
+
+        resultEl.innerText = "⏳ Активирую...";
+
+        try {
+          const res = await fetch(`${API_BASE}/key/activate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ code: key, subscription_id: subId }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            resultEl.innerText = "❌ " + (data.message || "Ошибка");
+            return;
+          }
+
+          const addedDays = data.response?.instance?.Key?.days;
+          resultEl.innerText = addedDays
+            ? `✅ Активировано (+${addedDays} дней)`
+            : "✅ Активировано";
+          setTimeout(() => location.reload(), 1000);
+        } catch (e) {
+          resultEl.innerText = "❌ Ошибка соединения";
+        }
       }
-    });
 
-    window.copyText = copyText;
-    window.downloadWG = downloadWG;
-    window.activateKey = activateKey;
-  </script>
-</body>
+      // Инициализация и обработчики
+      window.addEventListener("DOMContentLoaded", () => {
+        initPage();
 
+        document.querySelectorAll(".tab").forEach((btn) => {
+          btn.onclick = () => {
+            const name = btn.dataset.tab;
+            document
+              .querySelectorAll(".tab")
+              .forEach((el) => el.classList.remove("active"));
+            document
+              .querySelectorAll(".tab-content")
+              .forEach((el) => el.classList.remove("active"));
+            btn.classList.add("active");
+            document.getElementById("tab-" + name).classList.add("active");
+          };
+        });
+
+        const scrollBtn = document.getElementById("scrollToAdd");
+        const keySection = document.getElementById("key");
+        if (scrollBtn && keySection) {
+          scrollBtn.addEventListener("click", () => {
+            keySection.scrollIntoView({ behavior: "smooth" });
+          });
+        }
+
+        const input = document.getElementById("sub-id-input");
+        const btn = document.getElementById("open-sub-btn");
+        const error = document.getElementById("sub-error");
+
+        if (btn) {
+          btn.addEventListener("click", () => {
+            const id = input?.value.trim();
+            if (!id || !/^[0-9a-fA-F-]{36}$/.test(id)) {
+              if (error) error.textContent = "❌ Неверный формат ID";
+              return;
+            }
+            window.location.href = `/subscription?id=${id}`;
+          });
+        }
+
+        if (input) {
+          input.addEventListener("keypress", (e) => {
+            if (e.key === "Enter" && btn) btn.click();
+          });
+        }
+      });
+
+      window.copyText = copyText;
+      window.downloadWG = downloadWG;
+      window.activateKey = activateKey;
+    </script>
+  </body>
 </html>

@@ -2,13 +2,9 @@ const isLocal =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1";
 
-const BASE = isLocal
-  ? "http://localhost:8000"
-  : "https://frkn.org";
+const BASE = isLocal ? "http://localhost:8080" : "https://frkn.org";
 
-const AUTH_BASE = isLocal
-  ? "http://localhost:3005"
-  : "https://api.frkn.org";
+const API_BASE = isLocal ? "http://localhost:3000" : "https://api.frkn.org";
 
 function isValidCode(code) {
   const cleaned = code.replace(/-/g, "").toUpperCase();
@@ -30,8 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const formData = new FormData(form);
     const code = formData.get("code");
-    const id = formData.get("id");
-
+    const subscription_id = formData.get("id");
 
     if (!isValidCode(code)) {
       msg.textContent = "❌ Неверный формат ключа";
@@ -41,16 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
     msg.textContent = "Активация...";
     result.style.display = "none";
 
-    const payload = {
-      code: code,
-      ...(id ? { subscription_id: id } : {}),
-    };
+    const payload = { code: code, subscription_id: id };
 
     const btn = form.querySelector("button");
     btn.disabled = true;
 
     try {
-      const res = await fetch(`${AUTH_BASE}/activate`, {
+      const res = await fetch(`${API_BASE}/key/activate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -74,12 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const expiresDate = sub.expires
           ? new Date(sub.expires).toLocaleString(undefined, {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          })
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            })
           : "—";
 
         if (sub) {
@@ -121,10 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.disabled = false;
     }
   });
-
-
 });
-
 
 function startCountdown(endTimeStr) {
   const timerElement = document.getElementById("countdown");
@@ -137,9 +126,9 @@ function startCountdown(endTimeStr) {
   const getDaysWord = (n) => {
     const last = n % 10;
     const lastTwo = n % 100;
-    if (last === 1 && lastTwo !== 11) return 'день';
-    if (last >= 2 && last <= 4 && (lastTwo < 10 || lastTwo >= 20)) return 'дня';
-    return 'дней';
+    if (last === 1 && lastTwo !== 11) return "день";
+    if (last >= 2 && last <= 4 && (lastTwo < 10 || lastTwo >= 20)) return "дня";
+    return "дней";
   };
 
   const update = () => {
@@ -151,7 +140,6 @@ function startCountdown(endTimeStr) {
       return;
     }
 
-    // Расчеты
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
