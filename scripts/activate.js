@@ -61,34 +61,22 @@ document.addEventListener("DOMContentLoaded", () => {
       if (res.ok) {
         msg.textContent = "✅ Ключ активирован";
 
-        const sub = data.response?.instance?.SubscriptionResponse;
+        const key = data.response?.instance?.Key;
 
-        console.log(sub.expires);
+        const subId = key?.subscription_id;
 
-        console.log(sub);
+        console.log(subId);
 
-        const expiresDate = sub.expires
-          ? new Date(sub.expires).toLocaleString(undefined, {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-            })
-          : "—";
-
-        if (sub) {
+        if (key) {
           result.innerHTML = `
             <h3>Твоя подписка</h3>
             <div style="font-size: small;">ID это твой уникальный идентификатор подписки, рекомендуем его записать или сделать скришот</div>
-            <p><b>ID:</b> ${sub.id}</p>
-
-            <p><b>Активна до:</b> ${expiresDate || "—"}</p>
+            <p><b>ID:</b> ${subId}</p>
 
 
             <div id="countdown" style="margin-bottom: 20px; font-weight: bold; color: #60a5fa;"></div>
 
-            <a href="${BASE}/subscription?id=${sub.id}"
+            <a href="${BASE}/subscription?id=${subId}"
             style="display: inline-block;
               padding: 12px 24px;
               background-color: #1d4ed8;
