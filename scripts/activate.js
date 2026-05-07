@@ -52,9 +52,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const trialData = await resTrial.json();
 
-        subscription_id = trialData?.response?.instance?.id;
+        subscription_id = trialData?.response?.id;
 
-        console.log("Response: ", trialData.response);
+        console.log("Subscription create Response: ", trialData.response);
 
         if (!subscription_id) {
           throw new Error("Нет subscription_id");
