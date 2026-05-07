@@ -36,7 +36,10 @@ document.addEventListener("DOMContentLoaded", () => {
     msg.textContent = "Активация...";
     result.style.display = "none";
 
-    const payload = { code: code, subscription_id: id };
+    const payload = {
+      code: code,
+      ...(subscription_id ? { subscription_id } : {}),
+    };
 
     const btn = form.querySelector("button");
     btn.disabled = true;
