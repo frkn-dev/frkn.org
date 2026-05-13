@@ -653,9 +653,11 @@
             '<span class="loading-spinner"></span> Создаем счет...';
 
           try {
-            const promoValue = document
-              .getElementById("user-promo")
-              .value.trim();
+            const promoValue =
+              document
+                .getElementById("user-promo")
+                .value.trim()
+                .toUpperCase() || null;
 
             const res = await fetch(
               `${PAYMENT_API_BASE}/payment/platega/key/create`,
