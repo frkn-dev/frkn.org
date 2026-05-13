@@ -4,21 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta name="description" content="Купить подписку FRKN Рилзопровод />
+    <meta name="description" content="Купить подписку FRKN Рилзопровод" />
     <link rel="canonical" href="https://frkn.org/pay/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://frkn.org/pay/" />
     <meta property="og:site_name" content="FRKN" />
     <meta property="og:title" content="Купить подписку FRKN Рилзопровод" />
-    <meta property="og:description" content="Купить подписку FRKN Рилзопровод" />
+    <meta
+      property="og:description"
+      content="Купить подписку FRKN Рилзопровод"
+    />
     <meta property="og:image" content="https://frkn.org/Images/logo.png" />
     <meta property="og:image:alt" content="Купить подписку FRKN Рилзопровод" />
     <meta property="og:image:type" content="image/png" />
 
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Купить подписку FRKN Рилзопровод" />
-    <meta name="twitter:description" content="Купить подписку на FRKN Рилзопровод" />
+    <meta
+      name="twitter:description"
+      content="Купить подписку на FRKN Рилзопровод"
+    />
     <meta name="twitter:image" content="https://frkn.org/Images/logo.png" />
 
     <title>FRKN Privacy — Тарифы</title>
@@ -57,38 +63,24 @@
         letter-spacing: -1px;
       }
 
-      Слушай,
-    отличная идея. Когда тарифов становится семь,
-    огромные карточки начинают выглядеть как бесконечный список,
-    который заставляет юзера слишком долго скроллить. Давай сделаем их более компактными,
-    горизонтально-ориентированными или просто плотными. Это создаст ощущение «витрины»,
-    где всё перед глазами. Что мы меняем: Уменьшаем паддинги: Карточка станет ниже. Шрифт цены: Чуть поменьше,
-    чтобы не «кричал»,
-    но оставался четким. Горизонтальная сетка: Сделаем так,
-    чтобы на десктопе они вставали по 4 в ряд,
-    а на планшетах по 3. Минимализм: Уберем лишние отступы и сделаем кнопки чуть изящнее. Обновленные стили (замени в <style>): CSS
-
-    /* Обновленная сетка: карточки поменьше */
-    .pricing-grid {
+      .pricing-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 10px;
         margin-top: 20px;
       }
 
-      /* Компактная карточка */
       .price-card {
         background: #161616;
         border: 1px solid #282828;
         border-radius: 18px;
-        /* Чуть меньше скругление для строгости */
         padding: 20px;
-        /* Ужали внутренние отступы */
         text-align: center;
         transition: all 0.2s ease-out;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        position: relative;
       }
 
       .price-card:hover {
@@ -99,22 +91,41 @@
 
       .price-card h3 {
         font-size: 14px;
-        /* Маленький аккуратный заголовок */
         text-transform: uppercase;
         letter-spacing: 1px;
         color: #888;
         margin: 0 0 10px 0;
       }
 
-      .price-card .cost {
-        font-size: 28px;
-        /* Компактная цена */
-        font-weight: 700;
-        color: #fff;
+      .cost-wrapper {
         margin-bottom: 20px;
+        text-align: center;
       }
 
-      /* Компактная кнопка */
+      .price-card .cost {
+        font-size: 28px;
+        font-weight: 700;
+        color: #fff;
+        display: inline-block;
+      }
+
+      .old-price {
+        font-size: 14px;
+        text-decoration: line-through;
+        color: #888;
+        margin-right: 8px;
+        display: none;
+      }
+
+      .discount-badge {
+        background: #28a745;
+        padding: 2px 8px;
+        border-radius: 20px;
+        font-size: 11px;
+        margin-left: 8px;
+        display: inline-block;
+      }
+
       .buy-button {
         width: 100%;
         padding: 10px;
@@ -128,7 +139,12 @@
         transition: all 0.2s;
       }
 
-      /* Выделение популярного тарифа */
+      .buy-button:hover {
+        background: #2a2a2a;
+        border-color: #555;
+        color: #fff;
+      }
+
       .price-card.popular {
         border: 1px solid #007aff;
         background: rgba(0, 122, 255, 0.05);
@@ -136,7 +152,9 @@
 
       .price-card.popular::before {
         content: "HIT";
+        position: absolute;
         top: 8px;
+        left: 12px;
         font-size: 9px;
         background: #007aff;
         color: #fff;
@@ -148,7 +166,6 @@
         color: #007aff;
       }
 
-      /* Модалка */
       .modal-overlay {
         display: none;
         position: fixed;
@@ -181,6 +198,11 @@
         font-size: 30px;
         color: #555;
         cursor: pointer;
+        transition: color 0.2s;
+      }
+
+      .close-modal:hover {
+        color: #fff;
       }
 
       .btn-pay {
@@ -194,6 +216,22 @@
         font-weight: 700;
         cursor: pointer;
         margin-top: 10px;
+        transition: all 0.2s;
+      }
+
+      .btn-pay:hover {
+        background: #e0e0e0;
+        transform: scale(0.98);
+      }
+
+      .btn-pay:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .form-group label {
+        color: #888;
+        font-size: 14px;
       }
 
       .form-group input {
@@ -206,9 +244,37 @@
         margin-top: 10px;
         margin-bottom: 25px;
         box-sizing: border-box;
+        font-size: 16px;
       }
 
-      /* Попап ошибок */
+      .form-group input:focus {
+        outline: none;
+        border-color: #007aff;
+      }
+
+      .modal-total-wrapper {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .modal-total {
+        font-size: 32px;
+        font-weight: 800;
+      }
+
+      .modal-old-price {
+        font-size: 18px;
+        text-decoration: line-through;
+        color: #888;
+        margin-right: 10px;
+      }
+
+      .modal-discount-price {
+        font-size: 32px;
+        font-weight: 800;
+        color: #28a745;
+      }
+
       .popup-overlay {
         position: fixed;
         top: 0;
@@ -233,6 +299,40 @@
         text-align: center;
         border: 1px solid #ff453a;
       }
+
+      .popup-content button {
+        background: #333;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 15px;
+      }
+
+      .average {
+        text-align: center;
+        color: #888;
+        margin-bottom: 30px;
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 0.6s linear infinite;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
     </style>
   </head>
 
@@ -246,26 +346,14 @@
       <p class="average">
         Купить ключи активации для получения или продления подписки
       </p>
+
       <div class="pricing-grid">
         <div class="price-card">
-          <h3>1 месяц</h3>
-          <div class="cost">500₽</div>
-          <button class="buy-button" data-duration="30" data-price="500">
-            Выбрать
-          </button>
-        </div>
-
-        <div class="price-card popular">
-          <h3>1 год</h3>
-          <div class="cost">5000₽</div>
-          <button class="buy-button" data-duration="365" data-price="5000">
-            Выбрать
-          </button>
-        </div>
-
-        <div class="price-card">
           <h3>3 дня</h3>
-          <div class="cost">100₽</div>
+          <div class="cost-wrapper">
+            <span class="old-price"></span>
+            <div class="cost">100₽</div>
+          </div>
           <button class="buy-button" data-duration="3" data-price="100">
             Выбрать
           </button>
@@ -273,7 +361,10 @@
 
         <div class="price-card">
           <h3>7 дней</h3>
-          <div class="cost">200₽</div>
+          <div class="cost-wrapper">
+            <span class="old-price"></span>
+            <div class="cost">200₽</div>
+          </div>
           <button class="buy-button" data-duration="7" data-price="200">
             Выбрать
           </button>
@@ -281,15 +372,32 @@
 
         <div class="price-card">
           <h3>14 дней</h3>
-          <div class="cost">300₽</div>
+          <div class="cost-wrapper">
+            <span class="old-price"></span>
+            <div class="cost">300₽</div>
+          </div>
           <button class="buy-button" data-duration="14" data-price="300">
             Выбрать
           </button>
         </div>
 
         <div class="price-card">
+          <h3>1 месяц</h3>
+          <div class="cost-wrapper">
+            <span class="old-price"></span>
+            <div class="cost">500₽</div>
+          </div>
+          <button class="buy-button" data-duration="30" data-price="500">
+            Выбрать
+          </button>
+        </div>
+
+        <div class="price-card">
           <h3>3 месяца</h3>
-          <div class="cost">1500₽</div>
+          <div class="cost-wrapper">
+            <span class="old-price"></span>
+            <div class="cost">1500₽</div>
+          </div>
           <button class="buy-button" data-duration="90" data-price="1500">
             Выбрать
           </button>
@@ -297,8 +405,22 @@
 
         <div class="price-card">
           <h3>6 месяцев</h3>
-          <div class="cost">2700₽</div>
+          <div class="cost-wrapper">
+            <span class="old-price"></span>
+            <div class="cost">2700₽</div>
+          </div>
           <button class="buy-button" data-duration="180" data-price="2700">
+            Выбрать
+          </button>
+        </div>
+
+        <div class="price-card popular">
+          <h3>1 год</h3>
+          <div class="cost-wrapper">
+            <span class="old-price"></span>
+            <div class="cost">5000₽</div>
+          </div>
+          <button class="buy-button" data-duration="365" data-price="5000">
             Выбрать
           </button>
         </div>
@@ -307,20 +429,25 @@
       <div id="footer-container"></div>
     </div>
 
+    <!-- Модалка оплаты -->
     <div id="payment-modal" class="modal-overlay">
       <div class="modal-content">
         <span class="close-modal" onclick="closeModal()">&times;</span>
-        <h2 id="modal-title">Оформление</h2>
+        <h2 id="modal-title">Оформление подписки</h2>
         <div class="form-group">
-          <label style="color: #888; font-size: 14px">Промокод</label>
-          <input type="text" id="user-promo" placeholder="Если есть" />
+          <label>Промокод</label>
+          <input
+            type="text"
+            id="user-promo"
+            placeholder="Если есть промокод, введите его здесь"
+          />
         </div>
-        <div style="text-align: center; margin-bottom: 20px">
-          <div id="modal-total" style="font-size: 32px; font-weight: 800"></div>
+        <div class="modal-total-wrapper" id="modal-total-wrapper">
+          <div id="modal-total" class="modal-total"></div>
         </div>
         <button class="btn-pay" id="final-pay-btn">Оплатить</button>
         <p
-          id="modal-info"
+          class="modal-info"
           style="
             color: #666;
             font-size: 11px;
@@ -331,37 +458,31 @@
           Нажимая «Оплатить», вы переходите на шлюз Platega. Мы не храним ваши
           данные.
         </p>
-
-        <p style="color: #ffffff;
+        <p
+          style="
+            color: #ffffff;
             font-size: 14px;
             text-align: center;
-            margin-top: 20px;"">
-          Не закрывайте это окно до подтверждения оплаты</p>
+            margin-top: 20px;
+          "
+        >
+          Не закрывайте это окно до подтверждения оплаты
+        </p>
       </div>
     </div>
 
+    <!-- Попап ошибок -->
     <div id="error-popup" class="popup-overlay">
       <div class="popup-content">
         <div style="font-size: 40px; margin-bottom: 10px">⚠️</div>
         <h2 style="margin: 0 0 10px 0">Ошибка</h2>
         <p id="popup-message" style="color: #aaa"></p>
-        <button
-          onclick="closePopup()"
-          style="
-            background: #333;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-          "
-        >
-          Понятно
-        </button>
+        <button onclick="closePopup()">Понятно</button>
       </div>
     </div>
 
     <script>
+      // Конфиг
       const isLocal =
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1";
@@ -371,23 +492,7 @@
 
       let currentOrder = null;
 
-      function openModal(duration, price) {
-        currentOrder = { duration, price };
-        document.getElementById("modal-title").innerText =
-          `Подписка: ${duration} дн.`;
-        document.getElementById("modal-total").innerText = `${price}₽`;
-        document.getElementById("payment-modal").style.display = "flex";
-      }
-
-      function closeModal() {
-        document.getElementById("payment-modal").style.display = "none";
-      }
-
-      document.querySelectorAll(".buy-button").forEach((btn) => {
-        btn.onclick = (e) =>
-          openModal(e.target.dataset.duration, e.target.dataset.price);
-      });
-
+      // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
       function showError(message) {
         document.getElementById("popup-message").innerText = message;
         document.getElementById("error-popup").classList.add("active");
@@ -397,44 +502,216 @@
         document.getElementById("error-popup").classList.remove("active");
       }
 
-      document.getElementById("final-pay-btn").onclick = async () => {
-        const btn = document.getElementById("final-pay-btn");
-        btn.disabled = true;
-        btn.innerText = "Создаем счет...";
+      function closeModal() {
+        document.getElementById("payment-modal").style.display = "none";
+        currentOrder = null;
+      }
 
-        try {
-          const res = await fetch(
-            `${PAYMENT_API_BASE}/payment/platega/key/create`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                duration: parseInt(currentOrder.duration),
-                promocode:
-                  document.getElementById("user-promo").value.trim() || null,
-                provider: "Platega",
-              }),
-            },
-          );
+      // ========== ОТКРЫТИЕ МОДАЛКИ С ПРАВИЛЬНОЙ ЦЕНОЙ ==========
+      function openModal(duration, basePrice) {
+        const btn = document.querySelector(
+          `.buy-button[data-duration="${duration}"]`,
+        );
+        let finalPrice = basePrice;
+        let originalPrice = basePrice;
 
-          if (!res.ok) {
-            const errorData = await res
-              .json()
-              .catch(() => ({ error: "Ошибка сервера" }));
-            throw new Error(errorData.error || "Не удалось создать платеж");
+        if (btn && btn.dataset.discountedPrice) {
+          finalPrice = parseInt(btn.dataset.discountedPrice);
+          originalPrice = parseInt(basePrice);
+        }
+
+        currentOrder = {
+          duration: parseInt(duration),
+          price: finalPrice,
+          originalPrice: originalPrice,
+          promo: document.getElementById("user-promo").value.trim() || null,
+        };
+
+        const modalTotalWrapper = document.getElementById(
+          "modal-total-wrapper",
+        );
+
+        if (finalPrice < originalPrice) {
+          modalTotalWrapper.innerHTML = `
+          <div>
+            <span class="modal-old-price">${originalPrice}₽</span>
+            <span class="modal-discount-price">${finalPrice}₽</span>
+            <span class="discount-badge" style="margin-left: 8px;">-${Math.round((1 - finalPrice / originalPrice) * 100)}%</span>
+          </div>
+        `;
+        } else {
+          modalTotalWrapper.innerHTML = `<div class="modal-total">${finalPrice}₽</div>`;
+        }
+
+        document.getElementById("modal-title").innerHTML =
+          `Оформление подписки: ${duration} дн.`;
+        document.getElementById("payment-modal").style.display = "flex";
+      }
+
+      // ========== ОБНОВЛЕНИЕ ЦЕН НА КАРТОЧКАХ ПРИ ВВОДЕ ПРОМОКОДА ==========
+      async function updateAllPricesWithPromo() {
+        const promo = document.getElementById("user-promo").value.trim();
+        const cards = document.querySelectorAll(".price-card");
+
+        // Если промокода нет — сбрасываем все цены
+        if (!promo) {
+          cards.forEach((card) => {
+            const btn = card.querySelector(".buy-button");
+            const basePrice = btn.dataset.price;
+            const costDiv = card.querySelector(".cost");
+            const oldPriceSpan = card.querySelector(".old-price");
+            const badge = card.querySelector(".discount-badge");
+
+            costDiv.innerHTML = `${basePrice}₽`;
+            oldPriceSpan.style.display = "none";
+            if (badge) badge.remove();
+            delete btn.dataset.discountedPrice;
+          });
+          return;
+        }
+
+        // Для каждого тарифа запрашиваем цену со скидкой
+        for (const card of cards) {
+          const btn = card.querySelector(".buy-button");
+          const duration = parseInt(btn.dataset.duration);
+          const basePrice = parseInt(btn.dataset.price);
+          const costDiv = card.querySelector(".cost");
+          const oldPriceSpan = card.querySelector(".old-price");
+
+          try {
+            const response = await fetch(
+              `${PAYMENT_API_BASE}/api/promocode/validate`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ duration, promocode: promo }),
+              },
+            );
+
+            if (!response.ok) {
+              console.error(`HTTP ${response.status} for duration ${duration}`);
+              continue;
+            }
+
+            const data = await response.json();
+
+            if (data.is_valid && data.discounted_price < data.original_price) {
+              // Показываем скидку на карточке
+              oldPriceSpan.style.display = "inline";
+              oldPriceSpan.innerText = `${data.original_price}₽`;
+              costDiv.innerHTML = `${data.discounted_price}₽`;
+              btn.dataset.discountedPrice = data.discounted_price;
+
+              // Добавляем бейдж со скидкой
+              let badge = card.querySelector(".discount-badge");
+              if (!badge) {
+                badge = document.createElement("span");
+                badge.className = "discount-badge";
+                costDiv.parentNode.appendChild(badge);
+              }
+              badge.innerText = `-${data.discount_percent}%`;
+            } else {
+              // Промокод не подходит для этого тарифа
+              oldPriceSpan.style.display = "none";
+              costDiv.innerHTML = `${basePrice}₽`;
+              delete btn.dataset.discountedPrice;
+              const badge = card.querySelector(".discount-badge");
+              if (badge) badge.remove();
+            }
+          } catch (e) {
+            console.error(
+              `Failed to validate promo for duration ${duration}:`,
+              e,
+            );
+          }
+        }
+      }
+
+      // ========== ОБРАБОТЧИК КНОПОК ВЫБОРА ТАРИФА ==========
+      document.querySelectorAll(".buy-button").forEach((btn) => {
+        btn.onclick = (e) => {
+          const duration = e.currentTarget.dataset.duration;
+          const price = e.currentTarget.dataset.price;
+          openModal(duration, price);
+        };
+      });
+
+      // ========== ОБРАБОТЧИК ОПЛАТЫ ==========
+      const payBtn = document.getElementById("final-pay-btn");
+      if (payBtn) {
+        payBtn.onclick = async () => {
+          if (!currentOrder) {
+            showError("Заказ не найден. Попробуйте выбрать тариф заново.");
+            return;
           }
 
-          const data = await res.json();
-          if (data.url) {
-            window.location.href = data.url;
-          } else {
-            throw new Error("API не вернул ссылку на оплату");
+          const btn = document.getElementById("final-pay-btn");
+          const originalText = btn.innerText;
+          btn.disabled = true;
+          btn.innerHTML =
+            '<span class="loading-spinner"></span> Создаем счет...';
+
+          try {
+            const promoValue = document
+              .getElementById("user-promo")
+              .value.trim();
+
+            const res = await fetch(
+              `${PAYMENT_API_BASE}/payment/platega/key/create`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  duration: currentOrder.duration,
+                  promocode: promoValue || null,
+                  provider: "Platega",
+                }),
+              },
+            );
+
+            if (!res.ok) {
+              const errorData = await res
+                .json()
+                .catch(() => ({ error: "Ошибка сервера" }));
+              throw new Error(errorData.error || "Не удалось создать платеж");
+            }
+
+            const data = await res.json();
+            if (data.url) {
+              window.location.href = data.url;
+            } else {
+              throw new Error("API не вернул ссылку на оплату");
+            }
+          } catch (e) {
+            showError(e.message);
+            btn.disabled = false;
+            btn.innerText = originalText;
           }
-        } catch (e) {
-          showError(e.message);
-        } finally {
-          btn.disabled = false;
-          btn.innerText = "Оплатить";
+        };
+      }
+
+      // ========== СЛУШАЕМ ВВОД ПРОМОКОДА (debounce) ==========
+      let debounceTimer;
+      const promoInput = document.getElementById("user-promo");
+      if (promoInput) {
+        promoInput.addEventListener("input", () => {
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(updateAllPricesWithPromo, 500);
+        });
+      }
+
+      // ========== ПРОМОКОД ИЗ URL ==========
+      const urlPromo = new URLSearchParams(location.search).get("promo");
+      if (urlPromo && promoInput) {
+        promoInput.value = urlPromo;
+        updateAllPricesWithPromo();
+      }
+
+      // Закрытие модалки по клику вне области
+      window.onclick = (event) => {
+        const modal = document.getElementById("payment-modal");
+        if (event.target === modal) {
+          closeModal();
         }
       };
     </script>
