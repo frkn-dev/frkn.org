@@ -349,6 +349,26 @@
 
       <div class="pricing-grid">
         <div class="price-card">
+          <h3>1 месяц</h3>
+          <div class="cost-wrapper">
+            <span class="old-price"></span>
+            <div class="cost">500₽</div>
+          </div>
+          <button class="buy-button" data-duration="30" data-price="500">
+            Выбрать
+          </button>
+        </div>
+        <div class="price-card popular">
+          <h3>1 год</h3>
+          <div class="cost-wrapper">
+            <span class="old-price"></span>
+            <div class="cost">5000₽</div>
+          </div>
+          <button class="buy-button" data-duration="365" data-price="5000">
+            Выбрать
+          </button>
+        </div>
+        <div class="price-card">
           <h3>3 дня</h3>
           <div class="cost-wrapper">
             <span class="old-price"></span>
@@ -382,17 +402,6 @@
         </div>
 
         <div class="price-card">
-          <h3>1 месяц</h3>
-          <div class="cost-wrapper">
-            <span class="old-price"></span>
-            <div class="cost">500₽</div>
-          </div>
-          <button class="buy-button" data-duration="30" data-price="500">
-            Выбрать
-          </button>
-        </div>
-
-        <div class="price-card">
           <h3>3 месяца</h3>
           <div class="cost-wrapper">
             <span class="old-price"></span>
@@ -410,17 +419,6 @@
             <div class="cost">2700₽</div>
           </div>
           <button class="buy-button" data-duration="180" data-price="2700">
-            Выбрать
-          </button>
-        </div>
-
-        <div class="price-card popular">
-          <h3>1 год</h3>
-          <div class="cost-wrapper">
-            <span class="old-price"></span>
-            <div class="cost">5000₽</div>
-          </div>
-          <button class="buy-button" data-duration="365" data-price="5000">
             Выбрать
           </button>
         </div>
@@ -580,7 +578,7 @@
 
           try {
             const response = await fetch(
-              `${PAYMENT_API_BASE}/api/promocode/validate`,
+              `${PAYMENT_API_BASE}/promocode/validate`,
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
