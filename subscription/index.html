@@ -1063,7 +1063,7 @@
     }
 
     const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=txt`;
-    const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=plain`;
+    const subUrlBase64 = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=base64`;
     const subUrlClash = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=clash`;
 
     container.innerHTML = `
@@ -1072,7 +1072,7 @@
                  <div class="proxy-label black">
                  <img src="/Images/xray.svg" style="width: 16px; height: 16px;" class="black">&nbsp;&nbsp;&nbsp;TXT (Универсальная)</div>
                  <div class="proxy-action">Копировать</div></li>
-            <li class="proxy-item" onclick="copyText('${subUrlPlain}','Ссылка скопирована!')">
+            <li class="proxy-item" onclick="copyText('${subUrlBase64}','Ссылка скопирована!')">
             <div class="proxy-label black ">
             <img src="/Images/xray.svg" style="width: 16px; height: 16px;" class="black">&nbsp;&nbsp;&nbsp;Base64</div>
             <div class="proxy-action">Копировать</div></li>
@@ -1083,7 +1083,7 @@
           </ul>
           <div class="qr-row">
             <div class="qr-item"><span>TXT (Универсальная) </span><canvas id="qr-xray-txt"></canvas></div>
-            <div class="qr-item"><span>B64</span><canvas id="qr-xray-plain"></canvas></div>
+            <div class="qr-item"><span>B64</span><canvas id="qr-xray-base64"></canvas></div>
             <div class="qr-item"><span>Clash</span><canvas id="qr-xray-clash"></canvas></div>
           </div>
           <div class="apps center"><a href="/setup">Как настроить?</a></div>
@@ -1092,7 +1092,7 @@
     QRCode.toCanvas(document.getElementById("qr-xray-txt"), subUrlTxt, {
       width: 140,
     });
-    QRCode.toCanvas(document.getElementById("qr-xray-plain"), subUrlPlain, {
+    QRCode.toCanvas(document.getElementById("qr-xray-base64"), subUrlBase64, {
       width: 140,
     });
     QRCode.toCanvas(document.getElementById("qr-xray-clash"), subUrlClash, {
@@ -1108,17 +1108,17 @@
     }
 
     const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=txt`;
-    const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=plain`;
+    const subUrlB64 = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=base64`;
 
     container.innerHTML = `
           <ul class="proxy-list gray">
           <img src="/Images/h2.svg" >
             <li class="proxy-item" onclick="copyText('${subUrlTxt}','Ссылка скопирована!')"><div class="proxy-label">  TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
-            <li class="proxy-item" onclick="copyText('${subUrlPlain}','Ссылка скопирована!')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
+            <li class="proxy-item" onclick="copyText('${subUrlB64}','Ссылка скопирована!')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
           </ul>
           <div class="qr-row">
             <div class="qr-item"><span>TXT (Универсальная)</span><canvas id="qr-h2-txt"></canvas></div>
-            <div class="qr-item"><span>Base64</span><canvas id="qr-h2-plain"></canvas></div>
+            <div class="qr-item"><span>Base64</span><canvas id="qr-h2-base64"></canvas></div>
           </div>
           <div class="apps center"><a href="/setup">Как настроить?</a></div>
         `;
@@ -1126,7 +1126,7 @@
     QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, {
       width: 140,
     });
-    QRCode.toCanvas(document.getElementById("qr-h2-plain"), subUrlPlain, {
+    QRCode.toCanvas(document.getElementById("qr-h2-base64"), subUrlB64, {
       width: 140,
     });
   }
