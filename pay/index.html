@@ -582,7 +582,10 @@
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ duration, promocode: promo }),
+                body: JSON.stringify({
+                  duration,
+                  promocode: promo.toUpperCase(), // 👈 вот так
+                }),
               },
             );
 
