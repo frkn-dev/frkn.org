@@ -1199,7 +1199,7 @@
     }
 
     const loc =
-      // Если env не найден в ссылке/списке, берём первый доступный регион как безопасный fallback.
+      // Если env не найден в query-параметре или списке, берём первый доступный регион как безопасный fallback.
       data.locations?.find((l) => l.env === currentEnv) || data.locations?.[0];
     if (loc) {
       if (!loc.has_xray && !loc.has_h2 && !loc.has_mtproto && !loc.has_wg)
