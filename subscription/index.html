@@ -1061,6 +1061,15 @@
     return `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=${normalizeFormat(format)}`;
   }
 
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
   async function initPage() {
     const params = new URLSearchParams(window.location.search);
     const subId = getSubId();
@@ -1322,10 +1331,16 @@
     }
 
     if (!isKnownFormat(client.configType)) {
-      content.innerHTML = `<div class="small">Некорректный тип конфигурации '${client.configType}' для клиента ${client.name}.</div>`;
+      content.innerHTML = `<div class="small" id="connection-error-message"></div>`;
+      const errorEl = document.getElementById("connection-error-message");
+      if (errorEl) {
+        errorEl.textContent = `Некорректный тип конфигурации '${client.configType}' для клиента ${client.name}.`;
+      }
       return;
     }
 
+    const safeClientName = escapeHtml(client.name);
+    const safeOsLabel = escapeHtml(osConfig.label);
     const subscriptionUrl = buildXraySubUrl(
       currentConnectionContext.id,
       currentConnectionContext.env,
@@ -1333,7 +1348,7 @@
     );
 
     content.innerHTML = `
-      <h5 class="connection-title">${client.name} для ${osConfig.label}</h5>
+      <h5 class="connection-title">${safeClientName} для ${safeOsLabel}</h5>
       <a class="button btn-primary download-link" id="download-client-btn" target="_blank" rel="noopener noreferrer">Скачать клиент</a>
       <div class="subscription-link-row">
         <code class="subscription-link-box" id="selected-subscription-link"></code>
