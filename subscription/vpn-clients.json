@@ -11,7 +11,7 @@
       {
         "id": "hiddify",
         "name": "Hiddify",
-        "downloadUrl": "https://hiddify.com/app/",
+        "downloadUrl": "https://play.google.com/store/apps/details?id=app.hiddify.com",
         "configType": "base64"
       }
     ]
@@ -34,7 +34,7 @@
       {
         "id": "hiddify",
         "name": "Hiddify",
-        "downloadUrl": "https://hiddify.com/app/",
+        "downloadUrl": "https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532",
         "configType": "base64"
       }
     ]
@@ -45,14 +45,8 @@
       {
         "id": "clash_verge",
         "name": "Clash Verge",
-        "downloadUrl": "https://clash-verge.org/download",
+        "downloadUrl": "https://clash-verge.org/download#windows-download",
         "configType": "clash"
-      },
-      {
-        "id": "hiddify",
-        "name": "Hiddify",
-        "downloadUrl": "https://hiddify.com/app/",
-        "configType": "base64"
       }
     ]
   },
@@ -62,19 +56,13 @@
       {
         "id": "clash_verge",
         "name": "Clash Verge",
-        "downloadUrl": "https://clash-verge.org/download",
+        "downloadUrl": "https://clash-verge.org/download#macos-download",
         "configType": "clash"
       },
       {
         "id": "shadowrocket",
         "name": "Shadowrocket",
         "downloadUrl": "https://apps.apple.com/app/shadowrocket/id932747118",
-        "configType": "base64"
-      },
-      {
-        "id": "hiddify",
-        "name": "Hiddify",
-        "downloadUrl": "https://hiddify.com/app/",
         "configType": "base64"
       }
     ]
@@ -85,14 +73,8 @@
       {
         "id": "clash_verge",
         "name": "Clash Verge",
-        "downloadUrl": "https://clash-verge.org/download",
+        "downloadUrl": "https://clash-verge.org/download#linux-download",
         "configType": "clash"
-      },
-      {
-        "id": "hiddify",
-        "name": "Hiddify",
-        "downloadUrl": "https://hiddify.com/app/",
-        "configType": "base64"
       }
     ]
   }
