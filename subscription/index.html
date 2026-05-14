@@ -662,6 +662,20 @@
         margin-top: 12px;
       }
 
+      #connection-content .subscription-link-row {
+        display: flex;
+        justify-content: flex-start;
+      }
+
+      #connection-content .qr-row {
+        margin-left: 0;
+        justify-content: flex-start;
+      }
+
+      #connection-content .qr-item {
+        align-items: flex-start;
+      }
+
       .additional-section {
         margin-top: 20px;
       }
@@ -1363,9 +1377,8 @@
 
     content.innerHTML = `
       <h5 class="connection-title">${safeClientName} для ${safeOsLabel}</h5>
-      <a class="button btn-primary download-link" id="download-client-btn" target="_blank" rel="noopener noreferrer">Скачать клиент</a>
+      <a class="button btn-primary download-link" id="download-client-btn" target="_blank" rel="noopener noreferrer" aria-label="Скачать клиент (откроется в новой вкладке)">Скачать клиент</a>
       <div class="subscription-link-row">
-        <code class="subscription-link-box" id="selected-subscription-link"></code>
         <button type="button" id="copy-subscription-link">Копировать ссылку</button>
       </div>
       <div class="qr-row">
@@ -1377,12 +1390,10 @@
       <div class="small connection-hint">Отсканируйте QR-код в приложении или вставьте ссылку вручную.</div>
     `;
 
-    const linkEl = document.getElementById("selected-subscription-link");
     const copyBtn = document.getElementById("copy-subscription-link");
     const downloadBtn = document.getElementById("download-client-btn");
     const qrCanvas = document.getElementById("selected-subscription-qr");
 
-    if (linkEl) linkEl.textContent = subscriptionUrl;
     if (downloadBtn) downloadBtn.href = client.downloadUrl;
     if (copyBtn) {
       copyBtn.onclick = () => copyText(subscriptionUrl, "Ссылка скопирована!");
