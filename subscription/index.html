@@ -1306,8 +1306,13 @@
 
     const osConfig = vpnClients[selectedOs];
     const client = osConfig?.clients?.find((c) => c.id === selectedClientId);
-    if (!client || !currentConnectionContext) {
-      content.innerHTML = `<div class="small">Не удалось построить конфигурацию подключения.</div>`;
+    if (!client) {
+      content.innerHTML = `<div class="small">Не найдена конфигурация выбранного клиента.</div>`;
+      return;
+    }
+
+    if (!currentConnectionContext) {
+      content.innerHTML = `<div class="small">Нет данных о текущем регионе подключения.</div>`;
       return;
     }
 
@@ -1317,7 +1322,7 @@
     }
 
     if (!isKnownFormat(client.configType)) {
-      content.innerHTML = `<div class="small">Некорректный тип конфигурации для клиента ${client.name}.</div>`;
+      content.innerHTML = `<div class="small">Некорректный тип конфигурации '${client.configType}' для клиента ${client.name}.</div>`;
       return;
     }
 
