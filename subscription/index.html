@@ -554,6 +554,7 @@
       .tabs {
         display: flex;
         gap: 10px;
+        flex-wrap: wrap;
         margin-bottom: 16px;
       }
 
@@ -577,6 +578,115 @@
 
       .tab-content.active {
         display: block;
+      }
+
+      .steps-flow {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .step-card {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px;
+        background: rgba(15, 23, 42, 0.45);
+        transition: opacity 0.2s ease;
+      }
+
+      .step-card h4 {
+        margin: 0 0 12px;
+      }
+
+      .step-card.step-disabled {
+        opacity: 0.5;
+      }
+
+      .pill-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .pill-button {
+        margin-top: 0;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+      }
+
+      .pill-button.active {
+        background: var(--border);
+        color: var(--text);
+      }
+
+      .connection-title {
+        margin: 0 0 12px;
+        font-size: 1.15rem;
+      }
+
+      .download-link {
+        display: inline-flex;
+        padding: 8px 14px;
+        border-radius: 8px;
+        margin-top: 0;
+        margin-bottom: 14px;
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .subscription-link-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+
+      .subscription-link-box {
+        margin: 0;
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: 12px;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      .connection-hint {
+        margin-top: 12px;
+      }
+
+      .additional-section {
+        margin-top: 20px;
+      }
+
+      .accordion {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.02);
+        padding: 2px 12px;
+      }
+
+      .accordion summary {
+        cursor: pointer;
+        padding: 12px 0;
+        font-weight: 600;
+      }
+
+      .accordion-body {
+        padding: 8px 0 14px;
+      }
+
+      @media (max-width: 640px) {
+        .subscription-link-row {
+          grid-template-columns: 1fr;
+        }
       }
 
       .error-state {
@@ -795,29 +905,53 @@
 
         <h3>Ссылки для подключения</h3>
 
-        <div class="tabs">
-          <button class="tab active" data-tab="xray">Xray</button>
-          <button class="tab" data-tab="hysteria">Hysteria2</button>
-          <button class="tab" data-tab="mtproto">Mtproto</button>
-          <button class="tab" data-tab="wireguard">WireGuard</button>
-        </div>
+        <div class="steps-flow">
+          <div class="step-card" id="os-step">
+            <h4>Шаг 1. Выберите вашу ОС</h4>
+            <div id="os-options" class="pill-group"></div>
+          </div>
 
-        <div id="tab-xray" class="tab-content active">
-          <div id="xray-content">
-            <div class="small">Загрузка подключений...</div>
+          <div class="step-card step-disabled" id="client-step">
+            <h4>Шаг 2. Выберите клиент</h4>
+            <div id="client-options" class="pill-group"></div>
+          </div>
+
+          <div class="step-card step-disabled" id="connection-step">
+            <h4>Шаг 3. Подключение</h4>
+            <div id="connection-content" class="small">
+              Выберите ОС и клиент, чтобы получить ссылку подключения.
+            </div>
           </div>
         </div>
 
-        <div id="tab-hysteria" class="tab-content">
-          <div id="hysteria-content"></div>
-        </div>
+        <div class="additional-section">
+          <h3>Дополнительно</h3>
+          <details class="accordion">
+            <summary>
+              Другие способы подключения
+              <span class="small">(Hysteria2, MTProto, WireGuard и др.)</span>
+            </summary>
 
-        <div id="tab-mtproto" class="tab-content">
-          <div id="mtproto-content"></div>
-        </div>
+            <div class="accordion-body">
+              <div class="tabs">
+                <button class="tab active" data-tab="hysteria">Hysteria2</button>
+                <button class="tab" data-tab="mtproto">MTProto</button>
+                <button class="tab" data-tab="wireguard">WireGuard</button>
+              </div>
 
-        <div class="tab-content" id="tab-wireguard">
-          <div id="wg-content"></div>
+              <div id="tab-hysteria" class="tab-content active">
+                <div id="hysteria-content"></div>
+              </div>
+
+              <div id="tab-mtproto" class="tab-content">
+                <div id="mtproto-content"></div>
+              </div>
+
+              <div class="tab-content" id="tab-wireguard">
+                <div id="wg-content"></div>
+              </div>
+            </div>
+          </details>
         </div>
 
         <hr />
@@ -884,6 +1018,11 @@
     dev: "⌯✈︎ Основной",
   };
 
+  let vpnClients = {};
+  let selectedOs = null;
+  let selectedClientId = null;
+  let currentConnectionContext = null;
+
   function getSubId() {
     const params = new URLSearchParams(window.location.search);
     const urlId = params.get("id");
@@ -893,6 +1032,23 @@
       localStorage.setItem("frkn_sub_id", urlId);
     }
     return id;
+  }
+
+  async function loadVpnClients() {
+    const response = await fetch("/subscription/vpn-clients.json");
+    if (!response.ok) throw new Error("Не удалось загрузить конфиг клиентов");
+    vpnClients = await response.json();
+  }
+
+  function normalizeFormat(format) {
+    const value = String(format || "").toLowerCase();
+    if (value === "base64" || value === "b64") return "base64";
+    if (value === "clash") return "clash";
+    return "txt";
+  }
+
+  function buildXraySubUrl(id, env, format) {
+    return `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=${normalizeFormat(format)}`;
   }
 
   async function initPage() {
@@ -922,6 +1078,7 @@
     localStorage.setItem("frkn_sub_id", subId);
 
     try {
+      await loadVpnClients();
       const response = await fetch(`${API_BASE}/subscription/${subId}`);
       if (!response.ok) {
         showError();
@@ -1041,63 +1198,148 @@
       });
     }
 
-    console.log(data);
-
     const loc =
       data.locations?.find((l) => l.env === currentEnv) || data.locations?.[0];
     if (loc) {
       if (!loc.has_xray && !loc.has_h2 && !loc.has_mtproto && !loc.has_wg)
         return;
-      renderXray(data.id, loc.env, loc.has_xray);
+      currentConnectionContext = {
+        id: data.id,
+        env: loc.env,
+        hasXray: loc.has_xray,
+      };
+      initConnectionFlow();
       renderH2(data.id, loc.env, loc.has_h2);
       renderMtproto(data.id, loc.env, loc.has_mtproto);
       renderWireguard(data.id, loc.env, loc.has_wg);
     }
   }
 
-  function renderXray(id, env, has) {
-    const container = document.getElementById("xray-content");
-    if (!has) {
-      container.innerHTML = `<div class="small">Xray недоступен в этом регионе</div>`;
+  function initConnectionFlow() {
+    const osOptions = document.getElementById("os-options");
+    if (!osOptions) return;
+
+    selectedOs = null;
+    selectedClientId = null;
+    osOptions.innerHTML = "";
+
+    Object.entries(vpnClients).forEach(([osKey, osData]) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pill-button";
+      btn.innerText = osData.label;
+      btn.onclick = () => {
+        selectedOs = osKey;
+        selectedClientId = null;
+        renderOsStep();
+        renderClientStep();
+        renderConnectionStep();
+      };
+      osOptions.appendChild(btn);
+    });
+
+    renderOsStep();
+    renderClientStep();
+    renderConnectionStep();
+  }
+
+  function renderOsStep() {
+    const osOptions = document.getElementById("os-options");
+    if (!osOptions) return;
+    [...osOptions.querySelectorAll(".pill-button")].forEach((btn, index) => {
+      const osKey = Object.keys(vpnClients)[index];
+      btn.classList.toggle("active", osKey === selectedOs);
+    });
+  }
+
+  function renderClientStep() {
+    const step = document.getElementById("client-step");
+    const options = document.getElementById("client-options");
+    if (!step || !options) return;
+
+    if (!selectedOs || !vpnClients[selectedOs]) {
+      step.classList.add("step-disabled");
+      options.innerHTML = `<div class="small">Сначала выберите ОС.</div>`;
       return;
     }
 
-    const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=txt`;
-    const subUrlBase64 = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=base64`;
-    const subUrlClash = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=clash`;
-
-    container.innerHTML = `
-          <ul class="proxy-list">
-            <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')">
-                 <div class="proxy-label black">
-                 <img src="/Images/xray.svg" style="width: 16px; height: 16px;" class="black">&nbsp;&nbsp;&nbsp;TXT (Универсальная)</div>
-                 <div class="proxy-action">Копировать</div></li>
-            <li class="proxy-item" onclick="copyText('${subUrlBase64}','Ссылка скопирована!')">
-            <div class="proxy-label black ">
-            <img src="/Images/xray.svg" style="width: 16px; height: 16px;" class="black">&nbsp;&nbsp;&nbsp;Base64</div>
-            <div class="proxy-action">Копировать</div></li>
-
-            <li class="proxy-item" onclick="copyText('${subUrlClash}','Ссылка скопирована!')"><div class="proxy-label">
-            <img src="/Images/clash.png" style="width: 16px; height: 16px;">&nbsp;&nbsp;&nbsp;Clash</div>
-            <div class="proxy-action">Копировать</div></li>
-          </ul>
-          <div class="qr-row">
-            <div class="qr-item"><span>TXT (Универсальная) </span><canvas id="qr-xray-txt"></canvas></div>
-            <div class="qr-item"><span>B64</span><canvas id="qr-xray-base64"></canvas></div>
-            <div class="qr-item"><span>Clash</span><canvas id="qr-xray-clash"></canvas></div>
-          </div>
-          <div class="apps center"><a href="/setup">Как настроить?</a></div>
-        `;
-
-    QRCode.toCanvas(document.getElementById("qr-xray-txt"), subUrlTxt, {
-      width: 140,
+    step.classList.remove("step-disabled");
+    options.innerHTML = "";
+    vpnClients[selectedOs].clients.forEach((client) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pill-button";
+      btn.innerText = client.name;
+      btn.classList.toggle("active", client.id === selectedClientId);
+      btn.onclick = () => {
+        selectedClientId = client.id;
+        renderClientStep();
+        renderConnectionStep();
+      };
+      options.appendChild(btn);
     });
-    QRCode.toCanvas(document.getElementById("qr-xray-base64"), subUrlBase64, {
-      width: 140,
-    });
-    QRCode.toCanvas(document.getElementById("qr-xray-clash"), subUrlClash, {
-      width: 140,
-    });
+  }
+
+  function renderConnectionStep() {
+    const step = document.getElementById("connection-step");
+    const content = document.getElementById("connection-content");
+    if (!step || !content) return;
+
+    if (!selectedOs || !selectedClientId) {
+      step.classList.add("step-disabled");
+      content.innerHTML = `<div class="small">Выберите ОС и клиент, чтобы перейти к подключению.</div>`;
+      return;
+    }
+
+    step.classList.remove("step-disabled");
+
+    const osConfig = vpnClients[selectedOs];
+    const client = osConfig?.clients?.find((c) => c.id === selectedClientId);
+    if (!client || !currentConnectionContext) {
+      content.innerHTML = `<div class="small">Не удалось построить конфигурацию подключения.</div>`;
+      return;
+    }
+
+    if (!currentConnectionContext.hasXray) {
+      content.innerHTML = `<div class="small">Xray недоступен в этом регионе.</div>`;
+      return;
+    }
+
+    const subscriptionUrl = buildXraySubUrl(
+      currentConnectionContext.id,
+      currentConnectionContext.env,
+      client.configType,
+    );
+
+    content.innerHTML = `
+      <h5 class="connection-title">${client.name} для ${osConfig.label}</h5>
+      <a class="button btn-primary download-link" id="download-client-btn" target="_blank" rel="noopener noreferrer">Скачать клиент</a>
+      <div class="subscription-link-row">
+        <code class="subscription-link-box" id="selected-subscription-link"></code>
+        <button type="button" id="copy-subscription-link">Копировать ссылку</button>
+      </div>
+      <div class="qr-row">
+        <div class="qr-item">
+          <span>QR-код подключения</span>
+          <canvas id="selected-subscription-qr"></canvas>
+        </div>
+      </div>
+      <div class="small connection-hint">Отсканируйте QR-код в приложении или вставьте ссылку вручную.</div>
+    `;
+
+    const linkEl = document.getElementById("selected-subscription-link");
+    const copyBtn = document.getElementById("copy-subscription-link");
+    const downloadBtn = document.getElementById("download-client-btn");
+    const qrCanvas = document.getElementById("selected-subscription-qr");
+
+    if (linkEl) linkEl.textContent = subscriptionUrl;
+    if (downloadBtn) downloadBtn.href = client.downloadUrl;
+    if (copyBtn) {
+      copyBtn.onclick = () => copyText(subscriptionUrl, "Ссылка скопирована!");
+    }
+    if (qrCanvas) {
+      QRCode.toCanvas(qrCanvas, subscriptionUrl, { width: 180 });
+    }
   }
 
   function renderH2(id, env, has) {
