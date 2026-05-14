@@ -1050,7 +1050,7 @@
   }
 
   async function loadVpnClients() {
-    const response = await fetch("/subscription/vpn-clients.json");
+    const response = await fetch("vpn-clients.json");
     if (!response.ok) {
       throw new Error(
         `Не удалось загрузить конфиг клиентов (HTTP ${response.status})`,
