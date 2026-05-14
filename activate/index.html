@@ -1,72 +1,662 @@
 <!doctype html>
 <html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>FRKN Privacy Company</title>
-  <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="/styles.css" />
-</head>
-
-<body>
-  <div class="container">
-    <header>
-      <h1 class="hero-title">Активация ключа</h1>
-      <div id="logo-container"></div>
-    </header>
-
-    <section class="hero">
-      <div class="card activateCard">
-        <div class="small right">
-          <a href="/pay" class="text-link">Купить ключ</a> |
-          <a class="text-link" href="/info/activation-keys/"> Что такое ключ активации? </a>
-        </div>
-
-        <div><br><br>Введи ключ чтобы получить доступ
-
-        </div>
-
-        <p></p>
-        <form id="activateKeyForm">
-          <input type="text" id="code" name="code" placeholder="Ключ: KKKKK-LLLLL-MMMMM-NNNNN-FFFFF-X" required />
-
-          <div class="small">
-
-            <br> Необязательно – Мы создадим новую если не укажешь ID подписки
-          </div>
-          <input type="text" id="id" name="id" placeholder="ID Подписки: aaaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee" />
-
-
-          <button class="btn activate" type="submit">Активировать</button>
-        </form>
-
-        <div id="message"></div>
-        <div id="result" style="display:none;"></div>
-      </div>
-    </section>
-
-    <div id="footer-container"></div>
-  </div>
-  <script src="/scripts/activate.js"></script>
-  <script src="/scripts/analytics.js" defer></script>
-  <script src="/scripts/containers.js"></script>
-
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const activationCode = params.get("code");
-
-    if (activationCode) {
-      const activationCodeInput = document.getElementById("code");
-
-      if (activationCodeInput) {
-        activationCodeInput.value = activationCode;
-        activationCodeInput.style.borderColor = "#22c55e";
-
-        activationCodeInput.style.boxShadow = "0 0 10px rgba(34, 197, 94, 0.2)";
+    <meta property="og:title" content="Активировать Ключ FRKN Рилзопровод" />
+    <meta property="og:site_name" content="frkn" />
+    <meta name="theme-color" content="#0b0d12" />
+    <link rel="canonical" href="https://frkn.org" />
+    <meta
+      property="og:description"
+      content="Активировать Ключ FRKN Рилзопровод"
+    />
+    <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://frkn.org" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FRKN Рилзопровод" />
+    <meta name="twitter:description" content="Активировать Ключ" />
+    <meta name="twitter:image" content="https://frkn.org/Images/preview.jpeg" />
+    <meta name="robots" content="index, follow" />
+    <title>FRKN Активация ключа</title>
+    <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      /* Стили для модального окна */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(8px);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.3s ease;
+        padding: 16px;
+        box-sizing: border-box;
       }
-    }
-  </script>
-</body>
 
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border-radius: 20px;
+        padding: 24px;
+        max-width: 500px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        animation: slideUp 0.3s ease;
+      }
+
+      .modal-content::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .modal-content::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+      }
+
+      .modal-content::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .modal-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+
+      .modal-title {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 12px;
+        color: #fff;
+      }
+
+      .modal-description {
+        color: #a0a0a0;
+        margin-bottom: 20px;
+        line-height: 1.5;
+        font-size: 14px;
+      }
+
+      .key-label {
+        font-size: 11px;
+        color: #888;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .key-display {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 12px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        font-size: 14px;
+        margin: 16px 0;
+        word-break: break-all;
+        color: #4ade80;
+        letter-spacing: 1px;
+        font-weight: bold;
+      }
+
+      .days-highlight {
+        background: linear-gradient(135deg, #22c55e20, #16a34a20);
+        border-radius: 12px;
+        padding: 16px;
+        text-align: center;
+        margin: 16px 0;
+      }
+
+      .days-number {
+        font-size: 32px;
+        font-weight: bold;
+        color: #22c55e;
+        display: inline-block;
+        margin-right: 8px;
+      }
+
+      .days-text {
+        font-size: 16px;
+        color: #fff;
+      }
+
+      .info-box {
+        background: rgba(34, 197, 94, 0.1);
+        border-left: 3px solid #22c55e;
+        padding: 12px;
+        margin: 16px 0;
+        border-radius: 8px;
+        text-align: left;
+      }
+
+      .info-title {
+        font-size: 14px;
+        margin-bottom: 8px;
+        color: #22c55e;
+        font-weight: bold;
+      }
+
+      .info-box p {
+        margin: 6px 0;
+        font-size: 13px;
+        color: #a0a0a0;
+        line-height: 1.4;
+      }
+
+      .separator {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 12px 0;
+      }
+
+      .warning-box {
+        background: rgba(255, 100, 100, 0.1);
+        border-left: 3px solid #ff4444;
+        padding: 12px;
+        margin: 16px 0;
+        border-radius: 8px;
+        text-align: left;
+      }
+
+      .warning-title {
+        font-size: 14px;
+        margin-bottom: 8px;
+        color: #ff6666;
+        font-weight: bold;
+      }
+
+      .warning-box p {
+        margin: 6px 0;
+        font-size: 13px;
+        color: #ff8888;
+        line-height: 1.4;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .btn-modal {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn-activate {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: white;
+        flex: 1;
+      }
+
+      .btn-activate:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+      }
+
+      .btn-cancel {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        flex: 1;
+      }
+
+      .btn-cancel:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        margin-right: 8px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .success-animation {
+        animation: pulse 0.5s ease;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .modal-content {
+          padding: 20px;
+        }
+        .modal-title {
+          font-size: 20px;
+        }
+        .days-number {
+          font-size: 28px;
+        }
+        .btn-modal {
+          padding: 10px 16px;
+          font-size: 13px;
+        }
+        .key-display {
+          font-size: 12px;
+          padding: 10px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <h1 class="hero-title">Рилзопровод: <br />Активация ключа доступа</h1>
+        <div id="logo-container"></div>
+      </header>
+
+      <section class="hero">
+        <div class="card activateCard">
+          <div class="small right">
+            <a href="/pay" class="text-link">Купить ключ</a> |
+            <a class="text-link" href="/info/activation-keys/">
+              Что такое ключ активации?
+            </a>
+          </div>
+
+          <div><br /><br />Введи ключ чтобы получить доступ</div>
+
+          <form id="activateKeyForm">
+            <input
+              type="text"
+              id="keyId"
+              name="key"
+              placeholder="Ключ: KKKKK-LLLLL-MMMMM-NNNNN-FFFFF-X"
+              required
+            />
+
+            <input
+              type="text"
+              id="refCodeId"
+              name="refCode"
+              placeholder="Реферальный код друга (Необязательно)"
+            />
+
+            <button class="btn activate" type="submit">Активировать</button>
+          </form>
+
+          <div id="activationMessage"></div>
+        </div>
+      </section>
+
+      <div id="footer-container"></div>
+    </div>
+
+    <!-- Модальное окно для подтверждения активации -->
+    <div id="activationModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-icon">🔑</div>
+        <h2 class="modal-title">Активация ключа</h2>
+        <div class="modal-description">
+          Вы собираетесь активировать ключ для получения доступа к Рилзопроводу
+          FRKN
+        </div>
+
+        <div class="key-label">ВАШ КЛЮЧ АКТИВАЦИИ</div>
+        <div class="key-display" id="modalKeyDisplay"></div>
+
+        <div class="days-highlight">
+          <span class="days-number" id="keyDaysNumber">66</span>
+          <span class="days-text">дней доступа</span>
+        </div>
+
+        <div class="info-box">
+          <div class="info-title">📋 Что произойдёт после активации?</div>
+          <p>
+            ✅ Будет создана новая подписка на
+            <strong id="infoDaysNumber">66</strong> дней
+          </p>
+          <p>✅ Вы получите доступ ко всем функциям Рилзопровода FRKN</p>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="warning-box">
+          <div class="warning-title">⚠️ ВАЖНАЯ ИНФОРМАЦИЯ</div>
+          <p>
+            🔸 <strong>Ключ одноразовый</strong> — после активации его нельзя
+            использовать повторно
+          </p>
+          <p>🔸 Активация создаёт <strong>НОВУЮ подписку</strong></p>
+          <p>
+            🔸 Если вы хотите продлить текущую подписку используйте форму
+            активации ключа на странице подписки
+            <a href="/subscription">https://frkn.org/subscription</a>
+          </p>
+        </div>
+
+        <div class="modal-buttons">
+          <button class="btn-modal btn-cancel" id="cancelActivationBtn">
+            Отмена
+          </button>
+          <button class="btn-modal btn-activate" id="confirmActivationBtn">
+            Активировать ключ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/scripts/analytics.js" defer></script>
+    <script src="/scripts/containers.js"></script>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const keyFromUrl = params.get("key") || params.get("code");
+      const refCodeFromUrl = params.get("ref") || params.get("referral");
+
+      // Автозаполнение из URL
+      if (keyFromUrl) {
+        const keyInput = document.getElementById("keyId");
+        if (keyInput) {
+          keyInput.value = keyFromUrl;
+          keyInput.style.borderColor = "#22c55e";
+        }
+      }
+
+      if (refCodeFromUrl) {
+        const refInput = document.getElementById("refCodeId");
+        if (refInput) {
+          refInput.value = refCodeFromUrl;
+          refInput.style.borderColor = "#22c55e";
+        }
+      }
+    </script>
+
+    <script>
+      const isLocal =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1";
+      const API_BASE = isLocal
+        ? "http://localhost:3000"
+        : "https://api.frkn.org";
+
+      const activationKeyForm = document.getElementById("activateKeyForm");
+      const activationMessage = document.getElementById("activationMessage");
+      const modal = document.getElementById("activationModal");
+
+      let pendingKey = null;
+      let pendingKeyData = null;
+      let pendingRefCode = null;
+
+      // Функции для работы с модальным окном
+      function showModal(keyValue, keyData, refCode) {
+        pendingKey = keyValue;
+        pendingKeyData = keyData;
+        pendingRefCode = refCode;
+
+        document.getElementById("modalKeyDisplay").textContent = keyValue;
+
+        const days = keyData?.days || 66;
+        document.getElementById("keyDaysNumber").textContent = days;
+        document.getElementById("infoDaysNumber").textContent = days;
+
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function hideModal() {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+        pendingKey = null;
+        pendingKeyData = null;
+        pendingRefCode = null;
+      }
+
+      function showLoading(button) {
+        const originalText = button.textContent;
+        button.disabled = true;
+        button.innerHTML = '<span class="loading-spinner"></span> Активация...';
+        return () => {
+          button.disabled = false;
+          button.textContent = originalText;
+        };
+      }
+
+      async function activateKey(keyValue, refCode) {
+        const confirmBtn = document.getElementById("confirmActivationBtn");
+        const resetLoading = showLoading(confirmBtn);
+        let subscriptionId = null;
+
+        try {
+          // Шаг 1: Создаём подписку
+          activationMessage.textContent = "⏳ Создаём подписку...";
+          activationMessage.style.color = "#ffffff";
+
+          const trialPayload = {
+            referred_by:
+              refCode && refCode.trim() ? refCode.trim() : "WEB-ACTIVATE",
+          };
+
+          const resCreateSubscription = await fetch(`${API_BASE}/trial`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(trialPayload),
+          });
+
+          if (!resCreateSubscription.ok) {
+            throw new Error(
+              "Не удалось создать подписку, обратитесь в поддержку",
+            );
+          }
+
+          const createSubscriptionData = await resCreateSubscription.json();
+          subscriptionId = createSubscriptionData?.response?.id;
+
+          console.log("Subscription created:", subscriptionId);
+
+          if (!subscriptionId) {
+            throw new Error("Не удалось получить ID подписки");
+          }
+
+          // Шаг 2: Активируем ключ и привязываем к подписке
+          activationMessage.textContent = "⏳ Активируем ключ...";
+
+          const payload = {
+            code: keyValue,
+            subscription_id: subscriptionId,
+          };
+
+          const res = await fetch(`${API_BASE}/key/activate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          const data = await res.json();
+
+          if (data?.status === 200 && subscriptionId) {
+            const modalContent = document.querySelector(".modal-content");
+            modalContent.classList.add("success-animation");
+
+            activationMessage.innerHTML =
+              "✅ Ключ успешно активирован! Перенаправляем...";
+            activationMessage.style.color = "#22c55e";
+
+            setTimeout(() => {
+              hideModal();
+              window.location.href = `/subscription?id=${subscriptionId}`;
+            }, 1500);
+          } else {
+            throw new Error(data?.message || "Не удалось активировать ключ");
+          }
+        } catch (err) {
+          console.error(err);
+          activationMessage.innerHTML = `❌ ${err.message || "Ошибка активации ключа"}`;
+          activationMessage.style.color = "#ff4444";
+
+          if (subscriptionId) {
+            activationMessage.innerHTML += `<br>⚠️ Подписка создана, но ключ не активирован. Обратитесь в поддержку.`;
+          }
+
+          hideModal();
+        } finally {
+          resetLoading();
+        }
+      }
+
+      if (!activationKeyForm) {
+        console.error("activateKeyForm not found");
+      } else {
+        activationKeyForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const keyValue = document
+            .getElementById("keyId")
+            .value.trim()
+            .toUpperCase();
+          const refCode = document.getElementById("refCodeId").value.trim();
+
+          if (!keyValue) {
+            activationMessage.textContent = "❌ Введите ключ активации";
+            activationMessage.style.color = "#ff4444";
+            return;
+          }
+
+          // Формат ключа: XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-X
+          const keyRegex =
+            /^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{1}$/i;
+
+          if (!keyRegex.test(keyValue)) {
+            activationMessage.textContent = "❌ Неверный формат ключа";
+            activationMessage.style.color = "#ff4444";
+            return;
+          }
+
+          activationMessage.textContent = "⏳ Проверяем ключ...";
+          activationMessage.style.color = "#ffffff";
+
+          try {
+            const res = await fetch(
+              `${API_BASE}/key/validate?key=${encodeURIComponent(keyValue)}`,
+            );
+            const data = await res.json();
+
+            if (data?.status === 200 && data?.response?.instance?.Key) {
+              const keyData = data.response.instance.Key;
+
+              // Ключ уже активирован
+              if (keyData.activated && keyData.subscription_id) {
+                activationMessage.innerHTML =
+                  "✅ Ключ уже активирован! Перенаправляем...";
+                activationMessage.style.color = "#22c55e";
+                setTimeout(() => {
+                  window.location.href = `/subscription?id=${keyData.subscription_id}`;
+                }, 1000);
+                return;
+              }
+
+              // Ключ валиден, но не активирован
+              if (!keyData.activated) {
+                showModal(keyValue, keyData, refCode);
+                return;
+              }
+            }
+
+            activationMessage.textContent =
+              "❌ " + (data?.message || "Ключ недействителен");
+            activationMessage.style.color = "#ff4444";
+          } catch (err) {
+            console.error(err);
+            activationMessage.textContent =
+              "❌ Ошибка проверки ключа. Попробуйте позже.";
+            activationMessage.style.color = "#ff4444";
+          }
+        });
+      }
+
+      // Обработчики модального окна
+      document
+        .getElementById("confirmActivationBtn")
+        ?.addEventListener("click", () => {
+          if (pendingKey) {
+            activateKey(pendingKey, pendingRefCode);
+          }
+        });
+
+      document
+        .getElementById("cancelActivationBtn")
+        ?.addEventListener("click", () => {
+          hideModal();
+          activationMessage.textContent = "⚠️ Активация отменена";
+          activationMessage.style.color = "#ffaa00";
+        });
+
+      modal?.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          hideModal();
+        }
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal?.classList.contains("active")) {
+          hideModal();
+        }
+      });
+    </script>
+  </body>
 </html>

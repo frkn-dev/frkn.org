@@ -1,106 +1,685 @@
 <!doctype html>
 <html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Доступ к подписке — FRKN Рилзопровод</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta property="og:title" content="Доступ к подписке — FRKN Рилзопровод" />
+    <meta property="og:site_name" content="frkn" />
+    <meta name="theme-color" content="#0b0d12" />
+    <link rel="canonical" href="https://frkn.org" />
+    <meta
+      property="og:description"
+      content="Доступ к подписке — FRKN Рилзопровод"
+    />
+    <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://frkn.org" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Доступ к подписке — FRKN Рилзопровод" />
+    <meta name="twitter:image" content="https://frkn.org/Images/preview.jpeg" />
+    <meta name="robots" content="index, follow" />
 
-  <title>Личный кабинет — FRKN Privacy Company</title>
-  <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="/styles.css" />
-</head>
-
-<body>
-  <div class="container">
-    <header>
-      <h1 class="hero-title">Доступ к подписке</h1>
-      <div id="logo-container"></div>
-
-    </header>
-
-    <section class="hero">
-      <div class="hero-content">
-        <div class="card trialCard">
-          <form id="subscriptionForm">
-            <div class="small right"> <a href="/info/subscriptions" class="text-link">
-                Что такое подписка?
-              </a> |
-
-              <a href="/pay" class="text-link">
-                У меня нет подписки </a>
-            </div>
-            <input type="text" name="id" id="sub_id" placeholder="aaaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee" required />
-
-            <button class="btn" type="submit">
-              Открыть подписку
-            </button>
-
-            <div class="small">
-              Вставь свой ID, чтобы посмотреть информацию о подписке
-            </div>
-
-            <div class="message" id="subMessage"></div>
-
-
-
-          </form>
-
-        </div>
-    </section>
-
-    <div id="footer-container"></div>
-  </div>
-
-  <script src="/scripts/analytics.js" defer></script>
-  <script src="/scripts/trial.js"></script>
-  <script src="/scripts/containers.js"></script>
-
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const promo = params.get("code");
-
-    if (promo) {
-      const promoInput = document.getElementById("code");
-      if (promoInput) {
-        promoInput.value = promo;
-        promoInput.style.borderColor = "#22c55e";
+    <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/activate-styles.css" />
+    <style>
+      /* Стили для модального окна */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(8px);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        animation: fadeIn 0.3s ease;
+        padding: 16px;
+        box-sizing: border-box;
       }
-    }
-  </script>
 
+      .modal.active {
+        display: flex;
+      }
 
+      .modal-content {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border-radius: 20px;
+        padding: 24px;
+        max-width: 500px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        animation: slideUp 0.3s ease;
+      }
 
-  <script>
-    const subForm = document.getElementById("subscriptionForm");
-    const subMessage = document.getElementById("subMessage");
-    if (!subForm) {
-      console.error("subscriptionForm not found");
-    } else {
+      /* Стилизация скроллбара */
+      .modal-content::-webkit-scrollbar {
+        width: 6px;
+      }
 
-      subForm.addEventListener("submit", (e) => {
-        e.preventDefault();
+      .modal-content::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+      }
 
-        const id = document.getElementById("sub_id").value.trim();
+      .modal-content::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+      }
 
-        if (!id) {
-          subMessage.textContent = "Введите ID";
-          return;
+      .modal-content::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .modal-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+
+      .modal-title {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 12px;
+        color: #fff;
+      }
+
+      .modal-description {
+        color: #a0a0a0;
+        margin-bottom: 20px;
+        line-height: 1.5;
+        font-size: 14px;
+      }
+
+      .key-label {
+        font-size: 11px;
+        color: #888;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .key-display {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 12px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        font-size: 14px;
+        margin: 16px 0;
+        word-break: break-all;
+        color: #4ade80;
+        letter-spacing: 1px;
+        font-weight: bold;
+      }
+
+      .days-highlight {
+        background: linear-gradient(135deg, #22c55e20, #16a34a20);
+        border-radius: 12px;
+        padding: 16px;
+        text-align: center;
+        margin: 16px 0;
+      }
+
+      .days-number {
+        font-size: 32px;
+        font-weight: bold;
+        color: #22c55e;
+        display: inline-block;
+        margin-right: 8px;
+      }
+
+      .days-text {
+        font-size: 16px;
+        color: #fff;
+      }
+
+      .info-box {
+        background: rgba(34, 197, 94, 0.1);
+        border-left: 3px solid #22c55e;
+        padding: 12px;
+        margin: 16px 0;
+        border-radius: 8px;
+        text-align: left;
+      }
+
+      .info-title {
+        font-size: 14px;
+        margin-bottom: 8px;
+        color: #22c55e;
+        font-weight: bold;
+      }
+
+      .info-box p {
+        margin: 6px 0;
+        font-size: 13px;
+        color: #a0a0a0;
+        line-height: 1.4;
+      }
+
+      .separator {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: 12px 0;
+      }
+
+      .warning-box {
+        background: rgba(255, 100, 100, 0.1);
+        border-left: 3px solid #ff4444;
+        padding: 12px;
+        margin: 16px 0;
+        border-radius: 8px;
+        text-align: left;
+      }
+
+      .warning-title {
+        font-size: 14px;
+        margin-bottom: 8px;
+        color: #ff6666;
+        font-weight: bold;
+      }
+
+      .warning-box p {
+        margin: 6px 0;
+        font-size: 13px;
+        color: #ff8888;
+        line-height: 1.4;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .btn-modal {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .btn-activate {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: white;
+        flex: 1;
+      }
+
+      .btn-activate:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+      }
+
+      .btn-cancel {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        flex: 1;
+      }
+
+      .btn-cancel:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .loading-spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        margin-right: 8px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .success-animation {
+        animation: pulse 0.5s ease;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+      }
+
+      /* Адаптация под мобильные устройства */
+      @media (max-width: 480px) {
+        .modal-content {
+          padding: 20px;
         }
 
-        const uuidRegex =
-          /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-
-        if (!uuidRegex.test(id)) {
-          subMessage.textContent = "Некорректный ID";
-          return;
+        .modal-title {
+          font-size: 20px;
         }
 
-        subMessage.textContent = "Открываем подписку...";
+        .days-number {
+          font-size: 28px;
+        }
 
-        window.location.href = `/subscription?id=${id}`;
+        .btn-modal {
+          padding: 10px 16px;
+          font-size: 13px;
+        }
+
+        .key-display {
+          font-size: 12px;
+          padding: 10px;
+        }
+
+        .info-box p,
+        .warning-box p {
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1 class="hero-title">
+          Рилзопровод:<br />
+          Доступ к подписке
+        </h1>
+        <div id="logo-container"></div>
+      </header>
+      <section class="hero">
+        <div class="hero-content">
+          <div class="card trialCard">
+            <form id="subscriptionForm">
+              <input
+                type="text"
+                name="id"
+                id="subId"
+                placeholder="Введите ID подписки"
+                required
+              />
+              <button class="btn" type="submit">Открыть подписку</button>
+
+              <div class="message" id="subMessage"></div>
+              <div class="small right">
+                <a href="/info/subscriptions" class="text-link"
+                  >Где взять ID?</a
+                >
+                |
+                <a href="/info/subscriptions" class="text-link"
+                  >Что такое подписка?</a
+                >
+                |
+                <a href="/pay" class="text-link">Купить подписку</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+      <div id="footer-container"></div>
+    </div>
+
+    <!-- Модальное окно для активации ключа -->
+    <div id="activationModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-icon">🔑</div>
+        <h2 class="modal-title">Активация ключа</h2>
+        <div class="modal-description">
+          Вы ввели неактивированный ключ для получения доступа к Рилзопроводу
+          FRKN
+        </div>
+
+        <div class="key-label">ВАШ КЛЮЧ АКТИВАЦИИ</div>
+        <div class="key-display" id="modalKeyDisplay"></div>
+
+        <div class="days-highlight">
+          <span class="days-number" id="keyDaysNumber">66</span>
+          <span class="days-text">дней доступа</span>
+        </div>
+
+        <div class="info-box">
+          <div class="info-title">📋 Что произойдёт после активации?</div>
+          <p>
+            ✅ Будет создана новая подписка на
+            <strong id="infoDaysNumber">66</strong> дней
+          </p>
+          <p>✅ Вы получите доступ ко всем функциям Рилзопровода FRKN</p>
+          <p>✅ Подписку можно будет продлить в личном кабинете</p>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="warning-box">
+          <div class="warning-title">⚠️ ВАЖНАЯ ИНФОРМАЦИЯ</div>
+          <p>
+            🔸 <strong>Ключ одноразовый</strong> — после активации его нельзя
+            использовать повторно
+          </p>
+          <p>🔸 Активация создаёт <strong>НОВУЮ подписку</strong></p>
+          <p>
+            🔸 Если вы хотите продлить текущую подписку используйте форму
+            активации ключа на странице подписки
+            <a href="/subscription">https://frkn.org/subscription</a>
+          </p>
+          <p>🔸 Убедитесь, что вы хотите активировать ключ именно сейчас</p>
+        </div>
+
+        <div class="modal-buttons">
+          <button class="btn-modal btn-cancel" id="cancelActivationBtn">
+            Отмена
+          </button>
+          <button class="btn-modal btn-activate" id="confirmActivationBtn">
+            Активировать ключ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/scripts/analytics.js" defer></script>
+    <script src="/scripts/containers.js"></script>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const subId =
+        params.get("id") || params.get("subscription") || params.get("uuid");
+      const key =
+        params.get("key") || params.get("code") || params.get("promo");
+
+      // Автозаполнение из URL
+      if (subId) {
+        const subIdInput = document.getElementById("subId");
+        if (subIdInput) {
+          subIdInput.value = subId;
+          subIdInput.style.borderColor = "#22c55e";
+        }
+      } else if (key) {
+        const keyInput = document.getElementById("subId");
+        if (keyInput) {
+          keyInput.value = key;
+          keyInput.style.borderColor = "#22c55e";
+        }
+      }
+    </script>
+    <script>
+      const isLocal =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1";
+      const BASE = isLocal ? "http://localhost:8080" : "https://frkn.org";
+      const API_BASE = isLocal
+        ? "http://localhost:3000"
+        : "https://api.frkn.org";
+      const subForm = document.getElementById("subscriptionForm");
+      const subMessage = document.getElementById("subMessage");
+      const modal = document.getElementById("activationModal");
+      let pendingKey = null;
+      let pendingKeyData = null;
+
+      // Функции для работы с модальным окном
+      function showModal(keyValue, keyData) {
+        pendingKey = keyValue;
+        pendingKeyData = keyData;
+
+        // Отображаем ключ
+        document.getElementById("modalKeyDisplay").textContent = keyValue;
+
+        // Отображаем количество дней (если есть)
+        const days = keyData?.days || 66;
+        document.getElementById("keyDaysNumber").textContent = days;
+        document.getElementById("infoDaysNumber").textContent = days;
+
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function hideModal() {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+        pendingKey = null;
+        pendingKeyData = null;
+      }
+
+      function showLoading(button) {
+        const originalText = button.textContent;
+        button.disabled = true;
+        button.innerHTML = '<span class="loading-spinner"></span> Активация...';
+        return () => {
+          button.disabled = false;
+          button.textContent = originalText;
+        };
+      }
+
+      async function activateKey(keyValue) {
+        const confirmBtn = document.getElementById("confirmActivationBtn");
+        const resetLoading = showLoading(confirmBtn);
+        let subscriptionId = null;
+
+        try {
+          // Шаг 1: Создаём подписку
+          subMessage.textContent = "⏳ Создаём подписку...";
+          subMessage.style.color = "#ffffff";
+
+          const resCreateSubscription = await fetch(`${API_BASE}/trial`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ referred_by: "WEB-ACTIVATE" }),
+          });
+
+          if (!resCreateSubscription.ok) {
+            throw new Error(
+              "Не удалось создать подписку, обратитесь в поддержку",
+            );
+          }
+
+          const createSubscriptionData = await resCreateSubscription.json();
+          subscriptionId = createSubscriptionData?.response?.id;
+
+          console.log("Subscription created:", subscriptionId);
+
+          if (!subscriptionId) {
+            throw new Error("Не удалось получить ID подписки");
+          }
+
+          // Шаг 2: Активируем ключ и привязываем к подписке
+          subMessage.textContent = "⏳ Активируем ключ...";
+
+          const payload = {
+            code: keyValue,
+            subscription_id: subscriptionId,
+          };
+
+          const res = await fetch(`${API_BASE}/key/activate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          const data = await res.json();
+
+          if (data?.status === 200 && subscriptionId) {
+            const modalContent = document.querySelector(".modal-content");
+            modalContent.classList.add("success-animation");
+
+            subMessage.innerHTML =
+              "✅ Ключ успешно активирован! Перенаправляем...";
+            subMessage.style.color = "#22c55e";
+
+            setTimeout(() => {
+              hideModal();
+              window.location.href = `/subscription?id=${subscriptionId}`;
+            }, 1500);
+          } else {
+            throw new Error(data?.message || "Не удалось активировать ключ");
+          }
+        } catch (err) {
+          console.error(err);
+          subMessage.innerHTML = `❌ ${err.message || "Ошибка активации ключа"}`;
+          subMessage.style.color = "#ff4444";
+
+          // Если создали подписку но не смогли активировать ключ
+          if (subscriptionId) {
+            subMessage.innerHTML += `<br>⚠️ Подписка создана, но ключ не активирован. Обратитесь в поддержку.`;
+          }
+
+          hideModal();
+        } finally {
+          resetLoading();
+        }
+      }
+
+      if (!subForm) {
+        console.error("subscriptionForm not found");
+      } else {
+        subForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const value = document
+            .getElementById("subId")
+            .value.trim()
+            .toUpperCase();
+
+          if (!value) {
+            subMessage.textContent = "❌ Введите ID или ключ";
+            subMessage.style.color = "#ff4444";
+            return;
+          }
+
+          const uuidRegex =
+            /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+          const keyRegex =
+            /^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{1}$/i;
+
+          // UUID подписки
+          if (uuidRegex.test(value)) {
+            subMessage.textContent = "✅ Открываем подписку...";
+            subMessage.style.color = "#22c55e";
+            window.location.href = `/subscription?id=${value}`;
+            return;
+          }
+
+          // Ключ активации
+          if (keyRegex.test(value)) {
+            subMessage.textContent = "⏳ Проверяем ключ...";
+            subMessage.style.color = "#ffffff";
+
+            try {
+              const res = await fetch(
+                `${API_BASE}/key/validate?key=${encodeURIComponent(value)}`,
+              );
+              const data = await res.json();
+
+              if (data?.status === 200 && data?.response?.instance?.Key) {
+                const keyData = data.response.instance.Key;
+
+                // Ключ уже активирован
+                if (keyData.activated && keyData.subscription_id) {
+                  subMessage.innerHTML =
+                    "✅ Ключ уже активирован! Перенаправляем...";
+                  subMessage.style.color = "#22c55e";
+                  setTimeout(() => {
+                    window.location.href = `/subscription?id=${keyData.subscription_id}`;
+                  }, 1000);
+                  return;
+                }
+
+                // Ключ валиден, но не активирован
+                if (!keyData.activated) {
+                  showModal(value, keyData);
+                  return;
+                }
+              }
+
+              subMessage.textContent =
+                "❌ " + (data?.message || "Ключ недействителен");
+              subMessage.style.color = "#ff4444";
+            } catch (err) {
+              console.error(err);
+              subMessage.textContent =
+                "❌ Ошибка проверки ключа. Попробуйте позже.";
+              subMessage.style.color = "#ff4444";
+            }
+            return;
+          }
+
+          // Невалидный ввод
+          subMessage.textContent = "❌ Введите корректный ID или ключ";
+          subMessage.style.color = "#ff4444";
+        });
+      }
+
+      // Обработчики модального окна
+      document
+        .getElementById("confirmActivationBtn")
+        ?.addEventListener("click", () => {
+          if (pendingKey) {
+            activateKey(pendingKey);
+          }
+        });
+
+      document
+        .getElementById("cancelActivationBtn")
+        ?.addEventListener("click", () => {
+          hideModal();
+          subMessage.textContent = "⚠️ Активация отменена";
+          subMessage.style.color = "#ffaa00";
+
+          const input = document.getElementById("subId");
+          if (input) {
+            input.value = "";
+            input.style.borderColor = "";
+          }
+        });
+
+      modal?.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          hideModal();
+        }
       });
-    }
-  </script>
-</body>
 
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal?.classList.contains("active")) {
+          hideModal();
+        }
+      });
+    </script>
+  </body>
 </html>

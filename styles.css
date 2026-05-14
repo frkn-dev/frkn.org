@@ -149,9 +149,9 @@ header {
   justify-content: center;
 }
 .hero-title {
-  font-size: clamp(40px, 8vw, 72px);
+  font-size: clamp(42px, 8vw, 24px);
   line-height: 1.1;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -162,6 +162,7 @@ header {
   color: var(--muted);
   max-width: 500px;
   margin-bottom: 30px;
+  margin-top: 0px;
 }
 @media (max-width: 900px) {
   .hero {
@@ -523,6 +524,24 @@ button {
   border: none;
   line-height: 1;
 }
+
+.btn.another {
+  margin-top: 20px;
+  margin-left: 20px;
+  filter: brightness(1.1);
+  background: linear-gradient(
+    135deg,
+    rgba(91, 124, 250, 0.15),
+    rgba(34, 211, 238, 0.15)
+  );
+  padding: 16px 22px;
+  color: var(--text);
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  line-height: 1;
+}
+
 /* ================= CARDS ================= */
 .card {
   background:
@@ -804,6 +823,7 @@ footer {
   border: 1px solid #dc3545;
   color: #ea868f;
 }
+
 /* ================= RESPONSIVE ================= */
 @media (max-width: 900px) {
   .hero,

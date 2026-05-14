@@ -2,11 +2,12 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <meta name="description" content="Купить подписку FRKN Рилзопровод" />
     <link rel="canonical" href="https://frkn.org/pay/" />
-
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://frkn.org/pay/" />
     <meta property="og:site_name" content="FRKN" />
@@ -18,7 +19,6 @@
     <meta property="og:image" content="https://frkn.org/Images/logo.png" />
     <meta property="og:image:alt" content="Купить подписку FRKN Рилзопровод" />
     <meta property="og:image:type" content="image/png" />
-
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Купить подписку FRKN Рилзопровод" />
     <meta
@@ -26,146 +26,210 @@
       content="Купить подписку на FRKN Рилзопровод"
     />
     <meta name="twitter:image" content="https://frkn.org/Images/logo.png" />
-
     <title>FRKN Privacy — Тарифы</title>
+    <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/styles.css" />
     <style>
       :root {
         --bg-color: #0a0a0a;
-        --card-bg: #1a1a1a;
+        --card-bg: #161616;
+        --card-bg-hover: #1c1c1c;
         --accent-color: #007aff;
+        --accent-secondary: #22c55e;
         --text-main: #ffffff;
-        --text-dim: #aaa;
-        --border-color: #333;
+        --text-dim: #888888;
+        --border-color: #282828;
       }
-
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
       body {
         background-color: var(--bg-color);
         color: var(--text-main);
         font-family:
           -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
           Arial, sans-serif;
-        margin: 0;
-        padding: 0;
+        line-height: 1.5;
       }
-
       .container {
-        max-width: 1200px;
+        max-width: 1300px;
         margin: 0 auto;
         padding: 40px 20px;
       }
-
       .hero-title {
         text-align: center;
         font-size: 48px;
         font-weight: 800;
-        margin-bottom: 50px;
+        margin-bottom: 16px;
         letter-spacing: -1px;
+        background: var(--accent-color);
+        background-clip: text;
       }
-
+      .subtitle {
+        text-align: center;
+        color: var(--text-dim);
+        margin-bottom: 50px;
+        font-size: 16px;
+      }
+      .pricing-section {
+        margin-bottom: 60px;
+      }
+      .section-title {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        text-align: center;
+        color: var(--text-dim);
+      }
       .pricing-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 10px;
-        margin-top: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
       }
-
-      .price-card {
-        background: #161616;
-        border: 1px solid #282828;
-        border-radius: 18px;
-        padding: 20px;
-        text-align: center;
-        transition: all 0.2s ease-out;
-        display: flex;
-        flex-direction: column;
+      .pricing-grid-2 {
+        grid-template-columns: repeat(2, minmax(280px, 380px));
         justify-content: center;
-        position: relative;
       }
-
-      .price-card:hover {
-        transform: translateY(-4px);
-        border-color: #444;
-        background: #1c1c1c;
+      .pricing-grid-3 {
+        grid-template-columns: repeat(3, minmax(260px, 1fr));
       }
-
-      .price-card h3 {
-        font-size: 14px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: #888;
-        margin: 0 0 10px 0;
-      }
-
-      .cost-wrapper {
-        margin-bottom: 20px;
+      .price-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 28px 20px;
         text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        cursor: pointer;
       }
-
-      .price-card .cost {
-        font-size: 28px;
-        font-weight: 700;
+      .price-card:hover {
+        transform: translateY(-6px);
+        border-color: var(--accent-color);
+        background: var(--card-bg-hover);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+      .price-card.popular {
+        border: 2px solid var(--accent-color);
+        background: linear-gradient(
+          135deg,
+          rgba(0, 122, 255, 0.05),
+          rgba(0, 122, 255, 0.02)
+        );
+      }
+      .price-card.popular::before {
+        content: "⭐ Выгодно";
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        font-weight: 600;
+        background: linear-gradient(135deg, var(--accent-color), #0055aa);
         color: #fff;
-        display: inline-block;
+        padding: 4px 16px;
+        border-radius: 10px;
+        white-space: nowrap;
       }
-
-      .old-price {
+      .price-card.recommended {
+        border: 2px solid var(--accent-secondary);
+      }
+      .price-card.recommended::before {
+        content: "🔥 Популярно";
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        font-weight: 600;
+        background: linear-gradient(135deg, var(--accent-secondary), #15803d);
+        color: #fff;
+        padding: 4px 16px;
+        border-radius: 10px;
+        white-space: nowrap;
+      }
+      .price-card h3 {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 16px;
+        color: var(--text-main);
+      }
+      .price-card .duration {
         font-size: 14px;
+        color: var(--text-dim);
+        margin-bottom: 20px;
+        font-weight: 400;
+      }
+      .cost-wrapper {
+        margin-bottom: 24px;
+      }
+      .cost {
+        font-size: 42px;
+        font-weight: 800;
+        color: var(--text-main);
+      }
+      .cost small {
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--text-dim);
+      }
+      .old-price {
+        font-size: 18px;
         text-decoration: line-through;
-        color: #888;
-        margin-right: 8px;
+        color: var(--text-dim);
+        margin-right: 10px;
         display: none;
       }
-
       .discount-badge {
-        background: #28a745;
-        padding: 2px 8px;
+        background: linear-gradient(135deg, var(--accent-secondary), #15803d);
+        padding: 3px 10px;
         border-radius: 20px;
-        font-size: 11px;
-        margin-left: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: 10px;
         display: inline-block;
       }
-
+      .price-per-day {
+        font-size: 13px;
+        color: var(--accent-color);
+        margin-top: 8px;
+      }
       .buy-button {
         width: 100%;
-        padding: 10px;
-        background: #222;
-        color: #ccc;
-        border: 1px solid #333;
-        border-radius: 10px;
-        font-size: 14px;
+        padding: 14px;
+        background: var(--border-color);
+        color: var(--text-main);
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s;
       }
-
       .buy-button:hover {
-        background: #2a2a2a;
-        border-color: #555;
-        color: #fff;
+        background: var(--accent-color);
+        transform: scale(0.98);
       }
-
-      .price-card.popular {
-        border: 1px solid #007aff;
-        background: rgba(0, 122, 255, 0.05);
+      .feature-list {
+        margin-top: 20px;
+        text-align: left;
+        font-size: 13px;
+        color: var(--text-dim);
       }
-
-      .price-card.popular::before {
-        content: "HIT";
-        position: absolute;
-        top: 8px;
-        left: 12px;
-        font-size: 9px;
-        background: #007aff;
-        color: #fff;
-        padding: 2px 8px;
-        border-radius: 20px;
+      .feature-list li {
+        margin: 8px 0;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
-
-      .price-card.popular .cost {
-        color: #007aff;
+      .feature-list li::before {
+        content: "✓";
+        color: var(--accent-secondary);
+        font-weight: bold;
       }
-
       .modal-overlay {
         display: none;
         position: fixed;
@@ -173,153 +237,126 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.85);
         backdrop-filter: blur(10px);
         z-index: 2000;
         justify-content: center;
         align-items: center;
       }
-
+      .modal-overlay.active {
+        display: flex;
+      }
       .modal-content {
-        background: #111;
+        background: linear-gradient(135deg, #111, #1a1a1a);
         color: white;
         padding: 40px;
         border-radius: 30px;
         width: 90%;
-        max-width: 420px;
+        max-width: 450px;
         position: relative;
-        border: 1px solid #333;
+        border: 1px solid var(--border-color);
       }
-
       .close-modal {
         position: absolute;
         top: 20px;
         right: 25px;
-        font-size: 30px;
-        color: #555;
+        font-size: 32px;
+        color: #666;
         cursor: pointer;
         transition: color 0.2s;
       }
-
       .close-modal:hover {
         color: #fff;
       }
-
-      .btn-pay {
-        width: 100%;
-        padding: 18px;
-        background: #fff;
-        color: #000;
-        border: none;
-        border-radius: 15px;
-        font-size: 18px;
-        font-weight: 700;
-        cursor: pointer;
-        margin-top: 10px;
-        transition: all 0.2s;
+      .form-group {
+        margin-bottom: 20px;
       }
-
-      .btn-pay:hover {
-        background: #e0e0e0;
-        transform: scale(0.98);
-      }
-
-      .btn-pay:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
-
       .form-group label {
-        color: #888;
+        display: block;
+        color: var(--text-dim);
         font-size: 14px;
+        margin-bottom: 8px;
       }
-
+      .promo-input-wrapper {
+        display: flex;
+        gap: 10px;
+      }
       .form-group input {
         width: 100%;
         padding: 14px;
         background: #222;
-        border: 1px solid #333;
+        border: 1px solid var(--border-color);
         border-radius: 12px;
         color: white;
-        margin-top: 10px;
-        margin-bottom: 25px;
-        box-sizing: border-box;
         font-size: 16px;
+        flex: 1;
       }
-
       .form-group input:focus {
         outline: none;
-        border-color: #007aff;
+        border-color: var(--accent-color);
       }
-
+      .apply-promo-btn {
+        padding: 13px;
+        background: var(--accent-secondary);
+        color: white;
+        border: none;
+        border-radius: 14px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .apply-promo-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
       .modal-total-wrapper {
         text-align: center;
-        margin-bottom: 20px;
+        margin: 20px 0;
+        padding: 20px;
+        background: rgba(0, 122, 255, 0.1);
+        border-radius: 16px;
       }
-
       .modal-total {
-        font-size: 32px;
+        font-size: 42px;
         font-weight: 800;
+        color: var(--accent-secondary);
       }
-
       .modal-old-price {
-        font-size: 18px;
+        font-size: 22px;
         text-decoration: line-through;
-        color: #888;
-        margin-right: 10px;
+        color: var(--text-dim);
+        margin-right: 12px;
       }
-
       .modal-discount-price {
-        font-size: 32px;
+        font-size: 42px;
         font-weight: 800;
-        color: #28a745;
+        color: var(--accent-secondary);
       }
-
-      .popup-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
+      .btn-pay {
         width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 3000;
-      }
-
-      .popup-overlay.active {
-        display: flex;
-      }
-
-      .popup-content {
-        background: #1a1a1a;
-        padding: 30px;
-        border-radius: 24px;
-        text-align: center;
-        border: 1px solid #ff453a;
-      }
-
-      .popup-content button {
-        background: #333;
-        color: #fff;
+        padding: 16px;
+        background: linear-gradient(135deg, var(--accent-color), #0055aa);
+        color: white;
         border: none;
-        padding: 10px 20px;
-        border-radius: 10px;
+        border-radius: 14px;
+        font-size: 18px;
+        font-weight: 700;
         cursor: pointer;
-        margin-top: 15px;
+        transition: all 0.2s;
       }
-
-      .average {
-        text-align: center;
-        color: #888;
-        margin-bottom: 30px;
+      .btn-pay:hover {
+        transform: scale(0.98);
+        opacity: 0.9;
       }
-
+      .btn-pay:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
       .loading-spinner {
         display: inline-block;
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
         border: 2px solid #fff;
         border-radius: 50%;
         border-top-color: transparent;
@@ -327,125 +364,201 @@
         margin-right: 8px;
         vertical-align: middle;
       }
-
       @keyframes spin {
         to {
           transform: rotate(360deg);
         }
       }
+      .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 3000;
+      }
+      .popup-overlay.active {
+        display: flex;
+      }
+      .popup-content {
+        background: #1a1a1a;
+        padding: 30px;
+        border-radius: 24px;
+        text-align: center;
+        border: 1px solid #ff453a;
+        max-width: 320px;
+      }
+      .popup-content button {
+        background: var(--border-color);
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 15px;
+      }
+      @media (max-width: 900px) {
+        .pricing-grid-2,
+        .pricing-grid-3 {
+          grid-template-columns: 1fr;
+        }
+        .hero-title {
+          font-size: 36px;
+        }
+        .cost {
+          font-size: 34px;
+        }
+      }
     </style>
   </head>
-
   <body>
     <div class="container">
       <header>
-        <h1 class="hero-title">Тарифы</h1>
+        <h1 class="hero-title">Выберите тариф</h1>
         <div id="logo-container"></div>
       </header>
-
-      <p class="average">
-        Купить ключи активации для получения или продления подписки
+      <p class="subtitle">
+        Купите ключ активации для получения или продления подписки
       </p>
 
-      <div class="pricing-grid">
-        <div class="price-card">
-          <h3>1 месяц</h3>
-          <div class="cost-wrapper">
-            <span class="old-price"></span>
-            <div class="cost">500₽</div>
+      <div class="pricing-section">
+        <div class="pricing-grid pricing-grid-2">
+          <div
+            class="price-card recommended"
+            data-duration="30"
+            data-price="500"
+          >
+            <h3>1 месяц</h3>
+            <div class="duration">30 дней доступа</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">500₽</div>
+            </div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="30" data-price="500">
+              Выбрать тариф
+            </button>
+            <ul class="feature-list">
+              <li>Безлимитный трафик</li>
+              <li>Высокая скорость</li>
+              <li>Любое количество устройств</li>
+            </ul>
           </div>
-          <button class="buy-button" data-duration="30" data-price="500">
-            Выбрать
-          </button>
-        </div>
-        <div class="price-card popular">
-          <h3>1 год</h3>
-          <div class="cost-wrapper">
-            <span class="old-price"></span>
-            <div class="cost">5000₽</div>
+          <div class="price-card popular" data-duration="365" data-price="5000">
+            <h3>1 год</h3>
+            <div class="duration">365 дней доступа</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">5000₽</div>
+            </div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="365" data-price="5000">
+              Выбрать тариф
+            </button>
+            <ul class="feature-list">
+              <li>Безлимитный трафик</li>
+              <li>Высокая скорость</li>
+              <li>Любое количество устройств</li>
+              <li>Экономия до 20%</li>
+            </ul>
           </div>
-          <button class="buy-button" data-duration="365" data-price="5000">
-            Выбрать
-          </button>
-        </div>
-        <div class="price-card">
-          <h3>3 дня</h3>
-          <div class="cost-wrapper">
-            <span class="old-price"></span>
-            <div class="cost">100₽</div>
-          </div>
-          <button class="buy-button" data-duration="3" data-price="100">
-            Выбрать
-          </button>
-        </div>
-
-        <div class="price-card">
-          <h3>7 дней</h3>
-          <div class="cost-wrapper">
-            <span class="old-price"></span>
-            <div class="cost">200₽</div>
-          </div>
-          <button class="buy-button" data-duration="7" data-price="200">
-            Выбрать
-          </button>
-        </div>
-
-        <div class="price-card">
-          <h3>14 дней</h3>
-          <div class="cost-wrapper">
-            <span class="old-price"></span>
-            <div class="cost">300₽</div>
-          </div>
-          <button class="buy-button" data-duration="14" data-price="300">
-            Выбрать
-          </button>
-        </div>
-
-        <div class="price-card">
-          <h3>3 месяца</h3>
-          <div class="cost-wrapper">
-            <span class="old-price"></span>
-            <div class="cost">1500₽</div>
-          </div>
-          <button class="buy-button" data-duration="90" data-price="1500">
-            Выбрать
-          </button>
-        </div>
-
-        <div class="price-card">
-          <h3>6 месяцев</h3>
-          <div class="cost-wrapper">
-            <span class="old-price"></span>
-            <div class="cost">2700₽</div>
-          </div>
-          <button class="buy-button" data-duration="180" data-price="2700">
-            Выбрать
-          </button>
         </div>
       </div>
 
+      <div class="pricing-section">
+        <div class="section-title">Короткие периоды</div>
+        <div class="pricing-grid pricing-grid-3">
+          <div class="price-card" data-duration="3" data-price="100">
+            <h3>3 дня</h3>
+            <div class="duration">3 дня доступа</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">100₽</div>
+            </div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="3" data-price="100">
+              Выбрать тариф
+            </button>
+          </div>
+          <div class="price-card" data-duration="7" data-price="200">
+            <h3>7 дней</h3>
+            <div class="duration">1 неделя доступа</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">200₽</div>
+            </div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="7" data-price="200">
+              Выбрать тариф
+            </button>
+          </div>
+          <div class="price-card" data-duration="14" data-price="300">
+            <h3>14 дней</h3>
+            <div class="duration">2 недели доступа</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">300₽</div>
+            </div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="14" data-price="300">
+              Выбрать тариф
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-section">
+        <div class="section-title">Среднесрочные тарифы</div>
+        <div class="pricing-grid">
+          <div class="price-card" data-duration="90" data-price="1500">
+            <h3>3 месяца</h3>
+            <div class="duration">90 дней доступа</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">1500₽</div>
+            </div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="90" data-price="1500">
+              Выбрать тариф
+            </button>
+          </div>
+          <div class="price-card" data-duration="180" data-price="2700">
+            <h3>6 месяцев</h3>
+            <div class="duration">180 дней доступа</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">2700₽</div>
+            </div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="180" data-price="2700">
+              Выбрать тариф
+            </button>
+          </div>
+        </div>
+      </div>
       <div id="footer-container"></div>
     </div>
 
-    <!-- Модалка оплаты -->
     <div id="payment-modal" class="modal-overlay">
       <div class="modal-content">
         <span class="close-modal" onclick="closeModal()">&times;</span>
         <h2 id="modal-title">Оформление подписки</h2>
         <div class="form-group">
           <label>Промокод</label>
-          <input
-            type="text"
-            id="user-promo"
-            placeholder="Если есть промокод, введите его здесь"
-          />
+          <div class="promo-input-wrapper">
+            <input type="text" id="user-promo" placeholder="Введите промокод" />
+            <button id="apply-promo-btn" class="apply-promo-btn">
+              Применить
+            </button>
+          </div>
         </div>
-        <div class="modal-total-wrapper" id="modal-total-wrapper">
-          <div id="modal-total" class="modal-total"></div>
-        </div>
+        <div class="modal-total-wrapper" id="modal-total-wrapper"></div>
         <button class="btn-pay" id="final-pay-btn">Оплатить</button>
         <p
-          class="modal-info"
           style="
             color: #666;
             font-size: 11px;
@@ -458,18 +571,20 @@
         </p>
         <p
           style="
-            color: #ffffff;
-            font-size: 14px;
+            color: #888;
+            font-size: 13px;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 15px;
           "
         >
-          Не закрывайте это окно до подтверждения оплаты
+          🔒 Безопасная оплата картой, СБП, криптовалютой
+        </p>
+        <p style="font-size: 13px; text-align: center; margin-top: 15px">
+          ⚠️ Не закрывайте это окно до подтверждения оплаты
         </p>
       </div>
     </div>
 
-    <!-- Попап ошибок -->
     <div id="error-popup" class="popup-overlay">
       <div class="popup-content">
         <div style="font-size: 40px; margin-bottom: 10px">⚠️</div>
@@ -480,102 +595,74 @@
     </div>
 
     <script>
-      // Конфиг
+      // --- Конфигурация ---
       const isLocal =
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1";
       const PAYMENT_API_BASE = isLocal
-        ? "http://localhost:8080"
+        ? "http://localhost:3006"
         : "https://api.frkn.org";
-
       let currentOrder = null;
+      let urlPromoCode =
+        new URLSearchParams(location.search).get("promo") || null;
 
-      // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
+      // --- DOM элементы ---
+      const promoInput = document.getElementById("user-promo");
+      const modalTotalWrapper = document.getElementById("modal-total-wrapper");
+      const paymentModal = document.getElementById("payment-modal");
+      const errorPopup = document.getElementById("error-popup");
+      const popupMessage = document.getElementById("popup-message");
+      const payBtn = document.getElementById("final-pay-btn");
+
+      // --- Вспомогательные функции ---
       function showError(message) {
-        document.getElementById("popup-message").innerText = message;
-        document.getElementById("error-popup").classList.add("active");
+        popupMessage.innerText = message;
+        errorPopup.classList.add("active");
       }
-
       function closePopup() {
-        document.getElementById("error-popup").classList.remove("active");
+        errorPopup.classList.remove("active");
       }
-
       function closeModal() {
-        document.getElementById("payment-modal").style.display = "none";
+        paymentModal.classList.remove("active");
+        const applyBtn = document.getElementById("apply-promo-btn");
+        if (applyBtn) applyBtn.style.display = "flex";
         currentOrder = null;
       }
 
-      // ========== ОТКРЫТИЕ МОДАЛКИ С ПРАВИЛЬНОЙ ЦЕНОЙ ==========
-      function openModal(duration, basePrice) {
-        const btn = document.querySelector(
-          `.buy-button[data-duration="${duration}"]`,
-        );
-        let finalPrice = basePrice;
-        let originalPrice = basePrice;
-
-        if (btn && btn.dataset.discountedPrice) {
-          finalPrice = parseInt(btn.dataset.discountedPrice);
-          originalPrice = parseInt(basePrice);
+      // --- Обновление цены за день на КАРТОЧКЕ ---
+      function updateCardPricePerDay(card, discountedPrice, duration) {
+        const pricePerDayElement = card.querySelector(".price-per-day");
+        if (pricePerDayElement) {
+          const pricePerDay = (discountedPrice / duration).toFixed(1);
+          pricePerDayElement.innerHTML = `≈ ${pricePerDay}₽/день`;
         }
-
-        currentOrder = {
-          duration: parseInt(duration),
-          price: finalPrice,
-          originalPrice: originalPrice,
-          promo: document.getElementById("user-promo").value.trim() || null,
-        };
-
-        const modalTotalWrapper = document.getElementById(
-          "modal-total-wrapper",
-        );
-
-        if (finalPrice < originalPrice) {
-          modalTotalWrapper.innerHTML = `
-          <div>
-            <span class="modal-old-price">${originalPrice}₽</span>
-            <span class="modal-discount-price">${finalPrice}₽</span>
-            <span class="discount-badge" style="margin-left: 8px;">-${Math.round((1 - finalPrice / originalPrice) * 100)}%</span>
-          </div>
-        `;
-        } else {
-          modalTotalWrapper.innerHTML = `<div class="modal-total">${finalPrice}₽</div>`;
-        }
-
-        document.getElementById("modal-title").innerHTML =
-          `Оформление подписки: ${duration} дн.`;
-        document.getElementById("payment-modal").style.display = "flex";
       }
 
-      // ========== ОБНОВЛЕНИЕ ЦЕН НА КАРТОЧКАХ ПРИ ВВОДЕ ПРОМОКОДА ==========
-      async function updateAllPricesWithPromo() {
-        const promo = document.getElementById("user-promo").value.trim();
-        const cards = document.querySelectorAll(".price-card");
+      // --- Сброс цен на карточках к исходным (без скидки) ---
+      function resetCardPrices() {
+        document.querySelectorAll(".price-card").forEach((card) => {
+          const btn = card.querySelector(".buy-button");
+          const basePrice = parseInt(btn.dataset.price);
+          const duration = parseInt(btn.dataset.duration);
+          const costDiv = card.querySelector(".cost");
+          const oldPriceSpan = card.querySelector(".old-price");
+          const badge = card.querySelector(".discount-badge");
+          costDiv.innerHTML = `${basePrice}₽`;
+          if (oldPriceSpan) oldPriceSpan.style.display = "none";
+          if (badge) badge.remove();
+          delete btn.dataset.discountedPrice;
+          updateCardPricePerDay(card, basePrice, duration);
+        });
+      }
 
-        // Если промокода нет — сбрасываем все цены
-        if (!promo) {
-          cards.forEach((card) => {
-            const btn = card.querySelector(".buy-button");
-            const basePrice = btn.dataset.price;
-            const costDiv = card.querySelector(".cost");
-            const oldPriceSpan = card.querySelector(".old-price");
-            const badge = card.querySelector(".discount-badge");
-
-            costDiv.innerHTML = `${basePrice}₽`;
-            oldPriceSpan.style.display = "none";
-            if (badge) badge.remove();
-            delete btn.dataset.discountedPrice;
-          });
-          return;
-        }
-
-        // Для каждого тарифа запрашиваем цену со скидкой
-        for (const card of cards) {
+      // --- Применение скидки на карточки (для отображения на странице) ---
+      async function applyDiscountToCards(promoCode) {
+        if (!promoCode) return false;
+        let anyDiscountApplied = false;
+        for (const card of document.querySelectorAll(".price-card")) {
           const btn = card.querySelector(".buy-button");
           const duration = parseInt(btn.dataset.duration);
           const basePrice = parseInt(btn.dataset.price);
-          const costDiv = card.querySelector(".cost");
-          const oldPriceSpan = card.querySelector(".old-price");
-
           try {
             const response = await fetch(
               `${PAYMENT_API_BASE}/promocode/validate`,
@@ -584,26 +671,20 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                   duration,
-                  promocode: promo.toUpperCase(), // 👈 вот так
+                  promocode: promoCode.toUpperCase(),
                 }),
               },
             );
-
-            if (!response.ok) {
-              console.error(`HTTP ${response.status} for duration ${duration}`);
-              continue;
-            }
-
+            if (!response.ok) continue;
             const data = await response.json();
-
             if (data.is_valid && data.discounted_price < data.original_price) {
-              // Показываем скидку на карточке
+              anyDiscountApplied = true;
+              const costDiv = card.querySelector(".cost");
+              const oldPriceSpan = card.querySelector(".old-price");
               oldPriceSpan.style.display = "inline";
               oldPriceSpan.innerText = `${data.original_price}₽`;
               costDiv.innerHTML = `${data.discounted_price}₽`;
               btn.dataset.discountedPrice = data.discounted_price;
-
-              // Добавляем бейдж со скидкой
               let badge = card.querySelector(".discount-badge");
               if (!badge) {
                 badge = document.createElement("span");
@@ -611,54 +692,152 @@
                 costDiv.parentNode.appendChild(badge);
               }
               badge.innerText = `-${data.discount_percent}%`;
-            } else {
-              // Промокод не подходит для этого тарифа
-              oldPriceSpan.style.display = "none";
-              costDiv.innerHTML = `${basePrice}₽`;
-              delete btn.dataset.discountedPrice;
-              const badge = card.querySelector(".discount-badge");
-              if (badge) badge.remove();
+              updateCardPricePerDay(card, data.discounted_price, duration);
             }
           } catch (e) {
-            console.error(
-              `Failed to validate promo for duration ${duration}:`,
-              e,
-            );
+            console.error(`Failed to validate for duration ${duration}:`, e);
           }
+        }
+        return anyDiscountApplied;
+      }
+
+      // --- Обновление отображения в модалке (для ТЕКУЩЕГО заказа) ---
+      function updateModalDisplay() {
+        if (!currentOrder) return;
+        const { duration, price: finalPrice, originalPrice } = currentOrder;
+        const pricePerDay = (finalPrice / duration).toFixed(1);
+        if (finalPrice < originalPrice) {
+          const originalPricePerDay = (originalPrice / duration).toFixed(1);
+          modalTotalWrapper.innerHTML = `<div><span class="modal-old-price">${originalPrice}₽</span><span class="modal-discount-price">${finalPrice}₽</span><div style="font-size: 14px; margin-top: 8px; color: #22c55e;">≈ ${pricePerDay}₽/день (было ${originalPricePerDay}₽/день)</div></div>`;
+        } else {
+          modalTotalWrapper.innerHTML = `<div><div class="modal-total">${finalPrice}₽</div><div style="font-size: 14px; margin-top: 8px; color: #888;">≈ ${pricePerDay}₽/день</div></div>`;
         }
       }
 
-      // ========== ОБРАБОТЧИК КНОПОК ВЫБОРА ТАРИФА ==========
-      document.querySelectorAll(".buy-button").forEach((btn) => {
-        btn.onclick = (e) => {
-          const duration = e.currentTarget.dataset.duration;
-          const price = e.currentTarget.dataset.price;
-          openModal(duration, price);
-        };
-      });
+      // --- Применение промокода к ТЕКУЩЕМУ заказу в модалке ---
+      async function applyPromoToCurrentOrder(promoCode) {
+        if (!currentOrder) {
+          showError("Выберите тариф сначала");
+          return false;
+        }
+        const promoValue = promoCode?.trim().toUpperCase() || "";
+        if (!promoValue) {
+          // Сброс скидки
+          currentOrder.promo = null;
+          currentOrder.price = currentOrder.originalPrice;
+          updateModalDisplay();
+          promoInput.style.borderColor = "";
+          return true;
+        }
+        try {
+          const response = await fetch(
+            `${PAYMENT_API_BASE}/promocode/validate`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                duration: currentOrder.duration,
+                promocode: promoValue,
+              }),
+            },
+          );
+          if (!response.ok) throw new Error("Промокод недействителен");
+          const data = await response.json();
+          if (data.is_valid && data.discounted_price < data.original_price) {
+            currentOrder.promo = promoValue;
+            currentOrder.price = data.discounted_price;
+            updateModalDisplay();
+            promoInput.style.borderColor = "#22c55e";
+            return true;
+          } else throw new Error("Пупупу кажется промокод недействителен");
+        } catch (err) {
+          showError(err.message);
+          promoInput.style.borderColor = "#ff4444";
+          return false;
+        }
+      }
 
-      // ========== ОБРАБОТЧИК ОПЛАТЫ ==========
-      const payBtn = document.getElementById("final-pay-btn");
+      // --- Открытие модального окна ---
+      async function openModal(duration, basePrice, element) {
+        let finalPrice = basePrice;
+        let originalPrice = basePrice;
+        if (element && element.dataset.discountedPrice)
+          finalPrice = parseInt(element.dataset.discountedPrice);
+        currentOrder = {
+          duration: parseInt(duration),
+          price: finalPrice,
+          originalPrice: originalPrice,
+          promo: null,
+        };
+        promoInput.value = urlPromoCode || "";
+        promoInput.style.borderColor = "";
+        if (urlPromoCode) {
+          // Если да — подставляем его в поле, сразу применяем и скрываем кнопку «Применить»
+          promoInput.value = urlPromoCode;
+          await applyPromoToCurrentOrder(urlPromoCode);
+          const applyBtn = document.getElementById("apply-promo-btn");
+          if (applyBtn) applyBtn.style.display = "none";
+        } else {
+          // Если промокода в URL нет — показываем поле и кнопку
+          promoInput.value = "";
+          promoInput.style.borderColor = "";
+          const applyBtn = document.getElementById("apply-promo-btn");
+          if (applyBtn) applyBtn.style.display = "flex";
+          updateModalDisplay();
+        }
+        document.getElementById("modal-title").innerHTML =
+          `Оформление подписки<br>на ${duration} дней`;
+        paymentModal.classList.add("active");
+      }
+
+      // --- Инициализация страницы ---
+      async function initializePage() {
+        // 1. Базовые цены за день
+        document.querySelectorAll(".price-card").forEach((card) => {
+          const btn = card.querySelector(".buy-button");
+          const basePrice = parseInt(btn.dataset.price);
+          const duration = parseInt(btn.dataset.duration);
+          const pricePerDay = (basePrice / duration).toFixed(1);
+          const pricePerDayElement = card.querySelector(".price-per-day");
+          if (pricePerDayElement)
+            pricePerDayElement.innerHTML = `≈ ${pricePerDay}₽/день`;
+        });
+        // 2. Если в URL есть промокод - применяем скидку на все карточки на странице
+        if (urlPromoCode) {
+          promoInput.value = urlPromoCode;
+          await applyDiscountToCards(urlPromoCode);
+        }
+      }
+
+      // --- Обработчики событий ---
+      document.querySelectorAll(".buy-button").forEach((btn) =>
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openModal(btn.dataset.duration, btn.dataset.price, btn);
+        }),
+      );
+      document
+        .getElementById("apply-promo-btn")
+        ?.addEventListener("click", () =>
+          applyPromoToCurrentOrder(promoInput.value),
+        );
+      promoInput?.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          applyPromoToCurrentOrder(promoInput.value);
+        }
+      });
       if (payBtn) {
         payBtn.onclick = async () => {
           if (!currentOrder) {
             showError("Заказ не найден. Попробуйте выбрать тариф заново.");
             return;
           }
-
-          const btn = document.getElementById("final-pay-btn");
-          const originalText = btn.innerText;
-          btn.disabled = true;
-          btn.innerHTML =
+          payBtn.disabled = true;
+          const originalText = payBtn.innerText;
+          payBtn.innerHTML =
             '<span class="loading-spinner"></span> Создаем счет...';
-
           try {
-            const promoValue =
-              document
-                .getElementById("user-promo")
-                .value.trim()
-                .toUpperCase() || null;
-
             const res = await fetch(
               `${PAYMENT_API_BASE}/payment/platega/key/create`,
               {
@@ -666,59 +845,32 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                   duration: currentOrder.duration,
-                  promocode: promoValue || null,
+                  promocode: currentOrder.promo || null,
                   provider: "Platega",
                 }),
               },
             );
-
             if (!res.ok) {
               const errorData = await res
                 .json()
                 .catch(() => ({ error: "Ошибка сервера" }));
               throw new Error(errorData.error || "Не удалось создать платеж");
             }
-
             const data = await res.json();
-            if (data.url) {
-              window.location.href = data.url;
-            } else {
-              throw new Error("API не вернул ссылку на оплату");
-            }
+            if (data.url) window.location.href = data.url;
+            else throw new Error("API не вернул ссылку на оплату");
           } catch (e) {
             showError(e.message);
-            btn.disabled = false;
-            btn.innerText = originalText;
+            payBtn.disabled = false;
+            payBtn.innerText = originalText;
           }
         };
       }
-
-      // ========== СЛУШАЕМ ВВОД ПРОМОКОДА (debounce) ==========
-      let debounceTimer;
-      const promoInput = document.getElementById("user-promo");
-      if (promoInput) {
-        promoInput.addEventListener("input", () => {
-          clearTimeout(debounceTimer);
-          debounceTimer = setTimeout(updateAllPricesWithPromo, 500);
-        });
-      }
-
-      // ========== ПРОМОКОД ИЗ URL ==========
-      const urlPromo = new URLSearchParams(location.search).get("promo");
-      if (urlPromo && promoInput) {
-        promoInput.value = urlPromo;
-        updateAllPricesWithPromo();
-      }
-
-      // Закрытие модалки по клику вне области
       window.onclick = (event) => {
-        const modal = document.getElementById("payment-modal");
-        if (event.target === modal) {
-          closeModal();
-        }
+        if (event.target === paymentModal) closeModal();
       };
+      initializePage();
     </script>
-
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/containers.js"></script>
   </body>
