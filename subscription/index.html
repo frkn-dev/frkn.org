@@ -1047,6 +1047,11 @@
     return "txt";
   }
 
+  function isKnownFormat(format) {
+    const value = String(format || "").toLowerCase();
+    return ["txt", "base64", "b64", "clash"].includes(value);
+  }
+
   function buildXraySubUrl(id, env, format) {
     return `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=${normalizeFormat(format)}`;
   }
@@ -1303,6 +1308,11 @@
 
     if (!currentConnectionContext.hasXray) {
       content.innerHTML = `<div class="small">Xray недоступен в этом регионе.</div>`;
+      return;
+    }
+
+    if (!isKnownFormat(client.configType)) {
+      content.innerHTML = `<div class="small">Некорректный тип конфигурации для клиента ${client.name}.</div>`;
       return;
     }
 
