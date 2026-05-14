@@ -1,0 +1,81 @@
+{
+  "android": {
+    "label": "Android",
+    "clients": [
+      {
+        "id": "v2raytun",
+        "name": "V2RayTun",
+        "downloadUrl": "https://play.google.com/store/apps/details?id=com.v2raytun.android",
+        "configType": "txt"
+      },
+      {
+        "id": "hiddify",
+        "name": "Hiddify",
+        "downloadUrl": "https://play.google.com/store/apps/details?id=app.hiddify.com",
+        "configType": "base64"
+      }
+    ]
+  },
+  "ios": {
+    "label": "iOS",
+    "clients": [
+      {
+        "id": "v2raytun",
+        "name": "V2RayTun",
+        "downloadUrl": "https://apps.apple.com/am/app/v2raytun/id6476628951",
+        "configType": "txt"
+      },
+      {
+        "id": "shadowrocket",
+        "name": "Shadowrocket",
+        "downloadUrl": "https://apps.apple.com/app/shadowrocket/id932747118",
+        "configType": "base64"
+      },
+      {
+        "id": "hiddify",
+        "name": "Hiddify",
+        "downloadUrl": "https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532",
+        "configType": "base64"
+      }
+    ]
+  },
+  "windows": {
+    "label": "Windows",
+    "clients": [
+      {
+        "id": "clash_verge",
+        "name": "Clash Verge",
+        "downloadUrl": "https://clash-verge.org/download#windows-download",
+        "configType": "clash"
+      }
+    ]
+  },
+  "macos": {
+    "label": "macOS",
+    "clients": [
+      {
+        "id": "clash_verge",
+        "name": "Clash Verge",
+        "downloadUrl": "https://clash-verge.org/download#macos-download",
+        "configType": "clash"
+      },
+      {
+        "id": "shadowrocket",
+        "name": "Shadowrocket",
+        "downloadUrl": "https://apps.apple.com/app/shadowrocket/id932747118",
+        "configType": "base64"
+      }
+    ]
+  },
+  "linux": {
+    "label": "Linux",
+    "clients": [
+      {
+        "id": "clash_verge",
+        "name": "Clash Verge",
+        "downloadUrl": "https://clash-verge.org/download#linux-download",
+        "configType": "clash"
+      }
+    ]
+  }
+}
