@@ -1070,6 +1070,15 @@
       .replaceAll("'", "&#39;");
   }
 
+  function isSafeDownloadUrl(url) {
+    try {
+      const parsed = new URL(url);
+      return parsed.protocol === "https:";
+    } catch {
+      return false;
+    }
+  }
+
   async function initPage() {
     const params = new URLSearchParams(window.location.search);
     const subId = getSubId();
@@ -1248,7 +1257,7 @@
       btn.type = "button";
       btn.className = "pill-button";
       btn.dataset.os = osKey;
-      btn.innerText = osData.label;
+      btn.textContent = osData.label;
       btn.onclick = () => {
         selectedOs = osKey;
         selectedClientId = null;
@@ -1289,7 +1298,7 @@
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "pill-button";
-      btn.innerText = client.name;
+      btn.textContent = client.name;
       btn.classList.toggle("active", client.id === selectedClientId);
       btn.onclick = () => {
         selectedClientId = client.id;
@@ -1332,10 +1341,15 @@
 
     if (!isKnownFormat(client.configType)) {
       content.innerHTML = `<div class="small" id="connection-error-message"></div>`;
-      const errorEl = document.getElementById("connection-error-message");
+      const errorEl = content.querySelector("#connection-error-message");
       if (errorEl) {
         errorEl.textContent = `Некорректный тип конфигурации '${client.configType}' для клиента ${client.name}.`;
       }
+      return;
+    }
+
+    if (!isSafeDownloadUrl(client.downloadUrl)) {
+      content.innerHTML = `<div class="small">Некорректная ссылка для скачивания клиента ${client.name}.</div>`;
       return;
     }
 
