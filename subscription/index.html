@@ -1199,6 +1199,7 @@
     }
 
     const loc =
+      // Если env не найден в ссылке/списке, берём первый доступный регион как безопасный fallback.
       data.locations?.find((l) => l.env === currentEnv) || data.locations?.[0];
     if (loc) {
       if (!loc.has_xray && !loc.has_h2 && !loc.has_mtproto && !loc.has_wg)
@@ -1227,6 +1228,7 @@
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "pill-button";
+      btn.dataset.os = osKey;
       btn.innerText = osData.label;
       btn.onclick = () => {
         selectedOs = osKey;
@@ -1246,9 +1248,8 @@
   function renderOsStep() {
     const osOptions = document.getElementById("os-options");
     if (!osOptions) return;
-    [...osOptions.querySelectorAll(".pill-button")].forEach((btn, index) => {
-      const osKey = Object.keys(vpnClients)[index];
-      btn.classList.toggle("active", osKey === selectedOs);
+    [...osOptions.querySelectorAll(".pill-button")].forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.os === selectedOs);
     });
   }
 
