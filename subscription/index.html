@@ -24,6 +24,7 @@
     <meta name="twitter:description" content="Подписка FRKN" />
     <meta name="twitter:image" content="https://frkn.org/Images/logo.png" />
     <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
     <title>Информация о подписке</title>
     <style>
@@ -350,6 +351,31 @@
         text-decoration: underline;
       }
 
+      .qr-modal {
+        position: fixed;
+        inset: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(6px);
+
+        z-index: 1000;
+      }
+
+      .qr-content {
+        background: white;
+
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
       .qr {
         margin-top: 16px;
         text-align: left;
@@ -637,6 +663,84 @@
         text-decoration: none;
       }
 
+      .subscription-link-card {
+        margin-top: 18px;
+
+        padding: 16px;
+        border-radius: 18px;
+
+        background: rgba(255, 255, 255, 0.03);
+
+        box-shadow:
+          inset 0 2px 8px rgba(0, 0, 0, 0.35),
+          inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .subscription-link-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+
+        color: rgba(255, 255, 255, 0.55);
+
+        margin-bottom: 12px;
+      }
+
+      .subscription-link-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .subscription-link {
+        flex: 1;
+
+        min-width: 220px;
+
+        padding: 12px 14px;
+
+        border-radius: 12px;
+
+        background: rgba(0, 0, 0, 0.25);
+
+        color: #10b981;
+
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+        font-size: 0.92rem;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .action-btn {
+        width: 140px;
+
+        border: none;
+        border-radius: 12px;
+
+        padding: 12px 16px;
+
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .action-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .action-btn:active {
+        transform: translateY(1px);
+      }
+
+      .action-btn.secondary {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
       .subscription-link-row {
         display: grid;
         grid-template-columns: 1fr auto;
@@ -822,6 +926,71 @@
       .gray img {
         filter: brightness(1.6) contrast(0.6);
       }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-top: 24px;
+      }
+      .stat-card {
+        position: relative;
+        overflow: hidden;
+
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+
+        border-radius: 18px;
+        padding: 18px;
+
+        backdrop-filter: blur(10px);
+
+        transition:
+          transform 0.2s ease,
+          border-color 0.2s ease,
+          background 0.2s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(16, 185, 129, 0.4);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+
+        background: radial-gradient(
+          circle at top right,
+          rgba(16, 185, 129, 0.12),
+          transparent 60%
+        );
+
+        pointer-events: none;
+      }
+
+      .stat-label {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.65);
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .stat-value {
+        font-size: 1.7rem;
+        font-weight: 700;
+        line-height: 1.1;
+        color: #fff;
+      }
+
+      @media (max-width: 600px) {
+        .stat-value {
+          font-size: 1.35rem;
+        }
+      }
     </style>
   </head>
 
@@ -905,14 +1074,51 @@
               <span id="env-badge" class="env-badge available">...</span>
             </div>
           </div>
+          <div class="small-id">ID: <span id="sub-id">...</span></div>
 
           <div class="hero-stats">
             <div class="stat">Статус<span id="status-text">...</span></div>
             <div class="stat">Осталось дней <b id="days">...</b></div>
             <div class="stat">Истекает <span id="expires">...</span></div>
           </div>
-          <div class="small-id">ID: <span id="sub-id">...</span></div>
+
+          <div class="subscription-link-card">
+            <div class="subscription-link-label">
+              Универсальная ссылка на подписку
+            </div>
+
+            <div class="subscription-link-row">
+              <div id="subscription-link" class="subscription-link">
+                sub.frkn.org/...
+              </div>
+
+              <div class="subscription-actions">
+                <button id="copy-sub-link" class="action-btn">
+                  Скопировать
+                </button>
+
+                <button id="show-qr-btn" class="action-btn">QR-Код</button>
+              </div>
+            </div>
+          </div>
         </section>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Получено</div>
+            <div class="stat-value" id="downlink-value">0 B</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-label">Отправлено</div>
+            <div class="stat-value" id="uplink-value">0 B</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-label">Всего трафика</div>
+            <div class="stat-value" id="total-traffic">0 B</div>
+          </div>
+        </div>
 
         <hr />
 
@@ -933,8 +1139,13 @@
             <div id="client-options" class="pill-group"></div>
           </div>
 
+          <div class="step-card step-disabled" id="protocol-step">
+            <h4>Шаг 3. Выберите протокол</h4>
+            <div id="protocol-options" class="pill-group"></div>
+          </div>
+
           <div class="step-card step-disabled" id="connection-step">
-            <h4>Шаг 3. Подключение</h4>
+            <h4>Шаг 4. Подключение</h4>
             <div id="connection-content" class="small">
               Выберите ОС и клиент, чтобы получить ссылку подключения.
             </div>
@@ -1021,6 +1232,12 @@
         <div id="toast" class="toast"></div>
       </div>
     </div>
+
+    <div id="qr-modal" class="qr-modal hidden">
+      <div class="qr-content">
+        <canvas id="qr-canvas"></canvas>
+      </div>
+    </div>
   </body>
 </html>
 
@@ -1042,6 +1259,15 @@
   let selectedClientId = null;
   let currentConnectionContext = null;
   const KNOWN_SUB_FORMATS = ["txt", "base64", "b64", "clash"];
+  const AVAILABLE_PROTOCOLS = [
+    { id: "all", label: "Все прокси" },
+    { id: "xray", label: "Xray" },
+    { id: "vless-tcp-reality", label: "VlessTcpReality" },
+    { id: "vless-grpc-reality", label: "VlessGrpcReality" },
+    { id: "vless-xhttp-reality", label: "VlessXhttpReality" },
+    { id: "hysteria2", label: "Hysteria2" },
+  ];
+  let selectedProtocol = "all";
 
   function getSubId() {
     const params = new URLSearchParams(window.location.search);
@@ -1052,6 +1278,21 @@
       localStorage.setItem("frkn_sub_id", urlId);
     }
     return id;
+  }
+
+  function formatBytes(bytes) {
+    if (!bytes) return "0 B";
+
+    const units = ["B", "KB", "MB", "GB", "TB"];
+    let value = bytes;
+    let unit = 0;
+
+    while (value >= 1024 && unit < units.length - 1) {
+      value /= 1024;
+      unit++;
+    }
+
+    return `${value.toFixed(unit === 0 ? 0 : 2)} ${units[unit]}`;
   }
 
   async function loadVpnClients() {
@@ -1078,6 +1319,10 @@
 
   function buildXraySubUrl(id, env, format) {
     return `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=${normalizeFormat(format)}`;
+  }
+
+  function buildAllProxySubUrl(id) {
+    return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
   }
 
   function escapeHtml(value) {
@@ -1151,6 +1396,39 @@
     const badge = document.getElementById("env-badge");
     const daysEl = document.getElementById("days");
     const expiryDate = new Date(data.expires);
+
+    const uplink = data.uplink || 0;
+    const downlink = data.downlink || 0;
+    const total = uplink + downlink;
+
+    document.getElementById("uplink-value").innerText = formatBytes(uplink);
+
+    document.getElementById("downlink-value").innerText = formatBytes(downlink);
+
+    document.getElementById("total-traffic").innerText = formatBytes(total);
+
+    const subUrl = `https://sub.frkn.org/${data.id}`;
+
+    document.getElementById("subscription-link").innerText = subUrl;
+
+    document.getElementById("copy-sub-link").onclick = () => {
+      copyText(subUrl, "Ссылка подписки скопирована");
+    };
+
+    document.getElementById("show-qr-btn").onclick = async () => {
+      const modal = document.getElementById("qr-modal");
+      const canvas = document.getElementById("qr-canvas");
+
+      modal.classList.remove("hidden");
+
+      await QRCode.toCanvas(canvas, subUrl, {
+        width: 280,
+      });
+    };
+
+    document.getElementById("qr-modal").onclick = () => {
+      document.getElementById("qr-modal").classList.add("hidden");
+    };
 
     function updateDisplay() {
       const now = new Date();
@@ -1282,6 +1560,7 @@
         selectedClientId = null;
         renderOsStep();
         renderClientStep();
+        renderProtocolStep();
         renderConnectionStep();
       };
       osOptions.appendChild(btn);
@@ -1289,6 +1568,7 @@
 
     renderOsStep();
     renderClientStep();
+    renderProtocolStep();
     renderConnectionStep();
   }
 
@@ -1322,6 +1602,7 @@
       btn.onclick = () => {
         selectedClientId = client.id;
         renderClientStep();
+        renderProtocolStep();
         renderConnectionStep();
       };
       options.appendChild(btn);
@@ -1374,10 +1655,12 @@
 
     const safeClientName = escapeHtml(client.name);
     const safeOsLabel = escapeHtml(osConfig.label);
-    const subscriptionUrl = buildXraySubUrl(
+
+    const subscriptionUrl = buildSubscriptionUrl(
+      selectedProtocol,
       currentConnectionContext.id,
       currentConnectionContext.env,
-      client.configType,
+      normalizeFormat(client.configType),
     );
 
     content.innerHTML = `
@@ -1405,6 +1688,64 @@
     }
     if (qrCanvas) {
       QRCode.toCanvas(qrCanvas, subscriptionUrl, { width: 180 });
+    }
+  }
+
+  function renderProtocolStep() {
+    const step = document.getElementById("protocol-step");
+    const options = document.getElementById("protocol-options");
+
+    if (!selectedOs || !selectedClientId || !currentConnectionContext) {
+      step.classList.add("step-disabled");
+      options.innerHTML = "";
+      return;
+    }
+
+    step.classList.remove("step-disabled");
+
+    const protocols = AVAILABLE_PROTOCOLS;
+
+    options.innerHTML = "";
+
+    protocols.forEach((p) => {
+      const btn = document.createElement("button");
+
+      btn.className = "pill-button";
+      btn.textContent = p.label;
+      btn.classList.toggle("active", p.id === selectedProtocol);
+
+      btn.onclick = () => {
+        selectedProtocol = p.id;
+        renderProtocolStep();
+        renderConnectionStep();
+      };
+
+      options.appendChild(btn);
+    });
+  }
+
+  function buildSubscriptionUrl(protocol, id, env, format) {
+    switch (protocol) {
+      case "all":
+        return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
+
+      case "xray":
+        return `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=${format}`;
+
+      case "vless-tcp-reality":
+        return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessTcpReality&format=${format}`;
+
+      case "vless-grpc-reality":
+        return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessGrpcReality&format=${format}`;
+
+      case "vless-xhttp-reality":
+        return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessXhttpReality&format=${format}`;
+
+      case "hysteria2":
+        return `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=${format}`;
+
+      default:
+        return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
     }
   }
 

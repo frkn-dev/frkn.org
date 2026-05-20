@@ -1,299 +1,350 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FRKN Metrics Dashboard</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 
-  <title>FRKN Node Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
-  <style>
-    :root {
-      --bg: #0f0f0f;
-      --card: #181818;
-      --accent: #36a2eb;
-      --text: #e0e0e0;
-      --border: #2a2a2a;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      margin: 0;
-      padding: 20px;
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      padding: 0 10px;
-    }
-
-    h1 {
-      font-weight: 700;
-      letter-spacing: -1px;
-      margin: 0;
-      font-size: 1.5rem;
-    }
-
-    select {
-      padding: 10px 15px;
-      border-radius: 8px;
-      background: var(--card);
-      color: white;
-      border: 1px solid var(--border);
-      font-size: 0.9rem;
-      min-width: 300px;
-      outline: none;
-    }
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 20px;
-    }
-
-    .chart-card {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      border: 1px solid var(--border);
-    }
-
-    .chart-title {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 4px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .chart-tags {
-      font-size: 0.7rem;
-      color: #555;
-      margin-bottom: 15px;
-      text-transform: uppercase;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .status-online {
-      color: #4caf50;
-      font-size: 0.7rem;
-      font-weight: 800;
-    }
-
-    canvas {
-      max-height: 220px;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="header">
-    <h1>FRKN // NODE MONITOR</h1>
-    <select id="node-selector">
-      <option value="">Загрузка нод...</option>
-    </select>
-  </div>
-  <div id="dashboard" class="dashboard-grid"></div>
-
-  <script>
-    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const API_URL = isLocal ? 'http://localhost:5005' : 'https://api.frkn.org';
-    const WS_URL = isLocal ? 'ws://localhost:5005' : 'wss://api.frkn.org';
-
-    const nodeSelector = document.getElementById('node-selector');
-    const dashboard = document.getElementById('dashboard');
-    let activeSockets = [];
-    let charts = {};
-
-    function formatValue(value, name) {
-      if (!name) return value;
-      const n = name.toLowerCase();
-      if (n.includes('loadavg')) return value.toFixed(2);
-      if (n.includes('percent') || n.includes('usage')) return value.toFixed(2) + '%';
-      if (n.includes('bytes') || n.includes('bps')) {
-        if (value <= 0 || !isFinite(value)) return '0 B';
-        const k = 1024;
-        const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
-        const i = Math.floor(Math.log(value) / Math.log(k));
-        return parseFloat((value / Math.pow(k, Math.max(0, i))).toFixed(2)) + ' ' + sizes[Math.max(0, i)];
+    <style>
+      body {
+        font-family: Inter, sans-serif;
+        background: #0f0f0f;
+        color: #e0e0e0;
+        margin: 0;
+        padding: 20px;
       }
-      return value;
-    }
 
-    function createChartCard(nodeId, metric) {
-      const card = document.createElement('div');
-      card.className = 'chart-card';
-      const allowedKeys = ['label', 'country', 'env'];
+      h2 {
+        margin: 0 0 15px 0;
+      }
 
-      const tagsStr = Object.entries(metric.tags)
-        .filter(([k, v]) => allowedKeys.includes(k)) // Оставляем только нужные
-        .map(([k, v]) => `${k}:${v}`)
-        .join(' | ');
+      .header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+        align-items: center;
+      }
 
-      card.innerHTML = `
-          <div class="chart-title">
-              <span>${metric.name.replace('sys.', '').replace('net.', '').toUpperCase()}</span>
-              <span class="status-online" id="status-${metric.key}">● LIVE</span>
-          </div>
-          <div class="chart-tags">${tagsStr}</div>
-          <canvas id="canvas-${metric.key}"></canvas>
-      `;
-      dashboard.appendChild(card);
+      input,
+      select,
+      button {
+        padding: 10px;
+        border-radius: 8px;
+        background: #181818;
+        color: white;
+        border: 1px solid #2a2a2a;
+        outline: none;
+      }
 
-      const ctx = document.getElementById(`canvas-${metric.key}`).getContext('2d');
-      charts[metric.key] = new Chart(ctx, {
-        type: 'line',
-        data: {
-          datasets: [{
-            data: [],
-            borderColor: getRandomColor(metric.name),
-            borderWidth: 2,
-            pointRadius: 0,
-            fill: true,
-            backgroundColor: 'rgba(54, 162, 235, 0.05)',
-            tension: 0.3
-          }]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          scales: {
-            x: {type: 'time', time: {unit: 'second'}, grid: {display: false}, ticks: {color: '#444', font: {size: 10}}},
-            y: {
-              beginAtZero: true,
-              grid: {color: '#222'},
-              ticks: {color: '#666', font: {size: 10}, callback: (v) => formatValue(v, metric.name)}
-            }
-          },
-          plugins: {legend: {display: false}},
-          animation: false
+      button {
+        background: #36a2eb;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        background: #181818;
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid #2a2a2a;
+        position: relative;
+      }
+
+      canvas {
+        height: 240px !important;
+      }
+
+      .title {
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+      }
+
+      .tags {
+        font-size: 11px;
+        opacity: 0.6;
+        margin-bottom: 10px;
+        word-break: break-all;
+      }
+
+      .remove {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+        color: #ff5c5c;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>FRKN Metrics</h2>
+
+    <div class="header">
+      <input id="metric" placeholder="metric (e.g. sys.heartbeat)" />
+
+      <div id="tagsContainer">
+        <div class="tag-row">
+          <input class="tagKey" placeholder="tag key (e.g. hostname)" />
+          <input
+            class="tagValue"
+            placeholder="tag value (e.g. darkmachine2.frkn.local)"
+          />
+          <button type="button" class="removeTag" style="background: #444">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <button type="button" onclick="addTagRow()">+ Добавить тег</button>
+
+      <select id="mode">
+        <option value="range">range (все точки)</option>
+        <option value="aggregated">aggregated (среднее)</option>
+      </select>
+
+      <select id="interval">
+        <option value="600000">10 минут</option>
+        <option value="3600000">1 час</option>
+        <option value="86400000" selected>24 часа</option>
+        <option value="604800000">7 дней</option>
+      </select>
+
+      <select id="groupBy">
+        <option value="">без группировки</option>
+        <option value="env">по env</option>
+        <option value="hostname">по hostname</option>
+        <option value="node">по нодам (node_id)</option>
+      </select>
+
+      <button onclick="addChart()">Add</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <script>
+      const WS_URL =
+        location.hostname === "localhost"
+          ? "ws://localhost:3000"
+          : "wss://api.frkn.org";
+
+      const grid = document.getElementById("grid");
+      const charts = {};
+      const sockets = {};
+
+      function hash(str) {
+        let h = 0;
+        for (let i = 0; i < str.length; i++) {
+          h = (h << 5) - h + str.charCodeAt(i);
+          h |= 0;
         }
-      });
-    }
+        return Math.abs(h);
+      }
 
-    async function loadNodes() {
-      try {
-        const res = await fetch(`${API_URL}/nodes`);
-        const data = await res.json();
+      function addTagRow() {
+        const container = document.getElementById("tagsContainer");
+        const div = document.createElement("div");
+        div.className = "tag-row";
+        div.innerHTML = `
+          <input class="tagKey" placeholder="tag key" />
+          <input class="tagValue" placeholder="tag value" />
+          <button type="button" class="removeTag" style="background:#444;">✕</button>
+        `;
+        div.querySelector(".removeTag").onclick = () => div.remove();
+        container.appendChild(div);
+      }
 
-        const nodes = (data.response || []).filter(node => node.type === 'common');
-
-        nodeSelector.innerHTML = '<option value="">-- Выберите сервер --</option>';
-
-        nodes.forEach(node => {
-          const opt = document.createElement('option');
-          opt.value = node.uuid;
-          const flag = node.country ? `${node.country} ` : '';
-          opt.innerText = `${flag}${node.label || 'Node'} (${node.hostname})`;
-          nodeSelector.appendChild(opt);
+      function buildTags() {
+        const tags = {};
+        document.querySelectorAll(".tag-row").forEach((row) => {
+          const key = row.querySelector(".tagKey").value.trim();
+          const val = row.querySelector(".tagValue").value.trim();
+          if (key && val) tags[key] = val;
         });
-
-        const urlId = new URLSearchParams(window.location.search).get('id');
-        if (urlId) {
-          nodeSelector.value = urlId;
-          const n = nodes.find(n => n.uuid === urlId);
-          if (n) renderDashboard(n);
-        }
-
-        nodeSelector.onchange = (e) => {
-          const selected = nodes.find(n => n.uuid === e.target.value);
-          if (selected) {
-            renderDashboard(selected);
-            window.history.pushState({}, '', `?id=${selected.uuid}`);
-          }
-        };
-      } catch (e) {
-        console.error("Ошибка загрузки нод:", e);
+        return tags;
       }
-    }
 
-    const priorityMetrics = ['sys.heartbeat', 'sys.loadavg_1', 'sys.mem_available', 'sys.disk.root.used_bytes'];
+      function addChart() {
+        const metric = document.getElementById("metric").value.trim();
+        const mode = document.getElementById("mode").value;
+        const tags = buildTags();
 
-    function renderDashboard(node) {
-      activeSockets.forEach(s => s.close());
-      activeSockets = [];
-      dashboard.innerHTML = '';
-      charts = {};
-      if (!node || !node.metrics) return;
-
-      const sorted = [...node.metrics].sort((a, b) => {
-        const idxA = priorityMetrics.findIndex(p => a.name.includes(p));
-        const idxB = priorityMetrics.findIndex(p => b.name.includes(p));
-        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
-        if (idxA !== -1) return -1;
-        if (idxB !== -1) return 1;
-        return a.name.localeCompare(b.name);
-      });
-
-      sorted.forEach(metric => {
-        createChartCard(node.uuid, metric);
-        startWebSocket(node.uuid, metric.key);
-      });
-    }
-
-    function startWebSocket(nodeId, metricHash) {
-      const ws = new WebSocket(`${WS_URL}/metrics/all/${nodeId}/${metricHash}/ws`);
-
-      ws.onmessage = (event) => {
-        const chart = charts[metricHash];
-        if (!chart) return;
-
-        const dataset = chart.data.datasets[0];
-        let response;
-
-        try {
-          response = JSON.parse(event.data);
-        } catch (e) {
-          console.error("Ошибка парсинга:", e);
+        if (!metric) {
+          alert("metric обязателен");
           return;
         }
 
-        const rawPoints = response.data || (Array.isArray(response) ? response : []);
+        const key = `${metric}|${JSON.stringify(tags)}|${mode}`;
+        const id = "c-" + hash(key);
 
-        const newData = rawPoints.map(p => ({
-          x: p[0],
-          y: p[1]
-        }));
+        if (charts[id]) return;
 
-        if (newData.length === 0) return;
+        const card = document.createElement("div");
+        card.className = "card";
+        card.id = "card-" + id;
 
-        let combined = dataset.data.concat(newData);
-        const unique = new Map();
-        combined.forEach(p => unique.set(p.x, p.y));
+        card.innerHTML = `
+          <div class="remove" onclick="removeChart('${id}')">✕</div>
+          <div class="title">
+            <span>${metric}</span>
+            <span>${mode.toUpperCase()}</span>
+          </div>
+          <div class="tags">${JSON.stringify(tags)}</div>
+          <canvas id="${id}"></canvas>
+        `;
 
-        const cutoff = Date.now() - 300000;
+        grid.appendChild(card);
 
-        dataset.data = Array.from(unique, ([x, y]) => ({x, y}))
-          .filter(p => p.x > cutoff)
-          .sort((a, b) => a.x - b.x);
+        const ctx = document.getElementById(id).getContext("2d");
 
-        chart.update('none');
-      };
-      ws.onclose = () => {
-        const el = document.getElementById(`status-${metricHash}`);
-        if (el) {el.innerText = '○ OFF'; el.style.color = '#ff5252';}
-      };
+        charts[id] = new Chart(ctx, {
+          type: "line",
+          data: {
+            datasets: [
+              {
+                data: [],
+                borderColor: "#36a2eb",
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.25,
+              },
+            ],
+          },
+          options: {
+            animation: false,
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: { type: "time" },
+              y: { beginAtZero: true },
+            },
+          },
+        });
 
-      activeSockets.push(ws);
-    }
+        startWS(id, metric, tags, mode);
+      }
 
-    function getRandomColor(str) {
-      const colors = ['#36a2eb', '#ff6384', '#4bc0c0', '#ff9f40', '#9966ff', '#ffcd56'];
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
-      return colors[Math.abs(hash) % colors.length];
-    }
+      function removeChart(id) {
+        if (sockets[id]) sockets[id].close();
+        if (charts[id]) charts[id].destroy();
+        delete sockets[id];
+        delete charts[id];
+        const el = document.getElementById("card-" + id);
+        if (el) el.remove();
+      }
 
-    loadNodes();
-  </script>
-</body>
+      function startWS(id, metric, tags, mode) {
+        const params = new URLSearchParams();
+        params.set("metric", metric);
+        params.set("mode", mode);
 
+        // Группировка, если выбрана
+        const groupBy = document.getElementById("groupBy").value;
+        if (groupBy) {
+          params.set("group_by", groupBy);
+        }
+
+        Object.entries(tags).forEach(([k, v]) => params.set(k, v));
+
+        const intervalMs = parseInt(document.getElementById("interval").value);
+        params.set("from", (Date.now() - intervalMs).toString());
+
+        const ws = new WebSocket(`${WS_URL}/ws/metrics?${params}`);
+
+        ws.onmessage = (event) => {
+          const chart = charts[id];
+          if (!chart) return;
+
+          let res;
+          try {
+            res = JSON.parse(event.data);
+          } catch (e) {
+            console.error("JSON parse error", e);
+            return;
+          }
+
+          const type = res.type;
+          if (type === "multiline") {
+            // data: { "group_value1": [[ts,val],...], "group_value2": [...] }
+            const groups = res.data || {};
+            const newDatasets = [];
+            const colorPalette = [
+              "#36a2eb",
+              "#ff6384",
+              "#4bc0c0",
+              "#ff9f40",
+              "#9966ff",
+              "#c9cbcf",
+            ];
+
+            let colorIndex = 0;
+            for (const [groupValue, points] of Object.entries(groups)) {
+              if (!points || points.length === 0) continue;
+              const dataPoints = points.map(([x, y]) => ({ x, y }));
+              const borderColor =
+                colorPalette[colorIndex % colorPalette.length];
+              newDatasets.push({
+                label: groupValue,
+                data: dataPoints,
+                borderColor: borderColor,
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.25,
+                fill: false,
+              });
+              colorIndex++;
+            }
+            chart.data.datasets = newDatasets;
+            chart.update("none");
+          } else if (type === "aggregated") {
+            const points = (res.data || []).map(([x, y]) => ({ x, y }));
+            chart.data.datasets = [
+              {
+                label: "aggregated",
+                data: points,
+                borderColor: "#36a2eb",
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.25,
+                fill: false,
+              },
+            ];
+            chart.update("none");
+          } else {
+            // type === "range" (одна линия)
+            const points = (res.data || []).map(([x, y]) => ({ x, y }));
+            chart.data.datasets = [
+              {
+                label: res.metric,
+                data: points,
+                borderColor: "#36a2eb",
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.25,
+                fill: false,
+              },
+            ];
+            chart.update("none");
+          }
+        };
+
+        ws.onerror = (err) => console.error("WS error", id, err);
+        ws.onclose = () => console.log("WS closed", id);
+        sockets[id] = ws;
+      }
+    </script>
+  </body>
 </html>
