@@ -1115,7 +1115,7 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-label">Всего трафика</div>
+            <div class="stat-label">Всего</div>
             <div class="stat-value" id="total-traffic">0 B</div>
           </div>
         </div>
@@ -1246,7 +1246,9 @@
 <script>
   const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
   const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-  const API_BASE = isLocal ? "http://localhost:3000" : "https://api.frkn.org";
+  const API_BASE = isLocal
+    ? "http://localhost:3000"
+    : "https://heheapi.frkn.org";
 
   const ENV_NAMES = {
     wl: "🐘 БС - Белые слоны",

@@ -4,7 +4,7 @@ const isLocal =
 
 const BASE = isLocal ? "http://localhost:8000" : "https://frkn.org";
 
-const API_BASE = isLocal ? "http://localhost:3005" : "https://api.frkn.org";
+const API_BASE = isLocal ? "http://localhost:3005" : "https://heheapi.frkn.org";
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("trialForm");
