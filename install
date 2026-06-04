@@ -113,8 +113,9 @@ install_xray() {
     print_header "Установка Xray-core с генерацией конфига"
 
     INSTALL_DIR="/opt/xray"
-    XRAY_VERSION="${XRAY_VERSION:-v26.3.27}"
 
+    XRAY_VERSION="${XRAY_VERSION:-v26.3.27}"
+    
     print_info "Xray будет установлен в: $INSTALL_DIR"
 
     # Проверяем установлен ли уже xray
