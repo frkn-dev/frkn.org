@@ -1115,7 +1115,7 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-label">Всего трафика</div>
+            <div class="stat-label">Всего</div>
             <div class="stat-value" id="total-traffic">0 B</div>
           </div>
         </div>
@@ -1157,7 +1157,9 @@
           <details class="accordion">
             <summary>
               Другие способы подключения
-              <span class="small">(Hysteria2, MTProto, WireGuard и др.)</span>
+              <span class="small"
+                >(Hysteria2, MTProto, Amnezia WireGuard и др.)</span
+              >
             </summary>
 
             <div class="accordion-body">
@@ -1167,6 +1169,9 @@
                 </button>
                 <button class="tab" data-tab="mtproto">MTProto</button>
                 <button class="tab" data-tab="wireguard">WireGuard</button>
+                <button class="tab" data-tab="amnezia-wireguard">
+                  Amnezia WireGuard
+                </button>
               </div>
 
               <div id="tab-hysteria" class="tab-content active">
@@ -1179,6 +1184,10 @@
 
               <div class="tab-content" id="tab-wireguard">
                 <div id="wg-content"></div>
+              </div>
+
+              <div class="tab-content" id="tab-amnezia-wireguard">
+                <div id="awg-content"></div>
               </div>
             </div>
           </details>
@@ -1246,7 +1255,9 @@
 <script>
   const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
   const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-  const API_BASE = isLocal ? "http://localhost:3000" : "https://api.frkn.org";
+  const API_BASE = isLocal
+    ? "http://localhost:3000"
+    : "https://heheapi.frkn.org";
 
   const ENV_NAMES = {
     wl: "🐘 БС - Белые слоны",
@@ -1512,8 +1523,15 @@
       switcher.innerHTML = "";
       data.locations.forEach((l) => {
         if (l.env === "production") return;
-        if (l.env === "experimental") return;
-        if (!l.has_xray && !l.has_h2 && !l.has_mtproto && !l.has_wg) return;
+        // if (l.env === "experimental") return;
+        if (
+          !l.has_xray &&
+          !l.has_h2 &&
+          !l.has_mtproto &&
+          !l.has_wg &&
+          !l.has_awg
+        )
+          return;
         const a = document.createElement("a");
         a.href = `?id=${subId}&env=${l.env}`;
         a.className = `env-badge`;
@@ -1527,7 +1545,14 @@
       // Если env не найден в query-параметрах или списке, берём первый доступный регион как безопасный fallback.
       data.locations?.find((l) => l.env === currentEnv) || data.locations?.[0];
     if (loc) {
-      if (!loc.has_xray && !loc.has_h2 && !loc.has_mtproto && !loc.has_wg)
+      console.log(loc);
+      if (
+        !loc.has_xray &&
+        !loc.has_h2 &&
+        !loc.has_mtproto &&
+        !loc.has_wg &&
+        !loc.has_awg
+      )
         return;
       currentConnectionContext = {
         id: data.id,
@@ -1538,6 +1563,7 @@
       renderH2(data.id, loc.env, loc.has_h2);
       renderMtproto(data.id, loc.env, loc.has_mtproto);
       renderWireguard(data.id, loc.env, loc.has_wg);
+      renderAwg(data.id, loc.env, loc.has_awg);
     }
   }
 
@@ -1877,7 +1903,91 @@
       });
   }
 
+  function escapeBackticks(text) {
+    return String(text)
+      .replace(/\\/g, "\\\\")
+      .replace(/`/g, "\\`")
+      .replace(/\$/g, "\\$");
+  }
+
+  function renderAwg(id, env, has) {
+    const container = document.getElementById("awg-content");
+
+    if (!has) {
+      container.innerHTML = `<div class="small">Amnezia WireGuard недоступен</div>`;
+      return;
+    }
+
+    const url = `${API_BASE}/info/connections/amneziawg?id=${id}&env=${env}`;
+
+    console.log(url);
+
+    container.innerHTML = `<div class="small">Загрузка Amnezia WireGuard...</div>`;
+
+    fetch(url)
+      .then((r) => r.json())
+      .then((data) => {
+        const nodes = data.nodes || [];
+
+        console.log(nodes);
+
+        container.innerHTML = `
+            <ul class="proxy-list">
+              ${nodes
+                .map(
+                  (n, i) => `
+                <li class="proxy-item">
+                  <div class="proxy-label black">
+                    <img src="/Images/wireguard.svg">  ${n.label}
+                    <span class="badge">AWG</span>
+                  </div>
+
+                  <div style="display:flex; gap:10px;">
+                    <button onclick="copyText(\`${escapeBackticks(n.config)}\`, 'Скопировано')">
+                      Copy
+                    </button>
+
+                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${n.label}')">
+                      Download
+                    </button>
+                  </div>
+                </li>
+
+                <div class="qr-item" style="margin-bottom: 16px;">
+                  <span>${n.label}</span>
+                  <canvas id="awg-qr-${i}"></canvas>
+                </div>
+              `,
+                )
+                .join("")}
+            </ul>
+          `;
+
+        nodes.forEach((n, i) => {
+          QRCode.toCanvas(document.getElementById(`awg-qr-${i}`), n.config, {
+            width: 160,
+          });
+        });
+      })
+      .catch((e) => {
+        console.error(e);
+        container.innerHTML = `<div class="small">Ошибка загрузки Amnezia WireGuard</div>`;
+      });
+  }
+
   function downloadWG(content, name) {
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${name}.conf`;
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
+
+  function downloadAWG(content, name) {
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
 

@@ -113,8 +113,9 @@ install_xray() {
     print_header "Установка Xray-core с генерацией конфига"
 
     INSTALL_DIR="/opt/xray"
-    XRAY_VERSION="${XRAY_VERSION:-v25.3.6}"
 
+    XRAY_VERSION="${XRAY_VERSION:-v26.3.27}"
+    
     print_info "Xray будет установлен в: $INSTALL_DIR"
 
     # Проверяем установлен ли уже xray
@@ -542,7 +543,7 @@ EOF
 install_fnode() {
     print_header "Установка Fnode"
 
-    FNODE_VERSION="${FNODE_VERSION:-v0.5.0}"
+    FNODE_VERSION="${FNODE_VERSION:-v0.5.7-dev}"
     INSTALL_DIR="/opt/fnode"
     ARCH=$(uname -m)
 
