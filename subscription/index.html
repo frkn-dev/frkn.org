@@ -1141,10 +1141,6 @@
 
           <div class="step-card step-disabled" id="protocol-step">
             <h4>Шаг 3. Выберите протокол</h4>
-            <p>
-              Для приложения Clash выбирайте протокол Xray – тут бага и я ещё не
-              успел починить. Сорян
-            </p>
             <div id="protocol-options" class="pill-group"></div>
           </div>
 
@@ -1733,7 +1729,17 @@
 
     step.classList.remove("step-disabled");
 
-    const protocols = AVAILABLE_PROTOCOLS;
+    const osConfig = vpnClients[selectedOs];
+    const client = osConfig?.clients?.find((c) => c.id === selectedClientId);
+    const isClash = client && normalizeFormat(client.configType) === "clash";
+
+    let protocols = AVAILABLE_PROTOCOLS;
+    if (isClash) {
+      protocols = AVAILABLE_PROTOCOLS.filter((p) => p.id !== "all" && p.id !== "hysteria2");
+      if (selectedProtocol === "all" || selectedProtocol === "hysteria2") {
+        selectedProtocol = "xray";
+      }
+    }
 
     options.innerHTML = "";
 
