@@ -570,6 +570,7 @@
           <button class="segment" data-tab="hysteria">Hysteria2</button>
           <button class="segment" data-tab="mtproto">MTProto</button>
           <button class="segment" data-tab="wireguard">WireGuard</button>
+          <button class="segment" data-tab="awg">AmneziaWG</button>
         </div>
 
         <div id="tab-xray" class="tab-content active">
@@ -588,6 +589,10 @@
 
         <div id="tab-wireguard" class="tab-content">
           <div id="wg-content"></div>
+        </div>
+
+        <div id="tab-awg" class="tab-content">
+          <div id="awg-content"></div>
         </div>
 
         <hr />
@@ -910,9 +915,9 @@
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <div class="proxy-label">
                     <img src="https://frkn.org/Images/wireguard.svg" style="width: 16px; height: 16px;" onerror="this.style.display='none'"> ${n.label}
-                    <span class="badge" style="font-size: 12px; color: var(--accent-2); border: 1px solid rgba(34, 211, 238, 0.3); padding: 4px 10px; border-radius: 999px;">WG</span>
+                    <span class="badge" style="font-size: 11px; color: var(--tg-link); border: 1px solid rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 999px;">WG</span>
                   </div>
-                  <div style="display:flex; gap:10px;">
+                  <div style="display:flex; gap:8px;">
                     <button onclick="copyText(\`${escapeBackticks(n.config)}\`, 'Скопировано')">Копировать</button>
                     <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${n.label}')">Скачать</button>
                   </div>
@@ -937,6 +942,63 @@
           })
           .catch(() => {
             container.innerHTML = `<div class="small">Ошибка загрузки WireGuard</div>`;
+          });
+      }
+
+      function renderAwg(id, env, has) {
+        const container = document.getElementById("awg-content");
+        if (!has) {
+          container.innerHTML = `<div class="small">Amnezia WireGuard недоступен</div>`;
+          return;
+        }
+
+        const url = `${API_BASE}/info/connections/amneziawg?id=${id}&env=${env}`;
+        container.innerHTML = `<div class="small">Загрузка Amnezia WireGuard...</div>`;
+
+        fetch(url)
+          .then((r) => r.json())
+          .then((data) => {
+            const nodes = data.nodes || [];
+            if (nodes.length === 0) {
+              container.innerHTML = `<div class="small">Нет доступных AmneziaWG конфигураций</div>`;
+              return;
+            }
+            container.innerHTML = `
+          <ul class="proxy-list">
+            ${nodes
+              .map(
+                (n, i) => `
+              <li class="proxy-item" style="flex-direction: column; align-items: stretch; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div class="proxy-label">
+                    <img src="https://frkn.org/Images/wireguard.svg" style="width: 16px; height: 16px; filter: invert(1) brightness(1.2);" onerror="this.style.display='none'"> ${n.label}
+                    <span class="badge" style="font-size: 11px; color: var(--tg-link); border: 1px solid rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 999px;">AWG</span>
+                  </div>
+                  <div style="display:flex; gap:8px;">
+                    <button onclick="copyText(\`${escapeBackticks(n.config)}\`, 'Скопировано')">Копировать</button>
+                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${n.label}')">Скачать</button>
+                  </div>
+                </div>
+                <div class="qr-item" style="margin-top: 8px; align-self: center;">
+                  <span>${n.label} - QR</span>
+                  <canvas id="awg-qr-${i}"></canvas>
+                </div>
+              </li>
+            `,
+              )
+              .join("")}
+          </ul>
+        `;
+
+            setTimeout(() => {
+              nodes.forEach((n, i) => {
+                const canvas = document.getElementById(`awg-qr-${i}`);
+                if (canvas) QRCode.toCanvas(canvas, n.config, { width: 160 });
+              });
+            }, 100);
+          })
+          .catch(() => {
+            container.innerHTML = `<div class="small">Ошибка загрузки Amnezia WireGuard</div>`;
           });
       }
 
@@ -1073,6 +1135,7 @@
           renderH2(data.id, loc.env, loc.has_h2);
           renderMtproto(data.id, loc.env, loc.has_mtproto);
           renderWireguard(data.id, loc.env, loc.has_wg);
+          renderAwg(data.id, loc.env, loc.has_awg);
           updateMainButtonForTab('xray');
         }
       }
