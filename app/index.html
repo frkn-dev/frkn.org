@@ -560,13 +560,13 @@
         </section>
 
         <div class="section-title" style="margin-top: 16px">Универсальная ссылка</div>
-        <div class="proxy-item" style="margin-bottom: 8px; gap: 10px; flex-wrap: wrap;">
-          <div class="proxy-label" style="font-size: 13px; font-family: ui-monospace, monospace; word-break: break-all; flex: 1; min-width: 200px;" id="universal-sub-link">sub.frkn.org/...</div>
-          <button id="copy-universal-sub-link" class="proxy-action">Копировать</button>
+        <div id="universal-sub-card" style="background: var(--tg-secondary-bg); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; cursor: pointer; user-select: none;" onclick="copyUniversalSub()">
+          <div style="font-size: 13px; font-family: ui-monospace, monospace; word-break: break-all; color: var(--tg-text); line-height: 1.5;" id="universal-sub-link">sub.frkn.org/...</div>
+          <div class="small" style="margin-top: 6px; font-size: 12px;">Нажмите, чтобы скопировать</div>
         </div>
-        <div class="qr-row" style="margin-top: 8px; margin-bottom: 16px;">
+        <div class="qr-row" style="margin-bottom: 16px;">
           <div class="qr-item">
-            <span>Универсальная ссылка</span>
+            <span>QR-код подписки</span>
             <canvas id="qr-universal-sub"></canvas>
           </div>
         </div>
@@ -766,6 +766,13 @@
           showToast(message);
           tgNotify('success');
         });
+      }
+
+      function copyUniversalSub() {
+        const url = window.currentUniversalSubUrl;
+        if (url) {
+          copyText(url, "Ссылка подписки скопирована!");
+        }
       }
 
       function downloadWG(content, name) {
@@ -1045,6 +1052,7 @@
       }
 
       function renderSubscriptionData(data, subId) {
+        try {
         const params = new URLSearchParams(window.location.search);
         const currentEnv = params.get("env") || "dev";
 
@@ -1105,12 +1113,16 @@
         subIdEl.onclick = () => copyText(data.id, "ID скопирован");
 
         const universalSubUrl = `https://sub.frkn.org/${data.id}`;
-        document.getElementById("universal-sub-link").innerText = universalSubUrl;
-        document.getElementById("copy-universal-sub-link").onclick = () =>
-          copyText(universalSubUrl, "Ссылка подписки скопирована!");
+        const universalLinkEl = document.getElementById("universal-sub-link");
+        if (universalLinkEl) universalLinkEl.innerText = universalSubUrl;
+        window.currentUniversalSubUrl = universalSubUrl;
         const qrUniversal = document.getElementById("qr-universal-sub");
         if (qrUniversal) {
-          QRCode.toCanvas(qrUniversal, universalSubUrl, { width: 160 });
+          try {
+            QRCode.toCanvas(qrUniversal, universalSubUrl, { width: 160 });
+          } catch (e) {
+            console.error("QR error:", e);
+          }
         }
 
         document.getElementById("expires").innerText =
@@ -1158,6 +1170,9 @@
           renderWireguard(data.id, loc.env, loc.has_wg);
           renderAwg(data.id, loc.env, loc.has_awg);
           updateMainButtonForTab('xray');
+        }
+        } catch (err) {
+          console.error("renderSubscriptionData error:", err);
         }
       }
 
@@ -1272,6 +1287,7 @@
       });
 
       window.copyText = copyText;
+      window.copyUniversalSub = copyUniversalSub;
       window.downloadWG = downloadWG;
       window.activateKey = activateKey;
     </script>
