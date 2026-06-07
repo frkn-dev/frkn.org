@@ -559,6 +559,18 @@
           <div class="small-id">ID: <span id="sub-id">...</span></div>
         </section>
 
+        <div class="section-title" style="margin-top: 16px">Универсальная ссылка</div>
+        <div class="proxy-item" style="margin-bottom: 8px; gap: 10px; flex-wrap: wrap;">
+          <div class="proxy-label" style="font-size: 13px; font-family: ui-monospace, monospace; word-break: break-all; flex: 1; min-width: 200px;" id="universal-sub-link">sub.frkn.org/...</div>
+          <button id="copy-universal-sub-link" class="proxy-action">Копировать</button>
+        </div>
+        <div class="qr-row" style="margin-top: 8px; margin-bottom: 16px;">
+          <div class="qr-item">
+            <span>Универсальная ссылка</span>
+            <canvas id="qr-universal-sub"></canvas>
+          </div>
+        </div>
+
         <div style="text-align: right; margin: 4px 0 16px">
           <a class="small-add" id="scrollToAdd">⚡ Продлить</a>
         </div>
@@ -1091,6 +1103,15 @@
         const subIdEl = document.getElementById("sub-id");
         subIdEl.innerText = data.id;
         subIdEl.onclick = () => copyText(data.id, "ID скопирован");
+
+        const universalSubUrl = `https://sub.frkn.org/${data.id}`;
+        document.getElementById("universal-sub-link").innerText = universalSubUrl;
+        document.getElementById("copy-universal-sub-link").onclick = () =>
+          copyText(universalSubUrl, "Ссылка подписки скопирована!");
+        const qrUniversal = document.getElementById("qr-universal-sub");
+        if (qrUniversal) {
+          QRCode.toCanvas(qrUniversal, universalSubUrl, { width: 160 });
+        }
 
         document.getElementById("expires").innerText =
           expiryDate.toLocaleString("ru-RU", {
