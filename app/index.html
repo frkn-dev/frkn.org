@@ -778,19 +778,34 @@
         }
       }
 
-      function downloadWG(content, name) {
+      async function downloadWG(content, name) {
+        const filename = `${name}.conf`;
+        const blob = new Blob([content], { type: "text/plain" });
+        const file = new File([blob], filename, { type: "text/plain" });
+
+        // Пробуем нативный шеринг файлов (работает в Telegram WebView на iOS/Android)
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file], title: filename });
+            tgNotify('success');
+            return;
+          } catch (e) {
+            // Пользователь отменил или шеринг не сработал — идём дальше
+          }
+        }
+
+        // Fallback: классическое скачивание через blob
         try {
-          const blob = new Blob([content], { type: "text/plain" });
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          a.download = `${name}.conf`;
+          a.download = filename;
           a.click();
           URL.revokeObjectURL(url);
           showToast("Конфиг скачан");
         } catch (e) {
           console.error("Download failed:", e);
-          copyText(content, "Конфиг скопирован — скачивание недоступно в WebView");
+          copyText(content, "Конфиг скопирован в буфер");
         }
       }
 
