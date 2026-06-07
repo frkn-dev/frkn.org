@@ -15,250 +15,212 @@
 
     <style>
       :root {
-        --bg: #0b0d12;
-        --card: #121621;
-        --text: #e6e8ef;
-        --muted: #9aa1b2;
-        --accent: #5b7cfa;
-        --accent-2: #22d3ee;
-        --border: #1f2433;
+        --tg-bg: var(--tg-theme-bg-color, #0b0d12);
+        --tg-text: var(--tg-theme-text-color, #e6e8ef);
+        --tg-hint: var(--tg-theme-hint-color, #9aa1b2);
+        --tg-link: var(--tg-theme-link-color, #5b7cfa);
+        --tg-button: var(--tg-theme-button-color, #5b7cfa);
+        --tg-button-text: var(--tg-theme-button-text-color, #ffffff);
+        --tg-secondary-bg: var(--tg-theme-secondary-bg-color, #121621);
+        --tg-header-bg: var(--tg-theme-header-bg-color, #121621);
+        --tg-section-header-text: var(--tg-theme-section-header-text-color, #9aa1b2);
+        --tg-subtitle-text: var(--tg-theme-subtitle-text-color, #9aa1b2);
+        --tg-destructive-text: var(--tg-theme-destructive-text-color, #ef4444);
+        --border: rgba(255,255,255,0.08);
       }
 
       html {
         scroll-behavior: smooth;
       }
 
+      * {
+        -webkit-tap-highlight-color: transparent;
+      }
+
       header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px 0 40px;
+        padding: 8px 0 16px;
       }
 
-      .logo {
+      .app-title {
+        font-size: 1.25rem;
         font-weight: 700;
-        letter-spacing: 0.08em;
+        color: var(--tg-text);
+        letter-spacing: -0.02em;
+      }
+
+      .header-actions {
         display: flex;
         align-items: center;
-        gap: 12px;
-        width: fit-content;
-      }
-
-      #logo-container img {
-        box-shadow:
-          0 0 10px rgba(0, 150, 255, 0.4),
-          0 0 20px rgba(0, 100, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .logo img {
-        width: 50px;
-        height: 34px;
-        border-radius: 12%;
-        object-fit: contain;
-        background-color: #ffffff;
-        box-shadow: 0 0 10px rgba(91, 124, 250, 0.2);
-        transition: box-shadow 0.3s ease;
-      }
-
-      .logo img:hover {
-        filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.8));
-        transform: scale(1.05);
-      }
-
-      .logo a {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: var(--text);
-        text-decoration: none;
-        transition:
-          color 0.3s ease,
-          text-shadow 0.3s ease;
-      }
-
-      .logo:hover a {
-        color: #fff;
-        text-shadow:
-          0 0 8px rgba(91, 124, 250, 0.8),
-          0 0 15px rgba(34, 211, 238, 0.4);
-      }
-
-      .title-group {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 16px;
-      }
-
-      .hero-title {
-        margin: 0;
-        font-size: 2rem;
-        font-weight: 800;
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        line-height: 1.2;
-      }
-
-      .env-badge {
-        display: inline-flex;
-        margin-bottom: 15px;
-        align-items: center;
-        padding: 4px 10px;
-        font-size: 12px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        border-radius: 6px;
-        background: rgba(255, 255, 255, 0.1);
-        color: #94a3b8;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        white-space: nowrap;
+        gap: 8px;
       }
 
       #env-switcher {
         display: flex;
-        gap: 8px;
-        flex-direction: column;
+        gap: 6px;
+        align-items: center;
       }
 
-      #env-switcher .env-badge {
-        margin-bottom: 0;
-        cursor: pointer;
-        background: rgba(56, 189, 248, 0.05);
-        transition: all 0.2s ease;
-      }
-
-      #env-switcher .env-badge:hover {
-        background: rgba(56, 189, 248, 0.2);
-        border-color: var(--accent);
-        color: #fff;
+      .env-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 600;
+        border-radius: 10px;
+        background: var(--tg-secondary-bg);
+        color: var(--tg-link);
+        text-decoration: none;
+        border: none;
       }
 
       .hero-stats {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 16px;
-        background: rgba(30, 41, 59, 0.4);
-        padding: 20px;
-        border-radius: 16px;
-        border: 1px solid var(--border);
-        margin-bottom: 24px;
-      }
-
-      .stat {
-        margin: 0;
         display: flex;
-        color: var(--muted);
-        flex-direction: column;
+        gap: 12px;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: var(--tg-secondary-bg);
+        margin-bottom: 20px;
         align-items: center;
-        text-align: left;
-        gap: 8px;
       }
 
-      .stat b {
-        font-size: 2.5rem;
-        color: #22d3ee;
-        text-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+      .stat-main {
+        flex: 1;
+      }
+
+      .stat-main b {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--tg-text);
         line-height: 1;
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .stat-main .stat-label {
+        font-size: 12px;
+        color: var(--tg-hint);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .stat-divider {
+        width: 1px;
+        align-self: stretch;
+        background: var(--border);
         margin: 4px 0;
       }
 
+      .stat-side {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+        min-width: 90px;
+      }
+
+      .stat-side .status-pill {
+        font-size: 12px;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .stat-side .expires-text {
+        font-size: 12px;
+        color: var(--tg-hint);
+      }
+
       body {
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto,
-          sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        max-width: 720px;
-        margin: 20px auto;
-        padding: 24px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: var(--tg-bg);
+        color: var(--tg-text);
+        margin: 0;
+        padding: 12px 16px 80px;
+        -webkit-font-smoothing: antialiased;
       }
 
       .card {
-        background: var(--card);
-        border-radius: 12px;
-        padding: 24px;
-        box-shadow: 0 0 0 1px var(--border);
+        background: transparent;
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
       }
 
       button {
         display: inline-flex;
-        margin-top: 6px;
-        padding: 6px 12px;
-        border-radius: 6px;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 10px;
         border: none;
-        background: var(--border);
-        color: var(--text);
+        background: var(--tg-secondary-bg);
+        color: var(--tg-text);
+        font-size: 14px;
+        font-weight: 500;
         cursor: pointer;
-        transition: 0.15s ease;
-      }
-
-      button:hover {
-        background: #334155;
+        transition: opacity 0.15s ease;
       }
 
       button:active {
-        transform: scale(0.97);
+        opacity: 0.7;
       }
 
       .proxy-list {
         list-style: none;
         padding: 0;
-        margin: 20px 0;
+        margin: 12px 0 0;
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 8px;
       }
 
       .proxy-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 16px 18px;
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(148, 163, 184, 0.15);
+        padding: 14px 16px;
+        background: var(--tg-secondary-bg);
         border-radius: 14px;
         cursor: pointer;
-        transition: all 0.25s ease;
+        transition: opacity 0.15s ease;
+        user-select: none;
       }
 
-      .proxy-item:hover {
-        background: rgba(30, 41, 59, 0.9);
-        border-color: rgba(56, 189, 248, 0.6);
-        transform: translateY(-2px);
-        box-shadow:
-          0 0 0 1px rgba(56, 189, 248, 0.3),
-          0 8px 24px rgba(0, 0, 0, 0.4);
+      .proxy-item:active {
+        opacity: 0.7;
       }
 
       .proxy-label {
-        font-size: 16px;
-        font-weight: 600;
-        letter-spacing: 0.3px;
+        font-size: 15px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
       }
 
       .proxy-action {
         display: inline-flex;
         align-items: center;
-        padding: 6px 10px;
+        padding: 5px 10px;
         font-size: 12px;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        border-radius: 6px;
-        background: var(--card);
-        color: var(--muted);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        font-weight: 600;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.06);
+        color: var(--tg-link);
         white-space: nowrap;
       }
 
       .qr-row {
         display: flex;
         flex-wrap: wrap;
-        gap: 20px;
-        margin-top: 20px;
+        gap: 16px;
+        margin-top: 16px;
         justify-content: center;
       }
 
@@ -266,18 +228,18 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
-        background: rgba(255, 255, 255, 0.03);
+        gap: 6px;
+        background: var(--tg-secondary-bg);
         padding: 10px;
-        border-radius: 12px;
-        border: 1px solid var(--border);
+        border-radius: 14px;
       }
 
       .qr-item span {
         font-size: 10px;
         text-transform: uppercase;
-        color: var(--muted);
-        font-weight: 800;
+        color: var(--tg-hint);
+        font-weight: 700;
+        letter-spacing: 0.03em;
       }
 
       canvas {
@@ -291,12 +253,13 @@
         bottom: 24px;
         left: 50%;
         transform: translateX(-50%) translateY(20px);
-        background: rgba(15, 23, 42, 0.95);
-        color: var(--text);
-        padding: 12px 18px;
-        border-radius: 10px;
-        border: 1px solid var(--border);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        background: rgba(0,0,0,0.85);
+        backdrop-filter: blur(10px);
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 500;
         opacity: 0;
         pointer-events: none;
         transition: all 0.25s ease;
@@ -308,25 +271,42 @@
         transform: translateX(-50%) translateY(0);
       }
 
-      .tabs {
+      /* Segmented control */
+      .segmented-control {
         display: flex;
-        gap: 10px;
+        background: var(--tg-secondary-bg);
+        border-radius: 12px;
+        padding: 4px;
+        gap: 2px;
         margin-bottom: 16px;
-        flex-wrap: wrap;
+        overflow-x: auto;
+        scrollbar-width: none;
       }
 
-      .tab {
-        padding: 8px 14px;
-        border-radius: 8px;
-        border: 1px solid var(--border);
+      .segmented-control::-webkit-scrollbar {
+        display: none;
+      }
+
+      .segment {
+        flex: 1;
+        min-width: 0;
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: none;
         background: transparent;
-        color: var(--muted);
+        color: var(--tg-hint);
+        font-size: 13px;
+        font-weight: 500;
         cursor: pointer;
+        text-align: center;
+        white-space: nowrap;
+        transition: all 0.2s ease;
       }
 
-      .tab.active {
-        background: var(--border);
-        color: var(--text);
+      .segment.active {
+        background: var(--tg-bg);
+        color: var(--tg-text);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       }
 
       .tab-content {
@@ -347,102 +327,86 @@
       }
 
       .error-state h2 {
-        color: #ef4444;
+        color: var(--tg-destructive-text);
         margin: 0;
+        font-size: 1.25rem;
       }
 
       .btn-primary {
-        background: var(--accent) !important;
+        background: var(--tg-button) !important;
+        color: var(--tg-button-text) !important;
         font-weight: 600;
       }
 
       hr {
         border: none;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          rgba(229, 231, 235, 0) 0%,
-          rgba(20, 20, 200, 0.6) 50%,
-          rgba(229, 231, 235, 0) 100%
-        );
-        box-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
-        margin: 24px 0;
+        height: 1px;
+        background: var(--border);
+        margin: 20px 0;
       }
 
       .small {
         font-size: 13px;
-        color: var(--muted);
+        color: var(--tg-hint);
       }
 
       .small-id {
-        font-family: "Courier New", monospace;
-        font-size: 10px;
-        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 11px;
+        color: var(--tg-hint);
         text-align: right;
-        letter-spacing: 1px;
+        letter-spacing: 0.5px;
         opacity: 0.7;
-        margin-top: 10px;
+        margin-top: 8px;
         text-transform: uppercase;
-        border-right: 2px solid var(--accent);
-        padding-right: 8px;
       }
 
       .small-add {
         font-size: 13px;
-        color: var(--accent);
+        color: var(--tg-link);
         text-align: right;
-        letter-spacing: 2px;
+        letter-spacing: 0.5px;
         text-transform: uppercase;
         text-decoration: none;
         cursor: pointer;
+        font-weight: 600;
       }
 
-      .small-add:hover {
-        opacity: 0.8;
+      .small-add:active {
+        opacity: 0.7;
       }
 
       .status-active {
         color: #10b981 !important;
-        background: rgba(16, 185, 129, 0.1);
-        padding: 4px 12px !important;
-        border-radius: 8px;
-        width: fit-content;
-        display: inline-flex !important;
-        justify-content: center;
-        font-weight: 600;
+        background: rgba(16, 185, 129, 0.12);
       }
 
       .status-expired {
         color: #ef4444 !important;
-        background: rgba(239, 68, 68, 0.1);
-        padding: 4px 12px !important;
-        border-radius: 8px;
-        width: fit-content;
-        display: inline-flex !important;
-        justify-content: center;
-        font-weight: 600;
+        background: rgba(239, 68, 68, 0.12);
       }
 
       .status-warning {
         color: #ffbd4d !important;
-        background: rgba(255, 189, 77, 0.1);
-        padding: 4px 12px !important;
-        border-radius: 8px;
-        width: fit-content;
-        display: inline-flex !important;
-        justify-content: center;
-        font-weight: 600;
+        background: rgba(255, 189, 77, 0.15);
       }
 
       .text-link {
         text-decoration: underline;
+        color: var(--tg-link);
       }
 
       .tg-close-btn {
         background: transparent;
-        border: 1px solid var(--border);
-        font-size: 14px;
-        padding: 4px 12px;
+        border: none;
+        font-size: 18px;
+        padding: 4px;
+        color: var(--tg-hint);
+        line-height: 1;
+      }
+
+      .tg-close-btn:active {
+        opacity: 0.5;
       }
 
       .key {
@@ -452,13 +416,59 @@
       }
 
       #keyInput {
-        padding: 8px;
+        padding: 10px 12px;
         width: 100%;
-        max-width: 270px;
-        border-radius: 8px;
+        max-width: 100%;
+        border-radius: 12px;
         border: 1px solid var(--border);
-        background: var(--bg);
-        color: var(--text);
+        background: var(--tg-secondary-bg);
+        color: var(--tg-text);
+        font-size: 15px;
+        outline: none;
+      }
+
+      #keyInput:focus {
+        border-color: var(--tg-link);
+      }
+
+      .section-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--tg-section-header-text);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin: 0 0 10px 4px;
+      }
+
+      .ref-block {
+        background: var(--tg-secondary-bg);
+        border-radius: 14px;
+        padding: 14px 16px;
+        margin: 16px 0;
+      }
+
+      .ref-block .ref-code {
+        font-size: 1.1rem;
+        font-weight: 700;
+        font-family: ui-monospace, monospace;
+        color: var(--tg-text);
+        margin-bottom: 10px;
+      }
+
+      .ref-block .ref-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .footer-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 8px;
+      }
+
+      .center {
+        text-align: center;
       }
     </style>
   </head>
@@ -466,106 +476,100 @@
   <body>
     <div class="card">
       <header>
-        <div class="logo">
-          <a href="/">
-            <img src="https://frkn.org/Images/logo.png" alt="FRKN Logo" />FRKN
-          </a>
-        </div>
-        <div style="display: flex; gap: 10px">
+        <div class="app-title">FRKN</div>
+        <div class="header-actions">
           <div id="env-switcher"></div>
           <button id="tg-close" class="tg-close-btn">✕</button>
         </div>
       </header>
 
       <div id="error-content" class="error-state">
-        <h2>Пупупууу! Подписка не найдена</h2>
+        <h2>Подписка не найдена</h2>
         <p class="small">
-          Похоже, ссылка неверна или срок действия ключа истёк.
+          Ссылка неверна или срок действия истёк.
         </p>
-        <div style="margin: 20px 0">
+        <div style="margin: 20px 0; width: 100%; max-width: 400px">
           <input
             type="text"
             id="sub-id-input"
-            placeholder="Вставь свой Subscription ID"
+            placeholder="Вставь Subscription ID"
             style="
               width: 100%;
-              max-width: 400px;
-              padding: 10px;
-              border-radius: 8px;
+              padding: 12px 14px;
+              border-radius: 12px;
               border: 1px solid var(--border);
               margin-bottom: 10px;
-              background: var(--bg);
-              color: var(--text);
+              background: var(--tg-secondary-bg);
+              color: var(--tg-text);
+              font-size: 15px;
+              outline: none;
             "
           />
           <button
             id="open-sub-btn"
             class="btn-primary"
-            style="padding: 10px 20px; border-radius: 8px"
+            style="padding: 12px 20px; border-radius: 12px; width: 100%"
           >
             Открыть подписку
           </button>
           <div
             id="sub-error"
-            style="color: #f87171; font-size: 13px; margin-top: 5px"
+            style="color: var(--tg-destructive-text); font-size: 13px; margin-top: 8px"
           ></div>
         </div>
-        <div
-          class="error-actions"
-          style="display: flex; gap: 12px; margin-top: 10px"
-        >
+        <div class="error-actions" style="display: flex; gap: 12px; margin-top: 10px">
           <a
             href="https://t.me/frkn_support"
             class="btn-primary"
             style="
-              padding: 10px 20px;
-              border-radius: 8px;
+              padding: 12px 20px;
+              border-radius: 12px;
               color: white;
               text-decoration: none;
             "
-            >Написать в поддержку</a
+            >Поддержка</a
           >
           <a
             href="/pay"
             style="
-              padding: 10px 20px;
-              border-radius: 8px;
-              background: var(--border);
-              color: var(--text);
+              padding: 12px 20px;
+              border-radius: 12px;
+              background: var(--tg-secondary-bg);
+              color: var(--tg-text);
               text-decoration: none;
             "
-            >Купить ключ активации</a
+            >Купить ключ</a
           >
         </div>
       </div>
 
       <div class="main-content" id="main-content" style="display: none">
         <section class="hero">
-          <h3 class="hero-title">Рилзопровод: Подписка</h3>
-          <div class="title-group">
-            <span id="env-badge" class="env-badge">...</span>
-          </div>
           <div class="hero-stats">
-            <div class="stat">Статус<span id="status-text">...</span></div>
-            <div class="stat">Осталось дней <b id="days">...</b></div>
-            <div class="stat">Истекает <span id="expires">...</span></div>
+            <div class="stat-main">
+              <b id="days">...</b>
+              <div class="stat-label">Осталось дней</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-side">
+              <div id="status-text" class="status-pill">...</div>
+              <div id="expires" class="expires-text">...</div>
+            </div>
           </div>
           <div class="small-id">ID: <span id="sub-id">...</span></div>
         </section>
 
-        <hr />
-
-        <div style="text-align: right; margin-bottom: 20px">
-          <a class="small-add" id="scrollToAdd">⚡ Докинуть дней</a>
+        <div style="text-align: right; margin: 4px 0 16px">
+          <a class="small-add" id="scrollToAdd">⚡ Продлить</a>
         </div>
 
-        <h3>Ссылки для подключения</h3>
+        <div class="section-title">Протоколы</div>
 
-        <div class="tabs">
-          <button class="tab active" data-tab="xray">Xray</button>
-          <button class="tab" data-tab="hysteria">Hysteria2</button>
-          <button class="tab" data-tab="mtproto">Mtproto</button>
-          <button class="tab" data-tab="wireguard">WireGuard</button>
+        <div class="segmented-control" id="protocol-segments">
+          <button class="segment active" data-tab="xray">Xray</button>
+          <button class="segment" data-tab="hysteria">Hysteria2</button>
+          <button class="segment" data-tab="mtproto">MTProto</button>
+          <button class="segment" data-tab="wireguard">WireGuard</button>
         </div>
 
         <div id="tab-xray" class="tab-content active">
@@ -588,55 +592,36 @@
 
         <hr />
 
+        <div class="section-title">Продлить подписку</div>
         <div class="key" id="key">
-          <h3>Докинуть дней</h3>
-          <div>
-            <input id="keyInput" placeholder="Введите ключ" />
-            <button onclick="activateKey()">Активировать</button>
+          <input id="keyInput" placeholder="Введите ключ активации" />
+          <div style="display: flex; gap: 8px; margin-top: 8px">
+            <button onclick="activateKey()" class="btn-primary" style="flex:1">Активировать</button>
           </div>
-          <div>
-            <a
-              href="/info/activation-keys/"
-              target="_blank"
-              class="small text-link"
-              >Что такое ключ активации и где его взять?</a
-            >
-            <br />
-            <a href="/pay" target="_blank" class="small text-link"
-              >Купить ключ активации</a
-            >
+          <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 4px">
+            <a href="/info/activation-keys/" target="_blank" class="small text-link">Что такое ключ?</a>
+            <a href="/pay" target="_blank" class="small text-link">Купить ключ</a>
           </div>
-          <div id="keyResult" class="small"></div>
+          <div id="keyResult" class="small" style="margin-top: 8px"></div>
         </div>
 
         <hr />
 
-        <div class="ref-code" style="margin: 20px 0">
-          Твой реферальный код: <b id="ref-code">...</b><br />
-          <div style="margin-top: 10px">
+        <div class="section-title">Реферальная программа</div>
+        <div class="ref-block">
+          <div class="ref-code" id="ref-code">...</div>
+          <div class="small" style="margin-bottom: 10px">
+            Приглашено: <b id="invited-count">0</b> · +7 дней за друга
+          </div>
+          <div class="ref-actions">
             <button id="copy-ref-btn">Копировать код</button>
-            <button id="copy-ref-link">Копировать ссылку для друга</button>
+            <button id="copy-ref-link">Ссылка для друга</button>
           </div>
         </div>
-        <div class="small">
-          Вы пригласили: <span id="invited-count">0</span><br />
-          Добавим по 7 дней доступа и тебе и другу
-        </div>
 
-        <br />
-        <hr />
-        <div
-          class="footer-line"
-          style="display: flex; justify-content: flex-end; gap: 8px"
-        >
-          <a
-            href="https://t.me/frkn_support"
-            style="color: var(--muted); text-decoration: none"
-            >Поддержка</a
-          >
-          <span class="small-viva" style="color: var(--muted)"
-            >· Vive la résistance!</span
-          >
+        <div class="footer-line">
+          <a href="https://t.me/frkn_support" style="color: var(--tg-hint); text-decoration: none; font-size: 13px">Поддержка</a>
+          <span class="small" style="letter-spacing: 1px">Vive la résistance!</span>
         </div>
       </div>
     </div>
@@ -650,9 +635,75 @@
       if (tg) {
         tg.expand();
         tg.ready();
+        tg.enableClosingConfirmation();
+
+        // Apply theme colors to CSS
+        const theme = tg.themeParams;
+        const root = document.documentElement;
+        if (theme) {
+          if (theme.bg_color) root.style.setProperty('--tg-theme-bg-color', theme.bg_color);
+          if (theme.text_color) root.style.setProperty('--tg-theme-text-color', theme.text_color);
+          if (theme.hint_color) root.style.setProperty('--tg-theme-hint-color', theme.hint_color);
+          if (theme.link_color) root.style.setProperty('--tg-theme-link-color', theme.link_color);
+          if (theme.button_color) root.style.setProperty('--tg-theme-button-color', theme.button_color);
+          if (theme.button_text_color) root.style.setProperty('--tg-theme-button-text-color', theme.button_text_color);
+          if (theme.secondary_bg_color) root.style.setProperty('--tg-theme-secondary-bg-color', theme.secondary_bg_color);
+          if (theme.header_bg_color) root.style.setProperty('--tg-theme-header-bg-color', theme.header_bg_color);
+          if (theme.section_header_text_color) root.style.setProperty('--tg-theme-section-header-text-color', theme.section_header_text_color);
+          if (theme.subtitle_text_color) root.style.setProperty('--tg-theme-subtitle-text-color', theme.subtitle_text_color);
+          if (theme.destructive_text_color) root.style.setProperty('--tg-theme-destructive-text-color', theme.destructive_text_color);
+        }
+
+        tg.onEvent('themeChanged', () => {
+          const t = tg.themeParams;
+          if (t.bg_color) root.style.setProperty('--tg-theme-bg-color', t.bg_color);
+          if (t.text_color) root.style.setProperty('--tg-theme-text-color', t.text_color);
+          if (t.hint_color) root.style.setProperty('--tg-theme-hint-color', t.hint_color);
+          if (t.link_color) root.style.setProperty('--tg-theme-link-color', t.link_color);
+          if (t.button_color) root.style.setProperty('--tg-theme-button-color', t.button_color);
+          if (t.button_text_color) root.style.setProperty('--tg-theme-button-text-color', t.button_text_color);
+          if (t.secondary_bg_color) root.style.setProperty('--tg-theme-secondary-bg-color', t.secondary_bg_color);
+          if (t.header_bg_color) root.style.setProperty('--tg-theme-header-bg-color', t.header_bg_color);
+          if (t.section_header_text_color) root.style.setProperty('--tg-theme-section-header-text-color', t.section_header_text_color);
+          if (t.subtitle_text_color) root.style.setProperty('--tg-theme-subtitle-text-color', t.subtitle_text_color);
+          if (t.destructive_text_color) root.style.setProperty('--tg-theme-destructive-text-color', t.destructive_text_color);
+        });
+      }
+
+      function tgHaptic(type = 'light') {
+        if (tg?.HapticFeedback) {
+          tg.HapticFeedback.impactOccurred(type);
+        }
+      }
+
+      function tgNotify(type = 'success') {
+        if (tg?.HapticFeedback) {
+          tg.HapticFeedback.notificationOccurred(type);
+        }
+      }
+
+      let mainButtonHandler = null;
+
+      function setMainButton(text, visible, onClick) {
+        if (!tg?.MainButton) return;
+        tg.MainButton.setText(text);
+        tg.MainButton.color = tg.themeParams.button_color || '#5b7cfa';
+        tg.MainButton.textColor = tg.themeParams.button_text_color || '#ffffff';
+        if (mainButtonHandler) {
+          tg.MainButton.offClick(mainButtonHandler);
+          mainButtonHandler = null;
+        }
+        if (visible) {
+          mainButtonHandler = onClick;
+          tg.MainButton.onClick(onClick);
+          tg.MainButton.show();
+        } else {
+          tg.MainButton.hide();
+        }
       }
 
       document.getElementById("tg-close")?.addEventListener("click", () => {
+        tgHaptic('light');
         if (tg) tg.close();
         else window.close();
       });
@@ -694,7 +745,10 @@
       }
 
       function copyText(text, message = "Скопировано") {
-        navigator.clipboard.writeText(text).then(() => showToast(message));
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(message);
+          tgNotify('success');
+        });
       }
 
       function downloadWG(content, name) {
@@ -972,10 +1026,6 @@
 
         updateDisplay();
 
-        const badge = document.getElementById("env-badge");
-        if (badge)
-          badge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
-
         const subIdEl = document.getElementById("sub-id");
         subIdEl.innerText = data.id;
         subIdEl.onclick = () => copyText(data.id, "ID скопирован");
@@ -1023,6 +1073,26 @@
           renderH2(data.id, loc.env, loc.has_h2);
           renderMtproto(data.id, loc.env, loc.has_mtproto);
           renderWireguard(data.id, loc.env, loc.has_wg);
+          updateMainButtonForTab('xray');
+        }
+      }
+
+      let currentTabMainAction = null;
+
+      function updateMainButtonForTab(tabName) {
+        if (!tg?.MainButton) return;
+        const subId = getSubId();
+        const params = new URLSearchParams(window.location.search);
+        const env = params.get("env") || "dev";
+
+        if (tabName === 'xray') {
+          const url = `${API_BASE}/sub?id=${subId}&env=${env}&proto=Xray&format=txt`;
+          setMainButton('📋 Копировать Xray ссылку', true, () => copyText(url, 'Ссылка скопирована!'));
+        } else if (tabName === 'hysteria') {
+          const url = `${API_BASE}/sub?id=${subId}&env=${env}&proto=Hysteria2&format=txt`;
+          setMainButton('📋 Копировать Hysteria2 ссылку', true, () => copyText(url, 'Ссылка скопирована!'));
+        } else {
+          tg.MainButton.hide();
         }
       }
 
@@ -1071,17 +1141,19 @@
       window.addEventListener("DOMContentLoaded", () => {
         initPage();
 
-        document.querySelectorAll(".tab").forEach((btn) => {
+        document.querySelectorAll(".segment").forEach((btn) => {
           btn.onclick = () => {
+            tgHaptic('light');
             const name = btn.dataset.tab;
             document
-              .querySelectorAll(".tab")
+              .querySelectorAll(".segment")
               .forEach((el) => el.classList.remove("active"));
             document
               .querySelectorAll(".tab-content")
               .forEach((el) => el.classList.remove("active"));
             btn.classList.add("active");
             document.getElementById("tab-" + name).classList.add("active");
+            updateMainButtonForTab(name);
           };
         });
 
