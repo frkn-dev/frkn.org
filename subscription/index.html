@@ -424,6 +424,31 @@
         font-weight: 800;
       }
 
+      .qr-wrapper {
+        margin-top: 12px;
+      }
+
+      .qr-toggle {
+        background: rgba(91, 124, 250, 0.1);
+        border: 1px solid rgba(91, 124, 250, 0.3);
+        color: var(--text);
+        padding: 8px 14px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .qr-toggle:hover {
+        background: rgba(91, 124, 250, 0.2);
+        border-color: var(--accent);
+      }
+
+      .qr-row.collapsed {
+        display: none;
+      }
+
       canvas {
         max-width: 100%;
         height: auto !important;
@@ -1993,10 +2018,13 @@
       <div class="subscription-link-row">
         <button type="button" id="copy-subscription-link">Копировать ссылку</button>
       </div>
-      <div class="qr-row">
-        <div class="qr-item">
-          <span>QR-код подключения</span>
-          <canvas id="selected-subscription-qr"></canvas>
+      <div class="qr-wrapper">
+        <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 Показать QR-код</button>
+        <div class="qr-row collapsed">
+          <div class="qr-item">
+            <span>QR-код подключения</span>
+            <canvas id="selected-subscription-qr"></canvas>
+          </div>
         </div>
       </div>
       <div class="small connection-hint">Отсканируйте QR-код в приложении или вставьте ссылку вручную.</div>
@@ -2112,9 +2140,12 @@
             <li class="proxy-item" onclick="copyText('${subUrlTxt}','Ссылка скопирована!')"><div class="proxy-label">  TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
             <li class="proxy-item" onclick="copyText('${subUrlB64}','Ссылка скопирована!')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
           </ul>
-          <div class="qr-row">
-            <div class="qr-item"><span>TXT (Универсальная)</span><canvas id="qr-h2-txt"></canvas></div>
-            <div class="qr-item"><span>Base64</span><canvas id="qr-h2-base64"></canvas></div>
+          <div class="qr-wrapper">
+            <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 Показать QR-коды</button>
+            <div class="qr-row collapsed">
+              <div class="qr-item"><span>TXT (Универсальная)</span><canvas id="qr-h2-txt"></canvas></div>
+              <div class="qr-item"><span>Base64</span><canvas id="qr-h2-base64"></canvas></div>
+            </div>
           </div>
           <div class="apps center"><a href="/setup">Как настроить?</a></div>
         `;
@@ -2204,9 +2235,14 @@
                   </div>
                 </li>
 
-                <div class="qr-item" style="margin-bottom: 16px;">
-                  <span>${labels[i]}</span>
-                  <canvas id="wg-qr-${i}"></canvas>
+                <div class="qr-wrapper">
+                  <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 Показать QR</button>
+                  <div class="qr-row collapsed" style="margin-bottom: 16px;">
+                    <div class="qr-item">
+                      <span>${labels[i]}</span>
+                      <canvas id="wg-qr-${i}"></canvas>
+                    </div>
+                  </div>
                 </div>
               `,
                 )
@@ -2297,9 +2333,14 @@
                   </div>
                 </li>
 
-                <div class="qr-item" style="margin-bottom: 16px;">
-                  <span>${labels[i]}</span>
-                  <canvas id="awg-qr-${i}"></canvas>
+                <div class="qr-wrapper">
+                  <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 Показать QR</button>
+                  <div class="qr-row collapsed" style="margin-bottom: 16px;">
+                    <div class="qr-item">
+                      <span>${labels[i]}</span>
+                      <canvas id="awg-qr-${i}"></canvas>
+                    </div>
+                  </div>
                 </div>
               `,
                 )
