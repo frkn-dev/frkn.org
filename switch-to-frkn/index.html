@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Переходи со старого VPN на FRKN — Скидка на 6 месяцев</title>
+    <meta
+      name="description"
+      content="Переходи с любого платного VPN на FRKN Рилзопровод со скидкой на 6 месяцев. Пришли скриншот оплаченной подписки."
+    />
+    <link rel="canonical" href="https://frkn.org/switch-to-frkn/" />
+    <meta property="og:title" content="Переходи со старого VPN на FRKN" />
+    <meta property="og:site_name" content="frkn" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://frkn.org/switch-to-frkn/" />
+    <meta
+      property="og:description"
+      content="Скидка на 6 месяцев Рилзопровода при переходе с другого VPN."
+    />
+    <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
+    <meta name="theme-color" content="#0b0d12" />
+    <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      .switch-page {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 20px 0 60px;
+      }
+
+      .switch-hero {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .switch-hero h1 {
+        font-size: clamp(28px, 6vw, 44px);
+        margin: 0 0 16px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.15;
+      }
+
+      .switch-hero p {
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.6;
+        margin: 0 auto 28px;
+        max-width: 560px;
+      }
+
+      .switch-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(34, 197, 94, 0.12);
+        border: 1px solid rgba(34, 197, 94, 0.25);
+        color: #22c55e;
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 24px;
+      }
+
+      .switch-section {
+        margin-bottom: 40px;
+      }
+
+      .switch-section h2 {
+        font-size: 22px;
+        margin: 0 0 20px;
+        text-align: center;
+      }
+
+      .terms-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      @media (max-width: 640px) {
+        .terms-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .terms-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 22px;
+      }
+
+      .terms-card h3 {
+        margin: 0 0 12px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .terms-card ul {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .terms-card li {
+        margin-bottom: 6px;
+      }
+
+      .reasons-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      @media (max-width: 640px) {
+        .reasons-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .reason-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 22px;
+        transition: border-color 0.2s ease;
+      }
+
+      .reason-card:hover {
+        border-color: rgba(91, 124, 250, 0.4);
+      }
+
+      .reason-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: rgba(91, 124, 250, 0.12);
+        border: 1px solid rgba(91, 124, 250, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-bottom: 14px;
+      }
+
+      .reason-card h4 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+
+      .reason-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .steps-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .step-card-horizontal {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px 20px;
+      }
+
+      .step-number {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .step-content h4 {
+        margin: 0 0 4px;
+        font-size: 16px;
+      }
+
+      .step-content p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .form-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 32px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .form-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      }
+
+      .form-card h2 {
+        text-align: center;
+        margin: 0 0 8px;
+      }
+
+      .form-card > .form-subtitle {
+        text-align: center;
+        color: var(--muted);
+        font-size: 14px;
+        margin: 0 0 24px;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        background: #0f1320;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px 14px;
+        border-radius: 12px;
+        font-size: 15px;
+        box-sizing: border-box;
+        font-family: inherit;
+      }
+
+      .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(91, 124, 250, 0.15);
+      }
+
+      .file-hint {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      .btn-submit {
+        width: 100%;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        padding: 16px 24px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+      }
+
+      .btn-submit:hover {
+        opacity: 0.9;
+      }
+
+      .or-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 20px 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .or-divider::before,
+      .or-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .btn-telegram {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        background: rgba(34, 158, 230, 0.12);
+        border: 1px solid rgba(34, 158, 230, 0.3);
+        color: #38bdf8;
+        padding: 14px 24px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+
+      .btn-telegram:hover {
+        background: rgba(34, 158, 230, 0.2);
+      }
+
+      .faq-item {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px 20px;
+        margin-bottom: 12px;
+      }
+
+      .faq-item h4 {
+        margin: 0 0 8px;
+        font-size: 15px;
+      }
+
+      .faq-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      @media (max-width: 768px) {
+        .form-card {
+          padding: 24px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div id="logo-container"></div>
+      </header>
+
+      <div class="switch-page">
+        <div class="switch-hero">
+          <div class="switch-badge">⚡ Акция для новых пользователей</div>
+          <h1>Переходи со старого VPN на FRKN</h1>
+          <p>
+            Получи скидку на 6 месяцев Рилзопровода FRKN. Достаточно прислать
+            скриншот оплаченной подписки другого VPN или самохостингового
+            сервиса.
+          </p>
+          <a class="btn" href="#switch-form">Получить скидку</a>
+        </div>
+
+        <div class="switch-section">
+          <div class="steps-list">
+            <div class="step-card-horizontal">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Сделай скриншот</h4>
+                <p>
+                  Сфотографируй подтверждение оплаты старого VPN: чек, письмо,
+                  личный кабинет или любое другое доказательство покупки.
+                </p>
+              </div>
+            </div>
+            <div class="step-card-horizontal">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Отправь заявку</h4>
+                <p>
+                  Заполни форму ниже или напиши нам в Telegram. Прикрепи
+                  скриншот к письму.
+                </p>
+              </div>
+            </div>
+            <div class="step-card-horizontal">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Получи скидку</h4>
+                <p>
+                  Мы проверим заявку и пришлём персональный промокод на скидку
+                  на 6 месяцев доступа.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="switch-section">
+          <h2>Условия акции</h2>
+          <div class="terms-grid">
+            <div class="terms-card">
+              <h3>✅ Принимается</h3>
+              <ul>
+                <li>Любой активный платный VPN</li>
+                <li>Самохостинговые VPN-решения</li>
+                <li>Подписка оформлена на срок от 1 месяца</li>
+                <li>Скриншот, чек, письмо или скрин личного кабинета</li>
+              </ul>
+            </div>
+            <div class="terms-card">
+              <h3>❌ Не принимается</h3>
+              <ul>
+                <li>Бесплатные VPN</li>
+                <li>Пробные периоды без оплаты</li>
+                <li>Подписки менее 1 месяца</li>
+                <li>Активные подписки FRKN</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="switch-section">
+          <h2>6 причин перейти на FRKN</h2>
+          <div class="reasons-grid">
+            <div class="reason-card">
+              <div class="reason-icon">🏷️</div>
+              <h4>Самая выгодная скидка</h4>
+              <p>
+                Скидка на 6 месяцев — выгодное предложение для перехода с
+                любого другого сервиса.
+              </p>
+            </div>
+            <div class="reason-card">
+              <div class="reason-icon">📱</div>
+              <h4>Любое количество устройств</h4>
+              <p>
+                Подключай телефоны, ноутбуки, планшеты и даже роутер — без
+                ограничений.
+              </p>
+            </div>
+            <div class="reason-card">
+              <div class="reason-icon">🛡️</div>
+              <h4>Защита от блокировок</h4>
+              <p>
+                VLESS Reality, Hysteria2, AmneziaWG и другие протоколы для
+                стабильного доступа.
+              </p>
+            </div>
+            <div class="reason-card">
+              <div class="reason-icon">💸</div>
+              <h4>Возврат за 7 дней</h4>
+              <p>
+                Если что-то не понравится, вернём деньги в течение недели без
+                вопросов.
+              </p>
+            </div>
+            <div class="reason-card">
+              <div class="reason-icon">🤝</div>
+              <h4>Рекомендуют друзьям</h4>
+              <p>
+                Приводи друзей и получай +7 дней доступа за каждого приглашённого.
+              </p>
+            </div>
+            <div class="reason-card">
+              <div class="reason-icon">🖥️</div>
+              <h4>Удобные приложения</h4>
+              <p>
+                Работаем на iOS, Android, Windows, macOS, Linux и роутерах —
+                настройка за пару минут.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="switch-section" id="switch-form">
+          <div class="form-card">
+            <h2>Получить скидку</h2>
+            <p class="form-subtitle">
+              Заполни форму, и мы ответим тебе на почту с промокодом.
+            </p>
+
+            <form id="switchForm">
+              <div class="form-group">
+                <label for="name">Имя</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Как к тебе обращаться"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="your@email.com"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="message">Сообщение</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  placeholder="Название старого VPN, дата покупки, удобный способ связи"
+                ></textarea>
+              </div>
+
+              <p class="file-hint">
+                После нажатия кнопки откроется почтовое приложение. Прикрепи к
+                письму скриншот оплаченной подписки и отправь на
+                <strong>pigeon@frkn.org</strong>.
+              </p>
+
+              <button type="submit" class="btn-submit" style="margin-top: 16px;">
+                Отправить заявку
+              </button>
+            </form>
+
+            <div class="or-divider">или</div>
+
+            <a
+              href="https://t.me/frkn_support"
+              class="btn-telegram"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Написать в Telegram
+            </a>
+          </div>
+        </div>
+
+        <div class="switch-section">
+          <h2>Частые вопросы</h2>
+          <div class="faq-item">
+            <h4>Сколько времени занимает проверка?</h4>
+            <p>Обычно мы проверяем заявки в течение нескольких часов в рабочее время.</p>
+          </div>
+          <div class="faq-item">
+            <h4>Можно ли участвовать, если у меня закончилась подписка?</h4>
+            <p>
+              Акция действует для активных платных подписок. Если подписка
+              истекла, но у тебя есть чек об оплате — напиши нам, рассмотрим
+              индивидуально.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h4>Скидка суммируется с другими акциями?</h4>
+            <p>
+              Промокод на переход не суммируется с другими промокодами и
+              действует один раз на один аккаунт.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="footer-container"></div>
+    </div>
+
+    <script src="/scripts/analytics.js" defer></script>
+    <script src="/scripts/i18n.js"></script>
+    <script src="/scripts/containers.js"></script>
+    <script>
+      document
+        .getElementById("switchForm")
+        ?.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          const name = document.getElementById("name").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const message = document.getElementById("message").value.trim();
+
+          const subject = encodeURIComponent(
+            "Заявка на переход со старого VPN на FRKN",
+          );
+          const body = encodeURIComponent(
+            `Имя: ${name}\nEmail: ${email}\n\nСообщение:\n${message || "-"}\n\nПрикрепите, пожалуйста, скриншот оплаченной подписки другого VPN.`,
+          );
+
+          window.location.href = `mailto:pigeon@frkn.org?subject=${subject}&body=${body}`;
+        });
+    </script>
+  </body>
+</html>

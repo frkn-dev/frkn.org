@@ -412,13 +412,13 @@
         align-items: center;
         gap: 8px;
         background: rgba(255, 255, 255, 0.03);
-        padding: 10px;
+        padding: 16px;
         border-radius: 12px;
         border: 1px solid var(--border);
       }
 
       .qr-item span {
-        font-size: 10px;
+        font-size: 12px;
         text-transform: uppercase;
         color: var(--muted);
         font-weight: 800;
@@ -1659,7 +1659,7 @@
       modal.classList.remove("hidden");
 
       await QRCode.toCanvas(canvas, subUrl, {
-        width: 280,
+        width: 340,
       });
     };
 
@@ -2039,7 +2039,7 @@
       copyBtn.onclick = () => copyText(subscriptionUrl, "Ссылка скопирована!");
     }
     if (qrCanvas) {
-      QRCode.toCanvas(qrCanvas, subscriptionUrl, { width: 180 });
+      QRCode.toCanvas(qrCanvas, subscriptionUrl, { width: 260 });
     }
   }
 
@@ -2151,10 +2151,10 @@
         `;
 
     QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, {
-      width: 140,
+      width: 220,
     });
     QRCode.toCanvas(document.getElementById("qr-h2-base64"), subUrlB64, {
-      width: 140,
+      width: 220,
     });
   }
 
@@ -2251,7 +2251,7 @@
 
         nodes.forEach((n, i) => {
           QRCode.toCanvas(document.getElementById(`wg-qr-${i}`), n.config, {
-            width: 160,
+            width: 240,
           });
         });
       })
@@ -2348,7 +2348,7 @@
 
         nodes.forEach((n, i) => {
           QRCode.toCanvas(document.getElementById(`awg-qr-${i}`), n.config, {
-            width: 160,
+            width: 240,
           });
         });
       })

@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Switch from your old VPN to FRKN — 6 months discount</title>
+    <meta
+      name="description"
+      content="Switch from any paid VPN to FRKN and get 6 months discount. Send a screenshot of your paid subscription."
+    />
+    <link rel="canonical" href="https://frkn.org/en/switch-to-frkn/" />
+    <meta property="og:title" content="Switch from your old VPN to FRKN" />
+    <meta property="og:site_name" content="frkn" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://frkn.org/en/switch-to-frkn/" />
+    <meta
+      property="og:description"
+      content="Get 6 months discount when switching from another VPN."
+    />
+    <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
+    <meta name="theme-color" content="#0b0d12" />
+    <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      .switch-page {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 20px 0 60px;
+      }
+
+      .switch-hero {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .switch-hero h1 {
+        font-size: clamp(28px, 6vw, 44px);
+        margin: 0 0 16px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.15;
+      }
+
+      .switch-hero p {
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.6;
+        margin: 0 auto 28px;
+        max-width: 560px;
+      }
+
+      .switch-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(34, 197, 94, 0.12);
+        border: 1px solid rgba(34, 197, 94, 0.25);
+        color: #22c55e;
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 24px;
+      }
+
+      .switch-section {
+        margin-bottom: 40px;
+      }
+
+      .switch-section h2 {
+        font-size: 22px;
+        margin: 0 0 20px;
+        text-align: center;
+      }
+
+      .terms-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      @media (max-width: 640px) {
+        .terms-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .terms-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 22px;
+      }
+
+      .terms-card h3 {
+        margin: 0 0 12px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .terms-card ul {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .terms-card li {
+        margin-bottom: 6px;
+      }
+
+      .reasons-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      @media (max-width: 640px) {
+        .reasons-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .reason-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 22px;
+        transition: border-color 0.2s ease;
+      }
+
+      .reason-card:hover {
+        border-color: rgba(91, 124, 250, 0.4);
+      }
+
+      .reason-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: rgba(91, 124, 250, 0.12);
+        border: 1px solid rgba(91, 124, 250, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-bottom: 14px;
+      }
+
+      .reason-card h4 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+
+      .reason-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .steps-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .step-card-horizontal {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px 20px;
+      }
+
+      .step-number {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .step-content h4 {
+        margin: 0 0 4px;
+        font-size: 16px;
+      }
+
+      .step-content p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .form-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 32px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .form-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      }
+
+      .form-card h2 {
+        text-align: center;
+        margin: 0 0 8px;
+      }
+
+      .form-card > .form-subtitle {
+        text-align: center;
+        color: var(--muted);
+        font-size: 14px;
+        margin: 0 0 24px;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        background: #0f1320;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px 14px;
+        border-radius: 12px;
+        font-size: 15px;
+        box-sizing: border-box;
+        font-family: inherit;
+      }
+
+      .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(91, 124, 250, 0.15);
+      }
+
+      .file-hint {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      .btn-submit {
+        width: 100%;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        padding: 16px 24px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+      }
+
+      .btn-submit:hover {
+        opacity: 0.9;
+      }
+
+      .or-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 20px 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .or-divider::before,
+      .or-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .btn-telegram {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        background: rgba(34, 158, 230, 0.12);
+        border: 1px solid rgba(34, 158, 230, 0.3);
+        color: #38bdf8;
+        padding: 14px 24px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+
+      .btn-telegram:hover {
+        background: rgba(34, 158, 230, 0.2);
+      }
+
+      .faq-item {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px 20px;
+        margin-bottom: 12px;
+      }
+
+      .faq-item h4 {
+        margin: 0 0 8px;
+        font-size: 15px;
+      }
+
+      .faq-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      @media (max-width: 768px) {
+        .form-card {
+          padding: 24px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div id="logo-container"></div>
+      </header>
+
+      <div class="switch-page">
+        <div class="switch-hero">
+          <div class="switch-badge">⚡ New user offer</div>
+          <h1>Switch from your old VPN to FRKN</h1>
+          <p>
+            Get a 6-month discount on FRKN RealPipe. Just send us a screenshot
+            of your paid subscription to another VPN or self-hosted service.
+          </p>
+          <a class="btn" href="#switch-form">Get the discount</a>
+        </div>
+
+        <div class="switch-section">
+          <div class="steps-list">
+            <div class="step-card-horizontal">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Take a screenshot</h4>
+                <p>
+                  Capture proof of payment for your old VPN: receipt, email,
+                  account screen, or any other purchase confirmation.
+                </p>
+              </div>
+            </div>
+            <div class="step-card-horizontal">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Send a request</h4>
+                <p>
+                  Fill out the form below or message us on Telegram. Attach the
+                  screenshot to your email.
+                </p>
+              </div>
+            </div>
+            <div class="step-card-horizontal">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Get your discount</h4>
+                <p>
+                  We will review your request and send you a personal promo code
+                  for 6 months off.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="switch-section">
+          <h2>Offer terms</h2>
+          <div class="terms-grid">
+            <div class="terms-card">
+              <h3>✅ Accepted</h3>
+              <ul>
+                <li>Any active paid VPN</li>
+                <li>Self-hosted VPN solutions</li>
+                <li>Subscriptions for 1 month or longer</li>
+                <li>Screenshot, receipt, email, or account screen</li>
+              </ul>
+            </div>
+            <div class="terms-card">
+              <h3>❌ Not accepted</h3>
+              <ul>
+                <li>Free VPNs</li>
+                <li>Trial periods without payment</li>
+                <li>Subscriptions shorter than 1 month</li>
+                <li>Active FRKN subscriptions</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="switch-section">
+          <h2>6 reasons to switch to FRKN</h2>
+          <div class="reasons-grid">
+            <div class="reason-card">
+              <div class="reason-icon">🏷️</div>
+              <h4>Best switching deal</h4>
+              <p>
+                6 months off — the best offer for switching from any other
+                service.
+              </p>
+            </div>
+            <div class="reason-card">
+              <div class="reason-icon">📱</div>
+              <h4>Unlimited devices</h4>
+              <p>
+                Connect phones, laptops, tablets, and even a router — no device
+                limits.
+              </p>
+            </div>
+            <div class="reason-card">
+              <div class="reason-icon">🛡️</div>
+              <h4>Block-resistant</h4>
+              <p>
+                VLESS Reality, Hysteria2, AmneziaWG and other protocols for
+                stable access.
+              </p>
+            </div>
+            <div class="reason-card">
+              <div class="reason-icon">💸</div>
+              <h4>7-day refund</h4>
+              <p>
+                Not satisfied? Get a full refund within a week, no questions
+                asked.
+              </p>
+            </div>
+            <div class="reason-card">
+              <div class="reason-icon">🤝</div>
+              <h4>Refer friends</h4>
+              <p>
+                Invite friends and get +7 days of access for each invited user.
+              </p>
+            </div>
+            <div class="reason-card">
+              <div class="reason-icon">🖥️</div>
+              <h4>Apps for every platform</h4>
+              <p>
+                Works on iOS, Android, Windows, macOS, Linux, and routers — set
+                up in minutes.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="switch-section" id="switch-form">
+          <div class="form-card">
+            <h2>Get the discount</h2>
+            <p class="form-subtitle">
+              Fill out the form and we will email you a promo code.
+            </p>
+
+            <form id="switchForm">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="How should we call you"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="your@email.com"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  placeholder="Name of old VPN, purchase date, preferred contact method"
+                ></textarea>
+              </div>
+
+              <p class="file-hint">
+                After clicking the button your email app will open. Attach a
+                screenshot of your paid subscription and send it to
+                <strong>pigeon@frkn.org</strong>.
+              </p>
+
+              <button type="submit" class="btn-submit" style="margin-top: 16px;">
+                Send request
+              </button>
+            </form>
+
+            <div class="or-divider">or</div>
+
+            <a
+              href="https://t.me/frkn_support"
+              class="btn-telegram"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Message us on Telegram
+            </a>
+          </div>
+        </div>
+
+        <div class="switch-section">
+          <h2>FAQ</h2>
+          <div class="faq-item">
+            <h4>How long does verification take?</h4>
+            <p>
+              We usually review requests within a few hours during business
+              hours.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h4>Can I apply if my subscription has expired?</h4>
+            <p>
+              The offer is for active paid subscriptions. If yours expired but
+              you have a payment receipt — contact us and we will review it
+              individually.
+            </p>
+          </div>
+          <div class="faq-item">
+            <h4>Can I combine this discount with other offers?</h4>
+            <p>
+              The switching promo code cannot be combined with other promo codes
+              and is limited to one per account.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="footer-container"></div>
+    </div>
+
+    <script src="/scripts/analytics.js" defer></script>
+    <script src="/scripts/i18n.js"></script>
+    <script src="/scripts/containers.js"></script>
+    <script>
+      document
+        .getElementById("switchForm")
+        ?.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          const name = document.getElementById("name").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const message = document.getElementById("message").value.trim();
+
+          const subject = encodeURIComponent(
+            "Switch from old VPN to FRKN discount request",
+          );
+          const body = encodeURIComponent(
+            `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message || "-"}\n\nPlease attach a screenshot of your paid VPN subscription.`,
+          );
+
+          window.location.href = `mailto:pigeon@frkn.org?subject=${subject}&body=${body}`;
+        });
+    </script>
+  </body>
+</html>
