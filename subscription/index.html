@@ -2224,7 +2224,7 @@
                     <span class="badge">WG</span>
                   </div>
 
-                  <div style="display:flex; gap:10px;">
+                  <div style="display:flex; gap:10px; flex-wrap: wrap;">
                     <button onclick="copyText(\`${escapeBackticks(n.config)}\`, 'Скопировано')">
                       Copy
                     </button>
@@ -2232,16 +2232,15 @@
                     <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, '')}')">
                       Download
                     </button>
+
+                    <button type="button" class="qr-toggle" onclick="this.closest('.proxy-item').nextElementSibling.classList.toggle('collapsed')">📷 Показать QR</button>
                   </div>
                 </li>
 
-                <div class="qr-wrapper">
-                  <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 Показать QR</button>
-                  <div class="qr-row collapsed" style="margin-bottom: 16px;">
-                    <div class="qr-item">
-                      <span>${labels[i]}</span>
-                      <canvas id="wg-qr-${i}"></canvas>
-                    </div>
+                <div class="qr-row collapsed" style="margin-bottom: 16px;">
+                  <div class="qr-item">
+                    <span>${labels[i]}</span>
+                    <canvas id="wg-qr-${i}"></canvas>
                   </div>
                 </div>
               `,
@@ -2322,7 +2321,7 @@
                     <span class="badge">AWG</span>
                   </div>
 
-                  <div style="display:flex; gap:10px;">
+                  <div style="display:flex; gap:10px; flex-wrap: wrap;">
                     <button onclick="copyText(\`${escapeBackticks(n.config)}\`, 'Скопировано')">
                       Copy
                     </button>
@@ -2330,16 +2329,15 @@
                     <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, '')}')">
                       Download
                     </button>
+
+                    <button type="button" class="qr-toggle" onclick="this.closest('.proxy-item').nextElementSibling.classList.toggle('collapsed')">📷 Показать QR</button>
                   </div>
                 </li>
 
-                <div class="qr-wrapper">
-                  <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 Показать QR</button>
-                  <div class="qr-row collapsed" style="margin-bottom: 16px;">
-                    <div class="qr-item">
-                      <span>${labels[i]}</span>
-                      <canvas id="awg-qr-${i}"></canvas>
-                    </div>
+                <div class="qr-row collapsed" style="margin-bottom: 16px;">
+                  <div class="qr-item">
+                    <span>${labels[i]}</span>
+                    <canvas id="awg-qr-${i}"></canvas>
                   </div>
                 </div>
               `,
