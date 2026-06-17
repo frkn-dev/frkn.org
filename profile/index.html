@@ -11,7 +11,7 @@
     <meta property="og:title" content="Доступ к подписке — FRKN Рилзопровод" />
     <meta property="og:site_name" content="frkn" />
     <meta name="theme-color" content="#0b0d12" />
-    <link rel="canonical" href="https://frkn.org" />
+    <link rel="canonical" href="https://frkn.org/profile/" />
     <meta
       property="og:description"
       content="Доступ к подписке — FRKN Рилзопровод"
@@ -19,18 +19,316 @@
     <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:url" content="https://frkn.org" />
+    <meta property="og:url" content="https://frkn.org/profile/" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Доступ к подписке — FRKN Рилзопровод" />
+    <meta name="twitter:title" content="FRKN Рилзопровод" />
+    <meta name="twitter:description" content="Доступ к подписке" />
     <meta name="twitter:image" content="https://frkn.org/Images/preview.jpeg" />
     <meta name="robots" content="index, follow" />
 
-    <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/styles.css" />
-    <link rel="stylesheet" href="/activate-styles.css" />
     <style>
-      /* Стили для модального окна */
+      .activate-page {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 20px 0 60px;
+      }
+
+      .activate-hero {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+
+      .activate-hero h1 {
+        font-size: clamp(28px, 6vw, 40px);
+        margin: 0 0 12px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .activate-hero p {
+        color: var(--muted);
+        font-size: 16px;
+        margin: 0;
+      }
+
+      .activate-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 32px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .activate-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      }
+
+      .activate-card-header {
+        text-align: center;
+        margin-bottom: 28px;
+      }
+
+      .key-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 16px;
+        background: linear-gradient(
+          135deg,
+          rgba(91, 124, 250, 0.15),
+          rgba(34, 211, 238, 0.1)
+        );
+        border: 1px solid rgba(91, 124, 250, 0.25);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+      }
+
+      .activate-card-header h2 {
+        margin: 0;
+        font-size: 22px;
+      }
+
+      .activate-card-header p {
+        color: var(--muted);
+        font-size: 14px;
+        margin: 8px 0 0;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      .input-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 8px;
+      }
+
+      .input-group input {
+        width: 100%;
+        background: #0f1320;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 14px 16px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-family: "SF Mono", Monaco, monospace;
+        letter-spacing: 0.05em;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        box-sizing: border-box;
+      }
+
+      .input-group input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(91, 124, 250, 0.15);
+      }
+
+      .input-hint {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      .btn-activate {
+        width: 100%;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        padding: 16px 24px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .btn-activate:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+
+      .btn-activate:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .activation-message {
+        margin-top: 16px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+        text-align: center;
+        min-height: 1.4em;
+        display: none;
+      }
+
+      .activation-message.show {
+        display: block;
+      }
+
+      .activation-message.error {
+        background: rgba(220, 53, 69, 0.1);
+        border: 1px solid rgba(220, 53, 69, 0.3);
+        color: #ff6b7a;
+      }
+
+      .activation-message.success {
+        background: rgba(40, 167, 69, 0.1);
+        border: 1px solid rgba(40, 167, 69, 0.3);
+        color: #71d388;
+      }
+
+      .activation-message.info {
+        background: rgba(91, 124, 250, 0.08);
+        border: 1px solid rgba(91, 124, 250, 0.25);
+        color: var(--text);
+      }
+
+      .activate-links {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+        flex-wrap: wrap;
+      }
+
+      .activate-links a {
+        color: var(--muted);
+        font-size: 14px;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .activate-links a:hover {
+        color: var(--accent-2);
+      }
+
+      .activate-faq {
+        margin-top: 40px;
+      }
+
+      .activate-faq h3 {
+        text-align: center;
+        margin: 0 0 20px;
+        font-size: 18px;
+      }
+
+      .faq-item {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px 20px;
+        margin-bottom: 12px;
+      }
+
+      .faq-item h4 {
+        margin: 0 0 8px;
+        font-size: 15px;
+        color: var(--text);
+      }
+
+      .faq-item p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .activate-benefits {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin: 28px 0;
+      }
+
+      .benefit-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        transition: border-color 0.2s ease;
+      }
+
+      .benefit-card:hover {
+        border-color: rgba(91, 124, 250, 0.4);
+      }
+
+      .benefit-card.wide {
+        grid-column: 1 / -1;
+      }
+
+      .benefit-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+      }
+
+      .benefit-icon.green {
+        background: rgba(34, 197, 94, 0.12);
+      }
+
+      .benefit-icon.blue {
+        background: rgba(91, 124, 250, 0.12);
+      }
+
+      .benefit-icon.purple {
+        background: rgba(168, 85, 247, 0.12);
+      }
+
+      .benefit-content h4 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+
+      .benefit-content p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      @media (max-width: 768px) {
+        .activate-benefits {
+          grid-template-columns: 1fr;
+        }
+
+        .benefit-card.wide {
+          grid-column: auto;
+        }
+      }
+
+      /* Modal */
       .modal {
         display: none;
         position: fixed;
@@ -53,36 +351,31 @@
       }
 
       .modal-content {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        border-radius: 20px;
-        padding: 24px;
-        max-width: 500px;
+        background: var(--card);
+        border-radius: 24px;
+        padding: 32px;
+        max-width: 480px;
         width: 100%;
         max-height: 90vh;
         overflow-y: auto;
         text-align: center;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--border);
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         animation: slideUp 0.3s ease;
       }
 
-      /* Стилизация скроллбара */
       .modal-content::-webkit-scrollbar {
         width: 6px;
       }
 
       .modal-content::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
         border-radius: 10px;
       }
 
       .modal-content::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.2);
         border-radius: 10px;
-      }
-
-      .modal-content::-webkit-scrollbar-thumb:hover {
-        background: rgba(255, 255, 255, 0.5);
       }
 
       @keyframes fadeIn {
@@ -106,56 +399,73 @@
       }
 
       .modal-icon {
-        font-size: 48px;
-        margin-bottom: 16px;
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 16px;
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.15),
+          rgba(34, 197, 94, 0.05)
+        );
+        border: 1px solid rgba(34, 197, 94, 0.25);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
       }
 
       .modal-title {
         font-size: 22px;
-        font-weight: bold;
-        margin-bottom: 12px;
-        color: #fff;
+        font-weight: 700;
+        margin-bottom: 8px;
       }
 
       .modal-description {
-        color: #a0a0a0;
-        margin-bottom: 20px;
+        color: var(--muted);
+        margin-bottom: 24px;
         line-height: 1.5;
         font-size: 14px;
       }
 
       .key-label {
         font-size: 11px;
-        color: #888;
+        color: var(--muted);
         margin-bottom: 6px;
         text-transform: uppercase;
         letter-spacing: 1px;
       }
 
       .key-display {
-        background: rgba(0, 0, 0, 0.5);
-        padding: 12px;
-        border-radius: 8px;
-        font-family: "Courier New", monospace;
+        background: #0f1320;
+        padding: 14px;
+        border-radius: 12px;
+        font-family: "SF Mono", Monaco, monospace;
         font-size: 14px;
-        margin: 16px 0;
+        margin: 12px 0 20px;
         word-break: break-all;
-        color: #4ade80;
+        color: var(--accent-2);
         letter-spacing: 1px;
-        font-weight: bold;
+        font-weight: 700;
+        border: 1px solid var(--border);
       }
 
       .days-highlight {
-        background: linear-gradient(135deg, #22c55e20, #16a34a20);
-        border-radius: 12px;
-        padding: 16px;
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.12),
+          rgba(34, 197, 94, 0.05)
+        );
+        border: 1px solid rgba(34, 197, 94, 0.2);
+        border-radius: 16px;
+        padding: 18px;
         text-align: center;
-        margin: 16px 0;
+        margin: 20px 0;
       }
 
       .days-number {
         font-size: 32px;
-        font-weight: bold;
+        font-weight: 700;
         color: #22c55e;
         display: inline-block;
         margin-right: 8px;
@@ -163,15 +473,15 @@
 
       .days-text {
         font-size: 16px;
-        color: #fff;
+        color: var(--text);
       }
 
       .info-box {
-        background: rgba(34, 197, 94, 0.1);
+        background: rgba(34, 197, 94, 0.08);
         border-left: 3px solid #22c55e;
-        padding: 12px;
+        padding: 14px;
         margin: 16px 0;
-        border-radius: 8px;
+        border-radius: 0 12px 12px 0;
         text-align: left;
       }
 
@@ -179,81 +489,86 @@
         font-size: 14px;
         margin-bottom: 8px;
         color: #22c55e;
-        font-weight: bold;
+        font-weight: 700;
       }
 
       .info-box p {
         margin: 6px 0;
         font-size: 13px;
-        color: #a0a0a0;
-        line-height: 1.4;
+        color: var(--muted);
+        line-height: 1.5;
       }
 
       .separator {
         height: 1px;
-        background: rgba(255, 255, 255, 0.1);
-        margin: 12px 0;
+        background: var(--border);
+        margin: 16px 0;
       }
 
       .warning-box {
-        background: rgba(255, 100, 100, 0.1);
-        border-left: 3px solid #ff4444;
-        padding: 12px;
+        background: rgba(220, 53, 69, 0.08);
+        border-left: 3px solid #dc3545;
+        padding: 14px;
         margin: 16px 0;
-        border-radius: 8px;
+        border-radius: 0 12px 12px 0;
         text-align: left;
       }
 
       .warning-title {
         font-size: 14px;
         margin-bottom: 8px;
-        color: #ff6666;
-        font-weight: bold;
+        color: #ff6b7a;
+        font-weight: 700;
       }
 
       .warning-box p {
         margin: 6px 0;
         font-size: 13px;
-        color: #ff8888;
-        line-height: 1.4;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .warning-box a {
+        color: var(--accent-2);
+        text-decoration: underline;
       }
 
       .modal-buttons {
         display: flex;
         gap: 12px;
         justify-content: center;
-        margin-top: 20px;
+        margin-top: 24px;
       }
 
       .btn-modal {
-        padding: 10px 20px;
+        padding: 12px 20px;
         border: none;
-        border-radius: 10px;
+        border-radius: 12px;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 600;
         cursor: pointer;
         transition: all 0.2s ease;
-      }
-
-      .btn-activate {
-        background: linear-gradient(135deg, #22c55e, #16a34a);
-        color: white;
         flex: 1;
       }
 
-      .btn-activate:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+      .btn-confirm {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: white;
+      }
+
+      .btn-confirm:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
       }
 
       .btn-cancel {
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
-        flex: 1;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border);
+        color: var(--text);
       }
 
       .btn-cancel:hover {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.1);
       }
 
       .loading-spinner {
@@ -287,10 +602,19 @@
         }
       }
 
-      /* Адаптация под мобильные устройства */
-      @media (max-width: 480px) {
+      @media (max-width: 768px) {
+        .activate-page {
+          padding: 10px 0 40px;
+        }
+
+        .activate-card {
+          padding: 24px;
+          border-radius: 20px;
+        }
+
         .modal-content {
-          padding: 20px;
+          padding: 24px;
+          border-radius: 20px;
         }
 
         .modal-title {
@@ -300,62 +624,134 @@
         .days-number {
           font-size: 28px;
         }
-
-        .btn-modal {
-          padding: 10px 16px;
-          font-size: 13px;
-        }
-
-        .key-display {
-          font-size: 12px;
-          padding: 10px;
-        }
-
-        .info-box p,
-        .warning-box p {
-          font-size: 12px;
-        }
       }
     </style>
   </head>
+
   <body>
     <div class="container">
       <header>
-        <h1 class="hero-title">
-          Рилзопровод:<br />
-          Доступ к подписке
-        </h1>
         <div id="logo-container"></div>
       </header>
-      <section class="hero">
-        <div class="hero-content">
-          <div class="card trialCard">
-            <form id="subscriptionForm">
+
+      <div class="activate-page">
+        <div class="activate-hero">
+          <h1>Доступ к подписке</h1>
+          <p>
+            Введи ID подписки или ключ активации, чтобы войти в личный кабинет.
+          </p>
+        </div>
+
+        <div class="activate-card">
+          <div class="activate-card-header">
+            <div class="key-icon">🔐</div>
+            <h2>Вход в личный кабинет</h2>
+            <p>ID подписки — UUID, ключ — набор символов через дефис</p>
+          </div>
+
+          <form id="subscriptionForm">
+            <div class="input-group">
+              <label for="subId">ID подписки или ключ</label>
               <input
                 type="text"
-                name="id"
                 id="subId"
-                placeholder="Введите ID подписки"
+                name="id"
+                placeholder="Введите ID подписки или ключ"
                 required
+                autocomplete="off"
               />
-              <button class="btn" type="submit">Открыть подписку</button>
+              <span class="input-hint"
+                >Например: 550e8400-e29b-41d4-a716-446655440000 или
+                XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-X</span
+              >
+            </div>
 
-              <div class="message" id="subMessage"></div>
-              <div class="small right">
-                <a href="/info/subscriptions" class="text-link"
-                  >Где взять ID?</a
-                >
-                |
-                <a href="/info/subscriptions" class="text-link"
-                  >Что такое подписка?</a
-                >
-                |
-                <a href="/pay" class="text-link">Купить подписку</a>
-              </div>
-            </form>
+            <button class="btn-activate" type="submit">Открыть подписку</button>
+          </form>
+
+          <div id="subMessage" class="activation-message"></div>
+
+          <div class="activate-links">
+            <a href="/info/subscriptions/">Где взять ID?</a>
+            <a href="/pay/">Купить подписку</a>
+            <a href="/activate/">Активировать ключ</a>
           </div>
         </div>
-      </section>
+
+        <div class="activate-benefits">
+          <div class="benefit-card">
+            <div class="benefit-icon blue">🆔</div>
+            <div class="benefit-content">
+              <h4>Вход по ID</h4>
+              <p>
+                Используй UUID подписки, чтобы сразу попасть в личный кабинет и
+                управлять устройствами.
+              </p>
+            </div>
+          </div>
+
+          <div class="benefit-card">
+            <div class="benefit-icon green">🔑</div>
+            <div class="benefit-content">
+              <h4>Активация ключа</h4>
+              <p>
+                Если у тебя ключ активации — мы создадим подписку и привяжем
+                ключ автоматически.
+              </p>
+            </div>
+          </div>
+
+          <div class="benefit-card wide">
+            <div class="benefit-icon purple">📱</div>
+            <div class="benefit-content">
+              <h4>Настройка на любом устройстве</h4>
+              <p>
+                В кабинете найдёшь ссылку подписки и пошаговые инструкции для
+                всех платформ.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="activate-faq">
+          <h3>Частые вопросы</h3>
+
+          <div class="faq-item">
+            <h4>Где взять ID подписки?</h4>
+            <p>
+              ID приходит вместе с покупкой на почту или в Telegram-бота. Также
+              его можно найти в
+              <a
+                href="/info/subscriptions/"
+                style="color: var(--accent); text-decoration: underline;"
+                >инструкции</a
+              >.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h4>Что делать, если купил ключ?</h4>
+            <p>
+              Лучше активировать ключ на странице
+              <a
+                href="/activate/"
+                style="color: var(--accent); text-decoration: underline;"
+                >Активация</a
+              >
+              или введи его здесь — мы создадим подписку.
+            </p>
+          </div>
+
+          <div class="faq-item">
+            <h4>Можно ли войти с другого устройства?</h4>
+            <p>
+              Да, просто введи тот же ID подписки на любом устройстве. Никакого
+              пароля не требуется.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div id="footer-container"></div>
     </div>
 
@@ -365,11 +761,11 @@
         <div class="modal-icon">🔑</div>
         <h2 class="modal-title">Активация ключа</h2>
         <div class="modal-description">
-          Вы ввели неактивированный ключ для получения доступа к Рилзопроводу
+          Ты собираешься активировать ключ для получения доступа к Рилзопроводу
           FRKN
         </div>
 
-        <div class="key-label">ВАШ КЛЮЧ АКТИВАЦИИ</div>
+        <div class="key-label">ТВОЙ КЛЮЧ АКТИВАЦИИ</div>
         <div class="key-display" id="modalKeyDisplay"></div>
 
         <div class="days-highlight">
@@ -378,37 +774,35 @@
         </div>
 
         <div class="info-box">
-          <div class="info-title">📋 Что произойдёт после активации?</div>
+          <div class="info-title">Что произойдёт после активации?</div>
           <p>
             ✅ Будет создана новая подписка на
             <strong id="infoDaysNumber">66</strong> дней
           </p>
-          <p>✅ Вы получите доступ ко всем функциям Рилзопровода FRKN</p>
+          <p>✅ Ты получишь доступ ко всем функциям Рилзопровода FRKN</p>
           <p>✅ Подписку можно будет продлить в личном кабинете</p>
         </div>
 
         <div class="separator"></div>
 
         <div class="warning-box">
-          <div class="warning-title">⚠️ ВАЖНАЯ ИНФОРМАЦИЯ</div>
+          <div class="warning-title">ВАЖНАЯ ИНФОРМАЦИЯ</div>
           <p>
             🔸 <strong>Ключ одноразовый</strong> — после активации его нельзя
             использовать повторно
           </p>
           <p>🔸 Активация создаёт <strong>НОВУЮ подписку</strong></p>
           <p>
-            🔸 Если вы хотите продлить текущую подписку используйте форму
-            активации ключа на странице подписки
-            <a href="/subscription">https://frkn.org/subscription</a>
+            🔸 Если хочешь продлить текущую подписку, активируй ключ в личном
+            кабинете: <a href="/subscription/">frkn.org/subscription</a>
           </p>
-          <p>🔸 Убедитесь, что вы хотите активировать ключ именно сейчас</p>
         </div>
 
         <div class="modal-buttons">
           <button class="btn-modal btn-cancel" id="cancelActivationBtn">
             Отмена
           </button>
-          <button class="btn-modal btn-activate" id="confirmActivationBtn">
+          <button class="btn-modal btn-confirm" id="confirmActivationBtn">
             Активировать ключ
           </button>
         </div>
@@ -424,7 +818,6 @@
       const key =
         params.get("key") || params.get("code") || params.get("promo");
 
-      // Автозаполнение из URL
       if (subId) {
         const subIdInput = document.getElementById("subId");
         if (subIdInput) {
@@ -443,7 +836,6 @@
       const isLocal =
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1";
-      const BASE = isLocal ? "http://localhost:8080" : "https://frkn.org";
       const API_BASE = isLocal
         ? "http://localhost:3000"
         : "https://heheapi.frkn.org";
@@ -453,15 +845,22 @@
       let pendingKey = null;
       let pendingKeyData = null;
 
-      // Функции для работы с модальным окном
+      function showMessage(text, type = "info") {
+        subMessage.textContent = text;
+        subMessage.className = `activation-message show ${type}`;
+      }
+
+      function clearMessage() {
+        subMessage.textContent = "";
+        subMessage.className = "activation-message";
+      }
+
       function showModal(keyValue, keyData) {
         pendingKey = keyValue;
         pendingKeyData = keyData;
 
-        // Отображаем ключ
         document.getElementById("modalKeyDisplay").textContent = keyValue;
 
-        // Отображаем количество дней (если есть)
         const days = keyData?.days || 66;
         document.getElementById("keyDaysNumber").textContent = days;
         document.getElementById("infoDaysNumber").textContent = days;
@@ -493,9 +892,7 @@
         let subscriptionId = null;
 
         try {
-          // Шаг 1: Создаём подписку
-          subMessage.textContent = "⏳ Создаём подписку...";
-          subMessage.style.color = "#ffffff";
+          showMessage("⏳ Создаём подписку...", "info");
 
           const resCreateSubscription = await fetch(`${API_BASE}/trial`, {
             method: "POST",
@@ -518,8 +915,7 @@
             throw new Error("Не удалось получить ID подписки");
           }
 
-          // Шаг 2: Активируем ключ и привязываем к подписке
-          subMessage.textContent = "⏳ Активируем ключ...";
+          showMessage("⏳ Активируем ключ...", "info");
 
           const payload = {
             code: keyValue,
@@ -538,9 +934,10 @@
             const modalContent = document.querySelector(".modal-content");
             modalContent.classList.add("success-animation");
 
-            subMessage.innerHTML =
-              "✅ Ключ успешно активирован! Перенаправляем...";
-            subMessage.style.color = "#22c55e";
+            showMessage(
+              "✅ Ключ успешно активирован! Перенаправляем...",
+              "success",
+            );
 
             setTimeout(() => {
               hideModal();
@@ -551,12 +948,11 @@
           }
         } catch (err) {
           console.error(err);
-          subMessage.innerHTML = `❌ ${err.message || "Ошибка активации ключа"}`;
-          subMessage.style.color = "#ff4444";
+          showMessage(err.message || "❌ Ошибка активации ключа", "error");
 
-          // Если создали подписку но не смогли активировать ключ
           if (subscriptionId) {
-            subMessage.innerHTML += `<br>⚠️ Подписка создана, но ключ не активирован. Обратитесь в поддержку.`;
+            subMessage.innerHTML +=
+              "<br>⚠️ Подписка создана, но ключ не активирован. Обратитесь в поддержку.";
           }
 
           hideModal();
@@ -570,6 +966,7 @@
       } else {
         subForm.addEventListener("submit", async (e) => {
           e.preventDefault();
+          clearMessage();
 
           const value = document
             .getElementById("subId")
@@ -577,8 +974,7 @@
             .toUpperCase();
 
           if (!value) {
-            subMessage.textContent = "❌ Введите ID или ключ";
-            subMessage.style.color = "#ff4444";
+            showMessage("❌ Введите ID или ключ", "error");
             return;
           }
 
@@ -588,18 +984,14 @@
           const keyRegex =
             /^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{1}$/i;
 
-          // UUID подписки
           if (uuidRegex.test(value)) {
-            subMessage.textContent = "✅ Открываем подписку...";
-            subMessage.style.color = "#22c55e";
+            showMessage("✅ Открываем подписку...", "success");
             window.location.href = `/subscription?id=${value}`;
             return;
           }
 
-          // Ключ активации
           if (keyRegex.test(value)) {
-            subMessage.textContent = "⏳ Проверяем ключ...";
-            subMessage.style.color = "#ffffff";
+            showMessage("⏳ Проверяем ключ...", "info");
 
             try {
               const res = await fetch(
@@ -610,43 +1002,38 @@
               if (data?.status === 200 && data?.response?.instance?.Key) {
                 const keyData = data.response.instance.Key;
 
-                // Ключ уже активирован
                 if (keyData.activated && keyData.subscription_id) {
-                  subMessage.innerHTML =
-                    "✅ Ключ уже активирован! Перенаправляем...";
-                  subMessage.style.color = "#22c55e";
+                  showMessage(
+                    "✅ Ключ уже активирован! Перенаправляем...",
+                    "success",
+                  );
                   setTimeout(() => {
                     window.location.href = `/subscription?id=${keyData.subscription_id}`;
                   }, 1000);
                   return;
                 }
 
-                // Ключ валиден, но не активирован
                 if (!keyData.activated) {
                   showModal(value, keyData);
                   return;
                 }
               }
 
-              subMessage.textContent =
-                "❌ " + (data?.message || "Ключ недействителен");
-              subMessage.style.color = "#ff4444";
+              showMessage("❌ " + (data?.message || "Ключ недействителен"), "error");
             } catch (err) {
               console.error(err);
-              subMessage.textContent =
-                "❌ Ошибка проверки ключа. Попробуйте позже.";
-              subMessage.style.color = "#ff4444";
+              showMessage(
+                "❌ Ошибка проверки ключа. Попробуйте позже.",
+                "error",
+              );
             }
             return;
           }
 
-          // Невалидный ввод
-          subMessage.textContent = "❌ Введите корректный ID или ключ";
-          subMessage.style.color = "#ff4444";
+          showMessage("❌ Введите корректный ID или ключ", "error");
         });
       }
 
-      // Обработчики модального окна
       document
         .getElementById("confirmActivationBtn")
         ?.addEventListener("click", () => {
@@ -659,8 +1046,7 @@
         .getElementById("cancelActivationBtn")
         ?.addEventListener("click", () => {
           hideModal();
-          subMessage.textContent = "⚠️ Активация отменена";
-          subMessage.style.color = "#ffaa00";
+          showMessage("⚠️ Активация отменена", "info");
 
           const input = document.getElementById("subId");
           if (input) {

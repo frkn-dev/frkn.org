@@ -1,173 +1,718 @@
 <!doctype html>
 <html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Инструкции по подключению к FRKN Рилзопроводу на iOS, Android, Windows, macOS и роутерах."
+    />
+    <link rel="canonical" href="https://frkn.org/setup/" />
+    <title>Как подключиться — FRKN</title>
+    <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      .page-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <title>FRKN — Как подключиться</title>
-  <link rel="stylesheet" href="/styles.css" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      .page-header h1 {
+        font-size: clamp(28px, 6vw, 42px);
+        margin: 0 0 12px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-  <style>
-    body {
-      font-family: -apple-system, system-ui, sans-serif;
-      background: #0f172a;
-      color: #e2e8f0;
-      margin: 0;
-      padding: 20px;
-    }
+      .page-header p {
+        color: var(--muted);
+        font-size: 17px;
+        max-width: 620px;
+        margin: 0 auto;
+      }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+      .platform-tabs {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+      }
 
-    .platform {
-      background: #1e293b;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
+      .platform-tab {
+        background: rgba(91, 124, 250, 0.08);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        padding: 10px 20px;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
 
-    .platform h2 {
-      margin-top: 0;
-    }
+      .platform-tab:hover {
+        border-color: var(--accent);
+        color: var(--text);
+      }
 
-    .app {
-      margin-bottom: 15px;
-    }
+      .platform-tab.active {
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        border-color: transparent;
+      }
 
-    a.btn {
-      display: inline-block;
-      margin-top: 5px;
-      padding: 8px 14px;
-      background: #2563eb;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      font-size: 14px;
-    }
+      .setup-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 40px;
+      }
 
-    .steps {
-      font-size: 14px;
-      color: #cbd5f5;
-      margin-top: 10px;
-    }
+      .setup-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        transition:
+          transform 0.2s ease,
+          border-color 0.2s ease;
+      }
 
-    .steps li {
-      margin-bottom: 5px;
-    }
-  </style>
-</head>
+      .setup-card:hover {
+        border-color: rgba(91, 124, 250, 0.4);
+      }
 
-<body>
+      .setup-card.wide {
+        grid-column: 1 / -1;
+      }
 
-  <h1>🚀 Как подключиться к Рилзопроводу</h1>
+      .setup-card.hidden {
+        display: none;
+      }
 
-  <!-- iOS -->
-  <div class="platform">
-    <h2>📱 iOS (iPhone / iPad)</h2>
+      .setup-card-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
 
-    <div class="app">
-      <b>Streisand</b><br>
-      <a class="btn" href="https://apps.apple.com/us/app/streisand/id6450534064">Скачать</a>
+      .platform-icon {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
 
-      <ul class="steps">
-        <li>Открой приложение</li>
-        <li>Нажми "Import"</li>
-        <li>Вставь свою ссылку из личного кабинета</li>
-        <li>Подключись</li>
-      </ul>
+      .platform-icon svg {
+        width: 100%;
+        height: 100%;
+        fill: currentColor;
+      }
+
+      .setup-card h2 {
+        margin: 0;
+        font-size: 22px;
+      }
+
+      .setup-card-desc {
+        color: var(--muted);
+        font-size: 14px;
+        margin: 0 0 20px;
+      }
+
+      .client-list {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .client-item {
+        border-top: 1px solid var(--border);
+        padding-top: 18px;
+      }
+
+      .client-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+
+      .client-name {
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .client-badges {
+        display: flex;
+        gap: 6px;
+      }
+
+      .client-badge {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 4px 8px;
+        border-radius: 6px;
+      }
+
+      .client-badge.free {
+        background: rgba(40, 167, 69, 0.15);
+        color: #71d388;
+      }
+
+      .client-badge.paid {
+        background: rgba(245, 158, 11, 0.15);
+        color: #fbbf24;
+      }
+
+      .client-badge.recommended {
+        background: rgba(91, 124, 250, 0.15);
+        color: var(--accent-2);
+      }
+
+      .client-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(91, 124, 250, 0.1);
+        border: 1px solid rgba(91, 124, 250, 0.3);
+        color: var(--text);
+        padding: 8px 14px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+
+      .client-btn:hover {
+        background: rgba(91, 124, 250, 0.2);
+        border-color: var(--accent);
+      }
+
+      .client-steps {
+        margin: 12px 0 0;
+        padding-left: 18px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .client-steps li {
+        margin-bottom: 6px;
+      }
+
+      .client-steps li::marker {
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .router-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+      }
+
+      .router-option {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 20px;
+      }
+
+      .router-option h3 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+
+      .router-option p {
+        color: var(--muted);
+        font-size: 14px;
+        margin: 0 0 14px;
+        line-height: 1.5;
+      }
+
+      .help-section {
+        background: linear-gradient(135deg, rgba(91, 124, 250, 0.08), rgba(34, 211, 238, 0.05));
+        border: 1px solid rgba(91, 124, 250, 0.2);
+        border-radius: 20px;
+        padding: 28px;
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .help-section h2 {
+        margin: 0 0 12px;
+        font-size: 22px;
+      }
+
+      .help-section p {
+        color: var(--muted);
+        margin: 0 0 16px;
+      }
+
+      .subscription-url {
+        display: inline-block;
+        background: var(--code-bg, #0a0c11);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-family: "SF Mono", Monaco, monospace;
+        font-size: 13px;
+        color: var(--accent-2);
+        margin-bottom: 20px;
+        word-break: break-all;
+      }
+
+      .cta-row {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        padding: 14px 24px;
+        border-radius: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+      }
+
+      .btn-primary:hover {
+        opacity: 0.9;
+      }
+
+      .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 14px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+
+      .btn-secondary:hover {
+        border-color: var(--accent);
+        background: rgba(91, 124, 250, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .setup-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .setup-card.wide {
+          grid-column: auto;
+        }
+
+        .platform-tabs {
+          gap: 8px;
+        }
+
+        .platform-tab {
+          padding: 8px 14px;
+          font-size: 14px;
+        }
+
+        .client-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div id="logo-container"></div>
+      </header>
+
+      <div class="page-header">
+        <h1>Как подключиться</h1>
+        <p>
+          Выбери свою платформу и следуй инструкции. Всё настроится за пару
+          минут — достаточно установить приложение и вставить ссылку подписки.
+        </p>
+      </div>
+
+      <div class="platform-tabs">
+        <button class="platform-tab active" data-filter="all">Все</button>
+        <button class="platform-tab" data-filter="mobile">📱 Мобильные</button>
+        <button class="platform-tab" data-filter="desktop">💻 Компьютеры</button>
+        <button class="platform-tab" data-filter="routers">🌐 Роутеры</button>
+      </div>
+
+      <div class="setup-grid">
+        <!-- iOS -->
+        <div class="setup-card" data-platform="mobile">
+          <div class="setup-card-header">
+            <span class="platform-icon" aria-label="iOS">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            </span>
+            <h2>iOS</h2>
+          </div>
+          <p class="setup-card-desc">iPhone и iPad</p>
+
+          <div class="client-list">
+            <div class="client-item">
+              <div class="client-header">
+                <span class="client-name">Streisand</span>
+                <div class="client-badges">
+                  <span class="client-badge free">Бесплатно</span>
+                  <span class="client-badge recommended">Рекомендуем</span>
+                </div>
+              </div>
+              <a
+                class="client-btn"
+                href="https://apps.apple.com/us/app/streisand/id6450534064"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Скачать в App Store
+              </a>
+              <ol class="client-steps">
+                <li>Установи Streisand из App Store</li>
+                <li>Открой приложение и нажми <strong>Import</strong></li>
+                <li>
+                  Вставь ссылку подписки из
+                  <a href="/subscription" style="color: var(--accent); text-decoration: underline;">личного кабинета</a>
+                </li>
+                <li>Выбери сервер и нажми Connect</li>
+              </ol>
+            </div>
+
+            <div class="client-item">
+              <div class="client-header">
+                <span class="client-name">Shadowrocket</span>
+                <div class="client-badges">
+                  <span class="client-badge paid">Платное</span>
+                </div>
+              </div>
+              <a
+                class="client-btn"
+                href="https://apps.apple.com/ru/app/shadowrocket/id932747118"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Скачать в App Store
+              </a>
+              <ol class="client-steps">
+                <li>Купи и установи Shadowrocket</li>
+                <li>Нажми плюсик в правом верхнем углу</li>
+                <li>Вставь ссылку подписки</li>
+                <li>Выбери сервер и подключись</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- Android -->
+        <div class="setup-card" data-platform="mobile">
+          <div class="setup-card-header">
+            <span class="platform-icon" aria-label="Android">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0225 3.503C15.5902 8.2439 13.8533 7.8502 12 7.8502s-3.5902.3937-5.1367 1.0998L4.8408 5.4471a.416.416 0 00-.5676-.1521.4156.4156 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589.3432 18.6617h23.3136c0-4.0028-2.3457-7.475-5.7753-9.3403"/></svg>
+            </span>
+            <h2>Android</h2>
+          </div>
+          <p class="setup-card-desc">Смартфоны и планшеты</p>
+
+          <div class="client-list">
+            <div class="client-item">
+              <div class="client-header">
+                <span class="client-name">v2rayNG</span>
+                <div class="client-badges">
+                  <span class="client-badge free">Бесплатно</span>
+                  <span class="client-badge recommended">Рекомендуем</span>
+                </div>
+              </div>
+              <a
+                class="client-btn"
+                href="https://github.com/2dust/v2rayNG/releases"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Скачать с GitHub
+              </a>
+              <ol class="client-steps">
+                <li>Скачай и установи APK с GitHub</li>
+                <li>Открой приложение и нажми <strong>+</strong></li>
+                <li>Выбери <strong>Import from clipboard</strong></li>
+                <li>Вставь ссылку подписки</li>
+                <li>Выбери сервер и нажми значок подключения</li>
+              </ol>
+            </div>
+
+            <div class="client-item">
+              <div class="client-header">
+                <span class="client-name">Hiddify</span>
+                <div class="client-badges">
+                  <span class="client-badge free">Бесплатно</span>
+                </div>
+              </div>
+              <a
+                class="client-btn"
+                href="https://hiddify.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Перейти на сайт
+              </a>
+              <ol class="client-steps">
+                <li>Установи Hiddify из GitHub или Google Play</li>
+                <li>Нажми <strong>Добавить подписку</strong></li>
+                <li>Вставь ссылку подписки</li>
+                <li>Нажми подключение</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- Windows -->
+        <div class="setup-card" data-platform="desktop">
+          <div class="setup-card-header">
+            <span class="platform-icon" aria-label="Windows">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+            </span>
+            <h2>Windows</h2>
+          </div>
+          <p class="setup-card-desc">ПК и ноутбуки</p>
+
+          <div class="client-list">
+            <div class="client-item">
+              <div class="client-header">
+                <span class="client-name">v2rayN</span>
+                <div class="client-badges">
+                  <span class="client-badge free">Бесплатно</span>
+                  <span class="client-badge recommended">Рекомендуем</span>
+                </div>
+              </div>
+              <a
+                class="client-btn"
+                href="https://github.com/2dust/v2rayN/releases"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Скачать с GitHub
+              </a>
+              <ol class="client-steps">
+                <li>Скачай и распакуй архив с GitHub</li>
+                <li>Запусти <code>v2rayN.exe</code></li>
+                <li>Нажми <strong>Servers → Import from clipboard</strong></li>
+                <li>Вставь ссылку подписки</li>
+                <li>Выбери сервер и нажми правой кнопкой → <strong>Set as active server</strong></li>
+              </ol>
+            </div>
+
+            <div class="client-item">
+              <div class="client-header">
+                <span class="client-name">Hiddify</span>
+                <div class="client-badges">
+                  <span class="client-badge free">Бесплатно</span>
+                </div>
+              </div>
+              <a
+                class="client-btn"
+                href="https://hiddify.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Перейти на сайт
+              </a>
+              <ol class="client-steps">
+                <li>Скачай и установи Hiddify</li>
+                <li>Нажми <strong>Добавить подписку</strong></li>
+                <li>Вставь ссылку подписки</li>
+                <li>Выбери режим VPN или прокси</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- macOS -->
+        <div class="setup-card" data-platform="desktop">
+          <div class="setup-card-header">
+            <span class="platform-icon" aria-label="macOS">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            </span>
+            <h2>macOS</h2>
+          </div>
+          <p class="setup-card-desc">MacBook и iMac</p>
+
+          <div class="client-list">
+            <div class="client-item">
+              <div class="client-header">
+                <span class="client-name">V2RayXS</span>
+                <div class="client-badges">
+                  <span class="client-badge free">Бесплатно</span>
+                  <span class="client-badge recommended">Рекомендуем</span>
+                </div>
+              </div>
+              <a
+                class="client-btn"
+                href="https://github.com/tzmax/V2RayXS/releases"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Скачать с GitHub
+              </a>
+              <ol class="client-steps">
+                <li>Скачай приложение и перетащи в Applications</li>
+                <li>Запусти и открой меню из строки состояния</li>
+                <li>Нажми <strong>Import from clipboard</strong></li>
+                <li>Вставь ссылку подписки</li>
+                <li>Выбери сервер и включи прокси</li>
+              </ol>
+            </div>
+
+            <div class="client-item">
+              <div class="client-header">
+                <span class="client-name">Clash Verge</span>
+                <div class="client-badges">
+                  <span class="client-badge free">Бесплатно</span>
+                </div>
+              </div>
+              <a
+                class="client-btn"
+                href="https://github.com/zzzgydi/clash-verge/releases"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Скачать с GitHub
+              </a>
+              <ol class="client-steps">
+                <li>Скачай и установи Clash Verge</li>
+                <li>Импортируй ссылку подписки</li>
+                <li>Выбери режим System Proxy или TUN</li>
+                <li>Нажми кнопку подключения</li>
+              </ol>
+            </div>
+
+            <div class="client-item">
+              <div class="client-header">
+                <span class="client-name">Shadowrocket</span>
+                <div class="client-badges">
+                  <span class="client-badge paid">Платное</span>
+                </div>
+              </div>
+              <a
+                class="client-btn"
+                href="https://apps.apple.com/ru/app/shadowrocket/id932747118"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Скачать в App Store
+              </a>
+              <ol class="client-steps">
+                <li>Купи и установи Shadowrocket из Mac App Store</li>
+                <li>Нажми плюсик и вставь ссылку подписки</li>
+                <li>Выбери сервер и подключись</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- Routers -->
+        <div class="setup-card wide" data-platform="routers">
+          <div class="setup-card-header">
+            <span class="platform-icon" aria-label="Роутеры">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            </span>
+            <h2>Роутеры</h2>
+          </div>
+          <p class="setup-card-desc">Подключи весь домашний интернет разом</p>
+
+          <div class="router-grid">
+            <div class="router-option">
+              <h3>AmneziaWG</h3>
+              <p>
+                Обфусцированный WireGuard для роутеров OpenWRT и Keenetic. Устойчив
+                к блокировкам провайдера.
+              </p>
+              <a
+                class="client-btn"
+                href="/setup/routers/"
+              >
+                Инструкция по настройке
+              </a>
+            </div>
+
+            <div class="router-option">
+              <h3>Xray</h3>
+              <p>
+                VLESS Reality и другие протоколы Xray. Для OpenWRT через v2rayA,
+                для Keenetic через XKeen.
+              </p>
+              <a
+                class="client-btn"
+                href="/setup/routers/"
+              >
+                Инструкция по настройке
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <h2>Где взять ссылку подписки?</h2>
+        <p>
+          Открой личный кабинет, выбери свою подписку и скопируй ссылку. Она
+          выглядит примерно так:
+        </p>
+        <div class="subscription-url">https://api.frkn.org/subscription/abc123</div>
+        <div class="cta-row">
+          <a class="btn-primary" href="/subscription">🔑 Открыть личный кабинет</a>
+          <a class="btn-secondary" href="/activate">Активировать ключ</a>
+        </div>
+      </div>
+
+      <div id="footer-container"></div>
     </div>
 
-    <div class="app">
-      <b>Shadowrocket</b> (платное)<br>
-      <a class="btn" href="https://apps.apple.com/ru/app/shadowrocket/id932747118">Скачать</a>
+    <script src="/scripts/analytics.js" defer></script>
+    <script src="/scripts/containers.js"></script>
+    <script>
+      document.querySelectorAll(".platform-tab").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const filter = btn.dataset.filter;
 
-      <ul class="steps">
-        <li>Открой приложение</li>
-        <li>Нажми плюсик в правом верхнем углу</li>
-        <li>Вставь свою ссылку из личного кабинета</li>
-        <li>Подключись</li>
-      </ul>
-    </div>
-  </div>
+          document
+            .querySelectorAll(".platform-tab")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
 
-  <!-- Android -->
-  <div class="platform">
-    <h2>🤖 Android</h2>
-
-    <div class="app">
-      <b>v2rayNG</b><br>
-      <a class="btn" href="https://github.com/2dust/v2rayNG/releases">Скачать</a>
-
-      <ul class="steps">
-        <li>Открой приложение</li>
-        <li>Нажми "+"</li>
-        <li>Выбери "Import from clipboard"</li>
-        <li>Вставь свою ссылку из личного кабинета</li>
-        <li>Подключись</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Windows -->
-  <div class="platform">
-    <h2>💻 Windows</h2>
-
-    <div class="app">
-      <b>v2rayN</b><br>
-      <a class="btn" href="https://github.com/2dust/v2rayN/releases">Скачать</a>
-
-      <ul class="steps">
-        <li>Открой приложение</li>
-        <li>Вставь свою ссылку из личного кабинета</li>
-        <li>Выбери сервер</li>
-        <li>Нажми "Connect"</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- macOS -->
-  <div class="platform">
-    <h2>🍏 macOS</h2>
-
-    <div class="app">
-      <b>Clash Verge</b><br>
-      <a class="btn" href="https://github.com/zzzgydi/clash-verge/releases">Скачать</a>
-
-      <ul class="steps">
-        <li>Открой приложение</li>
-        <li>Вставь свою ссылку из личного кабинета</li>
-        <li>Выбери сервер</li>
-        <li>Нажми "Connect"</li>
-      </ul>
-    </div>
-    <div class="app">
-      <b>Shadowrocket</b> (платное)<br>
-      <a class="btn" href="https://apps.apple.com/ru/app/shadowrocket/id932747118">Скачать</a>
-
-      <ul class="steps">
-        <li>Открой приложение</li>
-        <li>Нажми плюсик в правом верхнем углу</li>
-        <li>Вставь свою ссылку из личного кабинета</li>
-        <li>Подключись</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- CTA -->
-  <div style="text-align:center; margin-top:30px;margin-bottom:30px;">
-    <a class="btn" href="/subscription">🔑 Открыть свою подписку</a>
-  </div>
-
-  <div id="footer-container"></div>
-
-</body>
-
-
-
-<script src="/scripts/analytics.js" defer></script>
-<script src="/scripts/trial.js"></script>
-<script src="/scripts/containers.js"></script>
-
+          document.querySelectorAll(".setup-card").forEach((card) => {
+            if (filter === "all" || card.dataset.platform === filter) {
+              card.classList.remove("hidden");
+            } else {
+              card.classList.add("hidden");
+            }
+          });
+        });
+      });
+    </script>
+  </body>
 </html>

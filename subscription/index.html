@@ -80,6 +80,22 @@
         transform: scale(1.05);
       }
 
+      .hero-watermark {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+        opacity: 0.5;
+        text-align: center;
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .logo .hero-watermark {
+        margin-top: -4px;
+      }
+
       .logo:hover img {
         box-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
       }
@@ -648,6 +664,91 @@
         color: var(--text);
       }
 
+      .protocol-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 12px;
+      }
+
+      .protocol-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 16px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.02);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+      }
+
+      .protocol-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(91, 124, 250, 0.4);
+        transform: translateY(-2px);
+      }
+
+      .protocol-card.active {
+        background: rgba(91, 124, 250, 0.1);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 1px var(--accent);
+      }
+
+      .protocol-card .protocol-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--text);
+      }
+
+      .protocol-card .protocol-icon {
+        font-size: 1.4rem;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+      }
+
+      .protocol-card .protocol-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: brightness(1.2);
+      }
+
+      .protocol-card .protocol-desc {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+
+      .protocol-card .protocol-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: rgba(16, 185, 129, 0.15);
+        color: #10b981;
+      }
+
+      @media (max-width: 480px) {
+        .protocol-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
       .connection-title {
         margin: 0 0 12px;
         font-size: 1.15rem;
@@ -991,6 +1092,81 @@
           font-size: 1.35rem;
         }
       }
+
+      .setup-help-card {
+        margin-top: 16px;
+        padding: 20px;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        background: linear-gradient(
+          135deg,
+          rgba(91, 124, 250, 0.08),
+          rgba(34, 211, 238, 0.04)
+        );
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .setup-help-card:hover {
+        border-color: rgba(91, 124, 250, 0.4);
+        transform: translateY(-2px);
+      }
+
+      .setup-help-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: rgba(91, 124, 250, 0.12);
+        border: 1px solid rgba(91, 124, 250, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        flex-shrink: 0;
+      }
+
+      .setup-help-content {
+        flex: 1;
+      }
+
+      .setup-help-content h4 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+
+      .setup-help-content p {
+        margin: 0 0 14px;
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .setup-help-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        font-weight: 700;
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+      }
+
+      .setup-help-link:hover {
+        opacity: 0.9;
+      }
+
+      @media (max-width: 480px) {
+        .setup-help-card {
+          flex-direction: column;
+          text-align: center;
+          align-items: center;
+        }
+      }
     </style>
   </head>
 
@@ -999,6 +1175,7 @@
       <header>
         <div class="logo">
           <a href="/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN</a>
+          <div class="hero-watermark">Privacy is our Religion</div>
         </div>
         <div id="env-switcher"></div>
       </header>
@@ -1134,63 +1311,38 @@
             <div id="os-options" class="pill-group"></div>
           </div>
 
-          <div class="step-card step-disabled" id="client-step">
-            <h4>Шаг 2. Выберите клиент</h4>
-            <div id="client-options" class="pill-group"></div>
+          <div class="step-card step-disabled" id="protocol-step">
+            <h4>Шаг 2. Выберите протокол</h4>
+            <p class="small" style="margin: 0 0 14px">
+              Не уверены? Выберите <b style="color: var(--text)">Xray</b> — он
+              подходит в большинстве случаев.
+            </p>
+            <div id="protocol-options" class="protocol-grid"></div>
           </div>
 
-          <div class="step-card step-disabled" id="protocol-step">
-            <h4>Шаг 3. Выберите протокол</h4>
-            <div id="protocol-options" class="pill-group"></div>
+          <div class="step-card step-disabled" id="client-step">
+            <h4>Шаг 3. Выберите клиент</h4>
+            <div id="client-options" class="pill-group"></div>
           </div>
 
           <div class="step-card step-disabled" id="connection-step">
             <h4>Шаг 4. Подключение</h4>
             <div id="connection-content" class="small">
-              Выберите ОС и клиент, чтобы получить ссылку подключения.
+              Выберите ОС, протокол и клиент, чтобы получить ссылку подключения.
             </div>
           </div>
         </div>
 
-        <div class="additional-section">
-          <h3>Дополнительно</h3>
-          <details class="accordion">
-            <summary>
-              Другие способы подключения
-              <span class="small"
-                >(Hysteria2, MTProto, Amnezia WireGuard и др.)</span
-              >
-            </summary>
-
-            <div class="accordion-body">
-              <div class="tabs">
-                <button class="tab active" data-tab="hysteria">
-                  Hysteria2
-                </button>
-                <button class="tab" data-tab="mtproto">MTProto</button>
-                <button class="tab" data-tab="wireguard">WireGuard</button>
-                <button class="tab" data-tab="amnezia-wireguard">
-                  Amnezia WireGuard
-                </button>
-              </div>
-
-              <div id="tab-hysteria" class="tab-content active">
-                <div id="hysteria-content"></div>
-              </div>
-
-              <div id="tab-mtproto" class="tab-content">
-                <div id="mtproto-content"></div>
-              </div>
-
-              <div class="tab-content" id="tab-wireguard">
-                <div id="wg-content"></div>
-              </div>
-
-              <div class="tab-content" id="tab-amnezia-wireguard">
-                <div id="awg-content"></div>
-              </div>
-            </div>
-          </details>
+        <div class="setup-help-card">
+          <div class="setup-help-icon">📋</div>
+          <div class="setup-help-content">
+            <h4>Нужна пошаговая инструкция?</h4>
+            <p>
+              На странице настроек выбери свою ОС, клиент и протокол — мы
+              подскажем, как всё настроить за пару минут.
+            </p>
+            <a href="/setup/" class="setup-help-link">Перейти к настройкам →</a>
+          </div>
         </div>
 
         <hr />
@@ -1271,12 +1423,61 @@
   let currentConnectionContext = null;
   const KNOWN_SUB_FORMATS = ["txt", "base64", "b64", "clash"];
   const AVAILABLE_PROTOCOLS = [
-    { id: "all", label: "Все прокси" },
-    { id: "xray", label: "Xray" },
-    { id: "vless-tcp-reality", label: "VlessTcpReality" },
-    { id: "vless-grpc-reality", label: "VlessGrpcReality" },
-    { id: "vless-xhttp-reality", label: "VlessXhttpReality" },
-    { id: "hysteria2", label: "Hysteria2" },
+    {
+      id: "all",
+      label: "Все прокси",
+      icon: "🌐",
+      description: "Автоматический выбор всех доступных прокси",
+    },
+    {
+      id: "xray",
+      label: "Xray",
+      icon: "/Images/xray.svg",
+      description: "Включает Vless TCP Reality, Vless gRPC Reality и Vless XHTTP Reality. Универсальный выбор",
+      recommended: true,
+    },
+    {
+      id: "awg",
+      label: "AmneziaWG",
+      icon: "/Images/wireguard.svg",
+      description: "Модификация WireGuard с защитой от блокировок",
+    },
+    {
+      id: "vless-tcp-reality",
+      label: "Vless TCP Reality",
+      icon: "🔒",
+      description: "Маскировка под обычный HTTPS-трафик",
+    },
+    {
+      id: "vless-grpc-reality",
+      label: "Vless gRPC Reality",
+      icon: "📡",
+      description: "Высокая производительность через gRPC",
+    },
+    {
+      id: "vless-xhttp-reality",
+      label: "Vless XHTTP Reality",
+      icon: "⚡",
+      description: "Скрытность и устойчивость к блокировкам",
+    },
+    {
+      id: "hysteria2",
+      label: "Hysteria2",
+      icon: "💨",
+      description: "Сверхбыстрый UDP-протокол для видео и игр",
+    },
+    {
+      id: "mtproto",
+      label: "MTProto",
+      icon: "https://cdn.simpleicons.org/telegram",
+      description: "Прокси только для Telegram",
+    },
+    {
+      id: "wireguard",
+      label: "WireGuard",
+      icon: "/Images/wireguard.svg",
+      description: "Простой и быстрый VPN-протокол",
+    },
   ];
   let selectedProtocol = "all";
 
@@ -1558,12 +1759,12 @@
         id: data.id,
         env: loc.env,
         hasXray: loc.has_xray,
+        has_wg: loc.has_wg,
+        has_awg: loc.has_awg,
+        has_h2: loc.has_h2,
+        has_mtproto: loc.has_mtproto,
       };
       initConnectionFlow();
-      renderH2(data.id, loc.env, loc.has_h2);
-      renderMtproto(data.id, loc.env, loc.has_mtproto);
-      renderWireguard(data.id, loc.env, loc.has_wg);
-      renderAwg(data.id, loc.env, loc.has_awg);
     }
   }
 
@@ -1585,16 +1786,19 @@
         selectedOs = osKey;
         selectedClientId = null;
         renderOsStep();
-        renderClientStep();
         renderProtocolStep();
+        renderClientStep();
         renderConnectionStep();
+        document
+          .getElementById("protocol-step")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
       };
       osOptions.appendChild(btn);
     });
 
     renderOsStep();
-    renderClientStep();
     renderProtocolStep();
+    renderClientStep();
     renderConnectionStep();
   }
 
@@ -1604,6 +1808,19 @@
     [...osOptions.querySelectorAll(".pill-button")].forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.os === selectedOs);
     });
+  }
+
+  function isProtocolSupportedByClient(protocol, configType) {
+    const format = normalizeFormat(configType);
+    if (format === "clash") {
+      return [
+        "xray",
+        "vless-tcp-reality",
+        "vless-grpc-reality",
+        "vless-xhttp-reality",
+      ].includes(protocol);
+    }
+    return true;
   }
 
   function renderClientStep() {
@@ -1617,9 +1834,55 @@
       return;
     }
 
+    if (!selectedProtocol) {
+      step.classList.add("step-disabled");
+      options.innerHTML = `<div class="small">Сначала выберите протокол.</div>`;
+      return;
+    }
+
     step.classList.remove("step-disabled");
     options.innerHTML = "";
-    vpnClients[selectedOs].clients.forEach((client) => {
+
+    if (["wireguard", "awg", "mtproto"].includes(selectedProtocol)) {
+      selectedClientId = null;
+      const instructions = {
+        wireguard:
+          "Скачайте официальное приложение WireGuard и импортируйте конфиг ниже.",
+        awg:
+          'Используйте приложение <a href="https://amnezia.org/downloads" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Amnezia VPN</a> или настройте AmneziaWG прямо на <a href="/setup/routers/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">роутере</a>. Конфиг для импорта будет ниже.',
+        mtproto:
+          "Для MTProto не нужен отдельный VPN-клиент. Нажмите кнопку Connect в настройках ниже.",
+      };
+      options.innerHTML = `
+        <div style="padding: 14px 16px; border-radius: 14px; background: rgba(91, 124, 250, 0.08); border: 1px solid rgba(91, 124, 250, 0.25); color: var(--text);">
+          <div style="font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+            <span>💡</span> Как подключиться
+          </div>
+          <div class="small" style="color: var(--muted); line-height: 1.5;">${instructions[selectedProtocol]}</div>
+        </div>
+      `;
+      return;
+    }
+
+    const clients = vpnClients[selectedOs].clients.filter((client) =>
+      isProtocolSupportedByClient(selectedProtocol, client.configType),
+    );
+
+    if (clients.length === 0) {
+      options.innerHTML = `<div class="small">Для выбранного протокола нет подходящих клиентов.</div>`;
+      selectedClientId = null;
+      return;
+    }
+
+    // Если текущий выбранный клиент не поддерживает протокол, сбрасываем
+    if (
+      selectedClientId &&
+      !clients.some((c) => c.id === selectedClientId)
+    ) {
+      selectedClientId = null;
+    }
+
+    clients.forEach((client) => {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "pill-button";
@@ -1628,8 +1891,10 @@
       btn.onclick = () => {
         selectedClientId = client.id;
         renderClientStep();
-        renderProtocolStep();
         renderConnectionStep();
+        document
+          .getElementById("connection-step")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
       };
       options.appendChild(btn);
     });
@@ -1640,9 +1905,12 @@
     const content = document.getElementById("connection-content");
     if (!step || !content) return;
 
-    if (!selectedOs || !selectedClientId) {
+    const noClientProtocols = ["wireguard", "awg", "mtproto"];
+    const requiresClient = !noClientProtocols.includes(selectedProtocol);
+
+    if (!selectedOs || (requiresClient && !selectedClientId)) {
       step.classList.add("step-disabled");
-      content.innerHTML = `<div class="small">Выберите ОС и клиент, чтобы перейти к подключению.</div>`;
+      content.innerHTML = `<div class="small">Выберите ОС${requiresClient ? ", протокол и клиента" : " и протокол"}, чтобы перейти к подключению.</div>`;
       return;
     }
 
@@ -1650,13 +1918,43 @@
 
     const osConfig = vpnClients[selectedOs];
     const client = osConfig?.clients?.find((c) => c.id === selectedClientId);
-    if (!client) {
+    if (requiresClient && !client) {
       content.innerHTML = `<div class="small">Не найдена конфигурация выбранного клиента.</div>`;
       return;
     }
 
     if (!currentConnectionContext) {
       content.innerHTML = `<div class="small">Нет данных о текущем регионе подключения.</div>`;
+      return;
+    }
+
+    if (selectedProtocol === "wireguard") {
+      content.innerHTML = `<div id="wg-content"></div>`;
+      renderWireguard(
+        currentConnectionContext.id,
+        currentConnectionContext.env,
+        currentConnectionContext.has_wg,
+      );
+      return;
+    }
+
+    if (selectedProtocol === "awg") {
+      content.innerHTML = `<div id="awg-content"></div>`;
+      renderAwg(
+        currentConnectionContext.id,
+        currentConnectionContext.env,
+        currentConnectionContext.has_awg,
+      );
+      return;
+    }
+
+    if (selectedProtocol === "mtproto") {
+      content.innerHTML = `<div id="mtproto-content"></div>`;
+      renderMtproto(
+        currentConnectionContext.id,
+        currentConnectionContext.env,
+        currentConnectionContext.has_mtproto,
+      );
       return;
     }
 
@@ -1721,7 +2019,7 @@
     const step = document.getElementById("protocol-step");
     const options = document.getElementById("protocol-options");
 
-    if (!selectedOs || !selectedClientId || !currentConnectionContext) {
+    if (!selectedOs || !currentConnectionContext) {
       step.classList.add("step-disabled");
       options.innerHTML = "";
       return;
@@ -1729,34 +2027,47 @@
 
     step.classList.remove("step-disabled");
 
-    const osConfig = vpnClients[selectedOs];
-    const client = osConfig?.clients?.find((c) => c.id === selectedClientId);
-    const isClash = client && normalizeFormat(client.configType) === "clash";
-
-    let protocols = AVAILABLE_PROTOCOLS;
-    if (isClash) {
-      protocols = AVAILABLE_PROTOCOLS.filter((p) => p.id !== "all" && p.id !== "hysteria2");
-      if (selectedProtocol === "all" || selectedProtocol === "hysteria2") {
-        selectedProtocol = "xray";
-      }
-    }
+    const protocols = AVAILABLE_PROTOCOLS;
 
     options.innerHTML = "";
 
     protocols.forEach((p) => {
-      const btn = document.createElement("button");
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "protocol-card";
+      card.classList.toggle("active", p.id === selectedProtocol);
 
-      btn.className = "pill-button";
-      btn.textContent = p.label;
-      btn.classList.toggle("active", p.id === selectedProtocol);
+      const badge = p.recommended
+        ? `<span class="protocol-badge">Рекомендуем</span>`
+        : "";
 
-      btn.onclick = () => {
+      const isLogo =
+        p.icon && (p.icon.startsWith("/") || p.icon.startsWith("http"));
+      const iconHtml = isLogo
+        ? `<img src="${p.icon}" alt="" onerror="this.style.display='none'">`
+        : (p.icon || "");
+
+      card.innerHTML = `
+        ${badge}
+        <div class="protocol-header">
+          <span class="protocol-icon">${iconHtml}</span>
+          <span>${p.label}</span>
+        </div>
+        <div class="protocol-desc">${p.description || ""}</div>
+      `;
+
+      card.onclick = () => {
         selectedProtocol = p.id;
         renderProtocolStep();
+        renderClientStep();
         renderConnectionStep();
+
+        document
+          .getElementById("client-step")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
       };
 
-      options.appendChild(btn);
+      options.appendChild(card);
     });
   }
 
@@ -1869,6 +2180,7 @@
       .then((r) => r.json())
       .then((data) => {
         const nodes = data.nodes || [];
+        const labels = prepareNodeLabels(nodes);
 
         container.innerHTML = `
             <ul class="proxy-list">
@@ -1877,7 +2189,7 @@
                   (n, i) => `
                 <li class="proxy-item">
                   <div class="proxy-label black">
-                    <img src="/Images/wireguard.svg">  ${n.label}
+                    <img src="/Images/wireguard.svg">  ${labels[i]}
                     <span class="badge">WG</span>
                   </div>
 
@@ -1886,14 +2198,14 @@
                       Copy
                     </button>
 
-                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${n.label}')">
+                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, '')}')">
                       Download
                     </button>
                   </div>
                 </li>
 
                 <div class="qr-item" style="margin-bottom: 16px;">
-                  <span>${n.label}</span>
+                  <span>${labels[i]}</span>
                   <canvas id="wg-qr-${i}"></canvas>
                 </div>
               `,
@@ -1920,6 +2232,29 @@
       .replace(/\$/g, "\\$");
   }
 
+  function prepareNodeLabels(nodes) {
+    const cleaned = nodes.map((n) =>
+      String(n.label || "")
+        .replace(/[^\p{L}\p{N}\s\-()]/gu, "")
+        .replace(/\s+/g, " ")
+        .trim(),
+    );
+
+    const counts = {};
+    cleaned.forEach((label) => {
+      counts[label] = (counts[label] || 0) + 1;
+    });
+
+    const used = {};
+    return cleaned.map((base) => {
+      if (counts[base] > 1) {
+        used[base] = (used[base] || 0) + 1;
+        return `${base} ${used[base]}`;
+      }
+      return base;
+    });
+  }
+
   function renderAwg(id, env, has) {
     const container = document.getElementById("awg-content");
 
@@ -1938,8 +2273,7 @@
       .then((r) => r.json())
       .then((data) => {
         const nodes = data.nodes || [];
-
-        console.log(nodes);
+        const labels = prepareNodeLabels(nodes);
 
         container.innerHTML = `
             <ul class="proxy-list">
@@ -1948,7 +2282,7 @@
                   (n, i) => `
                 <li class="proxy-item">
                   <div class="proxy-label black">
-                    <img src="/Images/wireguard.svg">  ${n.label}
+                    <img src="/Images/wireguard.svg">  ${labels[i]}
                     <span class="badge">AWG</span>
                   </div>
 
@@ -1957,14 +2291,14 @@
                       Copy
                     </button>
 
-                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${n.label}')">
+                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, '')}')">
                       Download
                     </button>
                   </div>
                 </li>
 
                 <div class="qr-item" style="margin-bottom: 16px;">
-                  <span>${n.label}</span>
+                  <span>${labels[i]}</span>
                   <canvas id="awg-qr-${i}"></canvas>
                 </div>
               `,

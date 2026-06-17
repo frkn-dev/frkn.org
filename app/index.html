@@ -54,6 +54,24 @@
         letter-spacing: -0.02em;
       }
 
+      .app-brand {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .app-brand .hero-watermark {
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--tg-subtitle);
+        opacity: 0.5;
+        text-align: left;
+        pointer-events: none;
+        user-select: none;
+      }
+
       .header-actions {
         display: flex;
         align-items: center;
@@ -479,7 +497,10 @@
   <body>
     <div class="card">
       <header>
-        <div class="app-title">FRKN</div>
+        <div class="app-brand">
+          <div class="app-title">FRKN</div>
+          <div class="hero-watermark">Privacy is our Religion</div>
+        </div>
         <div class="header-actions">
           <div id="env-switcher"></div>
           <button id="tg-close" class="tg-close-btn">✕</button>
@@ -950,6 +971,9 @@
               return;
             }
             container.innerHTML = `
+          <div class="small" style="margin-bottom: 12px; padding: 10px 12px; background: rgba(91, 124, 250, 0.08); border-radius: 10px;">
+            💡 Хочешь настроить на роутере? <a href="https://frkn.org/setup/routers/" target="_blank" rel="noopener noreferrer" style="color: var(--tg-link); text-decoration: underline;">Инструкция для OpenWRT и Keenetic</a>
+          </div>
           <ul class="proxy-list">
             ${nodes
               .map(

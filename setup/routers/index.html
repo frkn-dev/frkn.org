@@ -1,0 +1,1104 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Пошаговая инструкция по настройке Xray и AmneziaWG на роутере OpenWRT и Keenetic. Подключи весь домашний интернет через один роутер."
+    />
+    <link rel="canonical" href="https://frkn.org/setup/routers/" />
+    <title>VPN на роутере — FRKN</title>
+    <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      :root {
+        --code-bg: #0a0c11;
+      }
+
+      .page-header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .page-header h1 {
+        font-size: clamp(28px, 6vw, 42px);
+        margin: 0 0 12px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .page-header p {
+        color: var(--muted);
+        font-size: 17px;
+        max-width: 620px;
+        margin: 0 auto;
+      }
+
+      .router-tabs {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+      }
+
+      .router-tab {
+        background: rgba(91, 124, 250, 0.1);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px 28px;
+        border-radius: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .router-tab:hover {
+        border-color: var(--accent);
+      }
+
+      .router-tab.active {
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        border-color: transparent;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+        animation: fadeIn 0.25s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .requirement-card {
+        background: rgba(91, 124, 250, 0.06);
+        border: 1px solid rgba(91, 124, 250, 0.2);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 28px;
+      }
+
+      .requirement-card h3 {
+        margin: 0 0 12px;
+        font-size: 16px;
+        color: var(--accent-2);
+      }
+
+      .requirement-card ul {
+        margin: 0;
+        padding-left: 20px;
+        color: var(--muted);
+      }
+
+      .requirement-card li {
+        margin-bottom: 6px;
+      }
+
+      .step-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 24px;
+        margin-bottom: 16px;
+        position: relative;
+      }
+
+      .step-card h3 {
+        margin: 0 0 12px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .step-number {
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+
+      .step-card p {
+        color: var(--muted);
+        margin: 0 0 14px;
+        line-height: 1.6;
+      }
+
+      .code-block {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        position: relative;
+        overflow-x: auto;
+      }
+
+      .code-block pre {
+        margin: 0;
+        font-family: "SF Mono", Monaco, "Cascadia Code", monospace;
+        font-size: 13px;
+        color: #e6e8ef;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .copy-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: var(--muted);
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .copy-btn:hover {
+        background: rgba(91, 124, 250, 0.2);
+        color: var(--text);
+      }
+
+      .copy-btn.copied {
+        background: rgba(40, 167, 69, 0.2);
+        color: #71d388;
+        border-color: rgba(40, 167, 69, 0.4);
+      }
+
+      .note {
+        background: rgba(34, 211, 238, 0.08);
+        border-left: 3px solid var(--accent-2);
+        padding: 14px 18px;
+        border-radius: 0 12px 12px 0;
+        color: var(--muted);
+        margin: 16px 0;
+        font-size: 14px;
+      }
+
+      .warning {
+        background: rgba(245, 158, 11, 0.08);
+        border-left: 3px solid #f59e0b;
+        padding: 14px 18px;
+        border-radius: 0 12px 12px 0;
+        color: var(--muted);
+        margin: 16px 0;
+        font-size: 14px;
+      }
+
+      .method-group {
+        margin-bottom: 8px;
+      }
+
+      .method-tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .method-tab {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .method-tab:hover {
+        border-color: var(--accent);
+        color: var(--text);
+      }
+
+      .method-tab.active {
+        background: rgba(91, 124, 250, 0.15);
+        border-color: var(--accent);
+        color: var(--text);
+      }
+
+      .method-content {
+        display: none;
+      }
+
+      .method-content.active {
+        display: block;
+      }
+
+      .cta-center {
+        text-align: center;
+        margin: 40px 0 20px;
+      }
+
+      .btn-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        padding: 14px 26px;
+        border-radius: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+      }
+
+      .btn-link:hover {
+        opacity: 0.9;
+      }
+
+      @media (max-width: 768px) {
+        .page-header {
+          margin-bottom: 28px;
+        }
+
+        .step-card {
+          padding: 18px;
+        }
+
+        .router-tab {
+          padding: 10px 20px;
+          font-size: 14px;
+        }
+
+        .code-block {
+          padding: 14px;
+        }
+
+        .copy-btn {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div id="logo-container"></div>
+      </header>
+
+      <div class="page-header">
+        <h1>VPN на роутере</h1>
+        <p>
+          Подключи весь домашний интернет через один роутер. Пошаговые
+          инструкции для Xray и AmneziaWG на OpenWRT и Keenetic.
+        </p>
+      </div>
+
+      <div class="router-tabs">
+        <button class="router-tab active" data-tab="openwrt">OpenWRT</button>
+        <button class="router-tab" data-tab="keenetic">Keenetic</button>
+      </div>
+
+      <!-- OpenWRT -->
+      <section id="openwrt" class="tab-content active">
+        <div class="method-group">
+          <div class="method-tabs">
+            <button class="method-tab active" data-method="openwrt-awg">
+              AmneziaWG
+            </button>
+            <button class="method-tab" data-method="openwrt-xray">Xray</button>
+          </div>
+
+          <!-- OpenWRT AmneziaWG -->
+          <div id="openwrt-awg" class="method-content active">
+            <div class="requirement-card">
+              <h3>Что понадобится</h3>
+              <ul>
+                <li>Роутер с OpenWRT 23.05+ или 24.10+</li>
+                <li>Доступ по SSH (логин root и пароль)</li>
+                <li>Веб-панель LuCI</li>
+                <li>~30 МБ свободного места на роутере</li>
+                <li>Конфиг AmneziaWG из личного кабинета FRKN</li>
+              </ul>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">1</span> Подключись по SSH</h3>
+              <p>На компьютере в терминале выполни:</p>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>ssh root@192.168.1.1</pre>
+              </div>
+              <div class="note">
+                Если SSH спросит про подтверждение хоста — введи yes. Пароль
+                тот, что ты задал при настройке OpenWRT.
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">2</span> Установи AmneziaWG</h3>
+              <p>Запусти установочный скрипт:</p>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>sh &lt;(wget -O - https://raw.githubusercontent.com/Slava-Shchipunov/awg-openwrt/refs/heads/master/amneziawg-install.sh)</pre>
+              </div>
+              <div class="note">
+                В процессе скрипт задаст вопросы:
+                <br />• Russian language pack — выбирай по желанию
+                <br />• Set up the AWG interface now — ответь
+                <strong>n</strong>, интерфейс настроим через LuCI
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">3</span> Перезагрузи роутер</h3>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>reboot</pre>
+              </div>
+              <p>Подожди 30–60 секунд, пока роутер включится.</p>
+            </div>
+
+            <div class="step-card">
+              <h3>
+                <span class="step-number">4</span> Создай интерфейс в LuCI
+              </h3>
+              <p>
+                Открой веб-панель роутера →
+                <strong>Network → Interfaces</strong> →
+                <strong>Add new interface</strong>.
+              </p>
+              <ul
+                style="color: var(--muted); padding-left: 20px; line-height: 1.8;"
+              >
+                <li><strong>Name:</strong> awg0 (или любое другое)</li>
+                <li>
+                  <strong>Protocol:</strong> AmneziaWG VPN / Протокол AmneziaWG
+                </li>
+                <li>Нажми <strong>Create interface</strong></li>
+              </ul>
+              <div class="note">
+                Если протокола AmneziaWG нет в списке — почисти кэш браузера или
+                перелогинься в LuCI.
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3>
+                <span class="step-number">5</span> Импортируй конфигурацию
+              </h3>
+              <p>
+                В настройках интерфейса нажми
+                <strong>Load configuration</strong> и загрузи .conf файл из
+                личного кабинета, либо вставь его содержимое.
+              </p>
+              <div class="note">
+                Убедись, что в личном кабинете выбран протокол
+                <strong>AmneziaWG</strong> при скачивании конфига.
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3>
+                <span class="step-number">6</span> Настрой пир и маршрутизацию
+              </h3>
+              <ul
+                style="color: var(--muted); padding-left: 20px; line-height: 1.8;"
+              >
+                <li>
+                  Вкладка <strong>Advanced Settings</strong> → включи
+                  <strong>Use default gateway</strong>
+                </li>
+                <li>
+                  Вкладка <strong>Peers</strong> → <strong>Edit</strong> → включи
+                  <strong>Route Allowed IPs</strong>
+                </li>
+                <li>Нажми <strong>Save → Save & Apply</strong></li>
+              </ul>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">7</span> Настрой фаервол</h3>
+              <p>
+                Перейди в <strong>Network → Firewall → Zones → Add</strong>:
+              </p>
+              <ul
+                style="color: var(--muted); padding-left: 20px; line-height: 1.8;"
+              >
+                <li><strong>Name:</strong> VPN</li>
+                <li><strong>Input:</strong> reject</li>
+                <li><strong>Output:</strong> accept</li>
+                <li><strong>Forward:</strong> reject</li>
+                <li>
+                  Включи <strong>IPv4 Masquerading</strong> и
+                  <strong>MSS clamping</strong>
+                </li>
+                <li>
+                  <strong>Covered networks:</strong> выбери созданный интерфейс
+                  (awg0)
+                </li>
+                <li>
+                  <strong>Allow forward from source zones:</strong> выбери lan
+                </li>
+              </ul>
+              <div class="warning">
+                Важно: поле
+                <strong>Allow forward from source zones</strong>, а не to
+                destination zones. Это два разных поля, расположенных друг под
+                другом.
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">8</span> Примени и проверь</h3>
+              <p>
+                Нажми <strong>Save & Apply</strong>, затем перезагрузи роутер
+                через <strong>System → Reboot</strong>.
+              </p>
+              <p>
+                После включения проверь IP на любом устройстве — он должен
+                совпадать с локацией сервера.
+              </p>
+            </div>
+          </div>
+
+          <!-- OpenWRT Xray -->
+          <div id="openwrt-xray" class="method-content">
+            <div class="requirement-card">
+              <h3>Что понадобится</h3>
+              <ul>
+                <li>Роутер с OpenWRT 23.05+ или 24.10+</li>
+                <li>Минимум 128 МБ RAM (256 МБ желательно)</li>
+                <li>~30 МБ свободного места</li>
+                <li>Доступ по SSH</li>
+                <li>Ссылка или конфиг Xray из личного кабинета FRKN</li>
+              </ul>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">1</span> Подключись по SSH</h3>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>ssh root@192.168.1.1</pre>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">2</span> Добавь репозиторий v2rayA</h3>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>wget https://downloads.sourceforge.net/project/v2raya/openwrt/v2raya.pub -O /etc/opkg/keys/94cc2a834fb0aa03
+echo "src/gz v2raya https://downloads.sourceforge.net/project/v2raya/openwrt/$(. /etc/openwrt_release && echo "$DISTRIB_ARCH")" | tee -a "/etc/opkg/customfeeds.conf"</pre>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">3</span> Обнови список пакетов</h3>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>opkg update</pre>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">4</span> Установи v2rayA и Xray</h3>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>opkg install v2raya xray-core kmod-nft-tproxy iptables-nft</pre>
+              </div>
+              <div class="note">
+                Если хочешь управлять v2rayA прямо из LuCI, дополнительно
+                установи:
+                <br />
+                <code>opkg install luci-app-v2raya</code>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">5</span> Запусти v2rayA</h3>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>uci set v2raya.config.enabled='1'
+uci commit v2raya
+/etc/init.d/v2raya enable
+/etc/init.d/v2raya start</pre>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">6</span> Открой веб-интерфейс</h3>
+              <p>
+                Перейди по адресу:
+              </p>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>http://192.168.1.1:2017</pre>
+              </div>
+              <p>
+                При первом входе придума логин и пароль администратора.
+              </p>
+              <div class="note">
+                Если страница пишет про загрузку geoip.dat / geosite.dat —
+                подожди минуту и обнови страницу.
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">7</span> Импортируй подключение</h3>
+              <p>
+                В личном кабинете FRKN выбери протокол <strong>Xray</strong>,
+                скопируй ссылку или скачай конфиг.
+              </p>
+              <p>
+                В v2rayA перейди в <strong>Subscriptions</strong> →
+                <strong>Add</strong>, вставь ссылку и обнови. Либо импортируй
+                конфиг вручную через <strong>Import</strong>.
+              </p>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">8</span> Включи прокси</h3>
+              <p>
+                Выбери нужный сервер в списке → нажми
+                <strong>Not running</strong> вверху страницы, чтобы переключить
+                в <strong>Running</strong>.
+              </p>
+              <p>
+                Режим прозрачного прокси (<strong>Transparent Proxy / System
+                Proxy</strong>) обычно включён по умолчанию — весь трафик LAN
+                пойдёт через Xray.
+              </p>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">9</span> Проверь работу</h3>
+              <p>
+                На любом устройстве в сети проверь IP-адрес — он должен
+                совпадать с локацией сервера.
+              </p>
+              <div class="note">
+                Если что-то не работает, смотри логи:
+                <br />
+                <code>logread -f | grep v2raya</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Keenetic -->
+      <section id="keenetic" class="tab-content">
+        <div class="method-group">
+          <div class="method-tabs">
+            <button class="method-tab active" data-method="keenetic-awg">
+              AmneziaWG
+            </button>
+            <button class="method-tab" data-method="keenetic-xray">Xray</button>
+          </div>
+
+          <!-- Keenetic AmneziaWG -->
+          <div id="keenetic-awg" class="method-content active">
+            <div class="method-group">
+              <div class="method-tabs">
+                <button class="method-tab active" data-method="keenetic-auto">
+                  Встроенный WG (5.1+)
+                </button>
+                <button class="method-tab" data-method="keenetic-manual">
+                  Ручная настройка (4.2+)
+                </button>
+                <button class="method-tab" data-method="keenetic-awgm">
+                  AWG Manager
+                </button>
+              </div>
+
+              <!-- Auto method -->
+              <div id="keenetic-auto" class="method-content active">
+                <div class="requirement-card">
+                  <h3>Что понадобится</h3>
+                  <ul>
+                    <li>KeeneticOS 5.1 или новее</li>
+                    <li>Установленный компонент <strong>WireGuard VPN</strong></li>
+                    <li>Конфиг AmneziaWG из личного кабинета FRKN</li>
+                  </ul>
+                </div>
+
+                <div class="step-card">
+                  <h3>
+                    <span class="step-number">1</span> Установи компонент
+                    WireGuard
+                  </h3>
+                  <p>
+                    <strong>Управление → Системные настройки → Компоненты</strong>
+                    → найди <strong>WireGuard VPN</strong> → установи.
+                  </p>
+                  <div class="note">После установки роутер перезагрузится.</div>
+                </div>
+
+                <div class="step-card">
+                  <h3>
+                    <span class="step-number">2</span> Скачай конфиг AmneziaWG
+                  </h3>
+                  <p>
+                    В личном кабинете FRKN выбери протокол
+                    <strong>AmneziaWG</strong> и скачай .conf файл.
+                  </p>
+                </div>
+
+                <div class="step-card">
+                  <h3>
+                    <span class="step-number">3</span> Импортируй подключение
+                  </h3>
+                  <p>
+                    <strong>Интернет → Другие подключения → WireGuard → Импорт
+                    из файла</strong>. Выбери скачанный .conf файл.
+                  </p>
+                </div>
+
+                <div class="step-card">
+                  <h3>
+                    <span class="step-number">4</span> Настрой использование
+                    интернета
+                  </h3>
+                  <p>
+                    Нажми на созданное подключение → включи
+                    <strong>Использовать для выхода в интернет</strong> → Сохрани.
+                  </p>
+                  <div class="note">Пока не включай само подключение.</div>
+                </div>
+
+                <div class="step-card">
+                  <h3>
+                    <span class="step-number">5</span> Создай политику
+                    подключения
+                  </h3>
+                  <p>
+                    Перейди в <strong>Интернет → Политики подключений</strong> →
+                    <strong>Добавить политику</strong>. Назови, например,
+                    <strong>VPN</strong>.
+                  </p>
+                  <ul
+                    style="color: var(--muted); padding-left: 20px; line-height: 1.8;"
+                  >
+                    <li>
+                      Выбери созданное AWG-подключение и перетащи его наверх
+                      списка
+                    </li>
+                    <li>
+                      Если нужен запасной вариант — оставь галочку у ISP; если
+                      killswitch — убери
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="step-card">
+                  <h3><span class="step-number">6</span> Привяжи устройства</h3>
+                  <p>
+                    В той же политике перейди на вкладку
+                    <strong>Привязка политик</strong> и перетащи нужные
+                    устройства в политику <strong>VPN</strong>.
+                  </p>
+                </div>
+
+                <div class="step-card">
+                  <h3><span class="step-number">7</span> Включи подключение</h3>
+                  <p>
+                    <strong>Интернет → Другие подключения → WireGuard</strong> →
+                    включи созданное подключение. Через несколько секунд статус
+                    должен стать зелёным.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Manual method -->
+              <div id="keenetic-manual" class="method-content">
+                <div class="requirement-card">
+                  <h3>Что понадобится</h3>
+                  <ul>
+                    <li>KeeneticOS 4.2 или новее</li>
+                    <li>Установленный компонент <strong>WireGuard VPN</strong></li>
+                    <li>Конфиг AmneziaWG из личного кабинета FRKN</li>
+                  </ul>
+                </div>
+
+                <div class="step-card">
+                  <h3>
+                    <span class="step-number">1</span> Создай WireGuard
+                    подключение
+                  </h3>
+                  <p>
+                    Выполни шаги 1–4 из автоматического варианта: установи
+                    компонент, импортируй .conf, включи "Использовать для выхода
+                    в интернет", но не включай само подключение.
+                  </p>
+                </div>
+
+                <div class="step-card">
+                  <h3>
+                    <span class="step-number">2</span> Найди имя интерфейса
+                  </h3>
+                  <p>
+                    Открой веб-CLI роутера (шестерёнка →
+                    <strong>Командная строка</strong>) и выполни:
+                  </p>
+                  <div class="code-block">
+                    <button class="copy-btn">Копировать</button>
+                    <pre>show interface</pre>
+                  </div>
+                  <p>
+                    Найди в выводе свое подключение по названию и запомни
+                    значение поля <strong>interface-name</strong> (например,
+                    Wireguard0).
+                  </p>
+                </div>
+
+                <div class="step-card">
+                  <h3>
+                    <span class="step-number">3</span> Примени AmneziaWG
+                    параметры
+                  </h3>
+                  <p>Из конфига возьми значения Jc, Jmin, Jmax, S1, S2, H1–H4.</p>
+                  <div class="code-block">
+                    <button class="copy-btn">Копировать</button>
+                    <pre>interface Wireguard0 wireguard asc 5 42 54 0 0 1 2 3 4</pre>
+                  </div>
+                  <div class="warning">
+                    Замени <strong>Wireguard0</strong> и числа на свои значения
+                    из конфигурационного файла.
+                  </div>
+                </div>
+
+                <div class="step-card">
+                  <h3><span class="step-number">4</span> Сохрани и активируй</h3>
+                  <div class="code-block">
+                    <button class="copy-btn">Копировать</button>
+                    <pre>system configuration save</pre>
+                  </div>
+                  <p>
+                    Затем настрой политику подключения (шаги 5–7 из
+                    автоматического варианта) и включи подключение.
+                  </p>
+                </div>
+              </div>
+
+              <!-- AWG Manager method -->
+              <div id="keenetic-awgm" class="method-content">
+                <div class="requirement-card">
+                  <h3>Что понадобится</h3>
+                  <ul>
+                    <li>Keenetic с USB-портом</li>
+                    <li>Включённый компонент <strong>Entware</strong></li>
+                    <li>Конфиг AmneziaWG из личного кабинета FRKN</li>
+                  </ul>
+                </div>
+
+                <div class="step-card">
+                  <h3><span class="step-number">1</span> Установи Entware</h3>
+                  <p>
+                    <strong>Управление → Системные настройки → Компоненты</strong>
+                    → установи <strong>Entware</strong>.
+                  </p>
+                </div>
+
+                <div class="step-card">
+                  <h3><span class="step-number">2</span> Установи AWG Manager</h3>
+                  <p>Подключись по SSH к роутеру и выполни:</p>
+                  <div class="code-block">
+                    <button class="copy-btn">Копировать</button>
+                    <pre>opkg update && opkg upgrade
+opkg install curl
+curl -sL https://raw.githubusercontent.com/hoaxisr/awg-manager/master/scripts/install.sh | sh</pre>
+                  </div>
+                  <div class="note">
+                    Если GitHub недоступен, используй зеркало:
+                    <br />
+                    <code>wget -qO- http://repo.hoaxisr.ru/install.sh | sh</code>
+                  </div>
+                </div>
+
+                <div class="step-card">
+                  <h3><span class="step-number">3</span> Открой веб-интерфейс</h3>
+                  <p>
+                    После установки AWG Manager доступен по адресу роутера на
+                    порту <strong>2222</strong>.
+                  </p>
+                  <div class="code-block">
+                    <button class="copy-btn">Копировать</button>
+                    <pre>http://192.168.1.1:2222</pre>
+                  </div>
+                </div>
+
+                <div class="step-card">
+                  <h3><span class="step-number">4</span> Импортируй конфиг</h3>
+                  <p>
+                    В веб-интерфейсе AWG Manager добавь новый туннель и
+                    импортируй .conf файл из личного кабинета FRKN.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Keenetic Xray -->
+          <div id="keenetic-xray" class="method-content">
+            <div class="requirement-card">
+              <h3>Что понадобится</h3>
+              <ul>
+                <li>Keenetic с USB-портом</li>
+                <li>
+                  USB-накопитель с файловой системой EXT4 (желательно ext4)
+                </li>
+                <li>Включённый компонент <strong>OPKG / Entware</strong></li>
+                <li>SSH-доступ к роутеру</li>
+                <li>Ссылка или конфиг Xray из личного кабинета FRKN</li>
+              </ul>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">1</span> Установи Entware</h3>
+              <p>
+                Подготовь USB-флешку в формате EXT4, подключи к роутеру.
+              </p>
+              <p>
+                <strong>Управление → Системные настройки → Компоненты</strong> →
+                включи <strong>OPKG</strong> и <strong>Entware</strong>.
+              </p>
+              <div class="note">
+                В веб-интерфейсе роутера перейди на страницу
+                <strong>OPKG</strong>, выбери накопитель и укажи initrc:
+                <code>/opt/etc/init.d/rc.unslung</code>.
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">2</span> Подключись по SSH</h3>
+              <p>
+                Логин: <strong>root</strong>, пароль по умолчанию:
+                <strong>keenetic</strong> (смени сразу через <code>passwd</code>).
+              </p>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>ssh root@192.168.1.1</pre>
+              </div>
+              <div class="note">
+                Порт <strong>222</strong>, если установлен компонент Сервер SSH.
+                Если нет — порт <strong>22</strong>.
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">3</span> Установи XKeen</h3>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>opkg update && opkg upgrade && opkg install curl tar && cd /tmp
+sh -c "$(curl -sSL https://raw.githubusercontent.com/jameszeroX/XKeen/main/install.sh)"</pre>
+              </div>
+              <div class="note">
+                Если GitHub недоступен, используй альтернативный способ:
+                <br />
+                <code>curl -OL https://github.com/jameszeroX/XKeen/releases/latest/download/xkeen.tar.gz && tar -xvzf xkeen.tar.gz -C /opt/sbin && rm xkeen.tar.gz && xkeen -i</code>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">4</span> Выбери GeoIP / GeoSite</h3>
+              <p>
+                В процессе установки XKeen спросит про GeoIP и GeoSite —
+                рекомендуется установить оба (выбери пункт 1).
+              </p>
+              <p>
+                Затем включи автоматическое обновление (пункт 1) и укажи
+                удобное время.
+              </p>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">5</span> Получи конфиг Xray</h3>
+              <p>
+                В личном кабинете FRKN выбери протокол <strong>Xray</strong> и
+                скопируй ссылку на подписку либо скачай JSON-конфиг.
+              </p>
+              <div class="note">
+                XKeen использует файлы в директории
+                <code>/opt/etc/xray/configs/</code>. Основной outbound-конфиг
+                обычно называется <code>04_outbounds.json</code>.
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">6</span> Загрузи конфиг на роутер</h3>
+              <p>
+                Через SCP / WinSCP или SFTP загрузи готовый конфиг в:
+              </p>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>/opt/etc/xray/configs/config.json</pre>
+              </div>
+              <p>
+                Либо, если у тебя ссылка вида <code>vless://...</code>,
+                воспользуйся генератором конфигов (например,
+                <a
+                  href="https://routesense.cc/xkeen/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style="color: var(--accent); text-decoration: underline;"
+                  >RouteSense XKeen config generator</a
+                >) и положи полученный JSON в указанную папку.
+              </p>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">7</span> Запусти XKeen</h3>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>xkeen -start</pre>
+              </div>
+              <p>Или перезапусти, если менял конфиг:</p>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>xkeen -restart</pre>
+              </div>
+              <p>Проверь статус:</p>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>xkeen -status</pre>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">8</span> Настрой политику подключения</h3>
+              <p>
+                Перейди в веб-интерфейс роутера:
+              </p>
+              <ul
+                style="color: var(--muted); padding-left: 20px; line-height: 1.8;"
+              >
+                <li>
+                  <strong>Приоритеты подключений → Политики доступа в
+                  интернет</strong> → создай политику, например,
+                  <strong>XKeen</strong>
+                </li>
+                <li>
+                  В политике выбери способ доступа к интернету — отметь
+                  провайдера
+                </li>
+                <li>
+                  <strong>Применение политик</strong> → добавь устройства или
+                  всю сеть в политику <strong>XKeen</strong>
+                </li>
+              </ul>
+              <div class="note">
+                XKeen работает как локальный прокси на роутере, поэтому
+                устройства должны быть направлены на него через политику
+                доступа.
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">9</span> Перенеси сервисы Keenetic с 443 порта</h3>
+              <p>
+                Если используешь XTLS-Reality, Keenetic может занимать порт 443.
+                Перенеси его, например, на 8443:
+              </p>
+              <div class="code-block">
+                <button class="copy-btn">Копировать</button>
+                <pre>ip http ssl port 8443
+system configuration save</pre>
+              </div>
+              <div class="warning">
+                После этого KeenDNS и другие сервисы будут доступны по адресу
+                <code>xxxx.keenetic.link:8443</code>.
+              </div>
+            </div>
+
+            <div class="step-card">
+              <h3><span class="step-number">10</span> Проверь работу</h3>
+              <p>
+                На устройстве из политики XKeen проверь IP-адрес — он должен
+                совпадать с локацией сервера.
+              </p>
+              <div class="note">
+                Логи XKeen можно посмотреть командой:
+                <br />
+                <code>xkeen -diag</code> или <code>logread | grep xray</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="cta-center">
+        <a class="btn-link" href="/subscription">🔑 Открыть личный кабинет</a>
+      </div>
+
+      <div id="footer-container"></div>
+    </div>
+
+    <script src="/scripts/analytics.js" defer></script>
+    <script src="/scripts/containers.js"></script>
+    <script>
+      // Main router tabs
+      document.querySelectorAll(".router-tab").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".router-tab")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          document
+            .querySelectorAll(".tab-content")
+            .forEach((t) => t.classList.remove("active"));
+          document.getElementById(btn.dataset.tab).classList.add("active");
+        });
+      });
+
+      // Method tabs (works for nested groups)
+      document.querySelectorAll(".method-tab").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const group = btn.closest(".method-group");
+          group
+            .querySelectorAll(".method-tab")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          group
+            .querySelectorAll(".method-content")
+            .forEach((m) => m.classList.remove("active"));
+          document.getElementById(btn.dataset.method).classList.add("active");
+        });
+      });
+
+      // Copy buttons
+      document.querySelectorAll(".copy-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const code = btn.nextElementSibling.textContent;
+          navigator.clipboard.writeText(code).then(() => {
+            const original = btn.textContent;
+            btn.textContent = "Скопировано";
+            btn.classList.add("copied");
+            setTimeout(() => {
+              btn.textContent = original;
+              btn.classList.remove("copied");
+            }, 1500);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
