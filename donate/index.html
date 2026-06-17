@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Поддержать FRKN — Донат</title>
+    <meta
+      name="description"
+      content="Поддержите разработку FRKN донатом. Безопасный перевод через Platega."
+    />
+    <link rel="canonical" href="https://frkn.org/donate/" />
+    <meta property="og:title" content="Поддержать FRKN" />
+    <meta property="og:site_name" content="frkn" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://frkn.org/donate/" />
+    <meta
+      property="og:description"
+      content="Поддержите разработку FRKN донатом."
+    />
+    <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
+    <meta name="theme-color" content="#0b0d12" />
+    <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      .donate-page {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 20px 0 60px;
+      }
+
+      .donate-hero {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+
+      .donate-hero h1 {
+        font-size: clamp(28px, 6vw, 40px);
+        margin: 0 0 12px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .donate-hero p {
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.6;
+        margin: 0 auto;
+        max-width: 480px;
+      }
+
+      .donate-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 32px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .donate-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      }
+
+      .amount-presets {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      @media (max-width: 480px) {
+        .amount-presets {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .amount-preset {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px 8px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .amount-preset:hover,
+      .amount-preset.active {
+        background: rgba(91, 124, 250, 0.12);
+        border-color: var(--accent);
+      }
+
+      .form-group {
+        margin-bottom: 18px;
+      }
+
+      .form-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        background: #0f1320;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px 14px;
+        border-radius: 12px;
+        font-size: 15px;
+        box-sizing: border-box;
+        font-family: inherit;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(91, 124, 250, 0.15);
+      }
+
+      .form-group textarea {
+        min-height: 90px;
+        resize: vertical;
+      }
+
+      .amount-hint {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      .btn-donate {
+        width: 100%;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        padding: 16px 24px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .btn-donate:hover {
+        opacity: 0.9;
+      }
+
+      .btn-donate:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .donate-error {
+        color: #ef4444;
+        font-size: 13px;
+        margin-top: 12px;
+        text-align: center;
+      }
+
+      .donate-footer-note {
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+        margin-top: 20px;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div id="logo-container"></div>
+      </header>
+
+      <div class="donate-page">
+        <div class="donate-hero">
+          <h1>Поддержать FRKN</h1>
+          <p>
+            Помоги нам развивать приватный интернет без цензуры. Любая сумма
+            важна.
+          </p>
+        </div>
+
+        <div class="donate-card">
+          <form id="donateForm">
+            <div class="form-group">
+              <label for="amount">Сумма, ₽</label>
+              <div class="amount-presets">
+                <button type="button" class="amount-preset" data-amount="100">
+                  100 ₽
+                </button>
+                <button type="button" class="amount-preset" data-amount="300">
+                  300 ₽
+                </button>
+                <button type="button" class="amount-preset" data-amount="500">
+                  500 ₽
+                </button>
+                <button type="button" class="amount-preset" data-amount="1000">
+                  1000 ₽
+                </button>
+              </div>
+              <input
+                type="number"
+                id="amount"
+                name="amount"
+                min="10"
+                step="1"
+                placeholder="Или введи свою сумму"
+                required
+              />
+              <p class="amount-hint">Минимальная сумма — 10 ₽</p>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email (необязательно)</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="your@email.com"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="message">Сообщение</label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="Тёплые слова или пожелание (необязательно)"
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn-donate" id="donateBtn">
+              Поддержать проект
+            </button>
+            <div class="donate-error" id="donateError"></div>
+          </form>
+
+          <p class="donate-footer-note">
+            Платёж обрабатывается через Platega. После оплаты ты вернёшься на
+            сайт FRKN.
+          </p>
+        </div>
+      </div>
+
+      <div id="footer-container"></div>
+    </div>
+
+    <script src="/scripts/analytics.js" defer></script>
+    <script src="/scripts/i18n.js"></script>
+    <script src="/scripts/containers.js"></script>
+    <script>
+      (function () {
+        const isLocal =
+          window.location.hostname === "localhost" ||
+          window.location.hostname === "127.0.0.1";
+        const API_BASE = isLocal
+          ? "http://localhost:3006"
+          : "https://heheapi.frkn.org";
+
+        const form = document.getElementById("donateForm");
+        const amountInput = document.getElementById("amount");
+        const presets = document.querySelectorAll(".amount-preset");
+        const donateBtn = document.getElementById("donateBtn");
+        const errorEl = document.getElementById("donateError");
+
+        presets.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            presets.forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            amountInput.value = btn.dataset.amount;
+          });
+        });
+
+        amountInput.addEventListener("input", () => {
+          presets.forEach((b) => b.classList.remove("active"));
+        });
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          errorEl.textContent = "";
+
+          const amount = parseInt(amountInput.value, 10);
+          if (!amount || amount < 10) {
+            errorEl.textContent = "Минимальная сумма доната — 10 ₽";
+            return;
+          }
+
+          const email = document.getElementById("email").value.trim() || null;
+          const message =
+            document.getElementById("message").value.trim() || null;
+
+          donateBtn.disabled = true;
+          const originalText = donateBtn.textContent;
+          donateBtn.textContent = "Создаём платёж...";
+
+          try {
+            const res = await fetch(
+              `${API_BASE}/payment/platega/donation/create`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount, email, message }),
+              },
+            );
+
+            if (!res.ok) {
+              const data = await res
+                .json()
+                .catch(() => ({ error: "Ошибка сервера" }));
+              throw new Error(data.error || "Не удалось создать платёж");
+            }
+
+            const data = await res.json();
+            if (data.url) {
+              window.location.href = data.url;
+            } else {
+              throw new Error("API не вернуло ссылку на оплату");
+            }
+          } catch (err) {
+            errorEl.textContent = err.message;
+            donateBtn.disabled = false;
+            donateBtn.textContent = originalText;
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

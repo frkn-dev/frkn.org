@@ -6,19 +6,19 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>Переходи со старого VPN на FRKN — Скидка на 6 месяцев</title>
+    <title>Переходи со своего сервиса доступа на Рилзопровод FRKN — Скидка на 6 месяцев</title>
     <meta
       name="description"
-      content="Переходи с любого платного VPN на FRKN Рилзопровод со скидкой на 6 месяцев. Пришли скриншот оплаченной подписки."
+      content="Переходи с любого платного сервиса на FRKN Рилзопровод со скидкой на 6 месяцев. Пришли скриншот оплаченной подписки."
     />
     <link rel="canonical" href="https://frkn.org/switch-to-frkn/" />
-    <meta property="og:title" content="Переходи со старого VPN на FRKN" />
+    <meta property="og:title" content="Переходи со своего сервиса доступа на Рилзопровод FRKN" />
     <meta property="og:site_name" content="frkn" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://frkn.org/switch-to-frkn/" />
     <meta
       property="og:description"
-      content="Скидка на 6 месяцев Рилзопровода при переходе с другого VPN."
+      content="Скидка на 6 месяцев Рилзопровода при переходе с другого сервиса."
     />
     <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
     <meta name="theme-color" content="#0b0d12" />
@@ -371,10 +371,10 @@
       <div class="switch-page">
         <div class="switch-hero">
           <div class="switch-badge">⚡ Акция для новых пользователей</div>
-          <h1>Переходи со старого VPN на FRKN</h1>
+          <h1>Переходи со своего сервиса доступа на Рилзопровод FRKN</h1>
           <p>
             Получи скидку на 6 месяцев Рилзопровода FRKN. Достаточно прислать
-            скриншот оплаченной подписки другого VPN или самохостингового
+            скриншот оплаченной подписки другого сервиса или самохостингового
             сервиса.
           </p>
           <a class="btn" href="#switch-form">Получить скидку</a>
@@ -387,7 +387,7 @@
               <div class="step-content">
                 <h4>Сделай скриншот</h4>
                 <p>
-                  Сфотографируй подтверждение оплаты старого VPN: чек, письмо,
+                  Сфотографируй подтверждение оплаты старого сервиса: чек, письмо,
                   личный кабинет или любое другое доказательство покупки.
                 </p>
               </div>
@@ -421,8 +421,8 @@
             <div class="terms-card">
               <h3>✅ Принимается</h3>
               <ul>
-                <li>Любой активный платный VPN</li>
-                <li>Самохостинговые VPN-решения</li>
+                <li>Любой активный платный сервис</li>
+                <li>Собственный сервер</li>
                 <li>Подписка оформлена на срок от 1 месяца</li>
                 <li>Скриншот, чек, письмо или скрин личного кабинета</li>
               </ul>
@@ -430,7 +430,7 @@
             <div class="terms-card">
               <h3>❌ Не принимается</h3>
               <ul>
-                <li>Бесплатные VPN</li>
+                <li>Бесплатные сервисы</li>
                 <li>Пробные периоды без оплаты</li>
                 <li>Подписки менее 1 месяца</li>
                 <li>Активные подписки FRKN</li>
@@ -527,7 +527,7 @@
                 <textarea
                   id="message"
                   name="message"
-                  placeholder="Название старого VPN, дата покупки, удобный способ связи"
+                  placeholder="Название старого сервиса, дата покупки, удобный способ связи"
                 ></textarea>
               </div>
 
@@ -596,10 +596,10 @@
           const message = document.getElementById("message").value.trim();
 
           const subject = encodeURIComponent(
-            "Заявка на переход со старого VPN на FRKN",
+            "Заявка на переход со старого сервиса на FRKN",
           );
           const body = encodeURIComponent(
-            `Имя: ${name}\nEmail: ${email}\n\nСообщение:\n${message || "-"}\n\nПрикрепите, пожалуйста, скриншот оплаченной подписки другого VPN.`,
+            `Имя: ${name}\nEmail: ${email}\n\nСообщение:\n${message || "-"}\n\nПрикрепите, пожалуйста, скриншот оплаченной подписки другого сервиса.`,
           );
 
           window.location.href = `mailto:pigeon@frkn.org?subject=${subject}&body=${body}`;

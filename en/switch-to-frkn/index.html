@@ -6,19 +6,19 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>Switch from your old VPN to FRKN — 6 months discount</title>
+    <title>Switch from your access service to FRKN RealPipe — 6 months discount</title>
     <meta
       name="description"
-      content="Switch from any paid VPN to FRKN and get 6 months discount. Send a screenshot of your paid subscription."
+      content="Switch from any paid service to FRKN and get 6 months discount. Send a screenshot of your paid subscription."
     />
     <link rel="canonical" href="https://frkn.org/en/switch-to-frkn/" />
-    <meta property="og:title" content="Switch from your old VPN to FRKN" />
+    <meta property="og:title" content="Switch from your access service to FRKN RealPipe" />
     <meta property="og:site_name" content="frkn" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://frkn.org/en/switch-to-frkn/" />
     <meta
       property="og:description"
-      content="Get 6 months discount when switching from another VPN."
+      content="Get 6 months discount when switching from another service."
     />
     <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
     <meta name="theme-color" content="#0b0d12" />
@@ -371,10 +371,10 @@
       <div class="switch-page">
         <div class="switch-hero">
           <div class="switch-badge">⚡ New user offer</div>
-          <h1>Switch from your old VPN to FRKN</h1>
+          <h1>Switch from your access service to FRKN RealPipe</h1>
           <p>
             Get a 6-month discount on FRKN RealPipe. Just send us a screenshot
-            of your paid subscription to another VPN or self-hosted service.
+            of your paid subscription to another service or self-hosted solution.
           </p>
           <a class="btn" href="#switch-form">Get the discount</a>
         </div>
@@ -386,7 +386,7 @@
               <div class="step-content">
                 <h4>Take a screenshot</h4>
                 <p>
-                  Capture proof of payment for your old VPN: receipt, email,
+                  Capture proof of payment for your old service: receipt, email,
                   account screen, or any other purchase confirmation.
                 </p>
               </div>
@@ -420,8 +420,8 @@
             <div class="terms-card">
               <h3>✅ Accepted</h3>
               <ul>
-                <li>Any active paid VPN</li>
-                <li>Self-hosted VPN solutions</li>
+                <li>Any active paid service</li>
+                <li>Own server</li>
                 <li>Subscriptions for 1 month or longer</li>
                 <li>Screenshot, receipt, email, or account screen</li>
               </ul>
@@ -429,7 +429,7 @@
             <div class="terms-card">
               <h3>❌ Not accepted</h3>
               <ul>
-                <li>Free VPNs</li>
+                <li>Free services</li>
                 <li>Trial periods without payment</li>
                 <li>Subscriptions shorter than 1 month</li>
                 <li>Active FRKN subscriptions</li>
@@ -526,7 +526,7 @@
                 <textarea
                   id="message"
                   name="message"
-                  placeholder="Name of old VPN, purchase date, preferred contact method"
+                  placeholder="Name of old service, purchase date, preferred contact method"
                 ></textarea>
               </div>
 
@@ -598,10 +598,10 @@
           const message = document.getElementById("message").value.trim();
 
           const subject = encodeURIComponent(
-            "Switch from old VPN to FRKN discount request",
+            "Switch from old service to FRKN discount request",
           );
           const body = encodeURIComponent(
-            `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message || "-"}\n\nPlease attach a screenshot of your paid VPN subscription.`,
+            `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message || "-"}\n\nPlease attach a screenshot of your paid service subscription.`,
           );
 
           window.location.href = `mailto:pigeon@frkn.org?subject=${subject}&body=${body}`;

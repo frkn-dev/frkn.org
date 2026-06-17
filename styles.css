@@ -977,6 +977,16 @@ button {
   border: none;
   line-height: 1;
 }
+.btn.donate {
+  margin-top: 10px;
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+  color: #05060a;
+  padding: 16px 22px;
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  line-height: 1;
+}
 
 /* ================= CARDS ================= */
 .card {
