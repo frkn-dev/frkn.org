@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Public Offer — FRKN</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    :root {
+      --primary: #1d4ed8;
+      --text-main: #374151;
+      --text-dark: #111827;
+      --bg-gray: #fafafa;
+      --border-color: #f3f4f6;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: var(--text-main);
+      background-color: var(--bg-gray);
+      margin: 0;
+      padding: 40px 20px;
+    }
+
+    .container {
+      position: relative;
+      max-width: 850px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 50px;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang-btn {
+      color: #666;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .lang-btn.active {
+      color: #1d4ed8;
+      background: rgba(29, 78, 216, 0.1);
+    }
+
+    .lang-divider {
+      color: #ccc;
+    }
+
+    .header {
+      text-align: center;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 30px;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      color: var(--text-dark);
+      font-size: 28px;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .toc {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 40px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .toc strong {
+      display: block;
+      margin-bottom: 15px;
+      color: var(--text-dark);
+      font-size: 18px;
+    }
+
+    .toc ul {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .toc a {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    h2 {
+      color: var(--text-dark);
+      font-size: 22px;
+      margin-top: 45px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      scroll-margin-top: 20px;
+    }
+
+    h2::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 24px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    h3 {
+      color: var(--text-dark);
+      font-size: 18px;
+      margin-top: 25px;
+    }
+
+    p,
+    li {
+      font-size: 15px;
+      margin: 12px 0;
+      text-align: justify;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    .requisites {
+      margin-top: 50px;
+      padding: 30px;
+      background: #111827;
+      color: #fff;
+      border-radius: 16px;
+    }
+
+    .requisites h2 {
+      color: #fff;
+      border: none;
+      margin-top: 0;
+    }
+
+    .requisites h2::before {
+      background: #60a5fa;
+    }
+
+    .footer {
+      margin-top: 50px;
+      text-align: center;
+      font-size: 13px;
+      color: #9ca3af;
+      border-top: 1px solid #f3f4f6;
+      padding-top: 20px;
+    }
+
+    .footer a {
+      color: #1d4ed8;
+      text-decoration: none;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 20px;
+      }
+
+      .toc ul {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="lang-switcher" style="position: absolute; top: 20px; right: 20px;">
+      <a href="/oferta/" class="lang-btn">RU</a>
+      <span class="lang-divider">|</span>
+      <a href="/en/oferta/" class="lang-btn active">EN</a>
+    </div>
+
+    <div class="header">
+      <h1>Public Offer<br>for the Provision of Services Agreement</h1>
+    </div>
+
+    <div class="toc">
+      <strong>Table of Contents:</strong>
+      <ul>
+        <li><a href="#general">1. General Provisions</a></li>
+        <li><a href="#terms">2. Terms and Definitions</a></li>
+        <li><a href="#subject">3. Subject of the Agreement</a></li>
+        <li><a href="#rights">4. Rights and Obligations of the Parties</a></li>
+        <li><a href="#price">5. Price and Payment Procedure</a></li>
+        <li><a href="#confidentiality">6. Confidentiality</a></li>
+        <li><a href="#force">7. Force Majeure</a></li>
+        <li><a href="#liability">8. Liability of the Parties</a></li>
+        <li><a href="#term">9. Validity Period of the Offer</a></li>
+        <li><a href="#requisites">10. Contractor Details</a></li>
+      </ul>
+    </div>
+
+    <h2 id="general">1.1 General Provisions</h2>
+    <p>This Public Offer contains the terms for concluding the Services Agreement (hereinafter referred to as the
+      "Services Agreement" and/or "Agreement"). An offer is understood as a proposal addressed to one or several
+      specific persons, which is sufficiently definite and expresses the intention of the person making the proposal to
+      consider itself bound by an agreement with the addressee who accepts the proposal.</p>
+    <p>The performance of the actions specified in this Offer constitutes confirmation of both Parties' consent to
+      conclude the Services Agreement on the terms, in the manner, and to the extent set forth in this Offer.</p>
+    <p>The text of this Public Offer below is an official public proposal of the Contractor addressed to interested
+      persons to conclude a Services Agreement in accordance with the provisions of paragraph 2 of Article 437 of the
+      Civil Code of the Russian Federation.</p>
+    <p>The Services Agreement shall be deemed concluded and shall enter into force from the moment the Parties perform
+      the actions provided for in this Offer, which signify unconditional and full acceptance of all terms of this
+      Offer without any exceptions or limitations on an accession basis.</p>
+
+    <h2 id="terms">1.2 Terms and Definitions</h2>
+    <p><strong>1.2.1 Agreement</strong> — the text of this Offer with Appendices that are an integral part hereof,
+      accepted by the Customer through conclusive actions provided for in this Offer.</p>
+    <p><strong>1.2.2 Conclusive actions</strong> — conduct expressing consent to a counterparty's proposal to conclude,
+      amend, or terminate an agreement. Such actions consist of full or partial performance of the conditions proposed
+      by the counterparty.</p>
+    <p><strong>1.2.3 Contractor's Website on the Internet</strong> — a set of computer programs and other information
+      contained in an information system, access to which is provided via the Internet under the domain name and
+      network address: <strong>https://frkn.org</strong></p>
+    <p><strong>1.2.4 Parties to the Agreement</strong> — the Contractor and the Customer.</p>
+    <p><strong>1.2.5 Service</strong> — a service provided by the Contractor to the Customer in the manner and on the
+      terms established by this Offer.</p>
+
+    <h2 id="subject">2. Subject of the Agreement</h2>
+    <p><strong>2.1</strong> The Contractor undertakes to provide the Customer with the Services, and the Customer
+      undertakes to pay for them in the amount, manner, and within the timeframes established by this Agreement.</p>
+    <p><strong>2.2</strong> The name, quantity, procedure, and other conditions for the provision of Services are
+      determined based on the Contractor's information when the Customer places an order, or are established on the
+      Contractor's Website on the Internet.</p>
+    <p><strong>2.3</strong> The Contractor provides Services under this Agreement either personally or with the
+      involvement of third parties, while remaining liable to the Customer for the actions of such third parties as
+      for its own.</p>
+    <p><strong>2.4</strong> The Agreement is concluded by acceptance of this Offer through conclusive actions
+      expressed in:
+    <ul>
+      <li>actions related to registering an account on the Contractor's Website on the Internet, if account
+        registration is required;</li>
+      <li>placing and sending an order by the Customer to the Contractor for the provision of Services;</li>
+      <li>actions related to payment for Services by the Customer;</li>
+      <li>actions related to the provision of Services by the Contractor.</li>
+    </ul>
+    This list is not exhaustive; other actions that clearly express a person's intention to accept a counterparty's
+    proposal are also possible.
+
+
+    <h2 id="rights">3. Rights and Obligations of the Parties</h2>
+    <h3>3.1 Rights and Obligations of the Contractor:</h3>
+    <p><strong>3.1.1</strong> The Contractor undertakes to provide the Services in accordance with the provisions of
+      this Agreement, within the timeframes and to the extent specified in this Agreement and/or in the manner
+      specified on the Contractor's Website.</p>
+    <p><strong>3.1.2</strong> The Contractor undertakes to provide the Customer with access to the sections of the
+      Website necessary to obtain information in accordance with clause 2.1 of the Agreement.</p>
+    <p><strong>3.1.3</strong> The Contractor is responsible for the storage and processing of the Customer's personal
+      data, ensures the confidentiality of such data, and uses it solely for the quality provision of Services to the
+      Customer.</p>
+    <p><strong>3.1.4</strong> The Contractor reserves the right to unilaterally change the timeframes (period) for the
+      provision of Services and the terms of this Offer without prior notice to the Customer by publishing such
+      changes on the Contractor's Website on the Internet. In this case, the new/amended terms apply only to newly
+      concluded Agreements.</p>
+
+    <h3>3.2 Rights and Obligations of the Customer:</h3>
+    <p><strong>3.2.1</strong> The Customer is obliged to provide accurate information about themselves when receiving
+      the relevant Services.</p>
+    <p><strong>3.2.2</strong> The Customer undertakes not to reproduce, duplicate, copy, sell, or use in any way the
+      information and materials for purposes other than personal use without granting access to third parties.</p>
+    <p><strong>3.2.3</strong> The Customer undertakes to accept the Services provided by the Contractor.</p>
+    <p><strong>3.2.4</strong> The Customer is entitled to demand a refund exclusively on the grounds provided for by
+      the applicable legislation of the Russian Federation.</p>
+    <p><strong>3.2.5</strong> The Customer warrants that all terms of the Agreement are clear to them; the Customer
+      accepts the terms without reservations.</p>
+    <p><strong>3.2.6</strong> The Customer undertakes not to use the Service for actions that violate the legislation
+      of the Russian Federation, and to bear full and sole responsibility for any consequences arising from such use.
+    </p>
+    <h2 id="price">4. Price and Payment Procedure</h2>
+
+    <p><strong>4.1</strong> The cost of the Contractor's Services and the procedure for their payment are determined
+      when the Customer places an order or are established on the Website: https://frkn.org</p>
+    <p><strong>4.2</strong> All settlements under the Agreement are made in a non-cash manner.</p>
+
+    <h2 id="confidentiality">5. Confidentiality and Security</h2>
+
+    <p><strong>5.1</strong> The Parties ensure confidentiality and data security in accordance with Federal Law No.
+      152-FZ and Federal Law No. 149-FZ.</p>
+    <p><strong>5.2</strong> The Parties undertake to keep confidential the information received during the performance
+      of the Agreement.</p>
+    <p><strong>5.3</strong> Confidential information means any information transmitted by the Parties in the process
+      of implementing the Agreement.</p>
+
+    <h2 id="force">6. Force Majeure</h2>
+    <p><strong>6.1</strong> The Parties are released from liability due to force majeure: prohibitive actions of
+      authorities, natural disasters, etc.</p>
+    <p><strong>6.2</strong> In the event of such circumstances, the Party is obliged to notify the other Party within
+      30 business days.</p>
+
+    <h2 id="liability">7. Liability of the Parties</h2>
+    <p><strong>7.1</strong> The Parties are liable in accordance with the terms of this Offer.</p>
+    <p><strong>7.2</strong> The Contractor is not liable if non-performance occurred due to the Customer's fault.</p>
+
+    <h2 id="requisites">Contractor Details</h2>
+    <div class="requisites">
+      <p><strong>E-mail:</strong> <span style="color: #60a5fa; font-family: monospace;">pigeon@frkn.org</span>
+      </p>
+    </div>
+
+    <div class="footer">
+      © 2026 <a href="https://frkn.org">FRKN Privacy Company</a>
+    </div>
+  </div>
+
+</body>
+
+</html>

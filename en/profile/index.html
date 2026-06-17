@@ -1,31 +1,32 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
+    <title>Subscription Access — FRKN Reelsoprovod</title>
 
-    <meta property="og:title" content="Активировать Ключ FRKN Рилзопровод" />
+    <meta property="og:title" content="Subscription Access — FRKN Reelsoprovod" />
     <meta property="og:site_name" content="frkn" />
     <meta name="theme-color" content="#0b0d12" />
-    <link rel="canonical" href="https://frkn.org/activate/" />
+    <link rel="canonical" href="https://frkn.org/en/profile/" />
     <meta
       property="og:description"
-      content="Активировать Ключ FRKN Рилзопровод"
+      content="Subscription Access — FRKN Reelsoprovod"
     />
     <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:url" content="https://frkn.org/activate/" />
+    <meta property="og:url" content="https://frkn.org/en/profile/" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FRKN Рилзопровод" />
-    <meta name="twitter:description" content="Активировать Ключ" />
+    <meta name="twitter:title" content="FRKN Reelsoprovod" />
+    <meta name="twitter:description" content="Subscription Access" />
     <meta name="twitter:image" content="https://frkn.org/Images/preview.jpeg" />
     <meta name="robots" content="index, follow" />
-    <title>FRKN Активация ключа</title>
+
     <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/styles.css" />
     <style>
@@ -82,7 +83,11 @@
         width: 64px;
         height: 64px;
         margin: 0 auto 16px;
-        background: linear-gradient(135deg, rgba(91, 124, 250, 0.15), rgba(34, 211, 238, 0.1));
+        background: linear-gradient(
+          135deg,
+          rgba(91, 124, 250, 0.15),
+          rgba(34, 211, 238, 0.1)
+        );
         border: 1px solid rgba(91, 124, 250, 0.25);
         border-radius: 20px;
         display: flex;
@@ -374,8 +379,12 @@
       }
 
       @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
 
       @keyframes slideUp {
@@ -393,7 +402,11 @@
         width: 64px;
         height: 64px;
         margin: 0 auto 16px;
-        background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05));
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.15),
+          rgba(34, 197, 94, 0.05)
+        );
         border: 1px solid rgba(34, 197, 94, 0.25);
         border-radius: 20px;
         display: flex;
@@ -438,7 +451,11 @@
       }
 
       .days-highlight {
-        background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(34, 197, 94, 0.05));
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.12),
+          rgba(34, 197, 94, 0.05)
+        );
         border: 1px solid rgba(34, 197, 94, 0.2);
         border-radius: 16px;
         padding: 18px;
@@ -566,7 +583,9 @@
       }
 
       @keyframes spin {
-        to { transform: rotate(360deg); }
+        to {
+          transform: rotate(360deg);
+        }
       }
 
       .success-animation {
@@ -574,8 +593,13 @@
       }
 
       @keyframes pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.02); }
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
       }
 
       @media (max-width: 768px) {
@@ -612,112 +636,117 @@
 
       <div class="activate-page">
         <div class="activate-hero">
-          <h1>Активация ключа</h1>
-          <p>Введи ключ доступа, чтобы активировать подписку на Рилзопровод.</p>
+          <h1>Subscription Access</h1>
+          <p>
+            Enter your subscription ID or activation key to access your account.
+          </p>
         </div>
 
         <div class="activate-card">
           <div class="activate-card-header">
-            <div class="key-icon">🔑</div>
-            <h2>Активируй ключ</h2>
-            <p>Ключ выглядит как набор букв и цифр через дефис</p>
+            <div class="key-icon">🔐</div>
+            <h2>Account Login</h2>
+            <p>Subscription ID is a UUID; key is a hyphen-separated string</p>
           </div>
 
-          <form id="activateKeyForm">
+          <form id="subscriptionForm">
             <div class="input-group">
-              <label for="keyId">Ключ доступа</label>
+              <label for="subId">Subscription ID or Key</label>
               <input
                 type="text"
-                id="keyId"
-                name="key"
-                placeholder="KKKKK-LLLLL-MMMMM-NNNNN-FFFFF-X"
+                id="subId"
+                name="id"
+                placeholder="Enter subscription ID or key"
                 required
                 autocomplete="off"
               />
-              <span class="input-hint">Формат: XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-X</span>
+              <span class="input-hint"
+                >Example: 550e8400-e29b-41d4-a716-446655440000 or
+                XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-X</span
+              >
             </div>
 
-            <div class="input-group">
-              <label for="refCodeId">Реферальный код друга</label>
-              <input
-                type="text"
-                id="refCodeId"
-                name="refCode"
-                placeholder="Необязательно"
-                autocomplete="off"
-              />
-            </div>
-
-            <button class="btn-activate" type="submit">Активировать</button>
+            <button class="btn-activate" type="submit">Open Subscription</button>
           </form>
 
-          <div id="activationMessage" class="activation-message"></div>
+          <div id="subMessage" class="activation-message"></div>
 
           <div class="activate-links">
-            <a href="/pay">Купить ключ</a>
-            <a href="/info/activation-keys/">Что такое ключ активации?</a>
+            <a href="/en/info/subscriptions/">Where do I find my ID?</a>
+            <a href="/en/pay/">Buy Subscription</a>
+            <a href="/en/activate/">Activate Key</a>
           </div>
         </div>
 
         <div class="activate-benefits">
           <div class="benefit-card">
-            <div class="benefit-icon green">🛡️</div>
+            <div class="benefit-icon blue">🆔</div>
             <div class="benefit-content">
-              <h4>Без карты и автосписаний</h4>
+              <h4>Login with ID</h4>
               <p>
-                Платишь один раз — получаешь ключ. Никакой привязки банковской
-                карты, никаких подписок и скрытых списаний. Только ты решаешь,
-                когда пополнить доступ.
+                Use your subscription UUID to instantly access your account and
+                manage devices.
               </p>
             </div>
           </div>
 
           <div class="benefit-card">
-            <div class="benefit-icon blue">➕</div>
+            <div class="benefit-icon green">🔑</div>
             <div class="benefit-content">
-              <h4>Дни складываются</h4>
+              <h4>Key Activation</h4>
               <p>
-                Активация ключа добавляет дни к текущей подписке, а не обнуляет
-                её. Уже имеющийся срок доступа не сгорает — только прибавляется.
+                If you have an activation key, we will create a subscription and
+                link the key automatically.
               </p>
             </div>
           </div>
 
           <div class="benefit-card wide">
-            <div class="benefit-icon purple">🎁</div>
+            <div class="benefit-icon purple">📱</div>
             <div class="benefit-content">
-              <h4>Можно подарить</h4>
+              <h4>Setup on Any Device</h4>
               <p>
-                Ключ не привязан к аккаунту до активации. Отправь другу в
-                мессенджер — пусть сам активирует, когда ему удобно.
+                In your account you will find the subscription link and step-by-step
+                instructions for all platforms.
               </p>
             </div>
           </div>
         </div>
 
         <div class="activate-faq">
-          <h3>Частые вопросы</h3>
+          <h3>Frequently Asked Questions</h3>
 
           <div class="faq-item">
-            <h4>Где взять ключ?</h4>
+            <h4>Where do I find my subscription ID?</h4>
             <p>
-              Ключ можно купить на странице <a href="/pay" style="color: var(--accent); text-decoration: underline;">Тарифы</a> или получить в подарок от друга.
+              The ID is sent with your purchase via email or Telegram bot. You can also
+              find it in the
+              <a
+                href="/en/info/subscriptions/"
+                style="color: var(--accent); text-decoration: underline;"
+                >instructions</a
+              >.
             </p>
           </div>
 
           <div class="faq-item">
-            <h4>Что делать после активации?</h4>
+            <h4>What if I bought a key?</h4>
             <p>
-              После успешной активации ты попадёшь в личный кабинет, где можно
-              скопировать ссылку подписки и настроить любое устройство.
+              It is better to activate the key on the
+              <a
+                href="/en/activate/"
+                style="color: var(--accent); text-decoration: underline;"
+                >Activation</a
+              >
+              page, or enter it here — we will create a subscription.
             </p>
           </div>
 
           <div class="faq-item">
-            <h4>Ключ можно использовать повторно?</h4>
+            <h4>Can I log in from another device?</h4>
             <p>
-              Нет, каждый ключ одноразовый. После активации он привязывается к
-              созданной подписке.
+              Yes, simply enter the same subscription ID on any device. No
+              password is required.
             </p>
           </div>
         </div>
@@ -726,54 +755,54 @@
       <div id="footer-container"></div>
     </div>
 
-    <!-- Модальное окно подтверждения активации -->
+    <!-- Key activation modal -->
     <div id="activationModal" class="modal">
       <div class="modal-content">
         <div class="modal-icon">🔑</div>
-        <h2 class="modal-title">Активация ключа</h2>
+        <h2 class="modal-title">Key Activation</h2>
         <div class="modal-description">
-          Ты собираешься активировать ключ для получения доступа к Рилзопроводу
+          You are about to activate a key to get access to Reelsoprovod
           FRKN
         </div>
 
-        <div class="key-label">ТВОЙ КЛЮЧ АКТИВАЦИИ</div>
+        <div class="key-label">YOUR ACTIVATION KEY</div>
         <div class="key-display" id="modalKeyDisplay"></div>
 
         <div class="days-highlight">
           <span class="days-number" id="keyDaysNumber">66</span>
-          <span class="days-text">дней доступа</span>
+          <span class="days-text">days of access</span>
         </div>
 
         <div class="info-box">
-          <div class="info-title">Что произойдёт после активации?</div>
+          <div class="info-title">What happens after activation?</div>
           <p>
-            ✅ Будет создана новая подписка на
-            <strong id="infoDaysNumber">66</strong> дней
+            ✅ A new subscription will be created for
+            <strong id="infoDaysNumber">66</strong> days
           </p>
-          <p>✅ Ты получишь доступ ко всем функциям Рилзопровода FRKN</p>
+          <p>✅ You will get access to all Reelsoprovod FRKN features</p>
+          <p>✅ You can renew the subscription in your account</p>
         </div>
 
         <div class="separator"></div>
 
         <div class="warning-box">
-          <div class="warning-title">ВАЖНАЯ ИНФОРМАЦИЯ</div>
+          <div class="warning-title">IMPORTANT INFORMATION</div>
           <p>
-            🔸 <strong>Ключ одноразовый</strong> — после активации его нельзя
-            использовать повторно
+            🔸 <strong>The key is single-use</strong> — it cannot be used again after activation
           </p>
-          <p>🔸 Активация создаёт <strong>НОВУЮ подписку</strong></p>
+          <p>🔸 Activation creates a <strong>NEW subscription</strong></p>
           <p>
-            🔸 Если хочешь продлить текущую подписку, активируй ключ в личном
-            кабинете: <a href="/subscription">frkn.org/subscription</a>
+            🔸 To extend your current subscription, activate the key in your
+            account: <a href="/en/subscription/">frkn.org/en/subscription</a>
           </p>
         </div>
 
         <div class="modal-buttons">
           <button class="btn-modal btn-cancel" id="cancelActivationBtn">
-            Отмена
+            Cancel
           </button>
           <button class="btn-modal btn-confirm" id="confirmActivationBtn">
-            Активировать ключ
+            Activate Key
           </button>
         </div>
       </div>
@@ -782,29 +811,27 @@
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/i18n.js"></script>
     <script src="/scripts/containers.js"></script>
-
     <script>
       const params = new URLSearchParams(window.location.search);
-      const keyFromUrl = params.get("key") || params.get("code");
-      const refCodeFromUrl = params.get("ref") || params.get("referral");
+      const subId =
+        params.get("id") || params.get("subscription") || params.get("uuid");
+      const key =
+        params.get("key") || params.get("code") || params.get("promo");
 
-      if (keyFromUrl) {
-        const keyInput = document.getElementById("keyId");
+      if (subId) {
+        const subIdInput = document.getElementById("subId");
+        if (subIdInput) {
+          subIdInput.value = subId;
+          subIdInput.style.borderColor = "#22c55e";
+        }
+      } else if (key) {
+        const keyInput = document.getElementById("subId");
         if (keyInput) {
-          keyInput.value = keyFromUrl;
+          keyInput.value = key;
           keyInput.style.borderColor = "#22c55e";
         }
       }
-
-      if (refCodeFromUrl) {
-        const refInput = document.getElementById("refCodeId");
-        if (refInput) {
-          refInput.value = refCodeFromUrl;
-          refInput.style.borderColor = "#22c55e";
-        }
-      }
     </script>
-
     <script>
       const isLocal =
         window.location.hostname === "localhost" ||
@@ -812,29 +839,25 @@
       const API_BASE = isLocal
         ? "http://localhost:3000"
         : "https://heheapi.frkn.org";
-
-      const activationKeyForm = document.getElementById("activateKeyForm");
-      const activationMessage = document.getElementById("activationMessage");
+      const subForm = document.getElementById("subscriptionForm");
+      const subMessage = document.getElementById("subMessage");
       const modal = document.getElementById("activationModal");
-
       let pendingKey = null;
       let pendingKeyData = null;
-      let pendingRefCode = null;
 
       function showMessage(text, type = "info") {
-        activationMessage.textContent = text;
-        activationMessage.className = `activation-message show ${type}`;
+        subMessage.textContent = text;
+        subMessage.className = `activation-message show ${type}`;
       }
 
       function clearMessage() {
-        activationMessage.textContent = "";
-        activationMessage.className = "activation-message";
+        subMessage.textContent = "";
+        subMessage.className = "activation-message";
       }
 
-      function showModal(keyValue, keyData, refCode) {
+      function showModal(keyValue, keyData) {
         pendingKey = keyValue;
         pendingKeyData = keyData;
-        pendingRefCode = refCode;
 
         document.getElementById("modalKeyDisplay").textContent = keyValue;
 
@@ -851,41 +874,35 @@
         document.body.style.overflow = "";
         pendingKey = null;
         pendingKeyData = null;
-        pendingRefCode = null;
       }
 
       function showLoading(button) {
         const originalText = button.textContent;
         button.disabled = true;
-        button.innerHTML = '<span class="loading-spinner"></span> Активация...';
+        button.innerHTML = '<span class="loading-spinner"></span> Activating...';
         return () => {
           button.disabled = false;
           button.textContent = originalText;
         };
       }
 
-      async function activateKey(keyValue, refCode) {
+      async function activateKey(keyValue) {
         const confirmBtn = document.getElementById("confirmActivationBtn");
         const resetLoading = showLoading(confirmBtn);
         let subscriptionId = null;
 
         try {
-          showMessage("⏳ Создаём подписку...", "info");
-
-          const trialPayload = {
-            referred_by:
-              refCode && refCode.trim() ? refCode.trim() : "WEB-ACTIVATE",
-          };
+          showMessage("⏳ Creating subscription...", "info");
 
           const resCreateSubscription = await fetch(`${API_BASE}/trial`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(trialPayload),
+            body: JSON.stringify({ referred_by: "WEB-ACTIVATE" }),
           });
 
           if (!resCreateSubscription.ok) {
             throw new Error(
-              "Не удалось создать подписку, обратитесь в поддержку",
+              "Failed to create subscription, please contact support",
             );
           }
 
@@ -895,10 +912,10 @@
           console.log("Subscription created:", subscriptionId);
 
           if (!subscriptionId) {
-            throw new Error("Не удалось получить ID подписки");
+            throw new Error("Failed to get subscription ID");
           }
 
-          showMessage("⏳ Активируем ключ...", "info");
+          showMessage("⏳ Activating key...", "info");
 
           const payload = {
             code: keyValue,
@@ -917,21 +934,25 @@
             const modalContent = document.querySelector(".modal-content");
             modalContent.classList.add("success-animation");
 
-            showMessage("✅ Ключ успешно активирован! Перенаправляем...", "success");
+            showMessage(
+              "✅ Key activated successfully! Redirecting...",
+              "success",
+            );
 
             setTimeout(() => {
               hideModal();
-              window.location.href = `/subscription?id=${subscriptionId}`;
+              window.location.href = `/en/subscription?id=${subscriptionId}`;
             }, 1500);
           } else {
-            throw new Error(data?.message || "Не удалось активировать ключ");
+            throw new Error(data?.message || "Failed to activate key");
           }
         } catch (err) {
           console.error(err);
-          showMessage(err.message || "❌ Ошибка активации ключа", "error");
+          showMessage(err.message || "❌ Key activation error", "error");
 
           if (subscriptionId) {
-            activationMessage.innerHTML += `<br>⚠️ Подписка создана, но ключ не активирован. Обратитесь в поддержку.`;
+            subMessage.innerHTML +=
+              "<br>⚠️ Subscription created, but the key was not activated. Please contact support.";
           }
 
           hideModal();
@@ -940,62 +961,76 @@
         }
       }
 
-      if (!activationKeyForm) {
-        console.error("activateKeyForm not found");
+      if (!subForm) {
+        console.error("subscriptionForm not found");
       } else {
-        activationKeyForm.addEventListener("submit", async (e) => {
+        subForm.addEventListener("submit", async (e) => {
           e.preventDefault();
           clearMessage();
 
-          const keyValue = document
-            .getElementById("keyId")
+          const value = document
+            .getElementById("subId")
             .value.trim()
             .toUpperCase();
-          const refCode = document.getElementById("refCodeId").value.trim();
 
-          if (!keyValue) {
-            showMessage("❌ Введите ключ активации", "error");
+          if (!value) {
+            showMessage("❌ Enter ID or key", "error");
             return;
           }
+
+          const uuidRegex =
+            /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
           const keyRegex =
             /^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{1}$/i;
 
-          if (!keyRegex.test(keyValue)) {
-            showMessage("❌ Неверный формат ключа", "error");
+          if (uuidRegex.test(value)) {
+            showMessage("✅ Opening subscription...", "success");
+            window.location.href = `/en/subscription?id=${value}`;
             return;
           }
 
-          showMessage("⏳ Проверяем ключ...", "info");
+          if (keyRegex.test(value)) {
+            showMessage("⏳ Checking key...", "info");
 
-          try {
-            const res = await fetch(
-              `${API_BASE}/key/validate?key=${encodeURIComponent(keyValue)}`,
-            );
-            const data = await res.json();
+            try {
+              const res = await fetch(
+                `${API_BASE}/key/validate?key=${encodeURIComponent(value)}`,
+              );
+              const data = await res.json();
 
-            if (data?.status === 200 && data?.response?.instance?.Key) {
-              const keyData = data.response.instance.Key;
+              if (data?.status === 200 && data?.response?.instance?.Key) {
+                const keyData = data.response.instance.Key;
 
-              if (keyData.activated && keyData.subscription_id) {
-                showMessage("✅ Ключ уже активирован! Перенаправляем...", "success");
-                setTimeout(() => {
-                  window.location.href = `/subscription?id=${keyData.subscription_id}`;
-                }, 1000);
-                return;
+                if (keyData.activated && keyData.subscription_id) {
+                  showMessage(
+                    "✅ Key already activated! Redirecting...",
+                    "success",
+                  );
+                  setTimeout(() => {
+                    window.location.href = `/en/subscription?id=${keyData.subscription_id}`;
+                  }, 1000);
+                  return;
+                }
+
+                if (!keyData.activated) {
+                  showModal(value, keyData);
+                  return;
+                }
               }
 
-              if (!keyData.activated) {
-                showModal(keyValue, keyData, refCode);
-                return;
-              }
+              showMessage("❌ " + (data?.message || "Key is invalid"), "error");
+            } catch (err) {
+              console.error(err);
+              showMessage(
+                "❌ Key validation error. Please try again later.",
+                "error",
+              );
             }
-
-            showMessage("❌ " + (data?.message || "Ключ недействителен"), "error");
-          } catch (err) {
-            console.error(err);
-            showMessage("❌ Ошибка проверки ключа. Попробуйте позже.", "error");
+            return;
           }
+
+          showMessage("❌ Enter a valid ID or key", "error");
         });
       }
 
@@ -1003,7 +1038,7 @@
         .getElementById("confirmActivationBtn")
         ?.addEventListener("click", () => {
           if (pendingKey) {
-            activateKey(pendingKey, pendingRefCode);
+            activateKey(pendingKey);
           }
         });
 
@@ -1011,7 +1046,13 @@
         .getElementById("cancelActivationBtn")
         ?.addEventListener("click", () => {
           hideModal();
-          showMessage("⚠️ Активация отменена", "info");
+          showMessage("⚠️ Activation cancelled", "info");
+
+          const input = document.getElementById("subId");
+          if (input) {
+            input.value = "";
+            input.style.borderColor = "";
+          }
         });
 
       modal?.addEventListener("click", (e) => {
