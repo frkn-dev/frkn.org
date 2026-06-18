@@ -1348,6 +1348,55 @@
         font-size: 13px;
         margin-top: 4px;
       }
+      .subscription-benefits {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin: 28px 0;
+      }
+      .subscription-benefit-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: border-color 0.2s ease;
+      }
+      .subscription-benefit-card:hover {
+        border-color: rgba(91, 124, 250, 0.4);
+      }
+      .subscription-benefit-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+      }
+      .subscription-benefit-icon.green {
+        background: rgba(34, 197, 94, 0.12);
+      }
+      .subscription-benefit-icon.blue {
+        background: rgba(91, 124, 250, 0.12);
+      }
+      .subscription-benefit-content h4 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+      .subscription-benefit-content p {
+        margin: 0;
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      @media (max-width: 640px) {
+        .subscription-benefits {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
   </head>
 
@@ -1576,6 +1625,29 @@
                 Renew subscription
               </button>
               <div class="renew-error" id="renewError"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subscription-benefits">
+          <div class="subscription-benefit-card">
+            <div class="subscription-benefit-icon green">🛡️</div>
+            <div class="subscription-benefit-content">
+              <h4>No card, no auto-charges</h4>
+              <p>
+                Pay once and get access. No bank card binding, no subscriptions,
+                no hidden charges.
+              </p>
+            </div>
+          </div>
+          <div class="subscription-benefit-card">
+            <div class="subscription-benefit-icon blue">➕</div>
+            <div class="subscription-benefit-content">
+              <h4>Days stack up</h4>
+              <p>
+                Renewal adds days to your current subscription without resetting
+                it. Existing access time stays and only grows.
+              </p>
             </div>
           </div>
         </div>

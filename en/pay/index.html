@@ -89,8 +89,9 @@
         gap: 24px;
       }
       .pricing-grid-2 {
-        grid-template-columns: repeat(2, minmax(280px, 380px));
+        grid-template-columns: repeat(2, minmax(320px, 480px));
         justify-content: center;
+        gap: 80px;
       }
       .pricing-grid-3 {
         grid-template-columns: repeat(3, minmax(260px, 1fr));
@@ -413,6 +414,56 @@
           font-size: 34px;
         }
       }
+
+      .pay-benefits {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin: 40px 0;
+      }
+      .pay-benefit-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        transition: border-color 0.2s ease;
+      }
+      .pay-benefit-card:hover {
+        border-color: rgba(91, 124, 250, 0.4);
+      }
+      .pay-benefit-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+      }
+      .pay-benefit-icon.green {
+        background: rgba(34, 197, 94, 0.12);
+      }
+      .pay-benefit-icon.blue {
+        background: rgba(91, 124, 250, 0.12);
+      }
+      .pay-benefit-content h4 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+      .pay-benefit-content p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--text-dim);
+        line-height: 1.6;
+      }
+      @media (max-width: 640px) {
+        .pay-benefits {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
   </head>
   <body>
@@ -424,6 +475,29 @@
       <p class="subtitle">
         Buy an activation key to get or renew a subscription <br />
       </p>
+
+      <div class="pay-benefits">
+        <div class="pay-benefit-card">
+          <div class="pay-benefit-icon green">🛡️</div>
+          <div class="pay-benefit-content">
+            <h4>No card, no auto-charges</h4>
+            <p>
+              Pay once and get access. No bank card binding, no subscriptions,
+              no hidden charges.
+            </p>
+          </div>
+        </div>
+        <div class="pay-benefit-card">
+          <div class="pay-benefit-icon blue">➕</div>
+          <div class="pay-benefit-content">
+            <h4>Days stack up</h4>
+            <p>
+              Renewal adds days to your current subscription without resetting
+              it. Existing access time stays and only grows.
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div class="pricing-section">
         <div class="pricing-grid pricing-grid-2">
@@ -484,6 +558,11 @@
             <button class="buy-button" data-duration="3" data-price="100">
               Choose plan
             </button>
+            <ul class="feature-list">
+              <li>Unlimited traffic</li>
+              <li>High speed</li>
+              <li>Any number of devices</li>
+            </ul>
           </div>
           <div class="price-card" data-duration="7" data-price="200">
             <h3>7 days</h3>
@@ -496,6 +575,11 @@
             <button class="buy-button" data-duration="7" data-price="200">
               Choose plan
             </button>
+            <ul class="feature-list">
+              <li>Unlimited traffic</li>
+              <li>High speed</li>
+              <li>Any number of devices</li>
+            </ul>
           </div>
           <div class="price-card" data-duration="14" data-price="300">
             <h3>14 days</h3>
@@ -508,6 +592,11 @@
             <button class="buy-button" data-duration="14" data-price="300">
               Choose plan
             </button>
+            <ul class="feature-list">
+              <li>Unlimited traffic</li>
+              <li>High speed</li>
+              <li>Any number of devices</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -525,6 +614,11 @@
             <button class="buy-button" data-duration="90" data-price="1500">
               Choose plan
             </button>
+            <ul class="feature-list">
+              <li>Unlimited traffic</li>
+              <li>High speed</li>
+              <li>Any number of devices</li>
+            </ul>
           </div>
           <div class="price-card" data-duration="180" data-price="2700">
             <h3>6 months</h3>
@@ -537,9 +631,15 @@
             <button class="buy-button" data-duration="180" data-price="2700">
               Choose plan
             </button>
+            <ul class="feature-list">
+              <li>Unlimited traffic</li>
+              <li>High speed</li>
+              <li>Any number of devices</li>
+            </ul>
           </div>
         </div>
       </div>
+
       <div id="footer-container"></div>
     </div>
 
