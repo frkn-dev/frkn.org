@@ -189,6 +189,18 @@
         </div>
       </div>
 
+      <div id="subscription-success-section" style="display: none;">
+        <h2 style="color: #22c55e; font-size: 24px; margin-bottom: 10px">
+          Оплата принята! 🚀
+        </h2>
+        <p id="subscription-success-message" style="color: #888; font-size: 14px; margin-bottom: 30px">
+          Ваша подписка продлена.
+        </p>
+        <button class="btn-pay" id="go-to-subscription-btn">
+          Перейти к подписке
+        </button>
+      </div>
+
       <div id="error-popup" class="popup-overlay">
         <div class="popup-content">
           <div style="font-size: 40px; margin-bottom: 15px">⚠️</div>
@@ -250,15 +262,54 @@
           const res = await fetch(`${PAYMENT_API_BASE}/payment/check/${txid}`);
           const data = await res.json();
 
-          if (data.code) {
+          if (data.status === "completed") {
             document.getElementById("waiting-section").style.display = "none";
-            document.getElementById("success-section").style.display = "block";
-            document.getElementById("subscription-key").innerText = data.code;
-            document.getElementById("auto-activate-btn").onclick = () => {
-              window.location.href = `${BASE}/activate?code=${data.code}`;
-            };
-          } else {
+
+            if (data.type === "SubscriptionRenewal") {
+              const subId =
+                data.subscription_id ||
+                localStorage.getItem("frkn_last_subscription_id");
+              document.getElementById("subscription-success-section").style.display =
+                "block";
+              const btn = document.getElementById("go-to-subscription-btn");
+              if (subId) {
+                btn.textContent = "Перейти к подписке";
+                btn.onclick = () => {
+                  window.location.href = `${BASE}/subscription?id=${subId}`;
+                };
+              } else {
+                btn.textContent = "Перейти в личный кабинет";
+                btn.onclick = () => {
+                  window.location.href = `${BASE}/subscription`;
+                };
+              }
+            } else if (data.type === "Donation") {
+              document.getElementById("subscription-success-section").style.display =
+                "block";
+              document.querySelector(
+                "#subscription-success-section h2",
+              ).innerText = "Спасибо за донат! ❤️";
+              document.getElementById(
+                "subscription-success-message",
+              ).innerText = "Ваш платёж получен.";
+              const btn = document.getElementById("go-to-subscription-btn");
+              btn.textContent = "На главную";
+              btn.onclick = () => {
+                window.location.href = `${BASE}/`;
+              };
+            } else if (data.code) {
+              document.getElementById("success-section").style.display = "block";
+              document.getElementById("subscription-key").innerText = data.code;
+              document.getElementById("auto-activate-btn").onclick = () => {
+                window.location.href = `${BASE}/activate?code=${data.code}`;
+              };
+            } else {
+              setTimeout(poll, 2000);
+            }
+          } else if (data.status === "pending") {
             setTimeout(poll, 2000);
+          } else {
+            document.getElementById("status").innerText = "Транзакция не найдена.";
           }
         } catch (e) {
           setTimeout(poll, 5000);

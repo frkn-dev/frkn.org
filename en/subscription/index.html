@@ -1192,6 +1192,162 @@
           align-items: center;
         }
       }
+
+      .renew-section {
+        margin-top: 24px;
+      }
+      .renew-title {
+        font-size: 28px;
+        margin: 0 0 20px;
+        text-align: center;
+      }
+      .renew-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .renew-field label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+      .renew-field select {
+        width: 100%;
+        background: #0f1320;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 10px 12px;
+        border-radius: 10px;
+        font-size: 14px;
+      }
+      .renew-field select:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+      .renew-options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      @media (max-width: 640px) {
+        .renew-options {
+          grid-template-columns: 1fr;
+        }
+      }
+      .renew-option-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .renew-option-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: rgba(91, 124, 250, 0.12);
+        border: 1px solid rgba(91, 124, 250, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+      }
+      .renew-option-card h4 {
+        margin: 0;
+        font-size: 17px;
+      }
+      .renew-option-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      .renew-option-card input {
+        width: 100%;
+        background: #0f1320;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px 14px;
+        border-radius: 12px;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+      .renew-option-card input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+      .renew-action-btn {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .renew-action-btn:hover {
+        border-color: var(--accent);
+        background: rgba(91, 124, 250, 0.1);
+      }
+      .renew-action-btn.primary {
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        border: none;
+      }
+      .renew-promo-inline {
+        display: flex;
+        gap: 8px;
+      }
+      .renew-promo-inline input {
+        flex: 1;
+      }
+      .renew-promo-inline button {
+        white-space: nowrap;
+        background: rgba(91, 124, 250, 0.1);
+        border: 1px solid rgba(91, 124, 250, 0.3);
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .renew-price {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 22px;
+      }
+      .renew-price-old {
+        font-size: 13px;
+        color: var(--muted);
+        text-decoration: line-through;
+      }
+      .renew-price-new {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .renew-price-new.discounted {
+        color: #22c55e;
+      }
+      .renew-option-links {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 4px;
+      }
+      .renew-error {
+        color: #ef4444;
+        font-size: 13px;
+        margin-top: 4px;
+      }
     </style>
   </head>
 
@@ -1371,27 +1527,57 @@
         </div>
 
         <hr />
-        <div class="key" id="key">
-          <h3>Add days</h3>
-          <div class="key">
-            <input
-              id="keyInput"
-              placeholder="Enter key"
-              style="padding: 8px; width: 270px"
-            />
-            <button onclick="activateKey()">Activate</button>
-            <a
-              href="/en/info/activation-keys/"
-              target="_blank"
-              class="small text-link"
-            >
-              What is an activation key and where to get one?
-            </a>
-            <a href="/en/pay" target="_blank" class="small text-link"
-              >Buy activation key
-            </a>
+        <div class="renew-section" id="renew">
+          <h2 class="renew-title">Add days</h2>
+
+          <div class="renew-options">
+            <div class="renew-option-card">
+              <div class="renew-option-icon">🔑</div>
+              <h4>By activation key</h4>
+              <p>Already have a key? Enter it and activate.</p>
+              <input id="keyInput" placeholder="Enter key" />
+              <button onclick="activateKey()" class="renew-action-btn">
+                Activate key
+              </button>
+              <div class="renew-option-links">
+                <a href="/en/info/activation-keys/" target="_blank" class="small text-link">
+                  What is an activation key?
+                </a>
+                <a href="/en/pay" target="_blank" class="small text-link">Buy key</a>
+              </div>
+              <div id="keyResult" class="small"></div>
+            </div>
+
+            <div class="renew-option-card">
+              <div class="renew-option-icon">💳</div>
+              <h4>Pay</h4>
+              <p>Card, SBP or cryptocurrency</p>
+              <div class="renew-field">
+                <label for="renewDuration">For how many days</label>
+                <select id="renewDuration">
+                  <option value="3" data-price="100">3 days — 100 ₽</option>
+                  <option value="7" data-price="200">7 days — 200 ₽</option>
+                  <option value="14" data-price="300">14 days — 300 ₽</option>
+                  <option value="30" data-price="500" selected>30 days — 500 ₽</option>
+                  <option value="90" data-price="1500">90 days — 1500 ₽</option>
+                  <option value="180" data-price="2700">180 days — 2700 ₽</option>
+                  <option value="365" data-price="5000">365 days — 5000 ₽</option>
+                </select>
+              </div>
+              <div class="renew-promo-inline">
+                <input type="text" id="renewPromo" placeholder="Promo code (optional)" />
+                <button type="button" id="renewApplyPromo">Apply</button>
+              </div>
+              <div class="renew-price" id="renewPrice">
+                <span class="renew-price-old" id="renewPriceOld"></span>
+                <span class="renew-price-new" id="renewPriceNew">500 ₽</span>
+              </div>
+              <button type="button" class="renew-action-btn primary" id="renewBtn">
+                Renew subscription
+              </button>
+              <div class="renew-error" id="renewError"></div>
+            </div>
           </div>
-          <div id="keyResult" class="small"></div>
         </div>
 
         <hr />
@@ -1434,6 +1620,9 @@
   const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
   const API_BASE = isLocal
     ? "http://localhost:3000"
+    : "https://heheapi.frkn.org";
+  const PAYMENT_API_BASE = isLocal
+    ? "http://localhost:3006"
     : "https://heheapi.frkn.org";
 
   const ENV_NAMES = {
@@ -2456,10 +2645,10 @@
 
     // Скролл
     const scrollBtn = document.getElementById("scrollToAdd");
-    const keySection = document.getElementById("key");
-    if (scrollBtn && keySection) {
+    const renewSection = document.getElementById("renew");
+    if (scrollBtn && renewSection) {
       scrollBtn.addEventListener("click", () => {
-        keySection.scrollIntoView({ behavior: "smooth" });
+        renewSection.scrollIntoView({ behavior: "smooth" });
       });
     }
 
@@ -2482,6 +2671,144 @@
     if (input) {
       input.addEventListener("keypress", (e) => {
         if (e.key === "Enter" && btn) btn.click();
+      });
+    }
+
+    // Subscription renewal
+    const renewDurationSelect = document.getElementById("renewDuration");
+    const renewPromoInput = document.getElementById("renewPromo");
+    const renewApplyPromoBtn = document.getElementById("renewApplyPromo");
+    const renewBtn = document.getElementById("renewBtn");
+    const renewError = document.getElementById("renewError");
+    const renewPriceOld = document.getElementById("renewPriceOld");
+    const renewPriceNew = document.getElementById("renewPriceNew");
+    let selectedRenewDuration = renewDurationSelect
+      ? parseInt(renewDurationSelect.value, 10)
+      : null;
+    let appliedRenewPromo = null;
+    let currentRenewDiscountedPrice = null;
+
+    function getSelectedRenewPrice() {
+      if (!renewDurationSelect) return 0;
+      const option = renewDurationSelect.selectedOptions[0];
+      return parseInt(option?.dataset.price || "0", 10);
+    }
+
+    function updateRenewPriceDisplay() {
+      const basePrice = getSelectedRenewPrice();
+      if (!renewPriceNew) return;
+      if (currentRenewDiscountedPrice && currentRenewDiscountedPrice < basePrice) {
+        if (renewPriceOld) renewPriceOld.textContent = `${basePrice} ₽`;
+        renewPriceNew.textContent = `${currentRenewDiscountedPrice} ₽`;
+        renewPriceNew.classList.add("discounted");
+      } else {
+        if (renewPriceOld) renewPriceOld.textContent = "";
+        renewPriceNew.textContent = `${basePrice} ₽`;
+        renewPriceNew.classList.remove("discounted");
+      }
+    }
+
+    if (renewDurationSelect) {
+      renewDurationSelect.addEventListener("change", () => {
+        selectedRenewDuration = parseInt(renewDurationSelect.value, 10);
+        appliedRenewPromo = null;
+        currentRenewDiscountedPrice = null;
+        renewError.textContent = "";
+        updateRenewPriceDisplay();
+      });
+    }
+
+    if (renewApplyPromoBtn) {
+      renewApplyPromoBtn.addEventListener("click", async () => {
+        const code = renewPromoInput.value.trim();
+        if (!code) {
+          appliedRenewPromo = null;
+          currentRenewDiscountedPrice = null;
+          updateRenewPriceDisplay();
+          showToast("Promo code reset");
+          return;
+        }
+        if (!selectedRenewDuration) {
+          renewError.textContent = "Select renewal period first";
+          return;
+        }
+        try {
+          const res = await fetch(`${PAYMENT_API_BASE}/promocode/validate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              duration: selectedRenewDuration,
+              promocode: code,
+            }),
+          });
+          const data = await res.json();
+          if (data.is_valid) {
+            appliedRenewPromo = code;
+            currentRenewDiscountedPrice = data.discounted_price;
+            renewError.textContent = "";
+            updateRenewPriceDisplay();
+            showToast(`Promo applied: ${data.discount_percent}% off`);
+          } else {
+            appliedRenewPromo = null;
+            currentRenewDiscountedPrice = null;
+            renewError.textContent = data.message || "Invalid promo code";
+            updateRenewPriceDisplay();
+          }
+        } catch (e) {
+          renewError.textContent = "Error validating promo code";
+        }
+      });
+    }
+
+    updateRenewPriceDisplay();
+
+    if (renewBtn) {
+      renewBtn.addEventListener("click", async () => {
+        renewError.textContent = "";
+        if (!selectedRenewDuration) {
+          renewError.textContent = "Select renewal period";
+          return;
+        }
+        const subId = getSubId();
+        if (!subId) {
+          renewError.textContent = "Could not determine subscription";
+          return;
+        }
+        renewBtn.disabled = true;
+        const originalText = renewBtn.textContent;
+        renewBtn.textContent = "Creating payment...";
+        try {
+          const res = await fetch(
+            `${PAYMENT_API_BASE}/payment/platega/subscription/create`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                subscription_id: subId,
+                duration: selectedRenewDuration,
+                promocode: appliedRenewPromo,
+                provider: "Platega",
+              }),
+            },
+          );
+          if (!res.ok) {
+            const data = await res
+              .json()
+              .catch(() => ({ error: "Server error" }));
+            throw new Error(data.error || "Failed to create payment");
+          }
+          const data = await res.json();
+          if (data.url) {
+            localStorage.setItem("frkn_last_subscription_id", subId);
+            window.location.href = data.url;
+          } else {
+            throw new Error("API did not return a payment URL");
+          }
+        } catch (e) {
+          renewError.textContent = e.message;
+          renewBtn.disabled = false;
+          renewBtn.textContent = originalText;
+        }
       });
     }
   });

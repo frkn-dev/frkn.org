@@ -602,7 +602,31 @@
       const PAYMENT_API_BASE = isLocal
         ? "http://localhost:3006"
         : "https://heheapi.frkn.org";
+      const PAYMENT_API_FALLBACK = isLocal
+        ? null
+        : "https://api.frkn.org";
       let currentOrder = null;
+
+      async function apiFetch(path, options = {}) {
+        const bases = PAYMENT_API_FALLBACK
+          ? [PAYMENT_API_BASE, PAYMENT_API_FALLBACK]
+          : [PAYMENT_API_BASE];
+        let lastError;
+        for (const base of bases) {
+          try {
+            const res = await fetch(`${base}${path}`, {
+              ...options,
+              mode: "cors",
+              credentials: "omit",
+            });
+            if (res.ok) return res;
+            lastError = new Error(`HTTP ${res.status}`);
+          } catch (e) {
+            lastError = e;
+          }
+        }
+        throw lastError;
+      }
       let urlPromoCode =
         new URLSearchParams(location.search).get("promo") || null;
 
@@ -664,8 +688,8 @@
           const duration = parseInt(btn.dataset.duration);
           const basePrice = parseInt(btn.dataset.price);
           try {
-            const response = await fetch(
-              `${PAYMENT_API_BASE}/promocode/validate`,
+            const response = await apiFetch(
+              `/promocode/validate`,
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -730,8 +754,8 @@
           return true;
         }
         try {
-          const response = await fetch(
-            `${PAYMENT_API_BASE}/promocode/validate`,
+          const response = await apiFetch(
+            `/promocode/validate`,
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -838,8 +862,8 @@
           payBtn.innerHTML =
             '<span class="loading-spinner"></span> Создаем счет...';
           try {
-            const res = await fetch(
-              `${PAYMENT_API_BASE}/payment/platega/key/create`,
+            const res = await apiFetch(
+              `/payment/platega/key/create`,
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
