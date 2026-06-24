@@ -1,0 +1,2827 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="اشتراک FRKN Reelsoprovod" name="description"/>
+<link href="https://frkn.org/fa/subscription/" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="https://frkn.org/fa/subscription/" property="og:url"/>
+<meta content="FRKN" property="og:site_name"/>
+<meta content="FRKN Reelsoprovod subscription" property="og:title"/>
+<meta content="اشتراک FRKN Reelsoprovod" property="og:description"/>
+<meta content="https://frkn.org/Images/logo.png" property="og:image"/>
+<meta content="FRKN Reelsoprovod subscription" property="og:image:alt"/>
+<meta content="image/png" property="og:image:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="FRKN subscription" name="twitter:title"/>
+<meta content="اشتراک FRKN" name="twitter:description"/>
+<meta content="https://frkn.org/Images/logo.png" name="twitter:image"/>
+<link href="/Images/favicon.ico" rel="icon" type="image/x-icon"/>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<title>اطلاعات اشتراک</title>
+<style>
+      :root {
+        --bg: #0b0d12;
+        --card: #121621;
+        --text: #e6e8ef;
+        --muted: #9aa1b2;
+        --accent: #5b7cfa;
+        --accent-2: #22d3ee;
+        --border: #1f2433;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 0 40px;
+      }
+
+      .logo {
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: fit-content;
+      }
+
+      #logo-container img {
+        box-shadow:
+          0 0 10px rgba(0, 150, 255, 0.4),
+          0 0 20px rgba(0, 100, 255, 0.2);
+
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .logo img {
+        width: 50px;
+        height: 34px;
+        border-radius: 12%;
+        object-fit: contain;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(91, 124, 250, 0.2);
+        transition: box-shadow 0.3s ease;
+      }
+
+      .logo img:hover {
+        filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.8));
+        transform: scale(1.05);
+      }
+
+      .hero-watermark {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+        opacity: 0.5;
+        text-align: center;
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .logo .hero-watermark {
+        margin-top: -4px;
+      }
+
+      .logo:hover img {
+        box-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
+      }
+
+      .logo a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--text);
+        text-decoration: none;
+        transition:
+          color 0.3s ease,
+          text-shadow 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: scale(1.01);
+      }
+
+      .logo:hover a {
+        color: #fff;
+        text-shadow:
+          0 0 8px rgba(91, 124, 250, 0.8),
+          0 0 15px rgba(34, 211, 238, 0.4);
+      }
+
+      .title-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .hero-title,
+      .hero-title-small {
+        font-family: var(--font-main);
+        letter-spacing: -0.04em;
+        text-transform: none;
+      }
+
+      .hero-title {
+        margin-bottom: 8;
+        font-size: 2rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.2;
+      }
+
+      .hero-title-small {
+        margin-bottom: 10px;
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.2;
+      }
+
+      .env-badge {
+        display: inline-flex;
+        margin-bottom: 15px;
+        align-items: center;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #94a3b8;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        white-space: nowrap;
+      }
+
+      #env-switcher {
+        display: flex;
+        gap: 8px;
+        flex-direction: column;
+      }
+
+      #env-switcher .env-badge {
+        margin-bottom: 0;
+        cursor: pointer;
+        background: rgba(56, 189, 248, 0.05);
+        transition: all 0.2s ease;
+      }
+
+      #env-switcher .env-badge:hover {
+        background: rgba(56, 189, 248, 0.2);
+        border-color: var(--accent);
+        color: #fff;
+      }
+
+      .available {
+        color: #10b981;
+      }
+
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 16px;
+        background: rgba(30, 41, 59, 0.4);
+        padding: 20px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        margin-bottom: 24px;
+      }
+
+      .stat {
+        margin: 0;
+        display: flex;
+        color: var(--muted);
+        flex-direction: column;
+        align-items: center;
+        text-align: left;
+        gap: 8px;
+      }
+
+      .stat b {
+        font-size: 2.5rem;
+        color: #22d3ee;
+        text-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+        line-height: 1;
+        margin: 4px 0;
+      }
+
+      .key {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        flex-direction: column;
+        display: inline-flex;
+        align-items: left;
+        text-align: left;
+        gap: 8px;
+      }
+
+      .ref-code {
+        margin-top: 30px;
+        margin-bottom: 20px;
+
+        display: flex;
+        color: var(--muted);
+        flex-direction: column;
+        display: inline-flex;
+        align-items: left;
+        text-align: left;
+        gap: 8px;
+      }
+
+      .ref-code b {
+        font-size: 1.5rem;
+        color: #22a3ee;
+        text-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+        line-height: 1;
+        margin: 4px 0;
+      }
+
+      .status-active {
+        margin-top: 10px;
+        color: #10b981 !important;
+        background: rgba(239, 10, 68, 0.1);
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-weight: 600;
+      }
+
+      .status-expired {
+        color: #ef4444 !important;
+        background: rgba(239, 68, 68, 0.1);
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-weight: 600;
+      }
+
+      status-warning {
+        color: #ffbd4d !important;
+        background: rgba(255, 189, 77, 0.1);
+        padding: 4px 12px !important;
+        border-radius: 8px;
+        width: fit-content;
+        display: inline-flex !important;
+        justify-content: center;
+        font-weight: 600;
+      }
+
+      .status-active,
+      .status-expired,
+      .status-warning {
+        padding: 4px 12px !important;
+        border-radius: 8px;
+        width: fit-content;
+        display: inline-flex !important;
+        justify-content: center;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        max-width: 720px;
+        margin: 40px auto;
+        padding: 24px;
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 0 0 1px var(--border);
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin-top: 0;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      a:hover {
+        opacity: 0.85;
+      }
+
+      button {
+        display: inline-flex;
+        margin-top: 6px;
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: none;
+        background: var(--border);
+        color: var(--text);
+        cursor: pointer;
+        transition: 0.15s ease;
+      }
+
+      button:hover {
+        background: #334155;
+      }
+
+      button:active {
+        transform: scale(0.97);
+      }
+
+      .cta {
+        display: flex;
+        align-items: left;
+        gap: 8px;
+      }
+
+      .cta p {
+        margin: 0;
+      }
+
+      .link-btn {
+        color: var(--accent);
+        cursor: pointer;
+        font-weight: 500;
+        text-decoration: none;
+      }
+
+      .link-btn:hover {
+        text-decoration: underline;
+      }
+
+      .qr-modal {
+        position: fixed;
+        inset: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(6px);
+
+        z-index: 1000;
+      }
+
+      .qr-content {
+        background: white;
+
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .qr {
+        margin-top: 16px;
+        text-align: left;
+      }
+
+      .qr-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 20px;
+        margin-left: 22px;
+        justify-content: center;
+      }
+
+      .qr-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+      }
+
+      .qr-item span {
+        font-size: 12px;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 800;
+      }
+
+      .qr-wrapper {
+        margin-top: 12px;
+      }
+
+      .qr-toggle {
+        background: rgba(91, 124, 250, 0.1);
+        border: 1px solid rgba(91, 124, 250, 0.3);
+        color: var(--text);
+        padding: 8px 14px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .qr-toggle:hover {
+        background: rgba(91, 124, 250, 0.2);
+        border-color: var(--accent);
+      }
+
+      .qr-row.collapsed {
+        display: none;
+      }
+
+      canvas {
+        max-width: 100%;
+        height: auto !important;
+        border-radius: 4px;
+        filter: invert(0.9) hue-rotate(180deg);
+      }
+
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .right {
+        text-align: right;
+        display: block;
+      }
+
+      .center {
+        text-align: center;
+      }
+
+      .text-link {
+        text-decoration: underline;
+      }
+
+      .badge {
+        font-size: 12px;
+        color: var(--accent-2);
+        border: 1px solid rgba(34, 211, 238, 0.3);
+        padding: 4px 10px;
+        border-radius: 999px;
+      }
+
+      .footer-line {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 6px;
+        margin-top: 8px;
+      }
+
+      ul {
+        padding-left: 20px;
+      }
+
+      .proxy-list {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .proxy-item a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 18px;
+        text-decoration: none;
+        color: var(--text);
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        backdrop-filter: blur(8px);
+        border-radius: 14px;
+        transition: all 0.25s ease;
+        cursor: pointer;
+      }
+
+      .proxy-item a:hover {
+        background: rgba(30, 41, 59, 0.9);
+        border-color: rgba(56, 189, 248, 0.6);
+        transform: translateY(-2px);
+        box-shadow:
+          0 0 0 1px rgba(56, 189, 248, 0.3),
+          0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+
+      .mt-proxy-item a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 18px;
+        text-decoration: none;
+        color: var(--text);
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        border-radius: 14px;
+        transition: all 0.25s ease;
+      }
+
+      .mt-proxy-item a:hover {
+        background: rgba(30, 41, 59, 0.9);
+        border-color: rgba(56, 189, 248, 0.6);
+        transform: translateY(-2px);
+        box-shadow:
+          0 0 0 1px rgba(56, 189, 248, 0.3),
+          0 8px 24px rgba(0, 0, 0, 0.4);
+      }
+
+      .proxy-label {
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+      }
+
+      .proxy-action {
+        display: inline-flex;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        align-items: center;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-radius: 6px;
+        background: var(--card);
+        color: var(--muted);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        white-space: nowrap;
+      }
+
+      .proxy-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 18px;
+
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        border-radius: 14px;
+
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .proxy-item:hover {
+        background: rgba(30, 41, 59, 0.9);
+        border-color: rgba(56, 189, 248, 0.6);
+        transform: translateY(-2px);
+      }
+
+      .proxy-item:active {
+        transform: scale(0.98);
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: rgba(15, 23, 42, 0.95);
+        color: var(--text);
+        padding: 12px 18px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.25s ease;
+        z-index: 9999;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+
+      .tab {
+        padding: 8px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+      }
+
+      .tab.active {
+        background: var(--border);
+        color: var(--text);
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .steps-flow {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .step-card {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 16px;
+        background: rgba(15, 23, 42, 0.45);
+        transition: opacity 0.2s ease;
+      }
+
+      .step-card h4 {
+        margin: 0 0 12px;
+      }
+
+      .step-card.step-disabled {
+        opacity: 0.5;
+      }
+
+      .pill-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .pill-button {
+        margin-top: 0;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+      }
+
+      .pill-button.active {
+        background: var(--border);
+        color: var(--text);
+      }
+
+      .protocol-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 12px;
+      }
+
+      .protocol-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 16px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.02);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+      }
+
+      .protocol-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(91, 124, 250, 0.4);
+        transform: translateY(-2px);
+      }
+
+      .protocol-card.active {
+        background: rgba(91, 124, 250, 0.1);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 1px var(--accent);
+      }
+
+      .protocol-card .protocol-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--text);
+      }
+
+      .protocol-card .protocol-icon {
+        font-size: 1.4rem;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        flex-shrink: 0;
+      }
+
+      .protocol-card .protocol-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: brightness(1.2);
+      }
+
+      .protocol-card .protocol-desc {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+
+      .protocol-card .protocol-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: rgba(16, 185, 129, 0.15);
+        color: #10b981;
+      }
+
+      @media (max-width: 480px) {
+        .protocol-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .connection-title {
+        margin: 0 0 12px;
+        font-size: 1.15rem;
+      }
+
+      .download-link {
+        display: inline-flex;
+        padding: 8px 14px;
+        border-radius: 8px;
+        margin-top: 0;
+        margin-bottom: 14px;
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .subscription-link-card {
+        margin-top: 18px;
+
+        padding: 16px;
+        border-radius: 18px;
+
+        background: rgba(255, 255, 255, 0.03);
+
+        box-shadow:
+          inset 0 2px 8px rgba(0, 0, 0, 0.35),
+          inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .subscription-link-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+
+        color: rgba(255, 255, 255, 0.55);
+
+        margin-bottom: 12px;
+      }
+
+      .subscription-link-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .subscription-link {
+        flex: 1;
+
+        min-width: 220px;
+
+        padding: 12px 14px;
+
+        border-radius: 12px;
+
+        background: rgba(0, 0, 0, 0.25);
+
+        color: #10b981;
+
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+        font-size: 0.92rem;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .action-btn {
+        width: 140px;
+
+        border: none;
+        border-radius: 12px;
+
+        padding: 12px 16px;
+
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .action-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .action-btn:active {
+        transform: translateY(1px);
+      }
+
+      .action-btn.secondary {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .subscription-link-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+
+      .subscription-link-box {
+        margin: 0;
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: 12px;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+
+      .connection-hint {
+        margin-top: 12px;
+      }
+
+      #connection-content .subscription-link-row {
+        display: flex;
+        justify-content: flex-start;
+      }
+
+      #connection-content .qr-row {
+        margin-left: 0;
+        justify-content: flex-start;
+      }
+
+      #connection-content .qr-item {
+        align-items: flex-start;
+      }
+
+      .additional-section {
+        margin-top: 20px;
+      }
+
+      .accordion {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.02);
+        padding: 2px 12px;
+      }
+
+      .accordion summary {
+        cursor: pointer;
+        padding: 12px 0;
+        font-weight: 600;
+      }
+
+      .accordion-body {
+        padding: 8px 0 14px;
+      }
+
+      @media (max-width: 640px) {
+        .subscription-link-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .error-state {
+        display: none;
+        /* Hidden by default */
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 40px 20px;
+        gap: 16px;
+      }
+
+      .error-state h2 {
+        color: #ef4444;
+        margin: 0;
+      }
+
+      .error-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .btn-primary {
+        background: var(--accent) !important;
+        font-weight: 600;
+      }
+
+      hr {
+        border: none;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          rgba(229, 231, 235, 0) 0%,
+          /* Transparent */ rgba(20, 20, 200, 0.6) 50% /* Light gray */
+            rgba(229, 231, 235, 0) 100% /* Transparent */
+        );
+        box-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+        /* Soft glow */
+        margin: 24px 0;
+      }
+
+      .small-viva {
+        font-size: 11px;
+        color: var(--muted);
+        text-align: right;
+        letter-spacing: 2px;
+      }
+
+      .small-add {
+        font-size: 13px;
+        color: var(--accent);
+        text-align: right;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+
+      .small-id {
+        font-family: "Courier New", monospace;
+        font-size: 10px;
+        color: var(--muted);
+        text-align: right;
+        letter-spacing: 1px;
+        opacity: 0.7;
+        margin-top: 10px;
+        text-transform: uppercase;
+        border-right: 2px solid var(--accent);
+        /* Small colored dash at the end */
+        padding-right: 8px;
+      }
+
+      #sub-id {
+        user-select: all;
+        cursor: pointer;
+      }
+
+      .apps {
+        margin-top: 10px;
+      }
+
+      .server-card {
+        margin-bottom: 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      .server-header {
+        padding: 14px;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.03);
+        font-weight: 600;
+      }
+
+      .server-body {
+        padding: 12px;
+      }
+
+      .mt-card {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.6);
+        margin-bottom: 8px;
+        text-decoration: none;
+        color: white;
+      }
+
+      .proxy-label img {
+        width: 16px;
+        height: 16px;
+      }
+
+      .black img {
+        filter: invert(1) brightness(1.2);
+      }
+
+      .gray img {
+        filter: brightness(1.6) contrast(0.6);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin-top: 24px;
+      }
+      .stat-card {
+        position: relative;
+        overflow: hidden;
+
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+
+        border-radius: 18px;
+        padding: 18px;
+
+        backdrop-filter: blur(10px);
+
+        transition:
+          transform 0.2s ease,
+          border-color 0.2s ease,
+          background 0.2s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(16, 185, 129, 0.4);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+
+        background: radial-gradient(
+          circle at top right,
+          rgba(16, 185, 129, 0.12),
+          transparent 60%
+        );
+
+        pointer-events: none;
+      }
+
+      .stat-label {
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.65);
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .stat-value {
+        font-size: 1.7rem;
+        font-weight: 700;
+        line-height: 1.1;
+        color: #fff;
+      }
+
+      @media (max-width: 600px) {
+        .stat-value {
+          font-size: 1.35rem;
+        }
+      }
+
+      .setup-help-card {
+        margin-top: 16px;
+        padding: 20px;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        background: linear-gradient(
+          135deg,
+          rgba(91, 124, 250, 0.08),
+          rgba(34, 211, 238, 0.04)
+        );
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .setup-help-card:hover {
+        border-color: rgba(91, 124, 250, 0.4);
+        transform: translateY(-2px);
+      }
+
+      .setup-help-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: rgba(91, 124, 250, 0.12);
+        border: 1px solid rgba(91, 124, 250, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        flex-shrink: 0;
+      }
+
+      .setup-help-content {
+        flex: 1;
+      }
+
+      .setup-help-content h4 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+
+      .setup-help-content p {
+        margin: 0 0 14px;
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .setup-help-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        font-weight: 700;
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+      }
+
+      .setup-help-link:hover {
+        opacity: 0.9;
+      }
+
+      @media (max-width: 480px) {
+        .setup-help-card {
+          flex-direction: column;
+          text-align: center;
+          align-items: center;
+        }
+      }
+
+      .renew-section {
+        margin-top: 24px;
+      }
+      .renew-title {
+        font-size: 28px;
+        margin: 0 0 20px;
+        text-align: center;
+      }
+      .renew-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .renew-field label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--muted);
+      }
+      .renew-field select {
+        width: 100%;
+        background: #0f1320;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 10px 12px;
+        border-radius: 10px;
+        font-size: 14px;
+      }
+      .renew-field select:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+      .renew-options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      @media (max-width: 640px) {
+        .renew-options {
+          grid-template-columns: 1fr;
+        }
+      }
+      .renew-option-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .renew-option-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: rgba(91, 124, 250, 0.12);
+        border: 1px solid rgba(91, 124, 250, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+      }
+      .renew-option-card h4 {
+        margin: 0;
+        font-size: 17px;
+      }
+      .renew-option-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.4;
+      }
+      .renew-option-card input {
+        width: 100%;
+        background: #0f1320;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px 14px;
+        border-radius: 12px;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+      .renew-option-card input:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+      .renew-action-btn {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 12px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .renew-action-btn:hover {
+        border-color: var(--accent);
+        background: rgba(91, 124, 250, 0.1);
+      }
+      .renew-action-btn.primary {
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #05060a;
+        border: none;
+      }
+      .renew-promo-inline {
+        display: flex;
+        gap: 8px;
+      }
+      .renew-promo-inline input {
+        flex: 1;
+      }
+      .renew-promo-inline button {
+        white-space: nowrap;
+        background: rgba(91, 124, 250, 0.1);
+        border: 1px solid rgba(91, 124, 250, 0.3);
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .renew-price {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 22px;
+      }
+      .renew-price-old {
+        font-size: 13px;
+        color: var(--muted);
+        text-decoration: line-through;
+      }
+      .renew-price-new {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .renew-price-new.discounted {
+        color: #22c55e;
+      }
+      .renew-option-links {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 4px;
+      }
+      .renew-error {
+        color: #ef4444;
+        font-size: 13px;
+        margin-top: 4px;
+      }
+      .subscription-benefits {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin: 28px 0;
+      }
+      .subscription-benefit-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: border-color 0.2s ease;
+      }
+      .subscription-benefit-card:hover {
+        border-color: rgba(91, 124, 250, 0.4);
+      }
+      .subscription-benefit-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+      }
+      .subscription-benefit-icon.green {
+        background: rgba(34, 197, 94, 0.12);
+      }
+      .subscription-benefit-icon.blue {
+        background: rgba(91, 124, 250, 0.12);
+      }
+      .subscription-benefit-content h4 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+      .subscription-benefit-content p {
+        margin: 0;
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      @media (max-width: 640px) {
+        .subscription-benefits {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+</head>
+<body>
+<div class="card">
+<header>
+<div class="logo">
+<a href="/en/"><img alt="آرم FRKN" src="/Images/logo.png"/>FRKN</a>
+<div class="hero-watermark">حریم خصوصی دین ماست</div>
+</div>
+<div id="env-switcher"></div>
+</header>
+<div class="error-state" id="error-content">
+<h2>اوه! اشتراک پیدا نشد</h2>
+<p class="small">
+          پیوند نادرست به نظر می رسد یا کلید منقضی شده است.
+        </p>
+<div style="margin: 20px 0">
+<input id="sub-id-input" placeholder="شناسه اشتراک خود را جایگذاری کنید" style="
+              width: 100%;
+              max-width: 400px;
+              padding: 10px;
+              border-radius: 8px;
+              border: 1px solid var(--border);
+              margin-bottom: 10px;
+            " type="text"/>
+<br/>
+<button class="button btn-primary" id="open-sub-btn" style="padding: 10px 20px; border-radius: 8px">
+            اشتراک را باز کنید
+          </button>
+<div id="sub-error" style="color: #f87171; font-size: 13px; margin-top: 5px"></div>
+</div>
+<div class="error-actions">
+<a class="button btn-primary" href="https://t.me/frkn_support" style="padding: 10px 20px; border-radius: 8px; color: white">
+            با پشتیبانی تماس بگیرید
+          </a>
+<a class="button" href="/fa/pay" style="
+              padding: 10px 20px;
+              border-radius: 8px;
+              background: var(--border);
+            ">
+            خرید کلید فعال سازی
+          </a>
+</div>
+</div>
+<div class="main-content" id="main-content">
+<section class="hero">
+<h3 class="hero-title">
+            Reelsoprovod <br/>
+            اشتراک و دسترسی
+          </h3>
+<div class="hero-content">
+<div class="title-group">
+<span class="env-badge available" id="env-badge">...</span>
+</div>
+</div>
+<div class="small-id">شناسه: <span id="sub-id">...</span></div>
+<div class="hero-stats">
+<div class="stat">وضعیت<span id="status-text">...</span></div>
+<div class="stat">روزها باقی مانده است <b id="days">...</b></div>
+<div class="stat">منقضی می شود <span id="expires">...</span></div>
+</div>
+<div class="subscription-link-card">
+<div class="subscription-link-label">
+              لینک اشتراک جهانی
+            </div>
+<div class="subscription-link-row">
+<div class="subscription-link" id="subscription-link">
+                sub.frkn.org/...
+              </div>
+<div class="subscription-actions">
+<button class="action-btn" id="copy-sub-link">
+                  کپی کنید
+                </button>
+<button class="action-btn" id="show-qr-btn">کد QR</button>
+</div>
+</div>
+</div>
+</section>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-label">دریافت کرد</div>
+<div class="stat-value" id="downlink-value">0 B</div>
+</div>
+<div class="stat-card">
+<div class="stat-label">ارسال شد</div>
+<div class="stat-value" id="uplink-value">0 B</div>
+</div>
+<div class="stat-card">
+<div class="stat-label">مجموع</div>
+<div class="stat-value" id="total-traffic">0 B</div>
+</div>
+</div>
+<hr/>
+<div style="text-align: right; margin-bottom: 20px">
+<a class="small-add" id="scrollToAdd">⚡ روز اضافه کنید</a>
+</div>
+<h3>لینک های اتصال</h3>
+<div class="steps-flow">
+<div class="step-card" id="os-step">
+<h4>مرحله 1. سیستم عامل خود را انتخاب کنید</h4>
+<div class="pill-group" id="os-options"></div>
+</div>
+<div class="step-card step-disabled" id="protocol-step">
+<h4>مرحله 2. پروتکل را انتخاب کنید</h4>
+<p class="small" style="margin: 0 0 14px">
+              مطمئن نیستید؟ انتخاب کنید <b style="color: var(--text)">اشعه ایکس</b> - آن
+              در اکثر موارد کار می کند.
+            </p>
+<div class="protocol-grid" id="protocol-options"></div>
+</div>
+<div class="step-card step-disabled" id="client-step">
+<h4>مرحله 3. مشتری را انتخاب کنید</h4>
+<div class="pill-group" id="client-options"></div>
+</div>
+<div class="step-card step-disabled" id="connection-step">
+<h4>مرحله 4. اتصال</h4>
+<div class="small" id="connection-content">
+              برای دریافت پیوند اتصال، سیستم عامل، پروتکل و کلاینت را انتخاب کنید.
+            </div>
+</div>
+</div>
+<div class="setup-help-card">
+<div class="setup-help-icon">📋</div>
+<div class="setup-help-content">
+<h4>به راهنمای گام به گام نیاز دارید؟</h4>
+<p>
+              در صفحه راه اندازی، سیستم عامل، کلاینت و پروتکل خود را انتخاب کنید — ما این کار را انجام می دهیم
+              به شما نشان می دهد که چگونه همه چیز را در چند دقیقه تنظیم کنید.
+            </p>
+<a class="setup-help-link" href="/en/setup/">به تنظیمات → بروید</a>
+</div>
+</div>
+<hr/>
+<div class="renew-section" id="renew">
+<h2 class="renew-title">روز اضافه کنید</h2>
+<div class="renew-options">
+<div class="renew-option-card">
+<div class="renew-option-icon">🔑</div>
+<h4>با کلید فعال سازی</h4>
+<p>از قبل کلید دارید؟ آن را وارد کرده و فعال کنید.</p>
+<input id="keyInput" placeholder="کلید را وارد کنید"/>
+<button class="renew-action-btn" onclick="activateKey()">
+                کلید را فعال کنید
+              </button>
+<div class="renew-option-links">
+<a class="small text-link" href="/en/info/activation-keys/" target="_blank">
+                  کلید فعال سازی چیست؟
+                </a>
+<a class="small text-link" href="/fa/pay" target="_blank">خرید کلید</a>
+</div>
+<div class="small" id="keyResult"></div>
+</div>
+<div class="renew-option-card">
+<div class="renew-option-icon">💳</div>
+<h4>پرداخت کنید</h4>
+<p>کارت، SBP یا ارز دیجیتال</p>
+<div class="renew-field">
+<label for="renewDuration">برای چند روز</label>
+<select id="renewDuration">
+<option data-price="100" value="3">3 روز - 100 ₽</option>
+<option data-price="200" value="7">7 روز - 200 ₽</option>
+<option data-price="300" value="14">14 روز - 300 ₽</option>
+<option data-price="500" selected="" value="30">30 روز - 500 ₽</option>
+<option data-price="1500" value="90">90 روز - 1500 ₽</option>
+<option data-price="2700" value="180">180 روز - 2700 ₽</option>
+<option data-price="5000" value="365">365 روز - 5000 ₽</option>
+</select>
+</div>
+<div class="renew-promo-inline">
+<input id="renewPromo" placeholder="کد تبلیغاتی (اختیاری)" type="text"/>
+<button id="renewApplyPromo" type="button">درخواست کنید</button>
+</div>
+<div class="renew-price" id="renewPrice">
+<span class="renew-price-old" id="renewPriceOld"></span>
+<span class="renew-price-new" id="renewPriceNew">500 ₽</span>
+</div>
+<button class="renew-action-btn primary" id="renewBtn" type="button">
+                تمدید اشتراک
+              </button>
+<div class="renew-error" id="renewError"></div>
+</div>
+</div>
+</div>
+<div class="subscription-benefits">
+<div class="subscription-benefit-card">
+<div class="subscription-benefit-icon green">🛡️</div>
+<div class="subscription-benefit-content">
+<h4>بدون کارت، بدون شارژ خودکار</h4>
+<p>
+                یک بار پرداخت کنید و دسترسی داشته باشید. بدون اتصال کارت بانکی، بدون اشتراک،
+                بدون هزینه های پنهان
+              </p>
+</div>
+</div>
+<div class="subscription-benefit-card">
+<div class="subscription-benefit-icon blue">➕</div>
+<div class="subscription-benefit-content">
+<h4>روزها روی هم جمع می شوند</h4>
+<p>
+                تمدید روزها را بدون تنظیم مجدد به اشتراک فعلی شما اضافه می کند
+                آن را زمان دسترسی موجود باقی می ماند و فقط رشد می کند.
+              </p>
+</div>
+</div>
+</div>
+<hr/>
+<div class="ref-code">
+          کد ارجاع شما: <b id="ref-code">...</b><br/>
+<div>
+<button id="copy-ref-btn">کد را کپی کنید</button>
+<button id="copy-ref-link">لینک دوست را کپی کنید</button>
+</div>
+</div>
+<div class="small">
+          شما دعوت کردید: <span id="invited-count">0</span><br/>
+          ما 7 روز دسترسی هم برای شما و هم برای دوستتان اضافه می کنیم
+        </div>
+<br/>
+<hr/>
+<div class="footer-line">
+<div class="small-viva">
+<a href="https://t.me/frkn_support">پشتیبانی کنید</a>
+</div>
+<div class="small-viva">· مقاومت زنده باشید!</div>
+</div>
+<div class="toast" id="toast"></div>
+</div>
+</div>
+<div class="qr-modal hidden" id="qr-modal">
+<div class="qr-content">
+<canvas id="qr-canvas"></canvas>
+</div>
+</div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script>
+  const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
+  const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+  const API_BASE = isLocal
+    ? "http://localhost:3000"
+    : "https://heheapi.frkn.org";
+  const PAYMENT_API_BASE = isLocal
+    ? "http://localhost:3006"
+    : "https://heheapi.frkn.org";
+
+  const ENV_NAMES = {
+    wl: "🐘 WS - White Elephants",
+    ru: "🇷🇺 Reverse",
+    dev: "⌯✈︎ Main",
+  };
+
+  let vpnClients = {};
+  let selectedOs = null;
+  let selectedClientId = null;
+  let currentConnectionContext = null;
+  const KNOWN_SUB_FORMATS = ["txt", "base64", "b64", "clash"];
+  const AVAILABLE_PROTOCOLS = [
+    {
+      id: "all",
+      label: "همه پراکسی‌ها",
+      icon: "🌐",
+      description: "انتخاب خودکار همه پراکسی‌های موجود",
+    },
+    {
+      id: "xray",
+      label: "Xray",
+      icon: "/Images/xray.svg",
+      description: "Includes VLESS TCP Reality, VLESS gRPC Reality, and VLESS XHTTP Reality. Universal choice",
+      recommended: true,
+    },
+    {
+      id: "awg",
+      label: "AmneziaWG",
+      icon: "/Images/wireguard.svg",
+      description: "WireGuard modification with anti-blocking protection",
+    },
+    {
+      id: "vless-tcp-reality",
+      label: "Vless TCP Reality",
+      icon: "🔒",
+      description: "مبدل به ترافیک معمولی HTTPS",
+    },
+    {
+      id: "vless-grpc-reality",
+      label: "Vless gRPC Reality",
+      icon: "📡",
+      description: "عملکرد بالا از طریق gRPC",
+    },
+    {
+      id: "vless-xhttp-reality",
+      label: "Vless XHTTP Reality",
+      icon: "⚡",
+      description: "مخفی‌کاری و مقاومت در برابر مسدودسازی",
+    },
+    {
+      id: "hysteria2",
+      label: "Hysteria2",
+      icon: "💨",
+      description: "Ultra-fast UDP protocol for video and games",
+    },
+    {
+      id: "mtproto",
+      label: "MTProto",
+      icon: "https://cdn.simpleicons.org/telegram",
+      description: "پراکسی فقط برای تلگرام",
+    },
+    {
+      id: "wireguard",
+      label: "WireGuard",
+      icon: "/Images/wireguard.svg",
+      description: "پروتکل VPN ساده و سریع",
+    },
+  ];
+  let selectedProtocol = "all";
+
+  function getSubId() {
+    const params = new URLSearchParams(window.location.search);
+    const urlId = params.get("id");
+    const stored = localStorage.getItem("frkn_sub_id");
+    const id = urlId || stored;
+    if (urlId) {
+      localStorage.setItem("frkn_sub_id", urlId);
+    }
+    return id;
+  }
+
+  function formatBytes(bytes) {
+    if (!bytes) return "0 B";
+
+    const units = ["B", "KB", "MB", "GB", "TB"];
+    let value = bytes;
+    let unit = 0;
+
+    while (value >= 1024 && unit < units.length - 1) {
+      value /= 1024;
+      unit++;
+    }
+
+    return `${value.toFixed(unit === 0 ? 0 : 2)} ${units[unit]}`;
+  }
+
+  async function loadVpnClients() {
+    const response = await fetch("vpn-clients.json");
+    if (!response.ok) {
+      throw new Error(
+        `Failed to load client config (HTTP ${response.status})`,
+      );
+    }
+    vpnClients = await response.json();
+  }
+
+  function normalizeFormat(format) {
+    const value = String(format || "").toLowerCase();
+    if (value === "base64" || value === "b64") return "base64";
+    if (value === "clash") return "clash";
+    return "txt";
+  }
+
+  function isKnownFormat(format) {
+    const value = String(format || "").toLowerCase();
+    return KNOWN_SUB_FORMATS.includes(value);
+  }
+
+  function buildXraySubUrl(id, env, format) {
+    return `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=${normalizeFormat(format)}`;
+  }
+
+  function buildAllProxySubUrl(id) {
+    return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  function isSafeDownloadUrl(url) {
+    try {
+      const parsed = new URL(url);
+      return parsed.protocol === "https:";
+    } catch {
+      return false;
+    }
+  }
+
+  async function initPage() {
+    const params = new URLSearchParams(window.location.search);
+    const subId = getSubId();
+    const currentEnv = params.get("env") || "dev";
+
+    const mainEl = document.getElementById("main-content");
+    const errorEl = document.getElementById("error-content");
+
+    const showError = () => {
+      if (mainEl) mainEl.style.display = "none";
+      if (errorEl) errorEl.style.display = "flex";
+    };
+
+    const showSuccess = () => {
+      if (mainEl) mainEl.style.display = "block";
+      if (errorEl) errorEl.style.display = "none";
+    };
+
+    // Если нет ID - показываем ошибку
+    if (!subId) {
+      showError();
+      return;
+    }
+
+    localStorage.setItem("frkn_sub_id", subId);
+
+    try {
+      await loadVpnClients();
+      const response = await fetch(`${API_BASE}/subscription/${subId}`);
+      if (!response.ok) {
+        showError();
+        return;
+      }
+
+      const data = await response.json();
+      if (!data || !data.id) {
+        showError();
+        return;
+      }
+
+      showSuccess();
+      renderSubscriptionData(data, subId, currentEnv);
+    } catch (err) {
+      console.error("❌ Critical error:", err);
+      showError();
+    }
+  }
+
+  function renderSubscriptionData(data, subId, currentEnv) {
+    const statusEl = document.getElementById("status-text");
+    const badge = document.getElementById("env-badge");
+    const daysEl = document.getElementById("days");
+    const expiryDate = new Date(data.expires);
+
+    const uplink = data.uplink || 0;
+    const downlink = data.downlink || 0;
+    const total = uplink + downlink;
+
+    document.getElementById("uplink-value").innerText = formatBytes(uplink);
+
+    document.getElementById("downlink-value").innerText = formatBytes(downlink);
+
+    document.getElementById("total-traffic").innerText = formatBytes(total);
+
+    const subUrl = `https://sub.frkn.org/${data.id}`;
+
+    document.getElementById("subscription-link").innerText = subUrl;
+
+    document.getElementById("copy-sub-link").onclick = () => {
+      copyText(subUrl, "لینک اشتراک کپی شد");
+    };
+
+    document.getElementById("show-qr-btn").onclick = async () => {
+      const modal = document.getElementById("qr-modal");
+      const canvas = document.getElementById("qr-canvas");
+
+      modal.classList.remove("hidden");
+
+      await QRCode.toCanvas(canvas, subUrl, {
+        width: 340,
+      });
+    };
+
+    document.getElementById("qr-modal").onclick = () => {
+      document.getElementById("qr-modal").classList.add("hidden");
+    };
+
+    function updateDisplay() {
+      const now = new Date();
+      const diffMs = expiryDate - now;
+      const diffSec = Math.floor(diffMs / 1000);
+      const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+      if (diffMs <= 0) {
+        statusEl.innerText = "منقضی شده";
+        statusEl.className = "status-expired";
+        daysEl.innerText = "0";
+        daysEl.style.color = "#ff4d4d";
+        return;
+      }
+
+      if (diffDays < 1) {
+        statusEl.innerText = "در حال انقضا";
+        statusEl.className = "status-warning";
+        const h = Math.floor(diffSec / 3600)
+          .toString()
+          .padStart(2, "0");
+        const m = Math.floor((diffSec % 3600) / 60)
+          .toString()
+          .padStart(2, "0");
+        const s = (diffSec % 60).toString().padStart(2, "0");
+        daysEl.innerText = `${h}:${m}:${s}`;
+        daysEl.style.fontSize = "1.8rem";
+        daysEl.style.color = "#ffbd4d";
+        daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
+        setTimeout(updateDisplay, 1000);
+      } else {
+        const fullDays = Math.floor(diffDays);
+        statusEl.innerText = "فعال";
+        statusEl.className = "status-active";
+        daysEl.innerText = fullDays;
+        daysEl.style.fontSize = "2.5rem";
+        if (fullDays < 4) {
+          daysEl.style.color = "#ff4d4d";
+          daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
+        } else {
+          daysEl.style.color = "#10b981";
+          daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
+        }
+      }
+    }
+
+    updateDisplay();
+
+    if (badge) {
+      badge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
+    }
+
+    const subIdEl = document.getElementById("sub-id");
+    subIdEl.innerText = data.id;
+    subIdEl.onclick = () => copyText(data.id, "شناسه کپی شد");
+
+    document.getElementById("expires").innerText = expiryDate.toLocaleString(
+      "en-US",
+      {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      },
+    );
+
+    const refCode = data.ref_code || "---";
+    const refLink = `${window.location.origin}/en/?code=${refCode}#trial`;
+    document.getElementById("ref-code").innerText = refCode;
+    document.getElementById("invited-count").innerText =
+      data.invited_count || 0;
+
+    document.getElementById("copy-ref-btn").onclick = () =>
+      copyText(refCode, "Code copied! Share with a friend");
+    document.getElementById("copy-ref-link").onclick = () =>
+      copyText(refLink, "Link copied! Share with a friend");
+
+    const switcher = document.getElementById("env-switcher");
+    if (switcher && data.locations) {
+      switcher.innerHTML = "";
+      data.locations.forEach((l) => {
+        if (l.env === "production") return;
+        // if (l.env === "experimental") return;
+        if (
+          !l.has_xray &&
+          !l.has_h2 &&
+          !l.has_mtproto &&
+          !l.has_wg &&
+          !l.has_awg
+        )
+          return;
+        const a = document.createElement("a");
+        a.href = `?id=${subId}&env=${l.env}`;
+        a.className = `env-badge`;
+        a.style.marginLeft = "8px";
+        a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
+        switcher.appendChild(a);
+      });
+    }
+
+    const loc =
+      // Если env не найден в query-параметрах или списке, берём первый доступный регион как безопасный fallback.
+      data.locations?.find((l) => l.env === currentEnv) || data.locations?.[0];
+    if (loc) {
+      console.log(loc);
+      if (
+        !loc.has_xray &&
+        !loc.has_h2 &&
+        !loc.has_mtproto &&
+        !loc.has_wg &&
+        !loc.has_awg
+      )
+        return;
+      currentConnectionContext = {
+        id: data.id,
+        env: loc.env,
+        hasXray: loc.has_xray,
+        has_wg: loc.has_wg,
+        has_awg: loc.has_awg,
+        has_h2: loc.has_h2,
+        has_mtproto: loc.has_mtproto,
+      };
+      initConnectionFlow();
+    }
+  }
+
+  function initConnectionFlow() {
+    const osOptions = document.getElementById("os-options");
+    if (!osOptions) return;
+
+    selectedOs = null;
+    selectedClientId = null;
+    osOptions.innerHTML = "";
+
+    Object.entries(vpnClients).forEach(([osKey, osData]) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pill-button";
+      btn.dataset.os = osKey;
+      btn.textContent = osData.label;
+      btn.onclick = () => {
+        selectedOs = osKey;
+        selectedClientId = null;
+        renderOsStep();
+        renderProtocolStep();
+        renderClientStep();
+        renderConnectionStep();
+        document
+          .getElementById("protocol-step")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+      osOptions.appendChild(btn);
+    });
+
+    renderOsStep();
+    renderProtocolStep();
+    renderClientStep();
+    renderConnectionStep();
+  }
+
+  function renderOsStep() {
+    const osOptions = document.getElementById("os-options");
+    if (!osOptions) return;
+    [...osOptions.querySelectorAll(".pill-button")].forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.os === selectedOs);
+    });
+  }
+
+  function isProtocolSupportedByClient(protocol, configType) {
+    const format = normalizeFormat(configType);
+    if (format === "clash") {
+      return [
+        "xray",
+        "vless-tcp-reality",
+        "vless-grpc-reality",
+        "vless-xhttp-reality",
+      ].includes(protocol);
+    }
+    return true;
+  }
+
+  function renderClientStep() {
+    const step = document.getElementById("client-step");
+    const options = document.getElementById("client-options");
+    if (!step || !options) return;
+
+    if (!selectedOs || !vpnClients[selectedOs]) {
+      step.classList.add("step-disabled");
+      options.innerHTML = `<div class="small">ابتدا سیستم‌عامل را انتخاب کنید.</div>`;
+      return;
+    }
+
+    if (!selectedProtocol) {
+      step.classList.add("step-disabled");
+      options.innerHTML = `<div class="small">ابتدا پروتکل را انتخاب کنید.</div>`;
+      return;
+    }
+
+    step.classList.remove("step-disabled");
+    options.innerHTML = "";
+
+    if (["wireguard", "awg", "mtproto"].includes(selectedProtocol)) {
+      selectedClientId = null;
+      const instructions = {
+        wireguard:
+          "Download the official WireGuard app and import the config below.",
+        awg:
+          'از برنامه <a href="https://amnezia.org/downloads" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Amnezia VPN</a> استفاده کنید یا AmneziaWG را مستقیماً روی <a href="/en/setup/routers/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">روتر</a> خود راه‌اندازی کنید. پیکربندی برای وارد کردن در زیر آمده است.',
+        mtproto:
+          "MTProto does not require a separate VPN client. Press the Connect button in the settings below.",
+      };
+      options.innerHTML = `
+        <div style="padding: 14px 16px; border-radius: 14px; background: rgba(91, 124, 250, 0.08); border: 1px solid rgba(91, 124, 250, 0.25); color: var(--text);">
+          <div style="font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+            <span>💡</span> How to connect
+          </div>
+          <div class="small" style="color: var(--muted); line-height: 1.5;">${instructions[selectedProtocol]}</div>
+        </div>
+      `;
+      return;
+    }
+
+    const clients = vpnClients[selectedOs].clients.filter((client) =>
+      isProtocolSupportedByClient(selectedProtocol, client.configType),
+    );
+
+    if (clients.length === 0) {
+      options.innerHTML = `<div class="small">No suitable clients for the selected protocol.</div>`;
+      selectedClientId = null;
+      return;
+    }
+
+    // Если текущий выбранный клиент не поддерживает протокол, сбрасываем
+    if (
+      selectedClientId &&
+      !clients.some((c) => c.id === selectedClientId)
+    ) {
+      selectedClientId = null;
+    }
+
+    clients.forEach((client) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pill-button";
+      btn.textContent = client.name;
+      btn.classList.toggle("active", client.id === selectedClientId);
+      btn.onclick = () => {
+        selectedClientId = client.id;
+        renderClientStep();
+        renderConnectionStep();
+        document
+          .getElementById("connection-step")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+      options.appendChild(btn);
+    });
+  }
+
+  function renderConnectionStep() {
+    const step = document.getElementById("connection-step");
+    const content = document.getElementById("connection-content");
+    if (!step || !content) return;
+
+    const noClientProtocols = ["wireguard", "awg", "mtproto"];
+    const requiresClient = !noClientProtocols.includes(selectedProtocol);
+
+    if (!selectedOs || (requiresClient && !selectedClientId)) {
+      step.classList.add("step-disabled");
+      content.innerHTML = `<div class="small">Choose OS${requiresClient ? ", protocol, and client" : " and protocol"} to proceed to connection.</div>`;
+      return;
+    }
+
+    step.classList.remove("step-disabled");
+
+    const osConfig = vpnClients[selectedOs];
+    const client = osConfig?.clients?.find((c) => c.id === selectedClientId);
+    if (requiresClient && !client) {
+      content.innerHTML = `<div class="small">پیکربندی برای کلاینت انتخاب‌شده یافت نشد.</div>`;
+      return;
+    }
+
+    if (!currentConnectionContext) {
+      content.innerHTML = `<div class="small">داده‌ای برای منطقه اتصال فعلی وجود ندارد.</div>`;
+      return;
+    }
+
+    if (selectedProtocol === "wireguard") {
+      content.innerHTML = `<div id="wg-content"></div>`;
+      renderWireguard(
+        currentConnectionContext.id,
+        currentConnectionContext.env,
+        currentConnectionContext.has_wg,
+      );
+      return;
+    }
+
+    if (selectedProtocol === "awg") {
+      content.innerHTML = `<div id="awg-content"></div>`;
+      renderAwg(
+        currentConnectionContext.id,
+        currentConnectionContext.env,
+        currentConnectionContext.has_awg,
+      );
+      return;
+    }
+
+    if (selectedProtocol === "mtproto") {
+      content.innerHTML = `<div id="mtproto-content"></div>`;
+      renderMtproto(
+        currentConnectionContext.id,
+        currentConnectionContext.env,
+        currentConnectionContext.has_mtproto,
+      );
+      return;
+    }
+
+    if (!currentConnectionContext.hasXray) {
+      content.innerHTML = `<div class="small">Xray در این منطقه در دسترس نیست.</div>`;
+      return;
+    }
+
+    if (!isKnownFormat(client.configType)) {
+      content.innerHTML = `<div class="small" id="connection-error-message"></div>`;
+      const errorEl = content.querySelector("#connection-error-message");
+      if (errorEl) {
+        errorEl.textContent = `Incorrect configuration type '${client.configType}' for client ${client.name}.`;
+      }
+      return;
+    }
+
+    if (!isSafeDownloadUrl(client.downloadUrl)) {
+      content.innerHTML = `<div class="small">لینک دانلود نادرست برای کلاینت ${client.name}.</div>`;
+      return;
+    }
+
+    const safeClientName = escapeHtml(client.name);
+    const safeOsLabel = escapeHtml(osConfig.label);
+
+    const subscriptionUrl = buildSubscriptionUrl(
+      selectedProtocol,
+      currentConnectionContext.id,
+      currentConnectionContext.env,
+      normalizeFormat(client.configType),
+    );
+
+    content.innerHTML = `
+      <h5 class="connection-title">${safeClientName} for ${safeOsLabel}</h5>
+      <a class="button btn-primary download-link" id="download-client-btn" target="_blank" rel="noopener noreferrer" aria-label="دانلود کلاینت (در تب جدید باز می‌شود)">دانلود کلاینت</a>
+      <div class="subscription-link-row">
+        <button type="button" id="copy-subscription-link">کپی لینک</button>
+      </div>
+      <div class="qr-wrapper">
+        <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 نمایش QR</button>
+        <div class="qr-row collapsed">
+          <div class="qr-item">
+            <span>کد QR اتصال</span>
+            <canvas id="selected-subscription-qr"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="small connection-hint">Scan the QR code in the app or paste the link manually.</div>
+    `;
+
+    const copyBtn = document.getElementById("copy-subscription-link");
+    const downloadBtn = document.getElementById("download-client-btn");
+    const qrCanvas = document.getElementById("selected-subscription-qr");
+
+    if (downloadBtn) downloadBtn.href = client.downloadUrl;
+    if (copyBtn) {
+      copyBtn.onclick = () => copyText(subscriptionUrl, "Link copied!");
+    }
+    if (qrCanvas) {
+      QRCode.toCanvas(qrCanvas, subscriptionUrl, { width: 260 });
+    }
+  }
+
+  function renderProtocolStep() {
+    const step = document.getElementById("protocol-step");
+    const options = document.getElementById("protocol-options");
+
+    if (!selectedOs || !currentConnectionContext) {
+      step.classList.add("step-disabled");
+      options.innerHTML = "";
+      return;
+    }
+
+    step.classList.remove("step-disabled");
+
+    const protocols = AVAILABLE_PROTOCOLS;
+
+    options.innerHTML = "";
+
+    protocols.forEach((p) => {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "protocol-card";
+      card.classList.toggle("active", p.id === selectedProtocol);
+
+      const badge = p.recommended
+        ? `<span class="protocol-badge">پیشنهادی</span>`
+        : "";
+
+      const isLogo =
+        p.icon && (p.icon.startsWith("/") || p.icon.startsWith("http"));
+      const iconHtml = isLogo
+        ? `<img src="${p.icon}" alt="" onerror="this.style.display='none'">`
+        : (p.icon || "");
+
+      card.innerHTML = `
+        ${badge}
+        <div class="protocol-header">
+          <span class="protocol-icon">${iconHtml}</span>
+          <span>${p.label}</span>
+        </div>
+        <div class="protocol-desc">${p.description || ""}</div>
+      `;
+
+      card.onclick = () => {
+        selectedProtocol = p.id;
+        renderProtocolStep();
+        renderClientStep();
+        renderConnectionStep();
+
+        document
+          .getElementById("client-step")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+
+      options.appendChild(card);
+    });
+  }
+
+  function buildSubscriptionUrl(protocol, id, env, format) {
+    switch (protocol) {
+      case "all":
+        return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
+
+      case "xray":
+        return `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=${format}`;
+
+      case "vless-tcp-reality":
+        return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessTcpReality&format=${format}`;
+
+      case "vless-grpc-reality":
+        return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessGrpcReality&format=${format}`;
+
+      case "vless-xhttp-reality":
+        return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessXhttpReality&format=${format}`;
+
+      case "hysteria2":
+        return `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=${format}`;
+
+      default:
+        return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
+    }
+  }
+
+  function renderH2(id, env, has) {
+    const container = document.getElementById("hysteria-content");
+    if (!has) {
+      container.innerHTML = `<div class="small">Hysteria2 در این منطقه در دسترس نیست</div>`;
+      return;
+    }
+
+    const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=txt`;
+    const subUrlB64 = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=base64`;
+
+    container.innerHTML = `
+          <ul class="proxy-list gray">
+          <img src="/Images/h2.svg" >
+            <li class="proxy-item" onclick="copyText('${subUrlTxt}','Link copied!')"><div class="proxy-label">  TXT (Universal)</div><div class="proxy-action">Copy</div></li>
+            <li class="proxy-item" onclick="copyText('${subUrlB64}','Link copied!')"><div class="proxy-label">Base64</div><div class="proxy-action">Copy</div></li>
+          </ul>
+          <div class="qr-wrapper">
+            <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 نمایش QRها</button>
+            <div class="qr-row collapsed">
+              <div class="qr-item"><span>TXT (Universal)</span><canvas id="qr-h2-txt"></canvas></div>
+              <div class="qr-item"><span>Base64</span><canvas id="qr-h2-base64"></canvas></div>
+            </div>
+          </div>
+          <div class="apps center"><a href="/en/setup">چگونه تنظیم کنم؟</a></div>
+        `;
+
+    QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, {
+      width: 220,
+    });
+    QRCode.toCanvas(document.getElementById("qr-h2-base64"), subUrlB64, {
+      width: 220,
+    });
+  }
+
+  function renderMtproto(id, env, has) {
+    const container = document.getElementById("mtproto-content");
+
+    if (!has) {
+      container.innerHTML = `<div class="small">MTProto در این منطقه در دسترس نیست</div>`;
+      return;
+    }
+
+    const url = `${API_BASE}/info/connections/mtproto?id=${id}&env=${env}`;
+
+    container.innerHTML = `<div class="small">در حال بارگذاری MTProto...</div>`;
+
+    fetch(url)
+      .then((r) => r.json())
+      .then((data) => {
+        const connections = data.connections || [];
+
+        container.innerHTML = `
+            <ul class="proxy-list">
+              ${connections
+                .map(
+                  (c) => `
+                <li class="proxy-item" onclick="window.open('${c.url}', '_blank')">
+                  <div class="proxy-label"><img src="https://cdn.simpleicons.org/telegram" /> ${c.label}</div>
+                  <div class="proxy-action">اتصال</div>
+                </li>
+              `,
+                )
+                .join("")}
+            </ul>
+          `;
+      })
+      .catch(() => {
+        container.innerHTML = `<div class="small">خطا در بارگذاری MTProto</div>`;
+      });
+  }
+
+  function renderWireguard(id, env, has) {
+    const container = document.getElementById("wg-content");
+
+    if (!has) {
+      container.innerHTML = `<div class="small">WireGuard در دسترس نیست</div>`;
+      return;
+    }
+
+    const url = `${API_BASE}/info/connections/wireguard?id=${id}&env=${env}`;
+
+    container.innerHTML = `<div class="small">در حال بارگذاری WireGuard...</div>`;
+
+    fetch(url)
+      .then((r) => r.json())
+      .then((data) => {
+        const nodes = data.nodes || [];
+        const labels = prepareNodeLabels(nodes);
+
+        container.innerHTML = `
+            <ul class="proxy-list">
+              ${nodes
+                .map(
+                  (n, i) => `
+                <li class="proxy-item">
+                  <div class="proxy-label black">
+                    <img src="/Images/wireguard.svg">  ${labels[i]}
+                    <span class="badge">WG</span>
+                  </div>
+
+                  <div style="display:flex; gap:10px; flex-wrap: wrap;">
+                    <button onclick="copyText(\`${escapeBackticks(n.config)}\`, 'Copied')">
+                      Copy
+                    </button>
+
+                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, '')}')">
+                      Download
+                    </button>
+
+                    <button type="button" class="qr-toggle" onclick="this.closest('.proxy-item').nextElementSibling.classList.toggle('collapsed')">📷 نمایش QR</button>
+                  </div>
+                </li>
+
+                <div class="qr-row collapsed" style="margin-bottom: 16px;">
+                  <div class="qr-item">
+                    <span>${labels[i]}</span>
+                    <canvas id="wg-qr-${i}"></canvas>
+                  </div>
+                </div>
+              `,
+                )
+                .join("")}
+            </ul>
+          `;
+
+        nodes.forEach((n, i) => {
+          QRCode.toCanvas(document.getElementById(`wg-qr-${i}`), n.config, {
+            width: 240,
+          });
+        });
+      })
+      .catch(() => {
+        container.innerHTML = `<div class="small">خطا در بارگذاری WireGuard</div>`;
+      });
+  }
+
+  function escapeBackticks(text) {
+    return String(text)
+      .replace(/\\/g, "\\\\")
+      .replace(/`/g, "\\`")
+      .replace(/\$/g, "\\$");
+  }
+
+  function prepareNodeLabels(nodes) {
+    const cleaned = nodes.map((n) =>
+      String(n.label || "")
+        .replace(/[^\p{L}\p{N}\s\-()]/gu, "")
+        .replace(/\s+/g, " ")
+        .trim(),
+    );
+
+    const counts = {};
+    cleaned.forEach((label) => {
+      counts[label] = (counts[label] || 0) + 1;
+    });
+
+    const used = {};
+    return cleaned.map((base) => {
+      if (counts[base] > 1) {
+        used[base] = (used[base] || 0) + 1;
+        return `${base} ${used[base]}`;
+      }
+      return base;
+    });
+  }
+
+  function renderAwg(id, env, has) {
+    const container = document.getElementById("awg-content");
+
+    if (!has) {
+      container.innerHTML = `<div class="small">Amnezia WireGuard در دسترس نیست</div>`;
+      return;
+    }
+
+    const url = `${API_BASE}/info/connections/amneziawg?id=${id}&env=${env}`;
+
+    console.log(url);
+
+    container.innerHTML = `<div class="small">در حال بارگذاری Amnezia WireGuard...</div>`;
+
+    fetch(url)
+      .then((r) => r.json())
+      .then((data) => {
+        const nodes = data.nodes || [];
+        const labels = prepareNodeLabels(nodes);
+
+        container.innerHTML = `
+            <ul class="proxy-list">
+              ${nodes
+                .map(
+                  (n, i) => `
+                <li class="proxy-item">
+                  <div class="proxy-label black">
+                    <img src="/Images/wireguard.svg">  ${labels[i]}
+                    <span class="badge">AWG</span>
+                  </div>
+
+                  <div style="display:flex; gap:10px; flex-wrap: wrap;">
+                    <button onclick="copyText(\`${escapeBackticks(n.config)}\`, 'Copied')">
+                      Copy
+                    </button>
+
+                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, '')}')">
+                      Download
+                    </button>
+
+                    <button type="button" class="qr-toggle" onclick="this.closest('.proxy-item').nextElementSibling.classList.toggle('collapsed')">📷 نمایش QR</button>
+                  </div>
+                </li>
+
+                <div class="qr-row collapsed" style="margin-bottom: 16px;">
+                  <div class="qr-item">
+                    <span>${labels[i]}</span>
+                    <canvas id="awg-qr-${i}"></canvas>
+                  </div>
+                </div>
+              `,
+                )
+                .join("")}
+            </ul>
+          `;
+
+        nodes.forEach((n, i) => {
+          QRCode.toCanvas(document.getElementById(`awg-qr-${i}`), n.config, {
+            width: 240,
+          });
+        });
+      })
+      .catch((e) => {
+        console.error(e);
+        container.innerHTML = `<div class="small">خطا در بارگذاری Amnezia WireGuard</div>`;
+      });
+  }
+
+  function downloadWG(content, name) {
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${name}.conf`;
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
+
+  function downloadAWG(content, name) {
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${name}.conf`;
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
+
+  function copyText(text, message = "کپی شد") {
+    navigator.clipboard.writeText(text).then(() => showToast(message));
+  }
+
+  function showToast(text) {
+    const toast = document.getElementById("toast");
+    if (!toast) return;
+    toast.innerText = text;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 2000);
+  }
+
+  async function activateKey() {
+    const key = document.getElementById("keyInput").value;
+    const resultEl = document.getElementById("keyResult");
+    const subId = getSubId();
+
+    if (!subId) {
+      resultEl.innerText = "❌ No subscription ID";
+      return;
+    }
+
+    if (!key) {
+      resultEl.innerText = "کلید را وارد کنید";
+      return;
+    }
+
+    resultEl.innerText = "⏳ Activating...";
+
+    try {
+      const res = await fetch(`${API_BASE}/key/activate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: key, subscription_id: subId }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        resultEl.innerText = "❌ " + (data.message || "خطا");
+        return;
+      }
+
+      const addedDays = data.response?.instance?.Key?.days;
+      resultEl.innerText = addedDays
+        ? `✅ Activated (+${addedDays} days)`
+        : "✅ Activated";
+      setTimeout(() => location.reload(), 1000);
+    } catch (e) {
+      resultEl.innerText = "خطا";
+    }
+  }
+
+  // Инициализация после загрузки DOM
+  window.addEventListener("DOMContentLoaded", () => {
+    initPage();
+
+    // Обработчики вкладок (ОДИН РАЗ)
+    document.querySelectorAll(".tab").forEach((btn) => {
+      btn.onclick = () => {
+        const name = btn.dataset.tab;
+        document
+          .querySelectorAll(".tab")
+          .forEach((el) => el.classList.remove("active"));
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((el) => el.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById("tab-" + name).classList.add("active");
+      };
+    });
+
+    // Скролл
+    const scrollBtn = document.getElementById("scrollToAdd");
+    const renewSection = document.getElementById("renew");
+    if (scrollBtn && renewSection) {
+      scrollBtn.addEventListener("click", () => {
+        renewSection.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+
+    // Ввод ID
+    const input = document.getElementById("sub-id-input");
+    const btn = document.getElementById("open-sub-btn");
+    const error = document.getElementById("sub-error");
+
+    if (btn) {
+      btn.addEventListener("click", () => {
+        const id = input?.value.trim();
+        if (!id || !/^[0-9a-fA-F-]{36}$/.test(id)) {
+          if (error) error.textContent = "❌ Invalid ID format";
+          return;
+        }
+        window.location.href = `/fa/subscription?id=${id}`;
+      });
+    }
+
+    if (input) {
+      input.addEventListener("keypress", (e) => {
+        if (e.key === "Enter" && btn) btn.click();
+      });
+    }
+
+    // Subscription renewal
+    const renewDurationSelect = document.getElementById("renewDuration");
+    const renewPromoInput = document.getElementById("renewPromo");
+    const renewApplyPromoBtn = document.getElementById("renewApplyPromo");
+    const renewBtn = document.getElementById("renewBtn");
+    const renewError = document.getElementById("renewError");
+    const renewPriceOld = document.getElementById("renewPriceOld");
+    const renewPriceNew = document.getElementById("renewPriceNew");
+    let selectedRenewDuration = renewDurationSelect
+      ? parseInt(renewDurationSelect.value, 10)
+      : null;
+    let appliedRenewPromo = null;
+    let currentRenewDiscountedPrice = null;
+
+    function getSelectedRenewPrice() {
+      if (!renewDurationSelect) return 0;
+      const option = renewDurationSelect.selectedOptions[0];
+      return parseInt(option?.dataset.price || "0", 10);
+    }
+
+    function updateRenewPriceDisplay() {
+      const basePrice = getSelectedRenewPrice();
+      if (!renewPriceNew) return;
+      if (currentRenewDiscountedPrice && currentRenewDiscountedPrice < basePrice) {
+        if (renewPriceOld) renewPriceOld.textContent = `${basePrice} ₽`;
+        renewPriceNew.textContent = `${currentRenewDiscountedPrice} ₽`;
+        renewPriceNew.classList.add("discounted");
+      } else {
+        if (renewPriceOld) renewPriceOld.textContent = "";
+        renewPriceNew.textContent = `${basePrice} ₽`;
+        renewPriceNew.classList.remove("discounted");
+      }
+    }
+
+    if (renewDurationSelect) {
+      renewDurationSelect.addEventListener("change", () => {
+        selectedRenewDuration = parseInt(renewDurationSelect.value, 10);
+        appliedRenewPromo = null;
+        currentRenewDiscountedPrice = null;
+        renewError.textContent = "";
+        updateRenewPriceDisplay();
+      });
+    }
+
+    if (renewApplyPromoBtn) {
+      renewApplyPromoBtn.addEventListener("click", async () => {
+        const code = renewPromoInput.value.trim();
+        if (!code) {
+          appliedRenewPromo = null;
+          currentRenewDiscountedPrice = null;
+          updateRenewPriceDisplay();
+          showToast("کد تبلیغاتی بازنشانی شد");
+          return;
+        }
+        if (!selectedRenewDuration) {
+          renewError.textContent = "ابتدا مدت تمدید را انتخاب کنید";
+          return;
+        }
+        try {
+          const res = await fetch(`${PAYMENT_API_BASE}/promocode/validate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              duration: selectedRenewDuration,
+              promocode: code,
+            }),
+          });
+          const data = await res.json();
+          if (data.is_valid) {
+            appliedRenewPromo = code;
+            currentRenewDiscountedPrice = data.discounted_price;
+            renewError.textContent = "";
+            updateRenewPriceDisplay();
+            showToast(`Promo applied: ${data.discount_percent}% off`);
+          } else {
+            appliedRenewPromo = null;
+            currentRenewDiscountedPrice = null;
+            renewError.textContent = data.message || "کد تبلیغاتی نامعتبر است";
+            updateRenewPriceDisplay();
+          }
+        } catch (e) {
+          renewError.textContent = "خطا در اعتبارسنجی کد تبلیغاتی";
+        }
+      });
+    }
+
+    updateRenewPriceDisplay();
+
+    if (renewBtn) {
+      renewBtn.addEventListener("click", async () => {
+        renewError.textContent = "";
+        if (!selectedRenewDuration) {
+          renewError.textContent = "مدت تمدید را انتخاب کنید";
+          return;
+        }
+        const subId = getSubId();
+        if (!subId) {
+          renewError.textContent = "امکان تشخیص اشتراک وجود ندارد";
+          return;
+        }
+        renewBtn.disabled = true;
+        const originalText = renewBtn.textContent;
+        renewBtn.textContent = "Creating payment...";
+        try {
+          const res = await fetch(
+            `${PAYMENT_API_BASE}/payment/platega/subscription/create`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                subscription_id: subId,
+                duration: selectedRenewDuration,
+                promocode: appliedRenewPromo,
+                provider: "Platega",
+              }),
+            },
+          );
+          if (!res.ok) {
+            const data = await res
+              .json()
+              .catch(() => ({ error: "خطای سرور" }));
+            throw new Error(data.error || "پرداخت انجام نشد");
+          }
+          const data = await res.json();
+          if (data.url) {
+            localStorage.setItem("frkn_last_subscription_id", subId);
+            window.location.href = data.url;
+          } else {
+            throw new Error("API پیوند پرداخت را برنگرداند");
+          }
+        } catch (e) {
+          renewError.textContent = e.message;
+          renewBtn.disabled = false;
+          renewBtn.textContent = originalText;
+        }
+      });
+    }
+  });
+</script>

@@ -1277,3 +1277,109 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ================= RTL (Farsi) ================= */
+[dir="rtl"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .container,
+[dir="rtl"] .hero-content,
+[dir="rtl"] .feature-list,
+[dir="rtl"] .modal-content,
+[dir="rtl"] .form-group,
+[dir="rtl"] .price-card,
+[dir="rtl"] .renew-option-card,
+[dir="rtl"] .subscription-info,
+[dir="rtl"] .traffic-info,
+[dir="rtl"] .instruction-step {
+  text-align: right;
+}
+
+[dir="rtl"] header {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .logo-with-lang {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hero {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .cta-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .country-header,
+[dir="rtl"] .country-featured-top,
+[dir="rtl"] .country-more-list {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .feature-list li {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .feature-list li::before {
+  margin-left: 0;
+  margin-right: -4px;
+}
+
+[dir="rtl"] .pay-benefit-card,
+[dir="rtl"] .renew-option-card {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .modal-content .form-group label,
+[dir="rtl"] .modal-content .form-group input {
+  text-align: right;
+}
+
+[dir="rtl"] .promo-input-wrapper,
+[dir="rtl"] .renew-promo-inline {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .promo-input-wrapper input,
+[dir="rtl"] .renew-promo-inline input {
+  text-align: right;
+}
+
+[dir="rtl"] footer div:last-child {
+  text-align: right;
+}
+
+[dir="rtl"] .lang-switcher {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .instruction-step {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .qr-block {
+  text-align: right;
+}
+
+[dir="rtl"] .client-option {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .client-option .client-icon {
+  margin-right: 0;
+  margin-left: 12px;
+}
+
+[dir="rtl"] .subscription-status,
+[dir="rtl"] .traffic-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .toast {
+  direction: rtl;
+  text-align: right;
+}

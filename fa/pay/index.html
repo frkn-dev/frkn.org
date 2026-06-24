@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<meta content="اشتراک FRKN Reelsoprovod را بخرید" name="description"/>
+<link href="https://frkn.org/fa/pay/" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="https://frkn.org/fa/pay/" property="og:url"/>
+<meta content="FRKN" property="og:site_name"/>
+<meta content="اشتراک FRKN Reelsoprovod را بخرید" property="og:title"/>
+<meta content="اشتراک FRKN Reelsoprovod را بخرید" property="og:description"/>
+<meta content="https://frkn.org/Images/logo.png" property="og:image"/>
+<meta content="اشتراک FRKN Reelsoprovod را بخرید" property="og:image:alt"/>
+<meta content="image/png" property="og:image:type"/>
+<meta content="summary" name="twitter:card"/>
+<meta content="اشتراک FRKN Reelsoprovod را بخرید" name="twitter:title"/>
+<meta content="خرید اشتراک FRKN Reelsoprovod" name="twitter:description"/>
+<meta content="https://frkn.org/Images/logo.png" name="twitter:image"/>
+<title>حریم خصوصی FRKN - قیمت گذاری</title>
+<link href="/Images/favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="/styles.css" rel="stylesheet"/>
+<style>
+      :root {
+        --bg-color: #0a0a0a;
+        --card-bg: #161616;
+        --card-bg-hover: #1c1c1c;
+        --accent-color: #007aff;
+        --accent-secondary: #22c55e;
+        --text-main: #ffffff;
+        --text-dim: #888888;
+        --border-color: #282828;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        line-height: 1.5;
+      }
+      .container {
+        max-width: 1300px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+      .hero-title {
+        text-align: center;
+        font-size: 48px;
+        font-weight: 800;
+        margin-bottom: 16px;
+        letter-spacing: -1px;
+        background: var(--accent-color);
+        background-clip: text;
+      }
+      .subtitle {
+        text-align: center;
+        color: var(--text-dim);
+        margin-bottom: 50px;
+        font-size: 16px;
+      }
+      .pricing-section {
+        margin-bottom: 60px;
+      }
+      .section-title {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        text-align: center;
+        color: var(--text-dim);
+      }
+      .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+      }
+      .pricing-grid-2 {
+        grid-template-columns: repeat(2, minmax(320px, 480px));
+        justify-content: center;
+        gap: 80px;
+      }
+      .pricing-grid-3 {
+        grid-template-columns: repeat(3, minmax(260px, 1fr));
+      }
+      .price-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 28px 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        cursor: pointer;
+      }
+      .price-card:hover {
+        transform: translateY(-6px);
+        border-color: var(--accent-color);
+        background: var(--card-bg-hover);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+      .price-card.popular {
+        border: 2px solid var(--accent-color);
+        background: linear-gradient(
+          135deg,
+          rgba(0, 122, 255, 0.05),
+          rgba(0, 122, 255, 0.02)
+        );
+      }
+      .price-card.popular::before {
+        content: "⭐ Best value";
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        font-weight: 600;
+        background: linear-gradient(135deg, var(--accent-color), #0055aa);
+        color: #fff;
+        padding: 4px 16px;
+        border-radius: 10px;
+        white-space: nowrap;
+      }
+      .price-card.recommended {
+        border: 2px solid var(--accent-secondary);
+      }
+      .price-card.recommended::before {
+        content: "🔥 Popular";
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        font-weight: 600;
+        background: linear-gradient(135deg, var(--accent-secondary), #15803d);
+        color: #fff;
+        padding: 4px 16px;
+        border-radius: 10px;
+        white-space: nowrap;
+      }
+      .price-card h3 {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 16px;
+        color: var(--text-main);
+      }
+      .price-card .duration {
+        font-size: 14px;
+        color: var(--text-dim);
+        margin-bottom: 20px;
+        font-weight: 400;
+      }
+      .cost-wrapper {
+        margin-bottom: 24px;
+      }
+      .cost {
+        font-size: 42px;
+        font-weight: 800;
+        color: var(--text-main);
+      }
+      .cost small {
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--text-dim);
+      }
+      .old-price {
+        font-size: 18px;
+        text-decoration: line-through;
+        color: var(--text-dim);
+        margin-right: 10px;
+        display: none;
+      }
+      .discount-badge {
+        background: linear-gradient(135deg, var(--accent-secondary), #15803d);
+        padding: 3px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-left: 10px;
+        display: inline-block;
+      }
+      .price-per-day {
+        font-size: 13px;
+        color: var(--accent-color);
+        margin-top: 8px;
+      }
+      .buy-button {
+        width: 100%;
+        padding: 14px;
+        background: var(--border-color);
+        color: var(--text-main);
+        border: none;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .buy-button:hover {
+        background: var(--accent-color);
+        transform: scale(0.98);
+      }
+      .feature-list {
+        margin-top: 20px;
+        text-align: left;
+        font-size: 13px;
+        color: var(--text-dim);
+      }
+      .feature-list li {
+        margin: 8px 0;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .feature-list li::before {
+        content: "✓";
+        color: var(--accent-secondary);
+        font-weight: bold;
+      }
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+      }
+      .modal-overlay.active {
+        display: flex;
+      }
+      .modal-content {
+        background: linear-gradient(135deg, #111, #1a1a1a);
+        color: white;
+        padding: 40px;
+        border-radius: 30px;
+        width: 90%;
+        max-width: 450px;
+        position: relative;
+        border: 1px solid var(--border-color);
+      }
+      .close-modal {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+        font-size: 32px;
+        color: #666;
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .close-modal:hover {
+        color: #fff;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        color: var(--text-dim);
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+      .promo-input-wrapper {
+        display: flex;
+        gap: 10px;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 14px;
+        background: #222;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        color: white;
+        font-size: 16px;
+        flex: 1;
+      }
+      .form-group input:focus {
+        outline: none;
+        border-color: var(--accent-color);
+      }
+      .apply-promo-btn {
+        padding: 13px;
+        background: var(--accent-secondary);
+        color: white;
+        border: none;
+        border-radius: 14px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .apply-promo-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+      .modal-total-wrapper {
+        text-align: center;
+        margin: 20px 0;
+        padding: 20px;
+        background: rgba(0, 122, 255, 0.1);
+        border-radius: 16px;
+      }
+      .modal-total {
+        font-size: 42px;
+        font-weight: 800;
+        color: var(--accent-secondary);
+      }
+      .modal-old-price {
+        font-size: 22px;
+        text-decoration: line-through;
+        color: var(--text-dim);
+        margin-right: 12px;
+      }
+      .modal-discount-price {
+        font-size: 42px;
+        font-weight: 800;
+        color: var(--accent-secondary);
+      }
+      .btn-pay {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, var(--accent-color), #0055aa);
+        color: white;
+        border: none;
+        border-radius: 14px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn-pay:hover {
+        transform: scale(0.98);
+        opacity: 0.9;
+      }
+      .btn-pay:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      .loading-spinner {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 0.6s linear infinite;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 3000;
+      }
+      .popup-overlay.active {
+        display: flex;
+      }
+      .popup-content {
+        background: #1a1a1a;
+        padding: 30px;
+        border-radius: 24px;
+        text-align: center;
+        border: 1px solid #ff453a;
+        max-width: 320px;
+      }
+      .popup-content button {
+        background: var(--border-color);
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 15px;
+      }
+      @media (max-width: 900px) {
+        .pricing-grid-2,
+        .pricing-grid-3 {
+          grid-template-columns: 1fr;
+        }
+        .hero-title {
+          font-size: 36px;
+        }
+        .cost {
+          font-size: 34px;
+        }
+      }
+
+      .pay-benefits {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin: 40px 0;
+      }
+      .pay-benefit-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        transition: border-color 0.2s ease;
+      }
+      .pay-benefit-card:hover {
+        border-color: rgba(91, 124, 250, 0.4);
+      }
+      .pay-benefit-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+      }
+      .pay-benefit-icon.green {
+        background: rgba(34, 197, 94, 0.12);
+      }
+      .pay-benefit-icon.blue {
+        background: rgba(91, 124, 250, 0.12);
+      }
+      .pay-benefit-content h4 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+      .pay-benefit-content p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--text-dim);
+        line-height: 1.6;
+      }
+      @media (max-width: 640px) {
+        .pay-benefits {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1 class="hero-title">یک طرح را انتخاب کنید</h1>
+<div id="logo-container"></div>
+</header>
+<p class="subtitle">
+        برای دریافت یا تمدید اشتراک، یک کلید فعال سازی بخرید <br/>
+</p>
+<div class="pay-benefits">
+<div class="pay-benefit-card">
+<div class="pay-benefit-icon green">🛡️</div>
+<div class="pay-benefit-content">
+<h4>بدون کارت، بدون شارژ خودکار</h4>
+<p>
+              یک بار پرداخت کنید و دسترسی داشته باشید. بدون اتصال کارت بانکی، بدون اشتراک،
+              بدون هزینه های پنهان
+            </p>
+</div>
+</div>
+<div class="pay-benefit-card">
+<div class="pay-benefit-icon blue">➕</div>
+<div class="pay-benefit-content">
+<h4>روزها روی هم جمع می شوند</h4>
+<p>
+              تمدید روزها را بدون تنظیم مجدد به اشتراک فعلی شما اضافه می کند
+              آن را زمان دسترسی موجود باقی می ماند و فقط رشد می کند.
+            </p>
+</div>
+</div>
+</div>
+<div class="pricing-section">
+<div class="pricing-grid pricing-grid-2">
+<div class="price-card recommended" data-duration="30" data-price="500">
+<h3>1 ماه</h3>
+<div class="duration">۳۰ روز دسترسی</div>
+<div class="cost-wrapper">
+<span class="old-price"></span>
+<div class="cost">500₽</div>
+</div>
+<div class="price-per-day"></div>
+<button class="buy-button" data-duration="30" data-price="500">
+              طرح را انتخاب کنید
+            </button>
+<ul class="feature-list">
+<li>ترافیک نامحدود</li>
+<li>سرعت بالا</li>
+<li>هر تعداد دستگاه</li>
+</ul>
+</div>
+<div class="price-card popular" data-duration="365" data-price="5000">
+<h3>1 سال</h3>
+<div class="duration">۳۶۵ روز دسترسی</div>
+<div class="cost-wrapper">
+<span class="old-price"></span>
+<div class="cost">5000₽</div>
+</div>
+<div class="price-per-day"></div>
+<button class="buy-button" data-duration="365" data-price="5000">
+              طرح را انتخاب کنید
+            </button>
+<ul class="feature-list">
+<li>ترافیک نامحدود</li>
+<li>سرعت بالا</li>
+<li>هر تعداد دستگاه</li>
+<li>تا 20% صرفه جویی کنید</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section-title">طرح های بیشتر</div>
+<div class="pricing-section">
+<div class="pricing-grid pricing-grid-3">
+<div class="price-card" data-duration="3" data-price="100">
+<h3>3 روز</h3>
+<div class="duration">۳ روز دسترسی</div>
+<div class="cost-wrapper">
+<span class="old-price"></span>
+<div class="cost">100₽</div>
+</div>
+<div class="price-per-day"></div>
+<button class="buy-button" data-duration="3" data-price="100">
+              طرح را انتخاب کنید
+            </button>
+<ul class="feature-list">
+<li>ترافیک نامحدود</li>
+<li>سرعت بالا</li>
+<li>هر تعداد دستگاه</li>
+</ul>
+</div>
+<div class="price-card" data-duration="7" data-price="200">
+<h3>7 روز</h3>
+<div class="duration">۱ هفته دسترسی</div>
+<div class="cost-wrapper">
+<span class="old-price"></span>
+<div class="cost">200₽</div>
+</div>
+<div class="price-per-day"></div>
+<button class="buy-button" data-duration="7" data-price="200">
+              طرح را انتخاب کنید
+            </button>
+<ul class="feature-list">
+<li>ترافیک نامحدود</li>
+<li>سرعت بالا</li>
+<li>هر تعداد دستگاه</li>
+</ul>
+</div>
+<div class="price-card" data-duration="14" data-price="300">
+<h3>14 روز</h3>
+<div class="duration">۲ هفته دسترسی</div>
+<div class="cost-wrapper">
+<span class="old-price"></span>
+<div class="cost">300₽</div>
+</div>
+<div class="price-per-day"></div>
+<button class="buy-button" data-duration="14" data-price="300">
+              طرح را انتخاب کنید
+            </button>
+<ul class="feature-list">
+<li>ترافیک نامحدود</li>
+<li>سرعت بالا</li>
+<li>هر تعداد دستگاه</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="pricing-section">
+<div class="pricing-grid">
+<div class="price-card" data-duration="90" data-price="1500">
+<h3>3 ماه</h3>
+<div class="duration">۹۰ روز دسترسی</div>
+<div class="cost-wrapper">
+<span class="old-price"></span>
+<div class="cost">1500₽</div>
+</div>
+<div class="price-per-day"></div>
+<button class="buy-button" data-duration="90" data-price="1500">
+              طرح را انتخاب کنید
+            </button>
+<ul class="feature-list">
+<li>ترافیک نامحدود</li>
+<li>سرعت بالا</li>
+<li>هر تعداد دستگاه</li>
+</ul>
+</div>
+<div class="price-card" data-duration="180" data-price="2700">
+<h3>6 ماه</h3>
+<div class="duration">۱۸۰ روز دسترسی</div>
+<div class="cost-wrapper">
+<span class="old-price"></span>
+<div class="cost">2700₽</div>
+</div>
+<div class="price-per-day"></div>
+<button class="buy-button" data-duration="180" data-price="2700">
+              طرح را انتخاب کنید
+            </button>
+<ul class="feature-list">
+<li>ترافیک نامحدود</li>
+<li>سرعت بالا</li>
+<li>هر تعداد دستگاه</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="footer-container"></div>
+</div>
+<div class="modal-overlay" id="payment-modal">
+<div class="modal-content">
+<span class="close-modal" onclick="closeModal()">×</span>
+<h2 id="modal-title">مشترک شوید</h2>
+<div class="form-group">
+<label>کد تبلیغاتی</label>
+<div class="promo-input-wrapper">
+<input id="user-promo" placeholder="کد تبلیغاتی را وارد کنید" type="text"/>
+<button class="apply-promo-btn" id="apply-promo-btn">
+              درخواست کنید
+            </button>
+</div>
+</div>
+<div class="modal-total-wrapper" id="modal-total-wrapper"></div>
+<button class="btn-pay" id="final-pay-btn">پرداخت کنید</button>
+<p style="
+            color: #666;
+            font-size: 11px;
+            text-align: center;
+            margin-top: 20px;
+          ">
+          با کلیک بر روی «پرداخت»، به دروازه Platega هدایت می شوید. ما شما را ذخیره نمی کنیم
+          داده ها
+        </p>
+<p style="
+            color: #888;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 15px;
+          ">
+          🔒 پرداخت امن با کارت، SBP، ارز دیجیتال
+        </p>
+<p style="font-size: 13px; text-align: center; margin-top: 15px">
+          ⚠️ تا زمانی که پرداخت تایید نشده است این پنجره را نبندید
+        </p>
+</div>
+</div>
+<div class="popup-overlay" id="error-popup">
+<div class="popup-content">
+<div style="font-size: 40px; margin-bottom: 10px">⚠️</div>
+<h2 style="margin: 0 0 10px 0">خطا</h2>
+<p id="popup-message" style="color: #aaa"></p>
+<button onclick="closePopup()">متوجه شدم</button>
+</div>
+</div>
+<script>
+      // --- Конфигурация ---
+      const isLocal =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1";
+      const PAYMENT_API_BASE = isLocal
+        ? "http://localhost:3006"
+        : "https://heheapi.frkn.org";
+      const PAYMENT_API_FALLBACK = isLocal
+        ? null
+        : "https://api.frkn.org";
+      let currentOrder = null;
+
+      async function apiFetch(path, options = {}) {
+        const bases = PAYMENT_API_FALLBACK
+          ? [PAYMENT_API_BASE, PAYMENT_API_FALLBACK]
+          : [PAYMENT_API_BASE];
+        let lastError;
+        for (const base of bases) {
+          try {
+            const res = await fetch(`${base}${path}`, {
+              ...options,
+              mode: "cors",
+              credentials: "omit",
+            });
+            if (res.ok) return res;
+            lastError = new Error(`HTTP ${res.status}`);
+          } catch (e) {
+            lastError = e;
+          }
+        }
+        throw lastError;
+      }
+      let urlPromoCode =
+        new URLSearchParams(location.search).get("promo") || null;
+
+      // --- DOM элементы ---
+      const promoInput = document.getElementById("user-promo");
+      const modalTotalWrapper = document.getElementById("modal-total-wrapper");
+      const paymentModal = document.getElementById("payment-modal");
+      const errorPopup = document.getElementById("error-popup");
+      const popupMessage = document.getElementById("popup-message");
+      const payBtn = document.getElementById("final-pay-btn");
+
+      // --- Вспомогательные функции ---
+      function showError(message) {
+        popupMessage.innerText = message;
+        errorPopup.classList.add("active");
+      }
+      function closePopup() {
+        errorPopup.classList.remove("active");
+      }
+      function closeModal() {
+        paymentModal.classList.remove("active");
+        const applyBtn = document.getElementById("apply-promo-btn");
+        if (applyBtn) applyBtn.style.display = "flex";
+        currentOrder = null;
+      }
+
+      // --- Обновление цены за день на КАРТОЧКЕ ---
+      function updateCardPricePerDay(card, discountedPrice, duration) {
+        const pricePerDayElement = card.querySelector(".price-per-day");
+        if (pricePerDayElement) {
+          const pricePerDay = (discountedPrice / duration).toFixed(1);
+          pricePerDayElement.innerHTML = `≈ ${pricePerDay}₽/day`;
+        }
+      }
+
+      // --- Сброс цен на карточках к исходным (без скидки) ---
+      function resetCardPrices() {
+        document.querySelectorAll(".price-card").forEach((card) => {
+          const btn = card.querySelector(".buy-button");
+          const basePrice = parseInt(btn.dataset.price);
+          const duration = parseInt(btn.dataset.duration);
+          const costDiv = card.querySelector(".cost");
+          const oldPriceSpan = card.querySelector(".old-price");
+          const badge = card.querySelector(".discount-badge");
+          costDiv.innerHTML = `${basePrice}₽`;
+          if (oldPriceSpan) oldPriceSpan.style.display = "none";
+          if (badge) badge.remove();
+          delete btn.dataset.discountedPrice;
+          updateCardPricePerDay(card, basePrice, duration);
+        });
+      }
+
+      // --- Применение скидки на карточки (для отображения на странице) ---
+      async function applyDiscountToCards(promoCode) {
+        if (!promoCode) return false;
+        let anyDiscountApplied = false;
+        for (const card of document.querySelectorAll(".price-card")) {
+          const btn = card.querySelector(".buy-button");
+          const duration = parseInt(btn.dataset.duration);
+          const basePrice = parseInt(btn.dataset.price);
+          try {
+            const response = await apiFetch(
+              `/promocode/validate`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  duration,
+                  promocode: promoCode.toUpperCase(),
+                }),
+              },
+            );
+            if (!response.ok) continue;
+            const data = await response.json();
+            if (data.is_valid && data.discounted_price < data.original_price) {
+              anyDiscountApplied = true;
+              const costDiv = card.querySelector(".cost");
+              const oldPriceSpan = card.querySelector(".old-price");
+              oldPriceSpan.style.display = "inline";
+              oldPriceSpan.innerText = `${data.original_price}₽`;
+              costDiv.innerHTML = `${data.discounted_price}₽`;
+              btn.dataset.discountedPrice = data.discounted_price;
+              let badge = card.querySelector(".discount-badge");
+              if (!badge) {
+                badge = document.createElement("span");
+                badge.className = "discount-badge";
+                costDiv.parentNode.appendChild(badge);
+              }
+              badge.innerText = `-${data.discount_percent}%`;
+              updateCardPricePerDay(card, data.discounted_price, duration);
+            }
+          } catch (e) {
+            console.error(`Failed to validate for duration ${duration}:`, e);
+          }
+        }
+        return anyDiscountApplied;
+      }
+
+      // --- Обновление отображения в модалке (для ТЕКУЩЕГО заказа) ---
+      function updateModalDisplay() {
+        if (!currentOrder) return;
+        const { duration, price: finalPrice, originalPrice } = currentOrder;
+        const pricePerDay = (finalPrice / duration).toFixed(1);
+        if (finalPrice < originalPrice) {
+          const originalPricePerDay = (originalPrice / duration).toFixed(1);
+          modalTotalWrapper.innerHTML = `<div><span class="modal-old-price">${originalPrice}₽</span><span class="modal-discount-price">${finalPrice}₽</span><div style="font-size: 14px; margin-top: 8px; color: #22c55e;">≈ ${pricePerDay}₽/day (was ${originalPricePerDay}₽/day)</div></div>`;
+        } else {
+          modalTotalWrapper.innerHTML = `<div><div class="modal-total">${finalPrice}₽</div><div style="font-size: 14px; margin-top: 8px; color: #888;">≈ ${pricePerDay}₽/day</div></div>`;
+        }
+      }
+
+      // --- Применение промокода к ТЕКУЩЕМУ заказу в модалке ---
+      async function applyPromoToCurrentOrder(promoCode) {
+        if (!currentOrder) {
+          showError("ابتدا یک طرح را انتخاب کنید");
+          return false;
+        }
+        const promoValue = promoCode?.trim().toUpperCase() || "";
+        if (!promoValue) {
+          // Сброс скидки
+          currentOrder.promo = null;
+          currentOrder.price = currentOrder.originalPrice;
+          updateModalDisplay();
+          promoInput.style.borderColor = "";
+          return true;
+        }
+        try {
+          const response = await apiFetch(
+            `/promocode/validate`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                duration: currentOrder.duration,
+                promocode: promoValue,
+              }),
+            },
+          );
+          if (!response.ok) throw new Error("کد تبلیغاتی نامعتبر است");
+          const data = await response.json();
+          if (data.is_valid && data.discounted_price < data.original_price) {
+            currentOrder.promo = promoValue;
+            currentOrder.price = data.discounted_price;
+            updateModalDisplay();
+            promoInput.style.borderColor = "#22c55e";
+            return true;
+          } else throw new Error("Oops, the promo code seems to be invalid");
+        } catch (err) {
+          showError(err.message);
+          promoInput.style.borderColor = "#ff4444";
+          return false;
+        }
+      }
+
+      // --- Открытие модального окна ---
+      async function openModal(duration, basePrice, element) {
+        let finalPrice = basePrice;
+        let originalPrice = basePrice;
+        if (element && element.dataset.discountedPrice)
+          finalPrice = parseInt(element.dataset.discountedPrice);
+        currentOrder = {
+          duration: parseInt(duration),
+          price: finalPrice,
+          originalPrice: originalPrice,
+          promo: null,
+        };
+        promoInput.value = urlPromoCode || "";
+        promoInput.style.borderColor = "";
+        if (urlPromoCode) {
+          // Если да — подставляем его в поле, сразу применяем и скрываем кнопку «Применить»
+          promoInput.value = urlPromoCode;
+          await applyPromoToCurrentOrder(urlPromoCode);
+          const applyBtn = document.getElementById("apply-promo-btn");
+          if (applyBtn) applyBtn.style.display = "none";
+        } else {
+          // Если промокода в URL нет — показываем поле и кнопку
+          promoInput.value = "";
+          promoInput.style.borderColor = "";
+          const applyBtn = document.getElementById("apply-promo-btn");
+          if (applyBtn) applyBtn.style.display = "flex";
+          updateModalDisplay();
+        }
+        document.getElementById("modal-title").innerHTML =
+          `Subscribe<br>for ${duration} days`;
+        paymentModal.classList.add("active");
+      }
+
+      // --- Инициализация страницы ---
+      async function initializePage() {
+        // 1. Базовые цены за день
+        document.querySelectorAll(".price-card").forEach((card) => {
+          const btn = card.querySelector(".buy-button");
+          const basePrice = parseInt(btn.dataset.price);
+          const duration = parseInt(btn.dataset.duration);
+          const pricePerDay = (basePrice / duration).toFixed(1);
+          const pricePerDayElement = card.querySelector(".price-per-day");
+          if (pricePerDayElement)
+            pricePerDayElement.innerHTML = `≈ ${pricePerDay}₽/day`;
+        });
+        // 2. Если в URL есть промокод - применяем скидку на все карточки на странице
+        if (urlPromoCode) {
+          promoInput.value = urlPromoCode;
+          await applyDiscountToCards(urlPromoCode);
+        }
+      }
+
+      // --- Обработчики событий ---
+      document.querySelectorAll(".buy-button").forEach((btn) =>
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openModal(btn.dataset.duration, btn.dataset.price, btn);
+        }),
+      );
+      document
+        .getElementById("apply-promo-btn")
+        ?.addEventListener("click", () =>
+          applyPromoToCurrentOrder(promoInput.value),
+        );
+      promoInput?.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          applyPromoToCurrentOrder(promoInput.value);
+        }
+      });
+      if (payBtn) {
+        payBtn.onclick = async () => {
+          if (!currentOrder) {
+            showError("Order not found. Try selecting a plan again.");
+            return;
+          }
+          payBtn.disabled = true;
+          const originalText = payBtn.innerText;
+          payBtn.innerHTML =
+            '<span class="loading-spinner"></span> Creating invoice...';
+          try {
+            const res = await apiFetch(
+              `/payment/platega/key/create`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  duration: currentOrder.duration,
+                  promocode: currentOrder.promo || null,
+                  provider: "Platega",
+                }),
+              },
+            );
+            if (!res.ok) {
+              const errorData = await res
+                .json()
+                .catch(() => ({ error: "خطای سرور" }));
+              throw new Error(errorData.error || "پرداخت انجام نشد");
+            }
+            const data = await res.json();
+            if (data.url) window.location.href = data.url;
+            else throw new Error("API پیوند پرداخت را برنگرداند");
+          } catch (e) {
+            showError(e.message);
+            payBtn.disabled = false;
+            payBtn.innerText = originalText;
+          }
+        };
+      }
+      window.onclick = (event) => {
+        if (event.target === paymentModal) closeModal();
+      };
+      initializePage();
+    </script>
+<script defer="" src="/scripts/analytics.js"></script>
+<script src="/scripts/i18n.js"></script>
+<script src="/scripts/containers.js"></script>
+</body>
+</html>

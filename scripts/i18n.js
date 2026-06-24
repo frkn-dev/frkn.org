@@ -1,14 +1,32 @@
 (function () {
   const path = window.location.pathname;
-  const isEn = path.startsWith("/en/");
-  const currentLang = isEn ? "en" : "ru";
+  const langMatch = path.match(/^\/(en|fa)\//);
+  const currentLang = langMatch ? langMatch[1] : "ru";
+
+  // Pages that actually have a /fa/ translation
+  const FA_PAGES = new Set(["/", "/pay/", "/subscription/"]);
+
+  function hasFaVersion(path) {
+    // Normalize path to always end with /
+    const normalized = path.endsWith("/") ? path : path + "/";
+    return FA_PAGES.has(normalized);
+  }
 
   function getPairUrl(targetLang) {
     if (targetLang === currentLang) return null;
-    if (targetLang === "en") {
-      return "/en" + path;
+
+    if (targetLang === "fa") {
+      const rest = currentLang === "ru" ? path : path.replace(/^\/(en|fa)\//, "/");
+      if (!hasFaVersion(rest)) return null;
+      return "/fa" + rest;
     }
-    return path.replace(/^\/en\//, "/");
+
+    if (targetLang === "en") {
+      return path.replace(/^\/(en|fa)\//, "/en/");
+    }
+
+    // targetLang === "ru"
+    return path.replace(/^\/(en|fa)\//, "/");
   }
 
   function switchLang(lang) {
@@ -19,10 +37,9 @@
 
   function autoRedirect() {
     const saved = localStorage.getItem("frkn-lang");
-    if (saved && saved !== currentLang) {
-      const url = getPairUrl(saved);
-      if (url) window.location.href = url;
-    }
+    if (!saved || saved === currentLang) return;
+    const url = getPairUrl(saved);
+    if (url) window.location.href = url;
   }
 
   function init() {

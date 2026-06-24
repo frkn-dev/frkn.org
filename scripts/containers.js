@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const isEn = window.location.pathname.startsWith("/en/");
-  const suffix = isEn ? ".en" : "";
+  const path = window.location.pathname;
+  const langMatch = path.match(/^\/(en|fa)\//);
+  const suffix = langMatch ? `.${langMatch[1]}` : "";
   load(`/container/footer${suffix}.html`, "footer-container");
   load(`/container/logo${suffix}.html`, "logo-container");
   load("/container/services.html", "services-container");

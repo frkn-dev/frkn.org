@@ -28,6 +28,16 @@
   </div>
   <script src="/scripts/i18n.js"></script>
   <script src="/scripts/containers.js"></script>
+  <script>
+    (function () {
+      const path = window.location.pathname;
+      const faMatch = path.match(/^\/fa(\/.*)?$/);
+      if (faMatch) {
+        const rest = faMatch[1] || "/";
+        window.location.replace("/en" + rest);
+      }
+    })();
+  </script>
 
 </body>
 
