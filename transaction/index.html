@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>frkn Privacy — Активация</title>
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles.css?v=2" />
     <style>
       body {
         background-color: #0a0a0a;
@@ -239,7 +239,13 @@
         : "https://heheapi.frkn.org";
 
       const params = new URLSearchParams(window.location.search);
-      const txid = params.get("txid");
+      const txid = params.get("txid") || params.get("id");
+      console.log("[transaction] script loaded");
+      console.log("[transaction] txid:", txid);
+      if (!params.get("txid") && params.get("id")) {
+        console.warn("[transaction] used 'id' param instead of 'txid'");
+      }
+      console.log("[transaction] PAYMENT_API_BASE:", PAYMENT_API_BASE);
 
       function closePopup() {
         document.getElementById("error-popup").classList.remove("active");
@@ -256,18 +262,37 @@
         });
       }
 
-      async function poll() {
-        if (!txid) return;
+      async function apiFetch(url, options = {}) {
+        const fullOptions = {
+          ...options,
+          mode: "cors",
+          credentials: "omit",
+          headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+        };
         try {
-          const res = await fetch(`${PAYMENT_API_BASE}/payment/check/${txid}`);
+          const res = await fetch(`${PAYMENT_API_BASE}${url}`, fullOptions);
+          if (res.ok || res.status >= 400) return res;
+        } catch (e) {}
+        return fetch(`https://api.frkn.org${url}`, fullOptions);
+      }
+
+      async function poll() {
+        if (!txid) {
+          document.getElementById("status").innerText = "Транзакция не найдена.";
+          return;
+        }
+        try {
+          const res = await apiFetch(`/payment/check/${txid}`);
+          console.log("[transaction] check status:", res.status, res.statusText);
           const data = await res.json();
+          console.log("[transaction] check data:", data);
 
           if (data.status === "completed") {
             document.getElementById("waiting-section").style.display = "none";
 
             if (data.type === "SubscriptionRenewal") {
               const subId =
-                data.subscription_id ||
+                data.subscriptionId ||
                 localStorage.getItem("frkn_last_subscription_id");
               document.getElementById("subscription-success-section").style.display =
                 "block";
@@ -309,13 +334,19 @@
           } else if (data.status === "pending") {
             setTimeout(poll, 2000);
           } else {
-            document.getElementById("status").innerText = "Транзакция не найдена.";
+            console.warn("[transaction] unexpected status:", data.status, data);
+            document.getElementById("status").innerText =
+              "Транзакция не найдена. Статус: " + (data.status || "unknown");
           }
         } catch (e) {
+          console.error("[transaction] poll error:", e);
+          document.getElementById("status").innerText =
+            "Ошибка соединения. Повторная попытка...";
           setTimeout(poll, 5000);
         }
       }
 
+      console.log("[transaction] starting poll, txid present:", !!txid);
       if (txid) poll();
       else
         document.getElementById("status").innerText = "Транзакция не найдена.";
