@@ -871,11 +871,21 @@
         promoInput.value = urlPromoCode || "";
         promoInput.style.borderColor = "";
         if (urlPromoCode) {
-          // Если да — подставляем его в поле, сразу применяем и скрываем кнопку «Применить»
+          // Подставляем промокод из URL
           promoInput.value = urlPromoCode;
-          await applyPromoToCurrentOrder(urlPromoCode);
           const applyBtn = document.getElementById("apply-promo-btn");
           if (applyBtn) applyBtn.style.display = "none";
+          // Применяем только если скидка действительно есть на этой карточке
+          if (element && element.dataset.discountedPrice) {
+            try {
+              await applyPromoToCurrentOrder(urlPromoCode);
+            } catch (e) {
+              console.warn("[pay] failed to apply URL promo:", e);
+              updateModalDisplay();
+            }
+          } else {
+            updateModalDisplay();
+          }
         } else {
           // Если промокода в URL нет — показываем поле и кнопку
           promoInput.value = "";
