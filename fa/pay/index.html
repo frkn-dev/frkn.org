@@ -274,6 +274,18 @@
         display: flex;
         gap: 10px;
       }
+      .promo-info {
+        margin-top: 8px;
+        font-size: 13px;
+        color: var(--text-dim);
+        line-height: 1.5;
+      }
+      .promo-info.valid {
+        color: #22c55e;
+      }
+      .promo-info.invalid {
+        color: #ef4444;
+      }
       .form-group input {
         width: 100%;
         padding: 14px;
@@ -636,6 +648,7 @@
               درخواست کنید
             </button>
 </div>
+<div class="promo-info" id="promo-info"></div>
 </div>
 <div class="modal-total-wrapper" id="modal-total-wrapper"></div>
 <button class="btn-pay" id="final-pay-btn">پرداخت کنید</button>
@@ -707,6 +720,7 @@
 
       // --- DOM элементы ---
       const promoInput = document.getElementById("user-promo");
+      const promoInfo = document.getElementById("promo-info");
       const modalTotalWrapper = document.getElementById("modal-total-wrapper");
       const paymentModal = document.getElementById("payment-modal");
       const errorPopup = document.getElementById("error-popup");
@@ -714,6 +728,25 @@
       const payBtn = document.getElementById("final-pay-btn");
 
       // --- Вспомогательные функции ---
+      function formatDuration(days) {
+        const map = {
+          3: "۳ روز",
+          7: "۷ روز",
+          14: "۱۴ روز",
+          30: "۱ ماه",
+          90: "۳ ماه",
+          180: "۶ ماه",
+          365: "۱ سال",
+        };
+        return map[days] || `${days} روز`;
+      }
+      function getPromoApplicableDurations() {
+        const durations = [];
+        document.querySelectorAll(".buy-button[data-discounted-price]").forEach((btn) => {
+          durations.push(parseInt(btn.dataset.duration));
+        });
+        return [...new Set(durations)].sort((a, b) => a - b);
+      }
       function showError(message) {
         popupMessage.innerText = message;
         errorPopup.classList.add("active");
@@ -870,6 +903,9 @@
         };
         promoInput.value = urlPromoCode || "";
         promoInput.style.borderColor = "";
+        promoInfo.style.display = "none";
+        promoInfo.className = "promo-info";
+        promoInfo.innerText = "";
         if (urlPromoCode) {
           // Подставляем промокод из URL
           promoInput.value = urlPromoCode;
@@ -879,11 +915,23 @@
           if (element && element.dataset.discountedPrice) {
             try {
               await applyPromoToCurrentOrder(urlPromoCode);
+              promoInfo.style.display = "block";
+              promoInfo.classList.add("valid");
+              promoInfo.innerText = "کد تبلیغاتی اعمال شد";
             } catch (e) {
               console.warn("[pay] failed to apply URL promo:", e);
               updateModalDisplay();
             }
           } else {
+            const applicable = getPromoApplicableDurations();
+            promoInfo.style.display = "block";
+            promoInfo.classList.add("invalid");
+            if (applicable.length > 0) {
+              const labels = applicable.map(formatDuration).join("، ");
+              promoInfo.innerText = `این کد تبلیغاتی برای این طرح اعمال نمی‌شود. طرح‌های مجاز: ${labels}`;
+            } else {
+              promoInfo.innerText = "این کد تبلیغاتی برای طرح‌های فعلی معتبر نیست";
+            }
             updateModalDisplay();
           }
         } else {
