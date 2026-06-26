@@ -31,15 +31,32 @@
 
   function switchLang(lang) {
     localStorage.setItem("frkn-lang", lang);
+    sessionStorage.removeItem("frkn-lang-redirect-count");
     const url = getPairUrl(lang);
     if (url) window.location.href = url;
   }
 
   function autoRedirect() {
     const saved = localStorage.getItem("frkn-lang");
-    if (!saved || saved === currentLang) return;
+    if (!saved || saved === currentLang) {
+      sessionStorage.removeItem("frkn-lang-redirect-count");
+      return;
+    }
+
+    const redirectCount = parseInt(
+      sessionStorage.getItem("frkn-lang-redirect-count") || "0",
+      10,
+    );
+    if (redirectCount >= 2) return;
+
     const url = getPairUrl(saved);
-    if (url) window.location.href = url;
+    if (!url) return;
+
+    sessionStorage.setItem(
+      "frkn-lang-redirect-count",
+      String(redirectCount + 1),
+    );
+    window.location.href = url;
   }
 
   function init() {

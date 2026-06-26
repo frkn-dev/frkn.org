@@ -272,7 +272,7 @@
         font-weight: 600;
       }
 
-      status-warning {
+      .status-warning {
         color: #ffbd4d !important;
         background: rgba(255, 189, 77, 0.1);
         padding: 4px 12px !important;
@@ -302,6 +302,7 @@
         max-width: 720px;
         margin: 40px auto;
         padding: 24px;
+        overflow-x: hidden;
       }
 
       .card {
@@ -843,13 +844,25 @@
         white-space: nowrap;
       }
 
+      .subscription-actions {
+        display: flex;
+        gap: 10px;
+        align-items: stretch;
+      }
+
       .action-btn {
-        width: 140px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+        min-height: 46px;
+        width: auto;
+        min-width: max-content;
 
         border: none;
         border-radius: 12px;
 
-        padding: 12px 16px;
+        padding: 12px 18px;
 
         font-weight: 600;
         cursor: pointer;
@@ -1053,69 +1066,205 @@
         filter: brightness(1.6) contrast(0.6);
       }
 
-      .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 16px;
-        margin-top: 24px;
-      }
-      .stat-card {
-        position: relative;
-        overflow: hidden;
-
+      .traffic-widget {
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.08);
-
-        border-radius: 18px;
-        padding: 18px;
-
+        border-radius: 20px;
+        padding: 16px;
+        margin-top: 24px;
         backdrop-filter: blur(10px);
-
-        transition:
-          transform 0.2s ease,
-          border-color 0.2s ease,
-          background 0.2s ease;
       }
 
-      .stat-card:hover {
-        transform: translateY(-2px);
-        border-color: rgba(16, 185, 129, 0.4);
-        background: rgba(255, 255, 255, 0.06);
+      .traffic-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
       }
 
-      .stat-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-
-        background: radial-gradient(
-          circle at top right,
-          rgba(16, 185, 129, 0.12),
-          transparent 60%
-        );
-
-        pointer-events: none;
+      .traffic-env-selector {
+        display: flex;
+        align-items: center;
+        gap: 10px;
       }
 
-      .stat-label {
+      .traffic-env-selector label {
         font-size: 0.85rem;
         color: rgba(255, 255, 255, 0.65);
-        margin-bottom: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
       }
 
-      .stat-value {
-        font-size: 1.7rem;
-        font-weight: 700;
+      .traffic-env-selector select {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        padding: 8px 12px;
+        color: #fff;
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
+
+      .traffic-env-selector select option {
+        background: #121621;
+      }
+
+      .traffic-toggle {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.65);
+        font-size: 0.9rem;
+        user-select: none;
+      }
+
+      .traffic-toggle:hover {
+        color: #fff;
+      }
+
+      .traffic-arrow {
+        transition: transform 0.2s ease;
+        font-size: 0.75rem;
+      }
+
+      .traffic-arrow.open {
+        transform: rotate(180deg);
+      }
+
+      .traffic-main {
+        text-align: center;
+        padding: 10px 0 16px;
+      }
+
+      .traffic-big-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #22d3ee;
         line-height: 1.1;
+        text-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
+      }
+
+      .traffic-big-label {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.65);
+        margin-top: 6px;
+      }
+
+      .traffic-limit-bar {
+        width: 100%;
+        height: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        margin-top: 16px;
+        overflow: hidden;
+      }
+
+      .traffic-limit-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #22d3ee, #5b7cfa);
+        border-radius: 5px;
+        transition: width 0.5s ease;
+      }
+
+      .traffic-limit-fill.high {
+        background: linear-gradient(90deg, #f59e0b, #ef4444);
+      }
+
+      .traffic-limit-text {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.65);
+        margin-top: 8px;
+        text-align: center;
+      }
+
+      .traffic-details {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        margin-top: 16px;
+        padding-top: 16px;
+      }
+
+      .traffic-detail-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .traffic-detail-card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        padding: 14px;
+        text-align: center;
+      }
+
+      .traffic-detail-label {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.65);
+        margin-bottom: 6px;
+      }
+
+      .traffic-detail-value {
+        font-size: 1.3rem;
+        font-weight: 700;
         color: #fff;
       }
 
       @media (max-width: 600px) {
-        .stat-value {
-          font-size: 1.35rem;
+        .traffic-big-value {
+          font-size: 1.8rem;
         }
+        .traffic-detail-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .traffic-widget-compact {
+        padding: 14px 16px;
+        margin-top: 0;
+        margin-bottom: 24px;
+        border-radius: 16px;
+      }
+
+      .traffic-widget-compact .traffic-header {
+        margin-bottom: 10px;
+      }
+
+      .traffic-widget-compact .traffic-main {
+        padding: 6px 0 10px;
+      }
+
+      .traffic-widget-compact .traffic-big-value {
+        font-size: 1.8rem;
+      }
+
+      .traffic-widget-compact .traffic-big-label {
+        font-size: 12px;
+      }
+
+      .traffic-widget-compact .traffic-limit-bar {
+        max-width: 240px;
+        margin: 8px auto 6px;
+      }
+
+      .traffic-widget-compact .traffic-limit-text {
+        font-size: 12px;
+      }
+
+      .traffic-widget-compact .traffic-detail-grid {
+        gap: 8px;
+      }
+
+      .traffic-widget-compact .traffic-detail-card {
+        padding: 10px;
+        border-radius: 10px;
+      }
+
+      .traffic-widget-compact .traffic-detail-label {
+        font-size: 11px;
+      }
+
+      .traffic-widget-compact .traffic-detail-value {
+        font-size: 13px;
       }
 
       .setup-help-card {
@@ -1397,6 +1546,325 @@
           grid-template-columns: 1fr;
         }
       }
+
+      .urgency-banner {
+        background: rgba(245, 158, 11, 0.12);
+        border: 1px solid rgba(245, 158, 11, 0.35);
+        color: #fbbf24;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .urgency-banner.critical {
+        background: rgba(239, 68, 68, 0.12);
+        border-color: rgba(239, 68, 68, 0.35);
+        color: #f87171;
+      }
+
+      .quick-start-card {
+        background: linear-gradient(135deg, rgba(91, 124, 250, 0.12), rgba(34, 211, 238, 0.08));
+        border: 1px solid rgba(91, 124, 250, 0.25);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 28px;
+      }
+
+      .quick-start-card h4 {
+        margin: 0 0 14px;
+        font-size: 16px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .quick-start-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .quick-start-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 14px;
+        color: var(--text);
+        line-height: 1.5;
+      }
+
+      .quick-start-list .step-num {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: rgba(91, 124, 250, 0.2);
+        color: var(--accent-2);
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1px;
+      }
+
+      .quick-start-list .step-text {
+        color: var(--muted);
+      }
+
+      .quick-start-list .step-text b {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .section-subtitle {
+        font-size: 14px;
+        color: var(--muted);
+        margin-top: -10px;
+        margin-bottom: 18px;
+        line-height: 1.5;
+      }
+
+      .info-tooltip {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 13px;
+        color: var(--muted);
+        background: rgba(91, 124, 250, 0.08);
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(91, 124, 250, 0.2);
+        margin-top: 8px;
+        line-height: 1.5;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .info-tooltip b {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .subscription-link-card.primary-action {
+        border-color: rgba(91, 124, 250, 0.4);
+        background: linear-gradient(135deg, rgba(91, 124, 250, 0.08), rgba(34, 211, 238, 0.04));
+      }
+
+      .subscription-link-label .label-main {
+        font-size: 15px;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 4px;
+      }
+
+      .subscription-link-label .label-hint {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .action-btn.primary {
+        background: rgba(91, 124, 250, 0.2);
+        border: 1px solid rgba(91, 124, 250, 0.4);
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .action-btn.primary:hover {
+        background: rgba(91, 124, 250, 0.3);
+      }
+
+      .env-help {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 6px;
+        text-align: right;
+      }
+
+      .renew-section {
+        background: rgba(30, 41, 59, 0.3);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+      }
+
+      .renew-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .renew-title .title-hint {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 400;
+      }
+
+      .step-hint {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 8px;
+        line-height: 1.5;
+      }
+
+      .connection-result {
+        background: rgba(16, 185, 129, 0.08);
+        border: 1px solid rgba(16, 185, 129, 0.25);
+        border-radius: 12px;
+        padding: 16px;
+        margin-top: 12px;
+      }
+
+      .connection-result .result-label {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .connection-result .result-link {
+        font-family: monospace;
+        font-size: 13px;
+        word-break: break-all;
+        color: var(--accent-2);
+      }
+
+      @media (max-width: 640px) {
+        .quick-start-card {
+          padding: 16px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+          padding-bottom: 24px;
+        }
+
+        header > div:last-child {
+          align-items: flex-start !important;
+          width: 100%;
+        }
+
+        #env-switcher {
+          flex-direction: row;
+          flex-wrap: wrap;
+          width: 100%;
+        }
+
+        #env-switcher .env-badge {
+          font-size: 11px;
+          padding: 3px 8px;
+        }
+
+        .env-help {
+          text-align: left;
+          width: 100%;
+        }
+
+        .small-id {
+          word-break: break-all;
+          font-size: 11px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 12px;
+          margin: 16px auto;
+        }
+
+        .card {
+          padding: 16px;
+          border-radius: 14px;
+        }
+
+        .subscription-link-card {
+          padding: 16px;
+        }
+
+        .subscription-link-row {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .subscription-link {
+          width: 100%;
+          box-sizing: border-box;
+        }
+
+        .subscription-actions {
+          width: 100%;
+          flex-direction: column;
+        }
+
+        .action-btn {
+          width: 100%;
+          min-width: auto;
+          justify-content: center;
+        }
+
+        .traffic-widget-compact {
+          padding: 12px 14px;
+        }
+
+        .traffic-widget-compact .traffic-big-value {
+          font-size: 1.6rem;
+        }
+
+        .traffic-widget-compact .traffic-limit-bar {
+          max-width: 200px;
+        }
+
+        .quick-start-card h4 {
+          font-size: 15px;
+        }
+
+        .quick-start-list li {
+          font-size: 13px;
+        }
+
+        .hero-title {
+          font-size: 1.6rem;
+        }
+
+        .hero-stats {
+          grid-template-columns: 1fr;
+          gap: 12px;
+          padding: 16px;
+        }
+
+        .stat {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .stat b {
+          font-size: 1.4rem;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .hero-title {
+          font-size: 1.4rem;
+        }
+
+        .traffic-widget-compact .traffic-big-value {
+          font-size: 1.4rem;
+        }
+      }
     </style>
   </head>
 
@@ -1407,7 +1875,10 @@
           <a href="/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN</a>
           <div class="hero-watermark">Privacy is our Religion</div>
         </div>
-        <div id="env-switcher"></div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end;">
+          <div id="env-switcher"></div>
+          <div class="env-help">Группа серверов</div>
+        </div>
       </header>
 
       <div id="error-content" class="error-state">
@@ -1473,9 +1944,16 @@
       <div class="main-content" id="main-content">
         <section class="hero">
           <h3 class="hero-title">
-            Рилзопровод <br />
-            Подписка и Доступы
+            Ваш личный кабинет
           </h3>
+          <p class="section-subtitle">
+            Здесь вся информация о подписке, ссылка для подключения и способы продления.
+            Чтобы настроить VPN, скопируйте ссылку ниже и вставьте в приложение-клиент.
+          </p>
+          <div class="info-tooltip" style="margin-bottom: 20px;">
+            <span>⭐</span>
+            <span><b>Добавьте страницу в закладки.</b> Ваш номер подписки сохранён в браузере — в следующий раз зайдёте сразу, без ключа.</span>
+          </div>
           <div class="hero-content">
             <div class="title-group">
               <span id="env-badge" class="env-badge available">...</span>
@@ -1483,15 +1961,92 @@
           </div>
           <div class="small-id">ID: <span id="sub-id">...</span></div>
 
+          <div id="urgency-banner"></div>
+
           <div class="hero-stats">
             <div class="stat">Статус<span id="status-text">...</span></div>
             <div class="stat">Осталось дней <b id="days">...</b></div>
             <div class="stat">Истекает <span id="expires">...</span></div>
           </div>
 
-          <div class="subscription-link-card">
+          <div class="traffic-widget traffic-widget-compact">
+            <div class="traffic-header">
+              <div class="traffic-env-selector">
+                <label for="traffic-env-select">Окружение</label>
+                <select id="traffic-env-select">
+                  <option value="all">Все</option>
+                </select>
+              </div>
+              <div class="traffic-toggle" id="traffic-toggle">
+                <span>Детали</span>
+                <span class="traffic-arrow" id="traffic-arrow">▼</span>
+              </div>
+            </div>
+
+            <div class="traffic-main">
+              <div class="traffic-big-value" id="traffic-total">0 B</div>
+              <div class="traffic-big-label">Всего трафика</div>
+              <div class="traffic-limit-bar">
+                <div class="traffic-limit-fill" id="traffic-limit-fill"></div>
+              </div>
+              <div class="traffic-limit-text" id="traffic-limit-text">0%</div>
+            </div>
+
+            <div class="traffic-details" id="traffic-details" style="display: none;">
+              <div class="traffic-detail-grid">
+                <div class="traffic-detail-card">
+                  <div class="traffic-detail-label">Отправлено</div>
+                  <div class="traffic-detail-value" id="traffic-uplink">0 B</div>
+                </div>
+                <div class="traffic-detail-card">
+                  <div class="traffic-detail-label">Получено</div>
+                  <div class="traffic-detail-value" id="traffic-downlink">0 B</div>
+                </div>
+                <div class="traffic-detail-card">
+                  <div class="traffic-detail-label">Сегодня отправлено</div>
+                  <div class="traffic-detail-value" id="traffic-daily-uplink">0 B</div>
+                </div>
+                <div class="traffic-detail-card">
+                  <div class="traffic-detail-label">Сегодня получено</div>
+                  <div class="traffic-detail-value" id="traffic-daily-downlink">0 B</div>
+                </div>
+                <div class="traffic-detail-card">
+                  <div class="traffic-detail-label">За месяц отправлено</div>
+                  <div class="traffic-detail-value" id="traffic-monthly-uplink">0 B</div>
+                </div>
+                <div class="traffic-detail-card">
+                  <div class="traffic-detail-label">За месяц получено</div>
+                  <div class="traffic-detail-value" id="traffic-monthly-downlink">0 B</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="quick-start-card">
+            <h4>⚡ Быстрый старт: как подключиться</h4>
+            <ol class="quick-start-list">
+              <li>
+                <span class="step-num">1</span>
+                <span class="step-text"><b>Скопируйте ссылку</b> из блока ниже или отсканируйте QR-код.</span>
+              </li>
+              <li>
+                <span class="step-num">2</span>
+                <span class="step-text"><b>Установите приложение-клиент</b> для вашей ОС (Hiddify, V2RayNG, Streisand и др.).</span>
+              </li>
+              <li>
+                <span class="step-num">3</span>
+                <span class="step-text"><b>Вставьте ссылку</b> в приложение — оно само загрузит все настройки.</span>
+              </li>
+            </ol>
+            <div class="info-tooltip" style="margin-top: 14px;">
+              💡 Не знаете, какое приложение выбрать? Воспользуйтесь подбором ниже или перейдите на страницу настроек.
+            </div>
+          </div>
+
+          <div class="subscription-link-card primary-action">
             <div class="subscription-link-label">
-              Универсальная ссылка на подписку
+              <div class="label-main">🔗 Ссылка для подключения</div>
+              <div class="label-hint">Скопируйте её и вставьте в приложение-клиент. Одна ссылка работает на всех устройствах.</div>
             </div>
 
             <div class="subscription-link-row">
@@ -1500,32 +2055,15 @@
               </div>
 
               <div class="subscription-actions">
-                <button id="copy-sub-link" class="action-btn">
-                  Скопировать
+                <button id="copy-sub-link" class="action-btn primary">
+                  📋 Скопировать ссылку
                 </button>
 
-                <button id="show-qr-btn" class="action-btn">QR-Код</button>
+                <button id="show-qr-btn" class="action-btn">📱 QR-Код</button>
               </div>
             </div>
           </div>
         </section>
-
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-label">Получено</div>
-            <div class="stat-value" id="downlink-value">0 B</div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-label">Отправлено</div>
-            <div class="stat-value" id="uplink-value">0 B</div>
-          </div>
-
-          <div class="stat-card">
-            <div class="stat-label">Всего</div>
-            <div class="stat-value" id="total-traffic">0 B</div>
-          </div>
-        </div>
 
         <hr />
 
@@ -1533,58 +2071,65 @@
           <a class="small-add" id="scrollToAdd">⚡ Докинуть дней</a>
         </div>
 
-        <h3>Ссылки для подключения</h3>
+        <h3>📲 Подбор приложения для вашего устройства</h3>
+        <p class="section-subtitle">
+          Ответьте на 3 вопроса, и мы подскажем, какое приложение скачать и какую ссылку использовать.
+        </p>
 
         <div class="steps-flow">
           <div class="step-card" id="os-step">
-            <h4>Шаг 1. Выберите вашу ОС</h4>
+            <h4>1. На каком устройстве будете использовать VPN?</h4>
             <div id="os-options" class="pill-group"></div>
+            <div class="step-hint">Выберите операционную систему: Windows, macOS, Android, iOS и т.д.</div>
           </div>
 
           <div class="step-card step-disabled" id="protocol-step">
-            <h4>Шаг 2. Выберите протокол</h4>
+            <h4>2. Какой протокол выбрать?</h4>
             <p class="small" style="margin: 0 0 14px">
-              Не уверены? Выберите <b style="color: var(--text)">Xray</b> — он
-              подходит в большинстве случаев.
+              <b style="color: var(--text)">Рекомендуем Xray</b> — он работает стабильнее всего и обходит блокировки в большинстве случаев.
             </p>
             <div id="protocol-options" class="protocol-grid"></div>
+            <div class="step-hint">Если не уверены — оставьте Xray. Другие протоколы нужны для особых ситуаций.</div>
           </div>
 
           <div class="step-card step-disabled" id="client-step">
-            <h4>Шаг 3. Выберите клиент</h4>
+            <h4>3. Какое приложение установить?</h4>
             <div id="client-options" class="pill-group"></div>
+            <div class="step-hint">Выберите приложение-клиент, которое поддерживает ваше устройство.</div>
           </div>
 
           <div class="step-card step-disabled" id="connection-step">
-            <h4>Шаг 4. Подключение</h4>
+            <h4>Готово — ссылка для выбранной конфигурации</h4>
             <div id="connection-content" class="small">
-              Выберите ОС, протокол и клиент, чтобы получить ссылку подключения.
+              Выберите устройство, протокол и приложение, чтобы получить точную ссылку подключения.
             </div>
           </div>
         </div>
 
         <div class="setup-help-card">
-          <div class="setup-help-icon">📋</div>
+          <div class="setup-help-icon">🌐</div>
           <div class="setup-help-content">
-            <h4>Нужна пошаговая инструкция?</h4>
+            <h4>Нужно настроить на роутере?</h4>
             <p>
-              На странице настроек выбери свою ОС, клиент и протокол — мы
-              подскажем, как всё настроить за пару минут.
+              У нас есть готовые инструкции для разных моделей роутеров — настроите VPN на всю сеть разом.
             </p>
-            <a href="/setup/" class="setup-help-link">Перейти к настройкам →</a>
+            <a href="/setup/routers/" class="setup-help-link">Инструкция для роутеров →</a>
           </div>
         </div>
 
         <hr />
         <div class="renew-section" id="renew">
-          <h2 class="renew-title">Докинуть дней</h2>
+          <h2 class="renew-title">
+            ⏳ Продлить подписку
+            <span class="title-hint">Ключ активации или оплата картой / СБП / криптой</span>
+          </h2>
 
           <div class="renew-options">
             <div class="renew-option-card">
               <div class="renew-option-icon">🔑</div>
-              <h4>По ключу активации</h4>
-              <p>Уже есть ключ? Введи его и активируй.</p>
-              <input id="keyInput" placeholder="Введите ключ" />
+              <h4>Уже есть ключ активации?</h4>
+              <p>Введите ключ, который вы получили после покупки или от друга.</p>
+              <input id="keyInput" placeholder="Вставьте ключ сюда" />
               <button onclick="activateKey()" class="renew-action-btn">
                 Активировать ключ
               </button>
@@ -1599,10 +2144,10 @@
 
             <div class="renew-option-card">
               <div class="renew-option-icon">💳</div>
-              <h4>Оплатить</h4>
-              <p>Карта, СБП или криптовалюта</p>
+              <h4>Оплатить продление</h4>
+              <p>Выберите срок — дни добавятся к текущей подписке.</p>
               <div class="renew-field">
-                <label for="renewDuration">На сколько дней</label>
+                <label for="renewDuration">На сколько дней продлить</label>
                 <select id="renewDuration">
                   <option value="3" data-price="100">3 дня — 100 ₽</option>
                   <option value="7" data-price="200">7 дней — 200 ₽</option>
@@ -1690,6 +2235,12 @@
 <script>
   const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
   const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  function scrollToElement(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: isAndroid ? "auto" : "smooth", block: "start" });
+  }
   const API_BASE = isLocal
     ? "http://localhost:3000"
     : "https://heheapi.frkn.org";
@@ -1889,21 +2440,140 @@
     }
   }
 
+  let trafficDataCache = null;
+
+  function getTrafficEnvNames() {
+    return {
+      all: "Все",
+      dev: "Основное",
+      experimental: "Экспериментальное",
+      ru: "Россия",
+      wl: "Белые слоны",
+      production: "Продакшен",
+    };
+  }
+
+  function updateTrafficDisplay(selectedEnv) {
+    if (!trafficDataCache) return;
+
+    const data = trafficDataCache;
+    let uplink = 0;
+    let downlink = 0;
+    let dailyUplink = 0;
+    let dailyDownlink = 0;
+    let monthlyUplink = 0;
+    let monthlyDownlink = 0;
+
+    if (selectedEnv === "all") {
+      if (Array.isArray(data.env_traffic) && data.env_traffic.length > 0) {
+        data.env_traffic.forEach((env) => {
+          uplink += env.uplink || 0;
+          downlink += env.downlink || 0;
+          dailyUplink += env.daily_uplink || 0;
+          dailyDownlink += env.daily_downlink || 0;
+          monthlyUplink += env.monthly_uplink || 0;
+          monthlyDownlink += env.monthly_downlink || 0;
+        });
+      } else {
+        uplink = data.uplink || 0;
+        downlink = data.downlink || 0;
+        dailyUplink = data.daily_uplink || 0;
+        dailyDownlink = data.daily_downlink || 0;
+        monthlyUplink = data.monthly_uplink || 0;
+        monthlyDownlink = data.monthly_downlink || 0;
+      }
+    } else if (Array.isArray(data.env_traffic)) {
+      const env = data.env_traffic.find((e) => e.env === selectedEnv);
+      if (env) {
+        uplink = env.uplink || 0;
+        downlink = env.downlink || 0;
+        dailyUplink = env.daily_uplink || 0;
+        dailyDownlink = env.daily_downlink || 0;
+        monthlyUplink = env.monthly_uplink || 0;
+        monthlyDownlink = env.monthly_downlink || 0;
+      }
+    }
+
+    const total = uplink + downlink;
+
+    document.getElementById("traffic-total").innerText = formatBytes(total);
+    document.getElementById("traffic-uplink").innerText = formatBytes(uplink);
+    document.getElementById("traffic-downlink").innerText = formatBytes(downlink);
+    document.getElementById("traffic-daily-uplink").innerText = formatBytes(dailyUplink);
+    document.getElementById("traffic-daily-downlink").innerText = formatBytes(dailyDownlink);
+    document.getElementById("traffic-monthly-uplink").innerText = formatBytes(monthlyUplink);
+    document.getElementById("traffic-monthly-downlink").innerText = formatBytes(monthlyDownlink);
+
+    const limitBytes = data.limit_bytes || 0;
+    const trafficLimitFill = document.getElementById("traffic-limit-fill");
+    const trafficLimitText = document.getElementById("traffic-limit-text");
+    if (limitBytes > 0) {
+      const percent = Math.min(100, Math.round((total / limitBytes) * 100));
+      trafficLimitFill.style.width = percent + "%";
+      trafficLimitText.innerText = `${percent}% от лимита`;
+      trafficLimitFill.classList.toggle("high", percent >= 80);
+    } else {
+      trafficLimitFill.style.width = "0%";
+      trafficLimitText.innerText = "Без лимита";
+      trafficLimitFill.classList.remove("high");
+    }
+  }
+
+  function renderTrafficWidget(data, currentEnv) {
+    trafficDataCache = data;
+    console.log("[traffic] env_traffic:", data.env_traffic);
+    console.log("[traffic] locations:", data.locations);
+
+    const envNames = getTrafficEnvNames();
+    const select = document.getElementById("traffic-env-select");
+    select.innerHTML = `<option value="all">${envNames.all}</option>`;
+
+    let envs = [];
+    if (Array.isArray(data.env_traffic) && data.env_traffic.length > 0) {
+      envs = data.env_traffic;
+    } else if (Array.isArray(data.locations) && data.locations.length > 0) {
+      // Fallback: если env_traffic пуст, берём окружения из locations
+      envs = data.locations.map((l) => ({ env: l.env }));
+    }
+
+    envs.forEach((env) => {
+      const option = document.createElement("option");
+      option.value = env.env;
+      option.innerText = envNames[env.env] || env.env;
+      select.appendChild(option);
+    });
+
+    const selectedEnv =
+      currentEnv && envs.some((e) => e.env === currentEnv)
+        ? currentEnv
+        : "all";
+    select.value = selectedEnv;
+
+    select.onchange = () => {
+      updateTrafficDisplay(select.value);
+    };
+
+    const toggle = document.getElementById("traffic-toggle");
+    const details = document.getElementById("traffic-details");
+    const arrow = document.getElementById("traffic-arrow");
+    let isOpen = false;
+
+    toggle.onclick = () => {
+      isOpen = !isOpen;
+      details.style.display = isOpen ? "block" : "none";
+      arrow.classList.toggle("open", isOpen);
+    };
+
+    updateTrafficDisplay(selectedEnv);
+  }
+
   function renderSubscriptionData(data, subId, currentEnv) {
     const statusEl = document.getElementById("status-text");
     const badge = document.getElementById("env-badge");
     const daysEl = document.getElementById("days");
     const expiryDate = new Date(data.expires);
 
-    const uplink = data.uplink || 0;
-    const downlink = data.downlink || 0;
-    const total = uplink + downlink;
-
-    document.getElementById("uplink-value").innerText = formatBytes(uplink);
-
-    document.getElementById("downlink-value").innerText = formatBytes(downlink);
-
-    document.getElementById("total-traffic").innerText = formatBytes(total);
+    renderTrafficWidget(data, currentEnv);
 
     const subUrl = `https://sub.frkn.org/${data.id}`;
 
@@ -1928,11 +2598,39 @@
       document.getElementById("qr-modal").classList.add("hidden");
     };
 
+    function renderUrgencyBanner(diffMs, diffDays) {
+      const banner = document.getElementById("urgency-banner");
+      if (!banner) return;
+
+      if (diffMs <= 0) {
+        banner.className = "urgency-banner critical";
+        banner.innerHTML = "🚨 Подписка истекла. Чтобы восстановить доступ, <a href='#renew' style='color:#fbbf24; text-decoration: underline;'>продлите подписку</a>.";
+        return;
+      }
+
+      if (diffDays < 1) {
+        banner.className = "urgency-banner critical";
+        banner.innerHTML = "⏰ Подписка закончится менее чем через сутки. <a href='#renew' style='color:#fbbf24; text-decoration: underline;'>Продлите сейчас</a>, чтобы не потерять доступ.";
+        return;
+      }
+
+      if (diffDays < 4) {
+        banner.className = "urgency-banner";
+        banner.innerHTML = `⚠️ Подписка закончится через ${Math.floor(diffDays)} дня. <a href='#renew' style='color:#fbbf24; text-decoration: underline;'>Продлите заранее</a>.`;
+        return;
+      }
+
+      banner.innerHTML = "";
+      banner.className = "";
+    }
+
     function updateDisplay() {
       const now = new Date();
       const diffMs = expiryDate - now;
       const diffSec = Math.floor(diffMs / 1000);
       const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+      renderUrgencyBanner(diffMs, diffDays);
 
       if (diffMs <= 0) {
         statusEl.innerText = "Истекла";
@@ -2075,9 +2773,7 @@
         renderProtocolStep();
         renderClientStep();
         renderConnectionStep();
-        document
-          .getElementById("protocol-step")
-          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        scrollToElement("protocol-step");
       };
       osOptions.appendChild(btn);
     });
@@ -2178,9 +2874,7 @@
         selectedClientId = client.id;
         renderClientStep();
         renderConnectionStep();
-        document
-          .getElementById("connection-step")
-          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        scrollToElement("connection-step");
       };
       options.appendChild(btn);
     });
@@ -2351,9 +3045,7 @@
         renderClientStep();
         renderConnectionStep();
 
-        document
-          .getElementById("client-step")
-          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        scrollToElement("client-step");
       };
 
       options.appendChild(card);
@@ -2720,7 +3412,7 @@
     const renewSection = document.getElementById("renew");
     if (scrollBtn && renewSection) {
       scrollBtn.addEventListener("click", () => {
-        renewSection.scrollIntoView({ behavior: "smooth" });
+        scrollToElement("renew");
       });
     }
 

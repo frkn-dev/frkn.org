@@ -271,6 +271,12 @@
         const canvas = document.getElementById("fractal-canvas");
         if (!canvas) return;
 
+        if (/Android/i.test(navigator.userAgent)) {
+          canvas.style.display = "none";
+          if (canvas.parentElement) canvas.parentElement.style.display = "none";
+          return;
+        }
+
         const gl = canvas.getContext("webgl", { alpha: false });
         if (!gl) {
           canvas.style.display = "none";

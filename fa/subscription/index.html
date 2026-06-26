@@ -1047,68 +1047,155 @@
         filter: brightness(1.6) contrast(0.6);
       }
 
-      .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 16px;
-        margin-top: 24px;
-      }
-      .stat-card {
-        position: relative;
-        overflow: hidden;
-
+      .traffic-widget {
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.08);
-
-        border-radius: 18px;
-        padding: 18px;
-
+        border-radius: 20px;
+        padding: 20px;
+        margin-top: 24px;
         backdrop-filter: blur(10px);
-
-        transition:
-          transform 0.2s ease,
-          border-color 0.2s ease,
-          background 0.2s ease;
       }
 
-      .stat-card:hover {
-        transform: translateY(-2px);
-        border-color: rgba(16, 185, 129, 0.4);
-        background: rgba(255, 255, 255, 0.06);
+      .traffic-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
       }
 
-      .stat-card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-
-        background: radial-gradient(
-          circle at top right,
-          rgba(16, 185, 129, 0.12),
-          transparent 60%
-        );
-
-        pointer-events: none;
+      .traffic-env-selector {
+        display: flex;
+        align-items: center;
+        gap: 10px;
       }
 
-      .stat-label {
+      .traffic-env-selector label {
         font-size: 0.85rem;
         color: rgba(255, 255, 255, 0.65);
-        margin-bottom: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
       }
 
-      .stat-value {
-        font-size: 1.7rem;
-        font-weight: 700;
+      .traffic-env-selector select {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        padding: 8px 12px;
+        color: #fff;
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
+
+      .traffic-env-selector select option {
+        background: #121621;
+      }
+
+      .traffic-toggle {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.65);
+        font-size: 0.9rem;
+        user-select: none;
+      }
+
+      .traffic-toggle:hover {
+        color: #fff;
+      }
+
+      .traffic-arrow {
+        transition: transform 0.2s ease;
+        font-size: 0.75rem;
+      }
+
+      .traffic-arrow.open {
+        transform: rotate(180deg);
+      }
+
+      .traffic-main {
+        text-align: center;
+        padding: 10px 0 16px;
+      }
+
+      .traffic-big-value {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: #22d3ee;
         line-height: 1.1;
+        text-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
+      }
+
+      .traffic-big-label {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.65);
+        margin-top: 6px;
+      }
+
+      .traffic-limit-bar {
+        width: 100%;
+        height: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        margin-top: 16px;
+        overflow: hidden;
+      }
+
+      .traffic-limit-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #22d3ee, #5b7cfa);
+        border-radius: 5px;
+        transition: width 0.5s ease;
+      }
+
+      .traffic-limit-fill.high {
+        background: linear-gradient(90deg, #f59e0b, #ef4444);
+      }
+
+      .traffic-limit-text {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.65);
+        margin-top: 8px;
+        text-align: center;
+      }
+
+      .traffic-details {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        margin-top: 16px;
+        padding-top: 16px;
+      }
+
+      .traffic-detail-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .traffic-detail-card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        padding: 14px;
+        text-align: center;
+      }
+
+      .traffic-detail-label {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.65);
+        margin-bottom: 6px;
+      }
+
+      .traffic-detail-value {
+        font-size: 1.3rem;
+        font-weight: 700;
         color: #fff;
       }
 
       @media (max-width: 600px) {
-        .stat-value {
-          font-size: 1.35rem;
+        .traffic-big-value {
+          font-size: 2.2rem;
+        }
+        .traffic-detail-grid {
+          grid-template-columns: 1fr;
         }
       }
 
@@ -1469,18 +1556,56 @@
 </div>
 </div>
 </section>
-<div class="stats-grid">
-<div class="stat-card">
-<div class="stat-label">دریافت کرد</div>
-<div class="stat-value" id="downlink-value">0 B</div>
+<div class="traffic-widget">
+<div class="traffic-header">
+<div class="traffic-env-selector">
+<label for="traffic-env-select">محیط</label>
+<select id="traffic-env-select">
+<option value="all">همه</option>
+</select>
 </div>
-<div class="stat-card">
-<div class="stat-label">ارسال شد</div>
-<div class="stat-value" id="uplink-value">0 B</div>
+<div class="traffic-toggle" id="traffic-toggle">
+<span>جزئیات</span>
+<span class="traffic-arrow" id="traffic-arrow">▼</span>
 </div>
-<div class="stat-card">
-<div class="stat-label">مجموع</div>
-<div class="stat-value" id="total-traffic">0 B</div>
+</div>
+
+<div class="traffic-main">
+<div class="traffic-big-value" id="traffic-total">0 B</div>
+<div class="traffic-big-label">مجموع ترافیک</div>
+<div class="traffic-limit-bar">
+<div class="traffic-limit-fill" id="traffic-limit-fill"></div>
+</div>
+<div class="traffic-limit-text" id="traffic-limit-text">0%</div>
+</div>
+
+<div class="traffic-details" id="traffic-details" style="display: none;">
+<div class="traffic-detail-grid">
+<div class="traffic-detail-card">
+<div class="traffic-detail-label">ارسال شد</div>
+<div class="traffic-detail-value" id="traffic-uplink">0 B</div>
+</div>
+<div class="traffic-detail-card">
+<div class="traffic-detail-label">دریافت شد</div>
+<div class="traffic-detail-value" id="traffic-downlink">0 B</div>
+</div>
+<div class="traffic-detail-card">
+<div class="traffic-detail-label">ارسال شده امروز</div>
+<div class="traffic-detail-value" id="traffic-daily-uplink">0 B</div>
+</div>
+<div class="traffic-detail-card">
+<div class="traffic-detail-label">دریافت شده امروز</div>
+<div class="traffic-detail-value" id="traffic-daily-downlink">0 B</div>
+</div>
+<div class="traffic-detail-card">
+<div class="traffic-detail-label">ارسال شده این ماه</div>
+<div class="traffic-detail-value" id="traffic-monthly-uplink">0 B</div>
+</div>
+<div class="traffic-detail-card">
+<div class="traffic-detail-label">دریافت شده این ماه</div>
+<div class="traffic-detail-value" id="traffic-monthly-downlink">0 B</div>
+</div>
+</div>
 </div>
 </div>
 <hr/>
@@ -1829,21 +1954,139 @@
     }
   }
 
+  let trafficDataCache = null;
+
+  function getTrafficEnvNames() {
+    return {
+      all: "همه",
+      dev: "اصلی",
+      experimental: "آزمایشی",
+      ru: "روسیه",
+      wl: "فیل‌های سفید",
+      production: "تولیدی",
+    };
+  }
+
+  function updateTrafficDisplay(selectedEnv) {
+    if (!trafficDataCache) return;
+
+    const data = trafficDataCache;
+    let uplink = 0;
+    let downlink = 0;
+    let dailyUplink = 0;
+    let dailyDownlink = 0;
+    let monthlyUplink = 0;
+    let monthlyDownlink = 0;
+
+    if (selectedEnv === "all") {
+      if (Array.isArray(data.env_traffic) && data.env_traffic.length > 0) {
+        data.env_traffic.forEach((env) => {
+          uplink += env.uplink || 0;
+          downlink += env.downlink || 0;
+          dailyUplink += env.daily_uplink || 0;
+          dailyDownlink += env.daily_downlink || 0;
+          monthlyUplink += env.monthly_uplink || 0;
+          monthlyDownlink += env.monthly_downlink || 0;
+        });
+      } else {
+        uplink = data.uplink || 0;
+        downlink = data.downlink || 0;
+        dailyUplink = data.daily_uplink || 0;
+        dailyDownlink = data.daily_downlink || 0;
+        monthlyUplink = data.monthly_uplink || 0;
+        monthlyDownlink = data.monthly_downlink || 0;
+      }
+    } else if (Array.isArray(data.env_traffic)) {
+      const env = data.env_traffic.find((e) => e.env === selectedEnv);
+      if (env) {
+        uplink = env.uplink || 0;
+        downlink = env.downlink || 0;
+        dailyUplink = env.daily_uplink || 0;
+        dailyDownlink = env.daily_downlink || 0;
+        monthlyUplink = env.monthly_uplink || 0;
+        monthlyDownlink = env.monthly_downlink || 0;
+      }
+    }
+
+    const total = uplink + downlink;
+
+    document.getElementById("traffic-total").innerText = formatBytes(total);
+    document.getElementById("traffic-uplink").innerText = formatBytes(uplink);
+    document.getElementById("traffic-downlink").innerText = formatBytes(downlink);
+    document.getElementById("traffic-daily-uplink").innerText = formatBytes(dailyUplink);
+    document.getElementById("traffic-daily-downlink").innerText = formatBytes(dailyDownlink);
+    document.getElementById("traffic-monthly-uplink").innerText = formatBytes(monthlyUplink);
+    document.getElementById("traffic-monthly-downlink").innerText = formatBytes(monthlyDownlink);
+
+    const limitBytes = data.limit_bytes || 0;
+    const trafficLimitFill = document.getElementById("traffic-limit-fill");
+    const trafficLimitText = document.getElementById("traffic-limit-text");
+    if (limitBytes > 0) {
+      const percent = Math.min(100, Math.round((total / limitBytes) * 100));
+      trafficLimitFill.style.width = percent + "%";
+      trafficLimitText.innerText = `${percent}% از محدوده`;
+      trafficLimitFill.classList.toggle("high", percent >= 80);
+    } else {
+      trafficLimitFill.style.width = "0%";
+      trafficLimitText.innerText = "بدون محدودیت";
+      trafficLimitFill.classList.remove("high");
+    }
+  }
+
+  function renderTrafficWidget(data, currentEnv) {
+    trafficDataCache = data;
+    console.log("[traffic] env_traffic:", data.env_traffic);
+    console.log("[traffic] locations:", data.locations);
+
+    const envNames = getTrafficEnvNames();
+    const select = document.getElementById("traffic-env-select");
+    select.innerHTML = `<option value="all">${envNames.all}</option>`;
+
+    let envs = [];
+    if (Array.isArray(data.env_traffic) && data.env_traffic.length > 0) {
+      envs = data.env_traffic;
+    } else if (Array.isArray(data.locations) && data.locations.length > 0) {
+      envs = data.locations.map((l) => ({ env: l.env }));
+    }
+
+    envs.forEach((env) => {
+      const option = document.createElement("option");
+      option.value = env.env;
+      option.innerText = envNames[env.env] || env.env;
+      select.appendChild(option);
+    });
+
+    const selectedEnv =
+      currentEnv && envs.some((e) => e.env === currentEnv)
+        ? currentEnv
+        : "all";
+    select.value = selectedEnv;
+
+    select.onchange = () => {
+      updateTrafficDisplay(select.value);
+    };
+
+    const toggle = document.getElementById("traffic-toggle");
+    const details = document.getElementById("traffic-details");
+    const arrow = document.getElementById("traffic-arrow");
+    let isOpen = false;
+
+    toggle.onclick = () => {
+      isOpen = !isOpen;
+      details.style.display = isOpen ? "block" : "none";
+      arrow.classList.toggle("open", isOpen);
+    };
+
+    updateTrafficDisplay(selectedEnv);
+  }
+
   function renderSubscriptionData(data, subId, currentEnv) {
     const statusEl = document.getElementById("status-text");
     const badge = document.getElementById("env-badge");
     const daysEl = document.getElementById("days");
     const expiryDate = new Date(data.expires);
 
-    const uplink = data.uplink || 0;
-    const downlink = data.downlink || 0;
-    const total = uplink + downlink;
-
-    document.getElementById("uplink-value").innerText = formatBytes(uplink);
-
-    document.getElementById("downlink-value").innerText = formatBytes(downlink);
-
-    document.getElementById("total-traffic").innerText = formatBytes(total);
+    renderTrafficWidget(data, currentEnv);
 
     const subUrl = `https://sub.frkn.org/${data.id}`;
 
