@@ -1667,8 +1667,8 @@
           <div class="step-card step-disabled" id="protocol-step">
             <h4>Step 2. Choose protocol</h4>
             <p class="small" style="margin: 0 0 14px">
-              Not sure? Choose <b style="color: var(--text)">Xray</b> — it
-              works in most cases.
+              Not sure? Choose <b style="color: var(--text)">AmneziaWG or Hysteria2</b> — they
+              work in most cases.
             </p>
             <div id="protocol-options" class="protocol-grid"></div>
           </div>
@@ -1833,6 +1833,20 @@
   const KNOWN_SUB_FORMATS = ["txt", "base64", "b64", "clash"];
   const AVAILABLE_PROTOCOLS = [
     {
+      id: "awg",
+      label: "AmneziaWG",
+      icon: "/Images/wireguard.svg",
+      description: "WireGuard modification with anti-blocking protection",
+      recommended: true,
+    },
+    {
+      id: "hysteria2",
+      label: "Hysteria2",
+      icon: "💨",
+      description: "Ultra-fast UDP protocol for video and games",
+      recommended: true,
+    },
+    {
       id: "all",
       label: "All proxies",
       icon: "🌐",
@@ -1843,13 +1857,6 @@
       label: "Xray",
       icon: "/Images/xray.svg",
       description: "Includes VLESS TCP Reality, VLESS gRPC Reality, and VLESS XHTTP Reality. Universal choice",
-      recommended: true,
-    },
-    {
-      id: "awg",
-      label: "AmneziaWG",
-      icon: "/Images/wireguard.svg",
-      description: "WireGuard modification with anti-blocking protection",
     },
     {
       id: "vless-tcp-reality",
@@ -1868,12 +1875,6 @@
       label: "Vless XHTTP Reality",
       icon: "⚡",
       description: "Stealth and resistance to blocking",
-    },
-    {
-      id: "hysteria2",
-      label: "Hysteria2",
-      icon: "💨",
-      description: "Ultra-fast UDP protocol for video and games",
     },
     {
       id: "mtproto",
@@ -2485,8 +2486,19 @@
       return;
     }
 
-    if (!currentConnectionContext.hasXray) {
+    const xrayProtocols = [
+      "xray",
+      "vless-tcp-reality",
+      "vless-grpc-reality",
+      "vless-xhttp-reality",
+    ];
+    if (xrayProtocols.includes(selectedProtocol) && !currentConnectionContext.hasXray) {
       content.innerHTML = `<div class="small">Xray is unavailable in this region.</div>`;
+      return;
+    }
+
+    if (selectedProtocol === "hysteria2" && !currentConnectionContext.has_h2) {
+      content.innerHTML = `<div class="small">Hysteria2 is unavailable in this region.</div>`;
       return;
     }
 
