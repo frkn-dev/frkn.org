@@ -2086,10 +2086,10 @@
           <div class="step-card step-disabled" id="protocol-step">
             <h4>2. Какой протокол выбрать?</h4>
             <p class="small" style="margin: 0 0 14px">
-              <b style="color: var(--text)">Рекомендуем Xray</b> — он работает стабильнее всего и обходит блокировки в большинстве случаев.
+              <b style="color: var(--text)">Рекомендуем AmneziaWG и Hysteria2</b> — они работают стабильнее всего и обходят блокировки в большинстве случаев.
             </p>
             <div id="protocol-options" class="protocol-grid"></div>
-            <div class="step-hint">Если не уверены — оставьте Xray. Другие протоколы нужны для особых ситуаций.</div>
+            <div class="step-hint">Если не уверены — выберите AmneziaWG или Hysteria2. Другие протоколы нужны для особых ситуаций.</div>
           </div>
 
           <div class="step-card step-disabled" id="client-step">
@@ -2264,6 +2264,20 @@
   const KNOWN_SUB_FORMATS = ["txt", "base64", "b64", "clash"];
   const AVAILABLE_PROTOCOLS = [
     {
+      id: "awg",
+      label: "AmneziaWG",
+      icon: "/Images/wireguard.svg",
+      description: "Модификация WireGuard с защитой от блокировок",
+      recommended: true,
+    },
+    {
+      id: "hysteria2",
+      label: "Hysteria2",
+      icon: "💨",
+      description: "Сверхбыстрый UDP-протокол для видео и игр",
+      recommended: true,
+    },
+    {
       id: "all",
       label: "Все прокси",
       icon: "🌐",
@@ -2274,13 +2288,6 @@
       label: "Xray",
       icon: "/Images/xray.svg",
       description: "Включает Vless TCP Reality, Vless gRPC Reality и Vless XHTTP Reality. Универсальный выбор",
-      recommended: true,
-    },
-    {
-      id: "awg",
-      label: "AmneziaWG",
-      icon: "/Images/wireguard.svg",
-      description: "Модификация WireGuard с защитой от блокировок",
     },
     {
       id: "vless-tcp-reality",
@@ -2299,12 +2306,6 @@
       label: "Vless XHTTP Reality",
       icon: "⚡",
       description: "Скрытность и устойчивость к блокировкам",
-    },
-    {
-      id: "hysteria2",
-      label: "Hysteria2",
-      icon: "💨",
-      description: "Сверхбыстрый UDP-протокол для видео и игр",
     },
     {
       id: "mtproto",
@@ -2941,8 +2942,19 @@
       return;
     }
 
-    if (!currentConnectionContext.hasXray) {
+    const xrayProtocols = [
+      "xray",
+      "vless-tcp-reality",
+      "vless-grpc-reality",
+      "vless-xhttp-reality",
+    ];
+    if (xrayProtocols.includes(selectedProtocol) && !currentConnectionContext.hasXray) {
       content.innerHTML = `<div class="small">Xray недоступен в этом регионе.</div>`;
+      return;
+    }
+
+    if (selectedProtocol === "hysteria2" && !currentConnectionContext.has_h2) {
+      content.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе.</div>`;
       return;
     }
 
