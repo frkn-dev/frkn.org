@@ -276,11 +276,28 @@
         return fetch(`https://api.frkn.org${url}`, fullOptions);
       }
 
+      const MAX_POLL_ATTEMPTS = 150;
+      let pollAttempts = 0;
+
+      function showTimeoutMessage() {
+        const statusEl = document.getElementById("status");
+        const lastTxId = txid || localStorage.getItem("frkn_last_transaction_id");
+        statusEl.innerHTML =
+          "Платёж не был завершён в течение 5 минут. <br>" +
+          "Если деньги списались — пришли в поддержку ID транзакции и чек." +
+          (lastTxId ? ` <br><br>ID транзакции: <b>${lastTxId}</b>` : "");
+      }
+
       async function poll() {
         if (!txid) {
           document.getElementById("status").innerText = "Транзакция не найдена.";
           return;
         }
+        if (pollAttempts >= MAX_POLL_ATTEMPTS) {
+          showTimeoutMessage();
+          return;
+        }
+        pollAttempts++;
         try {
           const res = await apiFetch(`/payment/check/${txid}`);
           console.log("[transaction] check status:", res.status, res.statusText);
@@ -333,10 +350,13 @@
             }
           } else if (data.status === "pending") {
             setTimeout(poll, 2000);
+          } else if (data.status === "not_found") {
+            document.getElementById("status").innerText =
+              "Транзакция не найдена. Проверьте ID транзакции в адресной строке.";
           } else {
             console.warn("[transaction] unexpected status:", data.status, data);
             document.getElementById("status").innerText =
-              "Транзакция не найдена. Статус: " + (data.status || "unknown");
+              "Неизвестный статус транзакции: " + (data.status || "unknown");
           }
         } catch (e) {
           console.error("[transaction] poll error:", e);

@@ -1809,6 +1809,7 @@
 </html>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script src="/scripts/utils.js?v=1"></script>
 
 <script>
   const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
@@ -2928,7 +2929,10 @@
     try {
       const res = await fetch(`${API_BASE}/key/activate`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "X-Trace-Id": generateTraceId(),
+        },
         body: JSON.stringify({ code: key, subscription_id: subId }),
       });
 
@@ -3107,12 +3111,14 @@
             `${PAYMENT_API_BASE}/payment/platega/subscription/create`,
             {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: {
+                "Content-Type": "application/json",
+                "X-Trace-Id": generateTraceId(),
+              },
               body: JSON.stringify({
                 subscription_id: subId,
                 duration: selectedRenewDuration,
                 promocode: appliedRenewPromo,
-                provider: "Platega",
               }),
             },
           );
@@ -3123,7 +3129,10 @@
             throw new Error(data.error || "Failed to create payment");
           }
           const data = await res.json();
-          if (data.url) {
+          if (data.transactionId) {
+            localStorage.setItem("frkn_last_transaction_id", data.transactionId);
+          }
+          if (data.status === "PENDING" && data.url) {
             localStorage.setItem("frkn_last_subscription_id", subId);
             window.location.href = data.url;
           } else {

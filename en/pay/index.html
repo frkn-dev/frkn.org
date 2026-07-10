@@ -707,6 +707,7 @@
       </div>
     </div>
 
+    <script src="/scripts/utils.js?v=1"></script>
     <script>
       // --- Конфигурация ---
       const isLocal =
@@ -1024,11 +1025,13 @@
               `/payment/platega/key/create`,
               {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                  "Content-Type": "application/json",
+                  "X-Trace-Id": generateTraceId(),
+                },
                 body: JSON.stringify({
                   duration: currentOrder.duration,
                   promocode: currentOrder.promo || null,
-                  provider: "Platega",
                 }),
               },
             );
@@ -1039,8 +1042,14 @@
               throw new Error(errorData.error || "Failed to create payment");
             }
             const data = await res.json();
-            if (data.url) window.location.href = data.url;
-            else throw new Error("API did not return a payment link");
+            if (data.transactionId) {
+              localStorage.setItem("frkn_last_transaction_id", data.transactionId);
+            }
+            if (data.status === "PENDING" && data.url) {
+              window.location.href = data.url;
+            } else {
+              throw new Error("API did not return a payment link");
+            }
           } catch (e) {
             showError(e.message);
             payBtn.disabled = false;
