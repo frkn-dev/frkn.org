@@ -60,12 +60,17 @@
       }
       .hero-title {
         text-align: center;
-        font-size: 48px;
+        font-size: clamp(24px, 8vw, 42px);
         font-weight: 800;
         margin-bottom: 16px;
         letter-spacing: -1px;
-        background: var(--accent-color);
-        background-clip: text;
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: #fff;
+        color: #fff;
+        text-shadow:
+          0 0 8px rgba(91, 124, 250, 0.35),
+          0 0 18px rgba(34, 211, 238, 0.15);
       }
       .subtitle {
         text-align: center;
@@ -193,25 +198,25 @@
         display: inline-block;
       }
       .price-per-day {
-        font-size: 13px;
-        color: var(--accent-color);
-        margin-top: 8px;
+        display: none;
       }
       .buy-button {
         width: 100%;
         padding: 14px;
-        background: var(--border-color);
-        color: var(--text-main);
+        background: var(--accent);
+        color: #ffffff;
         border: none;
         border-radius: 12px;
         font-size: 16px;
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.2s ease;
+        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
       }
       .buy-button:hover {
-        background: var(--accent-color);
-        transform: scale(0.98);
+        background: #6d8bfb;
+        box-shadow: 0 0 36px rgba(91, 124, 250, 0.5);
+        transform: translateY(-1px);
       }
       .feature-list {
         margin-top: 20px;
@@ -230,6 +235,86 @@
         content: "✓";
         color: var(--accent-secondary);
         font-weight: bold;
+      }
+      .pricing-grid-main {
+        grid-template-columns: repeat(3, minmax(280px, 1fr));
+        align-items: stretch;
+      }
+      .card-subtitle {
+        font-size: 13px;
+        color: var(--text-dim);
+        margin-bottom: 8px;
+        min-height: 20px;
+      }
+      .savings-text {
+        font-size: 13px;
+        color: var(--accent-secondary);
+        font-weight: 600;
+        margin-top: -12px;
+        margin-bottom: 16px;
+      }
+      .price-card.recommended::before {
+        content: "Most popular";
+      }
+      .extra-options-toggle {
+        text-align: center;
+        margin: 8px 0 32px;
+      }
+      .extra-options-toggle a {
+        color: var(--text-dim);
+        font-size: 14px;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .extra-options-toggle a:hover {
+        color: var(--accent-color);
+      }
+      .extra-options.hidden {
+        display: none;
+      }
+      .extra-options .pricing-grid-extra {
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 16px;
+      }
+      .price-card.compact {
+        padding: 18px 14px;
+      }
+      .price-card.compact h3 {
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+      .price-card.compact .duration {
+        font-size: 12px;
+        margin-bottom: 12px;
+      }
+      .price-card.compact .cost {
+        font-size: 28px;
+      }
+      .price-card.compact .feature-list {
+        display: none;
+      }
+      .price-card.compact .buy-button {
+        padding: 10px;
+        font-size: 14px;
+      }
+      @media (max-width: 960px) {
+        .pricing-grid-main {
+          grid-template-columns: 1fr;
+        }
+        .extra-options .pricing-grid-extra {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 480px) {
+        .extra-options .pricing-grid-extra {
+          grid-template-columns: 1fr;
+        }
+      }
+      .price-card.accent-border {
+        border: 2px solid var(--accent-color);
+      }
+      .savings-text.regular {
+        color: var(--text-dim);
       }
       .modal-overlay {
         display: none;
@@ -349,18 +434,20 @@
       .btn-pay {
         width: 100%;
         padding: 16px;
-        background: linear-gradient(135deg, var(--accent-color), #0055aa);
-        color: white;
+        background: var(--accent);
+        color: #ffffff;
         border: none;
-        border-radius: 14px;
+        border-radius: 12px;
         font-size: 18px;
         font-weight: 700;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.2s ease;
+        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
       }
       .btn-pay:hover {
-        transform: scale(0.98);
-        opacity: 0.9;
+        background: #6d8bfb;
+        box-shadow: 0 0 36px rgba(91, 124, 250, 0.5);
+        transform: translateY(-1px);
       }
       .btn-pay:disabled {
         opacity: 0.6;
@@ -459,7 +546,7 @@
         background: rgba(34, 197, 94, 0.12);
       }
       .pay-benefit-icon.blue {
-        background: rgba(91, 124, 250, 0.12);
+        background: rgba(59, 130, 246, 0.25);
       }
       .pay-benefit-content h4 {
         margin: 0 0 8px;
@@ -485,17 +572,84 @@
         <div id="logo-container"></div>
       </header>
       <p class="subtitle">
-        Buy an activation key to get or renew a subscription <br />
+        Buy an activation key to get or renew your subscription <br />
       </p>
+
+      <div class="pricing-section">
+        <div class="pricing-grid pricing-grid-main">
+          <div class="price-card accent-border" data-duration="30" data-price="6.50">
+            <div class="card-subtitle">Try Reelsoprovod</div>
+            <h3>1 month</h3>
+            <div class="duration">30 days of access</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">$6.50</div>
+            </div>
+            <div class="savings-text regular">Regular price</div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="30" data-price="6.50">
+              Choose plan
+            </button>
+            <ul class="feature-list">
+              <li>Unlimited traffic</li>
+              <li>High speed</li>
+              <li>Any number of devices</li>
+            </ul>
+          </div>
+
+          <div
+            class="price-card recommended"
+            data-duration="90"
+            data-price="16.90"
+          >
+            <div class="card-subtitle"></div>
+            <h3>3 months</h3>
+            <div class="duration">90 days of access</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">$16.90</div>
+            </div>
+            <div class="savings-text">Save $2.60</div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="90" data-price="16.90">
+              Choose plan
+            </button>
+            <ul class="feature-list">
+              <li>Unlimited traffic</li>
+              <li>High speed</li>
+              <li>Any number of devices</li>
+            </ul>
+          </div>
+
+          <div class="price-card accent-border" data-duration="365" data-price="58.50">
+            <div class="card-subtitle">For long-term use</div>
+            <h3>12 months</h3>
+            <div class="duration">365 days of access</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">$58.50</div>
+            </div>
+            <div class="savings-text">Save $19.50</div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="365" data-price="58.50">
+              Choose plan
+            </button>
+            <ul class="feature-list">
+              <li>Unlimited traffic</li>
+              <li>High speed</li>
+              <li>Any number of devices</li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
       <div class="pay-benefits">
         <div class="pay-benefit-card">
           <div class="pay-benefit-icon green">🛡️</div>
           <div class="pay-benefit-content">
-            <h4>No card, no auto-charges</h4>
+            <h4>No card or auto-payments</h4>
             <p>
-              Pay once and get access. No bank card binding, no subscriptions,
-              no hidden charges.
+              Pay once — get access. No bank card binding, no subscriptions or hidden charges.
             </p>
           </div>
         </div>
@@ -504,150 +658,68 @@
           <div class="pay-benefit-content">
             <h4>Days stack up</h4>
             <p>
-              Renewal adds days to your current subscription without resetting
-              it. Existing access time stays and only grows.
+              Renewal adds days to your current subscription, not resets it. Existing access time doesn't expire — it only increases.
             </p>
           </div>
         </div>
       </div>
 
-      <div class="pricing-section">
-        <div class="pricing-grid pricing-grid-2">
-          <div
-            class="price-card recommended"
-            data-duration="30"
-            data-price="500"
-          >
-            <h3>1 month</h3>
-            <div class="duration">30 days of access</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">500₽</div>
-            </div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="30" data-price="500">
-              Choose plan
-            </button>
-            <ul class="feature-list">
-              <li>Unlimited traffic</li>
-              <li>High speed</li>
-              <li>Any number of devices</li>
-            </ul>
-          </div>
-          <div class="price-card popular" data-duration="365" data-price="5000">
-            <h3>1 year</h3>
-            <div class="duration">365 days of access</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">5000₽</div>
-            </div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="365" data-price="5000">
-              Choose plan
-            </button>
-            <ul class="feature-list">
-              <li>Unlimited traffic</li>
-              <li>High speed</li>
-              <li>Any number of devices</li>
-              <li>Save up to 20%</li>
-            </ul>
-          </div>
-        </div>
+      <div class="extra-options-toggle">
+        <a href="#" id="extra-options-toggle">More options</a>
       </div>
 
-      <div class="section-title">MORE PLANS</div>
-
-      <div class="pricing-section">
-        <div class="pricing-grid pricing-grid-3">
-          <div class="price-card" data-duration="3" data-price="100">
+      <div class="extra-options hidden" id="extra-options">
+        <div class="pricing-grid pricing-grid-extra">
+          <div class="price-card compact" data-duration="3" data-price="1.30">
             <h3>3 days</h3>
             <div class="duration">3 days of access</div>
             <div class="cost-wrapper">
               <span class="old-price"></span>
-              <div class="cost">100₽</div>
+              <div class="cost">$1.30</div>
             </div>
             <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="3" data-price="100">
-              Choose plan
+            <button class="buy-button" data-duration="3" data-price="1.30">
+              Choose
             </button>
-            <ul class="feature-list">
-              <li>Unlimited traffic</li>
-              <li>High speed</li>
-              <li>Any number of devices</li>
-            </ul>
           </div>
-          <div class="price-card" data-duration="7" data-price="200">
-            <h3>7 days</h3>
-            <div class="duration">1 week of access</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">200₽</div>
-            </div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="7" data-price="200">
-              Choose plan
-            </button>
-            <ul class="feature-list">
-              <li>Unlimited traffic</li>
-              <li>High speed</li>
-              <li>Any number of devices</li>
-            </ul>
-          </div>
-          <div class="price-card" data-duration="14" data-price="300">
-            <h3>14 days</h3>
-            <div class="duration">2 weeks of access</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">300₽</div>
-            </div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="14" data-price="300">
-              Choose plan
-            </button>
-            <ul class="feature-list">
-              <li>Unlimited traffic</li>
-              <li>High speed</li>
-              <li>Any number of devices</li>
-            </ul>
-          </div>
-        </div>
-      </div>
 
-      <div class="pricing-section">
-        <div class="pricing-grid">
-          <div class="price-card" data-duration="90" data-price="1500">
-            <h3>3 months</h3>
-            <div class="duration">90 days of access</div>
+          <div class="price-card compact" data-duration="7" data-price="2.60">
+            <h3>7 days</h3>
+            <div class="duration">7 days of access</div>
             <div class="cost-wrapper">
               <span class="old-price"></span>
-              <div class="cost">1500₽</div>
+              <div class="cost">$2.60</div>
             </div>
             <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="90" data-price="1500">
-              Choose plan
+            <button class="buy-button" data-duration="7" data-price="2.60">
+              Choose
             </button>
-            <ul class="feature-list">
-              <li>Unlimited traffic</li>
-              <li>High speed</li>
-              <li>Any number of devices</li>
-            </ul>
           </div>
-          <div class="price-card" data-duration="180" data-price="2700">
+
+          <div class="price-card compact" data-duration="14" data-price="3.90">
+            <h3>14 days</h3>
+            <div class="duration">14 days of access</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">$3.90</div>
+            </div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="14" data-price="3.90">
+              Choose
+            </button>
+          </div>
+
+          <div class="price-card compact" data-duration="180" data-price="35.10">
             <h3>6 months</h3>
             <div class="duration">180 days of access</div>
             <div class="cost-wrapper">
               <span class="old-price"></span>
-              <div class="cost">2700₽</div>
+              <div class="cost">$35.10</div>
             </div>
             <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="180" data-price="2700">
-              Choose plan
+            <button class="buy-button" data-duration="180" data-price="35.10">
+              Choose
             </button>
-            <ul class="feature-list">
-              <li>Unlimited traffic</li>
-              <li>High speed</li>
-              <li>Any number of devices</li>
-            </ul>
           </div>
         </div>
       </div>
@@ -658,7 +730,7 @@
     <div id="payment-modal" class="modal-overlay">
       <div class="modal-content">
         <span class="close-modal" onclick="closeModal()">&times;</span>
-        <h2 id="modal-title">Subscribe</h2>
+        <h2 id="modal-title">Checkout</h2>
         <div class="form-group">
           <label>Promo code</label>
           <div class="promo-input-wrapper">
@@ -679,8 +751,7 @@
             margin-top: 20px;
           "
         >
-          By clicking «Pay», you will be redirected to the Platega gateway. We do not store your
-          data.
+          By clicking «Pay», you will be redirected to the Platega gateway. We do not store your data.
         </p>
         <p
           style="
@@ -690,7 +761,7 @@
             margin-top: 15px;
           "
         >
-          🔒 Secure payment by card, SBP, cryptocurrency
+          🔒 Secure payment by card, SBP, crypto
         </p>
         <p style="font-size: 13px; text-align: center; margin-top: 15px">
           ⚠️ Do not close this window until payment is confirmed
@@ -709,7 +780,7 @@
 
     <script src="/scripts/utils.js?v=1"></script>
     <script>
-      // --- Конфигурация ---
+      // --- Configuration ---
       const isLocal =
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1";
@@ -744,7 +815,7 @@
       let urlPromoCode =
         new URLSearchParams(location.search).get("promo") || null;
 
-      // --- DOM элементы ---
+      // --- DOM elements ---
       const promoInput = document.getElementById("user-promo");
       const promoInfo = document.getElementById("promo-info");
       const modalTotalWrapper = document.getElementById("modal-total-wrapper");
@@ -753,7 +824,7 @@
       const popupMessage = document.getElementById("popup-message");
       const payBtn = document.getElementById("final-pay-btn");
 
-      // --- Вспомогательные функции ---
+      // --- Helper functions ---
       function formatDuration(days) {
         const map = {
           3: "3 days",
@@ -787,16 +858,16 @@
         currentOrder = null;
       }
 
-      // --- Обновление цены за день на КАРТОЧКЕ ---
+      // --- Update price per day on CARD ---
       function updateCardPricePerDay(card, discountedPrice, duration) {
         const pricePerDayElement = card.querySelector(".price-per-day");
         if (pricePerDayElement) {
           const pricePerDay = (discountedPrice / duration).toFixed(1);
-          pricePerDayElement.innerHTML = `≈ ${pricePerDay}₽/day`;
+          pricePerDayElement.innerHTML = `≈ $${pricePerDay}/day`;
         }
       }
 
-      // --- Сброс цен на карточках к исходным (без скидки) ---
+      // --- Reset card prices to original (no discount) ---
       function resetCardPrices() {
         document.querySelectorAll(".price-card").forEach((card) => {
           const btn = card.querySelector(".buy-button");
@@ -805,7 +876,7 @@
           const costDiv = card.querySelector(".cost");
           const oldPriceSpan = card.querySelector(".old-price");
           const badge = card.querySelector(".discount-badge");
-          costDiv.innerHTML = `${basePrice}₽`;
+          costDiv.innerHTML = `$${basePrice}`;
           if (oldPriceSpan) oldPriceSpan.style.display = "none";
           if (badge) badge.remove();
           delete btn.dataset.discountedPrice;
@@ -813,7 +884,7 @@
         });
       }
 
-      // --- Применение скидки на карточки (для отображения на странице) ---
+      // --- Apply discount to cards (for page display) ---
       async function applyDiscountToCards(promoCode) {
         if (!promoCode) return false;
         let anyDiscountApplied = false;
@@ -840,8 +911,8 @@
               const costDiv = card.querySelector(".cost");
               const oldPriceSpan = card.querySelector(".old-price");
               oldPriceSpan.style.display = "inline";
-              oldPriceSpan.innerText = `${data.original_price}₽`;
-              costDiv.innerHTML = `${data.discounted_price}₽`;
+              oldPriceSpan.innerText = `$${data.original_price}`;
+              costDiv.innerHTML = `$${data.discounted_price}`;
               btn.dataset.discountedPrice = data.discounted_price;
               let badge = card.querySelector(".discount-badge");
               if (!badge) {
@@ -859,20 +930,20 @@
         return anyDiscountApplied;
       }
 
-      // --- Обновление отображения в модалке (для ТЕКУЩЕГО заказа) ---
+      // --- Update modal display (for CURRENT order) ---
       function updateModalDisplay() {
         if (!currentOrder) return;
         const { duration, price: finalPrice, originalPrice } = currentOrder;
         const pricePerDay = (finalPrice / duration).toFixed(1);
         if (finalPrice < originalPrice) {
           const originalPricePerDay = (originalPrice / duration).toFixed(1);
-          modalTotalWrapper.innerHTML = `<div><span class="modal-old-price">${originalPrice}₽</span><span class="modal-discount-price">${finalPrice}₽</span><div style="font-size: 14px; margin-top: 8px; color: #22c55e;">≈ ${pricePerDay}₽/day (was ${originalPricePerDay}₽/day)</div></div>`;
+          modalTotalWrapper.innerHTML = `<div><span class="modal-old-price">$${originalPrice}</span><span class="modal-discount-price">$${finalPrice}</span><div style="font-size: 14px; margin-top: 8px; color: #22c55e;">≈ $${pricePerDay}/day (was $${originalPricePerDay}/day)</div></div>`;
         } else {
-          modalTotalWrapper.innerHTML = `<div><div class="modal-total">${finalPrice}₽</div><div style="font-size: 14px; margin-top: 8px; color: #888;">≈ ${pricePerDay}₽/day</div></div>`;
+          modalTotalWrapper.innerHTML = `<div><div class="modal-total">$${finalPrice}</div><div style="font-size: 14px; margin-top: 8px; color: #888;">≈ $${pricePerDay}/day</div></div>`;
         }
       }
 
-      // --- Применение промокода к ТЕКУЩЕМУ заказу в модалке ---
+      // --- Apply promo code to CURRENT order in modal ---
       async function applyPromoToCurrentOrder(promoCode) {
         if (!currentOrder) {
           showError("Choose a plan first");
@@ -880,7 +951,7 @@
         }
         const promoValue = promoCode?.trim().toUpperCase() || "";
         if (!promoValue) {
-          // Сброс скидки
+          // Reset discount
           currentOrder.promo = null;
           currentOrder.price = currentOrder.originalPrice;
           updateModalDisplay();
@@ -907,7 +978,7 @@
             updateModalDisplay();
             promoInput.style.borderColor = "#22c55e";
             return true;
-          } else throw new Error("Oops, the promo code seems to be invalid");
+          } else throw new Error("Oops, the promo code seems invalid");
         } catch (err) {
           showError(err.message);
           promoInput.style.borderColor = "#ff4444";
@@ -915,7 +986,7 @@
         }
       }
 
-      // --- Открытие модального окна ---
+      // --- Open modal ---
       async function openModal(duration, basePrice, element) {
         let finalPrice = basePrice;
         let originalPrice = basePrice;
@@ -933,11 +1004,11 @@
         promoInfo.className = "promo-info";
         promoInfo.innerText = "";
         if (urlPromoCode) {
-          // Подставляем промокод из URL
+          // Fill promo code from URL
           promoInput.value = urlPromoCode;
           const applyBtn = document.getElementById("apply-promo-btn");
           if (applyBtn) applyBtn.style.display = "none";
-          // Применяем только если скидка действительно есть на этой карточке
+          // Apply only if discount is valid for this card
           if (element && element.dataset.discountedPrice) {
             try {
               await applyPromoToCurrentOrder(urlPromoCode);
@@ -961,7 +1032,7 @@
             updateModalDisplay();
           }
         } else {
-          // Если промокода в URL нет — показываем поле и кнопку
+          // If no promo code in URL — show input and button
           promoInput.value = "";
           promoInput.style.borderColor = "";
           const applyBtn = document.getElementById("apply-promo-btn");
@@ -969,13 +1040,13 @@
           updateModalDisplay();
         }
         document.getElementById("modal-title").innerHTML =
-          `Subscribe<br>for ${duration} days`;
+          `Checkout<br>for ${duration} days`;
         paymentModal.classList.add("active");
       }
 
-      // --- Инициализация страницы ---
+      // --- Page initialization ---
       async function initializePage() {
-        // 1. Базовые цены за день
+        // 1. Base prices per day
         document.querySelectorAll(".price-card").forEach((card) => {
           const btn = card.querySelector(".buy-button");
           const basePrice = parseInt(btn.dataset.price);
@@ -983,16 +1054,16 @@
           const pricePerDay = (basePrice / duration).toFixed(1);
           const pricePerDayElement = card.querySelector(".price-per-day");
           if (pricePerDayElement)
-            pricePerDayElement.innerHTML = `≈ ${pricePerDay}₽/day`;
+            pricePerDayElement.innerHTML = `≈ $${pricePerDay}/day`;
         });
-        // 2. Если в URL есть промокод - применяем скидку на все карточки на странице
+        // 2. If promo code in URL - apply discount to all cards on page
         if (urlPromoCode) {
           promoInput.value = urlPromoCode;
           await applyDiscountToCards(urlPromoCode);
         }
       }
 
-      // --- Обработчики событий ---
+      // --- Event handlers ---
       document.querySelectorAll(".buy-button").forEach((btn) =>
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
@@ -1010,10 +1081,22 @@
           applyPromoToCurrentOrder(promoInput.value);
         }
       });
+      const extraToggle = document.getElementById("extra-options-toggle");
+      const extraOptions = document.getElementById("extra-options");
+      if (extraToggle && extraOptions) {
+        extraToggle.addEventListener("click", (e) => {
+          e.preventDefault();
+          const isHidden = extraOptions.classList.contains("hidden");
+          extraOptions.classList.toggle("hidden");
+          extraToggle.textContent = isHidden
+            ? "Hide additional options"
+            : "More options";
+        });
+      }
       if (payBtn) {
         payBtn.onclick = async () => {
           if (!currentOrder) {
-            showError("Order not found. Try selecting a plan again.");
+            showError("Order not found. Please try choosing a plan again.");
             return;
           }
           payBtn.disabled = true;

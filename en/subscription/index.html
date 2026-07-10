@@ -48,12 +48,26 @@
         padding: 20px 0 40px;
       }
 
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-left: auto;
+      }
+
+      .env-switcher-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
       .logo {
         font-weight: 700;
         letter-spacing: 0.08em;
         display: flex;
-        align-items: center;
-        gap: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
         width: fit-content;
       }
 
@@ -81,19 +95,19 @@
       }
 
       .hero-watermark {
-        font-size: 11px;
-        font-weight: 700;
+        font-size: 8px;
         text-transform: uppercase;
-        letter-spacing: 0.2em;
+        letter-spacing: 0.35em;
         color: var(--muted);
         opacity: 0.5;
         text-align: center;
+        white-space: nowrap;
         pointer-events: none;
         user-select: none;
       }
 
       .logo .hero-watermark {
-        margin-top: -4px;
+        margin-top: 2px;
       }
 
       .logo:hover img {
@@ -140,9 +154,10 @@
         margin-bottom: 8;
         font-size: 2rem;
         font-weight: 800;
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #fff;
+        text-shadow:
+          0 0 8px rgba(91, 124, 250, 0.35),
+          0 0 18px rgba(34, 211, 238, 0.15);
         line-height: 1.2;
       }
 
@@ -150,9 +165,10 @@
         margin-bottom: 10px;
         font-size: 2.5rem;
         font-weight: 800;
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #fff;
+        text-shadow:
+          0 0 8px rgba(91, 124, 250, 0.35),
+          0 0 18px rgba(34, 211, 238, 0.15);
         line-height: 1.2;
       }
 
@@ -181,12 +197,20 @@
       #env-switcher .env-badge {
         margin-bottom: 0;
         cursor: pointer;
-        background: rgba(56, 189, 248, 0.05);
+        background: transparent;
+        color: var(--muted);
+        border: 1px solid var(--border);
         transition: all 0.2s ease;
       }
 
       #env-switcher .env-badge:hover {
-        background: rgba(56, 189, 248, 0.2);
+        background: rgba(91, 124, 250, 0.15);
+        border-color: rgba(91, 124, 250, 0.3);
+        color: var(--text);
+      }
+
+      #env-switcher .env-badge.active {
+        background: rgba(91, 124, 250, 0.15);
         border-color: var(--accent);
         color: #fff;
       }
@@ -1136,27 +1160,6 @@
         margin-top: 6px;
       }
 
-      .traffic-limit-bar {
-        width: 100%;
-        height: 10px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 5px;
-        margin-top: 16px;
-        overflow: hidden;
-      }
-
-      .traffic-limit-fill {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, #22d3ee, #5b7cfa);
-        border-radius: 5px;
-        transition: width 0.5s ease;
-      }
-
-      .traffic-limit-fill.high {
-        background: linear-gradient(90deg, #f59e0b, #ef4444);
-      }
-
       .traffic-limit-text {
         font-size: 0.8rem;
         color: rgba(255, 255, 255, 0.65);
@@ -1261,15 +1264,16 @@
         gap: 8px;
         padding: 10px 18px;
         border-radius: 10px;
-        background: linear-gradient(135deg, var(--accent), var(--accent-2));
-        color: #05060a;
+        background: var(--accent);
+        color: #ffffff;
         font-weight: 700;
         text-decoration: none;
-        transition: opacity 0.2s ease;
+        transition: all 0.2s ease;
       }
 
       .setup-help-link:hover {
-        opacity: 0.9;
+        background: #6d8bfb;
+        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
       }
 
       @media (max-width: 480px) {
@@ -1382,9 +1386,14 @@
         background: rgba(91, 124, 250, 0.1);
       }
       .renew-action-btn.primary {
-        background: linear-gradient(135deg, var(--accent), var(--accent-2));
-        color: #05060a;
+        background: var(--accent);
+        color: #ffffff;
         border: none;
+      }
+
+      .renew-action-btn.primary:hover {
+        background: #6d8bfb;
+        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
       }
       .renew-promo-inline {
         display: flex;
@@ -1490,11 +1499,15 @@
   <body>
     <div class="card">
       <header>
-        <div class="logo">
-          <a href="/en/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN</a>
-          <div class="hero-watermark">Privacy is our Religion</div>
+        <div class="env-switcher-wrap">
+          <div id="env-switcher"></div>
         </div>
-        <div id="env-switcher"></div>
+        <div class="header-right">
+          <div class="logo">
+            <a href="/en/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN</a>
+            <div class="hero-watermark">Privacy is our Religion</div>
+          </div>
+        </div>
       </header>
 
       <div id="error-content" class="error-state">
@@ -1613,11 +1626,7 @@
 
           <div class="traffic-main">
             <div class="traffic-big-value" id="traffic-total">0 B</div>
-            <div class="traffic-big-label">Total traffic</div>
-            <div class="traffic-limit-bar">
-              <div class="traffic-limit-fill" id="traffic-limit-fill"></div>
-            </div>
-            <div class="traffic-limit-text" id="traffic-limit-text">0%</div>
+            <div class="traffic-limit-text" id="traffic-limit-text">No limit</div>
           </div>
 
           <div class="traffic-details" id="traffic-details" style="display: none;">
@@ -1805,7 +1814,8 @@
         <canvas id="qr-canvas"></canvas>
       </div>
     </div>
-  </body>
+<script src="/scripts/analytics.js" defer></script>
+</body>
 </html>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
@@ -2079,17 +2089,12 @@
     document.getElementById("traffic-monthly-downlink").innerText = formatBytes(monthlyDownlink);
 
     const limitBytes = data.limit_bytes || 0;
-    const trafficLimitFill = document.getElementById("traffic-limit-fill");
     const trafficLimitText = document.getElementById("traffic-limit-text");
     if (limitBytes > 0) {
       const percent = Math.min(100, Math.round((total / limitBytes) * 100));
-      trafficLimitFill.style.width = percent + "%";
       trafficLimitText.innerText = `${percent}% of limit`;
-      trafficLimitFill.classList.toggle("high", percent >= 80);
     } else {
-      trafficLimitFill.style.width = "0%";
       trafficLimitText.innerText = "Unlimited";
-      trafficLimitFill.classList.remove("high");
     }
   }
 

@@ -43,9 +43,10 @@
       .activate-hero h1 {
         font-size: clamp(28px, 6vw, 40px);
         margin: 0 0 12px;
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #fff;
+        text-shadow:
+          0 0 8px rgba(91, 124, 250, 0.35),
+          0 0 18px rgba(34, 211, 238, 0.15);
       }
 
       .activate-hero p {
@@ -143,23 +144,25 @@
 
       .btn-activate {
         width: 100%;
-        background: linear-gradient(135deg, var(--accent), var(--accent-2));
-        color: #05060a;
+        background: var(--accent);
+        color: #ffffff;
         padding: 16px 24px;
         border-radius: 12px;
         font-size: 16px;
         font-weight: 700;
         border: none;
         cursor: pointer;
-        transition: opacity 0.2s ease, transform 0.2s ease;
+        transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
+        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
       }
 
       .btn-activate:hover {
-        opacity: 0.9;
+        background: #6d8bfb;
+        box-shadow: 0 0 36px rgba(91, 124, 250, 0.5);
         transform: translateY(-1px);
       }
 

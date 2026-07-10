@@ -543,10 +543,13 @@ header {
   font-size: clamp(24px, 8vw, 42px);
   line-height: 1.1;
   margin-bottom: 0px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 15px rgba(91, 124, 250, 0.3));
+  background: none;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: #fff;
+  color: #fff;
+  text-shadow:
+    0 0 8px rgba(91, 124, 250, 0.35),
+    0 0 18px rgba(34, 211, 238, 0.15);
 }
 .hero-subtitle {
   font-size: 18px;

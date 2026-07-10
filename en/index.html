@@ -30,6 +30,53 @@
     <title>frkn Privacy Company</title>
     <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="/styles.css?v=2" />
+    <style>
+      .hero-title {
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: #fff;
+        color: #fff;
+        font-family:
+          "SF Mono", "Fira Code", "JetBrains Mono", "Courier New", monospace;
+        font-weight: 700;
+        letter-spacing: 2px;
+        font-size: clamp(28px, 9vw, 52px);
+        text-shadow:
+          0 0 8px rgba(91, 124, 250, 0.35),
+          0 0 18px rgba(34, 211, 238, 0.15);
+        filter: none;
+        animation: title-appear 1s ease-out, title-breathe 5s ease-in-out infinite 1s;
+      }
+
+      @keyframes title-appear {
+        0% {
+          opacity: 0;
+          transform: translateY(8px);
+          filter: blur(3px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+          filter: blur(0);
+        }
+      }
+
+      @keyframes title-breathe {
+        0%,
+        100% {
+          opacity: 0.95;
+          text-shadow:
+            0 0 6px rgba(91, 124, 250, 0.25),
+            0 0 14px rgba(34, 211, 238, 0.1);
+        }
+        50% {
+          opacity: 1;
+          text-shadow:
+            0 0 10px rgba(91, 124, 250, 0.4),
+            0 0 22px rgba(34, 211, 238, 0.18);
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -47,46 +94,42 @@
               Try for free
             </button>
 
-            <div class="cta-row">
-              <a href="/en/profile"
-                ><button class="btn another">Already have a subscription</button></a
+            <div class="cta-row secondary-actions">
+              <a href="/en/pay"><button class="btn ghost">Pricing</button></a
               >
-              <a href="/en/activate"
-                ><button class="btn another">Activate key</button></a
-              >
-            </div>
-
-            <div class="cta-row">
-              <a href="/en/pay"><button class="btn secondary">Pricing</button></a>
-              <a href="/en/pay"
-                ><button class="btn secondary pulse">Buy</button></a
-              >
-            </div>
-
-            <div class="cta-row">
-              <a href="/en/donate"
-                ><button class="btn donate">❤️ Support project</button></a
+              <a href="/en/pay"><button class="btn ghost">Buy</button></a
               >
             </div>
           </div>
         </div>
-        <div class="fractal-wrapper">
-          <canvas id="fractal-canvas"></canvas>
-          <div class="fractal-caption">powered by math</div>
+        <div class="hero-image-wrapper">
+          <img src="/Images/main.png" alt="FRKN" />
         </div>
       </section>
       <section class="features-grid">
         <div class="card feature">
-          <h3>No logs, no registration</h3>
+          <div class="feature-header">
+            <div class="feature-icon fill">
+              <img src="/Images/nologs.png" alt="" />
+            </div>
+            <h3>No logs, no registration</h3>
+          </div>
           <p>We don't store your browsing history. At all.</p>
         </div>
         <div class="card feature">
-          <h3>No limits</h3>
+          <div class="feature-header">
+            <div class="feature-icon">
+              <img src="/Images/unlim.png" alt="" />
+            </div>
+            <h3>No limits</h3>
+          </div>
           <p>Any number of devices and unlimited traffic 24/7.</p>
         </div>
         <div class="card feature-country">
           <div class="country-header">
-            <div class="country-icon">🌍</div>
+            <div class="country-icon">
+              <img src="/Images/map.png" alt="" />
+            </div>
             <h3>Wide choice of countries</h3>
           </div>
           <p class="country-subtitle">
@@ -151,31 +194,36 @@
         </div>
         <div class="card feature-wide">
           <div class="tech-header">
-            <div class="tech-icon">🛡️</div>
-            <h3>Modern protocols and Open Source</h3>
+            <div class="tech-icon">
+              <img src="/Images/proto.png" alt="" />
+            </div>
+            <h3>Modern protocols</h3>
           </div>
           <p class="tech-subtitle">
-            Only proven technologies and transparency: we use world-class
-            encryption standards and develop our own
-            <span class="no-wrap"><b>Open Source</b></span> projects.
+            Only proven technologies: we use world-class encryption standards
+            and proven Open Source solutions for reliable connectivity.
           </p>
           <div class="tech-grid">
             <div class="tech-card recommended">
-              <div class="tech-name">VLESS Reality</div>
-              <div class="tech-desc">Most resistant to blocking</div>
+              <div class="tech-name">Amnezia WireGuard 2.0</div>
+              <div class="tech-desc">Bypasses deep packet inspection</div>
               <span class="tech-badge blue">Recommended</span>
-            </div>
-
-            <div class="tech-card">
-              <div class="tech-name">WireGuard</div>
-              <div class="tech-desc">Fast and lightweight protocol</div>
-              <span class="tech-badge">Open Source</span>
             </div>
 
             <div class="tech-card">
               <div class="tech-name">Hysteria2</div>
               <div class="tech-desc">Maximum speed</div>
               <span class="tech-badge green">Fast</span>
+            </div>
+
+            <div class="tech-card">
+              <div class="tech-name">VLESS Reality</div>
+              <div class="tech-desc">Most resistant to blocking</div>
+            </div>
+
+            <div class="tech-card">
+              <div class="tech-name">WireGuard</div>
+              <div class="tech-desc">Fast and lightweight protocol</div>
             </div>
 
             <div class="tech-card">
@@ -186,12 +234,6 @@
             <div class="tech-card">
               <div class="tech-name">Shadowsocks</div>
               <div class="tech-desc">Proven classic</div>
-              <span class="tech-badge">Open Source</span>
-            </div>
-
-            <div class="tech-card">
-              <div class="tech-name">Amnezia WireGuard 2.0</div>
-              <div class="tech-desc">Bypasses deep packet inspection</div>
             </div>
 
             <div class="tech-card">
@@ -202,7 +244,6 @@
             <div class="tech-card">
               <div class="tech-name">Own code</div>
               <div class="tech-desc">Developed transparently</div>
-              <span class="tech-badge">Open Source</span>
             </div>
           </div>
         </div>
@@ -234,11 +275,19 @@
               name="code"
               placeholder="Friend's referral code (optional)"
             />
-            <button class="btn shadow-blue" type="submit">
+            <button class="btn try" type="submit">
               Get access
             </button>
             <p id="message" class="status-message"></p>
             <p class="small">We'll send the access key within a minute.</p>
+            <div class="trial-extra-actions">
+              <a href="/en/profile"
+                ><button type="button" class="btn ghost">Already have a subscription</button></a
+              >
+              <a href="/en/activate"
+                ><button type="button" class="btn ghost">Activate key</button></a
+              >
+            </div>
           </form>
         </div>
       </section>
@@ -262,223 +311,39 @@
     <script>
       const scrollBtn = document.getElementById("scrollToTrial");
       const buySection = document.getElementById("trial");
+      const trialEmail = document.querySelector("#trialForm input[type='email']");
+
+      function focusTrialEmail() {
+        if (trialEmail) trialEmail.focus({ preventScroll: true });
+      }
+
       scrollBtn.addEventListener("click", () => {
         buySection.scrollIntoView({ behavior: "smooth" });
+        focusTrialEmail();
       });
-    </script>
-    <script>
-      (function () {
-        const canvas = document.getElementById("fractal-canvas");
-        if (!canvas) return;
 
-        if (/Android/i.test(navigator.userAgent)) {
-          canvas.style.display = "none";
-          if (canvas.parentElement) canvas.parentElement.style.display = "none";
-          return;
-        }
+      if (window.location.hash === "#trial") {
+        buySection.scrollIntoView({ behavior: "smooth" });
+        focusTrialEmail();
+      }
 
-        const gl = canvas.getContext("webgl", { alpha: false });
-        if (!gl) {
-          canvas.style.display = "none";
-          return;
-        }
-
-        function resize() {
-          const rect = canvas.getBoundingClientRect();
-          const dpr = Math.min(window.devicePixelRatio || 1, 2);
-          const w = Math.max(1, Math.floor(rect.width * dpr));
-          const h = Math.max(1, Math.floor(rect.height * dpr));
-          if (canvas.width !== w || canvas.height !== h) {
-            canvas.width = w;
-            canvas.height = h;
-            gl.viewport(0, 0, canvas.width, canvas.height);
-          }
-        }
-        resize();
-        window.addEventListener("resize", resize);
-        requestAnimationFrame(resize);
-
-        const vertexSrc = `
-          attribute vec2 a_position;
-          void main() {
-            gl_Position = vec4(a_position, 0.0, 1.0);
-          }
-        `;
-
-        const fragmentSrc = `
-          precision highp float;
-          uniform vec2 u_resolution;
-          uniform vec2 u_center;
-          uniform float u_zoom;
-          uniform float u_time;
-          uniform float u_seed;
-
-          vec3 palette(float t) {
-            float s = u_seed * 6.28318;
-            vec3 a = vec3(
-              0.5 + 0.15 * sin(s),
-              0.5 + 0.15 * sin(s + 2.094),
-              0.5 + 0.15 * sin(s + 4.188)
-            );
-            vec3 b = vec3(0.5);
-            vec3 c = vec3(0.8 + 0.2 * sin(s * 0.4));
-            vec3 d = vec3(
-              fract(sin(s * 0.73) * 43758.5453),
-              fract(sin(s * 0.91 + 1.0) * 43758.5453),
-              fract(sin(s * 1.13 + 2.0) * 43758.5453)
-            );
-            return a + b * cos(6.28318 * (c * t + d));
-          }
-
-          void main() {
-            vec2 uv = (gl_FragCoord.xy - u_resolution * 0.5) / u_resolution.y;
-            vec2 c = u_center + uv / u_zoom;
-            vec2 z = vec2(0.0);
-            float iter = 0.0;
-
-            for (int i = 0; i < 256; i++) {
-              if (dot(z, z) > 4.0) break;
-              z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + c;
-              iter = float(i);
-            }
-
-            if (iter >= 254.0) {
-              gl_FragColor = vec4(0.02, 0.03, 0.06, 1.0);
-              return;
-            }
-
-            float log_zn = log(dot(z, z)) * 0.5;
-            float nu = log(log_zn / log(2.0)) / log(2.0);
-            float smoothIter = iter + 1.0 - nu;
-            float t = smoothIter / 256.0;
-
-            vec3 col = palette(t);
-            gl_FragColor = vec4(col * 0.9, 1.0);
-          }
-        `;
-
-        function createShader(type, source) {
-          const shader = gl.createShader(type);
-          gl.shaderSource(shader, source);
-          gl.compileShader(shader);
-          if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            console.error("Shader compile error:", gl.getShaderInfoLog(shader));
-            gl.deleteShader(shader);
-            return null;
-          }
-          return shader;
-        }
-
-        const program = gl.createProgram();
-        const vs = createShader(gl.VERTEX_SHADER, vertexSrc);
-        const fs = createShader(gl.FRAGMENT_SHADER, fragmentSrc);
-        if (!vs || !fs) {
-          canvas.style.display = "none";
-          return;
-        }
-        gl.attachShader(program, vs);
-        gl.attachShader(program, fs);
-        gl.linkProgram(program);
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-          console.error("Program link error:", gl.getProgramInfoLog(program));
-          canvas.style.display = "none";
-          return;
-        }
-        gl.useProgram(program);
-
-        const positionBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-        gl.bufferData(
-          gl.ARRAY_BUFFER,
-          new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
-          gl.STATIC_DRAW,
+      const trialContainer = document.querySelector(".trial-container");
+      if (trialContainer && "IntersectionObserver" in window) {
+        const trialObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                trialContainer.classList.add("in-view");
+                trialObserver.unobserve(trialContainer);
+              }
+            });
+          },
+          { threshold: 0.3 },
         );
-
-        const positionLocation = gl.getAttribLocation(program, "a_position");
-        gl.enableVertexAttribArray(positionLocation);
-        gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-
-        const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
-        const centerLocation = gl.getUniformLocation(program, "u_center");
-        const zoomLocation = gl.getUniformLocation(program, "u_zoom");
-        const timeLocation = gl.getUniformLocation(program, "u_time");
-        const seedLocation = gl.getUniformLocation(program, "u_seed");
-
-        function seededRandom(seed) {
-          let s = seed % 2147483647;
-          if (s <= 0) s += 2147483646;
-          return function () {
-            s = (s * 16807) % 2147483647;
-            return (s - 1) / 2147483646;
-          };
-        }
-
-        const seed = Math.floor(Math.random() * 1000000);
-        const rng = seededRandom(seed);
-        const fractalSeed = rng();
-
-        const pointPool = [
-          { x: -0.5, y: 0.0, zoom: 0.7 },
-          { x: -0.745, y: 0.105, zoom: 25.0 },
-          { x: -0.16, y: 1.0405, zoom: 18.0 },
-          { x: -0.235, y: 0.827, zoom: 35.0 },
-          { x: -1.25, y: 0.0, zoom: 8.0 },
-          { x: -0.7269, y: 0.1889, zoom: 45.0 },
-          { x: -1.768, y: 0.006, zoom: 12.0 },
-          { x: 0.28, y: 0.008, zoom: 22.0 },
-          { x: -0.77468, y: -0.1054, zoom: 55.0 },
-          { x: -0.12, y: 0.74, zoom: 30.0 },
-        ];
-
-        function shuffle(array, random) {
-          const result = array.slice();
-          for (let i = result.length - 1; i > 0; i--) {
-            const j = Math.floor(random() * (i + 1));
-            [result[i], result[j]] = [result[j], result[i]];
-          }
-          return result;
-        }
-
-        const keyframes = shuffle(pointPool, rng).slice(0, 5);
-
-        function lerp(a, b, t) {
-          return a + (b - a) * t;
-        }
-
-        function easeInOut(t) {
-          return t < 0.5 ? 2.0 * t * t : -1.0 + (4.0 - 2.0 * t) * t;
-        }
-
-        let time = 0.0;
-        const cycleDuration = 24.0;
-
-        function render() {
-          time += 0.016;
-
-          const rawT = (time % cycleDuration) / cycleDuration;
-          const segment = rawT * keyframes.length;
-          const index = Math.floor(segment);
-          const nextIndex = (index + 1) % keyframes.length;
-          const localT = easeInOut(segment - index);
-
-          const a = keyframes[index];
-          const b = keyframes[nextIndex];
-          const centerX = lerp(a.x, b.x, localT);
-          const centerY = lerp(a.y, b.y, localT);
-          const zoom = lerp(a.zoom, b.zoom, localT);
-
-          gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
-          gl.uniform2f(centerLocation, centerX, centerY);
-          gl.uniform1f(zoomLocation, zoom);
-          gl.uniform1f(timeLocation, time);
-          gl.uniform1f(seedLocation, fractalSeed);
-
-          gl.drawArrays(gl.TRIANGLES, 0, 6);
-          requestAnimationFrame(render);
-        }
-
-        render();
-      })();
+        trialObserver.observe(trialContainer);
+      } else if (trialContainer) {
+        trialContainer.classList.add("in-view");
+      }
     </script>
   </body>
 </html>

@@ -44,9 +44,10 @@
       .activate-hero h1 {
         font-size: clamp(28px, 6vw, 40px);
         margin: 0 0 12px;
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #fff;
+        text-shadow:
+          0 0 8px rgba(91, 124, 250, 0.35),
+          0 0 18px rgba(34, 211, 238, 0.15);
       }
 
       .activate-hero p {
@@ -638,7 +639,7 @@
         <div class="activate-hero">
           <h1>Subscription Access</h1>
           <p>
-            Enter your subscription ID or activation key to access your account.
+            Enter your subscription ID to access your account.
           </p>
         </div>
 
@@ -646,23 +647,22 @@
           <div class="activate-card-header">
             <div class="key-icon">🔐</div>
             <h2>Account Login</h2>
-            <p>Subscription ID is a UUID; key is a hyphen-separated string</p>
+            <p>Subscription ID is a UUID sent after purchase</p>
           </div>
 
           <form id="subscriptionForm">
             <div class="input-group">
-              <label for="subId">Subscription ID or Key</label>
+              <label for="subId">Subscription ID</label>
               <input
                 type="text"
                 id="subId"
                 name="id"
-                placeholder="Enter subscription ID or key"
+                placeholder="Enter subscription ID"
                 required
                 autocomplete="off"
               />
               <span class="input-hint"
-                >Example: 550e8400-e29b-41d4-a716-446655440000 or
-                XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-X</span
+                >Example: 550e8400-e29b-41d4-a716-446655440000</span
               >
             </div>
 
@@ -686,17 +686,6 @@
               <p>
                 Use your subscription UUID to instantly access your account and
                 manage devices.
-              </p>
-            </div>
-          </div>
-
-          <div class="benefit-card">
-            <div class="benefit-icon green">🔑</div>
-            <div class="benefit-content">
-              <h4>Key Activation</h4>
-              <p>
-                If you have an activation key, we will create a subscription and
-                link the key automatically.
               </p>
             </div>
           </div>

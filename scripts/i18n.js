@@ -15,18 +15,20 @@
   function getPairUrl(targetLang) {
     if (targetLang === currentLang) return null;
 
+    // Получаем путь без языкового префикса
+    const rest = path.replace(/^\/(en|fa)\//, "/");
+
     if (targetLang === "fa") {
-      const rest = currentLang === "ru" ? path : path.replace(/^\/(en|fa)\//, "/");
       if (!hasFaVersion(rest)) return null;
       return "/fa" + rest;
     }
 
     if (targetLang === "en") {
-      return path.replace(/^\/(en|fa)\//, "/en/");
+      return "/en" + rest;
     }
 
     // targetLang === "ru"
-    return path.replace(/^\/(en|fa)\//, "/");
+    return rest;
   }
 
   function switchLang(lang) {

@@ -48,13 +48,38 @@
         padding: 20px 0 40px;
       }
 
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-left: auto;
+      }
+
+      .env-switcher-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
       .logo {
         font-weight: 700;
         letter-spacing: 0.08em;
         display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        width: fit-content;
+      }
+
+      .logo a {
+        display: flex;
         align-items: center;
         gap: 12px;
-        width: fit-content;
+        color: var(--text);
+        text-decoration: none;
+        transition:
+          color 0.3s ease,
+          text-shadow 0.3s ease;
       }
 
       #logo-container img {
@@ -81,34 +106,23 @@
       }
 
       .hero-watermark {
-        font-size: 11px;
-        font-weight: 700;
+        font-size: 8px;
         text-transform: uppercase;
-        letter-spacing: 0.2em;
+        letter-spacing: 0.35em;
         color: var(--muted);
         opacity: 0.5;
         text-align: center;
+        white-space: nowrap;
         pointer-events: none;
         user-select: none;
       }
 
       .logo .hero-watermark {
-        margin-top: -4px;
+        margin-top: 2px;
       }
 
       .logo:hover img {
         box-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
-      }
-
-      .logo a {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: var(--text);
-        text-decoration: none;
-        transition:
-          color 0.3s ease,
-          text-shadow 0.3s ease;
       }
 
       .logo:hover {
@@ -140,9 +154,10 @@
         margin-bottom: 8;
         font-size: 2rem;
         font-weight: 800;
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #fff;
+        text-shadow:
+          0 0 8px rgba(91, 124, 250, 0.35),
+          0 0 18px rgba(34, 211, 238, 0.15);
         line-height: 1.2;
       }
 
@@ -150,9 +165,10 @@
         margin-bottom: 10px;
         font-size: 2.5rem;
         font-weight: 800;
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #fff;
+        text-shadow:
+          0 0 8px rgba(91, 124, 250, 0.35),
+          0 0 18px rgba(34, 211, 238, 0.15);
         line-height: 1.2;
       }
 
@@ -181,12 +197,20 @@
       #env-switcher .env-badge {
         margin-bottom: 0;
         cursor: pointer;
-        background: rgba(56, 189, 248, 0.05);
+        background: transparent;
+        color: var(--muted);
+        border: 1px solid var(--border);
         transition: all 0.2s ease;
       }
 
       #env-switcher .env-badge:hover {
-        background: rgba(56, 189, 248, 0.2);
+        background: rgba(91, 124, 250, 0.15);
+        border-color: rgba(91, 124, 250, 0.3);
+        color: var(--text);
+      }
+
+      #env-switcher .env-badge.active {
+        background: rgba(91, 124, 250, 0.15);
         border-color: var(--accent);
         color: #fff;
       }
@@ -200,10 +224,18 @@
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 16px;
         background: rgba(30, 41, 59, 0.4);
-        padding: 20px;
+        padding: 20px 20px 64px 20px;
         border-radius: 16px;
         border: 1px solid var(--border);
         margin-bottom: 24px;
+        position: relative;
+      }
+
+      .hero-stats .stats-add-btn {
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+        margin: 0;
       }
 
       .stat {
@@ -994,11 +1026,26 @@
       }
 
       .small-add {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
         font-size: 13px;
+        font-weight: 600;
         color: var(--accent);
-        text-align: right;
-        letter-spacing: 2px;
+        background: rgba(91, 124, 250, 0.1);
+        border: 1px solid rgba(91, 124, 250, 0.3);
+        padding: 10px 14px;
+        border-radius: 12px;
         text-transform: uppercase;
+        letter-spacing: 2px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .small-add:hover {
+        background: rgba(91, 124, 250, 0.2);
+        border-color: rgba(91, 124, 250, 0.5);
       }
 
       .small-id {
@@ -1149,27 +1196,6 @@
         margin-top: 6px;
       }
 
-      .traffic-limit-bar {
-        width: 100%;
-        height: 10px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 5px;
-        margin-top: 16px;
-        overflow: hidden;
-      }
-
-      .traffic-limit-fill {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, #22d3ee, #5b7cfa);
-        border-radius: 5px;
-        transition: width 0.5s ease;
-      }
-
-      .traffic-limit-fill.high {
-        background: linear-gradient(90deg, #f59e0b, #ef4444);
-      }
-
       .traffic-limit-text {
         font-size: 0.8rem;
         color: rgba(255, 255, 255, 0.65);
@@ -1219,52 +1245,48 @@
       }
 
       .traffic-widget-compact {
-        padding: 14px 16px;
+        padding: 8px 12px;
         margin-top: 0;
-        margin-bottom: 24px;
+        margin-bottom: 16px;
         border-radius: 16px;
       }
 
       .traffic-widget-compact .traffic-header {
-        margin-bottom: 10px;
+        margin-bottom: 6px;
       }
 
       .traffic-widget-compact .traffic-main {
-        padding: 6px 0 10px;
+        padding: 4px 0 6px;
       }
 
       .traffic-widget-compact .traffic-big-value {
-        font-size: 1.8rem;
+        font-size: 1.4rem;
       }
 
       .traffic-widget-compact .traffic-big-label {
-        font-size: 12px;
-      }
-
-      .traffic-widget-compact .traffic-limit-bar {
-        max-width: 240px;
-        margin: 8px auto 6px;
+        font-size: 11px;
       }
 
       .traffic-widget-compact .traffic-limit-text {
-        font-size: 12px;
+        font-size: 11px;
+        margin-top: 4px;
       }
 
       .traffic-widget-compact .traffic-detail-grid {
-        gap: 8px;
+        gap: 6px;
       }
 
       .traffic-widget-compact .traffic-detail-card {
-        padding: 10px;
+        padding: 8px;
         border-radius: 10px;
       }
 
       .traffic-widget-compact .traffic-detail-label {
-        font-size: 11px;
+        font-size: 10px;
       }
 
       .traffic-widget-compact .traffic-detail-value {
-        font-size: 13px;
+        font-size: 12px;
       }
 
       .setup-help-card {
@@ -1280,7 +1302,9 @@
         display: flex;
         gap: 16px;
         align-items: flex-start;
-        transition: border-color 0.2s ease, transform 0.2s ease;
+        transition:
+          border-color 0.2s ease,
+          transform 0.2s ease;
       }
 
       .setup-help-card:hover {
@@ -1323,15 +1347,16 @@
         gap: 8px;
         padding: 10px 18px;
         border-radius: 10px;
-        background: linear-gradient(135deg, var(--accent), var(--accent-2));
-        color: #05060a;
+        background: var(--accent);
+        color: #ffffff;
         font-weight: 700;
         text-decoration: none;
-        transition: opacity 0.2s ease;
+        transition: all 0.2s ease;
       }
 
       .setup-help-link:hover {
-        opacity: 0.9;
+        background: #6d8bfb;
+        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
       }
 
       @media (max-width: 480px) {
@@ -1444,9 +1469,14 @@
         background: rgba(91, 124, 250, 0.1);
       }
       .renew-action-btn.primary {
-        background: linear-gradient(135deg, var(--accent), var(--accent-2));
-        color: #05060a;
+        background: var(--accent);
+        color: #ffffff;
         border: none;
+      }
+
+      .renew-action-btn.primary:hover {
+        background: #6d8bfb;
+        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
       }
       .renew-promo-inline {
         display: flex;
@@ -1568,7 +1598,11 @@
       }
 
       .quick-start-card {
-        background: linear-gradient(135deg, rgba(91, 124, 250, 0.12), rgba(34, 211, 238, 0.08));
+        background: linear-gradient(
+          135deg,
+          rgba(91, 124, 250, 0.12),
+          rgba(34, 211, 238, 0.08)
+        );
         border: 1px solid rgba(91, 124, 250, 0.25);
         border-radius: 16px;
         padding: 20px;
@@ -1655,9 +1689,18 @@
         font-weight: 600;
       }
 
+      .info-tooltip.warning {
+        background: rgba(245, 158, 11, 0.08);
+        border-color: rgba(245, 158, 11, 0.25);
+      }
+
       .subscription-link-card.primary-action {
         border-color: rgba(91, 124, 250, 0.4);
-        background: linear-gradient(135deg, rgba(91, 124, 250, 0.08), rgba(34, 211, 238, 0.04));
+        background: linear-gradient(
+          135deg,
+          rgba(91, 124, 250, 0.08),
+          rgba(34, 211, 238, 0.04)
+        );
       }
 
       .subscription-link-label .label-main {
@@ -1681,13 +1724,6 @@
 
       .action-btn.primary:hover {
         background: rgba(91, 124, 250, 0.3);
-      }
-
-      .env-help {
-        font-size: 11px;
-        color: var(--muted);
-        margin-top: 6px;
-        text-align: right;
       }
 
       .renew-section {
@@ -1768,11 +1804,6 @@
           padding: 3px 8px;
         }
 
-        .env-help {
-          text-align: left;
-          width: 100%;
-        }
-
         .small-id {
           word-break: break-all;
           font-size: 11px;
@@ -1816,15 +1847,11 @@
         }
 
         .traffic-widget-compact {
-          padding: 12px 14px;
+          padding: 8px 12px;
         }
 
         .traffic-widget-compact .traffic-big-value {
-          font-size: 1.6rem;
-        }
-
-        .traffic-widget-compact .traffic-limit-bar {
-          max-width: 200px;
+          font-size: 1.3rem;
         }
 
         .quick-start-card h4 {
@@ -1842,7 +1869,12 @@
         .hero-stats {
           grid-template-columns: 1fr;
           gap: 12px;
-          padding: 16px;
+          padding: 16px 16px 60px 16px;
+        }
+
+        .hero-stats .stats-add-btn {
+          bottom: 12px;
+          right: 12px;
         }
 
         .stat {
@@ -1862,7 +1894,7 @@
         }
 
         .traffic-widget-compact .traffic-big-value {
-          font-size: 1.4rem;
+          font-size: 1.2rem;
         }
       }
     </style>
@@ -1871,13 +1903,14 @@
   <body>
     <div class="card">
       <header>
-        <div class="logo">
-          <a href="/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN</a>
-          <div class="hero-watermark">Privacy is our Religion</div>
-        </div>
-        <div style="display: flex; flex-direction: column; align-items: flex-end;">
+        <div class="env-switcher-wrap">
           <div id="env-switcher"></div>
-          <div class="env-help">Группа серверов</div>
+        </div>
+        <div class="header-right">
+          <div class="logo">
+            <a href="/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN</a>
+            <div class="hero-watermark">Privacy is our Religion</div>
+          </div>
         </div>
       </header>
 
@@ -1943,16 +1976,36 @@
 
       <div class="main-content" id="main-content">
         <section class="hero">
-          <h3 class="hero-title">
-            Ваш личный кабинет
-          </h3>
+          <h3 class="hero-title">Ваш личный кабинет</h3>
           <p class="section-subtitle">
-            Здесь вся информация о подписке, ссылка для подключения и способы продления.
-            Чтобы настроить VPN, скопируйте ссылку ниже и вставьте в приложение-клиент.
+            Здесь вся информация о подписке, ссылка для подключения и способы
+            продления. Чтобы настроить Рилзопровод, скопируйте ссылку ниже и
+            вставьте в приложение-клиент.
           </p>
-          <div class="info-tooltip" style="margin-bottom: 20px;">
+          <div class="info-tooltip" style="margin-bottom: 20px">
             <span>⭐</span>
-            <span><b>Добавьте страницу в закладки.</b> Ваш номер подписки сохранён в браузере — в следующий раз зайдёте сразу, без ключа.</span>
+            <span
+              ><b>Добавьте страницу в закладки.</b> Ваш номер подписки сохранён
+              в браузере — в следующий раз зайдёте сразу, без ключа.</span
+            >
+          </div>
+
+          <div
+            id="wl-warning"
+            class="info-tooltip warning"
+            style="margin-bottom: 20px; display: none"
+          >
+            <span>⚠️</span>
+            <span
+              ><b>Белые слоны работают только в приложении Happ.</b>
+              <a
+                href="https://happ.su/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="color: var(--accent); text-decoration: underline"
+                >Скачать Happ</a
+              ></span
+            >
           </div>
           <div class="hero-content">
             <div class="title-group">
@@ -1963,10 +2016,13 @@
 
           <div id="urgency-banner"></div>
 
-          <div class="hero-stats">
+          <div class="hero-stats" style="position: relative">
             <div class="stat">Статус<span id="status-text">...</span></div>
             <div class="stat">Осталось дней <b id="days">...</b></div>
             <div class="stat">Истекает <span id="expires">...</span></div>
+            <a class="small-add stats-add-btn" id="scrollToAdd"
+              >⚡ Докинуть дней</a
+            >
           </div>
 
           <div class="traffic-widget traffic-widget-compact">
@@ -1985,38 +2041,55 @@
 
             <div class="traffic-main">
               <div class="traffic-big-value" id="traffic-total">0 B</div>
-              <div class="traffic-big-label">Всего трафика</div>
-              <div class="traffic-limit-bar">
-                <div class="traffic-limit-fill" id="traffic-limit-fill"></div>
+              <div class="traffic-limit-text" id="traffic-limit-text">
+                Без лимита
               </div>
-              <div class="traffic-limit-text" id="traffic-limit-text">0%</div>
             </div>
 
-            <div class="traffic-details" id="traffic-details" style="display: none;">
+            <div
+              class="traffic-details"
+              id="traffic-details"
+              style="display: none"
+            >
               <div class="traffic-detail-grid">
                 <div class="traffic-detail-card">
                   <div class="traffic-detail-label">Отправлено</div>
-                  <div class="traffic-detail-value" id="traffic-uplink">0 B</div>
+                  <div class="traffic-detail-value" id="traffic-uplink">
+                    0 B
+                  </div>
                 </div>
                 <div class="traffic-detail-card">
                   <div class="traffic-detail-label">Получено</div>
-                  <div class="traffic-detail-value" id="traffic-downlink">0 B</div>
+                  <div class="traffic-detail-value" id="traffic-downlink">
+                    0 B
+                  </div>
                 </div>
                 <div class="traffic-detail-card">
                   <div class="traffic-detail-label">Сегодня отправлено</div>
-                  <div class="traffic-detail-value" id="traffic-daily-uplink">0 B</div>
+                  <div class="traffic-detail-value" id="traffic-daily-uplink">
+                    0 B
+                  </div>
                 </div>
                 <div class="traffic-detail-card">
                   <div class="traffic-detail-label">Сегодня получено</div>
-                  <div class="traffic-detail-value" id="traffic-daily-downlink">0 B</div>
+                  <div class="traffic-detail-value" id="traffic-daily-downlink">
+                    0 B
+                  </div>
                 </div>
                 <div class="traffic-detail-card">
                   <div class="traffic-detail-label">За месяц отправлено</div>
-                  <div class="traffic-detail-value" id="traffic-monthly-uplink">0 B</div>
+                  <div class="traffic-detail-value" id="traffic-monthly-uplink">
+                    0 B
+                  </div>
                 </div>
                 <div class="traffic-detail-card">
                   <div class="traffic-detail-label">За месяц получено</div>
-                  <div class="traffic-detail-value" id="traffic-monthly-downlink">0 B</div>
+                  <div
+                    class="traffic-detail-value"
+                    id="traffic-monthly-downlink"
+                  >
+                    0 B
+                  </div>
                 </div>
               </div>
             </div>
@@ -2027,26 +2100,41 @@
             <ol class="quick-start-list">
               <li>
                 <span class="step-num">1</span>
-                <span class="step-text"><b>Скопируйте ссылку</b> из блока ниже или отсканируйте QR-код.</span>
+                <span class="step-text"
+                  ><b>Скопируйте ссылку</b> из блока ниже или отсканируйте
+                  QR-код.</span
+                >
               </li>
               <li>
                 <span class="step-num">2</span>
-                <span class="step-text"><b>Установите приложение-клиент</b> для вашей ОС (Hiddify, V2RayNG, Streisand и др.).</span>
+                <span class="step-text"
+                  ><b>Установите приложение-клиент</b> для вашей ОС (Hiddify,
+                  V2RayNG, Streisand и др.).</span
+                >
               </li>
               <li>
                 <span class="step-num">3</span>
-                <span class="step-text"><b>Вставьте ссылку</b> в приложение — оно само загрузит все настройки.</span>
+                <span class="step-text"
+                  ><b>Вставьте ссылку</b> в приложение — оно само загрузит все
+                  настройки.</span
+                >
               </li>
             </ol>
-            <div class="info-tooltip" style="margin-top: 14px;">
-              💡 Не знаете, какое приложение выбрать? Воспользуйтесь подбором ниже или перейдите на страницу настроек.
+            <div class="info-tooltip" style="margin-top: 14px">
+              💡 Не знаете, какое приложение выбрать? Воспользуйтесь подбором
+              ниже или перейдите на страницу настроек.
             </div>
           </div>
 
           <div class="subscription-link-card primary-action">
             <div class="subscription-link-label">
-              <div class="label-main">🔗 Ссылка для подключения</div>
-              <div class="label-hint">Скопируйте её и вставьте в приложение-клиент. Одна ссылка работает на всех устройствах.</div>
+              <div class="label-main">
+                🔗 Универсальная ссылка для подключения
+              </div>
+              <div class="label-hint">
+                Скопируйте её и вставьте в приложение-клиент. ЛИСТАЙ НИЖЕ ЕСЛИ
+                НУЖНО БОЛЬШЕ. AMNEZIA НАСТРАИВАЕТСЯ ОТДЕЛЬНО.
+              </div>
             </div>
 
             <div class="subscription-link-row">
@@ -2067,41 +2155,49 @@
 
         <hr />
 
-        <div style="text-align: right; margin-bottom: 20px">
-          <a class="small-add" id="scrollToAdd">⚡ Докинуть дней</a>
-        </div>
-
         <h3>📲 Подбор приложения для вашего устройства</h3>
         <p class="section-subtitle">
-          Ответьте на 3 вопроса, и мы подскажем, какое приложение скачать и какую ссылку использовать.
+          Ответьте на 3 вопроса, и мы подскажем, какое приложение скачать и
+          какую ссылку использовать.
         </p>
 
         <div class="steps-flow">
           <div class="step-card" id="os-step">
-            <h4>1. На каком устройстве будете использовать VPN?</h4>
+            <h4>1. На каком устройстве будете использовать Рилзопровод?</h4>
             <div id="os-options" class="pill-group"></div>
-            <div class="step-hint">Выберите операционную систему: Windows, macOS, Android, iOS и т.д.</div>
+            <div class="step-hint">
+              Выберите операционную систему: Windows, macOS, Android, iOS и т.д.
+            </div>
           </div>
 
           <div class="step-card step-disabled" id="protocol-step">
             <h4>2. Какой протокол выбрать?</h4>
             <p class="small" style="margin: 0 0 14px">
-              <b style="color: var(--text)">Рекомендуем AmneziaWG и Hysteria2</b> — они работают стабильнее всего и обходят блокировки в большинстве случаев.
+              <b style="color: var(--text)"
+                >Рекомендуем AmneziaWG и Hysteria2</b
+              >
+              — они работают стабильнее и быстрее в большинстве случаев.
             </p>
             <div id="protocol-options" class="protocol-grid"></div>
-            <div class="step-hint">Если не уверены — выберите AmneziaWG или Hysteria2. Другие протоколы нужны для особых ситуаций.</div>
+            <div class="step-hint">
+              Если не уверены — выберите AmneziaWG или Hysteria2. Другие
+              протоколы нужны для особых ситуаций.
+            </div>
           </div>
 
           <div class="step-card step-disabled" id="client-step">
             <h4>3. Какое приложение установить?</h4>
             <div id="client-options" class="pill-group"></div>
-            <div class="step-hint">Выберите приложение-клиент, которое поддерживает ваше устройство.</div>
+            <div class="step-hint">
+              Выберите приложение-клиент, которое поддерживает ваше устройство.
+            </div>
           </div>
 
           <div class="step-card step-disabled" id="connection-step">
             <h4>Готово — ссылка для выбранной конфигурации</h4>
             <div id="connection-content" class="small">
-              Выберите устройство, протокол и приложение, чтобы получить точную ссылку подключения.
+              Выберите устройство, протокол и приложение, чтобы получить точную
+              ссылку подключения.
             </div>
           </div>
         </div>
@@ -2111,33 +2207,67 @@
           <div class="setup-help-content">
             <h4>Нужно настроить на роутере?</h4>
             <p>
-              У нас есть готовые инструкции для разных моделей роутеров — настроите VPN на всю сеть разом.
+              У нас есть готовые инструкции для разных моделей роутеров —
+              настроите Рилзопровод на всю сеть разом.
             </p>
-            <a href="/setup/routers/" class="setup-help-link">Инструкция для роутеров →</a>
+            <a href="/setup/routers/" class="setup-help-link"
+              >Инструкция для роутеров →</a
+            >
           </div>
+        </div>
+
+        <hr />
+        <div class="ref-code">
+          <h2 class="renew-title" style="margin-bottom: 16px">
+            👥 Приглашай друзей — получай бесплатные дни
+          </h2>
+          Твой реферальный код: <b id="ref-code">...</b><br />
+          <div>
+            <button id="copy-ref-btn">Копировать код</button>
+            <button id="copy-ref-link">Копировать ссылку для друга</button>
+          </div>
+        </div>
+        <div class="small">
+          Вы пригласили: <span id="invited-count">0</span><br />
+          Бонус зависит от ключа друга: 30 дней → 7, 90 → 14, 365 → 30
+        </div>
+        <div class="small" style="margin-top: 8px">
+          <a href="/referral/" class="text-link"
+            >Как работает реферальная программа →</a
+          >
         </div>
 
         <hr />
         <div class="renew-section" id="renew">
           <h2 class="renew-title">
             ⏳ Продлить подписку
-            <span class="title-hint">Ключ активации или оплата картой / СБП / криптой</span>
+            <span class="title-hint"
+              >Ключ активации или оплата картой / СБП / криптой</span
+            >
           </h2>
 
           <div class="renew-options">
             <div class="renew-option-card">
               <div class="renew-option-icon">🔑</div>
               <h4>Уже есть ключ активации?</h4>
-              <p>Введите ключ, который вы получили после покупки или от друга.</p>
+              <p>
+                Введите ключ, который вы получили после покупки или от друга.
+              </p>
               <input id="keyInput" placeholder="Вставьте ключ сюда" />
               <button onclick="activateKey()" class="renew-action-btn">
                 Активировать ключ
               </button>
               <div class="renew-option-links">
-                <a href="/info/activation-keys/" target="_blank" class="small text-link">
+                <a
+                  href="/info/activation-keys/"
+                  target="_blank"
+                  class="small text-link"
+                >
                   Что такое ключ активации?
                 </a>
-                <a href="/pay" target="_blank" class="small text-link">Купить ключ</a>
+                <a href="/pay" target="_blank" class="small text-link"
+                  >Купить ключ</a
+                >
               </div>
               <div id="keyResult" class="small"></div>
             </div>
@@ -2152,21 +2282,35 @@
                   <option value="3" data-price="100">3 дня — 100 ₽</option>
                   <option value="7" data-price="200">7 дней — 200 ₽</option>
                   <option value="14" data-price="300">14 дней — 300 ₽</option>
-                  <option value="30" data-price="500" selected>30 дней — 500 ₽</option>
+                  <option value="30" data-price="500" selected>
+                    30 дней — 500 ₽
+                  </option>
                   <option value="90" data-price="1500">90 дней — 1500 ₽</option>
-                  <option value="180" data-price="2700">180 дней — 2700 ₽</option>
-                  <option value="365" data-price="5000">365 дней — 5000 ₽</option>
+                  <option value="180" data-price="2700">
+                    180 дней — 2700 ₽
+                  </option>
+                  <option value="365" data-price="5000">
+                    365 дней — 5000 ₽
+                  </option>
                 </select>
               </div>
               <div class="renew-promo-inline">
-                <input type="text" id="renewPromo" placeholder="Промокод (необязательно)" />
+                <input
+                  type="text"
+                  id="renewPromo"
+                  placeholder="Промокод (необязательно)"
+                />
                 <button type="button" id="renewApplyPromo">Применить</button>
               </div>
               <div class="renew-price" id="renewPrice">
                 <span class="renew-price-old" id="renewPriceOld"></span>
                 <span class="renew-price-new" id="renewPriceNew">500 ₽</span>
               </div>
-              <button type="button" class="renew-action-btn primary" id="renewBtn">
+              <button
+                type="button"
+                class="renew-action-btn primary"
+                id="renewBtn"
+              >
                 Продлить подписку
               </button>
               <div class="renew-error" id="renewError"></div>
@@ -2197,22 +2341,6 @@
           </div>
         </div>
 
-        <hr />
-        <div class="ref-code">
-          Твой реферальный код: <b id="ref-code">...</b><br />
-          <div>
-            <button id="copy-ref-btn">Копировать код</button>
-            <button id="copy-ref-link">Копировать ссылку для друга</button>
-          </div>
-        </div>
-        <div class="small">
-          Вы пригласили: <span id="invited-count">0</span><br />
-          Бонус зависит от ключа друга: 30 дней → 7, 90 → 14, 365 → 30
-        </div>
-        <div class="small" style="margin-top: 8px;">
-          <a href="/referral/" class="text-link">Как работает реферальная программа →</a>
-        </div>
-
         <br />
         <hr />
         <div class="footer-line">
@@ -2230,7 +2358,8 @@
         <canvas id="qr-canvas"></canvas>
       </div>
     </div>
-  </body>
+<script src="/scripts/analytics.js" defer></script>
+</body>
 </html>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
@@ -2243,7 +2372,10 @@
   function scrollToElement(id) {
     const el = document.getElementById(id);
     if (!el) return;
-    el.scrollIntoView({ behavior: isAndroid ? "auto" : "smooth", block: "start" });
+    el.scrollIntoView({
+      behavior: isAndroid ? "auto" : "smooth",
+      block: "start",
+    });
   }
   const API_BASE = isLocal
     ? "http://localhost:3000"
@@ -2288,7 +2420,8 @@
       id: "xray",
       label: "Xray",
       icon: "/Images/xray.svg",
-      description: "Включает Vless TCP Reality, Vless gRPC Reality и Vless XHTTP Reality. Универсальный выбор",
+      description:
+        "Включает Vless TCP Reality, Vless gRPC Reality и Vless XHTTP Reality. Универсальный выбор",
     },
     {
       id: "vless-tcp-reality",
@@ -2318,7 +2451,7 @@
       id: "wireguard",
       label: "WireGuard",
       icon: "/Images/wireguard.svg",
-      description: "Простой и быстрый VPN-протокол",
+      description: "Простой и быстрый протокол",
     },
   ];
   let selectedProtocol = "all";
@@ -2503,24 +2636,24 @@
 
     document.getElementById("traffic-total").innerText = formatBytes(total);
     document.getElementById("traffic-uplink").innerText = formatBytes(uplink);
-    document.getElementById("traffic-downlink").innerText = formatBytes(downlink);
-    document.getElementById("traffic-daily-uplink").innerText = formatBytes(dailyUplink);
-    document.getElementById("traffic-daily-downlink").innerText = formatBytes(dailyDownlink);
-    document.getElementById("traffic-monthly-uplink").innerText = formatBytes(monthlyUplink);
-    document.getElementById("traffic-monthly-downlink").innerText = formatBytes(monthlyDownlink);
+    document.getElementById("traffic-downlink").innerText =
+      formatBytes(downlink);
+    document.getElementById("traffic-daily-uplink").innerText =
+      formatBytes(dailyUplink);
+    document.getElementById("traffic-daily-downlink").innerText =
+      formatBytes(dailyDownlink);
+    document.getElementById("traffic-monthly-uplink").innerText =
+      formatBytes(monthlyUplink);
+    document.getElementById("traffic-monthly-downlink").innerText =
+      formatBytes(monthlyDownlink);
 
     const limitBytes = data.limit_bytes || 0;
-    const trafficLimitFill = document.getElementById("traffic-limit-fill");
     const trafficLimitText = document.getElementById("traffic-limit-text");
     if (limitBytes > 0) {
       const percent = Math.min(100, Math.round((total / limitBytes) * 100));
-      trafficLimitFill.style.width = percent + "%";
       trafficLimitText.innerText = `${percent}% от лимита`;
-      trafficLimitFill.classList.toggle("high", percent >= 80);
     } else {
-      trafficLimitFill.style.width = "0%";
       trafficLimitText.innerText = "Без лимита";
-      trafficLimitFill.classList.remove("high");
     }
   }
 
@@ -2549,9 +2682,7 @@
     });
 
     const selectedEnv =
-      currentEnv && envs.some((e) => e.env === currentEnv)
-        ? currentEnv
-        : "all";
+      currentEnv && envs.some((e) => e.env === currentEnv) ? currentEnv : "all";
     select.value = selectedEnv;
 
     select.onchange = () => {
@@ -2577,6 +2708,11 @@
     const badge = document.getElementById("env-badge");
     const daysEl = document.getElementById("days");
     const expiryDate = new Date(data.expires);
+
+    const wlWarning = document.getElementById("wl-warning");
+    if (wlWarning) {
+      wlWarning.style.display = currentEnv === "wl" ? "flex" : "none";
+    }
 
     renderTrafficWidget(data, currentEnv);
 
@@ -2609,13 +2745,15 @@
 
       if (diffMs <= 0) {
         banner.className = "urgency-banner critical";
-        banner.innerHTML = "🚨 Подписка истекла. Чтобы восстановить доступ, <a href='#renew' style='color:#fbbf24; text-decoration: underline;'>продлите подписку</a>.";
+        banner.innerHTML =
+          "🚨 Подписка истекла. Чтобы восстановить доступ, <a href='#renew' style='color:#fbbf24; text-decoration: underline;'>продлите подписку</a>.";
         return;
       }
 
       if (diffDays < 1) {
         banner.className = "urgency-banner critical";
-        banner.innerHTML = "⏰ Подписка закончится менее чем через сутки. <a href='#renew' style='color:#fbbf24; text-decoration: underline;'>Продлите сейчас</a>, чтобы не потерять доступ.";
+        banner.innerHTML =
+          "⏰ Подписка закончится менее чем через сутки. <a href='#renew' style='color:#fbbf24; text-decoration: underline;'>Продлите сейчас</a>, чтобы не потерять доступ.";
         return;
       }
 
@@ -2835,10 +2973,9 @@
       const instructions = {
         wireguard:
           "Скачайте официальное приложение WireGuard и импортируйте конфиг ниже.",
-        awg:
-          'Используйте приложение <a href="https://amnezia.org/downloads" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Amnezia VPN</a> или настройте AmneziaWG прямо на <a href="/setup/routers/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">роутере</a>. Конфиг для импорта будет ниже.',
+        awg: 'Используйте приложение <a href="https://amnezia.org/downloads" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Amnezia Wireguard</a> или настройте AmneziaWG прямо на <a href="/setup/routers/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">роутере</a>. Конфиг для импорта будет ниже.',
         mtproto:
-          "Для MTProto не нужен отдельный VPN-клиент. Нажмите кнопку Connect в настройках ниже.",
+          "Для MTProto не нужен отдельный клиент. Нажмите кнопку Connect в настройках ниже.",
       };
       options.innerHTML = `
         <div style="padding: 14px 16px; border-radius: 14px; background: rgba(91, 124, 250, 0.08); border: 1px solid rgba(91, 124, 250, 0.25); color: var(--text);">
@@ -2862,10 +2999,7 @@
     }
 
     // Если текущий выбранный клиент не поддерживает протокол, сбрасываем
-    if (
-      selectedClientId &&
-      !clients.some((c) => c.id === selectedClientId)
-    ) {
+    if (selectedClientId && !clients.some((c) => c.id === selectedClientId)) {
       selectedClientId = null;
     }
 
@@ -2949,7 +3083,10 @@
       "vless-grpc-reality",
       "vless-xhttp-reality",
     ];
-    if (xrayProtocols.includes(selectedProtocol) && !currentConnectionContext.hasXray) {
+    if (
+      xrayProtocols.includes(selectedProtocol) &&
+      !currentConnectionContext.hasXray
+    ) {
       content.innerHTML = `<div class="small">Xray недоступен в этом регионе.</div>`;
       return;
     }
@@ -3044,7 +3181,7 @@
         p.icon && (p.icon.startsWith("/") || p.icon.startsWith("http"));
       const iconHtml = isLogo
         ? `<img src="${p.icon}" alt="" onerror="this.style.display='none'">`
-        : (p.icon || "");
+        : p.icon || "";
 
       card.innerHTML = `
         ${badge}
@@ -3198,7 +3335,7 @@
                       Copy
                     </button>
 
-                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, '')}')">
+                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, "")}')">
                       Download
                     </button>
 
@@ -3295,7 +3432,7 @@
                       Copy
                     </button>
 
-                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, '')}')">
+                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, "")}')">
                       Download
                     </button>
 
@@ -3480,7 +3617,10 @@
     function updateRenewPriceDisplay() {
       const basePrice = getSelectedRenewPrice();
       if (!renewPriceNew) return;
-      if (currentRenewDiscountedPrice && currentRenewDiscountedPrice < basePrice) {
+      if (
+        currentRenewDiscountedPrice &&
+        currentRenewDiscountedPrice < basePrice
+      ) {
         if (renewPriceOld) renewPriceOld.textContent = `${basePrice} ₽`;
         renewPriceNew.textContent = `${currentRenewDiscountedPrice} ₽`;
         renewPriceNew.classList.add("discounted");
@@ -3584,7 +3724,10 @@
           }
           const data = await res.json();
           if (data.transactionId) {
-            localStorage.setItem("frkn_last_transaction_id", data.transactionId);
+            localStorage.setItem(
+              "frkn_last_transaction_id",
+              data.transactionId,
+            );
           }
           if (data.status === "PENDING" && data.url) {
             localStorage.setItem("frkn_last_subscription_id", subId);

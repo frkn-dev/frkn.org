@@ -44,9 +44,10 @@
       .activate-hero h1 {
         font-size: clamp(28px, 6vw, 40px);
         margin: 0 0 12px;
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #fff;
+        text-shadow:
+          0 0 8px rgba(91, 124, 250, 0.35),
+          0 0 18px rgba(34, 211, 238, 0.15);
       }
 
       .activate-hero p {
@@ -148,23 +149,25 @@
 
       .btn-activate {
         width: 100%;
-        background: linear-gradient(135deg, var(--accent), var(--accent-2));
-        color: #05060a;
+        background: var(--accent);
+        color: #ffffff;
         padding: 16px 24px;
         border-radius: 12px;
         font-size: 16px;
         font-weight: 700;
         border: none;
         cursor: pointer;
-        transition: opacity 0.2s ease, transform 0.2s ease;
+        transition: all 0.2s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
+        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
       }
 
       .btn-activate:hover {
-        opacity: 0.9;
+        background: #6d8bfb;
+        box-shadow: 0 0 36px rgba(91, 124, 250, 0.5);
         transform: translateY(-1px);
       }
 
@@ -638,7 +641,7 @@
         <div class="activate-hero">
           <h1>Доступ к подписке</h1>
           <p>
-            Введи ID подписки или ключ активации, чтобы войти в личный кабинет.
+            Введи ID подписки, чтобы войти в личный кабинет.
           </p>
         </div>
 
@@ -646,23 +649,22 @@
           <div class="activate-card-header">
             <div class="key-icon">🔐</div>
             <h2>Вход в личный кабинет</h2>
-            <p>ID подписки — UUID, ключ — набор символов через дефис</p>
+            <p>ID подписки — UUID, который пришёл после оплаты</p>
           </div>
 
           <form id="subscriptionForm">
             <div class="input-group">
-              <label for="subId">ID подписки или ключ</label>
+              <label for="subId">ID подписки</label>
               <input
                 type="text"
                 id="subId"
                 name="id"
-                placeholder="Введите ID подписки или ключ"
+                placeholder="Введите ID подписки"
                 required
                 autocomplete="off"
               />
               <span class="input-hint"
-                >Например: 550e8400-e29b-41d4-a716-446655440000 или
-                XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-X</span
+                >Например: 550e8400-e29b-41d4-a716-446655440000</span
               >
             </div>
 
@@ -686,17 +688,6 @@
               <p>
                 Используй UUID подписки, чтобы сразу попасть в личный кабинет и
                 управлять устройствами.
-              </p>
-            </div>
-          </div>
-
-          <div class="benefit-card">
-            <div class="benefit-icon green">🔑</div>
-            <div class="benefit-content">
-              <h4>Активация ключа</h4>
-              <p>
-                Если у тебя ключ активации — мы создадим подписку и привяжем
-                ключ автоматически.
               </p>
             </div>
           </div>

@@ -60,12 +60,17 @@
       }
       .hero-title {
         text-align: center;
-        font-size: 48px;
+        font-size: clamp(24px, 8vw, 42px);
         font-weight: 800;
         margin-bottom: 16px;
         letter-spacing: -1px;
-        background: var(--accent-color);
-        background-clip: text;
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: #fff;
+        color: #fff;
+        text-shadow:
+          0 0 8px rgba(91, 124, 250, 0.35),
+          0 0 18px rgba(34, 211, 238, 0.15);
       }
       .subtitle {
         text-align: center;
@@ -193,25 +198,25 @@
         display: inline-block;
       }
       .price-per-day {
-        font-size: 13px;
-        color: var(--accent-color);
-        margin-top: 8px;
+        display: none;
       }
       .buy-button {
         width: 100%;
         padding: 14px;
-        background: var(--border-color);
-        color: var(--text-main);
+        background: var(--accent);
+        color: #ffffff;
         border: none;
         border-radius: 12px;
         font-size: 16px;
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.2s ease;
+        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
       }
       .buy-button:hover {
-        background: var(--accent-color);
-        transform: scale(0.98);
+        background: #6d8bfb;
+        box-shadow: 0 0 36px rgba(91, 124, 250, 0.5);
+        transform: translateY(-1px);
       }
       .feature-list {
         margin-top: 20px;
@@ -230,6 +235,86 @@
         content: "✓";
         color: var(--accent-secondary);
         font-weight: bold;
+      }
+      .pricing-grid-main {
+        grid-template-columns: repeat(3, minmax(280px, 1fr));
+        align-items: stretch;
+      }
+      .card-subtitle {
+        font-size: 13px;
+        color: var(--text-dim);
+        margin-bottom: 8px;
+        min-height: 20px;
+      }
+      .savings-text {
+        font-size: 13px;
+        color: var(--accent-secondary);
+        font-weight: 600;
+        margin-top: -12px;
+        margin-bottom: 16px;
+      }
+      .price-card.recommended::before {
+        content: "Самый популярный";
+      }
+      .extra-options-toggle {
+        text-align: center;
+        margin: 8px 0 32px;
+      }
+      .extra-options-toggle a {
+        color: var(--text-dim);
+        font-size: 14px;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      .extra-options-toggle a:hover {
+        color: var(--accent-color);
+      }
+      .extra-options.hidden {
+        display: none;
+      }
+      .extra-options .pricing-grid-extra {
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 16px;
+      }
+      .price-card.compact {
+        padding: 18px 14px;
+      }
+      .price-card.compact h3 {
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+      .price-card.compact .duration {
+        font-size: 12px;
+        margin-bottom: 12px;
+      }
+      .price-card.compact .cost {
+        font-size: 28px;
+      }
+      .price-card.compact .feature-list {
+        display: none;
+      }
+      .price-card.compact .buy-button {
+        padding: 10px;
+        font-size: 14px;
+      }
+      @media (max-width: 960px) {
+        .pricing-grid-main {
+          grid-template-columns: 1fr;
+        }
+        .extra-options .pricing-grid-extra {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 480px) {
+        .extra-options .pricing-grid-extra {
+          grid-template-columns: 1fr;
+        }
+      }
+      .price-card.accent-border {
+        border: 2px solid var(--accent-color);
+      }
+      .savings-text.regular {
+        color: var(--text-dim);
       }
       .modal-overlay {
         display: none;
@@ -349,18 +434,20 @@
       .btn-pay {
         width: 100%;
         padding: 16px;
-        background: linear-gradient(135deg, var(--accent-color), #0055aa);
-        color: white;
+        background: var(--accent);
+        color: #ffffff;
         border: none;
-        border-radius: 14px;
+        border-radius: 12px;
         font-size: 18px;
         font-weight: 700;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.2s ease;
+        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
       }
       .btn-pay:hover {
-        transform: scale(0.98);
-        opacity: 0.9;
+        background: #6d8bfb;
+        box-shadow: 0 0 36px rgba(91, 124, 250, 0.5);
+        transform: translateY(-1px);
       }
       .btn-pay:disabled {
         opacity: 0.6;
@@ -459,7 +546,7 @@
         background: rgba(34, 197, 94, 0.12);
       }
       .pay-benefit-icon.blue {
-        background: rgba(91, 124, 250, 0.12);
+        background: rgba(59, 130, 246, 0.25);
       }
       .pay-benefit-content h4 {
         margin: 0 0 8px;
@@ -488,6 +575,74 @@
         Купите ключ активации для получения или продления подписки <br />
       </p>
 
+      <div class="pricing-section">
+        <div class="pricing-grid pricing-grid-main">
+          <div class="price-card accent-border" data-duration="30" data-price="500">
+            <div class="card-subtitle">Попробовать Рилзопровод</div>
+            <h3>1 месяц</h3>
+            <div class="duration">30 дней доступа</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">500₽</div>
+            </div>
+            <div class="savings-text regular">Обычная цена</div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="30" data-price="500">
+              Выбрать тариф
+            </button>
+            <ul class="feature-list">
+              <li>Безлимитный трафик</li>
+              <li>Высокая скорость</li>
+              <li>Любое количество устройств</li>
+            </ul>
+          </div>
+
+          <div
+            class="price-card recommended"
+            data-duration="90"
+            data-price="1300"
+          >
+            <div class="card-subtitle"></div>
+            <h3>3 месяца</h3>
+            <div class="duration">90 дней доступа</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">1300₽</div>
+            </div>
+            <div class="savings-text">Экономия 200 ₽</div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="90" data-price="1300">
+              Выбрать тариф
+            </button>
+            <ul class="feature-list">
+              <li>Безлимитный трафик</li>
+              <li>Высокая скорость</li>
+              <li>Любое количество устройств</li>
+            </ul>
+          </div>
+
+          <div class="price-card accent-border" data-duration="365" data-price="4500">
+            <div class="card-subtitle">Для постоянного использования</div>
+            <h3>12 месяцев</h3>
+            <div class="duration">365 дней доступа</div>
+            <div class="cost-wrapper">
+              <span class="old-price"></span>
+              <div class="cost">4500₽</div>
+            </div>
+            <div class="savings-text">Экономия 1500 ₽</div>
+            <div class="price-per-day"></div>
+            <button class="buy-button" data-duration="365" data-price="4500">
+              Выбрать тариф
+            </button>
+            <ul class="feature-list">
+              <li>Безлимитный трафик</li>
+              <li>Высокая скорость</li>
+              <li>Любое количество устройств</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       <div class="pay-benefits">
         <div class="pay-benefit-card">
           <div class="pay-benefit-icon green">🛡️</div>
@@ -511,55 +666,13 @@
         </div>
       </div>
 
-      <div class="pricing-section">
-        <div class="pricing-grid pricing-grid-2">
-          <div
-            class="price-card recommended"
-            data-duration="30"
-            data-price="500"
-          >
-            <h3>1 месяц</h3>
-            <div class="duration">30 дней доступа</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">500₽</div>
-            </div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="30" data-price="500">
-              Выбрать тариф
-            </button>
-            <ul class="feature-list">
-              <li>Безлимитный трафик</li>
-              <li>Высокая скорость</li>
-              <li>Любое количество устройств</li>
-            </ul>
-          </div>
-          <div class="price-card popular" data-duration="365" data-price="5000">
-            <h3>1 год</h3>
-            <div class="duration">365 дней доступа</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">5000₽</div>
-            </div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="365" data-price="5000">
-              Выбрать тариф
-            </button>
-            <ul class="feature-list">
-              <li>Безлимитный трафик</li>
-              <li>Высокая скорость</li>
-              <li>Любое количество устройств</li>
-              <li>Экономия до 20%</li>
-            </ul>
-          </div>
-        </div>
+      <div class="extra-options-toggle">
+        <a href="#" id="extra-options-toggle">Дополнительные варианты</a>
       </div>
 
-      <div class="section-title">БОЛЬШЕ ТАРИФОВ</div>
-
-      <div class="pricing-section">
-        <div class="pricing-grid pricing-grid-3">
-          <div class="price-card" data-duration="3" data-price="100">
+      <div class="extra-options hidden" id="extra-options">
+        <div class="pricing-grid pricing-grid-extra">
+          <div class="price-card compact" data-duration="3" data-price="100">
             <h3>3 дня</h3>
             <div class="duration">3 дня доступа</div>
             <div class="cost-wrapper">
@@ -568,71 +681,37 @@
             </div>
             <div class="price-per-day"></div>
             <button class="buy-button" data-duration="3" data-price="100">
-              Выбрать тариф
+              Выбрать
             </button>
-            <ul class="feature-list">
-              <li>Безлимитный трафик</li>
-              <li>Высокая скорость</li>
-              <li>Любое количество устройств</li>
-            </ul>
           </div>
-          <div class="price-card" data-duration="7" data-price="200">
+
+          <div class="price-card compact" data-duration="7" data-price="200">
             <h3>7 дней</h3>
-            <div class="duration">1 неделя доступа</div>
+            <div class="duration">7 дней доступа</div>
             <div class="cost-wrapper">
               <span class="old-price"></span>
               <div class="cost">200₽</div>
             </div>
             <div class="price-per-day"></div>
             <button class="buy-button" data-duration="7" data-price="200">
-              Выбрать тариф
+              Выбрать
             </button>
-            <ul class="feature-list">
-              <li>Безлимитный трафик</li>
-              <li>Высокая скорость</li>
-              <li>Любое количество устройств</li>
-            </ul>
           </div>
-          <div class="price-card" data-duration="14" data-price="300">
+
+          <div class="price-card compact" data-duration="14" data-price="300">
             <h3>14 дней</h3>
-            <div class="duration">2 недели доступа</div>
+            <div class="duration">14 дней доступа</div>
             <div class="cost-wrapper">
               <span class="old-price"></span>
               <div class="cost">300₽</div>
             </div>
             <div class="price-per-day"></div>
             <button class="buy-button" data-duration="14" data-price="300">
-              Выбрать тариф
+              Выбрать
             </button>
-            <ul class="feature-list">
-              <li>Безлимитный трафик</li>
-              <li>Высокая скорость</li>
-              <li>Любое количество устройств</li>
-            </ul>
           </div>
-        </div>
-      </div>
 
-      <div class="pricing-section">
-        <div class="pricing-grid">
-          <div class="price-card" data-duration="90" data-price="1500">
-            <h3>3 месяца</h3>
-            <div class="duration">90 дней доступа</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">1500₽</div>
-            </div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="90" data-price="1500">
-              Выбрать тариф
-            </button>
-            <ul class="feature-list">
-              <li>Безлимитный трафик</li>
-              <li>Высокая скорость</li>
-              <li>Любое количество устройств</li>
-            </ul>
-          </div>
-          <div class="price-card" data-duration="180" data-price="2700">
+          <div class="price-card compact" data-duration="180" data-price="2700">
             <h3>6 месяцев</h3>
             <div class="duration">180 дней доступа</div>
             <div class="cost-wrapper">
@@ -641,13 +720,8 @@
             </div>
             <div class="price-per-day"></div>
             <button class="buy-button" data-duration="180" data-price="2700">
-              Выбрать тариф
+              Выбрать
             </button>
-            <ul class="feature-list">
-              <li>Безлимитный трафик</li>
-              <li>Высокая скорость</li>
-              <li>Любое количество устройств</li>
-            </ul>
           </div>
         </div>
       </div>
@@ -1010,6 +1084,18 @@
           applyPromoToCurrentOrder(promoInput.value);
         }
       });
+      const extraToggle = document.getElementById("extra-options-toggle");
+      const extraOptions = document.getElementById("extra-options");
+      if (extraToggle && extraOptions) {
+        extraToggle.addEventListener("click", (e) => {
+          e.preventDefault();
+          const isHidden = extraOptions.classList.contains("hidden");
+          extraOptions.classList.toggle("hidden");
+          extraToggle.textContent = isHidden
+            ? "Скрыть дополнительные варианты"
+            : "Дополнительные варианты";
+        });
+      }
       if (payBtn) {
         payBtn.onclick = async () => {
           if (!currentOrder) {

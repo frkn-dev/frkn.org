@@ -18,21 +18,34 @@
       }
 
       .contact-card {
-        background: #ffffff;
-        padding: 24px;
-        border-radius: 20px;
-        border: 1px solid #f3f4f6;
+        position: relative;
+        padding: 16px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
         transition: all 0.2s ease;
         text-decoration: none;
         display: flex;
         flex-direction: column;
         gap: 10px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      }
+
+      .contact-card:hover {
+        background: rgba(34, 211, 238, 0.06);
+        border-color: rgba(34, 211, 238, 0.3);
+        transform: translateY(-2px);
       }
 
       .contact-card img {
         width: 16px;
         height: 16px;
+        filter: invert(1);
+      }
+
+      .contact-card img[src*="telegram"],
+      .contact-card img[src*="vk"],
+      .contact-card img[src*="frkn-logo"] {
+        filter: none !important;
       }
 
       .logo2 img {
@@ -40,16 +53,11 @@
         height: 16px;
       }
 
-      .contact-card:hover {
-        transform: translateY(-5px);
-        border-color: #1d4ed8;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      }
-
       .contact-card h3 {
         margin: 0;
-        color: #111827;
-        font-size: 18px;
+        color: var(--text);
+        font-size: 15px;
+        font-weight: 700;
         display: flex;
         align-items: center;
         gap: 10px;
@@ -57,12 +65,13 @@
 
       .contact-card p {
         margin: 0;
-        color: #6b7280;
-        font-size: 14px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.4;
       }
 
       .contact-link {
-        color: #1d4ed8;
+        color: var(--accent);
         font-weight: 600;
         font-size: 15px;
         margin-top: auto;
@@ -74,15 +83,25 @@
         font-size: 14px;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: #9ca3af;
-        border-bottom: 1px solid #e5e7eb;
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
         padding-bottom: 10px;
       }
 
       .hero-subtitle {
-        color: #6b7280;
+        color: var(--muted);
         margin-top: 10px;
         font-size: 1.1rem;
+      }
+
+      .hero-title {
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: #fff;
+        color: #fff;
+        text-shadow:
+          0 0 8px rgba(91, 124, 250, 0.35),
+          0 0 18px rgba(34, 211, 238, 0.15);
       }
     </style>
   </head>
@@ -98,7 +117,7 @@
         <div class="category-title">Главные</div>
 
         <a href="mailto:pigeon@frkn.org" class="contact-card">
-          <h3 class="logo"><img src="/Images/frkn-logo.png" /> Почта</h3>
+          <h3 class="logo"><img src="/Images/frkn-logo.png?v=2" /> Почта</h3>
           <p>Ну почта чо.</p>
           <span class="contact-link">pigeon@frkn.org</span>
         </a>
@@ -108,30 +127,28 @@
           target="_blank"
           class="contact-card"
         >
-          <h3><img src="https://cdn.simpleicons.org/telegram" /> Поддержка</h3>
+          <h3>
+            <img src="https://cdn.simpleicons.org/telegram/26A5E4?v=2" />
+            Поддержка
+          </h3>
           <p>Помощь по настройке и оплате</p>
           <span class="contact-link">@frkn_support</span>
         </a>
 
         <a
-          href="https://t.me/frkn_official_bot"
+          href="https://t.me/unlock_internet_bot"
           target="_blank"
           class="contact-card"
         >
           <h3>
-            <img src="https://cdn.simpleicons.org/telegram" /> Telegram Bot
+            <img src="https://cdn.simpleicons.org/telegram/26A5E4?v=2" />
+            Telegram Bot
           </h3>
           <p>Бот</p>
-          <span class="contact-link">@frkn_official_bot</span>
+          <span class="contact-link">@unlock_internet_bot</span>
         </a>
 
         <div class="category-title">Ещё</div>
-
-        <a href="https://t.me/frkn_org" target="_blank" class="contact-card">
-          <h3><img src="https://cdn.simpleicons.org/telegram" /> ТГК</h3>
-          <p>Важные обновления и новости</p>
-          <span class="contact-link">t.me/frkn_org</span>
-        </a>
 
         <a
           href="https://github.com/frkn-dev"
@@ -144,19 +161,26 @@
         </a>
 
         <a href="https://t.me/frkn_dev" target="_blank" class="contact-card">
-          <h3><img src="https://cdn.simpleicons.org/telegram" /> Tech Talks</h3>
+          <h3>
+            <img src="https://cdn.simpleicons.org/telegram/26A5E4?v=2" /> Tech
+            Talks
+          </h3>
           <p>Тек толкс</p>
           <span class="contact-link">t.me/frkn_dev</span>
         </a>
 
         <a href="https://t.me/frkn_memes" target="_blank" class="contact-card">
-          <h3><img src="https://cdn.simpleicons.org/telegram" /> Memes</h3>
+          <h3>
+            <img src="https://cdn.simpleicons.org/telegram/26A5E4?v=2" /> Memes
+          </h3>
           <p>hehe</p>
           <span class="contact-link">t.me/frkn_memes</span>
         </a>
 
         <a href="https://vk.ru/frkn_memes" target="_blank" class="contact-card">
-          <h3><img src="https://cdn.simpleicons.org/vk" /> VK Memes</h3>
+          <h3>
+            <img src="https://cdn.simpleicons.org/vk/0077FF?v=2" /> VK Memes
+          </h3>
           <p>not hehe.</p>
           <span class="contact-link">vk.ru/frkn_memes</span>
         </a>
