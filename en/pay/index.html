@@ -847,6 +847,47 @@
       const payBtn = document.getElementById("final-pay-btn");
 
       // --- Helper functions ---
+      function formatSavings(amount) {
+        return amount > 0 ? `Save $${amount.toFixed(2)}` : "Regular price";
+      }
+
+      function getMonthlyBasePrice() {
+        const monthlyCard = document.querySelector('.price-card[data-duration="30"]');
+        if (!monthlyCard) return 6.5;
+        const btn = monthlyCard.querySelector(".buy-button");
+        return parseFloat(btn.dataset.price) || 6.5;
+      }
+
+      function updateCardSavings(card, discountedPrice) {
+        const savingsEl = card.querySelector(".savings-text");
+        if (!savingsEl) return;
+        if (!savingsEl.dataset.originalText) {
+          savingsEl.dataset.originalText = savingsEl.innerText;
+        }
+        const btn = card.querySelector(".buy-button");
+        const duration = parseInt(btn.dataset.duration);
+        const referencePrice = Math.floor(duration / 30) * getMonthlyBasePrice();
+        const totalSavings = referencePrice - discountedPrice;
+        savingsEl.innerText = formatSavings(totalSavings);
+        if (totalSavings > 0) {
+          savingsEl.classList.remove("regular");
+        } else {
+          savingsEl.classList.add("regular");
+        }
+      }
+
+      function resetCardSavings(card) {
+        const savingsEl = card.querySelector(".savings-text");
+        if (savingsEl && savingsEl.dataset.originalText) {
+          savingsEl.innerText = savingsEl.dataset.originalText;
+          if (savingsEl.dataset.originalText.includes("Regular")) {
+            savingsEl.classList.add("regular");
+          } else {
+            savingsEl.classList.remove("regular");
+          }
+        }
+      }
+
       function formatDuration(days) {
         const map = {
           3: "3 days",
@@ -905,6 +946,7 @@
           if (badge) badge.remove();
           delete btn.dataset.discountedPrice;
           updateCardPricePerDay(card, basePrice, duration);
+          resetCardSavings(card);
         });
       }
 
@@ -946,6 +988,7 @@
               }
               badge.innerText = `-${data.discount_percent}%`;
               updateCardPricePerDay(card, data.discounted_price, duration);
+              updateCardSavings(card, data.discounted_price);
             }
           } catch (e) {
             console.error(`Failed to validate for duration ${duration}:`, e);
