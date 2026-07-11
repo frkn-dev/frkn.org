@@ -853,25 +853,15 @@
         return amount > 0 ? `Экономия ${Math.round(amount)} ₽` : "Обычная цена";
       }
 
-      function getMonthlyBasePrice() {
-        const monthlyCard = document.querySelector('.price-card[data-duration="30"]');
-        if (!monthlyCard) return 500;
-        const btn = monthlyCard.querySelector(".buy-button");
-        return parseFloat(btn.dataset.price) || 500;
-      }
-
-      function updateCardSavings(card, discountedPrice) {
+      function updateCardSavings(card, discountedPrice, originalPrice) {
         const savingsEl = card.querySelector(".savings-text");
         if (!savingsEl) return;
         if (!savingsEl.dataset.originalText) {
           savingsEl.dataset.originalText = savingsEl.innerText;
         }
-        const btn = card.querySelector(".buy-button");
-        const duration = parseInt(btn.dataset.duration);
-        const referencePrice = Math.floor(duration / 30) * getMonthlyBasePrice();
-        const totalSavings = referencePrice - discountedPrice;
-        savingsEl.innerText = formatSavings(totalSavings);
-        if (totalSavings > 0) {
+        const savings = originalPrice - discountedPrice;
+        savingsEl.innerText = formatSavings(savings);
+        if (savings > 0) {
           savingsEl.classList.remove("regular");
         } else {
           savingsEl.classList.add("regular");
@@ -990,7 +980,7 @@
               }
               badge.innerText = `-${data.discount_percent}%`;
               updateCardPricePerDay(card, data.discounted_price, duration);
-              updateCardSavings(card, data.discounted_price);
+              updateCardSavings(card, data.discounted_price, data.original_price);
             }
           } catch (e) {
             console.error(`Failed to validate for duration ${duration}:`, e);
