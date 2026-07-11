@@ -568,11 +568,16 @@
   <body>
     <div class="container">
       <header>
-        <h1 class="hero-title">Choose a plan</h1>
         <div id="logo-container"></div>
       </header>
+      <h1 class="hero-title">Choose a plan</h1>
       <p class="subtitle">
-        Buy an activation key to get or renew your subscription <br />
+        Buy an activation key to get or renew your subscription.
+      </p>
+      <p class="subtitle">
+        Already have a
+        <a href="/en/info/activation-keys" class="text-link">key</a>?
+        <a href="/en/activate" class="text-link">Activate it here</a>
       </p>
 
       <div class="pricing-section">
@@ -741,6 +746,16 @@
           </div>
           <div class="promo-info" id="promo-info"></div>
         </div>
+        <div class="form-group" style="display: none;">
+          <label>Friend's referral code</label>
+          <div class="promo-input-wrapper">
+            <input type="text" id="user-ref" placeholder="Enter friend's code" />
+            <button id="apply-ref-btn" class="apply-promo-btn">
+              Apply
+            </button>
+          </div>
+          <div class="promo-info" id="ref-info"></div>
+        </div>
         <div class="modal-total-wrapper" id="modal-total-wrapper"></div>
         <button class="btn-pay" id="final-pay-btn">Pay</button>
         <p
@@ -786,7 +801,7 @@
         window.location.hostname === "127.0.0.1";
       const PAYMENT_API_BASE = isLocal
         ? "http://localhost:3006"
-        : "https://heheapi.frkn.org";
+        : "https://api.frkn.org";
       const PAYMENT_API_FALLBACK = isLocal
         ? null
         : "https://api.frkn.org";
@@ -814,10 +829,17 @@
       }
       let urlPromoCode =
         new URLSearchParams(location.search).get("promo") || null;
+      let urlRefCode =
+        new URLSearchParams(location.search).get("referral_code") ||
+        new URLSearchParams(location.search).get("ref") ||
+        new URLSearchParams(location.search).get("referral") ||
+        null;
 
       // --- DOM elements ---
       const promoInput = document.getElementById("user-promo");
       const promoInfo = document.getElementById("promo-info");
+      const refInput = document.getElementById("user-ref");
+      const refInfo = document.getElementById("ref-info");
       const modalTotalWrapper = document.getElementById("modal-total-wrapper");
       const paymentModal = document.getElementById("payment-modal");
       const errorPopup = document.getElementById("error-popup");
@@ -855,6 +877,8 @@
         paymentModal.classList.remove("active");
         const applyBtn = document.getElementById("apply-promo-btn");
         if (applyBtn) applyBtn.style.display = "flex";
+        const applyRefBtn = document.getElementById("apply-ref-btn");
+        if (applyRefBtn) applyRefBtn.style.display = "flex";
         currentOrder = null;
       }
 
@@ -986,6 +1010,61 @@
         }
       }
 
+      // --- Apply referral code to CURRENT order in modal ---
+      async function applyRefToCurrentOrder(refCode) {
+        if (!currentOrder) {
+          showError("Choose a plan first");
+          return false;
+        }
+        const refValue = refCode?.trim().toUpperCase() || "";
+        if (!refValue) {
+          currentOrder.referral = null;
+          refInput.style.borderColor = "";
+          refInfo.style.display = "none";
+          refInfo.className = "promo-info";
+          refInfo.innerText = "";
+          return true;
+        }
+
+        // Test mode: while API is not ready, TESTTEST is treated as valid
+        if (refValue === "TESTTEST") {
+          currentOrder.referral = refValue;
+          refInput.style.borderColor = "#22c55e";
+          refInfo.style.display = "block";
+          refInfo.className = "promo-info valid";
+          refInfo.innerText =
+            "Referral code applied. You and your friend will each receive a 10-day bonus.";
+          return true;
+        }
+
+        try {
+          const response = await apiFetch(
+            `/validate/ref_code?code=${encodeURIComponent(refValue)}`,
+          );
+          if (!response.ok) throw new Error("Failed to validate referral code");
+          const data = await response.json();
+          if (data.valid) {
+            currentOrder.referral = refValue;
+            refInput.style.borderColor = "#22c55e";
+            refInfo.style.display = "block";
+            refInfo.className = "promo-info valid";
+            refInfo.innerText =
+              "Referral code applied. You and your friend will each receive a 10-day bonus.";
+            return true;
+          } else {
+            throw new Error("Referral code not found");
+          }
+        } catch (err) {
+          currentOrder.referral = null;
+          showError(err.message);
+          refInput.style.borderColor = "#ff4444";
+          refInfo.style.display = "block";
+          refInfo.className = "promo-info invalid";
+          refInfo.innerText = "Referral code not found";
+          return false;
+        }
+      }
+
       // --- Open modal ---
       async function openModal(duration, basePrice, element) {
         let finalPrice = basePrice;
@@ -997,12 +1076,18 @@
           price: finalPrice,
           originalPrice: originalPrice,
           promo: null,
+          referral: null,
         };
         promoInput.value = urlPromoCode || "";
         promoInput.style.borderColor = "";
         promoInfo.style.display = "none";
         promoInfo.className = "promo-info";
         promoInfo.innerText = "";
+        refInput.value = urlRefCode || "";
+        refInput.style.borderColor = "";
+        refInfo.style.display = "none";
+        refInfo.className = "promo-info";
+        refInfo.innerText = "";
         if (urlPromoCode) {
           // Fill promo code from URL
           promoInput.value = urlPromoCode;
@@ -1037,8 +1122,19 @@
           promoInput.style.borderColor = "";
           const applyBtn = document.getElementById("apply-promo-btn");
           if (applyBtn) applyBtn.style.display = "flex";
-          updateModalDisplay();
         }
+        if (urlRefCode) {
+          refInput.value = urlRefCode;
+          const applyRefBtn = document.getElementById("apply-ref-btn");
+          if (applyRefBtn) applyRefBtn.style.display = "none";
+          await applyRefToCurrentOrder(urlRefCode);
+        } else {
+          refInput.value = "";
+          refInput.style.borderColor = "";
+          const applyRefBtn = document.getElementById("apply-ref-btn");
+          if (applyRefBtn) applyRefBtn.style.display = "flex";
+        }
+        updateModalDisplay();
         document.getElementById("modal-title").innerHTML =
           `Checkout<br>for ${duration} days`;
         paymentModal.classList.add("active");
@@ -1081,6 +1177,17 @@
           applyPromoToCurrentOrder(promoInput.value);
         }
       });
+      document
+        .getElementById("apply-ref-btn")
+        ?.addEventListener("click", async () =>
+          applyRefToCurrentOrder(refInput.value),
+        );
+      refInput?.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          applyRefToCurrentOrder(refInput.value);
+        }
+      });
       const extraToggle = document.getElementById("extra-options-toggle");
       const extraOptions = document.getElementById("extra-options");
       if (extraToggle && extraOptions) {
@@ -1115,6 +1222,7 @@
                 body: JSON.stringify({
                   duration: currentOrder.duration,
                   promocode: currentOrder.promo || null,
+                  refCode: currentOrder.referral || null,
                 }),
               },
             );

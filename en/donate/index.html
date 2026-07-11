@@ -211,7 +211,7 @@
                 <button type="button" class="amount-preset" data-amount="100">
                   100 ₽
                 </button>
-                <button type="button" class="amount-preset" data-amount="300">
+                <button type="button" class="amount-preset active" data-amount="300">
                   300 ₽
                 </button>
                 <button type="button" class="amount-preset" data-amount="500">
@@ -227,6 +227,7 @@
                 name="amount"
                 min="10"
                 step="1"
+                value="300"
                 placeholder="Or enter custom amount"
                 required
               />
@@ -276,7 +277,7 @@
           window.location.hostname === "127.0.0.1";
         const API_BASE = isLocal
           ? "http://localhost:3006"
-          : "https://heheapi.frkn.org";
+          : "https://api.frkn.org";
 
         const form = document.getElementById("donateForm");
         const amountInput = document.getElementById("amount");

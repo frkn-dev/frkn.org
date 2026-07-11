@@ -638,7 +638,7 @@
               <span class="input-hint">Format: XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-X</span>
             </div>
 
-            <div class="input-group">
+            <div class="input-group" style="display: none;">
               <label for="refCodeId">Friend's referral code</label>
               <input
                 type="text"
@@ -811,7 +811,7 @@
         window.location.hostname === "127.0.0.1";
       const API_BASE = isLocal
         ? "http://localhost:3000"
-        : "https://heheapi.frkn.org";
+        : "https://api.frkn.org";
 
       const activationKeyForm = document.getElementById("activateKeyForm");
       const activationMessage = document.getElementById("activationMessage");
@@ -873,11 +873,13 @@
           showMessage("⏳ Creating subscription...", "info");
 
           const trialPayload = {
+            trial: false,
+            language: "en",
             referred_by:
               refCode && refCode.trim() ? refCode.trim() : "WEB-ACTIVATE",
           };
 
-          const resCreateSubscription = await fetch(`${API_BASE}/trial`, {
+          const resCreateSubscription = await fetch(`${API_BASE}/account`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(trialPayload),
@@ -890,7 +892,7 @@
           }
 
           const createSubscriptionData = await resCreateSubscription.json();
-          subscriptionId = createSubscriptionData?.response?.id;
+          subscriptionId = createSubscriptionData?.subscription_id;
 
           console.log("Subscription created:", subscriptionId);
 

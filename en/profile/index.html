@@ -828,7 +828,7 @@
         window.location.hostname === "127.0.0.1";
       const API_BASE = isLocal
         ? "http://localhost:3000"
-        : "https://heheapi.frkn.org";
+        : "https://api.frkn.org";
       const subForm = document.getElementById("subscriptionForm");
       const subMessage = document.getElementById("subMessage");
       const modal = document.getElementById("activationModal");
@@ -884,10 +884,14 @@
         try {
           showMessage("⏳ Creating subscription...", "info");
 
-          const resCreateSubscription = await fetch(`${API_BASE}/trial`, {
+          const resCreateSubscription = await fetch(`${API_BASE}/account`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ referred_by: "WEB-ACTIVATE" }),
+            body: JSON.stringify({
+              trial: false,
+              language: "en",
+              referred_by: "WEB-ACTIVATE",
+            }),
           });
 
           if (!resCreateSubscription.ok) {
@@ -897,7 +901,7 @@
           }
 
           const createSubscriptionData = await resCreateSubscription.json();
-          subscriptionId = createSubscriptionData?.response?.id;
+          subscriptionId = createSubscriptionData?.subscription_id;
 
           console.log("Subscription created:", subscriptionId);
 

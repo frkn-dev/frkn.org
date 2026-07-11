@@ -236,7 +236,7 @@
       const BASE = isLocal ? "http://localhost:8000" : "https://frkn.org";
       const PAYMENT_API_BASE = isLocal
         ? "http://localhost:3000"
-        : "https://heheapi.frkn.org";
+        : "https://api.frkn.org";
 
       const params = new URLSearchParams(window.location.search);
       const txid = params.get("txid") || params.get("id");

@@ -3,7 +3,7 @@
   <head>
     <meta property="og:title" content="frkn | privacy company – Рилзопровод" />
     <meta property="og:site_name" content="frkn" />
-    <meta name="theme-color" content="#0b0d12" />
+    <meta name="theme-color" content="#090B10" />
     <link rel="canonical" href="https://frkn.org" />
     <meta
       property="og:description"
@@ -29,228 +29,74 @@
     />
     <title>frkn Privacy Company</title>
     <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/styles.css?v=2" />
-    <style>
-      .hero-title {
-        background: none;
-        -webkit-background-clip: unset;
-        -webkit-text-fill-color: #fff;
-        color: #fff;
-        font-family:
-          "SF Mono", "Fira Code", "JetBrains Mono", "Courier New", monospace;
-        font-weight: 700;
-        letter-spacing: 2px;
-        font-size: clamp(28px, 9vw, 52px);
-        text-shadow:
-          0 0 8px rgba(91, 124, 250, 0.35),
-          0 0 18px rgba(34, 211, 238, 0.15);
-        filter: none;
-        animation: title-appear 1s ease-out, title-breathe 5s ease-in-out infinite 1s;
-      }
-
-      @keyframes title-appear {
-        0% {
-          opacity: 0;
-          transform: translateY(8px);
-          filter: blur(3px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-          filter: blur(0);
-        }
-      }
-
-      @keyframes title-breathe {
-        0%,
-        100% {
-          opacity: 0.95;
-          text-shadow:
-            0 0 6px rgba(91, 124, 250, 0.25),
-            0 0 14px rgba(34, 211, 238, 0.1);
-        }
-        50% {
-          opacity: 1;
-          text-shadow:
-            0 0 10px rgba(91, 124, 250, 0.4),
-            0 0 22px rgba(34, 211, 238, 0.18);
-        }
-      }
-    </style>
   </head>
-  <body>
+  <body class="landing-page">
     <div class="container">
       <header>
-        <h1 class="hero-title">Рилзопровод</h1>
         <div id="logo-container"></div>
       </header>
       <section class="hero">
         <div class="hero-content">
-          <p class="hero-subtitle">
-            Твой личный проводник в быстрый интернет.<br />
-            Без лагов — для видео в 4K.
-          </p>
+          <div>
+            <h1 class="hero-title">Рилзопровод</h1>
+            <p class="hero-subtitle">
+              Твой личный проводник в быстрый интернет.<br />
+              Без лагов — для видео в 4K.
+            </p>
+          </div>
           <div class="cta-group">
             <button class="btn try pulse" id="scrollToTrial">
               Попробовать бесплатно
             </button>
-
             <div class="cta-row secondary-actions">
-              <a href="/pay"><button class="btn ghost">Тарифы</button></a
-              >
-              <a href="/pay"><button class="btn ghost">Купить</button></a
-              >
+              <a href="/pay"><button class="btn ghost">Тарифы</button></a>
+              <a href="/pay"><button class="btn ghost">Купить</button></a>
+              <a href="/switch-to-frkn"><button class="btn ghost">Переход со старого сервиса</button></a>
             </div>
           </div>
         </div>
-        <div class="hero-image-wrapper">
+        <div class="hero-empty">
           <img src="/Images/main.png" alt="FRKN" />
         </div>
       </section>
       <section class="features-grid">
-        <div class="card feature">
-          <div class="feature-header">
-            <div class="feature-icon fill">
-              <img src="/Images/nologs.png" alt="" />
-            </div>
+        <div class="feature-mini">
+          <div class="feature-icon">
+            <img src="/Images/nologs.png" alt="" />
+          </div>
+          <div>
             <h3>Без логов и регистраций</h3>
+            <p>Мы не храним историю ваших просмотров. Вообще.</p>
           </div>
-          <p>Мы не храним историю ваших просмотров. Вообще.</p>
         </div>
-        <div class="card feature">
-          <div class="feature-header">
-            <div class="feature-icon">
-              <img src="/Images/unlim.png" alt="" />
-            </div>
+        <div class="feature-mini">
+          <div class="feature-icon">
+            <img src="/Images/unlim.png" alt="" />
+          </div>
+          <div>
             <h3>Без ограничений</h3>
-          </div>
-          <p>Любое количество устройств и безлимитный трафик 24/7.</p>
-        </div>
-        <div class="card feature-country">
-          <div class="country-header">
-            <div class="country-icon">
-              <img src="/Images/map.png" alt="" />
-            </div>
-            <h3>Большой выбор стран</h3>
-          </div>
-          <p class="country-subtitle">
-            Выбирай локацию под свои задачи — от ближайших серверов до
-            популярных зарубежных регионов.
-          </p>
-
-          <div class="country-featured-grid">
-            <div class="country-featured-card">
-              <div class="country-featured-top">
-                <span class="country-flag">🇷🇺</span>
-              </div>
-              <div class="country-featured-name">Москва</div>
-              <div class="country-featured-desc">
-                Минимальный пинг для пользователей из России
-              </div>
-            </div>
-
-            <div class="country-featured-card">
-              <div class="country-featured-top">
-                <span class="country-flag">🇹🇷</span>
-              </div>
-              <div class="country-featured-name">Турция</div>
-              <div class="country-featured-desc">
-                Отличный выбор для геймеров
-              </div>
-            </div>
-
-            <div class="country-featured-card">
-              <div class="country-featured-top">
-                <span class="country-flag">🇳🇱</span>
-              </div>
-              <div class="country-featured-name">Нидерланды</div>
-              <div class="country-featured-desc">
-                Стабильный доступ к европейским сервисам
-              </div>
-            </div>
-
-            <div class="country-featured-card">
-              <div class="country-featured-top">
-                <span class="country-flag">🇺🇸</span>
-              </div>
-              <div class="country-featured-name">Соединённые Штаты</div>
-              <div class="country-featured-desc">
-                Для американских нейросетей и стримингов
-              </div>
-            </div>
-          </div>
-
-          <div class="country-more">
-            <span class="country-more-label">Также доступны</span>
-            <div class="country-more-list">
-              <span class="country-chip">🇰🇿 Казахстан</span>
-              <span class="country-chip">🇬🇧 Великобритания</span>
-              <span class="country-chip">🇨🇿 Чехия</span>
-              <span class="country-chip">🇮🇱 Израиль</span>
-              <span class="country-chip">🇫🇮 Финляндия</span>
-              <span class="country-chip">🇸🇪 Швеция</span>
-            </div>
+            <p>Любое количество устройств и безлимитный трафик 24/7.</p>
           </div>
         </div>
-        <div class="card feature-wide">
-          <div class="tech-header">
-            <div class="tech-icon">
-              <img src="/Images/proto.png" alt="" />
-            </div>
+        <div class="feature-mini">
+          <div class="feature-icon">
+            <img src="/Images/proto.png" alt="" />
+          </div>
+          <div>
             <h3>Современные протоколы</h3>
-          </div>
-          <p class="tech-subtitle">
-            Только проверенные технологии: используем мировые стандарты
-            шифрования и проверенные Open Source решения для надёжного
-            подключения.
-          </p>
-          <div class="tech-grid">
-            <div class="tech-card recommended">
-              <div class="tech-name">Amnezia WireGuard 2.0</div>
-              <div class="tech-desc">Просто лучший</div>
-              <span class="tech-badge blue">Рекомендуем</span>
-            </div>
-
-            <div class="tech-card">
-              <div class="tech-name">Hysteria2</div>
-              <div class="tech-desc">Максимальная скорость</div>
-              <span class="tech-badge green">Быстрый</span>
-            </div>
-
-            <div class="tech-card">
-              <div class="tech-name">VLESS Reality</div>
-              <div class="tech-desc">Самый стойкий</div>
-            </div>
-
-            <div class="tech-card">
-              <div class="tech-name">WireGuard</div>
-              <div class="tech-desc">Быстрый и лёгкий протокол</div>
-            </div>
-
-            <div class="tech-card">
-              <div class="tech-name">MTProto</div>
-              <div class="tech-desc">Оптимизирован для Telegram</div>
-            </div>
-
-            <div class="tech-card">
-              <div class="tech-name">Shadowsocks</div>
-              <div class="tech-desc">Проверенная классика</div>
-            </div>
-
-            <div class="tech-card">
-              <div class="tech-name">Trust Tunnel</div>
-              <div class="tech-desc">Надёжное соединение</div>
-            </div>
-
-            <div class="tech-card">
-              <div class="tech-name">Собственный код</div>
-              <div class="tech-desc">Развиваем прозрачно</div>
-            </div>
+            <p>Только проверенные технологии шифрования.</p>
           </div>
         </div>
       </section>
       <section id="trial" class="trial-section">
-        <div class="trial-container card highlight-border">
+        <div class="trial-container">
           <div class="trial-info">
             <h2>Тест-драйв</h2>
             <p>
@@ -258,9 +104,9 @@
               почту и получай доступ.
             </p>
             <div class="trial-steps">
-              <div class="step"><span>1</span> Почта</div>
-              <div class="step"><span>2</span> Ключ</div>
-              <div class="step"><span>3</span> Быстрый интернет</div>
+              <span>1. Почта</span>
+              <span>2. Ключ</span>
+              <span class="active">3. Интернет</span>
             </div>
             <p class="small">Отправим ключ доступа в течение минуты.</p>
           </div>
@@ -271,20 +117,20 @@
               placeholder="Твой e-mail"
               required
             />
-            <input
-              type="text"
-              id="code"
-              name="code"
-              placeholder="Реферальный код друга (если есть)"
-            />
             <button class="btn try" type="submit">
               Получить доступ
             </button>
             <p id="message" class="status-message"></p>
             <div class="trial-extra-actions">
-              <a href="/profile"><button type="button" class="btn ghost">Уже есть подписка</button></a
+              <a href="/profile"
+                ><button type="button" class="btn ghost">
+                  Уже есть подписка
+                </button></a
               >
-              <a href="/activate"><button type="button" class="btn ghost">Активировать ключ</button></a
+              <a href="/activate"
+                ><button type="button" class="btn ghost">
+                  Активировать ключ
+                </button></a
               >
             </div>
           </form>
@@ -297,20 +143,11 @@
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=2"></script>
     <script>
-      const params = new URLSearchParams(window.location.search);
-      const promo = params.get("code");
-      if (promo) {
-        const promoInput = document.getElementById("code");
-        if (promoInput) {
-          promoInput.value = promo;
-          promoInput.style.borderColor = "#22c55e";
-        }
-      }
-    </script>
-    <script>
       const scrollBtn = document.getElementById("scrollToTrial");
       const buySection = document.getElementById("trial");
-      const trialEmail = document.querySelector("#trialForm input[type='email']");
+      const trialEmail = document.querySelector(
+        "#trialForm input[type='email']",
+      );
 
       function focusTrialEmail() {
         if (trialEmail) trialEmail.focus({ preventScroll: true });

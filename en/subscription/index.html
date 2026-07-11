@@ -27,154 +27,23 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
     <title>Subscription information</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css?v=2" />
     <style>
-      :root {
-        --bg: #0b0d12;
-        --card: #121621;
-        --text: #e6e8ef;
-        --muted: #9aa1b2;
-        --accent: #5b7cfa;
-        --accent-2: #22d3ee;
-        --border: #1f2433;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      header {
-        display: flex;
-        justify-content: space-between;
-        padding: 20px 0 40px;
-      }
-
-      .header-right {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        margin-left: auto;
-      }
-
-      .env-switcher-wrap {
+.env-switcher-wrap {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-      }
-
-      .logo {
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 2px;
-        width: fit-content;
-      }
-
-      #logo-container img {
-        box-shadow:
-          0 0 10px rgba(0, 150, 255, 0.4),
-          0 0 20px rgba(0, 100, 255, 0.2);
-
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .logo img {
-        width: 50px;
-        height: 34px;
-        border-radius: 12%;
-        object-fit: contain;
-        background-color: #ffffff;
-        box-shadow: 0 0 10px rgba(91, 124, 250, 0.2);
-        transition: box-shadow 0.3s ease;
-      }
-
-      .logo img:hover {
-        filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.8));
-        transform: scale(1.05);
-      }
-
-      .hero-watermark {
-        font-size: 8px;
-        text-transform: uppercase;
-        letter-spacing: 0.35em;
-        color: var(--muted);
-        opacity: 0.5;
-        text-align: center;
-        white-space: nowrap;
-        pointer-events: none;
-        user-select: none;
-      }
-
-      .logo .hero-watermark {
-        margin-top: 2px;
-      }
-
-      .logo:hover img {
-        box-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
-      }
-
-      .logo a {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: var(--text);
-        text-decoration: none;
-        transition:
-          color 0.3s ease,
-          text-shadow 0.3s ease;
-      }
-
-      .logo:hover {
-        transform: scale(1.01);
-      }
-
-      .logo:hover a {
-        color: #fff;
-        text-shadow:
-          0 0 8px rgba(91, 124, 250, 0.8),
-          0 0 15px rgba(34, 211, 238, 0.4);
-      }
-
-      .title-group {
-        display: flex;
-        align-items: center;
-        gap: 12px;
         margin-bottom: 16px;
-      }
-
-      .hero-title,
-      .hero-title-small {
-        font-family: var(--font-main);
-        letter-spacing: -0.04em;
-        text-transform: none;
-      }
-
-      .hero-title {
-        margin-bottom: 8;
-        font-size: 2rem;
-        font-weight: 800;
-        color: #fff;
-        text-shadow:
-          0 0 8px rgba(91, 124, 250, 0.35),
-          0 0 18px rgba(34, 211, 238, 0.15);
-        line-height: 1.2;
-      }
-
-      .hero-title-small {
-        margin-bottom: 10px;
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: #fff;
-        text-shadow:
-          0 0 8px rgba(91, 124, 250, 0.35),
-          0 0 18px rgba(34, 211, 238, 0.15);
-        line-height: 1.2;
       }
 
       .env-badge {
         display: inline-flex;
-        margin-bottom: 15px;
         align-items: center;
         padding: 4px 10px;
         font-size: 12px;
@@ -215,8 +84,37 @@
         color: #fff;
       }
 
+      .env-current-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-radius: 6px;
+        background: rgba(16, 185, 129, 0.15);
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.35);
+        white-space: nowrap;
+        margin-top: 10px;
+      }
+
       .available {
         color: #10b981;
+      }
+
+      .subscription-meta {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .subscription-meta .small-id {
+        margin: 0;
       }
 
       .hero-stats {
@@ -224,10 +122,17 @@
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 16px;
         background: rgba(30, 41, 59, 0.4);
-        padding: 20px;
+        padding: 20px 20px 64px 20px;
         border-radius: 16px;
         border: 1px solid var(--border);
-        margin-bottom: 24px;
+        position: relative;
+      }
+
+      .hero-stats .stats-add-btn {
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+        margin: 0;
       }
 
       .stat {
@@ -248,27 +153,17 @@
         margin: 4px 0;
       }
 
-      .key {
-        margin-top: 10px;
-        margin-bottom: 10px;
+      .ref-code {
+        display: flex;
+        color: var(--muted);
         flex-direction: column;
-        display: inline-flex;
         align-items: left;
         text-align: left;
         gap: 8px;
       }
 
-      .ref-code {
-        margin-top: 30px;
-        margin-bottom: 20px;
-
-        display: flex;
-        color: var(--muted);
-        flex-direction: column;
-        display: inline-flex;
-        align-items: left;
-        text-align: left;
-        gap: 8px;
+      .ref-code h2 {
+        margin-bottom: 16px;
       }
 
       .ref-code b {
@@ -282,21 +177,27 @@
       .status-active {
         margin-top: 10px;
         color: #10b981 !important;
-        background: rgba(239, 10, 68, 0.1);
-        padding: 2px 8px;
-        border-radius: 6px;
+        background: rgba(16, 185, 129, 0.15);
+        padding: 4px 12px !important;
+        border-radius: 8px;
+        width: fit-content;
+        display: inline-flex !important;
+        justify-content: center;
         font-weight: 600;
       }
 
       .status-expired {
         color: #ef4444 !important;
         background: rgba(239, 68, 68, 0.1);
-        padding: 2px 8px;
-        border-radius: 6px;
+        padding: 4px 12px !important;
+        border-radius: 8px;
+        width: fit-content;
+        display: inline-flex !important;
+        justify-content: center;
         font-weight: 600;
       }
 
-      status-warning {
+      .status-warning {
         color: #ffbd4d !important;
         background: rgba(255, 189, 77, 0.1);
         padding: 4px 12px !important;
@@ -305,49 +206,6 @@
         display: inline-flex !important;
         justify-content: center;
         font-weight: 600;
-      }
-
-      .status-active,
-      .status-expired,
-      .status-warning {
-        padding: 4px 12px !important;
-        border-radius: 8px;
-        width: fit-content;
-        display: inline-flex !important;
-        justify-content: center;
-      }
-
-      body {
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto,
-          sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        max-width: 720px;
-        margin: 40px auto;
-        padding: 24px;
-      }
-
-      .card {
-        background: var(--card);
-        border-radius: 12px;
-        padding: 24px;
-        box-shadow: 0 0 0 1px var(--border);
-      }
-
-      h1,
-      h2,
-      h3 {
-        margin-top: 0;
-      }
-
-      a {
-        color: var(--accent);
-        text-decoration: none;
-      }
-
-      a:hover {
-        opacity: 0.85;
       }
 
       button {
@@ -370,44 +228,23 @@
         transform: scale(0.97);
       }
 
-      .cta {
-        display: flex;
-        align-items: left;
-        gap: 8px;
-      }
-
-      .cta p {
-        margin: 0;
-      }
-
-      .link-btn {
-        color: var(--accent);
-        cursor: pointer;
-        font-weight: 500;
-        text-decoration: none;
-      }
-
-      .link-btn:hover {
-        text-decoration: underline;
+      .btn {
+        margin-top: 0;
       }
 
       .qr-modal {
         position: fixed;
         inset: 0;
-
         display: flex;
         align-items: center;
         justify-content: center;
-
         background: rgba(0, 0, 0, 0.7);
         backdrop-filter: blur(6px);
-
         z-index: 1000;
       }
 
       .qr-content {
         background: white;
-
         padding: 20px;
         border-radius: 20px;
       }
@@ -480,38 +317,12 @@
         filter: invert(0.9) hue-rotate(180deg);
       }
 
-      .small {
-        font-size: 13px;
-        color: var(--muted);
-      }
-
-      .right {
-        text-align: right;
-        display: block;
-      }
-
-      .center {
-        text-align: center;
-      }
-
-      .text-link {
-        text-decoration: underline;
-      }
-
       .badge {
         font-size: 12px;
         color: var(--accent-2);
         border: 1px solid rgba(34, 211, 238, 0.3);
         padding: 4px 10px;
         border-radius: 999px;
-      }
-
-      .footer-line {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 6px;
-        margin-top: 8px;
       }
 
       ul {
@@ -551,28 +362,6 @@
           0 8px 24px rgba(0, 0, 0, 0.4);
       }
 
-      .mt-proxy-item a {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px 18px;
-        text-decoration: none;
-        color: var(--text);
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(148, 163, 184, 0.15);
-        border-radius: 14px;
-        transition: all 0.25s ease;
-      }
-
-      .mt-proxy-item a:hover {
-        background: rgba(30, 41, 59, 0.9);
-        border-color: rgba(56, 189, 248, 0.6);
-        transform: translateY(-2px);
-        box-shadow:
-          0 0 0 1px rgba(56, 189, 248, 0.3),
-          0 8px 24px rgba(0, 0, 0, 0.4);
-      }
-
       .proxy-label {
         font-size: 16px;
         font-weight: 600;
@@ -601,11 +390,9 @@
         justify-content: space-between;
         align-items: center;
         padding: 16px 18px;
-
         background: rgba(15, 23, 42, 0.6);
         border: 1px solid rgba(148, 163, 184, 0.15);
         border-radius: 14px;
-
         cursor: pointer;
         transition: all 0.25s ease;
       }
@@ -640,41 +427,6 @@
       .toast.show {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
-      }
-
-      .tabs {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-bottom: 16px;
-      }
-
-      .tab {
-        padding: 8px 14px;
-        border-radius: 8px;
-        border: 1px solid var(--border);
-        background: transparent;
-        color: var(--muted);
-        cursor: pointer;
-      }
-
-      .tab.active {
-        background: var(--border);
-        color: var(--text);
-      }
-
-      .tab-content {
-        display: none;
-      }
-
-      .tab-content.active {
-        display: block;
-      }
-
-      .steps-flow {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
       }
 
       .step-card {
@@ -803,28 +555,13 @@
         font-size: 1.15rem;
       }
 
-      .download-link {
-        display: inline-flex;
-        padding: 8px 14px;
-        border-radius: 8px;
-        margin-top: 0;
-        margin-bottom: 14px;
-        color: #fff;
-        text-decoration: none;
-      }
-
       .subscription-link-card {
-        margin-top: 18px;
-
         padding: 16px;
         border-radius: 18px;
-
         background: rgba(255, 255, 255, 0.03);
-
         box-shadow:
           inset 0 2px 8px rgba(0, 0, 0, 0.35),
           inset 0 -1px 0 rgba(255, 255, 255, 0.04);
-
         border: 1px solid rgba(255, 255, 255, 0.06);
       }
 
@@ -832,63 +569,8 @@
         font-size: 0.8rem;
         text-transform: uppercase;
         letter-spacing: 0.08em;
-
         color: rgba(255, 255, 255, 0.55);
-
         margin-bottom: 12px;
-      }
-
-      .subscription-link-row {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        flex-wrap: wrap;
-      }
-
-      .subscription-link {
-        flex: 1;
-
-        min-width: 220px;
-
-        padding: 12px 14px;
-
-        border-radius: 12px;
-
-        background: rgba(0, 0, 0, 0.25);
-
-        color: #10b981;
-
-        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-
-        font-size: 0.92rem;
-
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .action-btn {
-        width: 140px;
-
-        border: none;
-        border-radius: 12px;
-
-        padding: 12px 16px;
-
-        font-weight: 600;
-        cursor: pointer;
-      }
-
-      .action-btn:hover {
-        transform: translateY(-1px);
-      }
-
-      .action-btn:active {
-        transform: translateY(1px);
-      }
-
-      .action-btn.secondary {
-        background: rgba(255, 255, 255, 0.08);
       }
 
       .subscription-link-row {
@@ -899,17 +581,36 @@
         margin-bottom: 14px;
       }
 
-      .subscription-link-box {
-        margin: 0;
-        width: 100%;
-        padding: 10px 12px;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--border);
-        color: var(--text);
-        font-size: 12px;
-        overflow-x: auto;
+      .subscription-link-row.main-link-row {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        margin-bottom: 0;
+      }
+
+      .subscription-link-row.main-link-row .subscription-actions {
+        justify-content: flex-end;
+      }
+
+      .subscription-link {
+        flex: 1;
+        min-width: 220px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.25);
+        color: #10b981;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.92rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
         white-space: nowrap;
+      }
+
+      .subscription-actions {
+        display: flex;
+        gap: 10px;
+        align-items: stretch;
       }
 
       .connection-hint {
@@ -930,36 +631,19 @@
         align-items: flex-start;
       }
 
-      .additional-section {
-        margin-top: 20px;
-      }
-
-      .accordion {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.02);
-        padding: 2px 12px;
-      }
-
-      .accordion summary {
-        cursor: pointer;
-        padding: 12px 0;
-        font-weight: 600;
-      }
-
-      .accordion-body {
-        padding: 8px 0 14px;
-      }
-
       @media (max-width: 640px) {
         .subscription-link-row {
           grid-template-columns: 1fr;
+        }
+
+        .subscription-link-row.main-link-row .subscription-actions {
+          width: 100%;
+          flex-direction: column;
         }
       }
 
       .error-state {
         display: none;
-        /* Hidden by default */
         flex-direction: column;
         align-items: center;
         text-align: center;
@@ -978,38 +662,27 @@
         margin-top: 10px;
       }
 
-      .btn-primary {
-        background: var(--accent) !important;
-        font-weight: 600;
-      }
-
-      hr {
-        border: none;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          rgba(229, 231, 235, 0) 0%,
-          /* Transparent */ rgba(20, 20, 200, 0.6) 50% /* Light gray */
-            rgba(229, 231, 235, 0) 100% /* Transparent */
-        );
-        box-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
-        /* Soft glow */
-        margin: 24px 0;
-      }
-
-      .small-viva {
-        font-size: 11px;
-        color: var(--muted);
-        text-align: right;
-        letter-spacing: 2px;
-      }
-
       .small-add {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
         font-size: 13px;
+        font-weight: 600;
         color: var(--accent);
-        text-align: right;
-        letter-spacing: 2px;
+        background: rgba(91, 124, 250, 0.1);
+        border: 1px solid rgba(91, 124, 250, 0.3);
+        padding: 10px 14px;
+        border-radius: 12px;
         text-transform: uppercase;
+        letter-spacing: 2px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .small-add:hover {
+        background: rgba(91, 124, 250, 0.2);
+        border-color: rgba(91, 124, 250, 0.5);
       }
 
       .small-id {
@@ -1022,46 +695,12 @@
         margin-top: 10px;
         text-transform: uppercase;
         border-right: 2px solid var(--accent);
-        /* Small colored dash at the end */
         padding-right: 8px;
       }
 
       #sub-id {
         user-select: all;
         cursor: pointer;
-      }
-
-      .apps {
-        margin-top: 10px;
-      }
-
-      .server-card {
-        margin-bottom: 12px;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        overflow: hidden;
-      }
-
-      .server-header {
-        padding: 14px;
-        cursor: pointer;
-        background: rgba(255, 255, 255, 0.03);
-        font-weight: 600;
-      }
-
-      .server-body {
-        padding: 12px;
-      }
-
-      .mt-card {
-        display: flex;
-        justify-content: space-between;
-        padding: 12px;
-        border-radius: 10px;
-        background: rgba(15, 23, 42, 0.6);
-        margin-bottom: 8px;
-        text-decoration: none;
-        color: white;
       }
 
       .proxy-label img {
@@ -1081,9 +720,32 @@
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 20px;
-        padding: 20px;
+        padding: 16px;
         margin-top: 24px;
         backdrop-filter: blur(10px);
+      }
+
+      .subscription-status-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 24px;
+      }
+
+      .subscription-status-card .hero-stats {
+        background: transparent;
+        border: none;
+        padding: 0 0 56px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--border);
+        border-radius: 0;
+      }
+
+      .subscription-status-card .traffic-widget-compact {
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
       }
 
       .traffic-header {
@@ -1147,7 +809,7 @@
       }
 
       .traffic-big-value {
-        font-size: 2.8rem;
+        font-size: 2rem;
         font-weight: 800;
         color: #22d3ee;
         line-height: 1.1;
@@ -1201,15 +863,59 @@
 
       @media (max-width: 600px) {
         .traffic-big-value {
-          font-size: 2.2rem;
+          font-size: 1.8rem;
         }
         .traffic-detail-grid {
           grid-template-columns: 1fr;
         }
       }
 
+      .traffic-widget-compact {
+        padding: 8px 12px;
+        margin-top: 0;
+        margin-bottom: 16px;
+        border-radius: 16px;
+      }
+
+      .traffic-widget-compact .traffic-header {
+        margin-bottom: 6px;
+      }
+
+      .traffic-widget-compact .traffic-main {
+        padding: 4px 0 6px;
+      }
+
+      .traffic-widget-compact .traffic-big-value {
+        font-size: 1.4rem;
+      }
+
+      .traffic-widget-compact .traffic-big-label {
+        font-size: 11px;
+      }
+
+      .traffic-widget-compact .traffic-limit-text {
+        font-size: 11px;
+        margin-top: 4px;
+      }
+
+      .traffic-widget-compact .traffic-detail-grid {
+        gap: 6px;
+      }
+
+      .traffic-widget-compact .traffic-detail-card {
+        padding: 8px;
+        border-radius: 10px;
+      }
+
+      .traffic-widget-compact .traffic-detail-label {
+        font-size: 10px;
+      }
+
+      .traffic-widget-compact .traffic-detail-value {
+        font-size: 12px;
+      }
+
       .setup-help-card {
-        margin-top: 16px;
         padding: 20px;
         border-radius: 18px;
         border: 1px solid var(--border);
@@ -1221,7 +927,9 @@
         display: flex;
         gap: 16px;
         align-items: flex-start;
-        transition: border-color 0.2s ease, transform 0.2s ease;
+        transition:
+          border-color 0.2s ease,
+          transform 0.2s ease;
       }
 
       .setup-help-card:hover {
@@ -1285,23 +993,38 @@
       }
 
       .renew-section {
-        margin-top: 24px;
+        background: rgba(30, 41, 59, 0.3);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
       }
+
       .renew-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
         font-size: 28px;
-        margin: 0 0 20px;
-        text-align: center;
       }
+
+      .renew-title .title-hint {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 400;
+      }
+
       .renew-field {
         display: flex;
         flex-direction: column;
         gap: 6px;
       }
+
       .renew-field label {
         font-size: 12px;
         font-weight: 600;
         color: var(--muted);
       }
+
       .renew-field select {
         width: 100%;
         background: #0f1320;
@@ -1311,20 +1034,24 @@
         border-radius: 10px;
         font-size: 14px;
       }
+
       .renew-field select:focus {
         outline: none;
         border-color: var(--accent);
       }
+
       .renew-options {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 16px;
       }
+
       @media (max-width: 640px) {
         .renew-options {
           grid-template-columns: 1fr;
         }
       }
+
       .renew-option-card {
         background: rgba(255, 255, 255, 0.02);
         border: 1px solid var(--border);
@@ -1334,6 +1061,7 @@
         flex-direction: column;
         gap: 10px;
       }
+
       .renew-option-icon {
         width: 44px;
         height: 44px;
@@ -1345,16 +1073,19 @@
         justify-content: center;
         font-size: 22px;
       }
+
       .renew-option-card h4 {
         margin: 0;
         font-size: 17px;
       }
+
       .renew-option-card p {
         margin: 0;
         color: var(--muted);
         font-size: 13px;
         line-height: 1.4;
       }
+
       .renew-option-card input {
         width: 100%;
         background: #0f1320;
@@ -1365,43 +1096,21 @@
         font-size: 14px;
         box-sizing: border-box;
       }
+
       .renew-option-card input:focus {
         outline: none;
         border-color: var(--accent);
       }
-      .renew-action-btn {
-        width: 100%;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--border);
-        color: var(--text);
-        padding: 12px;
-        border-radius: 12px;
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-      .renew-action-btn:hover {
-        border-color: var(--accent);
-        background: rgba(91, 124, 250, 0.1);
-      }
-      .renew-action-btn.primary {
-        background: var(--accent);
-        color: #ffffff;
-        border: none;
-      }
 
-      .renew-action-btn.primary:hover {
-        background: #6d8bfb;
-        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
-      }
       .renew-promo-inline {
         display: flex;
         gap: 8px;
       }
+
       .renew-promo-inline input {
         flex: 1;
       }
+
       .renew-promo-inline button {
         white-space: nowrap;
         background: rgba(91, 124, 250, 0.1);
@@ -1413,6 +1122,7 @@
         font-weight: 600;
         cursor: pointer;
       }
+
       .renew-price {
         display: flex;
         align-items: center;
@@ -1420,36 +1130,42 @@
         gap: 10px;
         min-height: 22px;
       }
+
       .renew-price-old {
         font-size: 13px;
         color: var(--muted);
         text-decoration: line-through;
       }
+
       .renew-price-new {
         font-size: 16px;
         font-weight: 700;
         color: var(--text);
       }
+
       .renew-price-new.discounted {
         color: #22c55e;
       }
+
       .renew-option-links {
         display: flex;
         flex-direction: column;
         gap: 6px;
         margin-top: 4px;
       }
+
       .renew-error {
         color: #ef4444;
         font-size: 13px;
         margin-top: 4px;
       }
+
       .subscription-benefits {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 16px;
-        margin: 28px 0;
       }
+
       .subscription-benefit-card {
         background: rgba(255, 255, 255, 0.02);
         border: 1px solid var(--border);
@@ -1460,9 +1176,11 @@
         gap: 12px;
         transition: border-color 0.2s ease;
       }
+
       .subscription-benefit-card:hover {
         border-color: rgba(91, 124, 250, 0.4);
       }
+
       .subscription-benefit-icon {
         width: 44px;
         height: 44px;
@@ -1472,43 +1190,277 @@
         justify-content: center;
         font-size: 22px;
       }
+
       .subscription-benefit-icon.green {
         background: rgba(34, 197, 94, 0.12);
       }
+
       .subscription-benefit-icon.blue {
         background: rgba(91, 124, 250, 0.12);
       }
+
       .subscription-benefit-content h4 {
         margin: 0 0 8px;
         font-size: 16px;
       }
+
       .subscription-benefit-content p {
         margin: 0;
         font-size: 13px;
         color: var(--muted);
         line-height: 1.6;
       }
+
       @media (max-width: 640px) {
         .subscription-benefits {
           grid-template-columns: 1fr;
         }
       }
+
+      .urgency-banner {
+        background: rgba(245, 158, 11, 0.12);
+        border: 1px solid rgba(245, 158, 11, 0.35);
+        color: #fbbf24;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .urgency-banner.critical {
+        background: rgba(239, 68, 68, 0.12);
+        border-color: rgba(239, 68, 68, 0.35);
+        color: #f87171;
+      }
+
+      .quick-start-card {
+        background: linear-gradient(
+          135deg,
+          rgba(91, 124, 250, 0.12),
+          rgba(34, 211, 238, 0.08)
+        );
+        border: 1px solid rgba(91, 124, 250, 0.25);
+        border-radius: 16px;
+        padding: 20px;
+      }
+
+      .quick-start-card h4 {
+        margin: 0 0 14px;
+        font-size: 16px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .quick-start-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .quick-start-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        font-size: 14px;
+        color: var(--text);
+        line-height: 1.5;
+      }
+
+      .quick-start-list .step-num {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: rgba(91, 124, 250, 0.2);
+        color: var(--accent-2);
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1px;
+      }
+
+      .quick-start-list .step-text {
+        color: var(--muted);
+      }
+
+      .quick-start-list .step-text b {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .section-subtitle {
+        font-size: 14px;
+        color: var(--muted);
+        margin-top: -10px;
+        margin-bottom: 18px;
+        line-height: 1.5;
+      }
+
+      .info-tooltip {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 13px;
+        color: var(--muted);
+        background: rgba(91, 124, 250, 0.08);
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(91, 124, 250, 0.2);
+        margin-top: 8px;
+        line-height: 1.5;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .info-tooltip b {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .info-tooltip.warning {
+        background: rgba(245, 158, 11, 0.08);
+        border-color: rgba(245, 158, 11, 0.25);
+      }
+
+      .subscription-link-card.primary-action {
+        border-color: rgba(91, 124, 250, 0.4);
+        background: linear-gradient(
+          135deg,
+          rgba(91, 124, 250, 0.08),
+          rgba(34, 211, 238, 0.04)
+        );
+      }
+
+      .subscription-link-label .label-main {
+        font-size: 15px;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 4px;
+      }
+
+      .subscription-link-label .label-hint {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .step-hint {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 8px;
+        line-height: 1.5;
+      }
+
+      @media (max-width: 640px) {
+        .quick-start-card {
+          padding: 16px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        #env-switcher {
+          flex-direction: row;
+          flex-wrap: wrap;
+          width: 100%;
+        }
+
+        #env-switcher .env-badge {
+          font-size: 11px;
+          padding: 3px 8px;
+        }
+
+        .small-id {
+          word-break: break-all;
+          font-size: 11px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .subscription-link-card {
+          padding: 16px;
+        }
+
+        .subscription-link-row {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .subscription-link {
+          width: 100%;
+          box-sizing: border-box;
+        }
+
+        .subscription-actions {
+          width: 100%;
+          flex-direction: column;
+        }
+
+        .traffic-widget-compact {
+          padding: 8px 12px;
+        }
+
+        .traffic-widget-compact .traffic-big-value {
+          font-size: 1.3rem;
+        }
+
+        .quick-start-card h4 {
+          font-size: 15px;
+        }
+
+        .quick-start-list li {
+          font-size: 13px;
+        }
+
+        .hero-stats {
+          grid-template-columns: 1fr;
+          gap: 12px;
+          padding: 16px 16px 60px 16px;
+        }
+
+        .hero-stats .stats-add-btn {
+          bottom: 12px;
+          right: 12px;
+        }
+
+        .stat {
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .stat b {
+          font-size: 1.4rem;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .traffic-widget-compact .traffic-big-value {
+          font-size: 1.2rem;
+        }
+      }
     </style>
   </head>
 
-  <body>
-    <div class="card">
+  <body class="landing-page subscription-page">
+    <div class="container">
       <header>
-        <div class="env-switcher-wrap">
-          <div id="env-switcher"></div>
-        </div>
-        <div class="header-right">
-          <div class="logo">
-            <a href="/en/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN</a>
-            <div class="hero-watermark">Privacy is our Religion</div>
-          </div>
-        </div>
+        <div id="logo-container"></div>
       </header>
+
+      <div class="env-switcher-wrap">
+        <div id="env-switcher"></div>
+        <div id="env-current" class="env-current-badge"></div>
+      </div>
 
       <div id="error-content" class="error-state">
         <h2>Oops! Subscription not found</h2>
@@ -1533,11 +1485,7 @@
 
           <br />
 
-          <button
-            id="open-sub-btn"
-            class="button btn-primary"
-            style="padding: 10px 20px; border-radius: 8px"
-          >
+          <button id="open-sub-btn" class="btn try">
             Open subscription
           </button>
 
@@ -1548,288 +1496,327 @@
         </div>
 
         <div class="error-actions">
-          <a
-            href="https://t.me/frkn_support"
-            class="button btn-primary"
-            style="padding: 10px 20px; border-radius: 8px; color: white"
-          >
+          <a href="https://t.me/frkn_support"><button class="btn try">
             Contact support
-          </a>
+          </button></a>
 
-          <a
-            href="/en/pay"
-            class="button"
-            style="
-              padding: 10px 20px;
-              border-radius: 8px;
-              background: var(--border);
-            "
-          >
+          <a href="/en/pay"><button class="btn ghost">
             Buy activation key
-          </a>
+          </button></a>
         </div>
       </div>
 
-      <div class="main-content" id="main-content">
-        <section class="hero">
-          <h3 class="hero-title">
-            Reelsoprovod <br />
-            Subscription & Access
-          </h3>
-          <div class="hero-content">
-            <div class="title-group">
-              <span id="env-badge" class="env-badge available">...</span>
+      <main class="main-content" id="main-content">
+        <section class="subscription-hero">
+          <h3 class="hero-title">Your personal account</h3>
+          <p class="hero-subtitle">
+            All subscription info, connection links and settings, and renewal
+            options. Setup is simple and takes just a couple of minutes.
+          </p>
+
+          <div class="subscription-meta">
+            <span class="small-id">ID: <span id="sub-id">...</span></span>
+          </div>
+
+          <div id="urgency-banner"></div>
+        </section>
+
+        <div class="subscription-row">
+          <div class="subscription-notices">
+            <div class="info-tooltip">
+              <span>⭐</span>
+              <span
+                ><b>Bookmark this page.</b> Your subscription number is saved in
+                the browser — next time you’ll open it instantly, without a
+                key.</span
+              >
             </div>
           </div>
-          <div class="small-id">ID: <span id="sub-id">...</span></div>
+        </div>
 
-          <div class="hero-stats">
-            <div class="stat">Status<span id="status-text">...</span></div>
-            <div class="stat">Days left <b id="days">...</b></div>
-            <div class="stat">Expires <span id="expires">...</span></div>
+        <div class="subscription-row">
+          <div class="subscription-status-card">
+            <div class="hero-stats" style="position: relative">
+              <div class="stat">Status<span id="status-text">...</span></div>
+              <div class="stat">Days left <b id="days">...</b></div>
+              <div class="stat">Expires <span id="expires">...</span></div>
+              <a class="small-add stats-add-btn" id="scrollToAdd">⚡ Add days</a>
+            </div>
+
+            <div class="traffic-widget traffic-widget-compact">
+              <div class="traffic-header">
+                <div class="traffic-env-selector">
+                  <label for="traffic-env-select">Environment</label>
+                  <select id="traffic-env-select">
+                    <option value="all">All</option>
+                  </select>
+                </div>
+                <div class="traffic-toggle" id="traffic-toggle">
+                  <span>Details</span>
+                  <span class="traffic-arrow" id="traffic-arrow">▼</span>
+                </div>
+              </div>
+
+              <div class="traffic-main">
+                <div class="traffic-big-value" id="traffic-total">0 B</div>
+                <div class="traffic-limit-text" id="traffic-limit-text">
+                  No limit
+                </div>
+              </div>
+
+              <div
+                class="traffic-details"
+                id="traffic-details"
+                style="display: none"
+              >
+                <div class="traffic-detail-grid">
+                  <div class="traffic-detail-card">
+                    <div class="traffic-detail-label">Sent</div>
+                    <div class="traffic-detail-value" id="traffic-uplink">0 B</div>
+                  </div>
+                  <div class="traffic-detail-card">
+                    <div class="traffic-detail-label">Received</div>
+                    <div class="traffic-detail-value" id="traffic-downlink">0 B</div>
+                  </div>
+                  <div class="traffic-detail-card">
+                    <div class="traffic-detail-label">Sent today</div>
+                    <div class="traffic-detail-value" id="traffic-daily-uplink">0 B</div>
+                  </div>
+                  <div class="traffic-detail-card">
+                    <div class="traffic-detail-label">Received today</div>
+                    <div class="traffic-detail-value" id="traffic-daily-downlink">0 B</div>
+                  </div>
+                  <div class="traffic-detail-card">
+                    <div class="traffic-detail-label">Sent this month</div>
+                    <div class="traffic-detail-value" id="traffic-monthly-uplink">0 B</div>
+                  </div>
+                  <div class="traffic-detail-card">
+                    <div class="traffic-detail-label">Received this month</div>
+                    <div class="traffic-detail-value" id="traffic-monthly-downlink">0 B</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="subscription-link-card">
+          <div class="subscription-link-card primary-action">
             <div class="subscription-link-label">
-              Universal subscription link
+              <div class="label-main">🔗 Universal subscription link</div>
+              <div class="label-hint">
+                Copy it and paste into your client app. SCROLL DOWN FOR MORE.
+                AMNEZIA IS SET UP SEPARATELY.
+              </div>
             </div>
 
-            <div class="subscription-link-row">
+            <div class="subscription-link-row main-link-row">
               <div id="subscription-link" class="subscription-link">
                 sub.frkn.org/...
               </div>
 
               <div class="subscription-actions">
-                <button id="copy-sub-link" class="action-btn">
-                  Copy
+                <button id="copy-sub-link" class="btn try">📋 Copy link</button>
+
+                <button id="show-qr-btn" class="btn ghost">📱 QR Code</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subscription-row">
+          <div class="quick-start-card">
+            <h4>⚡ Quick start: how to connect</h4>
+            <ol class="quick-start-list">
+              <li>
+                <span class="step-num">1</span>
+                <span class="step-text"
+                  ><b>Copy the link</b> from the block below or scan the QR
+                  code.</span
+                >
+              </li>
+              <li>
+                <span class="step-num">2</span>
+                <span class="step-text"
+                  ><b>Install a client app</b> for your OS (Hiddify, V2RayNG,
+                  Streisand, etc.).</span
+                >
+              </li>
+              <li>
+                <span class="step-num">3</span>
+                <span class="step-text"
+                  ><b>Paste the link</b> into the app — it will load all the
+                  settings automatically.</span
+                >
+              </li>
+            </ol>
+            <div class="info-tooltip" style="margin-top: 14px">
+              💡 Not sure which app to choose? Use the picker below or go to the
+              setup page.
+            </div>
+          </div>
+
+          <details class="subscription-section subscription-picker">
+          <summary>
+            <div class="subscription-picker-header">
+              <h3>📲 App picker for your device</h3>
+              <p class="section-subtitle">
+                Answer 3 questions and we’ll suggest which app to download and which
+                link to use.
+              </p>
+            </div>
+            <span class="subscription-picker-chevron"></span>
+          </summary>
+
+          <div class="steps-flow">
+            <div class="step-card" id="os-step">
+              <h4>1. Which device will you use Reelsoprovod on?</h4>
+              <div id="os-options" class="pill-group"></div>
+              <div class="step-hint">
+                Choose your operating system: Windows, macOS, Android, iOS, etc.
+              </div>
+            </div>
+
+            <div class="step-card step-disabled" id="protocol-step">
+              <h4>2. Which protocol to choose?</h4>
+              <p class="small" style="margin: 0 0 14px">
+                <b style="color: var(--text)">We recommend AmneziaWG and Hysteria2</b>
+                — they work more stably and faster in most cases.
+              </p>
+              <div id="protocol-options" class="protocol-grid"></div>
+              <div class="step-hint">
+                If unsure, choose AmneziaWG or Hysteria2. Other protocols are for
+                special cases.
+              </div>
+            </div>
+
+            <div class="step-card step-disabled" id="client-step">
+              <h4>3. Which app to install?</h4>
+              <div id="client-options" class="pill-group"></div>
+              <div class="step-hint">
+                Choose a client app that supports your device.
+              </div>
+            </div>
+
+            <div class="step-card step-disabled" id="connection-step">
+              <h4>Done — link for the selected configuration</h4>
+              <div id="connection-content" class="small">
+                Choose OS, protocol, and app to get the exact connection link.
+              </div>
+            </div>
+          </div>
+
+          <div class="setup-help-card">
+            <div class="setup-help-icon">🌐</div>
+            <div class="setup-help-content">
+              <h4>Need a step-by-step guide?</h4>
+              <p>
+                On the setup page, select your OS, client, and protocol — we'll
+                show you how to set everything up in a couple of minutes.
+              </p>
+              <a href="/en/setup/" class="setup-help-link">Go to setup →</a>
+            </div>
+          </div>
+        </details>
+        </div>
+
+        <div class="subscription-row" style="display: none;">
+          <div class="ref-code">
+            <h2 class="renew-title">
+              👥 Invite friends — get free days
+            </h2>
+            Your referral code: <b id="ref-code">...</b><br />
+            <div class="subscription-actions">
+              <button id="copy-ref-btn" class="btn ghost">Copy code</button>
+              <button id="copy-ref-link" class="btn ghost">Copy friend link</button>
+            </div>
+            <div class="ref-stats small">
+              You invited: <span id="invited-count">0</span><br />
+              We'll add 7 days of access for both you and your friend
+            </div>
+          </div>
+          <div class="renew-section" id="renew">
+            <h2 class="renew-title">
+              ⏳ Add days
+              <span class="title-hint">Activation key or card / SBP / crypto</span>
+            </h2>
+
+            <div class="renew-options">
+              <div class="renew-option-card">
+                <div class="renew-option-icon">🔑</div>
+                <h4>Already have an activation key?</h4>
+                <p>Enter the key you received after purchase or from a friend.</p>
+                <input id="keyInput" placeholder="Enter key" />
+                <button onclick="activateKey()" class="btn try">
+                  Activate key
                 </button>
+                <div class="renew-option-links">
+                  <a
+                    href="/en/info/activation-keys/"
+                    target="_blank"
+                    class="small text-link"
+                  >
+                    What is an activation key?
+                  </a>
+                  <a href="/en/pay" target="_blank" class="small text-link">Buy key</a>
+                </div>
+                <div id="keyResult" class="small"></div>
+              </div>
 
-                <button id="show-qr-btn" class="action-btn">QR Code</button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div class="traffic-widget">
-          <div class="traffic-header">
-            <div class="traffic-env-selector">
-              <label for="traffic-env-select">Environment</label>
-              <select id="traffic-env-select">
-                <option value="all">All</option>
-              </select>
-            </div>
-            <div class="traffic-toggle" id="traffic-toggle">
-              <span>Details</span>
-              <span class="traffic-arrow" id="traffic-arrow">▼</span>
-            </div>
-          </div>
-
-          <div class="traffic-main">
-            <div class="traffic-big-value" id="traffic-total">0 B</div>
-            <div class="traffic-limit-text" id="traffic-limit-text">No limit</div>
-          </div>
-
-          <div class="traffic-details" id="traffic-details" style="display: none;">
-            <div class="traffic-detail-grid">
-              <div class="traffic-detail-card">
-                <div class="traffic-detail-label">Sent</div>
-                <div class="traffic-detail-value" id="traffic-uplink">0 B</div>
-              </div>
-              <div class="traffic-detail-card">
-                <div class="traffic-detail-label">Received</div>
-                <div class="traffic-detail-value" id="traffic-downlink">0 B</div>
-              </div>
-              <div class="traffic-detail-card">
-                <div class="traffic-detail-label">Sent today</div>
-                <div class="traffic-detail-value" id="traffic-daily-uplink">0 B</div>
-              </div>
-              <div class="traffic-detail-card">
-                <div class="traffic-detail-label">Received today</div>
-                <div class="traffic-detail-value" id="traffic-daily-downlink">0 B</div>
-              </div>
-              <div class="traffic-detail-card">
-                <div class="traffic-detail-label">Sent this month</div>
-                <div class="traffic-detail-value" id="traffic-monthly-uplink">0 B</div>
-              </div>
-              <div class="traffic-detail-card">
-                <div class="traffic-detail-label">Received this month</div>
-                <div class="traffic-detail-value" id="traffic-monthly-downlink">0 B</div>
+              <div class="renew-option-card">
+                <div class="renew-option-icon">💳</div>
+                <h4>Pay</h4>
+                <p>Card, SBP or cryptocurrency</p>
+                <div class="renew-field">
+                  <label for="renewDuration">For how many days</label>
+                  <select id="renewDuration">
+                    <option value="3" data-price="100">3 days — 100 ₽</option>
+                    <option value="7" data-price="200">7 days — 200 ₽</option>
+                    <option value="14" data-price="300">14 days — 300 ₽</option>
+                    <option value="30" data-price="500" selected>30 days — 500 ₽</option>
+                    <option value="90" data-price="1500">90 days — 1500 ₽</option>
+                    <option value="180" data-price="2700">180 days — 2700 ₽</option>
+                    <option value="365" data-price="5000">365 days — 5000 ₽</option>
+                  </select>
+                </div>
+                <div class="renew-promo-inline">
+                  <input type="text" id="renewPromo" placeholder="Promo code (optional)" />
+                  <button type="button" id="renewApplyPromo">Apply</button>
+                </div>
+                <div class="renew-price" id="renewPrice">
+                  <span class="renew-price-old" id="renewPriceOld"></span>
+                  <span class="renew-price-new" id="renewPriceNew">500 ₽</span>
+                </div>
+                <button type="button" class="btn try" id="renewBtn">
+                  Renew subscription
+                </button>
+                <div class="renew-error" id="renewError"></div>
               </div>
             </div>
           </div>
         </div>
+      </main>
 
-        <hr />
-
-        <div style="text-align: right; margin-bottom: 20px">
-          <a class="small-add" id="scrollToAdd">⚡ Add days</a>
+      <div id="qr-modal" class="qr-modal hidden">
+        <div class="qr-content">
+          <canvas id="qr-canvas"></canvas>
         </div>
-
-        <h3>Connection links</h3>
-
-        <div class="steps-flow">
-          <div class="step-card" id="os-step">
-            <h4>Step 1. Choose your OS</h4>
-            <div id="os-options" class="pill-group"></div>
-          </div>
-
-          <div class="step-card step-disabled" id="protocol-step">
-            <h4>Step 2. Choose protocol</h4>
-            <p class="small" style="margin: 0 0 14px">
-              Not sure? Choose <b style="color: var(--text)">AmneziaWG or Hysteria2</b> — they
-              work in most cases.
-            </p>
-            <div id="protocol-options" class="protocol-grid"></div>
-          </div>
-
-          <div class="step-card step-disabled" id="client-step">
-            <h4>Step 3. Choose client</h4>
-            <div id="client-options" class="pill-group"></div>
-          </div>
-
-          <div class="step-card step-disabled" id="connection-step">
-            <h4>Step 4. Connect</h4>
-            <div id="connection-content" class="small">
-              Choose OS, protocol, and client to get the connection link.
-            </div>
-          </div>
-        </div>
-
-        <div class="setup-help-card">
-          <div class="setup-help-icon">📋</div>
-          <div class="setup-help-content">
-            <h4>Need a step-by-step guide?</h4>
-            <p>
-              On the setup page, select your OS, client, and protocol — we'll
-              show you how to set everything up in a couple of minutes.
-            </p>
-            <a href="/en/setup/" class="setup-help-link">Go to setup →</a>
-          </div>
-        </div>
-
-        <hr />
-        <div class="renew-section" id="renew">
-          <h2 class="renew-title">Add days</h2>
-
-          <div class="renew-options">
-            <div class="renew-option-card">
-              <div class="renew-option-icon">🔑</div>
-              <h4>By activation key</h4>
-              <p>Already have a key? Enter it and activate.</p>
-              <input id="keyInput" placeholder="Enter key" />
-              <button onclick="activateKey()" class="renew-action-btn">
-                Activate key
-              </button>
-              <div class="renew-option-links">
-                <a href="/en/info/activation-keys/" target="_blank" class="small text-link">
-                  What is an activation key?
-                </a>
-                <a href="/en/pay" target="_blank" class="small text-link">Buy key</a>
-              </div>
-              <div id="keyResult" class="small"></div>
-            </div>
-
-            <div class="renew-option-card">
-              <div class="renew-option-icon">💳</div>
-              <h4>Pay</h4>
-              <p>Card, SBP or cryptocurrency</p>
-              <div class="renew-field">
-                <label for="renewDuration">For how many days</label>
-                <select id="renewDuration">
-                  <option value="3" data-price="100">3 days — 100 ₽</option>
-                  <option value="7" data-price="200">7 days — 200 ₽</option>
-                  <option value="14" data-price="300">14 days — 300 ₽</option>
-                  <option value="30" data-price="500" selected>30 days — 500 ₽</option>
-                  <option value="90" data-price="1500">90 days — 1500 ₽</option>
-                  <option value="180" data-price="2700">180 days — 2700 ₽</option>
-                  <option value="365" data-price="5000">365 days — 5000 ₽</option>
-                </select>
-              </div>
-              <div class="renew-promo-inline">
-                <input type="text" id="renewPromo" placeholder="Promo code (optional)" />
-                <button type="button" id="renewApplyPromo">Apply</button>
-              </div>
-              <div class="renew-price" id="renewPrice">
-                <span class="renew-price-old" id="renewPriceOld"></span>
-                <span class="renew-price-new" id="renewPriceNew">500 ₽</span>
-              </div>
-              <button type="button" class="renew-action-btn primary" id="renewBtn">
-                Renew subscription
-              </button>
-              <div class="renew-error" id="renewError"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="subscription-benefits">
-          <div class="subscription-benefit-card">
-            <div class="subscription-benefit-icon green">🛡️</div>
-            <div class="subscription-benefit-content">
-              <h4>No card, no auto-charges</h4>
-              <p>
-                Pay once and get access. No bank card binding, no subscriptions,
-                no hidden charges.
-              </p>
-            </div>
-          </div>
-          <div class="subscription-benefit-card">
-            <div class="subscription-benefit-icon blue">➕</div>
-            <div class="subscription-benefit-content">
-              <h4>Days stack up</h4>
-              <p>
-                Renewal adds days to your current subscription without resetting
-                it. Existing access time stays and only grows.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <hr />
-        <div class="ref-code">
-          Your referral code: <b id="ref-code">...</b><br />
-          <div>
-            <button id="copy-ref-btn">Copy code</button>
-            <button id="copy-ref-link">Copy friend link</button>
-          </div>
-        </div>
-        <div class="small">
-          You invited: <span id="invited-count">0</span><br />
-          We'll add 7 days of access for both you and your friend
-        </div>
-
-        <br />
-        <hr />
-        <div class="footer-line">
-          <div class="small-viva">
-            <a href="https://t.me/frkn_support">Support</a>
-          </div>
-          <div class="small-viva">· Vive la résistance!</div>
-        </div>
-        <div id="toast" class="toast"></div>
       </div>
+
+      <div id="footer-container"></div>
+      <div id="toast" class="toast"></div>
     </div>
-
-    <div id="qr-modal" class="qr-modal hidden">
-      <div class="qr-content">
-        <canvas id="qr-canvas"></canvas>
-      </div>
-    </div>
-<script src="/scripts/analytics.js" defer></script>
-</body>
-</html>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-<script src="/scripts/utils.js?v=1"></script>
-
+    <script src="/scripts/analytics.js" defer></script>
+    <script src="/scripts/utils.js?v=1"></script>
+    <script src="/scripts/i18n.js?v=2"></script>
+    <script src="/scripts/containers.js?v=2"></script>
 <script>
   const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
   const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
   const API_BASE = isLocal
     ? "http://localhost:3000"
-    : "https://heheapi.frkn.org";
+    : "https://api.frkn.org";
   const PAYMENT_API_BASE = isLocal
     ? "http://localhost:3006"
-    : "https://heheapi.frkn.org";
+    : "https://api.frkn.org";
 
   const ENV_NAMES = {
     wl: "🐘 WS - White Elephants",
@@ -2147,7 +2134,6 @@
 
   function renderSubscriptionData(data, subId, currentEnv) {
     const statusEl = document.getElementById("status-text");
-    const badge = document.getElementById("env-badge");
     const daysEl = document.getElementById("days");
     const expiryDate = new Date(data.expires);
 
@@ -2223,10 +2209,6 @@
 
     updateDisplay();
 
-    if (badge) {
-      badge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
-    }
-
     const subIdEl = document.getElementById("sub-id");
     subIdEl.innerText = data.id;
     subIdEl.onclick = () => copyText(data.id, "ID copied");
@@ -2254,10 +2236,15 @@
       copyText(refLink, "Link copied! Share with a friend");
 
     const switcher = document.getElementById("env-switcher");
+    const currentBadge = document.getElementById("env-current");
     if (switcher && data.locations) {
       switcher.innerHTML = "";
+      if (currentBadge) {
+        currentBadge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
+      }
       data.locations.forEach((l) => {
         if (l.env === "production") return;
+        if (l.env === currentEnv) return;
         // if (l.env === "experimental") return;
         if (
           !l.has_xray &&
@@ -2534,9 +2521,9 @@
 
     content.innerHTML = `
       <h5 class="connection-title">${safeClientName} for ${safeOsLabel}</h5>
-      <a class="button btn-primary download-link" id="download-client-btn" target="_blank" rel="noopener noreferrer" aria-label="Download client (opens in a new tab)">Download client</a>
+      <a id="download-client-btn" target="_blank" rel="noopener noreferrer" aria-label="Download client (opens in a new tab)"><button class="btn try download-link">Download client</button></a>
       <div class="subscription-link-row">
-        <button type="button" id="copy-subscription-link">Copy link</button>
+        <button type="button" id="copy-subscription-link" class="btn try">Copy link</button>
       </div>
       <div class="qr-wrapper">
         <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 Show QR code</button>
@@ -3152,3 +3139,5 @@
     }
   });
 </script>
+  </body>
+</html>

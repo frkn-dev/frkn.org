@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="ru">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -20,161 +20,30 @@
     <meta property="og:image:type" content="image/png" />
 
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Подписка FRKN" />
-    <meta name="twitter:description" content="Подписка FRKN" />
+    <meta name="twitter:title" content="FRKN Подписка" />
+    <meta name="twitter:description" content="FRKN Подписка" />
     <meta name="twitter:image" content="https://frkn.org/Images/logo.png" />
     <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
     <title>Информация о подписке</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css?v=2" />
     <style>
-      :root {
-        --bg: #0b0d12;
-        --card: #121621;
-        --text: #e6e8ef;
-        --muted: #9aa1b2;
-        --accent: #5b7cfa;
-        --accent-2: #22d3ee;
-        --border: #1f2433;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      header {
-        display: flex;
-        justify-content: space-between;
-        padding: 20px 0 40px;
-      }
-
-      .header-right {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        margin-left: auto;
-      }
-
       .env-switcher-wrap {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-      }
-
-      .logo {
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 2px;
-        width: fit-content;
-      }
-
-      .logo a {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: var(--text);
-        text-decoration: none;
-        transition:
-          color 0.3s ease,
-          text-shadow 0.3s ease;
-      }
-
-      #logo-container img {
-        box-shadow:
-          0 0 10px rgba(0, 150, 255, 0.4),
-          0 0 20px rgba(0, 100, 255, 0.2);
-
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .logo img {
-        width: 50px;
-        height: 34px;
-        border-radius: 12%;
-        object-fit: contain;
-        background-color: #ffffff;
-        box-shadow: 0 0 10px rgba(91, 124, 250, 0.2);
-        transition: box-shadow 0.3s ease;
-      }
-
-      .logo img:hover {
-        filter: drop-shadow(0 0 15px rgba(34, 211, 238, 0.8));
-        transform: scale(1.05);
-      }
-
-      .hero-watermark {
-        font-size: 8px;
-        text-transform: uppercase;
-        letter-spacing: 0.35em;
-        color: var(--muted);
-        opacity: 0.5;
-        text-align: center;
-        white-space: nowrap;
-        pointer-events: none;
-        user-select: none;
-      }
-
-      .logo .hero-watermark {
-        margin-top: 2px;
-      }
-
-      .logo:hover img {
-        box-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
-      }
-
-      .logo:hover {
-        transform: scale(1.01);
-      }
-
-      .logo:hover a {
-        color: #fff;
-        text-shadow:
-          0 0 8px rgba(91, 124, 250, 0.8),
-          0 0 15px rgba(34, 211, 238, 0.4);
-      }
-
-      .title-group {
-        display: flex;
-        align-items: center;
-        gap: 12px;
         margin-bottom: 16px;
-      }
-
-      .hero-title,
-      .hero-title-small {
-        font-family: var(--font-main);
-        letter-spacing: -0.04em;
-        text-transform: none;
-      }
-
-      .hero-title {
-        margin-bottom: 8;
-        font-size: 2rem;
-        font-weight: 800;
-        color: #fff;
-        text-shadow:
-          0 0 8px rgba(91, 124, 250, 0.35),
-          0 0 18px rgba(34, 211, 238, 0.15);
-        line-height: 1.2;
-      }
-
-      .hero-title-small {
-        margin-bottom: 10px;
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: #fff;
-        text-shadow:
-          0 0 8px rgba(91, 124, 250, 0.35),
-          0 0 18px rgba(34, 211, 238, 0.15);
-        line-height: 1.2;
       }
 
       .env-badge {
         display: inline-flex;
-        margin-bottom: 15px;
         align-items: center;
         padding: 4px 10px;
         font-size: 12px;
@@ -215,8 +84,37 @@
         color: #fff;
       }
 
+      .env-current-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-radius: 6px;
+        background: rgba(16, 185, 129, 0.15);
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.35);
+        white-space: nowrap;
+        margin-top: 10px;
+      }
+
       .available {
         color: #10b981;
+      }
+
+      .subscription-meta {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .subscription-meta .small-id {
+        margin: 0;
       }
 
       .hero-stats {
@@ -227,7 +125,6 @@
         padding: 20px 20px 64px 20px;
         border-radius: 16px;
         border: 1px solid var(--border);
-        margin-bottom: 24px;
         position: relative;
       }
 
@@ -256,27 +153,17 @@
         margin: 4px 0;
       }
 
-      .key {
-        margin-top: 10px;
-        margin-bottom: 10px;
+      .ref-code {
+        display: flex;
+        color: var(--muted);
         flex-direction: column;
-        display: inline-flex;
         align-items: left;
         text-align: left;
         gap: 8px;
       }
 
-      .ref-code {
-        margin-top: 30px;
-        margin-bottom: 20px;
-
-        display: flex;
-        color: var(--muted);
-        flex-direction: column;
-        display: inline-flex;
-        align-items: left;
-        text-align: left;
-        gap: 8px;
+      .ref-code h2 {
+        margin-bottom: 16px;
       }
 
       .ref-code b {
@@ -290,17 +177,23 @@
       .status-active {
         margin-top: 10px;
         color: #10b981 !important;
-        background: rgba(239, 10, 68, 0.1);
-        padding: 2px 8px;
-        border-radius: 6px;
+        background: rgba(16, 185, 129, 0.15);
+        padding: 4px 12px !important;
+        border-radius: 8px;
+        width: fit-content;
+        display: inline-flex !important;
+        justify-content: center;
         font-weight: 600;
       }
 
       .status-expired {
         color: #ef4444 !important;
         background: rgba(239, 68, 68, 0.1);
-        padding: 2px 8px;
-        border-radius: 6px;
+        padding: 4px 12px !important;
+        border-radius: 8px;
+        width: fit-content;
+        display: inline-flex !important;
+        justify-content: center;
         font-weight: 600;
       }
 
@@ -313,50 +206,6 @@
         display: inline-flex !important;
         justify-content: center;
         font-weight: 600;
-      }
-
-      .status-active,
-      .status-expired,
-      .status-warning {
-        padding: 4px 12px !important;
-        border-radius: 8px;
-        width: fit-content;
-        display: inline-flex !important;
-        justify-content: center;
-      }
-
-      body {
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto,
-          sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        max-width: 720px;
-        margin: 40px auto;
-        padding: 24px;
-        overflow-x: hidden;
-      }
-
-      .card {
-        background: var(--card);
-        border-radius: 12px;
-        padding: 24px;
-        box-shadow: 0 0 0 1px var(--border);
-      }
-
-      h1,
-      h2,
-      h3 {
-        margin-top: 0;
-      }
-
-      a {
-        color: var(--accent);
-        text-decoration: none;
-      }
-
-      a:hover {
-        opacity: 0.85;
       }
 
       button {
@@ -379,44 +228,23 @@
         transform: scale(0.97);
       }
 
-      .cta {
-        display: flex;
-        align-items: left;
-        gap: 8px;
-      }
-
-      .cta p {
-        margin: 0;
-      }
-
-      .link-btn {
-        color: var(--accent);
-        cursor: pointer;
-        font-weight: 500;
-        text-decoration: none;
-      }
-
-      .link-btn:hover {
-        text-decoration: underline;
+      .btn {
+        margin-top: 0;
       }
 
       .qr-modal {
         position: fixed;
         inset: 0;
-
         display: flex;
         align-items: center;
         justify-content: center;
-
         background: rgba(0, 0, 0, 0.7);
         backdrop-filter: blur(6px);
-
         z-index: 1000;
       }
 
       .qr-content {
         background: white;
-
         padding: 20px;
         border-radius: 20px;
       }
@@ -489,38 +317,12 @@
         filter: invert(0.9) hue-rotate(180deg);
       }
 
-      .small {
-        font-size: 13px;
-        color: var(--muted);
-      }
-
-      .right {
-        text-align: right;
-        display: block;
-      }
-
-      .center {
-        text-align: center;
-      }
-
-      .text-link {
-        text-decoration: underline;
-      }
-
       .badge {
         font-size: 12px;
         color: var(--accent-2);
         border: 1px solid rgba(34, 211, 238, 0.3);
         padding: 4px 10px;
         border-radius: 999px;
-      }
-
-      .footer-line {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 6px;
-        margin-top: 8px;
       }
 
       ul {
@@ -560,28 +362,6 @@
           0 8px 24px rgba(0, 0, 0, 0.4);
       }
 
-      .mt-proxy-item a {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px 18px;
-        text-decoration: none;
-        color: var(--text);
-        background: rgba(15, 23, 42, 0.6);
-        border: 1px solid rgba(148, 163, 184, 0.15);
-        border-radius: 14px;
-        transition: all 0.25s ease;
-      }
-
-      .mt-proxy-item a:hover {
-        background: rgba(30, 41, 59, 0.9);
-        border-color: rgba(56, 189, 248, 0.6);
-        transform: translateY(-2px);
-        box-shadow:
-          0 0 0 1px rgba(56, 189, 248, 0.3),
-          0 8px 24px rgba(0, 0, 0, 0.4);
-      }
-
       .proxy-label {
         font-size: 16px;
         font-weight: 600;
@@ -610,11 +390,9 @@
         justify-content: space-between;
         align-items: center;
         padding: 16px 18px;
-
         background: rgba(15, 23, 42, 0.6);
         border: 1px solid rgba(148, 163, 184, 0.15);
         border-radius: 14px;
-
         cursor: pointer;
         transition: all 0.25s ease;
       }
@@ -649,41 +427,6 @@
       .toast.show {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
-      }
-
-      .tabs {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        margin-bottom: 16px;
-      }
-
-      .tab {
-        padding: 8px 14px;
-        border-radius: 8px;
-        border: 1px solid var(--border);
-        background: transparent;
-        color: var(--muted);
-        cursor: pointer;
-      }
-
-      .tab.active {
-        background: var(--border);
-        color: var(--text);
-      }
-
-      .tab-content {
-        display: none;
-      }
-
-      .tab-content.active {
-        display: block;
-      }
-
-      .steps-flow {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
       }
 
       .step-card {
@@ -812,28 +555,13 @@
         font-size: 1.15rem;
       }
 
-      .download-link {
-        display: inline-flex;
-        padding: 8px 14px;
-        border-radius: 8px;
-        margin-top: 0;
-        margin-bottom: 14px;
-        color: #fff;
-        text-decoration: none;
-      }
-
       .subscription-link-card {
-        margin-top: 18px;
-
         padding: 16px;
         border-radius: 18px;
-
         background: rgba(255, 255, 255, 0.03);
-
         box-shadow:
           inset 0 2px 8px rgba(0, 0, 0, 0.35),
           inset 0 -1px 0 rgba(255, 255, 255, 0.04);
-
         border: 1px solid rgba(255, 255, 255, 0.06);
       }
 
@@ -841,75 +569,8 @@
         font-size: 0.8rem;
         text-transform: uppercase;
         letter-spacing: 0.08em;
-
         color: rgba(255, 255, 255, 0.55);
-
         margin-bottom: 12px;
-      }
-
-      .subscription-link-row {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        flex-wrap: wrap;
-      }
-
-      .subscription-link {
-        flex: 1;
-
-        min-width: 220px;
-
-        padding: 12px 14px;
-
-        border-radius: 12px;
-
-        background: rgba(0, 0, 0, 0.25);
-
-        color: #10b981;
-
-        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-
-        font-size: 0.92rem;
-
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .subscription-actions {
-        display: flex;
-        gap: 10px;
-        align-items: stretch;
-      }
-
-      .action-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        white-space: nowrap;
-        min-height: 46px;
-        width: auto;
-        min-width: max-content;
-
-        border: none;
-        border-radius: 12px;
-
-        padding: 12px 18px;
-
-        font-weight: 600;
-        cursor: pointer;
-      }
-
-      .action-btn:hover {
-        transform: translateY(-1px);
-      }
-
-      .action-btn:active {
-        transform: translateY(1px);
-      }
-
-      .action-btn.secondary {
-        background: rgba(255, 255, 255, 0.08);
       }
 
       .subscription-link-row {
@@ -920,17 +581,36 @@
         margin-bottom: 14px;
       }
 
-      .subscription-link-box {
-        margin: 0;
-        width: 100%;
-        padding: 10px 12px;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--border);
-        color: var(--text);
-        font-size: 12px;
-        overflow-x: auto;
+      .subscription-link-row.main-link-row {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        margin-bottom: 0;
+      }
+
+      .subscription-link-row.main-link-row .subscription-actions {
+        justify-content: flex-end;
+      }
+
+      .subscription-link {
+        flex: 1;
+        min-width: 220px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.25);
+        color: #10b981;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.92rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
         white-space: nowrap;
+      }
+
+      .subscription-actions {
+        display: flex;
+        gap: 10px;
+        align-items: stretch;
       }
 
       .connection-hint {
@@ -951,36 +631,19 @@
         align-items: flex-start;
       }
 
-      .additional-section {
-        margin-top: 20px;
-      }
-
-      .accordion {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.02);
-        padding: 2px 12px;
-      }
-
-      .accordion summary {
-        cursor: pointer;
-        padding: 12px 0;
-        font-weight: 600;
-      }
-
-      .accordion-body {
-        padding: 8px 0 14px;
-      }
-
       @media (max-width: 640px) {
         .subscription-link-row {
           grid-template-columns: 1fr;
+        }
+
+        .subscription-link-row.main-link-row .subscription-actions {
+          width: 100%;
+          flex-direction: column;
         }
       }
 
       .error-state {
         display: none;
-        /* Скрыто по умолчанию */
         flex-direction: column;
         align-items: center;
         text-align: center;
@@ -997,32 +660,6 @@
         display: flex;
         gap: 12px;
         margin-top: 10px;
-      }
-
-      .btn-primary {
-        background: var(--accent) !important;
-        font-weight: 600;
-      }
-
-      hr {
-        border: none;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          rgba(229, 231, 235, 0) 0%,
-          /* Прозрачный */ rgba(20, 20, 200, 0.6) 50% /* Легкий серый */
-            rgba(229, 231, 235, 0) 100% /* Прозрачный */
-        );
-        box-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
-        /* Легкое свечение */
-        margin: 24px 0;
-      }
-
-      .small-viva {
-        font-size: 11px;
-        color: var(--muted);
-        text-align: right;
-        letter-spacing: 2px;
       }
 
       .small-add {
@@ -1058,46 +695,12 @@
         margin-top: 10px;
         text-transform: uppercase;
         border-right: 2px solid var(--accent);
-        /* Маленькая цветная черточка в конце */
         padding-right: 8px;
       }
 
       #sub-id {
         user-select: all;
         cursor: pointer;
-      }
-
-      .apps {
-        margin-top: 10px;
-      }
-
-      .server-card {
-        margin-bottom: 12px;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        overflow: hidden;
-      }
-
-      .server-header {
-        padding: 14px;
-        cursor: pointer;
-        background: rgba(255, 255, 255, 0.03);
-        font-weight: 600;
-      }
-
-      .server-body {
-        padding: 12px;
-      }
-
-      .mt-card {
-        display: flex;
-        justify-content: space-between;
-        padding: 12px;
-        border-radius: 10px;
-        background: rgba(15, 23, 42, 0.6);
-        margin-bottom: 8px;
-        text-decoration: none;
-        color: white;
       }
 
       .proxy-label img {
@@ -1120,6 +723,29 @@
         padding: 16px;
         margin-top: 24px;
         backdrop-filter: blur(10px);
+      }
+
+      .subscription-status-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 24px;
+      }
+
+      .subscription-status-card .hero-stats {
+        background: transparent;
+        border: none;
+        padding: 0 0 56px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--border);
+        border-radius: 0;
+      }
+
+      .subscription-status-card .traffic-widget-compact {
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin: 0;
       }
 
       .traffic-header {
@@ -1290,7 +916,6 @@
       }
 
       .setup-help-card {
-        margin-top: 16px;
         padding: 20px;
         border-radius: 18px;
         border: 1px solid var(--border);
@@ -1368,23 +993,38 @@
       }
 
       .renew-section {
-        margin-top: 24px;
+        background: rgba(30, 41, 59, 0.3);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
       }
+
       .renew-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
         font-size: 28px;
-        margin: 0 0 20px;
-        text-align: center;
       }
+
+      .renew-title .title-hint {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 400;
+      }
+
       .renew-field {
         display: flex;
         flex-direction: column;
         gap: 6px;
       }
+
       .renew-field label {
         font-size: 12px;
         font-weight: 600;
         color: var(--muted);
       }
+
       .renew-field select {
         width: 100%;
         background: #0f1320;
@@ -1394,20 +1034,24 @@
         border-radius: 10px;
         font-size: 14px;
       }
+
       .renew-field select:focus {
         outline: none;
         border-color: var(--accent);
       }
+
       .renew-options {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 16px;
       }
+
       @media (max-width: 640px) {
         .renew-options {
           grid-template-columns: 1fr;
         }
       }
+
       .renew-option-card {
         background: rgba(255, 255, 255, 0.02);
         border: 1px solid var(--border);
@@ -1417,6 +1061,7 @@
         flex-direction: column;
         gap: 10px;
       }
+
       .renew-option-icon {
         width: 44px;
         height: 44px;
@@ -1428,16 +1073,19 @@
         justify-content: center;
         font-size: 22px;
       }
+
       .renew-option-card h4 {
         margin: 0;
         font-size: 17px;
       }
+
       .renew-option-card p {
         margin: 0;
         color: var(--muted);
         font-size: 13px;
         line-height: 1.4;
       }
+
       .renew-option-card input {
         width: 100%;
         background: #0f1320;
@@ -1448,43 +1096,21 @@
         font-size: 14px;
         box-sizing: border-box;
       }
+
       .renew-option-card input:focus {
         outline: none;
         border-color: var(--accent);
       }
-      .renew-action-btn {
-        width: 100%;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--border);
-        color: var(--text);
-        padding: 12px;
-        border-radius: 12px;
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-      .renew-action-btn:hover {
-        border-color: var(--accent);
-        background: rgba(91, 124, 250, 0.1);
-      }
-      .renew-action-btn.primary {
-        background: var(--accent);
-        color: #ffffff;
-        border: none;
-      }
 
-      .renew-action-btn.primary:hover {
-        background: #6d8bfb;
-        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
-      }
       .renew-promo-inline {
         display: flex;
         gap: 8px;
       }
+
       .renew-promo-inline input {
         flex: 1;
       }
+
       .renew-promo-inline button {
         white-space: nowrap;
         background: rgba(91, 124, 250, 0.1);
@@ -1496,6 +1122,7 @@
         font-weight: 600;
         cursor: pointer;
       }
+
       .renew-price {
         display: flex;
         align-items: center;
@@ -1503,36 +1130,42 @@
         gap: 10px;
         min-height: 22px;
       }
+
       .renew-price-old {
         font-size: 13px;
         color: var(--muted);
         text-decoration: line-through;
       }
+
       .renew-price-new {
         font-size: 16px;
         font-weight: 700;
         color: var(--text);
       }
+
       .renew-price-new.discounted {
         color: #22c55e;
       }
+
       .renew-option-links {
         display: flex;
         flex-direction: column;
         gap: 6px;
         margin-top: 4px;
       }
+
       .renew-error {
         color: #ef4444;
         font-size: 13px;
         margin-top: 4px;
       }
+
       .subscription-benefits {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 16px;
-        margin: 28px 0;
       }
+
       .subscription-benefit-card {
         background: rgba(255, 255, 255, 0.02);
         border: 1px solid var(--border);
@@ -1543,9 +1176,11 @@
         gap: 12px;
         transition: border-color 0.2s ease;
       }
+
       .subscription-benefit-card:hover {
         border-color: rgba(91, 124, 250, 0.4);
       }
+
       .subscription-benefit-icon {
         width: 44px;
         height: 44px;
@@ -1555,22 +1190,27 @@
         justify-content: center;
         font-size: 22px;
       }
+
       .subscription-benefit-icon.green {
         background: rgba(34, 197, 94, 0.12);
       }
+
       .subscription-benefit-icon.blue {
         background: rgba(91, 124, 250, 0.12);
       }
+
       .subscription-benefit-content h4 {
         margin: 0 0 8px;
         font-size: 16px;
       }
+
       .subscription-benefit-content p {
         margin: 0;
         font-size: 13px;
         color: var(--muted);
         line-height: 1.6;
       }
+
       @media (max-width: 640px) {
         .subscription-benefits {
           grid-template-columns: 1fr;
@@ -1606,7 +1246,6 @@
         border: 1px solid rgba(91, 124, 250, 0.25);
         border-radius: 16px;
         padding: 20px;
-        margin-bottom: 28px;
       }
 
       .quick-start-card h4 {
@@ -1715,63 +1354,11 @@
         color: var(--muted);
       }
 
-      .action-btn.primary {
-        background: rgba(91, 124, 250, 0.2);
-        border: 1px solid rgba(91, 124, 250, 0.4);
-        color: #fff;
-        font-weight: 600;
-      }
-
-      .action-btn.primary:hover {
-        background: rgba(91, 124, 250, 0.3);
-      }
-
-      .renew-section {
-        background: rgba(30, 41, 59, 0.3);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 24px;
-      }
-
-      .renew-title {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 20px;
-      }
-
-      .renew-title .title-hint {
-        font-size: 12px;
-        color: var(--muted);
-        font-weight: 400;
-      }
-
       .step-hint {
         font-size: 12px;
         color: var(--muted);
         margin-top: 8px;
         line-height: 1.5;
-      }
-
-      .connection-result {
-        background: rgba(16, 185, 129, 0.08);
-        border: 1px solid rgba(16, 185, 129, 0.25);
-        border-radius: 12px;
-        padding: 16px;
-        margin-top: 12px;
-      }
-
-      .connection-result .result-label {
-        font-size: 12px;
-        color: var(--muted);
-        margin-bottom: 8px;
-      }
-
-      .connection-result .result-link {
-        font-family: monospace;
-        font-size: 13px;
-        word-break: break-all;
-        color: var(--accent-2);
       }
 
       @media (max-width: 640px) {
@@ -1781,18 +1368,6 @@
       }
 
       @media (max-width: 560px) {
-        header {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 16px;
-          padding-bottom: 24px;
-        }
-
-        header > div:last-child {
-          align-items: flex-start !important;
-          width: 100%;
-        }
-
         #env-switcher {
           flex-direction: row;
           flex-wrap: wrap;
@@ -1811,16 +1386,6 @@
       }
 
       @media (max-width: 640px) {
-        body {
-          padding: 12px;
-          margin: 16px auto;
-        }
-
-        .card {
-          padding: 16px;
-          border-radius: 14px;
-        }
-
         .subscription-link-card {
           padding: 16px;
         }
@@ -1840,12 +1405,6 @@
           flex-direction: column;
         }
 
-        .action-btn {
-          width: 100%;
-          min-width: auto;
-          justify-content: center;
-        }
-
         .traffic-widget-compact {
           padding: 8px 12px;
         }
@@ -1860,10 +1419,6 @@
 
         .quick-start-list li {
           font-size: 13px;
-        }
-
-        .hero-title {
-          font-size: 1.6rem;
         }
 
         .hero-stats {
@@ -1889,10 +1444,6 @@
       }
 
       @media (max-width: 400px) {
-        .hero-title {
-          font-size: 1.4rem;
-        }
-
         .traffic-widget-compact .traffic-big-value {
           font-size: 1.2rem;
         }
@@ -1900,19 +1451,16 @@
     </style>
   </head>
 
-  <body>
-    <div class="card">
+  <body class="landing-page subscription-page">
+    <div class="container">
       <header>
-        <div class="env-switcher-wrap">
-          <div id="env-switcher"></div>
-        </div>
-        <div class="header-right">
-          <div class="logo">
-            <a href="/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN</a>
-            <div class="hero-watermark">Privacy is our Religion</div>
-          </div>
-        </div>
+        <div id="logo-container"></div>
       </header>
+
+      <div class="env-switcher-wrap">
+        <div id="env-switcher"></div>
+        <div id="env-current" class="env-current-badge"></div>
+      </div>
 
       <div id="error-content" class="error-state">
         <h2>Пупупууу! Подписка не найдена</h2>
@@ -1937,13 +1485,7 @@
 
           <br />
 
-          <button
-            id="open-sub-btn"
-            class="button btn-primary"
-            style="padding: 10px 20px; border-radius: 8px"
-          >
-            Открыть подписку
-          </button>
+          <button id="open-sub-btn" class="btn try">Открыть подписку</button>
 
           <div
             id="sub-error"
@@ -1952,149 +1494,173 @@
         </div>
 
         <div class="error-actions">
-          <a
-            href="https://t.me/frkn_support"
-            class="button btn-primary"
-            style="padding: 10px 20px; border-radius: 8px; color: white"
+          <a href="https://t.me/frkn_support"
+            ><button class="btn try">Написать в поддержку</button></a
           >
-            Написать в поддержку
-          </a>
 
-          <a
-            href="/pay"
-            class="button"
-            style="
-              padding: 10px 20px;
-              border-radius: 8px;
-              background: var(--border);
-            "
+          <a href="/pay"
+            ><button class="btn ghost">Купить ключ активации</button></a
           >
-            Купить ключ активации
-          </a>
         </div>
       </div>
 
-      <div class="main-content" id="main-content">
-        <section class="hero">
+      <main class="main-content" id="main-content">
+        <section class="subscription-hero">
           <h3 class="hero-title">Ваш личный кабинет</h3>
-          <p class="section-subtitle">
-            Здесь вся информация о подписке, ссылка для подключения и способы
-            продления. Чтобы настроить Рилзопровод, скопируйте ссылку ниже и
-            вставьте в приложение-клиент.
+          <p class="hero-subtitle">
+            Здесь вся информация о подписке, ссылки и настройки для подключения
+            и способы продления. Настройка простая и занимает буквально пару
+            минут.
           </p>
-          <div class="info-tooltip" style="margin-bottom: 20px">
-            <span>⭐</span>
-            <span
-              ><b>Добавьте страницу в закладки.</b> Ваш номер подписки сохранён
-              в браузере — в следующий раз зайдёте сразу, без ключа.</span
-            >
-          </div>
 
-          <div
-            id="wl-warning"
-            class="info-tooltip warning"
-            style="margin-bottom: 20px; display: none"
-          >
-            <span>⚠️</span>
-            <span
-              ><b>Белые слоны работают только в приложении Happ.</b>
-              <a
-                href="https://happ.su/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style="color: var(--accent); text-decoration: underline"
-                >Скачать Happ</a
-              ></span
-            >
+          <div class="subscription-meta">
+            <span class="small-id">ID: <span id="sub-id">...</span></span>
           </div>
-          <div class="hero-content">
-            <div class="title-group">
-              <span id="env-badge" class="env-badge available">...</span>
-            </div>
-          </div>
-          <div class="small-id">ID: <span id="sub-id">...</span></div>
 
           <div id="urgency-banner"></div>
+        </section>
 
-          <div class="hero-stats" style="position: relative">
-            <div class="stat">Статус<span id="status-text">...</span></div>
-            <div class="stat">Осталось дней <b id="days">...</b></div>
-            <div class="stat">Истекает <span id="expires">...</span></div>
-            <a class="small-add stats-add-btn" id="scrollToAdd"
-              >⚡ Докинуть дней</a
-            >
-          </div>
-
-          <div class="traffic-widget traffic-widget-compact">
-            <div class="traffic-header">
-              <div class="traffic-env-selector">
-                <label for="traffic-env-select">Окружение</label>
-                <select id="traffic-env-select">
-                  <option value="all">Все</option>
-                </select>
-              </div>
-              <div class="traffic-toggle" id="traffic-toggle">
-                <span>Детали</span>
-                <span class="traffic-arrow" id="traffic-arrow">▼</span>
-              </div>
-            </div>
-
-            <div class="traffic-main">
-              <div class="traffic-big-value" id="traffic-total">0 B</div>
-              <div class="traffic-limit-text" id="traffic-limit-text">
-                Без лимита
-              </div>
+        <div class="subscription-row">
+          <div class="subscription-notices">
+            <div class="info-tooltip">
+              <span>⭐</span>
+              <span
+                ><b>Добавьте страницу в закладки.</b> Ваш номер подписки
+                сохранён в браузере — в следующий раз зайдёте сразу, без
+                ключа.</span
+              >
             </div>
 
             <div
-              class="traffic-details"
-              id="traffic-details"
+              id="wl-warning"
+              class="info-tooltip warning"
               style="display: none"
             >
-              <div class="traffic-detail-grid">
-                <div class="traffic-detail-card">
-                  <div class="traffic-detail-label">Отправлено</div>
-                  <div class="traffic-detail-value" id="traffic-uplink">
-                    0 B
-                  </div>
+              <span>⚠️</span>
+              <span
+                ><b>Белые слоны работают только в приложении Happ.</b>
+                <a
+                  href="https://happ.su/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style="color: var(--accent); text-decoration: underline"
+                  >Скачать Happ</a
+                ></span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="subscription-row">
+          <div class="subscription-status-card">
+            <div class="hero-stats" style="position: relative">
+              <div class="stat">Статус<span id="status-text">...</span></div>
+              <div class="stat">Осталось дней <b id="days">...</b></div>
+              <div class="stat">Истекает <span id="expires">...</span></div>
+              <a class="small-add stats-add-btn" id="scrollToAdd"
+                >⚡ Докинуть дней</a
+              >
+            </div>
+
+            <div class="traffic-widget traffic-widget-compact">
+              <div class="traffic-header">
+                <div class="traffic-env-selector">
+                  <label for="traffic-env-select">Окружение</label>
+                  <select id="traffic-env-select">
+                    <option value="all">Все</option>
+                  </select>
                 </div>
-                <div class="traffic-detail-card">
-                  <div class="traffic-detail-label">Получено</div>
-                  <div class="traffic-detail-value" id="traffic-downlink">
-                    0 B
-                  </div>
+                <div class="traffic-toggle" id="traffic-toggle">
+                  <span>Детали</span>
+                  <span class="traffic-arrow" id="traffic-arrow">▼</span>
                 </div>
-                <div class="traffic-detail-card">
-                  <div class="traffic-detail-label">Сегодня отправлено</div>
-                  <div class="traffic-detail-value" id="traffic-daily-uplink">
-                    0 B
-                  </div>
+              </div>
+
+              <div class="traffic-main">
+                <div class="traffic-big-value" id="traffic-total">0 B</div>
+                <div class="traffic-limit-text" id="traffic-limit-text">
+                  Без лимита
                 </div>
-                <div class="traffic-detail-card">
-                  <div class="traffic-detail-label">Сегодня получено</div>
-                  <div class="traffic-detail-value" id="traffic-daily-downlink">
-                    0 B
+              </div>
+
+              <div
+                class="traffic-details"
+                id="traffic-details"
+                style="display: none"
+              >
+                <div class="traffic-detail-grid">
+                  <div class="traffic-detail-card">
+                    <div class="traffic-detail-label">Отправлено</div>
+                    <div class="traffic-detail-value" id="traffic-uplink">
+                      0 B
+                    </div>
                   </div>
-                </div>
-                <div class="traffic-detail-card">
-                  <div class="traffic-detail-label">За месяц отправлено</div>
-                  <div class="traffic-detail-value" id="traffic-monthly-uplink">
-                    0 B
+                  <div class="traffic-detail-card">
+                    <div class="traffic-detail-label">Получено</div>
+                    <div class="traffic-detail-value" id="traffic-downlink">
+                      0 B
+                    </div>
                   </div>
-                </div>
-                <div class="traffic-detail-card">
-                  <div class="traffic-detail-label">За месяц получено</div>
-                  <div
-                    class="traffic-detail-value"
-                    id="traffic-monthly-downlink"
-                  >
-                    0 B
+                  <div class="traffic-detail-card">
+                    <div class="traffic-detail-label">Сегодня отправлено</div>
+                    <div class="traffic-detail-value" id="traffic-daily-uplink">
+                      0 B
+                    </div>
+                  </div>
+                  <div class="traffic-detail-card">
+                    <div class="traffic-detail-label">Сегодня получено</div>
+                    <div class="traffic-detail-value" id="traffic-daily-downlink">
+                      0 B
+                    </div>
+                  </div>
+                  <div class="traffic-detail-card">
+                    <div class="traffic-detail-label">За месяц отправлено</div>
+                    <div class="traffic-detail-value" id="traffic-monthly-uplink">
+                      0 B
+                    </div>
+                  </div>
+                  <div class="traffic-detail-card">
+                    <div class="traffic-detail-label">За месяц получено</div>
+                    <div
+                      class="traffic-detail-value"
+                      id="traffic-monthly-downlink"
+                    >
+                      0 B
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
+          <div class="subscription-link-card primary-action">
+            <div class="subscription-link-label">
+              <div class="label-main">
+                🔗 Универсальная ссылка для подключения
+              </div>
+              <div class="label-hint">
+                Скопируйте её и вставьте в приложение-клиент. ЛИСТАЙ НИЖЕ ЕСЛИ
+                НУЖНО БОЛЬШЕ. AMNEZIA НАСТРАИВАЕТСЯ ОТДЕЛЬНО.
+              </div>
+            </div>
+
+            <div class="subscription-link-row main-link-row">
+              <div id="subscription-link" class="subscription-link">
+                sub.frkn.org/...
+              </div>
+
+              <div class="subscription-actions">
+                <button id="copy-sub-link" class="btn try">
+                  📋 Скопировать ссылку
+                </button>
+
+                <button id="show-qr-btn" class="btn ghost">📱 QR-Код</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subscription-row">
           <div class="quick-start-card">
             <h4>⚡ Быстрый старт: как подключиться</h4>
             <ol class="quick-start-list">
@@ -2126,858 +1692,811 @@
             </div>
           </div>
 
-          <div class="subscription-link-card primary-action">
-            <div class="subscription-link-label">
-              <div class="label-main">
-                🔗 Универсальная ссылка для подключения
-              </div>
-              <div class="label-hint">
-                Скопируйте её и вставьте в приложение-клиент. ЛИСТАЙ НИЖЕ ЕСЛИ
-                НУЖНО БОЛЬШЕ. AMNEZIA НАСТРАИВАЕТСЯ ОТДЕЛЬНО.
+          <details class="subscription-section subscription-picker">
+          <summary>
+            <div class="subscription-picker-header">
+              <h3>📲 Подбор приложения для вашего устройства</h3>
+              <p class="section-subtitle">
+                Ответьте на 3 вопроса, и мы подскажем, какое приложение скачать
+                и какую ссылку использовать.
+              </p>
+            </div>
+            <span class="subscription-picker-chevron"></span>
+          </summary>
+
+          <div class="steps-flow">
+            <div class="step-card" id="os-step">
+              <h4>1. На каком устройстве будете использовать Рилзопровод?</h4>
+              <div id="os-options" class="pill-group"></div>
+              <div class="step-hint">
+                Выберите операционную систему: Windows, macOS, Android, iOS и
+                т.д.
               </div>
             </div>
 
-            <div class="subscription-link-row">
-              <div id="subscription-link" class="subscription-link">
-                sub.frkn.org/...
+            <div class="step-card step-disabled" id="protocol-step">
+              <h4>2. Какой протокол выбрать?</h4>
+              <p class="small" style="margin: 0 0 14px">
+                <b style="color: var(--text)"
+                  >Рекомендуем AmneziaWG и Hysteria2</b
+                >
+                — они работают стабильнее и быстрее в большинстве случаев.
+              </p>
+              <div id="protocol-options" class="protocol-grid"></div>
+              <div class="step-hint">
+                Если не уверены — выберите AmneziaWG или Hysteria2. Другие
+                протоколы нужны для особых ситуаций.
               </div>
+            </div>
 
-              <div class="subscription-actions">
-                <button id="copy-sub-link" class="action-btn primary">
-                  📋 Скопировать ссылку
+            <div class="step-card step-disabled" id="client-step">
+              <h4>3. Какое приложение установить?</h4>
+              <div id="client-options" class="pill-group"></div>
+              <div class="step-hint">
+                Выберите приложение-клиент, которое поддерживает ваше
+                устройство.
+              </div>
+            </div>
+
+            <div class="step-card step-disabled" id="connection-step">
+              <h4>Готово — ссылка для выбранной конфигурации</h4>
+              <div id="connection-content" class="small">
+                Выберите устройство, протокол и приложение, чтобы получить
+                точную ссылку подключения.
+              </div>
+            </div>
+          </div>
+
+          <div class="setup-help-card">
+            <div class="setup-help-icon">🌐</div>
+            <div class="setup-help-content">
+              <h4>Нужно настроить на роутере?</h4>
+              <p>
+                У нас есть готовые инструкции для разных моделей роутеров —
+                настроите Рилзопровод на всю сеть разом.
+              </p>
+              <a href="/setup/routers/" class="setup-help-link"
+                >Инструкция для роутеров →</a
+              >
+            </div>
+          </div>
+        </details>
+        </div>
+
+        <div class="subscription-row" style="display: none;">
+          <div class="ref-code">
+            <h2 class="renew-title">
+              👥 Приглашай друзей — получай бесплатные дни
+            </h2>
+            Твой реферальный код: <b id="ref-code">...</b><br />
+            <div class="subscription-actions">
+              <button id="copy-ref-btn" class="btn ghost">
+                Копировать код
+              </button>
+              <button id="copy-ref-link" class="btn ghost">
+                Копировать ссылку для друга
+              </button>
+            </div>
+            <div class="ref-stats small">
+              Вы пригласили: <span id="invited-count">0</span><br />
+              Бонус зависит от ключа друга: 30 дней → 7, 90 → 14, 365 → 30
+            </div>
+            <div class="small" style="margin-top: 8px">
+              <a href="/referral/" class="text-link"
+                >Как работает реферальная программа →</a
+              >
+            </div>
+          </div>
+          <div class="renew-section" id="renew">
+            <h2 class="renew-title">
+              ⏳ Продлить подписку
+              <span class="title-hint"
+                >Ключ активации или оплата картой / СБП / криптой</span
+              >
+            </h2>
+
+            <div class="renew-options">
+              <div class="renew-option-card">
+                <div class="renew-option-icon">🔑</div>
+                <h4>Уже есть ключ активации?</h4>
+                <p>
+                  Введите ключ, который вы получили после покупки или от друга.
+                </p>
+                <input id="keyInput" placeholder="Вставьте ключ сюда" />
+                <button onclick="activateKey()" class="btn try">
+                  Активировать ключ
                 </button>
+                <div class="renew-option-links">
+                  <a
+                    href="/info/activation-keys/"
+                    target="_blank"
+                    class="small text-link"
+                  >
+                    Что такое ключ активации?
+                  </a>
+                  <a href="/pay" target="_blank" class="small text-link"
+                    >Купить ключ</a
+                  >
+                </div>
+                <div id="keyResult" class="small"></div>
+              </div>
 
-                <button id="show-qr-btn" class="action-btn">📱 QR-Код</button>
+              <div class="renew-option-card">
+                <div class="renew-option-icon">💳</div>
+                <h4>Оплатить продление</h4>
+                <p>Выберите срок — дни добавятся к текущей подписке.</p>
+                <div class="renew-field">
+                  <label for="renewDuration">На сколько дней продлить</label>
+                  <select id="renewDuration">
+                    <option value="3" data-price="100">3 дня — 100 ₽</option>
+                    <option value="7" data-price="200">7 дней — 200 ₽</option>
+                    <option value="14" data-price="300">14 дней — 300 ₽</option>
+                    <option value="30" data-price="500" selected>
+                      30 дней — 500 ₽
+                    </option>
+                    <option value="90" data-price="1500">
+                      90 дней — 1500 ₽
+                    </option>
+                    <option value="180" data-price="2700">
+                      180 дней — 2700 ₽
+                    </option>
+                    <option value="365" data-price="5000">
+                      365 дней — 5000 ₽
+                    </option>
+                  </select>
+                </div>
+                <div class="renew-promo-inline">
+                  <input
+                    type="text"
+                    id="renewPromo"
+                    placeholder="Промокод (необязательно)"
+                  />
+                  <button type="button" id="renewApplyPromo">Применить</button>
+                </div>
+                <div class="renew-price" id="renewPrice">
+                  <span class="renew-price-old" id="renewPriceOld"></span>
+                  <span class="renew-price-new" id="renewPriceNew">500 ₽</span>
+                </div>
+                <button type="button" class="btn try" id="renewBtn">
+                  Продлить подписку
+                </button>
+                <div class="renew-error" id="renewError"></div>
               </div>
             </div>
           </div>
-        </section>
-
-        <hr />
-
-        <h3>📲 Подбор приложения для вашего устройства</h3>
-        <p class="section-subtitle">
-          Ответьте на 3 вопроса, и мы подскажем, какое приложение скачать и
-          какую ссылку использовать.
-        </p>
-
-        <div class="steps-flow">
-          <div class="step-card" id="os-step">
-            <h4>1. На каком устройстве будете использовать Рилзопровод?</h4>
-            <div id="os-options" class="pill-group"></div>
-            <div class="step-hint">
-              Выберите операционную систему: Windows, macOS, Android, iOS и т.д.
-            </div>
-          </div>
-
-          <div class="step-card step-disabled" id="protocol-step">
-            <h4>2. Какой протокол выбрать?</h4>
-            <p class="small" style="margin: 0 0 14px">
-              <b style="color: var(--text)"
-                >Рекомендуем AmneziaWG и Hysteria2</b
-              >
-              — они работают стабильнее и быстрее в большинстве случаев.
-            </p>
-            <div id="protocol-options" class="protocol-grid"></div>
-            <div class="step-hint">
-              Если не уверены — выберите AmneziaWG или Hysteria2. Другие
-              протоколы нужны для особых ситуаций.
-            </div>
-          </div>
-
-          <div class="step-card step-disabled" id="client-step">
-            <h4>3. Какое приложение установить?</h4>
-            <div id="client-options" class="pill-group"></div>
-            <div class="step-hint">
-              Выберите приложение-клиент, которое поддерживает ваше устройство.
-            </div>
-          </div>
-
-          <div class="step-card step-disabled" id="connection-step">
-            <h4>Готово — ссылка для выбранной конфигурации</h4>
-            <div id="connection-content" class="small">
-              Выберите устройство, протокол и приложение, чтобы получить точную
-              ссылку подключения.
-            </div>
-          </div>
         </div>
+      </main>
 
-        <div class="setup-help-card">
-          <div class="setup-help-icon">🌐</div>
-          <div class="setup-help-content">
-            <h4>Нужно настроить на роутере?</h4>
-            <p>
-              У нас есть готовые инструкции для разных моделей роутеров —
-              настроите Рилзопровод на всю сеть разом.
-            </p>
-            <a href="/setup/routers/" class="setup-help-link"
-              >Инструкция для роутеров →</a
-            >
-          </div>
+      <div id="qr-modal" class="qr-modal hidden">
+        <div class="qr-content">
+          <canvas id="qr-canvas"></canvas>
         </div>
-
-        <hr />
-        <div class="ref-code">
-          <h2 class="renew-title" style="margin-bottom: 16px">
-            👥 Приглашай друзей — получай бесплатные дни
-          </h2>
-          Твой реферальный код: <b id="ref-code">...</b><br />
-          <div>
-            <button id="copy-ref-btn">Копировать код</button>
-            <button id="copy-ref-link">Копировать ссылку для друга</button>
-          </div>
-        </div>
-        <div class="small">
-          Вы пригласили: <span id="invited-count">0</span><br />
-          Бонус зависит от ключа друга: 30 дней → 7, 90 → 14, 365 → 30
-        </div>
-        <div class="small" style="margin-top: 8px">
-          <a href="/referral/" class="text-link"
-            >Как работает реферальная программа →</a
-          >
-        </div>
-
-        <hr />
-        <div class="renew-section" id="renew">
-          <h2 class="renew-title">
-            ⏳ Продлить подписку
-            <span class="title-hint"
-              >Ключ активации или оплата картой / СБП / криптой</span
-            >
-          </h2>
-
-          <div class="renew-options">
-            <div class="renew-option-card">
-              <div class="renew-option-icon">🔑</div>
-              <h4>Уже есть ключ активации?</h4>
-              <p>
-                Введите ключ, который вы получили после покупки или от друга.
-              </p>
-              <input id="keyInput" placeholder="Вставьте ключ сюда" />
-              <button onclick="activateKey()" class="renew-action-btn">
-                Активировать ключ
-              </button>
-              <div class="renew-option-links">
-                <a
-                  href="/info/activation-keys/"
-                  target="_blank"
-                  class="small text-link"
-                >
-                  Что такое ключ активации?
-                </a>
-                <a href="/pay" target="_blank" class="small text-link"
-                  >Купить ключ</a
-                >
-              </div>
-              <div id="keyResult" class="small"></div>
-            </div>
-
-            <div class="renew-option-card">
-              <div class="renew-option-icon">💳</div>
-              <h4>Оплатить продление</h4>
-              <p>Выберите срок — дни добавятся к текущей подписке.</p>
-              <div class="renew-field">
-                <label for="renewDuration">На сколько дней продлить</label>
-                <select id="renewDuration">
-                  <option value="3" data-price="100">3 дня — 100 ₽</option>
-                  <option value="7" data-price="200">7 дней — 200 ₽</option>
-                  <option value="14" data-price="300">14 дней — 300 ₽</option>
-                  <option value="30" data-price="500" selected>
-                    30 дней — 500 ₽
-                  </option>
-                  <option value="90" data-price="1500">90 дней — 1500 ₽</option>
-                  <option value="180" data-price="2700">
-                    180 дней — 2700 ₽
-                  </option>
-                  <option value="365" data-price="5000">
-                    365 дней — 5000 ₽
-                  </option>
-                </select>
-              </div>
-              <div class="renew-promo-inline">
-                <input
-                  type="text"
-                  id="renewPromo"
-                  placeholder="Промокод (необязательно)"
-                />
-                <button type="button" id="renewApplyPromo">Применить</button>
-              </div>
-              <div class="renew-price" id="renewPrice">
-                <span class="renew-price-old" id="renewPriceOld"></span>
-                <span class="renew-price-new" id="renewPriceNew">500 ₽</span>
-              </div>
-              <button
-                type="button"
-                class="renew-action-btn primary"
-                id="renewBtn"
-              >
-                Продлить подписку
-              </button>
-              <div class="renew-error" id="renewError"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="subscription-benefits">
-          <div class="subscription-benefit-card">
-            <div class="subscription-benefit-icon green">🛡️</div>
-            <div class="subscription-benefit-content">
-              <h4>Без карты и автосписаний</h4>
-              <p>
-                Платишь один раз — получаешь доступ. Никакой привязки банковской
-                карты, никаких подписок и скрытых списаний.
-              </p>
-            </div>
-          </div>
-          <div class="subscription-benefit-card">
-            <div class="subscription-benefit-icon blue">➕</div>
-            <div class="subscription-benefit-content">
-              <h4>Дни складываются</h4>
-              <p>
-                Продление добавляет дни к текущей подписке, а не обнуляет её.
-                Уже имеющийся срок доступа не сгорает — только прибавляется.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <br />
-        <hr />
-        <div class="footer-line">
-          <div class="small-viva">
-            <a href="https://t.me/frkn_support">Поддержка</a>
-          </div>
-          <div class="small-viva">· Vive la résistance!</div>
-        </div>
-        <div id="toast" class="toast"></div>
       </div>
+
+      <div id="footer-container"></div>
+      <div id="toast" class="toast"></div>
     </div>
-
-    <div id="qr-modal" class="qr-modal hidden">
-      <div class="qr-content">
-        <canvas id="qr-canvas"></canvas>
-      </div>
-    </div>
-<script src="/scripts/analytics.js" defer></script>
-</body>
-</html>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-<script src="/scripts/utils.js?v=1"></script>
-
-<script>
-  const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
-  const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-  const isAndroid = /Android/i.test(navigator.userAgent);
-  function scrollToElement(id) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.scrollIntoView({
-      behavior: isAndroid ? "auto" : "smooth",
-      block: "start",
-    });
-  }
-  const API_BASE = isLocal
-    ? "http://localhost:3000"
-    : "https://heheapi.frkn.org";
-  const PAYMENT_API_BASE = isLocal
-    ? "http://localhost:3006"
-    : "https://heheapi.frkn.org";
-
-  const ENV_NAMES = {
-    wl: "🐘 БС - Белые слоны",
-    ru: "🇷🇺 Обратный",
-    dev: "⌯✈︎ Основной",
-  };
-
-  let vpnClients = {};
-  let selectedOs = null;
-  let selectedClientId = null;
-  let currentConnectionContext = null;
-  const KNOWN_SUB_FORMATS = ["txt", "base64", "b64", "clash"];
-  const AVAILABLE_PROTOCOLS = [
-    {
-      id: "awg",
-      label: "AmneziaWG",
-      icon: "/Images/wireguard.svg",
-      description: "Модификация WireGuard с защитой от блокировок",
-      recommended: true,
-    },
-    {
-      id: "hysteria2",
-      label: "Hysteria2",
-      icon: "💨",
-      description: "Сверхбыстрый UDP-протокол для видео и игр",
-      recommended: true,
-    },
-    {
-      id: "all",
-      label: "Все прокси",
-      icon: "🌐",
-      description: "Автоматический выбор всех доступных прокси",
-    },
-    {
-      id: "xray",
-      label: "Xray",
-      icon: "/Images/xray.svg",
-      description:
-        "Включает Vless TCP Reality, Vless gRPC Reality и Vless XHTTP Reality. Универсальный выбор",
-    },
-    {
-      id: "vless-tcp-reality",
-      label: "Vless TCP Reality",
-      icon: "🔒",
-      description: "Маскировка под обычный HTTPS-трафик",
-    },
-    {
-      id: "vless-grpc-reality",
-      label: "Vless gRPC Reality",
-      icon: "📡",
-      description: "Высокая производительность через gRPC",
-    },
-    {
-      id: "vless-xhttp-reality",
-      label: "Vless XHTTP Reality",
-      icon: "⚡",
-      description: "Скрытность и устойчивость к блокировкам",
-    },
-    {
-      id: "mtproto",
-      label: "MTProto",
-      icon: "https://cdn.simpleicons.org/telegram",
-      description: "Прокси только для Telegram",
-    },
-    {
-      id: "wireguard",
-      label: "WireGuard",
-      icon: "/Images/wireguard.svg",
-      description: "Простой и быстрый протокол",
-    },
-  ];
-  let selectedProtocol = "all";
-
-  function getSubId() {
-    const params = new URLSearchParams(window.location.search);
-    const urlId = params.get("id");
-    const stored = localStorage.getItem("frkn_sub_id");
-    const id = urlId || stored;
-    if (urlId) {
-      localStorage.setItem("frkn_sub_id", urlId);
-    }
-    return id;
-  }
-
-  function formatBytes(bytes) {
-    if (!bytes) return "0 B";
-
-    const units = ["B", "KB", "MB", "GB", "TB"];
-    let value = bytes;
-    let unit = 0;
-
-    while (value >= 1024 && unit < units.length - 1) {
-      value /= 1024;
-      unit++;
-    }
-
-    return `${value.toFixed(unit === 0 ? 0 : 2)} ${units[unit]}`;
-  }
-
-  async function loadVpnClients() {
-    const response = await fetch("vpn-clients.json");
-    if (!response.ok) {
-      throw new Error(
-        `Не удалось загрузить конфиг клиентов (HTTP ${response.status})`,
+    <script src="/scripts/analytics.js" defer></script>
+    <script src="/scripts/utils.js?v=1"></script>
+    <script src="/scripts/i18n.js?v=2"></script>
+    <script src="/scripts/containers.js?v=2"></script>
+    <script>
+      const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
+      const isLocal = ["localhost", "127.0.0.1"].includes(
+        window.location.hostname,
       );
-    }
-    vpnClients = await response.json();
-  }
-
-  function normalizeFormat(format) {
-    const value = String(format || "").toLowerCase();
-    if (value === "base64" || value === "b64") return "base64";
-    if (value === "clash") return "clash";
-    return "txt";
-  }
-
-  function isKnownFormat(format) {
-    const value = String(format || "").toLowerCase();
-    return KNOWN_SUB_FORMATS.includes(value);
-  }
-
-  function buildXraySubUrl(id, env, format) {
-    return `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=${normalizeFormat(format)}`;
-  }
-
-  function buildAllProxySubUrl(id) {
-    return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
-  }
-
-  function escapeHtml(value) {
-    return String(value ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#39;");
-  }
-
-  function isSafeDownloadUrl(url) {
-    try {
-      const parsed = new URL(url);
-      return parsed.protocol === "https:";
-    } catch {
-      return false;
-    }
-  }
-
-  async function initPage() {
-    const params = new URLSearchParams(window.location.search);
-    const subId = getSubId();
-    const currentEnv = params.get("env") || "dev";
-
-    const mainEl = document.getElementById("main-content");
-    const errorEl = document.getElementById("error-content");
-
-    const showError = () => {
-      if (mainEl) mainEl.style.display = "none";
-      if (errorEl) errorEl.style.display = "flex";
-    };
-
-    const showSuccess = () => {
-      if (mainEl) mainEl.style.display = "block";
-      if (errorEl) errorEl.style.display = "none";
-    };
-
-    // Если нет ID - показываем ошибку
-    if (!subId) {
-      showError();
-      return;
-    }
-
-    localStorage.setItem("frkn_sub_id", subId);
-
-    try {
-      await loadVpnClients();
-      const response = await fetch(`${API_BASE}/subscription/${subId}`);
-      if (!response.ok) {
-        showError();
-        return;
-      }
-
-      const data = await response.json();
-      if (!data || !data.id) {
-        showError();
-        return;
-      }
-
-      showSuccess();
-      renderSubscriptionData(data, subId, currentEnv);
-    } catch (err) {
-      console.error("❌ Критическая ошибка:", err);
-      showError();
-    }
-  }
-
-  let trafficDataCache = null;
-
-  function getTrafficEnvNames() {
-    return {
-      all: "Все",
-      dev: "Основное",
-      experimental: "Экспериментальное",
-      ru: "Россия",
-      wl: "Белые слоны",
-      production: "Продакшен",
-    };
-  }
-
-  function updateTrafficDisplay(selectedEnv) {
-    if (!trafficDataCache) return;
-
-    const data = trafficDataCache;
-    let uplink = 0;
-    let downlink = 0;
-    let dailyUplink = 0;
-    let dailyDownlink = 0;
-    let monthlyUplink = 0;
-    let monthlyDownlink = 0;
-
-    if (selectedEnv === "all") {
-      if (Array.isArray(data.env_traffic) && data.env_traffic.length > 0) {
-        data.env_traffic.forEach((env) => {
-          uplink += env.uplink || 0;
-          downlink += env.downlink || 0;
-          dailyUplink += env.daily_uplink || 0;
-          dailyDownlink += env.daily_downlink || 0;
-          monthlyUplink += env.monthly_uplink || 0;
-          monthlyDownlink += env.monthly_downlink || 0;
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      function scrollToElement(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.scrollIntoView({
+          behavior: isAndroid ? "auto" : "smooth",
+          block: "start",
         });
-      } else {
-        uplink = data.uplink || 0;
-        downlink = data.downlink || 0;
-        dailyUplink = data.daily_uplink || 0;
-        dailyDownlink = data.daily_downlink || 0;
-        monthlyUplink = data.monthly_uplink || 0;
-        monthlyDownlink = data.monthly_downlink || 0;
       }
-    } else if (Array.isArray(data.env_traffic)) {
-      const env = data.env_traffic.find((e) => e.env === selectedEnv);
-      if (env) {
-        uplink = env.uplink || 0;
-        downlink = env.downlink || 0;
-        dailyUplink = env.daily_uplink || 0;
-        dailyDownlink = env.daily_downlink || 0;
-        monthlyUplink = env.monthly_uplink || 0;
-        monthlyDownlink = env.monthly_downlink || 0;
-      }
-    }
+      const API_BASE = isLocal
+        ? "http://localhost:3000"
+        : "https://api.frkn.org";
+      const PAYMENT_API_BASE = isLocal
+        ? "http://localhost:3006"
+        : "https://api.frkn.org";
 
-    const total = uplink + downlink;
+      const ENV_NAMES = {
+        wl: "🐘 БС - Белые слоны",
+        ru: "🇷🇺 Обратный",
+        dev: "⌯✈︎ Основной",
+      };
 
-    document.getElementById("traffic-total").innerText = formatBytes(total);
-    document.getElementById("traffic-uplink").innerText = formatBytes(uplink);
-    document.getElementById("traffic-downlink").innerText =
-      formatBytes(downlink);
-    document.getElementById("traffic-daily-uplink").innerText =
-      formatBytes(dailyUplink);
-    document.getElementById("traffic-daily-downlink").innerText =
-      formatBytes(dailyDownlink);
-    document.getElementById("traffic-monthly-uplink").innerText =
-      formatBytes(monthlyUplink);
-    document.getElementById("traffic-monthly-downlink").innerText =
-      formatBytes(monthlyDownlink);
+      let vpnClients = {};
+      let selectedOs = null;
+      let selectedClientId = null;
+      let currentConnectionContext = null;
+      const KNOWN_SUB_FORMATS = ["txt", "base64", "b64", "clash"];
+      const AVAILABLE_PROTOCOLS = [
+        {
+          id: "awg",
+          label: "AmneziaWG",
+          icon: "/Images/wireguard.svg",
+          description: "Модификация WireGuard с защитой от блокировок",
+          recommended: true,
+        },
+        {
+          id: "hysteria2",
+          label: "Hysteria2",
+          icon: "💨",
+          description: "Сверхбыстрый UDP-протокол для видео и игр",
+          recommended: true,
+        },
+        {
+          id: "all",
+          label: "Все прокси",
+          icon: "🌐",
+          description: "Автоматический выбор всех доступных прокси",
+        },
+        {
+          id: "xray",
+          label: "Xray",
+          icon: "/Images/xray.svg",
+          description:
+            "Включает Vless TCP Reality, Vless gRPC Reality и Vless XHTTP Reality. Универсальный выбор",
+        },
+        {
+          id: "vless-tcp-reality",
+          label: "Vless TCP Reality",
+          icon: "🔒",
+          description: "Маскировка под обычный HTTPS-трафик",
+        },
+        {
+          id: "vless-grpc-reality",
+          label: "Vless gRPC Reality",
+          icon: "📡",
+          description: "Высокая производительность через gRPC",
+        },
+        {
+          id: "vless-xhttp-reality",
+          label: "Vless XHTTP Reality",
+          icon: "⚡",
+          description: "Скрытность и устойчивость к блокировкам",
+        },
+        {
+          id: "mtproto",
+          label: "MTProto",
+          icon: "https://cdn.simpleicons.org/telegram",
+          description: "Прокси только для Telegram",
+        },
+        {
+          id: "wireguard",
+          label: "WireGuard",
+          icon: "/Images/wireguard.svg",
+          description: "Простой и быстрый протокол",
+        },
+      ];
+      let selectedProtocol = "all";
 
-    const limitBytes = data.limit_bytes || 0;
-    const trafficLimitText = document.getElementById("traffic-limit-text");
-    if (limitBytes > 0) {
-      const percent = Math.min(100, Math.round((total / limitBytes) * 100));
-      trafficLimitText.innerText = `${percent}% от лимита`;
-    } else {
-      trafficLimitText.innerText = "Без лимита";
-    }
-  }
-
-  function renderTrafficWidget(data, currentEnv) {
-    trafficDataCache = data;
-    console.log("[traffic] env_traffic:", data.env_traffic);
-    console.log("[traffic] locations:", data.locations);
-
-    const envNames = getTrafficEnvNames();
-    const select = document.getElementById("traffic-env-select");
-    select.innerHTML = `<option value="all">${envNames.all}</option>`;
-
-    let envs = [];
-    if (Array.isArray(data.env_traffic) && data.env_traffic.length > 0) {
-      envs = data.env_traffic;
-    } else if (Array.isArray(data.locations) && data.locations.length > 0) {
-      // Fallback: если env_traffic пуст, берём окружения из locations
-      envs = data.locations.map((l) => ({ env: l.env }));
-    }
-
-    envs.forEach((env) => {
-      const option = document.createElement("option");
-      option.value = env.env;
-      option.innerText = envNames[env.env] || env.env;
-      select.appendChild(option);
-    });
-
-    const selectedEnv =
-      currentEnv && envs.some((e) => e.env === currentEnv) ? currentEnv : "all";
-    select.value = selectedEnv;
-
-    select.onchange = () => {
-      updateTrafficDisplay(select.value);
-    };
-
-    const toggle = document.getElementById("traffic-toggle");
-    const details = document.getElementById("traffic-details");
-    const arrow = document.getElementById("traffic-arrow");
-    let isOpen = false;
-
-    toggle.onclick = () => {
-      isOpen = !isOpen;
-      details.style.display = isOpen ? "block" : "none";
-      arrow.classList.toggle("open", isOpen);
-    };
-
-    updateTrafficDisplay(selectedEnv);
-  }
-
-  function renderSubscriptionData(data, subId, currentEnv) {
-    const statusEl = document.getElementById("status-text");
-    const badge = document.getElementById("env-badge");
-    const daysEl = document.getElementById("days");
-    const expiryDate = new Date(data.expires);
-
-    const wlWarning = document.getElementById("wl-warning");
-    if (wlWarning) {
-      wlWarning.style.display = currentEnv === "wl" ? "flex" : "none";
-    }
-
-    renderTrafficWidget(data, currentEnv);
-
-    const subUrl = `https://sub.frkn.org/${data.id}`;
-
-    document.getElementById("subscription-link").innerText = subUrl;
-
-    document.getElementById("copy-sub-link").onclick = () => {
-      copyText(subUrl, "Ссылка подписки скопирована");
-    };
-
-    document.getElementById("show-qr-btn").onclick = async () => {
-      const modal = document.getElementById("qr-modal");
-      const canvas = document.getElementById("qr-canvas");
-
-      modal.classList.remove("hidden");
-
-      await QRCode.toCanvas(canvas, subUrl, {
-        width: 340,
-      });
-    };
-
-    document.getElementById("qr-modal").onclick = () => {
-      document.getElementById("qr-modal").classList.add("hidden");
-    };
-
-    function renderUrgencyBanner(diffMs, diffDays) {
-      const banner = document.getElementById("urgency-banner");
-      if (!banner) return;
-
-      if (diffMs <= 0) {
-        banner.className = "urgency-banner critical";
-        banner.innerHTML =
-          "🚨 Подписка истекла. Чтобы восстановить доступ, <a href='#renew' style='color:#fbbf24; text-decoration: underline;'>продлите подписку</a>.";
-        return;
+      function getSubId() {
+        const params = new URLSearchParams(window.location.search);
+        const urlId = params.get("id");
+        const stored = localStorage.getItem("frkn_sub_id");
+        const id = urlId || stored;
+        if (urlId) {
+          localStorage.setItem("frkn_sub_id", urlId);
+        }
+        return id;
       }
 
-      if (diffDays < 1) {
-        banner.className = "urgency-banner critical";
-        banner.innerHTML =
-          "⏰ Подписка закончится менее чем через сутки. <a href='#renew' style='color:#fbbf24; text-decoration: underline;'>Продлите сейчас</a>, чтобы не потерять доступ.";
-        return;
+      function formatBytes(bytes) {
+        if (!bytes) return "0 B";
+
+        const units = ["B", "KB", "MB", "GB", "TB"];
+        let value = bytes;
+        let unit = 0;
+
+        while (value >= 1024 && unit < units.length - 1) {
+          value /= 1024;
+          unit++;
+        }
+
+        return `${value.toFixed(unit === 0 ? 0 : 2)} ${units[unit]}`;
       }
 
-      if (diffDays < 4) {
-        banner.className = "urgency-banner";
-        banner.innerHTML = `⚠️ Подписка закончится через ${Math.floor(diffDays)} дня. <a href='#renew' style='color:#fbbf24; text-decoration: underline;'>Продлите заранее</a>.`;
-        return;
+      async function loadVpnClients() {
+        const response = await fetch("vpn-clients.json");
+        if (!response.ok) {
+          throw new Error(
+            `Не удалось загрузить конфиг клиентов (HTTP ${response.status})`,
+          );
+        }
+        vpnClients = await response.json();
       }
 
-      banner.innerHTML = "";
-      banner.className = "";
-    }
-
-    function updateDisplay() {
-      const now = new Date();
-      const diffMs = expiryDate - now;
-      const diffSec = Math.floor(diffMs / 1000);
-      const diffDays = diffMs / (1000 * 60 * 60 * 24);
-
-      renderUrgencyBanner(diffMs, diffDays);
-
-      if (diffMs <= 0) {
-        statusEl.innerText = "Истекла";
-        statusEl.className = "status-expired";
-        daysEl.innerText = "0";
-        daysEl.style.color = "#ff4d4d";
-        return;
+      function normalizeFormat(format) {
+        const value = String(format || "").toLowerCase();
+        if (value === "base64" || value === "b64") return "base64";
+        if (value === "clash") return "clash";
+        return "txt";
       }
 
-      if (diffDays < 1) {
-        statusEl.innerText = "Почти истекла";
-        statusEl.className = "status-warning";
-        const h = Math.floor(diffSec / 3600)
-          .toString()
-          .padStart(2, "0");
-        const m = Math.floor((diffSec % 3600) / 60)
-          .toString()
-          .padStart(2, "0");
-        const s = (diffSec % 60).toString().padStart(2, "0");
-        daysEl.innerText = `${h}:${m}:${s}`;
-        daysEl.style.fontSize = "1.8rem";
-        daysEl.style.color = "#ffbd4d";
-        daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
-        setTimeout(updateDisplay, 1000);
-      } else {
-        const fullDays = Math.floor(diffDays);
-        statusEl.innerText = "Активна";
-        statusEl.className = "status-active";
-        daysEl.innerText = fullDays;
-        daysEl.style.fontSize = "2.5rem";
-        if (fullDays < 4) {
-          daysEl.style.color = "#ff4d4d";
-          daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
-        } else {
-          daysEl.style.color = "#10b981";
-          daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
+      function isKnownFormat(format) {
+        const value = String(format || "").toLowerCase();
+        return KNOWN_SUB_FORMATS.includes(value);
+      }
+
+      function buildXraySubUrl(id, env, format) {
+        return `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=${normalizeFormat(format)}`;
+      }
+
+      function buildAllProxySubUrl(id) {
+        return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function isSafeDownloadUrl(url) {
+        try {
+          const parsed = new URL(url);
+          return parsed.protocol === "https:";
+        } catch {
+          return false;
         }
       }
-    }
 
-    updateDisplay();
+      async function initPage() {
+        const params = new URLSearchParams(window.location.search);
+        const subId = getSubId();
+        const currentEnv = params.get("env") || "dev";
 
-    if (badge) {
-      badge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
-    }
+        const mainEl = document.getElementById("main-content");
+        const errorEl = document.getElementById("error-content");
 
-    const subIdEl = document.getElementById("sub-id");
-    subIdEl.innerText = data.id;
-    subIdEl.onclick = () => copyText(data.id, "ID скопирован");
+        const showError = () => {
+          if (mainEl) mainEl.style.display = "none";
+          if (errorEl) errorEl.style.display = "flex";
+        };
 
-    document.getElementById("expires").innerText = expiryDate.toLocaleString(
-      "ru-RU",
-      {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      },
-    );
+        const showSuccess = () => {
+          if (mainEl) mainEl.style.display = "block";
+          if (errorEl) errorEl.style.display = "none";
+        };
 
-    const refCode = data.ref_code || "---";
-    const refLink = `${window.location.origin}/?code=${refCode}#trial`;
-    document.getElementById("ref-code").innerText = refCode;
-    document.getElementById("invited-count").innerText =
-      data.invited_count || 0;
-
-    document.getElementById("copy-ref-btn").onclick = () =>
-      copyText(refCode, "Код скопирован! Поделись с другом");
-    document.getElementById("copy-ref-link").onclick = () =>
-      copyText(refLink, "Ссылка скопирована! Поделись с другом");
-
-    const switcher = document.getElementById("env-switcher");
-    if (switcher && data.locations) {
-      switcher.innerHTML = "";
-      data.locations.forEach((l) => {
-        if (l.env === "production") return;
-        // if (l.env === "experimental") return;
-        if (
-          !l.has_xray &&
-          !l.has_h2 &&
-          !l.has_mtproto &&
-          !l.has_wg &&
-          !l.has_awg
-        )
+        // Если нет ID - показываем ошибку
+        if (!subId) {
+          showError();
           return;
-        const a = document.createElement("a");
-        a.href = `?id=${subId}&env=${l.env}`;
-        a.className = `env-badge`;
-        a.style.marginLeft = "8px";
-        a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
-        switcher.appendChild(a);
-      });
-    }
+        }
 
-    const loc =
-      // Если env не найден в query-параметрах или списке, берём первый доступный регион как безопасный fallback.
-      data.locations?.find((l) => l.env === currentEnv) || data.locations?.[0];
-    if (loc) {
-      console.log(loc);
-      if (
-        !loc.has_xray &&
-        !loc.has_h2 &&
-        !loc.has_mtproto &&
-        !loc.has_wg &&
-        !loc.has_awg
-      )
-        return;
-      currentConnectionContext = {
-        id: data.id,
-        env: loc.env,
-        hasXray: loc.has_xray,
-        has_wg: loc.has_wg,
-        has_awg: loc.has_awg,
-        has_h2: loc.has_h2,
-        has_mtproto: loc.has_mtproto,
-      };
-      initConnectionFlow();
-    }
-  }
+        localStorage.setItem("frkn_sub_id", subId);
 
-  function initConnectionFlow() {
-    const osOptions = document.getElementById("os-options");
-    if (!osOptions) return;
+        try {
+          await loadVpnClients();
+          const response = await fetch(`${API_BASE}/subscription/${subId}`);
+          if (!response.ok) {
+            showError();
+            return;
+          }
 
-    selectedOs = null;
-    selectedClientId = null;
-    osOptions.innerHTML = "";
+          const data = await response.json();
+          if (!data || !data.id) {
+            showError();
+            return;
+          }
 
-    Object.entries(vpnClients).forEach(([osKey, osData]) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "pill-button";
-      btn.dataset.os = osKey;
-      btn.textContent = osData.label;
-      btn.onclick = () => {
-        selectedOs = osKey;
+          showSuccess();
+          renderSubscriptionData(data, subId, currentEnv);
+        } catch (err) {
+          console.error("❌ Критическая ошибка:", err);
+          showError();
+        }
+      }
+
+      let trafficDataCache = null;
+
+      function getTrafficEnvNames() {
+        return {
+          all: "Все",
+          dev: "Основное",
+          experimental: "Экспериментальное",
+          ru: "Россия",
+          wl: "Белые слоны",
+          production: "Продакшен",
+        };
+      }
+
+      function updateTrafficDisplay(selectedEnv) {
+        if (!trafficDataCache) return;
+
+        const data = trafficDataCache;
+        let uplink = 0;
+        let downlink = 0;
+        let dailyUplink = 0;
+        let dailyDownlink = 0;
+        let monthlyUplink = 0;
+        let monthlyDownlink = 0;
+
+        if (selectedEnv === "all") {
+          if (Array.isArray(data.env_traffic) && data.env_traffic.length > 0) {
+            data.env_traffic.forEach((env) => {
+              uplink += env.uplink || 0;
+              downlink += env.downlink || 0;
+              dailyUplink += env.daily_uplink || 0;
+              dailyDownlink += env.daily_downlink || 0;
+              monthlyUplink += env.monthly_uplink || 0;
+              monthlyDownlink += env.monthly_downlink || 0;
+            });
+          } else {
+            uplink = data.uplink || 0;
+            downlink = data.downlink || 0;
+            dailyUplink = data.daily_uplink || 0;
+            dailyDownlink = data.daily_downlink || 0;
+            monthlyUplink = data.monthly_uplink || 0;
+            monthlyDownlink = data.monthly_downlink || 0;
+          }
+        } else if (Array.isArray(data.env_traffic)) {
+          const env = data.env_traffic.find((e) => e.env === selectedEnv);
+          if (env) {
+            uplink = env.uplink || 0;
+            downlink = env.downlink || 0;
+            dailyUplink = env.daily_uplink || 0;
+            dailyDownlink = env.daily_downlink || 0;
+            monthlyUplink = env.monthly_uplink || 0;
+            monthlyDownlink = env.monthly_downlink || 0;
+          }
+        }
+
+        const total = uplink + downlink;
+
+        document.getElementById("traffic-total").innerText = formatBytes(total);
+        document.getElementById("traffic-uplink").innerText =
+          formatBytes(uplink);
+        document.getElementById("traffic-downlink").innerText =
+          formatBytes(downlink);
+        document.getElementById("traffic-daily-uplink").innerText =
+          formatBytes(dailyUplink);
+        document.getElementById("traffic-daily-downlink").innerText =
+          formatBytes(dailyDownlink);
+        document.getElementById("traffic-monthly-uplink").innerText =
+          formatBytes(monthlyUplink);
+        document.getElementById("traffic-monthly-downlink").innerText =
+          formatBytes(monthlyDownlink);
+
+        const limitBytes = data.limit_bytes || 0;
+        const trafficLimitText = document.getElementById("traffic-limit-text");
+        if (limitBytes > 0) {
+          const percent = Math.min(100, Math.round((total / limitBytes) * 100));
+          trafficLimitText.innerText = `${percent}% от лимита`;
+        } else {
+          trafficLimitText.innerText = "Без лимита";
+        }
+      }
+
+      function renderTrafficWidget(data, currentEnv) {
+        trafficDataCache = data;
+        console.log("[traffic] env_traffic:", data.env_traffic);
+        console.log("[traffic] locations:", data.locations);
+
+        const envNames = getTrafficEnvNames();
+        const select = document.getElementById("traffic-env-select");
+        select.innerHTML = `<option value="all">${envNames.all}</option>`;
+
+        let envs = [];
+        if (Array.isArray(data.env_traffic) && data.env_traffic.length > 0) {
+          envs = data.env_traffic;
+        } else if (Array.isArray(data.locations) && data.locations.length > 0) {
+          // Fallback: если env_traffic пуст, берём окружения из locations
+          envs = data.locations.map((l) => ({ env: l.env }));
+        }
+
+        envs.forEach((env) => {
+          const option = document.createElement("option");
+          option.value = env.env;
+          option.innerText = envNames[env.env] || env.env;
+          select.appendChild(option);
+        });
+
+        const selectedEnv =
+          currentEnv && envs.some((e) => e.env === currentEnv)
+            ? currentEnv
+            : "all";
+        select.value = selectedEnv;
+
+        select.onchange = () => {
+          updateTrafficDisplay(select.value);
+        };
+
+        const toggle = document.getElementById("traffic-toggle");
+        const details = document.getElementById("traffic-details");
+        const arrow = document.getElementById("traffic-arrow");
+        let isOpen = false;
+
+        toggle.onclick = () => {
+          isOpen = !isOpen;
+          details.style.display = isOpen ? "block" : "none";
+          arrow.classList.toggle("open", isOpen);
+        };
+
+        updateTrafficDisplay(selectedEnv);
+      }
+
+      function renderSubscriptionData(data, subId, currentEnv) {
+        const statusEl = document.getElementById("status-text");
+        const daysEl = document.getElementById("days");
+        const expiryDate = new Date(data.expires);
+
+        const wlWarning = document.getElementById("wl-warning");
+        if (wlWarning) {
+          wlWarning.style.display = currentEnv === "wl" ? "flex" : "none";
+        }
+
+        renderTrafficWidget(data, currentEnv);
+
+        const subUrl = `https://sub.frkn.org/${data.id}`;
+
+        document.getElementById("subscription-link").innerText = subUrl;
+
+        document.getElementById("copy-sub-link").onclick = () => {
+          copyText(subUrl, "Ссылка подписки скопирована");
+        };
+
+        document.getElementById("show-qr-btn").onclick = async () => {
+          const modal = document.getElementById("qr-modal");
+          const canvas = document.getElementById("qr-canvas");
+
+          modal.classList.remove("hidden");
+
+          await QRCode.toCanvas(canvas, subUrl, {
+            width: 340,
+          });
+        };
+
+        document.getElementById("qr-modal").onclick = () => {
+          document.getElementById("qr-modal").classList.add("hidden");
+        };
+
+        function renderUrgencyBanner(diffMs, diffDays) {
+          const banner = document.getElementById("urgency-banner");
+          if (!banner) return;
+
+          if (diffMs <= 0) {
+            banner.className = "urgency-banner critical";
+            banner.innerHTML =
+              "🚨 Подписка истекла. Чтобы восстановить доступ, <a href='#renew' style='color:#fbbf24; text-decoration: underline;'>продлите подписку</a>.";
+            return;
+          }
+
+          if (diffDays < 1) {
+            banner.className = "urgency-banner critical";
+            banner.innerHTML =
+              "⏰ Подписка закончится менее чем через сутки. <a href='#renew' style='color:#fbbf24; text-decoration: underline;'>Продлите сейчас</a>, чтобы не потерять доступ.";
+            return;
+          }
+
+          if (diffDays < 4) {
+            banner.className = "urgency-banner";
+            banner.innerHTML = `⚠️ Подписка закончится через ${Math.floor(diffDays)} дня. <a href='#renew' style='color:#fbbf24; text-decoration: underline;'>Продлите заранее</a>.`;
+            return;
+          }
+
+          banner.innerHTML = "";
+          banner.className = "";
+        }
+
+        function updateDisplay() {
+          const now = new Date();
+          const diffMs = expiryDate - now;
+          const diffSec = Math.floor(diffMs / 1000);
+          const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+          renderUrgencyBanner(diffMs, diffDays);
+
+          if (diffMs <= 0) {
+            statusEl.innerText = "Истекла";
+            statusEl.className = "status-expired";
+            daysEl.innerText = "0";
+            daysEl.style.color = "#ff4d4d";
+            return;
+          }
+
+          if (diffDays < 1) {
+            statusEl.innerText = "Почти истекла";
+            statusEl.className = "status-warning";
+            const h = Math.floor(diffSec / 3600)
+              .toString()
+              .padStart(2, "0");
+            const m = Math.floor((diffSec % 3600) / 60)
+              .toString()
+              .padStart(2, "0");
+            const s = (diffSec % 60).toString().padStart(2, "0");
+            daysEl.innerText = `${h}:${m}:${s}`;
+            daysEl.style.fontSize = "1.8rem";
+            daysEl.style.color = "#ffbd4d";
+            daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
+            setTimeout(updateDisplay, 1000);
+          } else {
+            const fullDays = Math.floor(diffDays);
+            statusEl.innerText = "Активна";
+            statusEl.className = "status-active";
+            daysEl.innerText = fullDays;
+            daysEl.style.fontSize = "2.5rem";
+            if (fullDays < 4) {
+              daysEl.style.color = "#ff4d4d";
+              daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
+            } else {
+              daysEl.style.color = "#10b981";
+              daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
+            }
+          }
+        }
+
+        updateDisplay();
+
+        const subIdEl = document.getElementById("sub-id");
+        subIdEl.innerText = data.id;
+        subIdEl.onclick = () => copyText(data.id, "ID скопирован");
+
+        document.getElementById("expires").innerText =
+          expiryDate.toLocaleString("ru-RU", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+        const refCode = data.ref_code || "---";
+        const refLink = `${window.location.origin}/?code=${refCode}#trial`;
+        document.getElementById("ref-code").innerText = refCode;
+        document.getElementById("invited-count").innerText =
+          data.invited_count || 0;
+
+        document.getElementById("copy-ref-btn").onclick = () =>
+          copyText(refCode, "Код скопирован! Поделись с другом");
+        document.getElementById("copy-ref-link").onclick = () =>
+          copyText(refLink, "Ссылка скопирована! Поделись с другом");
+
+        const switcher = document.getElementById("env-switcher");
+        const currentBadge = document.getElementById("env-current");
+        if (switcher && data.locations) {
+          switcher.innerHTML = "";
+          if (currentBadge) {
+            currentBadge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
+          }
+          data.locations.forEach((l) => {
+            if (l.env === "production") return;
+            if (l.env === currentEnv) return;
+            // if (l.env === "experimental") return;
+            if (
+              !l.has_xray &&
+              !l.has_h2 &&
+              !l.has_mtproto &&
+              !l.has_wg &&
+              !l.has_awg
+            )
+              return;
+            const a = document.createElement("a");
+            a.href = `?id=${subId}&env=${l.env}`;
+            a.className = `env-badge`;
+            a.style.marginLeft = "8px";
+            a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
+            switcher.appendChild(a);
+          });
+        }
+
+        const loc =
+          // Если env не найден в query-параметрах или списке, берём первый доступный регион как безопасный fallback.
+          data.locations?.find((l) => l.env === currentEnv) ||
+          data.locations?.[0];
+        if (loc) {
+          console.log(loc);
+          if (
+            !loc.has_xray &&
+            !loc.has_h2 &&
+            !loc.has_mtproto &&
+            !loc.has_wg &&
+            !loc.has_awg
+          )
+            return;
+          currentConnectionContext = {
+            id: data.id,
+            env: loc.env,
+            hasXray: loc.has_xray,
+            has_wg: loc.has_wg,
+            has_awg: loc.has_awg,
+            has_h2: loc.has_h2,
+            has_mtproto: loc.has_mtproto,
+          };
+          initConnectionFlow();
+        }
+      }
+
+      function initConnectionFlow() {
+        const osOptions = document.getElementById("os-options");
+        if (!osOptions) return;
+
+        selectedOs = null;
         selectedClientId = null;
+        osOptions.innerHTML = "";
+
+        Object.entries(vpnClients).forEach(([osKey, osData]) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "pill-button";
+          btn.dataset.os = osKey;
+          btn.textContent = osData.label;
+          btn.onclick = () => {
+            selectedOs = osKey;
+            selectedClientId = null;
+            renderOsStep();
+            renderProtocolStep();
+            renderClientStep();
+            renderConnectionStep();
+            scrollToElement("protocol-step");
+          };
+          osOptions.appendChild(btn);
+        });
+
         renderOsStep();
         renderProtocolStep();
         renderClientStep();
         renderConnectionStep();
-        scrollToElement("protocol-step");
-      };
-      osOptions.appendChild(btn);
-    });
+      }
 
-    renderOsStep();
-    renderProtocolStep();
-    renderClientStep();
-    renderConnectionStep();
-  }
+      function renderOsStep() {
+        const osOptions = document.getElementById("os-options");
+        if (!osOptions) return;
+        [...osOptions.querySelectorAll(".pill-button")].forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.os === selectedOs);
+        });
+      }
 
-  function renderOsStep() {
-    const osOptions = document.getElementById("os-options");
-    if (!osOptions) return;
-    [...osOptions.querySelectorAll(".pill-button")].forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.os === selectedOs);
-    });
-  }
+      function isProtocolSupportedByClient(protocol, configType) {
+        const format = normalizeFormat(configType);
+        if (format === "clash") {
+          return [
+            "xray",
+            "vless-tcp-reality",
+            "vless-grpc-reality",
+            "vless-xhttp-reality",
+          ].includes(protocol);
+        }
+        return true;
+      }
 
-  function isProtocolSupportedByClient(protocol, configType) {
-    const format = normalizeFormat(configType);
-    if (format === "clash") {
-      return [
-        "xray",
-        "vless-tcp-reality",
-        "vless-grpc-reality",
-        "vless-xhttp-reality",
-      ].includes(protocol);
-    }
-    return true;
-  }
+      function renderClientStep() {
+        const step = document.getElementById("client-step");
+        const options = document.getElementById("client-options");
+        if (!step || !options) return;
 
-  function renderClientStep() {
-    const step = document.getElementById("client-step");
-    const options = document.getElementById("client-options");
-    if (!step || !options) return;
+        if (!selectedOs || !vpnClients[selectedOs]) {
+          step.classList.add("step-disabled");
+          options.innerHTML = `<div class="small">Сначала выберите ОС.</div>`;
+          return;
+        }
 
-    if (!selectedOs || !vpnClients[selectedOs]) {
-      step.classList.add("step-disabled");
-      options.innerHTML = `<div class="small">Сначала выберите ОС.</div>`;
-      return;
-    }
+        if (!selectedProtocol) {
+          step.classList.add("step-disabled");
+          options.innerHTML = `<div class="small">Сначала выберите протокол.</div>`;
+          return;
+        }
 
-    if (!selectedProtocol) {
-      step.classList.add("step-disabled");
-      options.innerHTML = `<div class="small">Сначала выберите протокол.</div>`;
-      return;
-    }
+        step.classList.remove("step-disabled");
+        options.innerHTML = "";
 
-    step.classList.remove("step-disabled");
-    options.innerHTML = "";
-
-    if (["wireguard", "awg", "mtproto"].includes(selectedProtocol)) {
-      selectedClientId = null;
-      const instructions = {
-        wireguard:
-          "Скачайте официальное приложение WireGuard и импортируйте конфиг ниже.",
-        awg: 'Используйте приложение <a href="https://amnezia.org/downloads" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Amnezia Wireguard</a> или настройте AmneziaWG прямо на <a href="/setup/routers/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">роутере</a>. Конфиг для импорта будет ниже.',
-        mtproto:
-          "Для MTProto не нужен отдельный клиент. Нажмите кнопку Connect в настройках ниже.",
-      };
-      options.innerHTML = `
+        if (["wireguard", "awg", "mtproto"].includes(selectedProtocol)) {
+          selectedClientId = null;
+          const instructions = {
+            wireguard:
+              "Скачайте официальное приложение WireGuard и импортируйте конфиг ниже.",
+            awg: 'Используйте приложение <a href="https://amnezia.org/downloads" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Amnezia Wireguard</a> или настройте AmneziaWG прямо на <a href="/setup/routers/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">роутере</a>. Конфиг для импорта будет ниже.',
+            mtproto:
+              "Для MTProto не нужен отдельный клиент. Нажмите кнопку Connect в настройках ниже.",
+          };
+          options.innerHTML = `
         <div style="padding: 14px 16px; border-radius: 14px; background: rgba(91, 124, 250, 0.08); border: 1px solid rgba(91, 124, 250, 0.25); color: var(--text);">
           <div style="font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
             <span>💡</span> Как подключиться
@@ -2985,146 +2504,154 @@
           <div class="small" style="color: var(--muted); line-height: 1.5;">${instructions[selectedProtocol]}</div>
         </div>
       `;
-      return;
-    }
+          return;
+        }
 
-    const clients = vpnClients[selectedOs].clients.filter((client) =>
-      isProtocolSupportedByClient(selectedProtocol, client.configType),
-    );
+        const clients = vpnClients[selectedOs].clients.filter((client) =>
+          isProtocolSupportedByClient(selectedProtocol, client.configType),
+        );
 
-    if (clients.length === 0) {
-      options.innerHTML = `<div class="small">Для выбранного протокола нет подходящих клиентов.</div>`;
-      selectedClientId = null;
-      return;
-    }
+        if (clients.length === 0) {
+          options.innerHTML = `<div class="small">Для выбранного протокола нет подходящих клиентов.</div>`;
+          selectedClientId = null;
+          return;
+        }
 
-    // Если текущий выбранный клиент не поддерживает протокол, сбрасываем
-    if (selectedClientId && !clients.some((c) => c.id === selectedClientId)) {
-      selectedClientId = null;
-    }
+        // Если текущий выбранный клиент не поддерживает протокол, сбрасываем
+        if (
+          selectedClientId &&
+          !clients.some((c) => c.id === selectedClientId)
+        ) {
+          selectedClientId = null;
+        }
 
-    clients.forEach((client) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "pill-button";
-      btn.textContent = client.name;
-      btn.classList.toggle("active", client.id === selectedClientId);
-      btn.onclick = () => {
-        selectedClientId = client.id;
-        renderClientStep();
-        renderConnectionStep();
-        scrollToElement("connection-step");
-      };
-      options.appendChild(btn);
-    });
-  }
-
-  function renderConnectionStep() {
-    const step = document.getElementById("connection-step");
-    const content = document.getElementById("connection-content");
-    if (!step || !content) return;
-
-    const noClientProtocols = ["wireguard", "awg", "mtproto"];
-    const requiresClient = !noClientProtocols.includes(selectedProtocol);
-
-    if (!selectedOs || (requiresClient && !selectedClientId)) {
-      step.classList.add("step-disabled");
-      content.innerHTML = `<div class="small">Выберите ОС${requiresClient ? ", протокол и клиента" : " и протокол"}, чтобы перейти к подключению.</div>`;
-      return;
-    }
-
-    step.classList.remove("step-disabled");
-
-    const osConfig = vpnClients[selectedOs];
-    const client = osConfig?.clients?.find((c) => c.id === selectedClientId);
-    if (requiresClient && !client) {
-      content.innerHTML = `<div class="small">Не найдена конфигурация выбранного клиента.</div>`;
-      return;
-    }
-
-    if (!currentConnectionContext) {
-      content.innerHTML = `<div class="small">Нет данных о текущем регионе подключения.</div>`;
-      return;
-    }
-
-    if (selectedProtocol === "wireguard") {
-      content.innerHTML = `<div id="wg-content"></div>`;
-      renderWireguard(
-        currentConnectionContext.id,
-        currentConnectionContext.env,
-        currentConnectionContext.has_wg,
-      );
-      return;
-    }
-
-    if (selectedProtocol === "awg") {
-      content.innerHTML = `<div id="awg-content"></div>`;
-      renderAwg(
-        currentConnectionContext.id,
-        currentConnectionContext.env,
-        currentConnectionContext.has_awg,
-      );
-      return;
-    }
-
-    if (selectedProtocol === "mtproto") {
-      content.innerHTML = `<div id="mtproto-content"></div>`;
-      renderMtproto(
-        currentConnectionContext.id,
-        currentConnectionContext.env,
-        currentConnectionContext.has_mtproto,
-      );
-      return;
-    }
-
-    const xrayProtocols = [
-      "xray",
-      "vless-tcp-reality",
-      "vless-grpc-reality",
-      "vless-xhttp-reality",
-    ];
-    if (
-      xrayProtocols.includes(selectedProtocol) &&
-      !currentConnectionContext.hasXray
-    ) {
-      content.innerHTML = `<div class="small">Xray недоступен в этом регионе.</div>`;
-      return;
-    }
-
-    if (selectedProtocol === "hysteria2" && !currentConnectionContext.has_h2) {
-      content.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе.</div>`;
-      return;
-    }
-
-    if (!isKnownFormat(client.configType)) {
-      content.innerHTML = `<div class="small" id="connection-error-message"></div>`;
-      const errorEl = content.querySelector("#connection-error-message");
-      if (errorEl) {
-        errorEl.textContent = `Некорректный тип конфигурации '${client.configType}' для клиента ${client.name}.`;
+        clients.forEach((client) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "pill-button";
+          btn.textContent = client.name;
+          btn.classList.toggle("active", client.id === selectedClientId);
+          btn.onclick = () => {
+            selectedClientId = client.id;
+            renderClientStep();
+            renderConnectionStep();
+            scrollToElement("connection-step");
+          };
+          options.appendChild(btn);
+        });
       }
-      return;
-    }
 
-    if (!isSafeDownloadUrl(client.downloadUrl)) {
-      content.innerHTML = `<div class="small">Некорректная ссылка для скачивания клиента ${client.name}.</div>`;
-      return;
-    }
+      function renderConnectionStep() {
+        const step = document.getElementById("connection-step");
+        const content = document.getElementById("connection-content");
+        if (!step || !content) return;
 
-    const safeClientName = escapeHtml(client.name);
-    const safeOsLabel = escapeHtml(osConfig.label);
+        const noClientProtocols = ["wireguard", "awg", "mtproto"];
+        const requiresClient = !noClientProtocols.includes(selectedProtocol);
 
-    const subscriptionUrl = buildSubscriptionUrl(
-      selectedProtocol,
-      currentConnectionContext.id,
-      currentConnectionContext.env,
-      normalizeFormat(client.configType),
-    );
+        if (!selectedOs || (requiresClient && !selectedClientId)) {
+          step.classList.add("step-disabled");
+          content.innerHTML = `<div class="small">Выберите ОС${requiresClient ? ", протокол и клиента" : " и протокол"}, чтобы перейти к подключению.</div>`;
+          return;
+        }
 
-    content.innerHTML = `
+        step.classList.remove("step-disabled");
+
+        const osConfig = vpnClients[selectedOs];
+        const client = osConfig?.clients?.find(
+          (c) => c.id === selectedClientId,
+        );
+        if (requiresClient && !client) {
+          content.innerHTML = `<div class="small">Не найдена конфигурация выбранного клиента.</div>`;
+          return;
+        }
+
+        if (!currentConnectionContext) {
+          content.innerHTML = `<div class="small">Нет данных о текущем регионе подключения.</div>`;
+          return;
+        }
+
+        if (selectedProtocol === "wireguard") {
+          content.innerHTML = `<div id="wg-content"></div>`;
+          renderWireguard(
+            currentConnectionContext.id,
+            currentConnectionContext.env,
+            currentConnectionContext.has_wg,
+          );
+          return;
+        }
+
+        if (selectedProtocol === "awg") {
+          content.innerHTML = `<div id="awg-content"></div>`;
+          renderAwg(
+            currentConnectionContext.id,
+            currentConnectionContext.env,
+            currentConnectionContext.has_awg,
+          );
+          return;
+        }
+
+        if (selectedProtocol === "mtproto") {
+          content.innerHTML = `<div id="mtproto-content"></div>`;
+          renderMtproto(
+            currentConnectionContext.id,
+            currentConnectionContext.env,
+            currentConnectionContext.has_mtproto,
+          );
+          return;
+        }
+
+        const xrayProtocols = [
+          "xray",
+          "vless-tcp-reality",
+          "vless-grpc-reality",
+          "vless-xhttp-reality",
+        ];
+        if (
+          xrayProtocols.includes(selectedProtocol) &&
+          !currentConnectionContext.hasXray
+        ) {
+          content.innerHTML = `<div class="small">Xray недоступен в этом регионе.</div>`;
+          return;
+        }
+
+        if (
+          selectedProtocol === "hysteria2" &&
+          !currentConnectionContext.has_h2
+        ) {
+          content.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе.</div>`;
+          return;
+        }
+
+        if (!isKnownFormat(client.configType)) {
+          content.innerHTML = `<div class="small" id="connection-error-message"></div>`;
+          const errorEl = content.querySelector("#connection-error-message");
+          if (errorEl) {
+            errorEl.textContent = `Некорректный тип конфигурации '${client.configType}' для клиента ${client.name}.`;
+          }
+          return;
+        }
+
+        if (!isSafeDownloadUrl(client.downloadUrl)) {
+          content.innerHTML = `<div class="small">Некорректная ссылка для скачивания клиента ${client.name}.</div>`;
+          return;
+        }
+
+        const safeClientName = escapeHtml(client.name);
+        const safeOsLabel = escapeHtml(osConfig.label);
+
+        const subscriptionUrl = buildSubscriptionUrl(
+          selectedProtocol,
+          currentConnectionContext.id,
+          currentConnectionContext.env,
+          normalizeFormat(client.configType),
+        );
+
+        content.innerHTML = `
       <h5 class="connection-title">${safeClientName} для ${safeOsLabel}</h5>
-      <a class="button btn-primary download-link" id="download-client-btn" target="_blank" rel="noopener noreferrer" aria-label="Скачать клиент (откроется в новой вкладке)">Скачать клиент</a>
+      <a id="download-client-btn" target="_blank" rel="noopener noreferrer" aria-label="Скачать клиент (откроется в новой вкладке)"><button class="btn try download-link">Скачать клиент</button></a>
       <div class="subscription-link-row">
-        <button type="button" id="copy-subscription-link">Копировать ссылку</button>
+        <button type="button" id="copy-subscription-link" class="btn try">Копировать ссылку</button>
       </div>
       <div class="qr-wrapper">
         <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 Показать QR-код</button>
@@ -3138,52 +2665,53 @@
       <div class="small connection-hint">Отсканируйте QR-код в приложении или вставьте ссылку вручную.</div>
     `;
 
-    const copyBtn = document.getElementById("copy-subscription-link");
-    const downloadBtn = document.getElementById("download-client-btn");
-    const qrCanvas = document.getElementById("selected-subscription-qr");
+        const copyBtn = document.getElementById("copy-subscription-link");
+        const downloadBtn = document.getElementById("download-client-btn");
+        const qrCanvas = document.getElementById("selected-subscription-qr");
 
-    if (downloadBtn) downloadBtn.href = client.downloadUrl;
-    if (copyBtn) {
-      copyBtn.onclick = () => copyText(subscriptionUrl, "Ссылка скопирована!");
-    }
-    if (qrCanvas) {
-      QRCode.toCanvas(qrCanvas, subscriptionUrl, { width: 260 });
-    }
-  }
+        if (downloadBtn) downloadBtn.href = client.downloadUrl;
+        if (copyBtn) {
+          copyBtn.onclick = () =>
+            copyText(subscriptionUrl, "Ссылка скопирована!");
+        }
+        if (qrCanvas) {
+          QRCode.toCanvas(qrCanvas, subscriptionUrl, { width: 260 });
+        }
+      }
 
-  function renderProtocolStep() {
-    const step = document.getElementById("protocol-step");
-    const options = document.getElementById("protocol-options");
+      function renderProtocolStep() {
+        const step = document.getElementById("protocol-step");
+        const options = document.getElementById("protocol-options");
 
-    if (!selectedOs || !currentConnectionContext) {
-      step.classList.add("step-disabled");
-      options.innerHTML = "";
-      return;
-    }
+        if (!selectedOs || !currentConnectionContext) {
+          step.classList.add("step-disabled");
+          options.innerHTML = "";
+          return;
+        }
 
-    step.classList.remove("step-disabled");
+        step.classList.remove("step-disabled");
 
-    const protocols = AVAILABLE_PROTOCOLS;
+        const protocols = AVAILABLE_PROTOCOLS;
 
-    options.innerHTML = "";
+        options.innerHTML = "";
 
-    protocols.forEach((p) => {
-      const card = document.createElement("button");
-      card.type = "button";
-      card.className = "protocol-card";
-      card.classList.toggle("active", p.id === selectedProtocol);
+        protocols.forEach((p) => {
+          const card = document.createElement("button");
+          card.type = "button";
+          card.className = "protocol-card";
+          card.classList.toggle("active", p.id === selectedProtocol);
 
-      const badge = p.recommended
-        ? `<span class="protocol-badge">Рекомендуем</span>`
-        : "";
+          const badge = p.recommended
+            ? `<span class="protocol-badge">Рекомендуем</span>`
+            : "";
 
-      const isLogo =
-        p.icon && (p.icon.startsWith("/") || p.icon.startsWith("http"));
-      const iconHtml = isLogo
-        ? `<img src="${p.icon}" alt="" onerror="this.style.display='none'">`
-        : p.icon || "";
+          const isLogo =
+            p.icon && (p.icon.startsWith("/") || p.icon.startsWith("http"));
+          const iconHtml = isLogo
+            ? `<img src="${p.icon}" alt="" onerror="this.style.display='none'">`
+            : p.icon || "";
 
-      card.innerHTML = `
+          card.innerHTML = `
         ${badge}
         <div class="protocol-header">
           <span class="protocol-icon">${iconHtml}</span>
@@ -3192,55 +2720,55 @@
         <div class="protocol-desc">${p.description || ""}</div>
       `;
 
-      card.onclick = () => {
-        selectedProtocol = p.id;
-        renderProtocolStep();
-        renderClientStep();
-        renderConnectionStep();
+          card.onclick = () => {
+            selectedProtocol = p.id;
+            renderProtocolStep();
+            renderClientStep();
+            renderConnectionStep();
 
-        scrollToElement("client-step");
-      };
+            scrollToElement("client-step");
+          };
 
-      options.appendChild(card);
-    });
-  }
+          options.appendChild(card);
+        });
+      }
 
-  function buildSubscriptionUrl(protocol, id, env, format) {
-    switch (protocol) {
-      case "all":
-        return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
+      function buildSubscriptionUrl(protocol, id, env, format) {
+        switch (protocol) {
+          case "all":
+            return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
 
-      case "xray":
-        return `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=${format}`;
+          case "xray":
+            return `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=${format}`;
 
-      case "vless-tcp-reality":
-        return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessTcpReality&format=${format}`;
+          case "vless-tcp-reality":
+            return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessTcpReality&format=${format}`;
 
-      case "vless-grpc-reality":
-        return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessGrpcReality&format=${format}`;
+          case "vless-grpc-reality":
+            return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessGrpcReality&format=${format}`;
 
-      case "vless-xhttp-reality":
-        return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessXhttpReality&format=${format}`;
+          case "vless-xhttp-reality":
+            return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessXhttpReality&format=${format}`;
 
-      case "hysteria2":
-        return `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=${format}`;
+          case "hysteria2":
+            return `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=${format}`;
 
-      default:
-        return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
-    }
-  }
+          default:
+            return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
+        }
+      }
 
-  function renderH2(id, env, has) {
-    const container = document.getElementById("hysteria-content");
-    if (!has) {
-      container.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе</div>`;
-      return;
-    }
+      function renderH2(id, env, has) {
+        const container = document.getElementById("hysteria-content");
+        if (!has) {
+          container.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе</div>`;
+          return;
+        }
 
-    const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=txt`;
-    const subUrlB64 = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=base64`;
+        const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=txt`;
+        const subUrlB64 = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=base64`;
 
-    container.innerHTML = `
+        container.innerHTML = `
           <ul class="proxy-list gray">
           <img src="/Images/h2.svg" >
             <li class="proxy-item" onclick="copyText('${subUrlTxt}','Ссылка скопирована!')"><div class="proxy-label">  TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
@@ -3256,32 +2784,32 @@
           <div class="apps center"><a href="/setup">Как настроить?</a></div>
         `;
 
-    QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, {
-      width: 220,
-    });
-    QRCode.toCanvas(document.getElementById("qr-h2-base64"), subUrlB64, {
-      width: 220,
-    });
-  }
+        QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, {
+          width: 220,
+        });
+        QRCode.toCanvas(document.getElementById("qr-h2-base64"), subUrlB64, {
+          width: 220,
+        });
+      }
 
-  function renderMtproto(id, env, has) {
-    const container = document.getElementById("mtproto-content");
+      function renderMtproto(id, env, has) {
+        const container = document.getElementById("mtproto-content");
 
-    if (!has) {
-      container.innerHTML = `<div class="small">MTProto недоступен в этом регионе</div>`;
-      return;
-    }
+        if (!has) {
+          container.innerHTML = `<div class="small">MTProto недоступен в этом регионе</div>`;
+          return;
+        }
 
-    const url = `${API_BASE}/info/connections/mtproto?id=${id}&env=${env}`;
+        const url = `${API_BASE}/info/connections/mtproto?id=${id}&env=${env}`;
 
-    container.innerHTML = `<div class="small">Загрузка MTProto...</div>`;
+        container.innerHTML = `<div class="small">Загрузка MTProto...</div>`;
 
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        const connections = data.connections || [];
+        fetch(url)
+          .then((r) => r.json())
+          .then((data) => {
+            const connections = data.connections || [];
 
-        container.innerHTML = `
+            container.innerHTML = `
             <ul class="proxy-list">
               ${connections
                 .map(
@@ -3295,31 +2823,31 @@
                 .join("")}
             </ul>
           `;
-      })
-      .catch(() => {
-        container.innerHTML = `<div class="small">Ошибка загрузки MTProto</div>`;
-      });
-  }
+          })
+          .catch(() => {
+            container.innerHTML = `<div class="small">Ошибка загрузки MTProto</div>`;
+          });
+      }
 
-  function renderWireguard(id, env, has) {
-    const container = document.getElementById("wg-content");
+      function renderWireguard(id, env, has) {
+        const container = document.getElementById("wg-content");
 
-    if (!has) {
-      container.innerHTML = `<div class="small">WireGuard недоступен</div>`;
-      return;
-    }
+        if (!has) {
+          container.innerHTML = `<div class="small">WireGuard недоступен</div>`;
+          return;
+        }
 
-    const url = `${API_BASE}/info/connections/wireguard?id=${id}&env=${env}`;
+        const url = `${API_BASE}/info/connections/wireguard?id=${id}&env=${env}`;
 
-    container.innerHTML = `<div class="small">Загрузка WireGuard...</div>`;
+        container.innerHTML = `<div class="small">Загрузка WireGuard...</div>`;
 
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        const nodes = data.nodes || [];
-        const labels = prepareNodeLabels(nodes);
+        fetch(url)
+          .then((r) => r.json())
+          .then((data) => {
+            const nodes = data.nodes || [];
+            const labels = prepareNodeLabels(nodes);
 
-        container.innerHTML = `
+            container.innerHTML = `
             <ul class="proxy-list">
               ${nodes
                 .map(
@@ -3355,68 +2883,68 @@
             </ul>
           `;
 
-        nodes.forEach((n, i) => {
-          QRCode.toCanvas(document.getElementById(`wg-qr-${i}`), n.config, {
-            width: 240,
+            nodes.forEach((n, i) => {
+              QRCode.toCanvas(document.getElementById(`wg-qr-${i}`), n.config, {
+                width: 240,
+              });
+            });
+          })
+          .catch(() => {
+            container.innerHTML = `<div class="small">Ошибка загрузки WireGuard</div>`;
           });
-        });
-      })
-      .catch(() => {
-        container.innerHTML = `<div class="small">Ошибка загрузки WireGuard</div>`;
-      });
-  }
-
-  function escapeBackticks(text) {
-    return String(text)
-      .replace(/\\/g, "\\\\")
-      .replace(/`/g, "\\`")
-      .replace(/\$/g, "\\$");
-  }
-
-  function prepareNodeLabels(nodes) {
-    const cleaned = nodes.map((n) =>
-      String(n.label || "")
-        .replace(/[^\p{L}\p{N}\s\-()]/gu, "")
-        .replace(/\s+/g, " ")
-        .trim(),
-    );
-
-    const counts = {};
-    cleaned.forEach((label) => {
-      counts[label] = (counts[label] || 0) + 1;
-    });
-
-    const used = {};
-    return cleaned.map((base) => {
-      if (counts[base] > 1) {
-        used[base] = (used[base] || 0) + 1;
-        return `${base} ${used[base]}`;
       }
-      return base;
-    });
-  }
 
-  function renderAwg(id, env, has) {
-    const container = document.getElementById("awg-content");
+      function escapeBackticks(text) {
+        return String(text)
+          .replace(/\\/g, "\\\\")
+          .replace(/`/g, "\\`")
+          .replace(/\$/g, "\\$");
+      }
 
-    if (!has) {
-      container.innerHTML = `<div class="small">Amnezia WireGuard недоступен</div>`;
-      return;
-    }
+      function prepareNodeLabels(nodes) {
+        const cleaned = nodes.map((n) =>
+          String(n.label || "")
+            .replace(/[^\p{L}\p{N}\s\-()]/gu, "")
+            .replace(/\s+/g, " ")
+            .trim(),
+        );
 
-    const url = `${API_BASE}/info/connections/amneziawg?id=${id}&env=${env}`;
+        const counts = {};
+        cleaned.forEach((label) => {
+          counts[label] = (counts[label] || 0) + 1;
+        });
 
-    console.log(url);
+        const used = {};
+        return cleaned.map((base) => {
+          if (counts[base] > 1) {
+            used[base] = (used[base] || 0) + 1;
+            return `${base} ${used[base]}`;
+          }
+          return base;
+        });
+      }
 
-    container.innerHTML = `<div class="small">Загрузка Amnezia WireGuard...</div>`;
+      function renderAwg(id, env, has) {
+        const container = document.getElementById("awg-content");
 
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => {
-        const nodes = data.nodes || [];
-        const labels = prepareNodeLabels(nodes);
+        if (!has) {
+          container.innerHTML = `<div class="small">Amnezia WireGuard недоступен</div>`;
+          return;
+        }
 
-        container.innerHTML = `
+        const url = `${API_BASE}/info/connections/amneziawg?id=${id}&env=${env}`;
+
+        console.log(url);
+
+        container.innerHTML = `<div class="small">Загрузка Amnezia WireGuard...</div>`;
+
+        fetch(url)
+          .then((r) => r.json())
+          .then((data) => {
+            const nodes = data.nodes || [];
+            const labels = prepareNodeLabels(nodes);
+
+            container.innerHTML = `
             <ul class="proxy-list">
               ${nodes
                 .map(
@@ -3452,295 +2980,306 @@
             </ul>
           `;
 
-        nodes.forEach((n, i) => {
-          QRCode.toCanvas(document.getElementById(`awg-qr-${i}`), n.config, {
-            width: 240,
+            nodes.forEach((n, i) => {
+              QRCode.toCanvas(
+                document.getElementById(`awg-qr-${i}`),
+                n.config,
+                {
+                  width: 240,
+                },
+              );
+            });
+          })
+          .catch((e) => {
+            console.error(e);
+            container.innerHTML = `<div class="small">Ошибка загрузки Amnezia WireGuard</div>`;
           });
-        });
-      })
-      .catch((e) => {
-        console.error(e);
-        container.innerHTML = `<div class="small">Ошибка загрузки Amnezia WireGuard</div>`;
-      });
-  }
-
-  function downloadWG(content, name) {
-    const blob = new Blob([content], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${name}.conf`;
-    a.click();
-
-    URL.revokeObjectURL(url);
-  }
-
-  function downloadAWG(content, name) {
-    const blob = new Blob([content], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${name}.conf`;
-    a.click();
-
-    URL.revokeObjectURL(url);
-  }
-
-  function copyText(text, message = "Скопировано") {
-    navigator.clipboard.writeText(text).then(() => showToast(message));
-  }
-
-  function showToast(text) {
-    const toast = document.getElementById("toast");
-    if (!toast) return;
-    toast.innerText = text;
-    toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 2000);
-  }
-
-  async function activateKey() {
-    const key = document.getElementById("keyInput").value;
-    const resultEl = document.getElementById("keyResult");
-    const subId = getSubId();
-
-    if (!subId) {
-      resultEl.innerText = "❌ Нет subscription ID";
-      return;
-    }
-
-    if (!key) {
-      resultEl.innerText = "Введите ключ";
-      return;
-    }
-
-    resultEl.innerText = "⏳ Активирую...";
-
-    try {
-      const res = await fetch(`${API_BASE}/key/activate`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Trace-Id": generateTraceId(),
-        },
-        body: JSON.stringify({ code: key, subscription_id: subId }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        resultEl.innerText = "❌ " + (data.message || "Ошибка");
-        return;
       }
 
-      const addedDays = data.response?.instance?.Key?.days;
-      resultEl.innerText = addedDays
-        ? `✅ Активировано (+${addedDays} дней)`
-        : "✅ Активировано";
-      setTimeout(() => location.reload(), 1000);
-    } catch (e) {
-      resultEl.innerText = "Ошибка";
-    }
-  }
+      function downloadWG(content, name) {
+        const blob = new Blob([content], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
 
-  // Инициализация после загрузки DOM
-  window.addEventListener("DOMContentLoaded", () => {
-    initPage();
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${name}.conf`;
+        a.click();
 
-    // Обработчики вкладок (ОДИН РАЗ)
-    document.querySelectorAll(".tab").forEach((btn) => {
-      btn.onclick = () => {
-        const name = btn.dataset.tab;
-        document
-          .querySelectorAll(".tab")
-          .forEach((el) => el.classList.remove("active"));
-        document
-          .querySelectorAll(".tab-content")
-          .forEach((el) => el.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById("tab-" + name).classList.add("active");
-      };
-    });
-
-    // Скролл
-    const scrollBtn = document.getElementById("scrollToAdd");
-    const renewSection = document.getElementById("renew");
-    if (scrollBtn && renewSection) {
-      scrollBtn.addEventListener("click", () => {
-        scrollToElement("renew");
-      });
-    }
-
-    // Ввод ID
-    const input = document.getElementById("sub-id-input");
-    const btn = document.getElementById("open-sub-btn");
-    const error = document.getElementById("sub-error");
-
-    if (btn) {
-      btn.addEventListener("click", () => {
-        const id = input?.value.trim();
-        if (!id || !/^[0-9a-fA-F-]{36}$/.test(id)) {
-          if (error) error.textContent = "❌ Неверный формат ID";
-          return;
-        }
-        window.location.href = `/subscription?id=${id}`;
-      });
-    }
-
-    if (input) {
-      input.addEventListener("keypress", (e) => {
-        if (e.key === "Enter" && btn) btn.click();
-      });
-    }
-
-    // Продление подписки
-    const renewDurationSelect = document.getElementById("renewDuration");
-    const renewPromoInput = document.getElementById("renewPromo");
-    const renewApplyPromoBtn = document.getElementById("renewApplyPromo");
-    const renewBtn = document.getElementById("renewBtn");
-    const renewError = document.getElementById("renewError");
-    const renewPriceOld = document.getElementById("renewPriceOld");
-    const renewPriceNew = document.getElementById("renewPriceNew");
-    let selectedRenewDuration = renewDurationSelect
-      ? parseInt(renewDurationSelect.value, 10)
-      : null;
-    let appliedRenewPromo = null;
-    let currentRenewDiscountedPrice = null;
-
-    function getSelectedRenewPrice() {
-      if (!renewDurationSelect) return 0;
-      const option = renewDurationSelect.selectedOptions[0];
-      return parseInt(option?.dataset.price || "0", 10);
-    }
-
-    function updateRenewPriceDisplay() {
-      const basePrice = getSelectedRenewPrice();
-      if (!renewPriceNew) return;
-      if (
-        currentRenewDiscountedPrice &&
-        currentRenewDiscountedPrice < basePrice
-      ) {
-        if (renewPriceOld) renewPriceOld.textContent = `${basePrice} ₽`;
-        renewPriceNew.textContent = `${currentRenewDiscountedPrice} ₽`;
-        renewPriceNew.classList.add("discounted");
-      } else {
-        if (renewPriceOld) renewPriceOld.textContent = "";
-        renewPriceNew.textContent = `${basePrice} ₽`;
-        renewPriceNew.classList.remove("discounted");
+        URL.revokeObjectURL(url);
       }
-    }
 
-    if (renewDurationSelect) {
-      renewDurationSelect.addEventListener("change", () => {
-        selectedRenewDuration = parseInt(renewDurationSelect.value, 10);
-        appliedRenewPromo = null;
-        currentRenewDiscountedPrice = null;
-        renewError.textContent = "";
-        updateRenewPriceDisplay();
-      });
-    }
+      function downloadAWG(content, name) {
+        const blob = new Blob([content], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
 
-    if (renewApplyPromoBtn) {
-      renewApplyPromoBtn.addEventListener("click", async () => {
-        const code = renewPromoInput.value.trim();
-        if (!code) {
-          appliedRenewPromo = null;
-          currentRenewDiscountedPrice = null;
-          updateRenewPriceDisplay();
-          showToast("Промокод сброшен");
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${name}.conf`;
+        a.click();
+
+        URL.revokeObjectURL(url);
+      }
+
+      function copyText(text, message = "Скопировано") {
+        navigator.clipboard.writeText(text).then(() => showToast(message));
+      }
+
+      function showToast(text) {
+        const toast = document.getElementById("toast");
+        if (!toast) return;
+        toast.innerText = text;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2000);
+      }
+
+      async function activateKey() {
+        const key = document.getElementById("keyInput").value;
+        const resultEl = document.getElementById("keyResult");
+        const subId = getSubId();
+
+        if (!subId) {
+          resultEl.innerText = "❌ Нет subscription ID";
           return;
         }
-        if (!selectedRenewDuration) {
-          renewError.textContent = "Сначала выберите срок продления";
+
+        if (!key) {
+          resultEl.innerText = "Введите ключ";
           return;
         }
+
+        resultEl.innerText = "⏳ Активирую...";
+
         try {
-          const res = await fetch(`${PAYMENT_API_BASE}/promocode/validate`, {
+          const res = await fetch(`${API_BASE}/key/activate`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              duration: selectedRenewDuration,
-              promocode: code,
-            }),
+            headers: {
+              "Content-Type": "application/json",
+              "X-Trace-Id": generateTraceId(),
+            },
+            body: JSON.stringify({ code: key, subscription_id: subId }),
           });
+
           const data = await res.json();
-          if (data.is_valid) {
-            appliedRenewPromo = code;
-            currentRenewDiscountedPrice = data.discounted_price;
-            renewError.textContent = "";
-            updateRenewPriceDisplay();
-            showToast(`Промокод применён: скидка ${data.discount_percent}%`);
+
+          if (!res.ok) {
+            resultEl.innerText = "❌ " + (data.message || "Ошибка");
+            return;
+          }
+
+          const addedDays = data.response?.instance?.Key?.days;
+          resultEl.innerText = addedDays
+            ? `✅ Активировано (+${addedDays} дней)`
+            : "✅ Активировано";
+          setTimeout(() => location.reload(), 1000);
+        } catch (e) {
+          resultEl.innerText = "Ошибка";
+        }
+      }
+
+      // Инициализация после загрузки DOM
+      window.addEventListener("DOMContentLoaded", () => {
+        initPage();
+
+        // Обработчики вкладок (ОДИН РАЗ)
+        document.querySelectorAll(".tab").forEach((btn) => {
+          btn.onclick = () => {
+            const name = btn.dataset.tab;
+            document
+              .querySelectorAll(".tab")
+              .forEach((el) => el.classList.remove("active"));
+            document
+              .querySelectorAll(".tab-content")
+              .forEach((el) => el.classList.remove("active"));
+            btn.classList.add("active");
+            document.getElementById("tab-" + name).classList.add("active");
+          };
+        });
+
+        // Скролл
+        const scrollBtn = document.getElementById("scrollToAdd");
+        const renewSection = document.getElementById("renew");
+        if (scrollBtn && renewSection) {
+          scrollBtn.addEventListener("click", () => {
+            scrollToElement("renew");
+          });
+        }
+
+        // Ввод ID
+        const input = document.getElementById("sub-id-input");
+        const btn = document.getElementById("open-sub-btn");
+        const error = document.getElementById("sub-error");
+
+        if (btn) {
+          btn.addEventListener("click", () => {
+            const id = input?.value.trim();
+            if (!id || !/^[0-9a-fA-F-]{36}$/.test(id)) {
+              if (error) error.textContent = "❌ Неверный формат ID";
+              return;
+            }
+            window.location.href = `/subscription?id=${id}`;
+          });
+        }
+
+        if (input) {
+          input.addEventListener("keypress", (e) => {
+            if (e.key === "Enter" && btn) btn.click();
+          });
+        }
+
+        // Продление подписки
+        const renewDurationSelect = document.getElementById("renewDuration");
+        const renewPromoInput = document.getElementById("renewPromo");
+        const renewApplyPromoBtn = document.getElementById("renewApplyPromo");
+        const renewBtn = document.getElementById("renewBtn");
+        const renewError = document.getElementById("renewError");
+        const renewPriceOld = document.getElementById("renewPriceOld");
+        const renewPriceNew = document.getElementById("renewPriceNew");
+        let selectedRenewDuration = renewDurationSelect
+          ? parseInt(renewDurationSelect.value, 10)
+          : null;
+        let appliedRenewPromo = null;
+        let currentRenewDiscountedPrice = null;
+
+        function getSelectedRenewPrice() {
+          if (!renewDurationSelect) return 0;
+          const option = renewDurationSelect.selectedOptions[0];
+          return parseInt(option?.dataset.price || "0", 10);
+        }
+
+        function updateRenewPriceDisplay() {
+          const basePrice = getSelectedRenewPrice();
+          if (!renewPriceNew) return;
+          if (
+            currentRenewDiscountedPrice &&
+            currentRenewDiscountedPrice < basePrice
+          ) {
+            if (renewPriceOld) renewPriceOld.textContent = `${basePrice} ₽`;
+            renewPriceNew.textContent = `${currentRenewDiscountedPrice} ₽`;
+            renewPriceNew.classList.add("discounted");
           } else {
+            if (renewPriceOld) renewPriceOld.textContent = "";
+            renewPriceNew.textContent = `${basePrice} ₽`;
+            renewPriceNew.classList.remove("discounted");
+          }
+        }
+
+        if (renewDurationSelect) {
+          renewDurationSelect.addEventListener("change", () => {
+            selectedRenewDuration = parseInt(renewDurationSelect.value, 10);
             appliedRenewPromo = null;
             currentRenewDiscountedPrice = null;
-            renewError.textContent = data.message || "Неверный промокод";
+            renewError.textContent = "";
             updateRenewPriceDisplay();
-          }
-        } catch (e) {
-          renewError.textContent = "Ошибка проверки промокода";
+          });
+        }
+
+        if (renewApplyPromoBtn) {
+          renewApplyPromoBtn.addEventListener("click", async () => {
+            const code = renewPromoInput.value.trim();
+            if (!code) {
+              appliedRenewPromo = null;
+              currentRenewDiscountedPrice = null;
+              updateRenewPriceDisplay();
+              showToast("Промокод сброшен");
+              return;
+            }
+            if (!selectedRenewDuration) {
+              renewError.textContent = "Сначала выберите срок продления";
+              return;
+            }
+            try {
+              const res = await fetch(
+                `${PAYMENT_API_BASE}/promocode/validate`,
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    duration: selectedRenewDuration,
+                    promocode: code,
+                  }),
+                },
+              );
+              const data = await res.json();
+              if (data.is_valid) {
+                appliedRenewPromo = code;
+                currentRenewDiscountedPrice = data.discounted_price;
+                renewError.textContent = "";
+                updateRenewPriceDisplay();
+                showToast(
+                  `Промокод применён: скидка ${data.discount_percent}%`,
+                );
+              } else {
+                appliedRenewPromo = null;
+                currentRenewDiscountedPrice = null;
+                renewError.textContent = data.message || "Неверный промокод";
+                updateRenewPriceDisplay();
+              }
+            } catch (e) {
+              renewError.textContent = "Ошибка проверки промокода";
+            }
+          });
+        }
+
+        updateRenewPriceDisplay();
+
+        if (renewBtn) {
+          renewBtn.addEventListener("click", async () => {
+            renewError.textContent = "";
+            if (!selectedRenewDuration) {
+              renewError.textContent = "Выберите срок продления";
+              return;
+            }
+            const subId = getSubId();
+            if (!subId) {
+              renewError.textContent = "Не удалось определить подписку";
+              return;
+            }
+            renewBtn.disabled = true;
+            const originalText = renewBtn.textContent;
+            renewBtn.textContent = "Создаём платёж...";
+            try {
+              const res = await fetch(
+                `${PAYMENT_API_BASE}/payment/platega/subscription/create`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "X-Trace-Id": generateTraceId(),
+                  },
+                  body: JSON.stringify({
+                    subscription_id: subId,
+                    duration: selectedRenewDuration,
+                    promocode: appliedRenewPromo,
+                  }),
+                },
+              );
+              if (!res.ok) {
+                const data = await res
+                  .json()
+                  .catch(() => ({ error: "Ошибка сервера" }));
+                throw new Error(data.error || "Не удалось создать платёж");
+              }
+              const data = await res.json();
+              if (data.transactionId) {
+                localStorage.setItem(
+                  "frkn_last_transaction_id",
+                  data.transactionId,
+                );
+              }
+              if (data.status === "PENDING" && data.url) {
+                localStorage.setItem("frkn_last_subscription_id", subId);
+                window.location.href = data.url;
+              } else {
+                throw new Error("API не вернуло ссылку на оплату");
+              }
+            } catch (e) {
+              renewError.textContent = e.message;
+              renewBtn.disabled = false;
+              renewBtn.textContent = originalText;
+            }
+          });
         }
       });
-    }
-
-    updateRenewPriceDisplay();
-
-    if (renewBtn) {
-      renewBtn.addEventListener("click", async () => {
-        renewError.textContent = "";
-        if (!selectedRenewDuration) {
-          renewError.textContent = "Выберите срок продления";
-          return;
-        }
-        const subId = getSubId();
-        if (!subId) {
-          renewError.textContent = "Не удалось определить подписку";
-          return;
-        }
-        renewBtn.disabled = true;
-        const originalText = renewBtn.textContent;
-        renewBtn.textContent = "Создаём платёж...";
-        try {
-          const res = await fetch(
-            `${PAYMENT_API_BASE}/payment/platega/subscription/create`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "X-Trace-Id": generateTraceId(),
-              },
-              body: JSON.stringify({
-                subscription_id: subId,
-                duration: selectedRenewDuration,
-                promocode: appliedRenewPromo,
-              }),
-            },
-          );
-          if (!res.ok) {
-            const data = await res
-              .json()
-              .catch(() => ({ error: "Ошибка сервера" }));
-            throw new Error(data.error || "Не удалось создать платёж");
-          }
-          const data = await res.json();
-          if (data.transactionId) {
-            localStorage.setItem(
-              "frkn_last_transaction_id",
-              data.transactionId,
-            );
-          }
-          if (data.status === "PENDING" && data.url) {
-            localStorage.setItem("frkn_last_subscription_id", subId);
-            window.location.href = data.url;
-          } else {
-            throw new Error("API не вернуло ссылку на оплату");
-          }
-        } catch (e) {
-          renewError.textContent = e.message;
-          renewBtn.disabled = false;
-          renewBtn.textContent = originalText;
-        }
-      });
-    }
-  });
-</script>
+    </script>
+  </body>
+</html>

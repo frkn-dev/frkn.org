@@ -568,11 +568,15 @@
   <body>
     <div class="container">
       <header>
-        <h1 class="hero-title">Выберите тариф</h1>
         <div id="logo-container"></div>
       </header>
+      <h1 class="hero-title">Выберите тариф</h1>
       <p class="subtitle">
-        Купите ключ активации для получения или продления подписки <br />
+        Купите ключ активации для получения или продления подписки.
+      </p>
+      <p class="subtitle">
+        Уже есть <a href="/info/activation-keys" class="text-link">ключ</a>?
+        <a href="/activate" class="text-link">Активируй его здесь</a>
       </p>
 
       <div class="pricing-section">
@@ -743,6 +747,16 @@
           </div>
           <div class="promo-info" id="promo-info"></div>
         </div>
+        <div class="form-group" style="display: none;">
+          <label>Реферальный код друга</label>
+          <div class="promo-input-wrapper">
+            <input type="text" id="user-ref" placeholder="Введите код друга" />
+            <button id="apply-ref-btn" class="apply-promo-btn">
+              Применить
+            </button>
+          </div>
+          <div class="promo-info" id="ref-info"></div>
+        </div>
         <div class="modal-total-wrapper" id="modal-total-wrapper"></div>
         <button class="btn-pay" id="final-pay-btn">Оплатить</button>
         <p
@@ -789,7 +803,7 @@
         window.location.hostname === "127.0.0.1";
       const PAYMENT_API_BASE = isLocal
         ? "http://localhost:3006"
-        : "https://heheapi.frkn.org";
+        : "https://api.frkn.org";
       const PAYMENT_API_FALLBACK = isLocal
         ? null
         : "https://api.frkn.org";
@@ -817,10 +831,17 @@
       }
       let urlPromoCode =
         new URLSearchParams(location.search).get("promo") || null;
+      let urlRefCode =
+        new URLSearchParams(location.search).get("referral_code") ||
+        new URLSearchParams(location.search).get("ref") ||
+        new URLSearchParams(location.search).get("referral") ||
+        null;
 
       // --- DOM элементы ---
       const promoInput = document.getElementById("user-promo");
       const promoInfo = document.getElementById("promo-info");
+      const refInput = document.getElementById("user-ref");
+      const refInfo = document.getElementById("ref-info");
       const modalTotalWrapper = document.getElementById("modal-total-wrapper");
       const paymentModal = document.getElementById("payment-modal");
       const errorPopup = document.getElementById("error-popup");
@@ -858,6 +879,8 @@
         paymentModal.classList.remove("active");
         const applyBtn = document.getElementById("apply-promo-btn");
         if (applyBtn) applyBtn.style.display = "flex";
+        const applyRefBtn = document.getElementById("apply-ref-btn");
+        if (applyRefBtn) applyRefBtn.style.display = "flex";
         currentOrder = null;
       }
 
@@ -989,6 +1012,61 @@
         }
       }
 
+      // --- Применение реферального кода к ТЕКУЩЕМУ заказу в модалке ---
+      async function applyRefToCurrentOrder(refCode) {
+        if (!currentOrder) {
+          showError("Выберите тариф сначала");
+          return false;
+        }
+        const refValue = refCode?.trim().toUpperCase() || "";
+        if (!refValue) {
+          currentOrder.referral = null;
+          refInput.style.borderColor = "";
+          refInfo.style.display = "none";
+          refInfo.className = "promo-info";
+          refInfo.innerText = "";
+          return true;
+        }
+
+        // Тестовый режим: пока API не готово, TESTTEST считаем валидным
+        if (refValue === "TESTTEST") {
+          currentOrder.referral = refValue;
+          refInput.style.borderColor = "#22c55e";
+          refInfo.style.display = "block";
+          refInfo.className = "promo-info valid";
+          refInfo.innerText =
+            "Реферальный код применён. Тебе и другу будет добавлено по 10 дней каждому бонусом.";
+          return true;
+        }
+
+        try {
+          const response = await apiFetch(
+            `/validate/ref_code?code=${encodeURIComponent(refValue)}`,
+          );
+          if (!response.ok) throw new Error("Не удалось проверить реферальный код");
+          const data = await response.json();
+          if (data.valid) {
+            currentOrder.referral = refValue;
+            refInput.style.borderColor = "#22c55e";
+            refInfo.style.display = "block";
+            refInfo.className = "promo-info valid";
+            refInfo.innerText =
+              "Реферальный код применён. Тебе и другу будет добавлено по 10 дней каждому бонусом.";
+            return true;
+          } else {
+            throw new Error("Реферальный код не найден");
+          }
+        } catch (err) {
+          currentOrder.referral = null;
+          showError(err.message);
+          refInput.style.borderColor = "#ff4444";
+          refInfo.style.display = "block";
+          refInfo.className = "promo-info invalid";
+          refInfo.innerText = "Реферальный код не найден";
+          return false;
+        }
+      }
+
       // --- Открытие модального окна ---
       async function openModal(duration, basePrice, element) {
         let finalPrice = basePrice;
@@ -1000,12 +1078,18 @@
           price: finalPrice,
           originalPrice: originalPrice,
           promo: null,
+          referral: null,
         };
         promoInput.value = urlPromoCode || "";
         promoInput.style.borderColor = "";
         promoInfo.style.display = "none";
         promoInfo.className = "promo-info";
         promoInfo.innerText = "";
+        refInput.value = urlRefCode || "";
+        refInput.style.borderColor = "";
+        refInfo.style.display = "none";
+        refInfo.className = "promo-info";
+        refInfo.innerText = "";
         if (urlPromoCode) {
           // Подставляем промокод из URL
           promoInput.value = urlPromoCode;
@@ -1040,8 +1124,19 @@
           promoInput.style.borderColor = "";
           const applyBtn = document.getElementById("apply-promo-btn");
           if (applyBtn) applyBtn.style.display = "flex";
-          updateModalDisplay();
         }
+        if (urlRefCode) {
+          refInput.value = urlRefCode;
+          const applyRefBtn = document.getElementById("apply-ref-btn");
+          if (applyRefBtn) applyRefBtn.style.display = "none";
+          await applyRefToCurrentOrder(urlRefCode);
+        } else {
+          refInput.value = "";
+          refInput.style.borderColor = "";
+          const applyRefBtn = document.getElementById("apply-ref-btn");
+          if (applyRefBtn) applyRefBtn.style.display = "flex";
+        }
+        updateModalDisplay();
         document.getElementById("modal-title").innerHTML =
           `Оформление подписки<br>на ${duration} дней`;
         paymentModal.classList.add("active");
@@ -1084,6 +1179,17 @@
           applyPromoToCurrentOrder(promoInput.value);
         }
       });
+      document
+        .getElementById("apply-ref-btn")
+        ?.addEventListener("click", async () =>
+          applyRefToCurrentOrder(refInput.value),
+        );
+      refInput?.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          applyRefToCurrentOrder(refInput.value);
+        }
+      });
       const extraToggle = document.getElementById("extra-options-toggle");
       const extraOptions = document.getElementById("extra-options");
       if (extraToggle && extraOptions) {
@@ -1118,6 +1224,7 @@
                 body: JSON.stringify({
                   duration: currentOrder.duration,
                   promocode: currentOrder.promo || null,
+                  refCode: currentOrder.referral || null,
                 }),
               },
             );

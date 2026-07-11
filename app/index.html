@@ -823,7 +823,7 @@
         <hr />
 
         <div class="section-title">Реферальная программа</div>
-        <div class="ref-block">
+        <div class="ref-block" style="display: none;">
           <div class="ref-code" id="ref-code">...</div>
           <div class="small" style="margin-bottom: 10px">
             Приглашено: <b id="invited-count">0</b> · +7 дней за друга
@@ -933,7 +933,7 @@
         : "https://api.frkn.org";
       const PAYMENT_API_BASE = isLocal
         ? "http://localhost:3006"
-        : "https://heheapi.frkn.org";
+        : "https://api.frkn.org";
 
       const ENV_NAMES = {
         wl: "🐘 БС - Белые слоны",

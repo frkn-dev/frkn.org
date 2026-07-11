@@ -4,7 +4,18 @@ const isLocal =
 
 const BASE = isLocal ? "http://localhost:8000" : "https://frkn.org";
 
-const API_BASE = isLocal ? "http://localhost:3005" : "https://heheapi.frkn.org";
+const API_BASE = isLocal ? "http://localhost:3005" : "https://api.frkn.org";
+
+function getUrlRefCode() {
+  const params = new URLSearchParams(window.location.search);
+  return (
+    params.get("code") ||
+    params.get("ref") ||
+    params.get("referral") ||
+    params.get("referral_code") ||
+    null
+  );
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("trialForm");
@@ -23,10 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const formData = new FormData(form);
-    const promo = formData.get("code");
-
     const emailRaw = formData.get("email") || "";
     const emailLow = emailRaw.toString().toLowerCase().trim();
+    const refCode = getUrlRefCode();
 
     const protonDomains = [
       "@proton.me",
@@ -55,11 +65,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const payload = {
       email: emailLow,
-      ...(promo ? { referred_by: promo } : {}),
+      language: "ru",
+      trial: true,
+      ...(refCode ? { referred_by: refCode.toUpperCase() } : {}),
     };
 
     try {
-      const res = await fetch(`${API_BASE}/trial`, {
+      const res = await fetch(`${API_BASE}/account`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -67,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await res.json();
 
-      if (data.status === 200) {
+      if (res.ok && data.subscription_id) {
         if (msg) {
           msg.textContent =
             "✅ Заявка на тест-драйв принята! Проверь e-mail. Если чо, папку спам тоже глянь.";
