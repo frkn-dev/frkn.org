@@ -29,6 +29,7 @@
     />
     <title>frkn Privacy Company</title>
     <link rel="icon" href="Images/favicon.ico" type="image/x-icon" />
+    <link rel="preload" as="image" href="/Images/main.webp" type="image/webp" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -63,7 +64,17 @@
           </div>
         </div>
         <div class="hero-empty">
-          <img src="/Images/main.png" alt="FRKN" />
+          <picture>
+            <source srcset="/Images/main.webp" type="image/webp" />
+            <img
+              src="/Images/main.png"
+              alt="FRKN"
+              loading="eager"
+              fetchpriority="high"
+              width="1040"
+              height="602"
+            />
+          </picture>
         </div>
       </section>
       <section class="features-grid">
@@ -100,7 +111,7 @@
           <div class="trial-info">
             <h2>Test drive</h2>
             <p>
-              Get 24 hours of full access. No card required. Just enter your
+              Get 3 days of full access. No card required. Just enter your
               email and get access.
             </p>
             <div class="trial-steps">

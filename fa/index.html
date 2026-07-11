@@ -21,6 +21,7 @@
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>شرکت حریم خصوصی frkn</title>
 <link href="Images/favicon.ico" rel="icon" type="image/x-icon"/>
+<link rel="preload" as="image" href="/Images/main.webp" type="image/webp" />
 <link href="/styles.css?v=2" rel="stylesheet"/>
 <style>
 .hero-title {
@@ -67,7 +68,17 @@ animation: title-appear 1s ease-out, title-breathe 5s ease-in-out infinite 1s;
 </div>
 </div>
 <div class="hero-image-wrapper">
-<img src="/Images/main.png" alt="FRKN" />
+          <picture>
+            <source srcset="/Images/main.webp" type="image/webp" />
+            <img
+              src="/Images/main.png"
+              alt="FRKN"
+              loading="eager"
+              fetchpriority="high"
+              width="1040"
+              height="602"
+            />
+          </picture>
 </div>
 </section>
 <section class="features-grid">
@@ -204,7 +215,7 @@ animation: title-appear 1s ease-out, title-breathe 5s ease-in-out infinite 1s;
 <div class="trial-info">
 <h2>تست درایو</h2>
 <p>
-              24 ساعت دسترسی کامل داشته باشید. بدون نیاز به کارت فقط خود را وارد کنید
+              3 روز دسترسی کامل داشته باشید. بدون نیاز به کارت فقط خود را وارد کنید
               ایمیل بزنید و دسترسی پیدا کنید.
             </p>
 <div class="trial-steps">
