@@ -28,7 +28,7 @@
     <meta name="twitter:image" content="https://frkn.org/Images/logo.png" />
     <title>FRKN Privacy — Тарифы</title>
     <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="/styles.css?v=2" />
+    <link rel="stylesheet" href="/styles.css?v=4" />
     <style>
       :root {
         --bg-color: #0a0a0a;
@@ -559,8 +559,47 @@
         line-height: 1.6;
       }
       @media (max-width: 640px) {
+        .container {
+          padding: 24px 16px;
+        }
+
+        .pricing-grid-main {
+          grid-template-columns: 1fr;
+        }
+
         .pay-benefits {
           grid-template-columns: 1fr;
+        }
+
+        .hero-title {
+          font-size: 28px;
+          word-break: break-word;
+          overflow-wrap: anywhere;
+          max-width: 100%;
+          width: 100%;
+          box-sizing: border-box;
+          padding: 0;
+        }
+
+        .subtitle {
+          word-break: break-all;
+          overflow-wrap: anywhere;
+          hyphens: auto;
+          white-space: normal;
+          line-height: 1.4;
+          max-width: 100%;
+          width: 100%;
+          box-sizing: border-box;
+          padding: 0;
+          font-size: 14px;
+          text-align: left;
+          display: block;
+        }
+
+        .pay-benefit-content p {
+          word-break: break-word;
+          overflow-wrap: break-word;
+          width: 100%;
         }
       }
     </style>

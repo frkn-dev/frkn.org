@@ -33,7 +33,7 @@
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css?v=2" />
+    <link rel="stylesheet" href="/styles.css?v=4" />
     <style>
 .env-switcher-wrap {
         display: flex;
@@ -1446,6 +1446,218 @@
       @media (max-width: 400px) {
         .traffic-widget-compact .traffic-big-value {
           font-size: 1.2rem;
+        }
+      }
+
+      /* --- Mobile fixes --- */
+      @media (max-width: 640px) {
+        .subscription-page .container {
+          padding: 16px;
+        }
+
+        .subscription-page .hero-title {
+          font-size: 1.75rem;
+          word-break: break-word;
+          line-height: 1.2;
+        }
+
+        .subscription-page .hero-subtitle {
+          font-size: 1rem;
+          max-width: 100%;
+        }
+
+        .subscription-meta {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+
+        .small-id {
+          text-align: left;
+          word-break: break-all;
+          font-size: 9px;
+        }
+
+        .hero-stats {
+          grid-template-columns: 1fr;
+          padding: 16px 16px 70px 16px;
+          gap: 12px;
+        }
+
+        .hero-stats .stats-add-btn {
+          bottom: 12px;
+          right: 12px;
+          font-size: 10px;
+          padding: 7px 8px;
+          letter-spacing: 0.3px;
+          max-width: calc(100% - 24px);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .stat {
+          align-items: flex-start;
+          text-align: left;
+          flex-direction: row;
+          justify-content: space-between;
+          gap: 12px;
+        }
+
+        .stat b,
+        .stat span {
+          word-break: break-word;
+          overflow-wrap: anywhere;
+          text-align: right;
+          flex-shrink: 0;
+          max-width: 60%;
+        }
+
+        .stat b {
+          font-size: 1.35rem;
+        }
+
+        .subscription-status-card {
+          padding: 16px;
+        }
+
+        .traffic-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+
+        .traffic-main {
+          text-align: left;
+        }
+
+        .subscription-page .subscription-row {
+          min-width: 0;
+        }
+
+        .subscription-page .subscription-row > * {
+          min-width: 0;
+          overflow-wrap: anywhere;
+        }
+
+        .subscription-link-card {
+          padding: 14px;
+          min-width: 0;
+        }
+
+        .subscription-link-label {
+          font-size: 0.7rem;
+          min-width: 0;
+        }
+
+        .subscription-link-label .label-main {
+          font-size: 12px;
+          word-break: break-word;
+          overflow-wrap: anywhere;
+          letter-spacing: 0.03em;
+          line-height: 1.35;
+          white-space: normal;
+          max-width: 100%;
+          min-width: 0;
+        }
+
+        .subscription-link-label .label-hint {
+          font-size: 11px;
+          word-break: break-word;
+          overflow-wrap: anywhere;
+        }
+
+        .subscription-link {
+          min-width: 0;
+          font-size: 0.78rem;
+          word-break: break-all;
+          white-space: normal;
+        }
+
+        .subscription-link-row.main-link-row .subscription-actions {
+          width: 100% !important;
+          flex-direction: column !important;
+          gap: 10px;
+        }
+
+        .subscription-link-row.main-link-row .subscription-actions button,
+        .subscription-actions button {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .renew-section {
+          padding: 16px;
+        }
+
+        .renew-title {
+          flex-direction: column;
+          align-items: flex-start;
+          font-size: 1.35rem;
+          gap: 6px;
+          margin-bottom: 16px;
+        }
+
+        .renew-title .title-hint {
+          text-align: left;
+          line-height: 1.4;
+          font-size: 11px;
+        }
+
+        .renew-options {
+          gap: 12px;
+        }
+
+        .renew-option-card {
+          padding: 14px;
+        }
+
+        .renew-promo-inline {
+          flex-direction: column !important;
+        }
+
+        .renew-promo-inline input,
+        .renew-promo-inline button {
+          width: 100%;
+        }
+
+        .steps-flow .step-card {
+          padding: 14px;
+        }
+
+        .protocol-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .protocol-card {
+          padding: 14px;
+        }
+
+        .info-tooltip {
+          padding: 12px;
+          font-size: 12px;
+          gap: 8px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .pill-group {
+          gap: 8px;
+        }
+
+        .pill-button {
+          padding: 6px 12px;
+          font-size: 0.85rem;
+        }
+
+        .subscription-actions {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .subscription-actions button {
+          width: 100%;
+          justify-content: center;
         }
       }
     </style>

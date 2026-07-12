@@ -10,6 +10,10 @@
 * {
   box-sizing: border-box;
 }
+html,
+body {
+  overflow-x: hidden;
+}
 header {
   display: flex;
   justify-content: space-between;
@@ -2075,7 +2079,7 @@ footer .footer-divider {
   }
 
   .landing-page .features-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .landing-page .trial-container {
@@ -2106,12 +2110,24 @@ footer .footer-divider {
   }
 
   .landing-page .hero-content {
-    padding: 24px;
+    padding: 20px;
     min-height: 280px;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .landing-page .hero-title {
+    font-size: clamp(26px, 9vw, 36px);
+    text-align: left;
   }
 
   .landing-page .hero-subtitle {
     font-size: 16px;
+    max-width: 100%;
+    width: 100%;
+    text-align: left;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   .landing-page .cta-row {
@@ -2129,16 +2145,68 @@ footer .footer-divider {
     text-align: center;
   }
 
+  .landing-page .cta-group {
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .landing-page .cta-group .btn.try {
+    max-width: none;
+  }
+
   .landing-page .feature-mini {
-    padding: 22px;
+    padding: 20px;
+    min-width: 0;
+  }
+
+  .landing-page .feature-mini > div {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .landing-page .feature-mini h3 {
+    font-size: 17px;
+    width: 100%;
+    word-break: break-word;
+  }
+
+  .landing-page .feature-mini p {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    font-size: 13px;
   }
 
   .landing-page .trial-container {
-    padding: 22px;
+    padding: 20px;
+    text-align: left;
+  }
+
+  .landing-page .trial-info {
+    text-align: left;
+  }
+
+  .landing-page .trial-info > p {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
   }
 
   .landing-page .trial-steps {
-    gap: 12px;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .landing-page .trial-extra-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    justify-content: stretch;
+  }
+
+  .landing-page .trial-extra-actions a {
+    width: 100%;
   }
 
   .landing-page .trial-section {
@@ -2155,6 +2223,22 @@ footer .footer-divider {
     width: 100%;
     justify-content: space-between;
     gap: 10px;
+  }
+
+  footer {
+    font-size: 12px;
+    gap: 8px 12px;
+  }
+
+  footer > div:nth-child(2) {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 10px;
+  }
+
+  footer .footer-divider {
+    display: inline;
   }
 }
 
