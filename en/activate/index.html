@@ -831,10 +831,10 @@
         activationMessage.className = "activation-message";
       }
 
-      function showModal(keyValue, keyData, refCode) {
+      function showModal(keyValue, keyData) {
         pendingKey = keyValue;
         pendingKeyData = keyData;
-        pendingRefCode = refCode;
+        pendingRefCode = null;
 
         document.getElementById("modalKeyDisplay").textContent = keyValue;
 
@@ -864,48 +864,12 @@
         };
       }
 
-      async function activateKey(keyValue, refCode) {
+      async function activateKey(keyValue) {
         const confirmBtn = document.getElementById("confirmActivationBtn");
         const resetLoading = showLoading(confirmBtn);
-        let subscriptionId = null;
 
         try {
-          showMessage("⏳ Creating subscription...", "info");
-
-          const trialPayload = {
-            trial: false,
-            language: "en",
-            referred_by:
-              refCode && refCode.trim() ? refCode.trim() : "WEB-ACTIVATE",
-          };
-
-          const resCreateSubscription = await fetch(`${API_BASE}/account`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(trialPayload),
-          });
-
-          if (!resCreateSubscription.ok) {
-            throw new Error(
-              "Failed to create subscription, please contact support",
-            );
-          }
-
-          const createSubscriptionData = await resCreateSubscription.json();
-          subscriptionId = createSubscriptionData?.subscription_id;
-
-          console.log("Subscription created:", subscriptionId);
-
-          if (!subscriptionId) {
-            throw new Error("Failed to get subscription ID");
-          }
-
           showMessage("⏳ Activating key...", "info");
-
-          const payload = {
-            code: keyValue,
-            subscription_id: subscriptionId,
-          };
 
           const res = await fetch(`${API_BASE}/key/activate`, {
             method: "POST",
@@ -913,16 +877,20 @@
               "Content-Type": "application/json",
               "X-Trace-Id": generateTraceId(),
             },
-            body: JSON.stringify(payload),
+            body: JSON.stringify({ code: keyValue }),
           });
 
           const data = await res.json();
 
-          if (data?.status === 200 && subscriptionId) {
+          if (data?.status === 200 && data?.instance?.Key?.subscription_id) {
+            const subscriptionId = data.instance.Key.subscription_id;
             const modalContent = document.querySelector(".modal-content");
             modalContent.classList.add("success-animation");
 
-            showMessage("✅ Key activated successfully! Redirecting...", "success");
+            showMessage(
+              "✅ Key activated successfully! Redirecting...",
+              "success",
+            );
 
             setTimeout(() => {
               hideModal();
@@ -934,11 +902,6 @@
         } catch (err) {
           console.error(err);
           showMessage(err.message || "❌ Key activation error", "error");
-
-          if (subscriptionId) {
-            activationMessage.innerHTML += `<br>⚠️ Subscription created, but the key was not activated. Please contact support.`;
-          }
-
           hideModal();
         } finally {
           resetLoading();
@@ -991,7 +954,7 @@
               }
 
               if (!keyData.activated) {
-                showModal(keyValue, keyData, refCode);
+                showModal(keyValue, keyData);
                 return;
               }
             }
@@ -1008,7 +971,7 @@
         .getElementById("confirmActivationBtn")
         ?.addEventListener("click", () => {
           if (pendingKey) {
-            activateKey(pendingKey, pendingRefCode);
+            activateKey(pendingKey);
           }
         });
 

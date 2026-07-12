@@ -882,42 +882,9 @@
       async function activateKey(keyValue) {
         const confirmBtn = document.getElementById("confirmActivationBtn");
         const resetLoading = showLoading(confirmBtn);
-        let subscriptionId = null;
 
         try {
-          showMessage("⏳ Создаём подписку...", "info");
-
-          const resCreateSubscription = await fetch(`${API_BASE}/account`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              trial: false,
-              language: "ru",
-              referred_by: "WEB-ACTIVATE",
-            }),
-          });
-
-          if (!resCreateSubscription.ok) {
-            throw new Error(
-              "Не удалось создать подписку, обратитесь в поддержку",
-            );
-          }
-
-          const createSubscriptionData = await resCreateSubscription.json();
-          subscriptionId = createSubscriptionData?.subscription_id;
-
-          console.log("Subscription created:", subscriptionId);
-
-          if (!subscriptionId) {
-            throw new Error("Не удалось получить ID подписки");
-          }
-
           showMessage("⏳ Активируем ключ...", "info");
-
-          const payload = {
-            code: keyValue,
-            subscription_id: subscriptionId,
-          };
 
           const res = await fetch(`${API_BASE}/key/activate`, {
             method: "POST",
@@ -925,12 +892,13 @@
               "Content-Type": "application/json",
               "X-Trace-Id": generateTraceId(),
             },
-            body: JSON.stringify(payload),
+            body: JSON.stringify({ code: keyValue }),
           });
 
           const data = await res.json();
 
-          if (data?.status === 200 && subscriptionId) {
+          if (data?.status === 200 && data?.instance?.Key?.subscription_id) {
+            const subscriptionId = data.instance.Key.subscription_id;
             const modalContent = document.querySelector(".modal-content");
             modalContent.classList.add("success-animation");
 
@@ -949,12 +917,6 @@
         } catch (err) {
           console.error(err);
           showMessage(err.message || "❌ Ошибка активации ключа", "error");
-
-          if (subscriptionId) {
-            subMessage.innerHTML +=
-              "<br>⚠️ Подписка создана, но ключ не активирован. Обратитесь в поддержку.";
-          }
-
           hideModal();
         } finally {
           resetLoading();

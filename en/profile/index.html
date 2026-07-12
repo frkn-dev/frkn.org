@@ -879,42 +879,9 @@
       async function activateKey(keyValue) {
         const confirmBtn = document.getElementById("confirmActivationBtn");
         const resetLoading = showLoading(confirmBtn);
-        let subscriptionId = null;
 
         try {
-          showMessage("⏳ Creating subscription...", "info");
-
-          const resCreateSubscription = await fetch(`${API_BASE}/account`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              trial: false,
-              language: "en",
-              referred_by: "WEB-ACTIVATE",
-            }),
-          });
-
-          if (!resCreateSubscription.ok) {
-            throw new Error(
-              "Failed to create subscription, please contact support",
-            );
-          }
-
-          const createSubscriptionData = await resCreateSubscription.json();
-          subscriptionId = createSubscriptionData?.subscription_id;
-
-          console.log("Subscription created:", subscriptionId);
-
-          if (!subscriptionId) {
-            throw new Error("Failed to get subscription ID");
-          }
-
           showMessage("⏳ Activating key...", "info");
-
-          const payload = {
-            code: keyValue,
-            subscription_id: subscriptionId,
-          };
 
           const res = await fetch(`${API_BASE}/key/activate`, {
             method: "POST",
@@ -922,12 +889,13 @@
               "Content-Type": "application/json",
               "X-Trace-Id": generateTraceId(),
             },
-            body: JSON.stringify(payload),
+            body: JSON.stringify({ code: keyValue }),
           });
 
           const data = await res.json();
 
-          if (data?.status === 200 && subscriptionId) {
+          if (data?.status === 200 && data?.instance?.Key?.subscription_id) {
+            const subscriptionId = data.instance.Key.subscription_id;
             const modalContent = document.querySelector(".modal-content");
             modalContent.classList.add("success-animation");
 
@@ -946,12 +914,6 @@
         } catch (err) {
           console.error(err);
           showMessage(err.message || "❌ Key activation error", "error");
-
-          if (subscriptionId) {
-            subMessage.innerHTML +=
-              "<br>⚠️ Subscription created, but the key was not activated. Please contact support.";
-          }
-
           hideModal();
         } finally {
           resetLoading();

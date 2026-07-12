@@ -1457,7 +1457,7 @@
             return;
           }
 
-          const addedDays = data.response?.instance?.Key?.days;
+          const addedDays = data.instance?.Key?.days;
           resultEl.innerText = addedDays
             ? `✅ Активировано (+${addedDays} дней)`
             : "✅ Активировано";

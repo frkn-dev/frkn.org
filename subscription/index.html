@@ -2369,14 +2369,12 @@
           data.locations.forEach((l) => {
             if (l.env === "production") return;
             if (l.env === currentEnv) return;
-            // if (l.env === "experimental") return;
-            if (
-              !l.has_xray &&
-              !l.has_h2 &&
-              !l.has_mtproto &&
-              !l.has_wg &&
-              !l.has_awg
-            )
+            const hasXray = l.has_xray || l.hasXray;
+            const hasH2 = l.has_h2 || l.hasH2;
+            const hasMtproto = l.has_mtproto || l.hasMtproto;
+            const hasWg = l.has_wg || l.hasWg;
+            const hasAwg = l.has_awg || l.hasAwg;
+            if (!hasXray && !hasH2 && !hasMtproto && !hasWg && !hasAwg)
               return;
             const a = document.createElement("a");
             a.href = `?id=${subId}&env=${l.env}`;
@@ -2393,22 +2391,21 @@
           data.locations?.[0];
         if (loc) {
           console.log(loc);
-          if (
-            !loc.has_xray &&
-            !loc.has_h2 &&
-            !loc.has_mtproto &&
-            !loc.has_wg &&
-            !loc.has_awg
-          )
+          const hasXray = loc.has_xray || loc.hasXray;
+          const hasH2 = loc.has_h2 || loc.hasH2;
+          const hasMtproto = loc.has_mtproto || loc.hasMtproto;
+          const hasWg = loc.has_wg || loc.hasWg;
+          const hasAwg = loc.has_awg || loc.hasAwg;
+          if (!hasXray && !hasH2 && !hasMtproto && !hasWg && !hasAwg)
             return;
           currentConnectionContext = {
             id: data.id,
             env: loc.env,
-            hasXray: loc.has_xray,
-            has_wg: loc.has_wg,
-            has_awg: loc.has_awg,
-            has_h2: loc.has_h2,
-            has_mtproto: loc.has_mtproto,
+            hasXray,
+            has_wg: hasWg,
+            has_awg: hasAwg,
+            has_h2: hasH2,
+            has_mtproto: hasMtproto,
           };
           initConnectionFlow();
         }
@@ -3066,7 +3063,7 @@
             return;
           }
 
-          const addedDays = data.response?.instance?.Key?.days;
+          const addedDays = data.instance?.Key?.days;
           resultEl.innerText = addedDays
             ? `✅ Активировано (+${addedDays} дней)`
             : "✅ Активировано";
