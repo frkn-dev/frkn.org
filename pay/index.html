@@ -31,14 +31,14 @@
     <link rel="stylesheet" href="/styles.css?v=4" />
     <style>
       :root {
-        --bg-color: #0a0a0a;
-        --card-bg: #161616;
-        --card-bg-hover: #1c1c1c;
-        --accent-color: #007aff;
+        --bg-color: var(--bg, #090B10);
+        --card-bg: var(--card, #121622);
+        --card-bg-hover: #1a1f2e;
+        --accent-color: var(--accent, #38BDF8);
         --accent-secondary: #22c55e;
-        --text-main: #ffffff;
-        --text-dim: #888888;
-        --border-color: #282828;
+        --text-main: var(--text, #e6e8ef);
+        --text-dim: var(--muted, #9aa1b2);
+        --border-color: var(--border, #1F263A);
       }
       * {
         margin: 0;
@@ -105,7 +105,7 @@
         background: var(--card-bg);
         border: 1px solid var(--border-color);
         border-radius: 20px;
-        padding: 28px 20px;
+        padding: 20px 16px;
         text-align: center;
         transition: all 0.3s ease;
         position: relative;
@@ -121,8 +121,8 @@
         border: 2px solid var(--accent-color);
         background: linear-gradient(
           135deg,
-          rgba(0, 122, 255, 0.05),
-          rgba(0, 122, 255, 0.02)
+          rgba(56, 189, 248, 0.08),
+          rgba(56, 189, 248, 0.02)
         );
       }
       .price-card.popular::before {
@@ -133,7 +133,7 @@
         transform: translateX(-50%);
         font-size: 12px;
         font-weight: 600;
-        background: linear-gradient(135deg, var(--accent-color), #0055aa);
+        background: linear-gradient(135deg, var(--accent-color), #0ea5e9);
         color: #fff;
         padding: 4px 16px;
         border-radius: 10px;
@@ -157,22 +157,22 @@
         white-space: nowrap;
       }
       .price-card h3 {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 700;
-        margin-bottom: 16px;
+        margin-bottom: 8px;
         color: var(--text-main);
       }
       .price-card .duration {
-        font-size: 14px;
+        font-size: 13px;
         color: var(--text-dim);
-        margin-bottom: 20px;
+        margin-bottom: 12px;
         font-weight: 400;
       }
       .cost-wrapper {
-        margin-bottom: 24px;
+        margin-bottom: 12px;
       }
       .cost {
-        font-size: 42px;
+        font-size: 36px;
         font-weight: 800;
         color: var(--text-main);
       }
@@ -202,12 +202,12 @@
       }
       .buy-button {
         width: 100%;
-        padding: 14px;
+        padding: 12px;
         background: var(--accent);
         color: #ffffff;
         border: none;
         border-radius: 12px;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 700;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -219,13 +219,13 @@
         transform: translateY(-1px);
       }
       .feature-list {
-        margin-top: 20px;
+        margin-top: 14px;
         text-align: left;
-        font-size: 13px;
+        font-size: 12px;
         color: var(--text-dim);
       }
       .feature-list li {
-        margin: 8px 0;
+        margin: 5px 0;
         list-style: none;
         display: flex;
         align-items: center;
@@ -241,17 +241,17 @@
         align-items: stretch;
       }
       .card-subtitle {
-        font-size: 13px;
+        font-size: 12px;
         color: var(--text-dim);
-        margin-bottom: 8px;
-        min-height: 20px;
+        margin-bottom: 6px;
+        min-height: 16px;
       }
       .savings-text {
         font-size: 13px;
         color: var(--accent-secondary);
         font-weight: 600;
-        margin-top: -12px;
-        margin-bottom: 16px;
+        margin-top: -8px;
+        margin-bottom: 12px;
       }
       .price-card.recommended::before {
         content: "Самый популярный";
@@ -333,7 +333,7 @@
         display: flex;
       }
       .modal-content {
-        background: linear-gradient(135deg, #111, #1a1a1a);
+        background: var(--card-bg);
         color: white;
         padding: 40px;
         border-radius: 30px;
@@ -485,7 +485,7 @@
         display: flex;
       }
       .popup-content {
-        background: #1a1a1a;
+        background: var(--card-bg);
         padding: 30px;
         border-radius: 24px;
         text-align: center;
@@ -686,29 +686,6 @@
         </div>
       </div>
 
-      <div class="pay-benefits">
-        <div class="pay-benefit-card">
-          <div class="pay-benefit-icon green">🛡️</div>
-          <div class="pay-benefit-content">
-            <h4>Без карты и автосписаний</h4>
-            <p>
-              Платишь один раз — получаешь доступ. Никакой привязки банковской
-              карты, никаких подписок и скрытых списаний.
-            </p>
-          </div>
-        </div>
-        <div class="pay-benefit-card">
-          <div class="pay-benefit-icon blue">➕</div>
-          <div class="pay-benefit-content">
-            <h4>Дни складываются</h4>
-            <p>
-              Продление добавляет дни к текущей подписке, а не обнуляет её.
-              Уже имеющийся срок доступа не сгорает — только прибавляется.
-            </p>
-          </div>
-        </div>
-      </div>
-
       <div class="extra-options-toggle">
         <a href="#" id="extra-options-toggle">Дополнительные варианты</a>
       </div>
@@ -765,6 +742,29 @@
             <button class="buy-button" data-duration="180" data-price="2700">
               Выбрать
             </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pay-benefits">
+        <div class="pay-benefit-card">
+          <div class="pay-benefit-icon green">🛡️</div>
+          <div class="pay-benefit-content">
+            <h4>Без карты и автосписаний</h4>
+            <p>
+              Платишь один раз — получаешь доступ. Никакой привязки банковской
+              карты, никаких подписок и скрытых списаний.
+            </p>
+          </div>
+        </div>
+        <div class="pay-benefit-card">
+          <div class="pay-benefit-icon blue">➕</div>
+          <div class="pay-benefit-content">
+            <h4>Дни складываются</h4>
+            <p>
+              Продление добавляет дни к текущей подписке, а не обнуляет её.
+              Уже имеющийся срок доступа не сгорает — только прибавляется.
+            </p>
           </div>
         </div>
       </div>

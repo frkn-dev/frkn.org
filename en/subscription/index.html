@@ -992,25 +992,129 @@
         }
       }
 
-      .renew-section {
-        background: rgba(30, 41, 59, 0.3);
+      .renew-modal {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(8px);
+        z-index: 1100;
+        padding: 20px;
+      }
+
+      .renew-modal.hidden {
+        display: none;
+      }
+
+      .renew-modal-content {
+        background: var(--card);
         border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 24px;
+        border-radius: 24px;
+        width: 100%;
+        max-width: 900px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 28px;
+        position: relative;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+      }
+
+      .renew-modal-close {
+        position: absolute;
+        top: 16px;
+        right: 20px;
+        font-size: 28px;
+        color: var(--muted);
+        background: none;
+        border: none;
+        cursor: pointer;
+        line-height: 1;
+        padding: 4px;
+      }
+
+      .renew-modal-close:hover {
+        color: var(--text);
+      }
+
+      .renew-modal-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        padding-right: 32px;
+      }
+
+      .renew-modal-subtitle {
+        color: var(--muted);
+        font-size: 14px;
+        margin-bottom: 24px;
+      }
+
+      .renew-section-compact {
+        grid-column: 1 / -1;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+      }
+
+      .renew-section-compact h2 {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .renew-section-compact p {
+        color: var(--muted);
+        font-size: 14px;
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .renew-section-compact .btn.try {
+        margin-top: 8px;
+        padding: 14px 28px;
+        font-size: 15px;
+      }
+
+      @media (max-width: 640px) {
+        .renew-modal {
+          padding: 0;
+          align-items: flex-end;
+        }
+
+        .renew-modal-content {
+          border-radius: 24px 24px 0 0;
+          max-height: 92vh;
+          padding: 20px;
+        }
+
+        .renew-modal-title {
+          font-size: 18px;
+        }
       }
 
       .renew-title {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 10px;
-        margin-bottom: 20px;
-        font-size: 28px;
+        margin-bottom: 24px;
+        font-size: 26px;
+        flex-wrap: wrap;
       }
 
       .renew-title .title-hint {
-        font-size: 12px;
+        font-size: 13px;
         color: var(--muted);
         font-weight: 400;
+        line-height: 1.4;
+        margin-top: 4px;
       }
 
       .renew-field {
@@ -1053,42 +1157,49 @@
       }
 
       .renew-option-card {
-        background: rgba(255, 255, 255, 0.02);
+        background: rgba(255, 255, 255, 0.03);
         border: 1px solid var(--border);
         border-radius: 20px;
-        padding: 18px;
+        padding: 24px;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .renew-option-card:hover {
+        border-color: rgba(91, 124, 250, 0.4);
+        transform: translateY(-2px);
       }
 
       .renew-option-icon {
-        width: 44px;
-        height: 44px;
+        width: 48px;
+        height: 48px;
         border-radius: 14px;
-        background: rgba(91, 124, 250, 0.12);
-        border: 1px solid rgba(91, 124, 250, 0.25);
+        background: rgba(56, 189, 248, 0.08);
+        border: 1px solid rgba(56, 189, 248, 0.2);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 22px;
+        font-size: 24px;
       }
 
       .renew-option-card h4 {
         margin: 0;
-        font-size: 17px;
+        font-size: 18px;
+        font-weight: 700;
       }
 
       .renew-option-card p {
         margin: 0;
         color: var(--muted);
         font-size: 13px;
-        line-height: 1.4;
+        line-height: 1.5;
       }
 
       .renew-option-card input {
         width: 100%;
-        background: #0f1320;
+        background: rgba(0, 0, 0, 0.25);
         border: 1px solid var(--border);
         color: var(--text);
         padding: 12px 14px;
@@ -1100,6 +1211,14 @@
       .renew-option-card input:focus {
         outline: none;
         border-color: var(--accent);
+      }
+
+      .renew-option-card .btn.try,
+      .renew-option-card button[type="button"].btn.try {
+        width: 100%;
+        margin-top: 4px;
+        font-size: 15px;
+        padding: 14px;
       }
 
       .renew-promo-inline {
@@ -1128,18 +1247,18 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
-        min-height: 22px;
+        min-height: 28px;
       }
 
       .renew-price-old {
-        font-size: 13px;
+        font-size: 14px;
         color: var(--muted);
         text-decoration: line-through;
       }
 
       .renew-price-new {
-        font-size: 16px;
-        font-weight: 700;
+        font-size: 20px;
+        font-weight: 800;
         color: var(--text);
       }
 
@@ -1945,71 +2064,77 @@
               We'll add 7 days of access for both you and your friend
             </div>
           </div>
-          <div class="renew-section" id="renew">
-            <h2 class="renew-title">
-              ⏳ Add days
-              <span class="title-hint">Activation key or card / SBP / crypto</span>
-            </h2>
-
-            <div class="renew-options">
-              <div class="renew-option-card">
-                <div class="renew-option-icon">🔑</div>
-                <h4>Already have an activation key?</h4>
-                <p>Enter the key you received after purchase or from a friend.</p>
-                <input id="keyInput" placeholder="Enter key" />
-                <button onclick="activateKey()" class="btn try">
-                  Activate key
-                </button>
-                <div class="renew-option-links">
-                  <a
-                    href="/en/info/activation-keys/"
-                    target="_blank"
-                    class="small text-link"
-                  >
-                    What is an activation key?
-                  </a>
-                  <a href="/en/pay" target="_blank" class="small text-link">Buy key</a>
-                </div>
-                <div id="keyResult" class="small"></div>
-              </div>
-
-              <div class="renew-option-card">
-                <div class="renew-option-icon">💳</div>
-                <h4>Pay</h4>
-                <p>Card, SBP or cryptocurrency</p>
-                <div class="renew-field">
-                  <label for="renewDuration">For how many days</label>
-                  <select id="renewDuration">
-                    <option value="3" data-price="100">3 days — 100 ₽</option>
-                    <option value="7" data-price="200">7 days — 200 ₽</option>
-                    <option value="14" data-price="300">14 days — 300 ₽</option>
-                    <option value="30" data-price="500" selected>30 days — 500 ₽</option>
-                    <option value="90" data-price="1500">90 days — 1500 ₽</option>
-                    <option value="180" data-price="2700">180 days — 2700 ₽</option>
-                    <option value="365" data-price="5000">365 days — 5000 ₽</option>
-                  </select>
-                </div>
-                <div class="renew-promo-inline">
-                  <input type="text" id="renewPromo" placeholder="Promo code (optional)" />
-                  <button type="button" id="renewApplyPromo">Apply</button>
-                </div>
-                <div class="renew-price" id="renewPrice">
-                  <span class="renew-price-old" id="renewPriceOld"></span>
-                  <span class="renew-price-new" id="renewPriceNew">500 ₽</span>
-                </div>
-                <button type="button" class="btn try" id="renewBtn">
-                  Renew subscription
-                </button>
-                <div class="renew-error" id="renewError"></div>
-              </div>
-            </div>
-          </div>
         </div>
       </main>
 
       <div id="qr-modal" class="qr-modal hidden">
         <div class="qr-content">
           <canvas id="qr-canvas"></canvas>
+        </div>
+      </div>
+
+      <div id="renew-modal" class="renew-modal hidden">
+        <div class="renew-modal-content">
+          <button type="button" class="renew-modal-close" id="closeRenewModal">
+            ×
+          </button>
+          <h2 class="renew-modal-title">⏳ Renew subscription</h2>
+          <p class="renew-modal-subtitle">
+            Activation key or card / SBP / crypto
+          </p>
+
+          <div class="renew-options">
+            <div class="renew-option-card">
+              <div class="renew-option-icon">🔑</div>
+              <h4>Already have an activation key?</h4>
+              <p>Enter the key you received after purchase or from a friend.</p>
+              <input id="keyInput" placeholder="Enter key" />
+              <button onclick="activateKey()" class="btn try">
+                Activate key
+              </button>
+              <div class="renew-option-links">
+                <a
+                  href="/en/info/activation-keys/"
+                  target="_blank"
+                  class="small text-link"
+                >
+                  What is an activation key?
+                </a>
+                <a href="/en/pay" target="_blank" class="small text-link">Buy key</a>
+              </div>
+              <div id="keyResult" class="small"></div>
+            </div>
+
+            <div class="renew-option-card">
+              <div class="renew-option-icon">💳</div>
+              <h4>Pay</h4>
+              <p>Card, SBP or cryptocurrency</p>
+              <div class="renew-field">
+                <label for="renewDuration">For how many days</label>
+                <select id="renewDuration">
+                  <option value="3" data-price="100">3 days — 100 ₽</option>
+                  <option value="7" data-price="200">7 days — 200 ₽</option>
+                  <option value="14" data-price="300">14 days — 300 ₽</option>
+                  <option value="30" data-price="500" selected>30 days — 500 ₽</option>
+                  <option value="90" data-price="1500">90 days — 1500 ₽</option>
+                  <option value="180" data-price="2700">180 days — 2700 ₽</option>
+                  <option value="365" data-price="5000">365 days — 5000 ₽</option>
+                </select>
+              </div>
+              <div class="renew-promo-inline">
+                <input type="text" id="renewPromo" placeholder="Promo code (optional)" />
+                <button type="button" id="renewApplyPromo">Apply</button>
+              </div>
+              <div class="renew-price" id="renewPrice">
+                <span class="renew-price-old" id="renewPriceOld"></span>
+                <span class="renew-price-new" id="renewPriceNew">500 ₽</span>
+              </div>
+              <button type="button" class="btn try" id="renewBtn">
+                Renew subscription
+              </button>
+              <div class="renew-error" id="renewError"></div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -3173,14 +3298,49 @@
       };
     });
 
-    // Скролл
+    // Renew modal
     const scrollBtn = document.getElementById("scrollToAdd");
-    const renewSection = document.getElementById("renew");
-    if (scrollBtn && renewSection) {
-      scrollBtn.addEventListener("click", () => {
-        renewSection.scrollIntoView({ behavior: "smooth" });
+    const renewModal = document.getElementById("renew-modal");
+    const openRenewModalBtn = document.getElementById("openRenewModal");
+    const closeRenewModalBtn = document.getElementById("closeRenewModal");
+
+    function openRenewModal() {
+      if (renewModal) renewModal.classList.remove("hidden");
+    }
+
+    function closeRenewModal() {
+      if (renewModal) renewModal.classList.add("hidden");
+    }
+
+    if (scrollBtn) {
+      scrollBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        openRenewModal();
       });
     }
+
+    if (openRenewModalBtn) {
+      openRenewModalBtn.addEventListener("click", openRenewModal);
+    }
+
+    if (closeRenewModalBtn) {
+      closeRenewModalBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        closeRenewModal();
+      });
+    }
+
+    if (renewModal) {
+      renewModal.addEventListener("click", (e) => {
+        if (e.target === renewModal) closeRenewModal();
+      });
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && renewModal && !renewModal.classList.contains("hidden")) {
+        closeRenewModal();
+      }
+    });
 
     // Ввод ID
     const input = document.getElementById("sub-id-input");
