@@ -611,9 +611,7 @@
       </header>
       <h1 class="hero-title">Choose a plan</h1>
       <p class="subtitle">
-        Buy an activation key to get or renew your subscription.
-      </p>
-      <p class="subtitle">
+        Buy an activation key to get or renew your subscription.<br />
         Already have a
         <a href="/en/info/activation-keys" class="text-link">key</a>?
         <a href="/en/activate" class="text-link">Activate it here</a>
@@ -785,7 +783,7 @@
           </div>
           <div class="promo-info" id="promo-info"></div>
         </div>
-        <div class="form-group" style="display: none;">
+        <div class="form-group">
           <label>Friend's referral code</label>
           <div class="promo-input-wrapper">
             <input type="text" id="user-ref" placeholder="Enter friend's code" />
@@ -1088,7 +1086,7 @@
           showError("Choose a plan first");
           return false;
         }
-        const refValue = refCode?.trim().toUpperCase() || "";
+        const refValue = refCode?.trim() || "";
         if (!refValue) {
           currentOrder.referral = null;
           refInput.style.borderColor = "";
@@ -1099,7 +1097,7 @@
         }
 
         // Test mode: while API is not ready, TESTTEST is treated as valid
-        if (refValue === "TESTTEST") {
+        if (refValue.toUpperCase() === "TESTTEST") {
           currentOrder.referral = refValue;
           refInput.style.borderColor = "#22c55e";
           refInfo.style.display = "block";
@@ -1111,7 +1109,7 @@
 
         try {
           const response = await apiFetch(
-            `/validate/ref_code?code=${encodeURIComponent(refValue)}`,
+            `/check/ref_code?code=${encodeURIComponent(refValue)}`,
           );
           if (!response.ok) throw new Error("Failed to validate referral code");
           const data = await response.json();
@@ -1327,6 +1325,6 @@
     </script>
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/i18n.js?v=2"></script>
-    <script src="/scripts/containers.js?v=2"></script>
+    <script src="/scripts/containers.js?v=3"></script>
   </body>
 </html>

@@ -128,10 +128,17 @@
         position: relative;
       }
 
-      .hero-stats .stats-add-btn {
+      .stats-actions {
         position: absolute;
         bottom: 16px;
         right: 16px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .hero-stats .stats-add-btn {
         margin: 0;
       }
 
@@ -342,6 +349,41 @@
         margin-top: 8px;
         padding: 14px 28px;
         font-size: 15px;
+      }
+
+      .ref-code-modal {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .ref-code-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-size: 16px;
+      }
+
+      .ref-code-label {
+        color: var(--muted);
+      }
+
+      .ref-code-row b {
+        font-size: 1.5rem;
+        color: #22a3ee;
+        text-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+      }
+
+      .ref-code-modal .subscription-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .ref-code-modal .ref-stats {
+        color: var(--muted);
+        line-height: 1.5;
       }
 
       @media (max-width: 640px) {
@@ -789,6 +831,27 @@
       .small-add:hover {
         background: rgba(91, 124, 250, 0.2);
         border-color: rgba(91, 124, 250, 0.5);
+      }
+
+      .stats-actions .small-add {
+        font-size: 11px;
+        padding: 8px 12px;
+        letter-spacing: 1.5px;
+      }
+
+      .stats-actions .small-add.tg-btn {
+        color: #fff;
+        background: rgba(34, 158, 217, 0.15);
+        border-color: rgba(34, 158, 217, 0.4);
+      }
+
+      .stats-actions .small-add.tg-btn:hover {
+        background: rgba(34, 158, 217, 0.25);
+        border-color: rgba(34, 158, 217, 0.6);
+      }
+
+      .stats-actions .small-add.tg-btn svg {
+        flex-shrink: 0;
       }
 
       .small-id {
@@ -1553,7 +1616,7 @@
           padding: 16px 16px 60px 16px;
         }
 
-        .hero-stats .stats-add-btn {
+        .stats-actions {
           bottom: 12px;
           right: 12px;
         }
@@ -1610,13 +1673,16 @@
           gap: 12px;
         }
 
-        .hero-stats .stats-add-btn {
+        .stats-actions {
           bottom: 12px;
           right: 12px;
+          max-width: calc(100% - 24px);
+        }
+
+        .hero-stats .stats-add-btn {
           font-size: 10px;
           padding: 7px 8px;
           letter-spacing: 0.3px;
-          max-width: calc(100% - 24px);
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -1785,6 +1851,31 @@
           width: 100%;
           justify-content: center;
         }
+
+        .hero-stats {
+          padding: 16px 16px 16px 16px;
+        }
+
+        .stats-actions {
+          position: relative;
+          bottom: auto;
+          right: auto;
+          margin-top: 12px;
+          justify-content: stretch;
+          flex-direction: column;
+          width: 100%;
+          max-width: none;
+        }
+
+        .stats-actions .stats-add-btn {
+          width: 100%;
+          justify-content: center;
+          font-size: 12px;
+          padding: 10px 14px;
+          white-space: normal;
+          overflow: visible;
+          text-overflow: clip;
+        }
       }
     </style>
   </head>
@@ -1895,9 +1986,33 @@
               <div class="stat">Статус<span id="status-text">...</span></div>
               <div class="stat">Осталось дней <b id="days">...</b></div>
               <div class="stat">Истекает <span id="expires">...</span></div>
-              <a class="small-add stats-add-btn" id="scrollToAdd"
-                >⚡ Докинуть дней</a
-              >
+              <div class="stats-actions">
+                <a class="small-add stats-add-btn" id="scrollToAdd"
+                  >⚡ Докинуть дней</a
+                >
+                <a class="small-add stats-add-btn" id="openReferralModal"
+                  >👥 Пригласить друга</a
+                >
+                <a
+                  class="small-add stats-add-btn tg-btn"
+                  href="https://t.me/frkn_org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.9-.74 1.12-1.5.7l-4.15-3.06-2 1.85c-.23.23-.42.42-.83.42z"
+                    />
+                  </svg>
+                  ПОДПИСАТЬСЯ
+                </a>
+              </div>
             </div>
 
             <div class="traffic-widget traffic-widget-compact">
@@ -2100,32 +2215,6 @@
           </div>
         </details>
         </div>
-
-        <div class="subscription-row">
-          <div class="ref-code" style="display: none;">
-            <h2 class="renew-title">
-              👥 Приглашай друзей — получай бесплатные дни
-            </h2>
-            Твой реферальный код: <b id="ref-code">...</b><br />
-            <div class="subscription-actions">
-              <button id="copy-ref-btn" class="btn ghost">
-                Копировать код
-              </button>
-              <button id="copy-ref-link" class="btn ghost">
-                Копировать ссылку для друга
-              </button>
-            </div>
-            <div class="ref-stats small">
-              Вы пригласили: <span id="invited-count">0</span><br />
-              Бонус зависит от ключа друга: 30 дней → 7, 90 → 14, 365 → 30
-            </div>
-            <div class="small" style="margin-top: 8px">
-              <a href="/referral/" class="text-link"
-                >Как работает реферальная программа →</a
-              >
-            </div>
-          </div>
-        </div>
       </main>
 
       <div id="qr-modal" class="qr-modal hidden">
@@ -2215,13 +2304,48 @@
         </div>
       </div>
 
+      <div id="referral-modal" class="renew-modal hidden">
+        <div class="renew-modal-content">
+          <button type="button" class="renew-modal-close" id="closeReferralModal">
+            ×
+          </button>
+          <h2 class="renew-modal-title">👥 Приглашай друзей — получай бесплатные дни</h2>
+          <p class="renew-modal-subtitle">
+            Поделись ссылкой с другом и получи бонус — 1 месяц бесплатно
+          </p>
+
+          <div class="ref-code-modal">
+            <div class="ref-code-row">
+              <span class="ref-code-label">Твой реферальный код:</span>
+              <b id="ref-code">...</b>
+            </div>
+            <div class="subscription-actions">
+              <button id="copy-ref-btn" class="btn ghost">
+                Копировать код
+              </button>
+              <button id="copy-ref-link" class="btn ghost">
+                Копировать ссылку для друга
+              </button>
+            </div>
+            <div class="ref-stats small">
+              Вы пригласили: <span id="invited-count">0</span>
+            </div>
+            <div class="small" style="margin-top: 8px">
+              <a href="/referral/" class="text-link"
+                >Как работает реферальная программа →</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div id="footer-container"></div>
       <div id="toast" class="toast"></div>
     </div>
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/utils.js?v=1"></script>
     <script src="/scripts/i18n.js?v=2"></script>
-    <script src="/scripts/containers.js?v=2"></script>
+    <script src="/scripts/containers.js?v=3"></script>
     <script>
       const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
       const isLocal = ["localhost", "127.0.0.1"].includes(
@@ -2690,11 +2814,21 @@
             minute: "2-digit",
           });
 
-        const refCode = data.ref_code || "---";
-        const refLink = `${window.location.origin}/?code=${refCode}#trial`;
+        const refCode = data.ref_code || subId.slice(-12) || "---";
+        const refLink = `${window.location.origin}/pay?ref=${refCode}`;
         document.getElementById("ref-code").innerText = refCode;
         document.getElementById("invited-count").innerText =
           data.invited_count || 0;
+
+        fetch(`${API_BASE}/referrals?code=${refCode}`)
+          .then((r) => (r.ok ? r.json() : null))
+          .then((refData) => {
+            if (refData && typeof refData.invited_count === "number") {
+              document.getElementById("invited-count").innerText =
+                refData.invited_count;
+            }
+          })
+          .catch(() => {});
 
         document.getElementById("copy-ref-btn").onclick = () =>
           copyText(refCode, "Код скопирован! Поделись с другом");
@@ -3405,7 +3539,7 @@
             return;
           }
 
-          const addedDays = data.instance?.Key?.days;
+          const addedDays = data.response?.instance?.Key?.days;
           resultEl.innerText = addedDays
             ? `✅ Активировано (+${addedDays} дней)`
             : "✅ Активировано";
@@ -3475,6 +3609,45 @@
         document.addEventListener("keydown", (e) => {
           if (e.key === "Escape" && renewModal && !renewModal.classList.contains("hidden")) {
             closeRenewModal();
+          }
+        });
+
+        // Referral modal
+        const referralModal = document.getElementById("referral-modal");
+        const openReferralModalBtn = document.getElementById("openReferralModal");
+        const closeReferralModalBtn = document.getElementById("closeReferralModal");
+
+        function openReferralModal() {
+          if (referralModal) referralModal.classList.remove("hidden");
+        }
+
+        function closeReferralModal() {
+          if (referralModal) referralModal.classList.add("hidden");
+        }
+
+        if (openReferralModalBtn) {
+          openReferralModalBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            openReferralModal();
+          });
+        }
+
+        if (closeReferralModalBtn) {
+          closeReferralModalBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            closeReferralModal();
+          });
+        }
+
+        if (referralModal) {
+          referralModal.addEventListener("click", (e) => {
+            if (e.target === referralModal) closeReferralModal();
+          });
+        }
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && referralModal && !referralModal.classList.contains("hidden")) {
+            closeReferralModal();
           }
         });
 

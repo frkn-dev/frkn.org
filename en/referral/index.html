@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Referral Program — FRKN</title>
-  <meta name="description" content="Invite friends to FRKN and earn bonus subscription days when they activate a key for the first time.">
+  <meta name="description" content="Invite friends to FRKN and earn bonus subscription days.">
   <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="/styles.css?v=4" />
 </head>
@@ -18,80 +18,54 @@
 
     <section class="features">
       <div class="card feature big">
-        <h3>Referral Program</h3>
+        <h3>FRKN Referral Program</h3>
+
+        <h4>How to get a referral code</h4>
         <p>
-          Invite friends to FRKN and get bonus days added to your subscription when a friend activates a key for the first time.
+          Every active paid subscription has its own referral code. It is the last 12 characters of the subscription ID and can be found in the app / personal account.
+        </p>
+        <p>
+          <b>Important:</b> referral codes only work for paid subscriptions. If you are on a trial, you cannot invite friends or receive bonuses yet. Once you pay for a subscription, the code becomes active.
         </p>
 
-        <h4>Bonus days</h4>
+        <h4>How to use a friend's code</h4>
         <p>
-          The bonus size depends on how many days your friend activates:
+          Enter your friend's referral code when paying or activating a key. If the code is active:
         </p>
-        <table style="width: 100%; max-width: 320px; border-collapse: collapse; margin-bottom: 20px; color: var(--text);">
-          <thead>
-            <tr style="border-bottom: 1px solid var(--border);">
-              <th style="text-align: left; padding: 8px 0;">Days paid</th>
-              <th style="text-align: right; padding: 8px 0;">Bonus</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-              <td style="padding: 8px 0;">30</td>
-              <td style="text-align: right; padding: 8px 0;">7 days</td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-              <td style="padding: 8px 0;">90</td>
-              <td style="text-align: right; padding: 8px 0;">14 days</td>
-            </tr>
-            <tr>
-              <td style="padding: 8px 0;">365</td>
-              <td style="text-align: right; padding: 8px 0;">30 days</td>
-            </tr>
-          </tbody>
-        </table>
-        <p style="font-size: 13px; color: var(--muted); margin-bottom: 20px;">
-          For example, if your friend activates 180 days, the bonus will match the nearest lower tier, which is 14 days.
+        <ul style="line-height: 1.7; margin-bottom: 20px;">
+          <li>you get your subscription as usual;</li>
+          <li>the friend who invited you gets bonus days.</li>
+        </ul>
+
+        <h4>How many days per referral</h4>
+        <p>
+          The number of bonus days depends on the promotion / settings. Usually it is X days added to the friend's current subscription.
         </p>
 
-        <h4>How it works</h4>
+        <h4>Bonus conditions</h4>
+        <p>
+          The bonus is granted only if:
+        </p>
         <ol style="line-height: 1.7; margin-bottom: 20px;">
-          <li>
-            <b>Copy your referral code</b> from your profile or subscription page.
-          </li>
-          <li>
-            <b>Share the code with a friend.</b> They enter it during sign-up or in their subscription page.
-          </li>
-          <li>
-            <b>Your friend signs up and gets a standard trial period</b> to try the VPN for free.
-          </li>
-          <li>
-            <b>When your friend activates a key for the first time,</b> both of you receive bonus days according to the table above. The bonus days are added to your current subscription term.
-          </li>
+          <li>The referral code belongs to an active paid subscription.</li>
+          <li>You have completed a successful payment (or activated a paid key).</li>
+          <li>You did not use your own code (self-referrals do not work).</li>
         </ol>
 
-        <h4>What to keep in mind</h4>
+        <h4>Why the code may be invalid</h4>
         <ul style="line-height: 1.7; margin-bottom: 20px;">
-          <li>
-            <b>The bonus is one-time.</b> You and your friend receive bonus days according to the table only for their first key activation; the days are added to your current subscription term. Subsequent key activations by the same friend do not grant bonuses.
-          </li>
-          <li>
-            <b>No instant signup bonuses.</b> We do not add days just for entering a code — only for an actual key activation, to prevent abuse.
-          </li>
-          <li>
-            <b>Self-referral is not allowed.</b> You cannot use your own referral code.
-          </li>
-          <li>
-            <b>Chains work.</b> If your friend also invites someone with their own code, your friend receives a bonus as the referrer. You do not participate in that chain — bonuses only apply between the inviter and the invited user.
-          </li>
+          <li>The code owner's subscription has expired.</li>
+          <li>The code owner is still on a trial and has not paid yet.</li>
+          <li>The code was entered incorrectly.</li>
         </ul>
 
         <h4>Where to find your code</h4>
         <p>
-          Your referral code is located in your <a href="/en/profile/" class="small text-link">profile</a> or on the subscription page. Copy it and share it with friends however you like.
+          Your referral code is in your <a href="/en/subscription/" class="small text-link">personal account</a> — open the «Invite a friend» section to see your code and copy buttons.
         </p>
 
         <p style="margin-top: 24px;">
-          <a href="/en/profile/" class="small text-link">Go to profile →</a>
+          <a href="/en/subscription/" class="small text-link">Go to personal account →</a>
         </p>
       </div>
     </section>
@@ -101,7 +75,7 @@
   </div>
   <script src="/scripts/analytics.js" defer></script>
   <script src="/scripts/i18n.js?v=2"></script>
-  <script src="/scripts/containers.js?v=2"></script>
+  <script src="/scripts/containers.js?v=3"></script>
 </body>
 
 </html>

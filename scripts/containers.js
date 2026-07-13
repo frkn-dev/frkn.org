@@ -26,6 +26,11 @@ function load(url, id) {
 }
 
 function injectStatusBadge(lang) {
+  const path = window.location.pathname;
+  if (path.startsWith("/subscription") || path.startsWith("/en/subscription")) {
+    return;
+  }
+
   if (!document.body) {
     document.addEventListener("DOMContentLoaded", () => injectStatusBadge(lang));
     return;
