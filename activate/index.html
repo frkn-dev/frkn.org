@@ -886,8 +886,8 @@
 
           const data = await res.json();
 
-          if (data?.status === 200 && data?.instance?.Key?.subscription_id) {
-            const subscriptionId = data.instance.Key.subscription_id;
+          if (data?.status === 200 && data?.response?.instance?.Key?.subscription_id) {
+            const subscriptionId = data.response.instance.Key.subscription_id;
             const modalContent = document.querySelector(".modal-content");
             modalContent.classList.add("success-animation");
 
