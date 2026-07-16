@@ -1755,7 +1755,7 @@ footer .footer-divider {
 
 .landing-page .hero {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.3fr 1fr;
   align-items: stretch;
   gap: 24px;
   padding: 20px 0 24px;
