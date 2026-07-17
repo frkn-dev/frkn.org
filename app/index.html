@@ -627,11 +627,8 @@
         margin-top: 2px;
       }
       .stats-actions {
-        position: absolute;
-        bottom: 12px;
-        right: 12px;
         display: flex;
-        gap: 8px;
+        gap: 6px;
         flex-wrap: wrap;
         justify-content: flex-end;
       }
@@ -639,16 +636,21 @@
       .stats-add-btn {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        padding: 6px 12px;
+        gap: 4px;
+        padding: 5px 10px;
         border-radius: 10px;
         background: var(--tg-bg);
         color: var(--tg-text);
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 600;
         border: 1px solid var(--border);
         cursor: pointer;
         text-decoration: none;
+        line-height: 1.2;
+      }
+
+      .stats-add-btn svg {
+        flex-shrink: 0;
       }
 
       .stats-add-btn:active {
@@ -971,26 +973,30 @@
 
       <div class="main-content" id="main-content" style="display: none">
         <section class="hero">
-          <div class="hero-stats" style="position: relative; padding-bottom: 64px;">
-            <div class="stat-main">
-              <b id="days">...</b>
-              <div class="stat-label">Осталось дней</div>
+          <div class="hero-stats" style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <div class="stat-main">
+                <b id="days">...</b>
+                <div class="stat-label">Осталось дней</div>
+              </div>
+              <div class="stat-divider"></div>
+              <div class="stat-side">
+                <div id="status-text" class="status-pill">...</div>
+                <div id="expires" class="expires-text">...</div>
+              </div>
             </div>
-            <div class="stat-divider"></div>
-            <div class="stat-side">
-              <div id="status-text" class="status-pill">...</div>
-              <div id="expires" class="expires-text">...</div>
-            </div>
-            <div class="small-id" style="position: absolute; bottom: 10px; left: 16px;">ID: <span id="sub-id">...</span></div>
-            <div class="stats-actions">
-              <button class="small-add stats-add-btn" id="scrollToAdd">⚡ Докинуть дней</button>
-              <button class="small-add stats-add-btn" id="openReferralModal">👥 Пригласить друга</button>
-              <a class="small-add stats-add-btn tg-btn" href="https://t.me/frkn_org" target="_blank" rel="noopener noreferrer">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.9-.74 1.12-1.5.7l-4.15-3.06-2 1.85c-.23.23-.42.42-.83.42z"/>
-                </svg>
-                Подписаться
-              </a>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+              <div class="small-id">ID: <span id="sub-id">...</span></div>
+              <div class="stats-actions">
+                <button class="small-add stats-add-btn" id="scrollToAdd">⚡ Докинуть дней</button>
+                <button class="small-add stats-add-btn" id="openReferralModal">👥 Пригласить друга</button>
+                <a class="small-add stats-add-btn tg-btn" href="https://t.me/frkn_org" target="_blank" rel="noopener noreferrer">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.9-.74 1.12-1.5.7l-4.15-3.06-2 1.85c-.23.23-.42.42-.83.42z"/>
+                  </svg>
+                  Подписаться
+                </a>
+              </div>
             </div>
           </div>
         </section>
