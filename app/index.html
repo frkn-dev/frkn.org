@@ -626,10 +626,272 @@
         gap: 4px;
         margin-top: 2px;
       }
-      .renew-error {
-        color: var(--tg-destructive-text);
+      .stats-actions {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .stats-add-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 10px;
+        background: var(--tg-bg);
+        color: var(--tg-text);
+        font-size: 13px;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .stats-add-btn:active {
+        opacity: 0.7;
+      }
+
+      .tg-btn {
+        color: var(--tg-button-text);
+        background: var(--tg-button);
+        border: none;
+      }
+
+      .subscription-section {
+        margin: 16px 0;
+      }
+
+      .subscription-picker summary {
+        list-style: none;
+        cursor: pointer;
+      }
+
+      .subscription-picker summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .subscription-picker-chevron {
+        display: none;
+      }
+
+      .steps-flow {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 16px;
+      }
+
+      .step-card {
+        background: var(--tg-secondary-bg);
+        border-radius: 16px;
+        padding: 14px;
+        border: 1px solid var(--border);
+      }
+
+      .step-disabled {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      .step-disabled * {
+        pointer-events: none;
+      }
+
+      .pill-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .pill-button {
+        padding: 8px 14px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--tg-bg);
+        color: var(--tg-text);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .pill-button.active {
+        background: var(--tg-button);
+        color: var(--tg-button-text);
+        border-color: var(--tg-button);
+      }
+
+      .protocol-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .protocol-card {
+        position: relative;
+        text-align: left;
+        padding: 14px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        background: var(--tg-bg);
+        color: var(--tg-text);
+        cursor: pointer;
+      }
+
+      .protocol-card.active {
+        border-color: var(--tg-button);
+        background: rgba(91, 124, 250, 0.12);
+      }
+
+      .protocol-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: rgba(16, 185, 129, 0.15);
+        color: #10b981;
+      }
+
+      .protocol-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
+      .protocol-icon img {
+        width: 20px;
+        height: 20px;
+      }
+
+      .protocol-desc {
         font-size: 12px;
-        margin-top: 4px;
+        color: var(--tg-hint);
+        line-height: 1.4;
+      }
+
+      .qr-toggle {
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--tg-bg);
+        color: var(--tg-text);
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      .qr-row.collapsed {
+        display: none;
+      }
+
+      .renew-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(6px);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        z-index: 10000;
+        opacity: 1;
+        transition: opacity 0.2s ease;
+      }
+
+      .renew-modal.hidden {
+        display: none;
+      }
+
+      .renew-modal-content {
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        background: var(--tg-bg);
+        border-radius: 20px 20px 0 0;
+        padding: 20px 16px 32px;
+        position: relative;
+      }
+
+      .renew-modal-close {
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        background: transparent;
+        border: none;
+        font-size: 28px;
+        color: var(--tg-hint);
+        padding: 0;
+        line-height: 1;
+      }
+
+      .renew-modal-title {
+        margin: 0 0 6px;
+        font-size: 1.25rem;
+        color: var(--tg-text);
+      }
+
+      .renew-modal-subtitle {
+        margin: 0 0 16px;
+        font-size: 13px;
+        color: var(--tg-hint);
+      }
+
+      .ref-code-modal {
+        background: var(--tg-secondary-bg);
+        border-radius: 16px;
+        padding: 16px;
+        border: 1px solid var(--border);
+      }
+
+      .ref-code-row {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+
+      .ref-code-label {
+        font-size: 12px;
+        color: var(--tg-hint);
+      }
+
+      .ref-code-row b {
+        font-size: 1.5rem;
+        font-family: ui-monospace, monospace;
+        color: var(--tg-text);
+      }
+
+      .ref-actions {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .ref-stats {
+        color: var(--tg-hint);
+      }
+
+      .connection-title {
+        margin: 0 0 12px;
+        font-size: 1rem;
+        color: var(--tg-text);
+      }
+
+      .connection-hint {
+        margin-top: 12px;
+        color: var(--tg-hint);
+      }
+
+      .download-link {
+        text-decoration: none;
       }
     </style>
   </head>
@@ -709,7 +971,7 @@
 
       <div class="main-content" id="main-content" style="display: none">
         <section class="hero">
-          <div class="hero-stats">
+          <div class="hero-stats" style="position: relative; padding-bottom: 64px;">
             <div class="stat-main">
               <b id="days">...</b>
               <div class="stat-label">Осталось дней</div>
@@ -719,8 +981,18 @@
               <div id="status-text" class="status-pill">...</div>
               <div id="expires" class="expires-text">...</div>
             </div>
+            <div class="small-id" style="position: absolute; bottom: 10px; left: 16px;">ID: <span id="sub-id">...</span></div>
+            <div class="stats-actions">
+              <button class="small-add stats-add-btn" id="scrollToAdd">⚡ Докинуть дней</button>
+              <button class="small-add stats-add-btn" id="openReferralModal">👥 Пригласить друга</button>
+              <a class="small-add stats-add-btn tg-btn" href="https://t.me/frkn_org" target="_blank" rel="noopener noreferrer">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.9-.74 1.12-1.5.7l-4.15-3.06-2 1.85c-.23.23-.42.42-.83.42z"/>
+                </svg>
+                Подписаться
+              </a>
+            </div>
           </div>
-          <div class="small-id">ID: <span id="sub-id">...</span></div>
         </section>
 
         <div class="section-title" style="margin-top: 16px">Универсальная ссылка</div>
@@ -735,67 +1007,80 @@
           </div>
         </div>
 
-        <div style="text-align: right; margin: 4px 0 16px">
-          <a class="small-add" id="scrollToAdd">⚡ Продлить</a>
-        </div>
+        <hr />
 
-        <div class="section-title">Протоколы</div>
+        <details class="subscription-section subscription-picker" open>
+          <summary>
+            <div class="subscription-picker-header">
+              <h3 style="margin: 0; font-size: 1rem; color: var(--tg-text);">📲 Подбор приложения для вашего устройства</h3>
+              <p style="margin: 4px 0 0; color: var(--tg-hint); font-size: 13px;">
+                Ответьте на 3 вопроса, и мы подскажем, какое приложение скачать и какую ссылку использовать.
+              </p>
+            </div>
+            <span class="subscription-picker-chevron"></span>
+          </summary>
 
-        <div class="segmented-control" id="protocol-segments">
-          <button class="segment active" data-tab="awg">AmneziaWG</button>
-          <button class="segment" data-tab="hysteria">Hysteria2</button>
-          <button class="segment" data-tab="xray">Xray</button>
-          <button class="segment" data-tab="mtproto">MTProto</button>
-          <button class="segment" data-tab="wireguard">WireGuard</button>
-        </div>
+          <div class="steps-flow">
+            <div class="step-card" id="os-step">
+              <h4 style="margin: 0 0 12px; font-size: 14px; color: var(--tg-text);">1. На каком устройстве будете использовать Рилзопровод?</h4>
+              <div id="os-options" class="pill-group"></div>
+              <div class="step-hint" style="color: var(--tg-hint); font-size: 12px; margin-top: 8px;">Выберите операционную систему.</div>
+            </div>
 
-        <div id="tab-awg" class="tab-content active">
-          <div id="awg-content"></div>
-        </div>
+            <div class="step-card step-disabled" id="protocol-step">
+              <h4 style="margin: 0 0 12px; font-size: 14px; color: var(--tg-text);">2. Какой протокол выбрать?</h4>
+              <p class="small" style="margin: 0 0 14px;">
+                <b style="color: var(--tg-text)">Рекомендуем AmneziaWG и Hysteria2</b> — они работают стабильнее и быстрее в большинстве случаев.
+              </p>
+              <div id="protocol-options" class="protocol-grid"></div>
+            </div>
 
-        <div id="tab-hysteria" class="tab-content">
-          <div id="hysteria-content"></div>
-        </div>
+            <div class="step-card step-disabled" id="client-step">
+              <h4 style="margin: 0 0 12px; font-size: 14px; color: var(--tg-text);">3. Какое приложение установить?</h4>
+              <div id="client-options" class="pill-group"></div>
+            </div>
 
-        <div id="tab-xray" class="tab-content">
-          <div id="xray-content">
-            <div class="small">Загрузка подключений...</div>
+            <div class="step-card step-disabled" id="connection-step">
+              <h4 style="margin: 0 0 12px; font-size: 14px; color: var(--tg-text);">Готово — ссылка для выбранной конфигурации</h4>
+              <div id="connection-content" class="small">Выберите устройство, протокол и приложение, чтобы получить точную ссылку подключения.</div>
+            </div>
           </div>
-        </div>
-
-        <div id="tab-mtproto" class="tab-content">
-          <div id="mtproto-content"></div>
-        </div>
-
-        <div id="tab-wireguard" class="tab-content">
-          <div id="wg-content"></div>
-        </div>
+        </details>
 
         <hr />
 
-        <div class="renew-section" id="renew">
-          <h2 class="renew-title">Докинуть дней</h2>
+        <div class="footer-line">
+          <a href="https://t.me/frkn_support" style="color: var(--tg-hint); text-decoration: none; font-size: 13px">Поддержка</a>
+          <span class="small" style="letter-spacing: 1px">Vive la résistance!</span>
+        </div>
+      </div>
+
+      <div id="renew-modal" class="renew-modal hidden">
+        <div class="renew-modal-content">
+          <button type="button" class="renew-modal-close" id="closeRenewModal">×</button>
+          <h2 class="renew-modal-title">⏳ Продлить подписку</h2>
+          <p class="renew-modal-subtitle">Ключ активации или оплата картой / СБП / криптой</p>
 
           <div class="renew-options">
             <div class="renew-option-card">
               <div class="renew-option-icon">🔑</div>
-              <h4>По ключу активации</h4>
-              <p>Уже есть ключ? Введи его и активируй.</p>
-              <input id="keyInput" placeholder="Введите ключ активации" />
-              <button onclick="activateKey()" class="renew-action-btn">Активировать ключ</button>
+              <h4>Уже есть ключ активации?</h4>
+              <p>Введите ключ, который вы получили после покупки или от друга.</p>
+              <input id="keyInput" placeholder="Вставьте ключ сюда" />
+              <button onclick="activateKey()" class="renew-action-btn primary">Активировать ключ</button>
               <div class="renew-option-links">
-                <a href="/info/activation-keys/" target="_blank" class="small text-link">Что такое ключ?</a>
+                <a href="/info/activation-keys/" target="_blank" class="small text-link">Что такое ключ активации?</a>
                 <a href="/pay" target="_blank" class="small text-link">Купить ключ</a>
               </div>
-              <div id="keyResult" class="small" style="margin-top: 8px"></div>
+              <div id="keyResult" class="small"></div>
             </div>
 
             <div class="renew-option-card">
               <div class="renew-option-icon">💳</div>
-              <h4>Оплатить</h4>
-              <p>Карта, СБП или криптовалюта</p>
+              <h4>Оплатить продление</h4>
+              <p>Выберите срок — дни добавятся к текущей подписке.</p>
               <div class="renew-field">
-                <label for="renewDuration">На сколько дней</label>
+                <label for="renewDuration">На сколько дней продлить</label>
                 <select id="renewDuration">
                   <option value="3" data-price="100">3 дня — 100 ₽</option>
                   <option value="7" data-price="200">7 дней — 200 ₽</option>
@@ -819,24 +1104,28 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <hr />
+      <div id="referral-modal" class="renew-modal hidden">
+        <div class="renew-modal-content">
+          <button type="button" class="renew-modal-close" id="closeReferralModal">×</button>
+          <h2 class="renew-modal-title">👥 Приглашай друзей — получай бесплатные дни</h2>
+          <p class="renew-modal-subtitle">Поделись ссылкой с другом и получи бонус — 1 месяц бесплатно</p>
 
-        <div class="section-title">Реферальная программа</div>
-        <div class="ref-block" style="display: none;">
-          <div class="ref-code" id="ref-code">...</div>
-          <div class="small" style="margin-bottom: 10px">
-            Приглашено: <b id="invited-count">0</b> · +7 дней за друга
+          <div class="ref-code-modal">
+            <div class="ref-code-row">
+              <span class="ref-code-label">Твой реферальный код:</span>
+              <b id="ref-code">...</b>
+            </div>
+            <div class="ref-actions">
+              <button id="copy-ref-btn">Копировать код</button>
+              <button id="copy-ref-link">Копировать ссылку для друга</button>
+            </div>
+            <div class="ref-stats small">Вы пригласили: <span id="invited-count">0</span></div>
+            <div class="small" style="margin-top: 8px">
+              <a href="/referral/" class="text-link">Как работает реферальная программа →</a>
+            </div>
           </div>
-          <div class="ref-actions">
-            <button id="copy-ref-btn">Копировать код</button>
-            <button id="copy-ref-link">Ссылка для друга</button>
-          </div>
-        </div>
-
-        <div class="footer-line">
-          <a href="https://t.me/frkn_support" style="color: var(--tg-hint); text-decoration: none; font-size: 13px">Поддержка</a>
-          <span class="small" style="letter-spacing: 1px">Vive la résistance!</span>
         </div>
       </div>
     </div>
@@ -928,12 +1217,65 @@
       const isLocal = ["localhost", "127.0.0.1"].includes(
         window.location.hostname,
       );
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      function scrollToElement(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.scrollIntoView({
+          behavior: isAndroid ? "auto" : "smooth",
+          block: "start",
+        });
+      }
       const API_BASE = isLocal
         ? "http://localhost:3000"
         : "https://api.frkn.org";
       const PAYMENT_API_BASE = isLocal
         ? "http://localhost:3006"
         : "https://api.frkn.org";
+
+      // Mock-ответы для preview mini-app
+      const MOCK_WG = {
+        nodes: [
+          {
+            label: "FRKN-NL",
+            config: "[Interface]\nPrivateKey = cKj8fO4vNRl/qDmF9WpB0XBH8F3kU0hT1mR2sL7pNXg=\nAddress = 10.10.0.2/32\nDNS = 1.1.1.1, 8.8.8.8\n\n[Peer]\nPublicKey = XyZqBcDeFgHiJkLmNoPqRsTuVwXyZaBcDeFgHiJk=\nAllowedIPs = 0.0.0.0/0\nEndpoint = nl.frkn.org:51820\nPersistentKeepalive = 25",
+          },
+        ],
+      };
+      const MOCK_AWG = {
+        nodes: [
+          {
+            label: "FRKN-AWG-NL",
+            config: "[Interface]\nPrivateKey = cKj8fO4vNRl/qDmF9WpB0XBH8F3kU0hT1mR2sL7pNXg=\nAddress = 10.20.0.2/32\nDNS = 1.1.1.1\nJc = 4\nJmin = 40\nJmax = 70\nS1 = 0\nS2 = 0\nH1 = 1\nH2 = 2\nH3 = 3\nH4 = 4\n\n[Peer]\nPublicKey = XyZqBcDeFgHiJkLmNoPqRsTuVwXyZaBcDeFgHiJk=\nAllowedIPs = 0.0.0.0/0\nEndpoint = nl.frkn.org:51821\nPersistentKeepalive = 25",
+          },
+        ],
+      };
+
+      const originalFetch = window.fetch;
+      window.fetch = async function (...args) {
+        const url = args[0];
+        if (typeof url === "string") {
+          if (url.includes("/info/connections/wireguard")) {
+            return new Response(JSON.stringify(MOCK_WG), {
+              status: 200,
+              headers: { "Content-Type": "application/json" },
+            });
+          }
+          if (url.includes("/info/connections/amneziawg")) {
+            return new Response(JSON.stringify(MOCK_AWG), {
+              status: 200,
+              headers: { "Content-Type": "application/json" },
+            });
+          }
+          if (url.includes("/referrals?code=")) {
+            return new Response(
+              JSON.stringify({ code: "f7a0353fbdbc", invited_count: 2 }),
+              { status: 200, headers: { "Content-Type": "application/json" } },
+            );
+          }
+        }
+        return originalFetch.apply(this, args);
+      };
 
       const ENV_NAMES = {
         wl: "🐘 БС - Белые слоны",
@@ -1012,48 +1354,319 @@
         return str.replace(/`/g, "\\`").replace(/\$/g, "\\$");
       }
 
+      let vpnClients = {};
+      let selectedOs = null;
+      let selectedClientId = null;
+      let currentConnectionContext = null;
+      const KNOWN_SUB_FORMATS = ["txt", "base64", "b64", "clash"];
+      const AVAILABLE_PROTOCOLS = [
+        { id: "awg", label: "AmneziaWG", icon: "/Images/wireguard.svg", description: "Модификация WireGuard с защитой от блокировок", recommended: true },
+        { id: "hysteria2", label: "Hysteria2", icon: "💨", description: "Сверхбыстрый UDP-протокол для видео и игр", recommended: true },
+        { id: "all", label: "Все прокси", icon: "🌐", description: "Автоматический выбор всех доступных прокси" },
+        { id: "xray", label: "Xray", icon: "/Images/xray.svg", description: "Включает Vless TCP Reality, Vless gRPC Reality и Vless XHTTP Reality. Универсальный выбор" },
+        { id: "vless-tcp-reality", label: "Vless TCP Reality", icon: "🔒", description: "Маскировка под обычный HTTPS-трафик" },
+        { id: "vless-grpc-reality", label: "Vless gRPC Reality", icon: "📡", description: "Высокая производительность через gRPC" },
+        { id: "vless-xhttp-reality", label: "Vless XHTTP Reality", icon: "⚡", description: "Скрытность и устойчивость к блокировкам" },
+        { id: "wireguard", label: "WireGuard", icon: "/Images/wireguard.svg", description: "Простой и быстрый протокол" },
+      ];
+      let selectedProtocol = "all";
+
+      async function loadVpnClients() {
+        const response = await fetch("/subscription/vpn-clients.json");
+        if (!response.ok) {
+          throw new Error(`Не удалось загрузить конфиг клиентов (HTTP ${response.status})`);
+        }
+        vpnClients = await response.json();
+      }
+
+      function normalizeFormat(format) {
+        const value = String(format || "").toLowerCase();
+        if (value === "base64" || value === "b64") return "base64";
+        if (value === "clash") return "clash";
+        return "txt";
+      }
+
+      function isKnownFormat(format) {
+        return KNOWN_SUB_FORMATS.includes(String(format || "").toLowerCase());
+      }
+
+      function buildSubscriptionUrl(protocol, id, env, format) {
+        switch (protocol) {
+          case "all":
+            return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
+          case "xray":
+            return `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=${format}`;
+          case "vless-tcp-reality":
+            return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessTcpReality&format=${format}`;
+          case "vless-grpc-reality":
+            return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessGrpcReality&format=${format}`;
+          case "vless-xhttp-reality":
+            return `${API_BASE}/sub?id=${id}&env=${env}&proto=VlessXhttpReality&format=${format}`;
+          case "hysteria2":
+            return `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=${format}`;
+          default:
+            return `${API_BASE}/sub?id=${id}&env=All&proto=Proxy&format=txt`;
+        }
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function isSafeDownloadUrl(url) {
+        try {
+          return new URL(url).protocol === "https:";
+        } catch {
+          return false;
+        }
+      }
+
+      function initConnectionFlow() {
+        const osOptions = document.getElementById("os-options");
+        if (!osOptions) return;
+        selectedOs = null;
+        selectedClientId = null;
+        osOptions.innerHTML = "";
+        Object.entries(vpnClients).forEach(([osKey, osData]) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "pill-button";
+          btn.dataset.os = osKey;
+          btn.textContent = osData.label;
+          btn.onclick = () => {
+            selectedOs = osKey;
+            selectedClientId = null;
+            renderOsStep();
+            renderProtocolStep();
+            renderClientStep();
+            renderConnectionStep();
+            scrollToElement("protocol-step");
+          };
+          osOptions.appendChild(btn);
+        });
+        renderOsStep();
+        renderProtocolStep();
+        renderClientStep();
+        renderConnectionStep();
+      }
+
+      function renderOsStep() {
+        const osOptions = document.getElementById("os-options");
+        if (!osOptions) return;
+        [...osOptions.querySelectorAll(".pill-button")].forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.os === selectedOs);
+        });
+      }
+
+      function isProtocolSupportedByClient(protocol, configType) {
+        const format = normalizeFormat(configType);
+        if (format === "clash") {
+          return ["xray", "vless-tcp-reality", "vless-grpc-reality", "vless-xhttp-reality"].includes(protocol);
+        }
+        return true;
+      }
+
+      function renderProtocolStep() {
+        const step = document.getElementById("protocol-step");
+        const options = document.getElementById("protocol-options");
+        if (!selectedOs || !currentConnectionContext) {
+          step?.classList.add("step-disabled");
+          if (options) options.innerHTML = "";
+          return;
+        }
+        step?.classList.remove("step-disabled");
+        options.innerHTML = "";
+        AVAILABLE_PROTOCOLS.forEach((p) => {
+          const card = document.createElement("button");
+          card.type = "button";
+          card.className = "protocol-card";
+          card.classList.toggle("active", p.id === selectedProtocol);
+          const badge = p.recommended ? `<span class="protocol-badge">Рекомендуем</span>` : "";
+          const isLogo = p.icon && (p.icon.startsWith("/") || p.icon.startsWith("http"));
+          const iconHtml = isLogo ? `<img src="${p.icon}" alt="" onerror="this.style.display='none'">` : p.icon || "";
+          card.innerHTML = `
+            ${badge}
+            <div class="protocol-header"><span class="protocol-icon">${iconHtml}</span><span>${p.label}</span></div>
+            <div class="protocol-desc">${p.description || ""}</div>
+          `;
+          card.onclick = () => {
+            selectedProtocol = p.id;
+            renderProtocolStep();
+            renderClientStep();
+            renderConnectionStep();
+            scrollToElement("client-step");
+          };
+          options.appendChild(card);
+        });
+      }
+
+      function renderClientStep() {
+        const step = document.getElementById("client-step");
+        const options = document.getElementById("client-options");
+        if (!step || !options) return;
+        if (!selectedOs || !vpnClients[selectedOs]) {
+          step.classList.add("step-disabled");
+          options.innerHTML = `<div class="small">Сначала выберите ОС.</div>`;
+          return;
+        }
+        if (!selectedProtocol) {
+          step.classList.add("step-disabled");
+          options.innerHTML = `<div class="small">Сначала выберите протокол.</div>`;
+          return;
+        }
+        step.classList.remove("step-disabled");
+        options.innerHTML = "";
+        if (["wireguard", "awg"].includes(selectedProtocol)) {
+          selectedClientId = null;
+          const instructions = {
+            wireguard: "Скачайте официальное приложение WireGuard и импортируйте конфиг ниже.",
+            awg: 'Используйте приложение <a href="https://amnezia.org/downloads" target="_blank" rel="noopener noreferrer" style="color: var(--tg-link); text-decoration: underline;">Amnezia Wireguard</a> или настройте AmneziaWG прямо на <a href="/setup/routers/" target="_blank" rel="noopener noreferrer" style="color: var(--tg-link); text-decoration: underline;">роутере</a>. Конфиг для импорта будет ниже.',
+          };
+          options.innerHTML = `
+            <div style="padding: 14px 16px; border-radius: 14px; background: rgba(91, 124, 250, 0.08); border: 1px solid rgba(91, 124, 250, 0.25); color: var(--tg-text);">
+              <div style="font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;"><span>💡</span> Как подключиться</div>
+              <div class="small" style="color: var(--tg-hint); line-height: 1.5;">${instructions[selectedProtocol]}</div>
+            </div>
+          `;
+          return;
+        }
+        const clients = vpnClients[selectedOs].clients.filter((client) =>
+          isProtocolSupportedByClient(selectedProtocol, client.configType)
+        );
+        if (clients.length === 0) {
+          options.innerHTML = `<div class="small">Для выбранного протокола нет подходящих клиентов.</div>`;
+          selectedClientId = null;
+          return;
+        }
+        if (selectedClientId && !clients.some((c) => c.id === selectedClientId)) {
+          selectedClientId = null;
+        }
+        clients.forEach((client) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "pill-button";
+          btn.textContent = client.name;
+          btn.classList.toggle("active", client.id === selectedClientId);
+          btn.onclick = () => {
+            selectedClientId = client.id;
+            renderClientStep();
+            renderConnectionStep();
+            scrollToElement("connection-step");
+          };
+          options.appendChild(btn);
+        });
+      }
+
+      function renderConnectionStep() {
+        const step = document.getElementById("connection-step");
+        const content = document.getElementById("connection-content");
+        if (!step || !content) return;
+        const noClientProtocols = ["wireguard", "awg"];
+        const requiresClient = !noClientProtocols.includes(selectedProtocol);
+        if (!selectedOs || (requiresClient && !selectedClientId)) {
+          step.classList.add("step-disabled");
+          content.innerHTML = `<div class="small">Выберите ОС${requiresClient ? ", протокол и клиента" : " и протокол"}, чтобы перейти к подключению.</div>`;
+          return;
+        }
+        step.classList.remove("step-disabled");
+        const osConfig = vpnClients[selectedOs];
+        const client = osConfig?.clients?.find((c) => c.id === selectedClientId);
+        if (requiresClient && !client) {
+          content.innerHTML = `<div class="small">Не найдена конфигурация выбранного клиента.</div>`;
+          return;
+        }
+        if (!currentConnectionContext) {
+          content.innerHTML = `<div class="small">Нет данных о текущем регионе подключения.</div>`;
+          return;
+        }
+        if (selectedProtocol === "wireguard") {
+          content.innerHTML = `<div id="wg-content"></div>`;
+          renderWireguard(currentConnectionContext.id, currentConnectionContext.env, currentConnectionContext.has_wg);
+          return;
+        }
+        if (selectedProtocol === "awg") {
+          content.innerHTML = `<div id="awg-content"></div>`;
+          renderAwg(currentConnectionContext.id, currentConnectionContext.env, currentConnectionContext.has_awg);
+          return;
+        }
+        const xrayProtocols = ["xray", "vless-tcp-reality", "vless-grpc-reality", "vless-xhttp-reality"];
+        if (xrayProtocols.includes(selectedProtocol) && !currentConnectionContext.hasXray) {
+          content.innerHTML = `<div class="small">Xray недоступен в этом регионе.</div>`;
+          return;
+        }
+        if (selectedProtocol === "hysteria2" && !currentConnectionContext.has_h2) {
+          content.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе.</div>`;
+          return;
+        }
+        if (!isKnownFormat(client.configType)) {
+          content.innerHTML = `<div class="small">Некорректный тип конфигурации '${client.configType}' для клиента ${client.name}.</div>`;
+          return;
+        }
+        if (!isSafeDownloadUrl(client.downloadUrl)) {
+          content.innerHTML = `<div class="small">Некорректная ссылка для скачивания клиента ${client.name}.</div>`;
+          return;
+        }
+        const safeClientName = escapeHtml(client.name);
+        const safeOsLabel = escapeHtml(osConfig.label);
+        let subscriptionUrl = buildSubscriptionUrl(selectedProtocol, currentConnectionContext.id, currentConnectionContext.env, normalizeFormat(client.configType));
+        if (client.id === "happ" || client.name?.toLowerCase() === "happ") {
+          subscriptionUrl += "&app=happ";
+        }
+        content.innerHTML = `
+          <h5 class="connection-title">${safeClientName} для ${safeOsLabel}</h5>
+          <a class="download-link" href="${escapeHtml(client.downloadUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Скачать клиент"><button class="btn-primary" style="width: 100%; padding: 12px; border-radius: 12px; font-weight: 600;">Скачать клиент</button></a>
+          <div class="subscription-link-row" style="margin-top: 10px;">
+            <button type="button" id="copy-subscription-link" class="btn-primary" style="width: 100%; padding: 12px; border-radius: 12px; font-weight: 600;">Копировать ссылку</button>
+          </div>
+          <div class="qr-wrapper" style="margin-top: 14px;">
+            <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 Показать QR-код</button>
+            <div class="qr-row collapsed" style="justify-content: flex-start;">
+              <div class="qr-item"><span>QR-код подключения</span><canvas id="selected-subscription-qr"></canvas></div>
+            </div>
+          </div>
+          <div class="small connection-hint">Отсканируйте QR-код в приложении или вставьте ссылку вручную.</div>
+        `;
+        const copyBtn = document.getElementById("copy-subscription-link");
+        const qrCanvas = document.getElementById("selected-subscription-qr");
+        if (copyBtn) copyBtn.onclick = () => copyText(subscriptionUrl, "Ссылка скопирована!");
+        if (qrCanvas) QRCode.toCanvas(qrCanvas, subscriptionUrl, { width: 220 });
+      }
+
       function renderXray(id, env, has) {
         const container = document.getElementById("xray-content");
         if (!has) {
           container.innerHTML = `<div class="small">Xray недоступен в этом регионе</div>`;
           return;
         }
-
         const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=txt`;
         const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=plain`;
         const subUrlClash = `${API_BASE}/sub?id=${id}&env=${env}&proto=Xray&format=clash`;
-
         container.innerHTML = `
-      <ul class="proxy-list">
-        <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')">
-          <div class="proxy-label"><img src="https://frkn.org/Images/xray.svg" style="width: 16px; height: 16px;" onerror="this.style.display='none'">&nbsp;&nbsp;&nbsp;TXT (Универсальная)</div>
-          <div class="proxy-action">Копировать</div>
-        </li>
-        <li class="proxy-item" onclick="copyText('${subUrlPlain}', 'Ссылка скопирована!')">
-          <div class="proxy-label"><img src="https://frkn.org/Images/xray.svg" style="width: 16px; height: 16px;" onerror="this.style.display='none'">&nbsp;&nbsp;&nbsp;Base64</div>
-          <div class="proxy-action">Копировать</div>
-        </li>
-        <li class="proxy-item" onclick="copyText('${subUrlClash}', 'Ссылка скопирована!')">
-          <div class="proxy-label"><img src="https://frkn.org/Images/clash.png" style="width: 16px; height: 16px;" onerror="this.style.display='none'">&nbsp;&nbsp;&nbsp;Clash</div>
-          <div class="proxy-action">Копировать</div>
-        </li>
-      </ul>
-      <div class="qr-row">
-        <div class="qr-item"><span>TXT (Универсальная)</span><canvas id="qr-xray-txt"></canvas></div>
-        <div class="qr-item"><span>B64</span><canvas id="qr-xray-plain"></canvas></div>
-        <div class="qr-item"><span>Clash</span><canvas id="qr-xray-clash"></canvas></div>
-      </div>
-      <div class="apps center" style="text-align: center; margin-top: 16px;"><a href="/setup" style="color: var(--accent);">Как настроить?</a></div>
-    `;
-
+          <ul class="proxy-list">
+            <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')"><div class="proxy-label"><img src="/Images/xray.svg" style="width: 16px; height: 16px;" onerror="this.style.display='none'"> TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
+            <li class="proxy-item" onclick="copyText('${subUrlPlain}', 'Ссылка скопирована!')"><div class="proxy-label"><img src="/Images/xray.svg" style="width: 16px; height: 16px;" onerror="this.style.display='none'"> Base64</div><div class="proxy-action">Копировать</div></li>
+            <li class="proxy-item" onclick="copyText('${subUrlClash}', 'Ссылка скопирована!')"><div class="proxy-label"><img src="/Images/clash.png" style="width: 16px; height: 16px;" onerror="this.style.display='none'"> Clash</div><div class="proxy-action">Копировать</div></li>
+          </ul>
+          <div class="qr-wrapper" style="margin-top: 14px;">
+            <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 Показать QR-коды</button>
+            <div class="qr-row collapsed">
+              <div class="qr-item"><span>TXT</span><canvas id="qr-xray-txt"></canvas></div>
+              <div class="qr-item"><span>B64</span><canvas id="qr-xray-plain"></canvas></div>
+              <div class="qr-item"><span>Clash</span><canvas id="qr-xray-clash"></canvas></div>
+            </div>
+          </div>
+          <div class="apps center" style="text-align: center; margin-top: 16px;"><a href="/setup" style="color: var(--tg-link);">Как настроить?</a></div>
+        `;
         setTimeout(() => {
-          const qrTxt = document.getElementById("qr-xray-txt");
-          const qrPlain = document.getElementById("qr-xray-plain");
-          const qrClash = document.getElementById("qr-xray-clash");
-          if (qrTxt) QRCode.toCanvas(qrTxt, subUrlTxt, { width: 140 });
-          if (qrPlain) QRCode.toCanvas(qrPlain, subUrlPlain, { width: 140 });
-          if (qrClash) QRCode.toCanvas(qrClash, subUrlClash, { width: 140 });
-        }, 100);
+          QRCode.toCanvas(document.getElementById("qr-xray-txt"), subUrlTxt, { width: 160 });
+          QRCode.toCanvas(document.getElementById("qr-xray-plain"), subUrlPlain, { width: 160 });
+          QRCode.toCanvas(document.getElementById("qr-xray-clash"), subUrlClash, { width: 160 });
+        }, 50);
       }
 
       function renderH2(id, env, has) {
@@ -1062,72 +1675,27 @@
           container.innerHTML = `<div class="small">Hysteria2 недоступна в этом регионе</div>`;
           return;
         }
-
         const subUrlTxt = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=txt`;
-        const subUrlPlain = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=plain`;
-
+        const subUrlB64 = `${API_BASE}/sub?id=${id}&env=${env}&proto=Hysteria2&format=base64`;
         container.innerHTML = `
-      <ul class="proxy-list">
-        <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')">
-          <div class="proxy-label">TXT (Универсальная)</div>
-          <div class="proxy-action">Копировать</div>
-        </li>
-        <li class="proxy-item" onclick="copyText('${subUrlPlain}', 'Ссылка скопирована!')">
-          <div class="proxy-label">Base64</div>
-          <div class="proxy-action">Копировать</div>
-        </li>
-      </ul>
-      <div class="qr-row">
-        <div class="qr-item"><span>TXT (Универсальная)</span><canvas id="qr-h2-txt"></canvas></div>
-        <div class="qr-item"><span>Base64</span><canvas id="qr-h2-plain"></canvas></div>
-      </div>
-      <div class="apps center" style="text-align: center; margin-top: 16px;"><a href="/setup" style="color: var(--accent);">Как настроить?</a></div>
-    `;
-
-        setTimeout(() => {
-          const qrTxt = document.getElementById("qr-h2-txt");
-          const qrPlain = document.getElementById("qr-h2-plain");
-          if (qrTxt) QRCode.toCanvas(qrTxt, subUrlTxt, { width: 140 });
-          if (qrPlain) QRCode.toCanvas(qrPlain, subUrlPlain, { width: 140 });
-        }, 100);
-      }
-
-      function renderMtproto(id, env, has) {
-        const container = document.getElementById("mtproto-content");
-        if (!has) {
-          container.innerHTML = `<div class="small">MTProto недоступен в этом регионе</div>`;
-          return;
-        }
-
-        const url = `${API_BASE}/info/connections/mtproto?id=${id}&env=${env}`;
-        container.innerHTML = `<div class="small">Загрузка MTProto...</div>`;
-
-        fetch(url)
-          .then((r) => r.json())
-          .then((data) => {
-            const connections = data.connections || [];
-            if (connections.length === 0) {
-              container.innerHTML = `<div class="small">Нет доступных MTProto подключений</div>`;
-              return;
-            }
-            container.innerHTML = `
           <ul class="proxy-list">
-            ${connections
-              .map(
-                (c) => `
-              <li class="proxy-item" onclick="window.open('${c.url}', '_blank')">
-                <div class="proxy-label"><img src="https://cdn.simpleicons.org/telegram" style="width: 16px; height: 16px;"> ${c.label}</div>
-                <div class="proxy-action">Connect</div>
-              </li>
-            `,
-              )
-              .join("")}
+            <img src="/Images/h2.svg" style="max-width: 48px; margin-bottom: 8px;">
+            <li class="proxy-item" onclick="copyText('${subUrlTxt}', 'Ссылка скопирована!')"><div class="proxy-label">TXT (Универсальная)</div><div class="proxy-action">Копировать</div></li>
+            <li class="proxy-item" onclick="copyText('${subUrlB64}', 'Ссылка скопирована!')"><div class="proxy-label">Base64</div><div class="proxy-action">Копировать</div></li>
           </ul>
+          <div class="qr-wrapper" style="margin-top: 14px;">
+            <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 Показать QR-коды</button>
+            <div class="qr-row collapsed">
+              <div class="qr-item"><span>TXT</span><canvas id="qr-h2-txt"></canvas></div>
+              <div class="qr-item"><span>Base64</span><canvas id="qr-h2-base64"></canvas></div>
+            </div>
+          </div>
+          <div class="apps center" style="text-align: center; margin-top: 16px;"><a href="/setup" style="color: var(--tg-link);">Как настроить?</a></div>
         `;
-          })
-          .catch(() => {
-            container.innerHTML = `<div class="small">Ошибка загрузки MTProto</div>`;
-          });
+        setTimeout(() => {
+          QRCode.toCanvas(document.getElementById("qr-h2-txt"), subUrlTxt, { width: 160 });
+          QRCode.toCanvas(document.getElementById("qr-h2-base64"), subUrlB64, { width: 160 });
+        }, 50);
       }
 
       function renderWireguard(id, env, has) {
@@ -1136,54 +1704,43 @@
           container.innerHTML = `<div class="small">WireGuard недоступен</div>`;
           return;
         }
-
         const url = `${API_BASE}/info/connections/wireguard?id=${id}&env=${env}`;
         container.innerHTML = `<div class="small">Загрузка WireGuard...</div>`;
-
         fetch(url)
           .then((r) => r.json())
           .then((data) => {
             const nodes = data.nodes || [];
+            const labels = prepareNodeLabels(nodes);
             if (nodes.length === 0) {
               container.innerHTML = `<div class="small">Нет доступных WireGuard конфигураций</div>`;
               return;
             }
             container.innerHTML = `
-          <div class="small" style="margin-bottom: 12px; padding: 10px 12px; background: rgba(91, 124, 250, 0.08); border-radius: 10px;">
-            💡 Хочешь настроить на роутере? <a href="https://frkn.org/setup/routers/" target="_blank" rel="noopener noreferrer" style="color: var(--tg-link); text-decoration: underline;">Инструкция для OpenWRT и Keenetic</a>
-          </div>
-          <ul class="proxy-list">
-            ${nodes
-              .map(
-                (n, i) => `
-              <li class="proxy-item" style="flex-direction: column; align-items: stretch; gap: 12px;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <div class="proxy-label">
-                    <img src="https://frkn.org/Images/wireguard.svg" style="width: 16px; height: 16px;" onerror="this.style.display='none'"> ${n.label}
-                    <span class="badge" style="font-size: 11px; color: var(--tg-link); border: 1px solid rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 999px;">WG</span>
+              <div class="small" style="margin-bottom: 12px; padding: 10px 12px; background: rgba(91, 124, 250, 0.08); border-radius: 10px;">
+                💡 Хочешь настроить на роутере? <a href="https://frkn.org/setup/routers/" target="_blank" rel="noopener noreferrer" style="color: var(--tg-link); text-decoration: underline;">Инструкция для OpenWRT и Keenetic</a>
+              </div>
+              <ul class="proxy-list">
+                ${nodes.map((n, i) => `
+                  <li class="proxy-item">
+                    <div class="proxy-label">
+                      <img src="/Images/wireguard.svg" style="width: 16px; height: 16px;" onerror="this.style.display='none'"> ${labels[i]}
+                      <span class="badge" style="font-size: 11px; color: var(--tg-link); border: 1px solid rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 999px;">WG</span>
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap: wrap;">
+                      <button onclick="copyText(\`${escapeBackticks(n.config)}\`, 'Скопировано')">Copy</button>
+                      <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, "")}')">Download</button>
+                      <button type="button" class="qr-toggle" onclick="this.closest('.proxy-item').nextElementSibling.classList.toggle('collapsed')">📷 Показать QR</button>
+                    </div>
+                  </li>
+                  <div class="qr-row collapsed" style="margin-bottom: 16px; justify-content: flex-start;">
+                    <div class="qr-item"><span>${labels[i]}</span><canvas id="wg-qr-${i}"></canvas></div>
                   </div>
-                  <div style="display:flex; gap:8px;">
-                    <button onclick="copyText(\`${escapeBackticks(n.config)}\`, 'Скопировано')">Копировать</button>
-                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${n.label}')">Скачать</button>
-                  </div>
-                </div>
-                <div class="qr-item" style="margin-top: 8px; align-self: center;">
-                  <span>${n.label} - QR</span>
-                  <canvas id="wg-qr-${i}"></canvas>
-                </div>
-              </li>
-            `,
-              )
-              .join("")}
-          </ul>
-        `;
-
-            setTimeout(() => {
-              nodes.forEach((n, i) => {
-                const canvas = document.getElementById(`wg-qr-${i}`);
-                if (canvas) QRCode.toCanvas(canvas, n.config, { width: 160 });
-              });
-            }, 100);
+                `).join("")}
+              </ul>
+            `;
+            nodes.forEach((n, i) => {
+              QRCode.toCanvas(document.getElementById(`wg-qr-${i}`), n.config, { width: 180 });
+            });
           })
           .catch(() => {
             container.innerHTML = `<div class="small">Ошибка загрузки WireGuard</div>`;
@@ -1196,59 +1753,92 @@
           container.innerHTML = `<div class="small">Amnezia WireGuard недоступен</div>`;
           return;
         }
-
         const url = `${API_BASE}/info/connections/amneziawg?id=${id}&env=${env}`;
         container.innerHTML = `<div class="small">Загрузка Amnezia WireGuard...</div>`;
-
         fetch(url)
           .then((r) => r.json())
           .then((data) => {
             const nodes = data.nodes || [];
+            const labels = prepareNodeLabels(nodes);
             if (nodes.length === 0) {
               container.innerHTML = `<div class="small">Нет доступных AmneziaWG конфигураций</div>`;
               return;
             }
             container.innerHTML = `
-          <ul class="proxy-list">
-            ${nodes
-              .map(
-                (n, i) => `
-              <li class="proxy-item" style="flex-direction: column; align-items: stretch; gap: 12px;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <div class="proxy-label">
-                    <img src="https://frkn.org/Images/wireguard.svg" style="width: 16px; height: 16px; filter: invert(1) brightness(1.2);" onerror="this.style.display='none'"> ${n.label}
-                    <span class="badge" style="font-size: 11px; color: var(--tg-link); border: 1px solid rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 999px;">AWG</span>
+              <ul class="proxy-list">
+                ${nodes.map((n, i) => `
+                  <li class="proxy-item">
+                    <div class="proxy-label">
+                      <img src="/Images/wireguard.svg" style="width: 16px; height: 16px; filter: invert(1) brightness(1.2);" onerror="this.style.display='none'"> ${labels[i]}
+                      <span class="badge" style="font-size: 11px; color: var(--tg-link); border: 1px solid rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 999px;">AWG</span>
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap: wrap;">
+                      <button onclick="copyText(\`${escapeBackticks(n.config)}\`, 'Скопировано')">Copy</button>
+                      <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, "")}')">Download</button>
+                      <button type="button" class="qr-toggle" onclick="this.closest('.proxy-item').nextElementSibling.classList.toggle('collapsed')">📷 Показать QR</button>
+                    </div>
+                  </li>
+                  <div class="qr-row collapsed" style="margin-bottom: 16px; justify-content: flex-start;">
+                    <div class="qr-item"><span>${labels[i]}</span><canvas id="awg-qr-${i}"></canvas></div>
                   </div>
-                  <div style="display:flex; gap:8px;">
-                    <button onclick="copyText(\`${escapeBackticks(n.config)}\`, 'Скопировано')">Копировать</button>
-                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${n.label}')">Скачать</button>
-                  </div>
-                </div>
-                <div class="qr-item" style="margin-top: 8px; align-self: center;">
-                  <span>${n.label} - QR</span>
-                  <canvas id="awg-qr-${i}"></canvas>
-                </div>
-              </li>
-            `,
-              )
-              .join("")}
-          </ul>
-        `;
-
-            setTimeout(() => {
-              nodes.forEach((n, i) => {
-                const canvas = document.getElementById(`awg-qr-${i}`);
-                if (canvas) QRCode.toCanvas(canvas, n.config, { width: 160 });
-              });
-            }, 100);
+                `).join("")}
+              </ul>
+            `;
+            nodes.forEach((n, i) => {
+              QRCode.toCanvas(document.getElementById(`awg-qr-${i}`), n.config, { width: 180 });
+            });
           })
-          .catch(() => {
+          .catch((e) => {
+            console.error(e);
             container.innerHTML = `<div class="small">Ошибка загрузки Amnezia WireGuard</div>`;
           });
       }
 
+      function escapeBackticks(text) {
+        return String(text)
+          .replace(/\\/g, "\\\\")
+          .replace(/`/g, "\\`")
+          .replace(/\$/g, "\\$");
+      }
+
+      function prepareNodeLabels(nodes) {
+        const cleaned = nodes.map((n) =>
+          String(n.label || "")
+            .replace(/[^\p{L}\p{N}\s\-()]/gu, "")
+            .replace(/\s+/g, " ")
+            .trim()
+        );
+        const counts = {};
+        cleaned.forEach((label) => {
+          counts[label] = (counts[label] || 0) + 1;
+        });
+        const used = {};
+        return cleaned.map((base) => {
+          if (counts[base] > 1) {
+            used[base] = (used[base] || 0) + 1;
+            return `${base} ${used[base]}`;
+          }
+          return base;
+        });
+      }
+
+      const MOCK_SUB = {
+        id: "c6831dad-c6b5-4148-9e45-f7a0353fbdbc",
+        ref_code: "f7a0353fbdbc",
+        expires: "2057-02-01T03:07:00Z",
+        limit_bytes: 0,
+        locations: [
+          { env: "dev", has_xray: true, has_h2: true, has_wg: true, has_awg: true, has_mtproto: true },
+        ],
+        env_traffic: [
+          { env: "dev", uplink: 0, downlink: 0, daily_uplink: 0, daily_downlink: 0, monthly_uplink: 0, monthly_downlink: 0 },
+        ],
+      };
+
       async function initPage() {
+        const params = new URLSearchParams(window.location.search);
         const subId = getSubId();
+        const currentEnv = params.get("env") || "dev";
         const mainEl = document.getElementById("main-content");
         const errorEl = document.getElementById("error-content");
 
@@ -1261,15 +1851,22 @@
         localStorage.setItem("frkn_sub_id", subId);
 
         try {
-          const response = await fetch(`${API_BASE}/subscription/${subId}`);
-          if (!response.ok) throw new Error();
-          const data = await response.json();
-          if (!data || !data.id) throw new Error();
+          await loadVpnClients();
+          const useMock = true; // для preview mini-app
+          let data;
+          if (useMock) {
+            data = { ...MOCK_SUB, id: subId };
+          } else {
+            const response = await fetch(`${API_BASE}/subscription/${subId}`);
+            if (!response.ok) throw new Error();
+            data = await response.json();
+            if (!data || !data.id) throw new Error();
+          }
 
           if (mainEl) mainEl.style.display = "block";
           if (errorEl) errorEl.style.display = "none";
 
-          renderSubscriptionData(data, subId);
+          renderSubscriptionData(data, subId, currentEnv);
         } catch (err) {
           console.error("❌ Критическая ошибка:", err);
           if (mainEl) mainEl.style.display = "none";
@@ -1277,149 +1874,150 @@
         }
       }
 
-      function renderSubscriptionData(data, subId) {
+      function renderSubscriptionData(data, subId, currentEnv) {
         try {
-        const params = new URLSearchParams(window.location.search);
-        const currentEnv = params.get("env") || "dev";
+          const statusEl = document.getElementById("status-text");
+          const daysEl = document.getElementById("days");
+          const expiryDate = new Date(data.expires);
 
-        // Статус и дни
-        const statusEl = document.getElementById("status-text");
-        const daysEl = document.getElementById("days");
-        const expiryDate = new Date(data.expires);
+          function updateDisplay() {
+            const now = new Date();
+            const diffMs = expiryDate - now;
+            const diffSec = Math.floor(diffMs / 1000);
+            const diffDays = diffMs / (1000 * 60 * 60 * 24);
 
-        function updateDisplay() {
-          const now = new Date();
-          const diffMs = expiryDate - now;
-          const diffSec = Math.floor(diffMs / 1000);
-          const diffDays = diffMs / (1000 * 60 * 60 * 24);
-
-          if (diffMs <= 0) {
-            statusEl.innerText = "Истекла";
-            statusEl.className = "status-expired";
-            daysEl.innerText = "0";
-            daysEl.style.color = "#ff4d4d";
-            return;
-          }
-
-          if (diffDays < 1) {
-            statusEl.innerText = "Почти истекла";
-            statusEl.className = "status-warning";
-            const h = Math.floor(diffSec / 3600)
-              .toString()
-              .padStart(2, "0");
-            const m = Math.floor((diffSec % 3600) / 60)
-              .toString()
-              .padStart(2, "0");
-            const s = (diffSec % 60).toString().padStart(2, "0");
-            daysEl.innerText = `${h}:${m}:${s}`;
-            daysEl.style.fontSize = "1.8rem";
-            daysEl.style.color = "#ffbd4d";
-            daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
-            setTimeout(updateDisplay, 1000);
-          } else {
-            const fullDays = Math.floor(diffDays);
-            statusEl.innerText = "Активна";
-            statusEl.className = "status-active";
-            daysEl.innerText = fullDays;
-            daysEl.style.fontSize = "2.5rem";
-            if (fullDays < 4) {
+            if (diffMs <= 0) {
+              statusEl.innerText = "Истекла";
+              statusEl.className = "status-pill status-expired";
+              daysEl.innerText = "0";
               daysEl.style.color = "#ff4d4d";
-              daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
+              return;
+            }
+
+            if (diffDays < 1) {
+              statusEl.innerText = "Почти истекла";
+              statusEl.className = "status-pill status-warning";
+              const h = Math.floor(diffSec / 3600)
+                .toString()
+                .padStart(2, "0");
+              const m = Math.floor((diffSec % 3600) / 60)
+                .toString()
+                .padStart(2, "0");
+              const s = (diffSec % 60).toString().padStart(2, "0");
+              daysEl.innerText = `${h}:${m}:${s}`;
+              daysEl.style.fontSize = "1.8rem";
+              daysEl.style.color = "#ffbd4d";
+              daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
+              setTimeout(updateDisplay, 1000);
             } else {
-              daysEl.style.color = "#10b981";
-              daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
+              const fullDays = Math.floor(diffDays);
+              statusEl.innerText = "Активна";
+              statusEl.className = "status-pill status-active";
+              daysEl.innerText = fullDays;
+              daysEl.style.fontSize = "2.5rem";
+              if (fullDays < 4) {
+                daysEl.style.color = "#ff4d4d";
+                daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
+              } else {
+                daysEl.style.color = "#10b981";
+                daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
+              }
             }
           }
-        }
 
-        updateDisplay();
+          updateDisplay();
 
-        const subIdEl = document.getElementById("sub-id");
-        subIdEl.innerText = data.id;
-        subIdEl.onclick = () => copyText(data.id, "ID скопирован");
+          const subIdEl = document.getElementById("sub-id");
+          subIdEl.innerText = data.id;
+          subIdEl.onclick = () => copyText(data.id, "ID скопирован");
 
-        const universalSubUrl = `https://sub.frkn.org/${data.id}`;
-        const universalLinkEl = document.getElementById("universal-sub-link");
-        if (universalLinkEl) universalLinkEl.innerText = universalSubUrl;
-        window.currentUniversalSubUrl = universalSubUrl;
-        const qrUniversal = document.getElementById("qr-universal-sub");
-        if (qrUniversal) {
-          try {
-            QRCode.toCanvas(qrUniversal, universalSubUrl, { width: 160 });
-          } catch (e) {
-            console.error("QR error:", e);
+          const universalSubUrl = `https://sub.frkn.org/${data.id}`;
+          const universalLinkEl = document.getElementById("universal-sub-link");
+          if (universalLinkEl) universalLinkEl.innerText = universalSubUrl;
+          window.currentUniversalSubUrl = universalSubUrl;
+          const qrUniversal = document.getElementById("qr-universal-sub");
+          if (qrUniversal) {
+            try {
+              QRCode.toCanvas(qrUniversal, universalSubUrl, { width: 160 });
+            } catch (e) {
+              console.error("QR error:", e);
+            }
           }
-        }
 
-        document.getElementById("expires").innerText =
-          expiryDate.toLocaleString("ru-RU", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          });
+          document.getElementById("expires").innerText =
+            expiryDate.toLocaleString("ru-RU", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            });
 
-        const refCode = data.ref_code || "---";
-        const refLink = `${window.location.origin}/?code=${refCode}#trial`;
-        document.getElementById("ref-code").innerText = refCode;
-        document.getElementById("invited-count").innerText =
-          data.invited_count || 0;
+          const refCode = data.ref_code || subId.slice(-12) || "---";
+          const refLink = `${window.location.origin}/pay?ref=${refCode}`;
+          const refCodeEl = document.getElementById("ref-code");
+          if (refCodeEl) refCodeEl.innerText = refCode;
+          const invitedCountEl = document.getElementById("invited-count");
+          if (invitedCountEl) invitedCountEl.innerText = data.invited_count || 0;
 
-        document.getElementById("copy-ref-btn").onclick = () =>
-          copyText(refCode, "Код скопирован! Поделись с другом");
-        document.getElementById("copy-ref-link").onclick = () =>
-          copyText(refLink, "Ссылка скопирована! Поделись с другом");
+          fetch(`${API_BASE}/referrals?code=${refCode}`)
+            .then((r) => (r.ok ? r.json() : null))
+            .then((refData) => {
+              if (refData && typeof refData.invited_count === "number" && invitedCountEl) {
+                invitedCountEl.innerText = refData.invited_count;
+              }
+            })
+            .catch(() => {});
 
-        const switcher = document.getElementById("env-switcher");
-        if (switcher && data.locations) {
-          switcher.innerHTML = "";
-          data.locations.forEach((l) => {
-            if (l.env === currentEnv) return;
-            const a = document.createElement("a");
-            a.href = `?id=${subId}&env=${l.env}`;
-            a.className = `env-badge`;
-            a.style.marginLeft = "8px";
-            a.style.textDecoration = "none";
-            a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
-            switcher.appendChild(a);
-          });
-        }
+          const copyRefBtn = document.getElementById("copy-ref-btn");
+          if (copyRefBtn) {
+            copyRefBtn.onclick = () =>
+              copyText(refCode, "Код скопирован! Поделись с другом");
+          }
+          const copyRefLinkBtn = document.getElementById("copy-ref-link");
+          if (copyRefLinkBtn) {
+            copyRefLinkBtn.onclick = () =>
+              copyText(refLink, "Ссылка скопирована! Поделись с другом");
+          }
 
-        const loc =
-          data.locations?.find((l) => l.env === currentEnv) ||
-          data.locations?.[0];
-        if (loc) {
-          renderXray(data.id, loc.env, loc.has_xray);
-          renderH2(data.id, loc.env, loc.has_h2);
-          renderMtproto(data.id, loc.env, loc.has_mtproto);
-          renderWireguard(data.id, loc.env, loc.has_wg);
-          renderAwg(data.id, loc.env, loc.has_awg);
-          updateMainButtonForTab('awg');
-        }
+          const switcher = document.getElementById("env-switcher");
+          if (switcher && data.locations) {
+            switcher.innerHTML = "";
+            data.locations.forEach((l) => {
+              if (l.env === currentEnv) return;
+              const a = document.createElement("a");
+              a.href = `?id=${subId}&env=${l.env}`;
+              a.className = `env-badge`;
+              a.style.marginLeft = "8px";
+              a.style.textDecoration = "none";
+              a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
+              switcher.appendChild(a);
+            });
+          }
+
+          const loc =
+            data.locations?.find((l) => l.env === currentEnv) ||
+            data.locations?.[0];
+          if (loc) {
+            const hasXray = loc.has_xray || loc.hasXray;
+            const hasH2 = loc.has_h2 || loc.hasH2;
+            const hasWg = loc.has_wg || loc.hasWg;
+            const hasAwg = loc.has_awg || loc.hasAwg;
+            if (hasXray || hasH2 || hasWg || hasAwg) {
+              currentConnectionContext = {
+                id: data.id,
+                env: loc.env,
+                hasXray,
+                has_wg: hasWg,
+                has_awg: hasAwg,
+                has_h2: hasH2,
+                has_mtproto: false,
+              };
+              initConnectionFlow();
+            }
+          }
         } catch (err) {
           console.error("renderSubscriptionData error:", err);
-        }
-      }
-
-      let currentTabMainAction = null;
-
-      function updateMainButtonForTab(tabName) {
-        if (!tg?.MainButton) return;
-        const subId = getSubId();
-        const params = new URLSearchParams(window.location.search);
-        const env = params.get("env") || "dev";
-
-        if (tabName === 'xray') {
-          const url = `${API_BASE}/sub?id=${subId}&env=${env}&proto=Xray&format=txt`;
-          setMainButton('📋 Копировать Xray ссылку', true, () => copyText(url, 'Ссылка скопирована!'));
-        } else if (tabName === 'hysteria') {
-          const url = `${API_BASE}/sub?id=${subId}&env=${env}&proto=Hysteria2&format=txt`;
-          setMainButton('📋 Копировать Hysteria2 ссылку', true, () => copyText(url, 'Ссылка скопирована!'));
-        } else if (tabName === 'awg') {
-          tg.MainButton.hide();
-        } else {
-          tg.MainButton.hide();
         }
       }
 
@@ -1471,27 +2069,56 @@
       window.addEventListener("DOMContentLoaded", () => {
         initPage();
 
-        document.querySelectorAll(".segment").forEach((btn) => {
-          btn.onclick = () => {
-            tgHaptic('light');
-            const name = btn.dataset.tab;
-            document
-              .querySelectorAll(".segment")
-              .forEach((el) => el.classList.remove("active"));
-            document
-              .querySelectorAll(".tab-content")
-              .forEach((el) => el.classList.remove("active"));
-            btn.classList.add("active");
-            document.getElementById("tab-" + name).classList.add("active");
-            updateMainButtonForTab(name);
-          };
-        });
+        // Модальные окна
+        const renewModal = document.getElementById("renew-modal");
+        const openRenewModalBtn = document.getElementById("scrollToAdd");
+        const closeRenewModalBtn = document.getElementById("closeRenewModal");
 
-        const scrollBtn = document.getElementById("scrollToAdd");
-        const renewSection = document.getElementById("renew");
-        if (scrollBtn && renewSection) {
-          scrollBtn.addEventListener("click", () => {
-            renewSection.scrollIntoView({ behavior: "smooth" });
+        function openRenewModal() {
+          if (renewModal) renewModal.classList.remove("hidden");
+        }
+        function closeRenewModal() {
+          if (renewModal) renewModal.classList.add("hidden");
+        }
+
+        if (openRenewModalBtn) {
+          openRenewModalBtn.addEventListener("click", openRenewModal);
+        }
+        if (closeRenewModalBtn) {
+          closeRenewModalBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            closeRenewModal();
+          });
+        }
+        if (renewModal) {
+          renewModal.addEventListener("click", (e) => {
+            if (e.target === renewModal) closeRenewModal();
+          });
+        }
+
+        const referralModal = document.getElementById("referral-modal");
+        const openReferralModalBtn = document.getElementById("openReferralModal");
+        const closeReferralModalBtn = document.getElementById("closeReferralModal");
+
+        function openReferralModal() {
+          if (referralModal) referralModal.classList.remove("hidden");
+        }
+        function closeReferralModal() {
+          if (referralModal) referralModal.classList.add("hidden");
+        }
+
+        if (openReferralModalBtn) {
+          openReferralModalBtn.addEventListener("click", openReferralModal);
+        }
+        if (closeReferralModalBtn) {
+          closeReferralModalBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            closeReferralModal();
+          });
+        }
+        if (referralModal) {
+          referralModal.addEventListener("click", (e) => {
+            if (e.target === referralModal) closeReferralModal();
           });
         }
 
