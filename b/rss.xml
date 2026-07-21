@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ФРКН — Блог</title>
+    <title>Блог Тупицы</title>
     <link>https://frkn.org/b/</link>
-    <description>Заметки о технологиях, интернете, коде и свободе.</description>
+    <description>Заметки обо всём на свете.</description>
     <language>ru-ru</language>
     <lastBuildDate>Sat, 21 Jun 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://frkn.org/b/rss.xml" rel="self" type="application/rss+xml" />

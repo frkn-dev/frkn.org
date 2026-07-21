@@ -472,6 +472,80 @@
         color: var(--text);
       }
 
+      .quick-protocol-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+
+      .quick-protocol {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .quick-protocol img {
+        width: 16px;
+        height: 16px;
+        object-fit: contain;
+        filter: brightness(1.2);
+      }
+
+      .all-options-btn {
+        gap: 8px;
+      }
+
+      .all-options-arrow {
+        display: inline-block;
+        font-size: 10px;
+        transition: transform 0.2s ease;
+      }
+
+      .subscription-picker[open] .all-options-arrow {
+        transform: rotate(180deg);
+      }
+
+      .picker-env-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+
+      .picker-env-label {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .picker-env-badges {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .picker-env-badges .env-badge {
+        cursor: pointer;
+        text-decoration: none;
+        background: transparent;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
+      }
+
+      .picker-env-badges .env-badge:hover {
+        background: rgba(91, 124, 250, 0.15);
+        border-color: rgba(91, 124, 250, 0.3);
+        color: var(--text);
+      }
+
+      .picker-env-badges .env-badge.active {
+        background: rgba(91, 124, 250, 0.15);
+        border-color: var(--accent);
+        color: #fff;
+      }
+
       .protocol-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -2108,21 +2182,48 @@
                 Answer 3 questions and we’ll suggest which app to download and which
                 link to use.
               </p>
+              <div class="quick-protocol-row">
+                <button
+                  type="button"
+                  class="pill-button quick-protocol"
+                  data-protocol="hysteria2"
+                >
+                  💨 Hysteria2
+                </button>
+                <button
+                  type="button"
+                  class="pill-button quick-protocol"
+                  data-protocol="awg"
+                >
+                  <img src="/Images/wireguard.svg" alt="" /> AmneziaWG
+                </button>
+                <button
+                  type="button"
+                  class="pill-button quick-protocol"
+                  data-protocol="xray"
+                >
+                  <img src="/Images/xray.svg" alt="" /> Xray
+                </button>
+                <button
+                  type="button"
+                  class="pill-button all-options-btn"
+                  id="all-options-btn"
+                >
+                  View all options
+                  <span class="all-options-arrow">▼</span>
+                </button>
+              </div>
+              <div class="picker-env-row" id="picker-env-row">
+                <span class="picker-env-label">Region:</span>
+                <div id="picker-env-switcher" class="picker-env-badges"></div>
+              </div>
             </div>
             <span class="subscription-picker-chevron"></span>
           </summary>
 
           <div class="steps-flow">
-            <div class="step-card" id="os-step">
-              <h4>1. Which device will you use Reelsoprovod on?</h4>
-              <div id="os-options" class="pill-group"></div>
-              <div class="step-hint">
-                Choose your operating system: Windows, macOS, Android, iOS, etc.
-              </div>
-            </div>
-
-            <div class="step-card step-disabled" id="protocol-step">
-              <h4>2. Which protocol to choose?</h4>
+            <div class="step-card" id="protocol-step">
+              <h4>1. Which protocol to choose?</h4>
               <p class="small" style="margin: 0 0 14px">
                 <b style="color: var(--text)">We recommend AmneziaWG and Hysteria2</b>
                 — they work more stably and faster in most cases.
@@ -2131,6 +2232,14 @@
               <div class="step-hint">
                 If unsure, choose AmneziaWG or Hysteria2. Other protocols are for
                 special cases.
+              </div>
+            </div>
+
+            <div class="step-card step-disabled" id="os-step">
+              <h4>2. Which device will you use Reelsoprovod on?</h4>
+              <div id="os-options" class="pill-group"></div>
+              <div class="step-hint">
+                Choose your operating system: Windows, macOS, Android, iOS, etc.
               </div>
             </div>
 
@@ -2145,7 +2254,7 @@
             <div class="step-card step-disabled" id="connection-step">
               <h4>Done — link for the selected configuration</h4>
               <div id="connection-content" class="small">
-                Choose OS, protocol, and app to get the exact connection link.
+                Choose a protocol, device, and app to get the exact connection link.
               </div>
             </div>
           </div>
@@ -2336,19 +2445,13 @@
       description: "Stealth and resistance to blocking",
     },
     {
-      id: "mtproto",
-      label: "MTProto",
-      icon: "https://cdn.simpleicons.org/telegram",
-      description: "Proxy only for Telegram",
-    },
-    {
       id: "wireguard",
       label: "WireGuard",
       icon: "/Images/wireguard.svg",
       description: "Simple and fast VPN protocol",
     },
   ];
-  let selectedProtocol = "all";
+  let selectedProtocol = null;
 
   function getSubId() {
     const params = new URLSearchParams(window.location.search);
@@ -2732,6 +2835,34 @@
       });
     }
 
+    // Duplicate the env selector onto the picker card
+    const pickerEnvRow = document.getElementById("picker-env-row");
+    const pickerEnvSwitcher = document.getElementById("picker-env-switcher");
+    if (pickerEnvSwitcher && data.locations) {
+      pickerEnvSwitcher.innerHTML = "";
+      let pickerEnvCount = 0;
+      data.locations.forEach((l) => {
+        if (l.env === "production") return;
+        const hasXray = l.has_xray || l.hasXray;
+        const hasH2 = l.has_h2 || l.hasH2;
+        const hasMtproto = l.has_mtproto || l.hasMtproto;
+        const hasWg = l.has_wg || l.hasWg;
+        const hasAwg = l.has_awg || l.hasAwg;
+        if (!hasXray && !hasH2 && !hasMtproto && !hasWg && !hasAwg)
+          return;
+        const a = document.createElement("a");
+        a.href = `?id=${subId}&env=${l.env}`;
+        a.className =
+          "env-badge" + (l.env === currentEnv ? " active" : "");
+        a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
+        pickerEnvSwitcher.appendChild(a);
+        pickerEnvCount++;
+      });
+      if (pickerEnvRow) {
+        pickerEnvRow.style.display = pickerEnvCount > 1 ? "" : "none";
+      }
+    }
+
     const loc =
       // Если env не найден в query-параметрах или списке, берём первый доступный регион как безопасный fallback.
       data.locations?.find((l) => l.env === currentEnv) || data.locations?.[0];
@@ -2763,6 +2894,7 @@
 
     selectedOs = null;
     selectedClientId = null;
+    selectedProtocol = null;
     osOptions.innerHTML = "";
 
     Object.entries(vpnClients).forEach(([osKey, osData]) => {
@@ -2775,11 +2907,10 @@
         selectedOs = osKey;
         selectedClientId = null;
         renderOsStep();
-        renderProtocolStep();
         renderClientStep();
         renderConnectionStep();
         document
-          .getElementById("protocol-step")
+          .getElementById("client-step")
           ?.scrollIntoView({ behavior: "smooth", block: "start" });
       };
       osOptions.appendChild(btn);
@@ -2792,8 +2923,12 @@
   }
 
   function renderOsStep() {
+    const step = document.getElementById("os-step");
     const osOptions = document.getElementById("os-options");
-    if (!osOptions) return;
+    if (!step || !osOptions) return;
+
+    step.classList.toggle("step-disabled", !selectedProtocol);
+
     [...osOptions.querySelectorAll(".pill-button")].forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.os === selectedOs);
     });
@@ -2817,15 +2952,15 @@
     const options = document.getElementById("client-options");
     if (!step || !options) return;
 
-    if (!selectedOs || !vpnClients[selectedOs]) {
-      step.classList.add("step-disabled");
-      options.innerHTML = `<div class="small">First choose an OS.</div>`;
-      return;
-    }
-
     if (!selectedProtocol) {
       step.classList.add("step-disabled");
       options.innerHTML = `<div class="small">First choose a protocol.</div>`;
+      return;
+    }
+
+    if (!selectedOs || !vpnClients[selectedOs]) {
+      step.classList.add("step-disabled");
+      options.innerHTML = `<div class="small">First choose an OS.</div>`;
       return;
     }
 
@@ -2899,7 +3034,7 @@
 
     if (!selectedOs || (requiresClient && !selectedClientId)) {
       step.classList.add("step-disabled");
-      content.innerHTML = `<div class="small">Choose OS${requiresClient ? ", protocol, and client" : " and protocol"} to proceed to connection.</div>`;
+      content.innerHTML = `<div class="small">Choose a protocol, device${requiresClient ? ", and app" : ""} to proceed to connection.</div>`;
       return;
     }
 
@@ -3025,13 +3160,17 @@
     const step = document.getElementById("protocol-step");
     const options = document.getElementById("protocol-options");
 
-    if (!selectedOs || !currentConnectionContext) {
+    if (!currentConnectionContext) {
       step.classList.add("step-disabled");
       options.innerHTML = "";
       return;
     }
 
     step.classList.remove("step-disabled");
+
+    document.querySelectorAll(".quick-protocol").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.protocol === selectedProtocol);
+    });
 
     const protocols = AVAILABLE_PROTOCOLS;
 
@@ -3065,15 +3204,45 @@
       card.onclick = () => {
         selectedProtocol = p.id;
         renderProtocolStep();
+        renderOsStep();
         renderClientStep();
         renderConnectionStep();
 
         document
-          .getElementById("client-step")
+          .getElementById("os-step")
           ?.scrollIntoView({ behavior: "smooth", block: "start" });
       };
 
       options.appendChild(card);
+    });
+  }
+
+  // Quick protocol buttons in the collapsed picker card
+  document.querySelectorAll(".quick-protocol").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const details = btn.closest("details");
+      if (details) details.open = true;
+      if (!currentConnectionContext) return;
+
+      selectedProtocol = btn.dataset.protocol;
+      renderProtocolStep();
+      renderOsStep();
+      renderClientStep();
+      renderConnectionStep();
+      document
+        .getElementById("os-step")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  // "View all options" — same as the chevron: expand/collapse
+  const allOptionsBtn = document.getElementById("all-options-btn");
+  if (allOptionsBtn) {
+    allOptionsBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const details = allOptionsBtn.closest("details");
+      if (details) details.open = !details.open;
     });
   }
 

@@ -613,6 +613,80 @@
         color: var(--text);
       }
 
+      .quick-protocol-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+
+      .quick-protocol {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .quick-protocol img {
+        width: 16px;
+        height: 16px;
+        object-fit: contain;
+        filter: brightness(1.2);
+      }
+
+      .all-options-btn {
+        gap: 8px;
+      }
+
+      .all-options-arrow {
+        display: inline-block;
+        font-size: 10px;
+        transition: transform 0.2s ease;
+      }
+
+      .subscription-picker[open] .all-options-arrow {
+        transform: rotate(180deg);
+      }
+
+      .picker-env-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+
+      .picker-env-label {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .picker-env-badges {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .picker-env-badges .env-badge {
+        cursor: pointer;
+        text-decoration: none;
+        background: transparent;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
+      }
+
+      .picker-env-badges .env-badge:hover {
+        background: rgba(91, 124, 250, 0.15);
+        border-color: rgba(91, 124, 250, 0.3);
+        color: var(--text);
+      }
+
+      .picker-env-badges .env-badge.active {
+        background: rgba(91, 124, 250, 0.15);
+        border-color: var(--accent);
+        color: #fff;
+      }
+
       .protocol-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -2153,22 +2227,48 @@
                 Ответьте на 3 вопроса, и мы подскажем, какое приложение скачать
                 и какую ссылку использовать.
               </p>
+              <div class="quick-protocol-row">
+                <button
+                  type="button"
+                  class="pill-button quick-protocol"
+                  data-protocol="hysteria2"
+                >
+                  💨 Hysteria2
+                </button>
+                <button
+                  type="button"
+                  class="pill-button quick-protocol"
+                  data-protocol="awg"
+                >
+                  <img src="/Images/wireguard.svg" alt="" /> AmneziaWG
+                </button>
+                <button
+                  type="button"
+                  class="pill-button quick-protocol"
+                  data-protocol="xray"
+                >
+                  <img src="/Images/xray.svg" alt="" /> Xray
+                </button>
+                <button
+                  type="button"
+                  class="pill-button all-options-btn"
+                  id="all-options-btn"
+                >
+                  Посмотреть все варианты
+                  <span class="all-options-arrow">▼</span>
+                </button>
+              </div>
+              <div class="picker-env-row" id="picker-env-row">
+                <span class="picker-env-label">Регион:</span>
+                <div id="picker-env-switcher" class="picker-env-badges"></div>
+              </div>
             </div>
             <span class="subscription-picker-chevron"></span>
           </summary>
 
           <div class="steps-flow">
-            <div class="step-card" id="os-step">
-              <h4>1. На каком устройстве будете использовать Рилзопровод?</h4>
-              <div id="os-options" class="pill-group"></div>
-              <div class="step-hint">
-                Выберите операционную систему: Windows, macOS, Android, iOS и
-                т.д.
-              </div>
-            </div>
-
-            <div class="step-card step-disabled" id="protocol-step">
-              <h4>2. Какой протокол выбрать?</h4>
+            <div class="step-card" id="protocol-step">
+              <h4>1. Какой протокол выбрать?</h4>
               <p class="small" style="margin: 0 0 14px">
                 <b style="color: var(--text)"
                   >Рекомендуем AmneziaWG и Hysteria2</b
@@ -2179,6 +2279,15 @@
               <div class="step-hint">
                 Если не уверены — выберите AmneziaWG или Hysteria2. Другие
                 протоколы нужны для особых ситуаций.
+              </div>
+            </div>
+
+            <div class="step-card step-disabled" id="os-step">
+              <h4>2. На каком устройстве будете использовать Рилзопровод?</h4>
+              <div id="os-options" class="pill-group"></div>
+              <div class="step-hint">
+                Выберите операционную систему: Windows, macOS, Android, iOS и
+                т.д.
               </div>
             </div>
 
@@ -2194,7 +2303,7 @@
             <div class="step-card step-disabled" id="connection-step">
               <h4>Готово — ссылка для выбранной конфигурации</h4>
               <div id="connection-content" class="small">
-                Выберите устройство, протокол и приложение, чтобы получить
+                Выберите протокол, устройство и приложение, чтобы получить
                 точную ссылку подключения.
               </div>
             </div>
@@ -2425,19 +2534,13 @@
           description: "Скрытность и устойчивость к блокировкам",
         },
         {
-          id: "mtproto",
-          label: "MTProto",
-          icon: "https://cdn.simpleicons.org/telegram",
-          description: "Прокси только для Telegram",
-        },
-        {
           id: "wireguard",
           label: "WireGuard",
           icon: "/Images/wireguard.svg",
           description: "Простой и быстрый протокол",
         },
       ];
-      let selectedProtocol = "all";
+      let selectedProtocol = null;
 
       function getSubId() {
         const params = new URLSearchParams(window.location.search);
@@ -2861,6 +2964,34 @@
           });
         }
 
+        // Дублируем выбор окружения на карточку подборщика
+        const pickerEnvRow = document.getElementById("picker-env-row");
+        const pickerEnvSwitcher = document.getElementById("picker-env-switcher");
+        if (pickerEnvSwitcher && data.locations) {
+          pickerEnvSwitcher.innerHTML = "";
+          let pickerEnvCount = 0;
+          data.locations.forEach((l) => {
+            if (l.env === "production") return;
+            const hasXray = l.has_xray || l.hasXray;
+            const hasH2 = l.has_h2 || l.hasH2;
+            const hasMtproto = l.has_mtproto || l.hasMtproto;
+            const hasWg = l.has_wg || l.hasWg;
+            const hasAwg = l.has_awg || l.hasAwg;
+            if (!hasXray && !hasH2 && !hasMtproto && !hasWg && !hasAwg)
+              return;
+            const a = document.createElement("a");
+            a.href = `?id=${subId}&env=${l.env}`;
+            a.className =
+              "env-badge" + (l.env === currentEnv ? " active" : "");
+            a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
+            pickerEnvSwitcher.appendChild(a);
+            pickerEnvCount++;
+          });
+          if (pickerEnvRow) {
+            pickerEnvRow.style.display = pickerEnvCount > 1 ? "" : "none";
+          }
+        }
+
         const loc =
           // Если env не найден в query-параметрах или списке, берём первый доступный регион как безопасный fallback.
           data.locations?.find((l) => l.env === currentEnv) ||
@@ -2893,6 +3024,7 @@
 
         selectedOs = null;
         selectedClientId = null;
+        selectedProtocol = null;
         osOptions.innerHTML = "";
 
         Object.entries(vpnClients).forEach(([osKey, osData]) => {
@@ -2905,10 +3037,9 @@
             selectedOs = osKey;
             selectedClientId = null;
             renderOsStep();
-            renderProtocolStep();
             renderClientStep();
             renderConnectionStep();
-            scrollToElement("protocol-step");
+            scrollToElement("client-step");
           };
           osOptions.appendChild(btn);
         });
@@ -2920,8 +3051,12 @@
       }
 
       function renderOsStep() {
+        const step = document.getElementById("os-step");
         const osOptions = document.getElementById("os-options");
-        if (!osOptions) return;
+        if (!step || !osOptions) return;
+
+        step.classList.toggle("step-disabled", !selectedProtocol);
+
         [...osOptions.querySelectorAll(".pill-button")].forEach((btn) => {
           btn.classList.toggle("active", btn.dataset.os === selectedOs);
         });
@@ -2945,15 +3080,15 @@
         const options = document.getElementById("client-options");
         if (!step || !options) return;
 
-        if (!selectedOs || !vpnClients[selectedOs]) {
-          step.classList.add("step-disabled");
-          options.innerHTML = `<div class="small">Сначала выберите ОС.</div>`;
-          return;
-        }
-
         if (!selectedProtocol) {
           step.classList.add("step-disabled");
           options.innerHTML = `<div class="small">Сначала выберите протокол.</div>`;
+          return;
+        }
+
+        if (!selectedOs || !vpnClients[selectedOs]) {
+          step.classList.add("step-disabled");
+          options.innerHTML = `<div class="small">Сначала выберите ОС.</div>`;
           return;
         }
 
@@ -3024,7 +3159,7 @@
 
         if (!selectedOs || (requiresClient && !selectedClientId)) {
           step.classList.add("step-disabled");
-          content.innerHTML = `<div class="small">Выберите ОС${requiresClient ? ", протокол и клиента" : " и протокол"}, чтобы перейти к подключению.</div>`;
+          content.innerHTML = `<div class="small">Выберите протокол, устройство${requiresClient ? " и приложение" : ""}, чтобы перейти к подключению.</div>`;
           return;
         }
 
@@ -3159,13 +3294,17 @@
         const step = document.getElementById("protocol-step");
         const options = document.getElementById("protocol-options");
 
-        if (!selectedOs || !currentConnectionContext) {
+        if (!currentConnectionContext) {
           step.classList.add("step-disabled");
           options.innerHTML = "";
           return;
         }
 
         step.classList.remove("step-disabled");
+
+        document.querySelectorAll(".quick-protocol").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.protocol === selectedProtocol);
+        });
 
         const protocols = AVAILABLE_PROTOCOLS;
 
@@ -3199,13 +3338,41 @@
           card.onclick = () => {
             selectedProtocol = p.id;
             renderProtocolStep();
+            renderOsStep();
             renderClientStep();
             renderConnectionStep();
 
-            scrollToElement("client-step");
+            scrollToElement("os-step");
           };
 
           options.appendChild(card);
+        });
+      }
+
+      // Быстрые кнопки протоколов в свёрнутой карточке подборщика
+      document.querySelectorAll(".quick-protocol").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const details = btn.closest("details");
+          if (details) details.open = true;
+          if (!currentConnectionContext) return;
+
+          selectedProtocol = btn.dataset.protocol;
+          renderProtocolStep();
+          renderOsStep();
+          renderClientStep();
+          renderConnectionStep();
+          scrollToElement("os-step");
+        });
+      });
+
+      // «Посмотреть все варианты» — то же, что и шеврон: развернуть/свернуть
+      const allOptionsBtn = document.getElementById("all-options-btn");
+      if (allOptionsBtn) {
+        allOptionsBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          const details = allOptionsBtn.closest("details");
+          if (details) details.open = !details.open;
         });
       }
 

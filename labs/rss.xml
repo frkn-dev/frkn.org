@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>FRKN Labs</title>
+    <link>https://frkn.org/labs/</link>
+    <description>Статьи о технологиях, VPN-протоколах и свободном интернете.</description>
+    <language>ru-ru</language>
+    <lastBuildDate>Fri, 17 Jul 2026 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://frkn.org/labs/rss.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>AmneziaWG, Hysteria2 и Xray — чем они отличаются и что выбрать</title>
+      <link>https://frkn.org/labs/amnezia-hysteria-xray/</link>
+      <guid isPermaLink="true">https://frkn.org/labs/amnezia-hysteria-xray/</guid>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 GMT</pubDate>
+      <description><![CDATA[
+        <p>Три протокола, три характера: AmneziaWG маскируется под обычный шум, Hysteria2 гонит трафик по UDP, а Xray с Vless Reality притворяется обычным HTTPS.</p>
+        <p>Плюс разбираемся, чем прокси отличается от VPN и почему туннель выигрывает.</p>
+      ]]></description>
+    </item>
+
+  </channel>
+</rss>
