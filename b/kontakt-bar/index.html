@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Ночь у контакт-бара — Блог Тупицы</title>
+    <meta name="description" content="Ночь, центр, уже 10 минут платного ожидания у контакт бара. Открывается передняя пассажирская дверь. Усаживается спереди. Медленно отъезжаю от бордюра. — А можно блютус? (Блять) — у меня хорошая му…" />
+    <link rel="canonical" href="https://frkn.org/b/kontakt-bar/" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Блог Тупицы"
+      href="/b/rss.xml"
+    />
+    <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
+    <script>
+      // Применяем сохранённый режим чтения до отрисовки, чтобы не было мигания
+      (function () {
+        try {
+          if (localStorage.getItem("frkn-read-mode") === "1") {
+            document.documentElement.classList.add("read");
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      :root {
+        --bg: #090b10;
+        --card: #121622;
+        --text: #e6e8ef;
+        --muted: #9aa1b2;
+        --accent: #38bdf8;
+        --border: #1f263a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      /* ===== Обычный режим — тёмный ===== */
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(
+            1200px 600px at 70% -10%,
+            rgba(91, 124, 250, 0.15),
+            transparent
+          ),
+          var(--bg);
+        color: var(--text);
+        font-family:
+          "Plus Jakarta Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Inter",
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        line-height: 1.75;
+        transition:
+          background 0.25s ease,
+          color 0.25s ease;
+      }
+
+      .page {
+        max-width: 760px;
+        margin: 48px auto;
+        padding: 48px 56px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        transition:
+          background 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 40px;
+      }
+
+      .back {
+        color: var(--muted);
+        text-decoration: none;
+        border-bottom: 1px dotted var(--muted);
+        font-size: 14px;
+        transition: color 0.2s ease;
+      }
+
+      .back:hover {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+
+      .read-toggle {
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--muted);
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 8px 14px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+      }
+
+      .read-toggle:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .disclaimer {
+        font-size: 11px;
+        color: var(--muted);
+        margin-bottom: 48px;
+        text-align: right;
+        line-height: 1.6;
+      }
+
+      h1 {
+        font-size: 30px;
+        line-height: 1.25;
+        margin: 0 0 32px;
+        letter-spacing: -0.01em;
+      }
+
+      p {
+        margin: 0 0 18px;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.4);
+        transition: all 0.15s ease;
+      }
+
+      a:hover {
+        border-bottom-color: var(--accent);
+      }
+
+      .signature {
+        margin-top: 48px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      /* ===== Read mode — бумага ===== */
+
+      html.read body {
+        background: #d7c9a3;
+        color: #1a1a1a;
+        font-family: "IBM Plex Mono", monospace;
+        line-height: 1.7;
+      }
+
+      html.read .page {
+        background: #f5e9c9;
+        background-image: repeating-linear-gradient(
+          rgba(0, 0, 0, 0.01) 0 1px,
+          transparent 1px 2px
+        );
+        border: none;
+        border-radius: 0;
+        box-shadow:
+          0 0 0 1px rgba(0, 0, 0, 0.1),
+          0 20px 60px rgba(0, 0, 0, 0.25);
+        margin: 60px auto;
+        padding: 60px 70px;
+      }
+
+      html.read .back {
+        color: #1a1a1a;
+        border-bottom: 1px dotted #1a1a1a;
+        font-size: 13px;
+      }
+
+      html.read .back:hover {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      html.read .read-toggle {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        color: #1a1a1a;
+        border: 1px solid #1a1a1a;
+        border-radius: 0;
+        padding: 6px 12px;
+      }
+
+      html.read .read-toggle:hover {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      html.read .disclaimer {
+        font-size: 10px;
+        letter-spacing: 0.5px;
+        color: #1a1a1a;
+        margin-bottom: 50px;
+      }
+
+      html.read h1 {
+        font-size: 34px;
+        margin-bottom: 24px;
+        letter-spacing: 1px;
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+      }
+
+      html.read p {
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+        letter-spacing: 0.5px;
+      }
+
+      html.read article a {
+        color: #000;
+        border-bottom: 1px solid #000;
+      }
+
+      html.read article a:hover {
+        background: #000;
+        color: #f5e9c9;
+      }
+
+      html.read .signature {
+        color: #1a1a1a;
+        opacity: 0.7;
+      }
+
+      /* ===== Реакции ===== */
+
+      .reactions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+      }
+
+      .reactions-label {
+        font-size: 14px;
+        color: var(--muted);
+        margin-right: 4px;
+      }
+
+      .reaction-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--muted);
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .reaction-btn:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .reaction-btn.active {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: rgba(56, 189, 248, 0.12);
+      }
+
+      .reaction-btn:disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
+
+      html.read .reactions {
+        border-top-color: rgba(0, 0, 0, 0.25);
+      }
+
+      html.read .reactions-label {
+        color: #1a1a1a;
+        opacity: 0.65;
+        font-size: 13px;
+      }
+
+      html.read .reaction-btn {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        color: #1a1a1a;
+        border: 1px solid #1a1a1a;
+        border-radius: 0;
+        padding: 6px 12px;
+      }
+
+      html.read .reaction-btn:hover {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      html.read .reaction-btn.active {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      /* ===== Мобильная версия ===== */
+
+      @media (max-width: 640px) {
+        .page {
+          margin: 0;
+          padding: 32px 22px;
+          border-radius: 0;
+          border-left: none;
+          border-right: none;
+        }
+
+        html.read .page {
+          margin: 0;
+          padding: 32px 22px;
+          box-shadow: none;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        html.read h1 {
+          font-size: 24px;
+        }
+      }
+    
+      .meta {
+        font-size: 13px;
+        color: var(--muted);
+        margin: -24px 0 32px;
+      }
+
+      html.read .meta {
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        color: #1a1a1a;
+        opacity: 0.65;
+      }
+
+      article p.photo {
+        text-align: center;
+      }
+
+      article img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin: 0 0 18px;
+      }
+
+      html.read article img {
+        border-radius: 0;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+      }
+</style>
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="topbar">
+        <a class="back" href="/b/">← Все статьи</a>
+        <button type="button" class="read-toggle" id="read-toggle">
+          📖 Read mode
+        </button>
+      </div>
+
+      <article>
+        <h1>Ночь у контакт-бара</h1>
+        <div class="meta">27 октября 2025 · Блог Тупицы</div>
+
+        <p>Ночь, центр, уже 10 минут платного ожидания у контакт бара. Открывается передняя пассажирская дверь. Усаживается спереди. Медленно отъезжаю от бордюра.</p>
+        <p>— А можно блютус?</p>
+        <p>(Блять)</p>
+        <p>— у меня хорошая музыка вам понравится</p>
+        <p>(Блять блять)</p>
+        <p>— да конечно</p>
+        <p>Я БУДУ СКУУУУЧАТЬ ПО ТЕБЕ</p>
+        <p>(Сука кальяный рэп)</p>
+        <p>— а можно погромче?</p>
+        <p>— ещё громче</p>
+        <p>(Да блять)</p>
+        <p>— а можно покурить?</p>
+        <p>— у вас электронка?</p>
+        <p>— Неа, а что не выветрится за 24 минуты?</p>
+        <p>— к сожалению нет, но я могу остановиться чтоб вы покурили</p>
+        <p>— не надо тогда</p>
+        <p>Спустя 24 минуты</p>
+        <p>— а раздайте интернет пожалуйста я вам переведу</p>
+        <p>(БЛЯТЬ)</p>
+        <p>Моменты работы</p>
+
+        <div class="reactions" data-article="b/kontakt-bar">
+          <span class="reactions-label">Оцените статью:</span>
+          <button type="button" class="reaction-btn" data-reaction="1">
+            👍 <span class="reaction-count" data-count="1">–</span>
+          </button>
+          <button type="button" class="reaction-btn" data-reaction="-1">
+            👎 <span class="reaction-count" data-count="-1">–</span>
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <script>
+      (function () {
+        var KEY = "frkn-read-mode";
+        var root = document.documentElement;
+        var btn = document.getElementById("read-toggle");
+
+        function syncBtn() {
+          btn.textContent = root.classList.contains("read")
+            ? "✕ Обычный вид"
+            : "📖 Read mode";
+        }
+
+        btn.addEventListener("click", function () {
+          root.classList.toggle("read");
+          try {
+            if (root.classList.contains("read")) {
+              localStorage.setItem(KEY, "1");
+            } else {
+              localStorage.removeItem(KEY);
+            }
+          } catch (e) {}
+          syncBtn();
+        });
+
+        syncBtn();
+      })();
+    </script>
+    <script>
+      // Реакции: лайк/дизлайк через api.frkn.org/blog
+      (function () {
+        var box = document.querySelector(".reactions");
+        if (!box) return;
+
+        var articleId = box.dataset.article;
+        var API = "https://api.frkn.org";
+        var KEY = "frkn-visitor-id";
+
+        function getUserKey() {
+          try {
+            var k = localStorage.getItem(KEY);
+            if (!k) {
+              k =
+                (window.crypto && crypto.randomUUID && crypto.randomUUID()) ||
+                "v-" +
+                  Math.random().toString(36).slice(2) +
+                  Date.now().toString(36);
+              localStorage.setItem(KEY, k);
+            }
+            return k;
+          } catch (e) {
+            return "ephemeral-" + Math.random().toString(36).slice(2);
+          }
+        }
+
+        var userKey = getUserKey();
+        var myReaction = 0;
+        var busy = false;
+        var btns = Array.prototype.slice.call(
+          box.querySelectorAll(".reaction-btn"),
+        );
+
+        function render(likes, dislikes) {
+          box.querySelector('[data-count="1"]').textContent = likes;
+          box.querySelector('[data-count="-1"]').textContent = dislikes;
+          btns.forEach(function (b) {
+            b.classList.toggle(
+              "active",
+              Number(b.dataset.reaction) === myReaction,
+            );
+          });
+        }
+
+        fetch(
+          API +
+            "/blog/stats?article_id=" +
+            encodeURIComponent(articleId) +
+            "&user_key=" +
+            encodeURIComponent(userKey),
+        )
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject(r.status);
+          })
+          .then(function (data) {
+            myReaction = data.my_reaction || 0;
+            render(data.likes || 0, data.dislikes || 0);
+          })
+          .catch(function () {
+            // API недоступен — оставляем прочерки
+          });
+
+        btns.forEach(function (b) {
+          b.addEventListener("click", function () {
+            if (busy) return;
+            busy = true;
+            btns.forEach(function (x) {
+              x.disabled = true;
+            });
+            var value = Number(b.dataset.reaction);
+            var next = myReaction === value ? 0 : value;
+            fetch(API + "/blog/reaction", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                article_id: articleId,
+                user_key: userKey,
+                reaction: next,
+              }),
+            })
+              .then(function (r) {
+                return r.ok ? r.json() : Promise.reject(r.status);
+              })
+              .then(function (data) {
+                myReaction = data.my_reaction || 0;
+                render(data.likes || 0, data.dislikes || 0);
+              })
+              .catch(function () {})
+              .finally(function () {
+                busy = false;
+                btns.forEach(function (x) {
+                  x.disabled = false;
+                });
+              });
+          });
+        });
+      })();
+    </script>
+    <script src="/scripts/analytics.js" defer></script>
+  </body>
+</html>

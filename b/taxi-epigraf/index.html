@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>такси.txt. Эпиграф — Блог Тупицы</title>
+    <meta name="description" content="такси.txt Эпиграф Кажется водить такси раз эдак в пять тысяч веселее, чем смотреть на псевдоинтелектуальные ебасосины айтишников и выслушивать их поеботу на дейли митингах про то как они не смогли,…" />
+    <link rel="canonical" href="https://frkn.org/b/taxi-epigraf/" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Блог Тупицы"
+      href="/b/rss.xml"
+    />
+    <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
+    <script>
+      // Применяем сохранённый режим чтения до отрисовки, чтобы не было мигания
+      (function () {
+        try {
+          if (localStorage.getItem("frkn-read-mode") === "1") {
+            document.documentElement.classList.add("read");
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      :root {
+        --bg: #090b10;
+        --card: #121622;
+        --text: #e6e8ef;
+        --muted: #9aa1b2;
+        --accent: #38bdf8;
+        --border: #1f263a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      /* ===== Обычный режим — тёмный ===== */
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(
+            1200px 600px at 70% -10%,
+            rgba(91, 124, 250, 0.15),
+            transparent
+          ),
+          var(--bg);
+        color: var(--text);
+        font-family:
+          "Plus Jakarta Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Inter",
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        line-height: 1.75;
+        transition:
+          background 0.25s ease,
+          color 0.25s ease;
+      }
+
+      .page {
+        max-width: 760px;
+        margin: 48px auto;
+        padding: 48px 56px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        transition:
+          background 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 40px;
+      }
+
+      .back {
+        color: var(--muted);
+        text-decoration: none;
+        border-bottom: 1px dotted var(--muted);
+        font-size: 14px;
+        transition: color 0.2s ease;
+      }
+
+      .back:hover {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+
+      .read-toggle {
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--muted);
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 8px 14px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+      }
+
+      .read-toggle:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .disclaimer {
+        font-size: 11px;
+        color: var(--muted);
+        margin-bottom: 48px;
+        text-align: right;
+        line-height: 1.6;
+      }
+
+      h1 {
+        font-size: 30px;
+        line-height: 1.25;
+        margin: 0 0 32px;
+        letter-spacing: -0.01em;
+      }
+
+      p {
+        margin: 0 0 18px;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.4);
+        transition: all 0.15s ease;
+      }
+
+      a:hover {
+        border-bottom-color: var(--accent);
+      }
+
+      .signature {
+        margin-top: 48px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      /* ===== Read mode — бумага ===== */
+
+      html.read body {
+        background: #d7c9a3;
+        color: #1a1a1a;
+        font-family: "IBM Plex Mono", monospace;
+        line-height: 1.7;
+      }
+
+      html.read .page {
+        background: #f5e9c9;
+        background-image: repeating-linear-gradient(
+          rgba(0, 0, 0, 0.01) 0 1px,
+          transparent 1px 2px
+        );
+        border: none;
+        border-radius: 0;
+        box-shadow:
+          0 0 0 1px rgba(0, 0, 0, 0.1),
+          0 20px 60px rgba(0, 0, 0, 0.25);
+        margin: 60px auto;
+        padding: 60px 70px;
+      }
+
+      html.read .back {
+        color: #1a1a1a;
+        border-bottom: 1px dotted #1a1a1a;
+        font-size: 13px;
+      }
+
+      html.read .back:hover {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      html.read .read-toggle {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        color: #1a1a1a;
+        border: 1px solid #1a1a1a;
+        border-radius: 0;
+        padding: 6px 12px;
+      }
+
+      html.read .read-toggle:hover {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      html.read .disclaimer {
+        font-size: 10px;
+        letter-spacing: 0.5px;
+        color: #1a1a1a;
+        margin-bottom: 50px;
+      }
+
+      html.read h1 {
+        font-size: 34px;
+        margin-bottom: 24px;
+        letter-spacing: 1px;
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+      }
+
+      html.read p {
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+        letter-spacing: 0.5px;
+      }
+
+      html.read article a {
+        color: #000;
+        border-bottom: 1px solid #000;
+      }
+
+      html.read article a:hover {
+        background: #000;
+        color: #f5e9c9;
+      }
+
+      html.read .signature {
+        color: #1a1a1a;
+        opacity: 0.7;
+      }
+
+      /* ===== Реакции ===== */
+
+      .reactions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+      }
+
+      .reactions-label {
+        font-size: 14px;
+        color: var(--muted);
+        margin-right: 4px;
+      }
+
+      .reaction-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--muted);
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .reaction-btn:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .reaction-btn.active {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: rgba(56, 189, 248, 0.12);
+      }
+
+      .reaction-btn:disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
+
+      html.read .reactions {
+        border-top-color: rgba(0, 0, 0, 0.25);
+      }
+
+      html.read .reactions-label {
+        color: #1a1a1a;
+        opacity: 0.65;
+        font-size: 13px;
+      }
+
+      html.read .reaction-btn {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        color: #1a1a1a;
+        border: 1px solid #1a1a1a;
+        border-radius: 0;
+        padding: 6px 12px;
+      }
+
+      html.read .reaction-btn:hover {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      html.read .reaction-btn.active {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      /* ===== Мобильная версия ===== */
+
+      @media (max-width: 640px) {
+        .page {
+          margin: 0;
+          padding: 32px 22px;
+          border-radius: 0;
+          border-left: none;
+          border-right: none;
+        }
+
+        html.read .page {
+          margin: 0;
+          padding: 32px 22px;
+          box-shadow: none;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        html.read h1 {
+          font-size: 24px;
+        }
+      }
+    
+      .meta {
+        font-size: 13px;
+        color: var(--muted);
+        margin: -24px 0 32px;
+      }
+
+      html.read .meta {
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        color: #1a1a1a;
+        opacity: 0.65;
+      }
+
+      article p.photo {
+        text-align: center;
+      }
+
+      article img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin: 0 0 18px;
+      }
+
+      html.read article img {
+        border-radius: 0;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+      }
+</style>
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="topbar">
+        <a class="back" href="/b/">← Все статьи</a>
+        <button type="button" class="read-toggle" id="read-toggle">
+          📖 Read mode
+        </button>
+      </div>
+
+      <article>
+        <h1>такси.txt. Эпиграф</h1>
+        <div class="meta">5 октября 2025 · Блог Тупицы</div>
+
+        <p>такси.txt</p>
+        <p>Эпиграф</p>
+        <p>Кажется водить такси раз эдак в пять тысяч веселее, чем смотреть на псевдоинтелектуальные ебасосины айтишников и выслушивать их поеботу на дейли митингах про то как они не смогли, почему они не смогли и как им тяжело живётся на пять тысяч баксов в месяц после налогов.</p>
+        <p>==</p>
+        <p>Да, сейчас я вожу такси, и да когда-то я был разработчиком. Я всё ещё пишу код минимум раз в неделю в сублайм текст и даже заливаю его на гитхаб и этот код даже приносит пользу людям, но я всё равно не разработчик. Писать код и быть разработчиком это разные вещи.</p>
+        <p>Разработчкики ходят на дейли, двигают тикеты в джире, проводят ретро, играют в скрам-покер, постят мемы в слек, ведут телеграм-каналы про разработку, пишут резюме и проходят клёвые алгоритмические собеседования, просят повышения, обсуждают прибавку, опционы и выёбываются в баре. Они делают всё что угодно, кроме того чтобы писать код.</p>
+        <p>У меня нету дейли митингов, продакта, проджекта, нет куа, нет джиры, нет аккаунта в авс. У меня даже макбук 2020 года, потому что я его мог себе позволить, когда был разработчком. Сейчас не могу. Сублайм текст кстати ворованный, потому что на сотку баксов я так-то бака три четыре бензина могу залить. (Бензин своровать нелья, а сублайм текст можно, можно было бы наоборот, я бы ни цента не пожалел)</p>
+        <p>У меня есть арендованная тачка, водительские права и шашечки на крыше. И ещё есть приложение такси на телефоне, которое я каждый божий день проклинаю, как и тех кто его делает или делал. Но я всё равно исправно плачу 24 процента своего заработка, просто у меня нет выбора. Либо плати, либо добро пожаловать на хуй плюс в пизду. Монополия. Добро пожаловать в капитализм.</p>
+        <p>Водитель такси вообще самый бесправный человек в мире. Даже курьеры и те на своих великах намного свободнее. Я подозреваю что и получают больше.</p>
+        <p>Ты проснулся и уже должен. Заплати за аренду тачки. Залей бензин. Помыть тачку и то меньше чем в триста рублей не справишься. Сигареты, вода, кофе – базрвый минимум. На поесть ты заработаешь через пять часов, если конечно сыграл с агрегатором такси в игру и победил – выполнил кучу условий чтоб тебе дали мифические баллы приоритета которые никто вообще не ебёт как работают. Я думаю даже сами разработчики клали хуй на этот приоритет.</p>
+        <p>Ты играешь в игру в которой правила защищены законом о коммерческой тайне.</p>
+        <p>Я как-то подсчитал, в один день вышло 400 рублей в час, за 13 часовую смену. Смена кстати это то сколько ты пробыл в ожидании заказов – мойка, заправиться и поссать в зачёт не идут. Думаю если бы я раздавал листовки или тупо сидел с банкой у церкви получилось бы больше.</p>
+        <p>Выходных кстати тоже нет, ну как нет, ты можешь устроить себе выходной – только выложи 3 косаря за тачку и можешь ебланить.</p>
+        <p>Только представьте если бы айтишникам вместо бесплатных обедов в офисе нужно было бы платить за аренду компьютерного времени мейнфрейма в лизинг за миллионов 5 и оплачивать электричество из своего кармана. А платили бы им только если Васян из Шушар решил их приложения откыть и попользоваться минуток 30 за 450 рублей. Не забудьте налог на самозанятого и процент комиссии компании которая этот мейнфрейм придумала. (Точнее спиздила у другой компвнии, но это детали). Да ещё если мейнфрейм сломается, то айтишник должен его оплатить. Круто да?</p>
+        <p>Но я всё это пишу не потому что я тут набрался левых идей, взял серп и иолот в руки и решил построить коммунизм. Нахуй коммунизм, леваков и прочих.</p>
+        <p>Я пишу этот текст в украденном сублайм текст на макбуке 2020 года с процессором м1 лишь по одной причине – я счастлив.</p>
+        <p>Я самое бесправное существо, я делаю всё что скажет любой доходяга который накопил пять сотен на такси. Я делаю всё что мне скажет аггрегатор такси, я подписываю всё что угодно с какими угодно штрафами и мерами чтоб таксопарк дал нужную мне и правилам сервиса машину в аренду. Я прохожу тестирования, я соблюдаю дресс-код, я помогаю закинуть тяжёлые чемоданы в багажник. Любое моё движение под прицелом. Меня могут заблокировать и я не смогу зарабатывать даже эти копейки. Любой доходяга может мне поставить одну звезду рейтинга, просто потому что ему не нравится марка машины, или не нравлюсь я, или хуй знает что не нравится, хуй кто мне скажет что ему не нравится. За любые нарушения ПДД я несу полную ответственность. Кстати штраф за парковку на газоне 300 штук. Если такое получишь с таким заработком ограбить банк не самая плохая альтернатива. Как минимум лет на 10 можешь перестать думать где блять взять денег на аренду.</p>
+        <p>Я целыми днями нюхаю чужой перегар, стрёмные духи, улыбаюсь и обращаюсь на Вы. Если от пассажира остался неприятный запах – перед следующим заказом проветрите машину. Такая вот методичка. Такой вопрос есть в экзамене. Любая оценка ниже пятёрки рушит рейтинг просто наглухо. 20 пятереок и одна единица? – держи сразу минус 6 пунктов рейтинга. 5 пунктов это сразу минус 2 очка приоритета. Про балыл приоритета вы уже в курсе – хуй знает как они работают, но вроде важно.</p>
+        <p>Я самое бесправное существо. Мне нельзя смотреть в телефон, листать рилзы на телефоне пока стоим на светофоре, мне нельзя инициировать разговор, только поддерживать, ну или уточнить что-то по маршруту. Нельзя говорить на темы политики религии и прочей хуйни. Нельзя говорить комплименты девушкам. Всё что мне можно это смотреть на красный сигнал светофора и отсчитывать секунды. Повезло если их 10, иногда 120.</p>
+        <p>Просить поставить пять звёзд тоже нельзя. Если водитель вас просит смело жалуйтесь в поддержку, насыпят вам промокодов, сэкономите свою айтишную зарплату на более важные вещи.</p>
+        <p>Это всё ошейник и я даже скажу что он необходим, потому что водители честно долбоёбы в больгинстве своём. Эконом и комфорт там вообще отбитые, им эти правила похуям, их никак не проверяют. Заказал эконом будешь болтаться на заднем диване, со страхом в глазах, за спиной у человека который решил позвонить своему брату. Этим вообще ничего не писано, начиная от комфорт плюс есть тайные покупатели. Нарушил что-то? Например, кабель зарядки не на видном месте, можешь отделаться замечанием, а можешь пойти на пересдачу.</p>
+        <p>Кстати сдать экзмаен на комфорт плюс это тот ещё кек. Ну чтоб вы понимали – экзамен по видеозвонку с барышней с главного офиса. Ну с той что с бесплатными обедами. Я ждал спросят как пузырьком сортировать, вот как похоже на эту вашу айтишную кухню.</p>
+        <p>А как готовились? Что смотрели? Как оденетесь и как подготовите машину? Что будете делать если пассажиру стало плохо? Да верно свои таблетки предлагать нельзя, воду можно. Спасибо мы пришлём результаты собеседования в смс.</p>
+        <p>Без этого тебе светит максимум комфорт. Поездки по триста рублей с которых приложение заберет сотку, и плюс налоговая за самозанятость заберет еще 18 рублей. Минус 56 рублей литр бензина ну и накинем рублей 15 за мойку. Думаю математику вы поняли.</p>
+        <p>Я самое бесправное существо. Я ещё ничего не сделал и не заработал а уже должен всем. Я смеюсь когда вижу, что девушки боятся ездить с водителями мужчинами. Девушки, выбирайте комфорт плюс и выше, там водитель думает только об одном, побыстрее от тебя съебаться и выдохнуть чтоб ты ему 4 звезды не поставила. Я иногда в зеркло побаиваюсь смотреть, вдруг решит что я пялюсь на неё а не смотрю чтоб сзади в мой багажник хуила на солярисе не въебался. Напомню, 4 звезды это уже плохо. Нужно пять. Иначе вопросы к водителю.</p>
+        <p>Продожение следует. Я всё-таки счастлив, но это уже другая история, несмотря на все минусы.</p>
+        <p>P.S. я хотел продать этот текст tjournal, но понял что не могу видеть свой текст с запикиваниями, поэтому вы можете читать его здесь бесплатно</p>
+
+        <div class="reactions" data-article="b/taxi-epigraf">
+          <span class="reactions-label">Оцените статью:</span>
+          <button type="button" class="reaction-btn" data-reaction="1">
+            👍 <span class="reaction-count" data-count="1">–</span>
+          </button>
+          <button type="button" class="reaction-btn" data-reaction="-1">
+            👎 <span class="reaction-count" data-count="-1">–</span>
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <script>
+      (function () {
+        var KEY = "frkn-read-mode";
+        var root = document.documentElement;
+        var btn = document.getElementById("read-toggle");
+
+        function syncBtn() {
+          btn.textContent = root.classList.contains("read")
+            ? "✕ Обычный вид"
+            : "📖 Read mode";
+        }
+
+        btn.addEventListener("click", function () {
+          root.classList.toggle("read");
+          try {
+            if (root.classList.contains("read")) {
+              localStorage.setItem(KEY, "1");
+            } else {
+              localStorage.removeItem(KEY);
+            }
+          } catch (e) {}
+          syncBtn();
+        });
+
+        syncBtn();
+      })();
+    </script>
+    <script>
+      // Реакции: лайк/дизлайк через api.frkn.org/blog
+      (function () {
+        var box = document.querySelector(".reactions");
+        if (!box) return;
+
+        var articleId = box.dataset.article;
+        var API = "https://api.frkn.org";
+        var KEY = "frkn-visitor-id";
+
+        function getUserKey() {
+          try {
+            var k = localStorage.getItem(KEY);
+            if (!k) {
+              k =
+                (window.crypto && crypto.randomUUID && crypto.randomUUID()) ||
+                "v-" +
+                  Math.random().toString(36).slice(2) +
+                  Date.now().toString(36);
+              localStorage.setItem(KEY, k);
+            }
+            return k;
+          } catch (e) {
+            return "ephemeral-" + Math.random().toString(36).slice(2);
+          }
+        }
+
+        var userKey = getUserKey();
+        var myReaction = 0;
+        var busy = false;
+        var btns = Array.prototype.slice.call(
+          box.querySelectorAll(".reaction-btn"),
+        );
+
+        function render(likes, dislikes) {
+          box.querySelector('[data-count="1"]').textContent = likes;
+          box.querySelector('[data-count="-1"]').textContent = dislikes;
+          btns.forEach(function (b) {
+            b.classList.toggle(
+              "active",
+              Number(b.dataset.reaction) === myReaction,
+            );
+          });
+        }
+
+        fetch(
+          API +
+            "/blog/stats?article_id=" +
+            encodeURIComponent(articleId) +
+            "&user_key=" +
+            encodeURIComponent(userKey),
+        )
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject(r.status);
+          })
+          .then(function (data) {
+            myReaction = data.my_reaction || 0;
+            render(data.likes || 0, data.dislikes || 0);
+          })
+          .catch(function () {
+            // API недоступен — оставляем прочерки
+          });
+
+        btns.forEach(function (b) {
+          b.addEventListener("click", function () {
+            if (busy) return;
+            busy = true;
+            btns.forEach(function (x) {
+              x.disabled = true;
+            });
+            var value = Number(b.dataset.reaction);
+            var next = myReaction === value ? 0 : value;
+            fetch(API + "/blog/reaction", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                article_id: articleId,
+                user_key: userKey,
+                reaction: next,
+              }),
+            })
+              .then(function (r) {
+                return r.ok ? r.json() : Promise.reject(r.status);
+              })
+              .then(function (data) {
+                myReaction = data.my_reaction || 0;
+                render(data.likes || 0, data.dislikes || 0);
+              })
+              .catch(function () {})
+              .finally(function () {
+                busy = false;
+                btns.forEach(function (x) {
+                  x.disabled = false;
+                });
+              });
+          });
+        });
+      })();
+    </script>
+    <script src="/scripts/analytics.js" defer></script>
+  </body>
+</html>

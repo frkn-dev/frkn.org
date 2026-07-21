@@ -5,18 +5,496 @@
     <link>https://frkn.org/b/</link>
     <description>Заметки обо всём на свете.</description>
     <language>ru-ru</language>
-    <lastBuildDate>Sat, 21 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 21 Jul 2026 13:43:04 GMT</lastBuildDate>
     <atom:link href="https://frkn.org/b/rss.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>Как я написал сервис для скачивания рилзиков</title>
+      <link>https://frkn.org/b/relziki-service/</link>
+      <guid isPermaLink="true">https://frkn.org/b/relziki-service/</guid>
+      <pubDate>Thu, 09 Jul 2026 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Короче не знаю где это рассказать – расскажу тут. Пару тройку месяцев назад я написал простенький сервис чтоб скачивать рилзики – я устал их качать через всякие помойки с кучей рекламы и всплывающи…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Короткие заметки</title>
+      <link>https://frkn.org/b/korotko/</link>
+      <guid isPermaLink="true">https://frkn.org/b/korotko/</guid>
+      <pubDate>Sat, 27 Jun 2026 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>12.07.2022 — Только потеряв всё, мы обретаем свободу 01.06.2024 — Какая твоя любимая игра? . . . Игра слов 20.06.2024 — Самый плохо продаваемый товар это ирония. Её мало кто выкупает 23.06.2024 — Я…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Погонщик Белых Слонов. Часть первая — TECHSTYLE</title>
+      <link>https://frkn.org/b/pogonchik-belyh-slonov/</link>
+      <guid isPermaLink="true">https://frkn.org/b/pogonchik-belyh-slonov/</guid>
+      <pubDate>Sat, 16 May 2026 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Погонщик Белых Слонов Часть первая. Наш стиль – текстиль (TECHSTYLE) – Извини, можешь подержать? Вижу перед собой мужчину, лет тридцати – тридцати пяти, высокий, тучный, в классической бледноголубо…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Платёжка для самозанятого</title>
+      <link>https://frkn.org/b/platezhka-samozanyatogo/</link>
+      <guid isPermaLink="true">https://frkn.org/b/platezhka-samozanyatogo/</guid>
+      <pubDate>Thu, 23 Apr 2026 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>– Да слушаю – время 9 утра, думаю кто вообще звонит в такое время – Здравствуйте, вы оставляли заявку на подключение платежки, тут такое дело, как самозанятого мы вас не сможем подключить, а вот ИП…</p>
+      ]]></description>
+    </item>
 
     <item>
       <title>Введение</title>
       <link>https://frkn.org/b/intro/</link>
       <guid isPermaLink="true">https://frkn.org/b/intro/</guid>
-      <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+      <pubDate>Sun, 01 Mar 2026 00:00:00 +0300</pubDate>
       <description><![CDATA[
-        <p>Я порой вспоминаю 2008 год. Тогда я жил в общаге, варил пельмени и продавал интернет через VPN.</p>
-        <p>Сегодня практически ничего не изменилось. Разве что пельмени стали хуже.</p>
-        <p>Добро пожаловать.</p>
+        <p>Я порой вспоминаю 2008 год. Тогда я жил в общаге, варил пельмени и продавал интернет через VPN. Сегодня практически ничего не изменилось. Разве что пельмени стали хуже.</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Риск</title>
+      <link>https://frkn.org/b/risk/</link>
+      <guid isPermaLink="true">https://frkn.org/b/risk/</guid>
+      <pubDate>Thu, 25 Dec 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Риск Книги учили меня, что риск дело благородное. Кто не рискует, тот не пьёт шампанское. Имели ли представление о риске те уже мёртвые люди, на чьих историях о приключениях я вырос, я не знаю. Доп…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Он достал нож</title>
+      <link>https://frkn.org/b/nozh/</link>
+      <guid isPermaLink="true">https://frkn.org/b/nozh/</guid>
+      <pubDate>Tue, 16 Dec 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Он достал нож. Я сказал — хехе. Вам часто угрожали ножом в жизни? Мне на моей памяти три раза. Первый раз в Кейптауне мужик решил что я граблю его дом, он не знал что я в нём живу. Я не знал что он…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Как я пошёл в таксисты</title>
+      <link>https://frkn.org/b/kak-ya-poshel-v-taksisty/</link>
+      <guid isPermaLink="true">https://frkn.org/b/kak-ya-poshel-v-taksisty/</guid>
+      <pubDate>Sun, 14 Dec 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>У меня кончались деньги и я подумал — у меня есть права (водительские) я люблю водить (машину) и вроде в такси неплохо платят (я ошибался) Я беру очередной заказ, где-то недалеко от кушелевской дор…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Чебуречки</title>
+      <link>https://frkn.org/b/cheburechki/</link>
+      <guid isPermaLink="true">https://frkn.org/b/cheburechki/</guid>
+      <pubDate>Sun, 07 Dec 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Я тут захотел приготовить чебуречки и чатгпт мне сказал что магазинный фарш хуйня. Мясорубки у меня нет. Откуда у меня блять мясорубка? У меня есть нинтенда. Я же не еблан чтоб покупать мясорубку.…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Кулаки сбиты</title>
+      <link>https://frkn.org/b/draki/</link>
+      <guid isPermaLink="true">https://frkn.org/b/draki/</guid>
+      <pubDate>Wed, 03 Dec 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Кулаки сбиты Рассечена бровь На моей руке татуировка – FUCK OFF Согласно статистике 95 процентов мужчин никогда не участвовали в драке. Драки же это то из чего я сделан. Драки, обзывательства, угро…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Наливайки</title>
+      <link>https://frkn.org/b/nalivayki/</link>
+      <guid isPermaLink="true">https://frkn.org/b/nalivayki/</guid>
+      <pubDate>Tue, 02 Dec 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Вы были в наливайках? в рюмочных? В кабаках? Вот там где наливают алкоголь и не задают вопросы. Я уверен что нет, а я был. На часах 9 утра, алкоголь продают с 11. В разных городах по-разному. В Пит…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Я опять свободен</title>
+      <link>https://frkn.org/b/ya-snova-svoboden/</link>
+      <guid isPermaLink="true">https://frkn.org/b/ya-snova-svoboden/</guid>
+      <pubDate>Sat, 29 Nov 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Чувства неоднозначные. С одной стороны я уже по ней скучаю, с другой — чувствую скинул с плеч железобетонную плиту. С одной стороны — мне не надо завтра просыпаться и думать о аренде, комиссии, мой…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Опять крутить педали</title>
+      <link>https://frkn.org/b/krutit-pedali/</link>
+      <guid isPermaLink="true">https://frkn.org/b/krutit-pedali/</guid>
+      <pubDate>Fri, 28 Nov 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Выхожу вечером из дома, опять нужно крутить педали, аренда сама себя не заработает. Перед моим подъездом парадной стоит курьерская гранта на аварийке, перед грантой уже очередь из машин которые не…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Дофамин</title>
+      <link>https://frkn.org/b/dofamin/</link>
+      <guid isPermaLink="true">https://frkn.org/b/dofamin/</guid>
+      <pubDate>Wed, 26 Nov 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Дофамин Мы привыкли думать, что чем дороже вещь, тем она лучше. Недавно я захотел пельменей с горчицей, и оказалось что горчица, чем дешевле тем вкуснее. Оказалось, что палёные найки ничем не хуже…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Как это — работать водителем такси</title>
+      <link>https://frkn.org/b/taxi-economics/</link>
+      <guid isPermaLink="true">https://frkn.org/b/taxi-economics/</guid>
+      <pubDate>Thu, 20 Nov 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Если вы хотите почувствовать как это работать водителем такси – снимите в банкомате эдак тысяч пятьдесят рублей и начните их раздавать и разбрасывать не глядя. Можете начать от купюр прикруривать и…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Опять красный</title>
+      <link>https://frkn.org/b/opyat-krasny/</link>
+      <guid isPermaLink="true">https://frkn.org/b/opyat-krasny/</guid>
+      <pubDate>Mon, 10 Nov 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Опять красный, 80 секунд, я уже откатал свой минимум и так как заказов не особо много и они все какие-то были мягко не очень, то думаю ехать спать, по опыту знаю – вс равно ничего хорошего не случи…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>— А вы сильно торопитесь?</title>
+      <link>https://frkn.org/b/vy-silno-toropites/</link>
+      <guid isPermaLink="true">https://frkn.org/b/vy-silno-toropites/</guid>
+      <pubDate>Sun, 09 Nov 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>— а вы сильно торопитесь? — я? Да — мы тоже — ребят мне только сигарет — а ну тогда ладно Я стою в очереди в росале, это такой круглосуточный алкомагазин, который нашёл лазейку и продаёт алкоголь н…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Дьявол кроется в деталях</title>
+      <link>https://frkn.org/b/details/</link>
+      <guid isPermaLink="true">https://frkn.org/b/details/</guid>
+      <pubDate>Fri, 07 Nov 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>details.txt Дьявол кроется в деталях Меня сегодня раздражают мелочи. Точнее то, что на них всем всё равно. Мелочи я до ужаса люблю. Мелочи делают простую вещь особенной. Маленькая деталь может сове…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Сделай сам</title>
+      <link>https://frkn.org/b/sdelay-sam/</link>
+      <guid isPermaLink="true">https://frkn.org/b/sdelay-sam/</guid>
+      <pubDate>Thu, 06 Nov 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Я всегда любил что-то разбирать, всякие сложные интересные штуки, возможно этим объясняется и моя любовь к компьютерам и программированию. Вот собирать не так интересно, ты уже выяснил что как устр…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>— Слушай, а ты погоду смотрел?</title>
+      <link>https://frkn.org/b/pogoda/</link>
+      <guid isPermaLink="true">https://frkn.org/b/pogoda/</guid>
+      <pubDate>Wed, 05 Nov 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>– Слушай а ты погоду смотрел? Дождь будет? Эта фраза вырвала меня из медативного состояния. Я готовлюсь ко смене. Нужно помыть тычку, пропылесосить салон, коврики, сиденья, пороги. Всё должно быть…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Глава 3. Никто</title>
+      <link>https://frkn.org/b/glava-3-nikto/</link>
+      <guid isPermaLink="true">https://frkn.org/b/glava-3-nikto/</guid>
+      <pubDate>Sat, 01 Nov 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Эпиграф В сущности, ведь я весь тут: голова, руки, ноги и все прочее; только так случилось, что я невидим. Г. Уэллс, Человек-невидимка Глава 3. Никто. Я – никто, в прошлой жизни я вроде был кем-то,…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Подпольная парикмахерская</title>
+      <link>https://frkn.org/b/barbershop/</link>
+      <guid isPermaLink="true">https://frkn.org/b/barbershop/</guid>
+      <pubDate>Fri, 31 Oct 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Захожу в свою любимую подпольную парикмахерскую (барбер шоп) чтоб в очередной раз побрить голову. Подпольная она потому что вход через магазин в подсобку и работают там наши братья из средней Азии.…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Ночь у контакт-бара</title>
+      <link>https://frkn.org/b/kontakt-bar/</link>
+      <guid isPermaLink="true">https://frkn.org/b/kontakt-bar/</guid>
+      <pubDate>Mon, 27 Oct 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Ночь, центр, уже 10 минут платного ожидания у контакт бара. Открывается передняя пассажирская дверь. Усаживается спереди. Медленно отъезжаю от бордюра. — А можно блютус? (Блять) — у меня хорошая му…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Новый заказ</title>
+      <link>https://frkn.org/b/novy-zakaz/</link>
+      <guid isPermaLink="true">https://frkn.org/b/novy-zakaz/</guid>
+      <pubDate>Sat, 25 Oct 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Громко и надоедливо звенит приложение агрегатора. Новый заказ. Блять, забыл уйти с линии — я всегда ухожу с линии когда везу очередного пассажира чтоб спокойно закончить поездку, привести салон в п…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Штрафстоянка</title>
+      <link>https://frkn.org/b/shtrafstoyanka/</link>
+      <guid isPermaLink="true">https://frkn.org/b/shtrafstoyanka/</guid>
+      <pubDate>Fri, 24 Oct 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Нуштож машину забрали на штрафстоянку, как будто и без этого жизнь не ебёт Причём там нет знаков, сейчас буду скандалить P.S. займите 10к на неделю Нучтож машину забрал, а текст будет ночью, сейчас…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Ночь у заправки</title>
+      <link>https://frkn.org/b/noch-u-zapravki/</link>
+      <guid isPermaLink="true">https://frkn.org/b/noch-u-zapravki/</guid>
+      <pubDate>Thu, 23 Oct 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Проснулся в машине около заправки, тело затекло, заливаю 15 литров бензина – больше пока не заработал, ещё темно, но мосты уже свели. Впрочем мосты были главной причиной почему я решил спать тут. Е…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Звонки из банка</title>
+      <link>https://frkn.org/b/zvonki-iz-banka/</link>
+      <guid isPermaLink="true">https://frkn.org/b/zvonki-iz-banka/</guid>
+      <pubDate>Wed, 22 Oct 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>– У-Банк: Оплатите 11 700₽ до завтра по кредитной карте – Привет слушай, тут случилось непредвиденное, можешь освободить комнату в ближайшее время? Если что на связи. – Привет, извини но мы решили…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Спасибо вам, котятки</title>
+      <link>https://frkn.org/b/spasibo-kotyatki/</link>
+      <guid isPermaLink="true">https://frkn.org/b/spasibo-kotyatki/</guid>
+      <pubDate>Tue, 21 Oct 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Не знаю кто это сделал но большое спасибо. Продолжаем наше шоу. Спасибо 🥹🥹🥹🥹 Мои подпимсчики лучшие люди в мире 🥰🥰🥰 Я кажется буду плакать. Спасибо вам котятки, вы спасли меня ❤️ Ахахаха спа…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Теория дырок в сыре</title>
+      <link>https://frkn.org/b/dyrki-v-syre/</link>
+      <guid isPermaLink="true">https://frkn.org/b/dyrki-v-syre/</guid>
+      <pubDate>Tue, 21 Oct 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Этой истории могло бы не быть если бы хоть что-то одно случилось иначе, в авиации это называют теорией дырок в сыре. Катастрофа случается тогда когда все дырки совпали и получилось отверстие. Поясн…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Такси-дневник: 18–20 октября</title>
+      <link>https://frkn.org/b/taxi-18-20-oktyabrya/</link>
+      <guid isPermaLink="true">https://frkn.org/b/taxi-18-20-oktyabrya/</guid>
+      <pubDate>Mon, 20 Oct 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Стою ожидаю пассажира. Открывается задняя дверь. – в смысле дтп? Где вы? Сейчас буду через 10 минут. На задний диван садится хорошо одетая девушка лет 35, от неё пахнет дорогим парфюмом, да и точка…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Такси-дневник: 15–16 октября</title>
+      <link>https://frkn.org/b/taxi-15-16-oktyabrya/</link>
+      <guid isPermaLink="true">https://frkn.org/b/taxi-15-16-oktyabrya/</guid>
+      <pubDate>Thu, 16 Oct 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Пью свой законный утренний фильтр кофе, курю свои дорогущие парламент Найт. Я уже развез школьников по их важным делам. И даже позавтракал с Фёдором Михалычем. Теперь думаю мыть ли тачку, все равно…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Такси-дневник: 14 октября</title>
+      <link>https://frkn.org/b/taxi-14-oktyabrya/</link>
+      <guid isPermaLink="true">https://frkn.org/b/taxi-14-oktyabrya/</guid>
+      <pubDate>Tue, 14 Oct 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Приезжаю к электрику – смотри в чем проблема нажимаю кнопку закрытия дверей работают, нажимаю ещё раз не работает, не открывает двери – долбоёб чтоб открыть дверь вторая кнопка которая открывает дв…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>такси.txt. Эпиграф</title>
+      <link>https://frkn.org/b/taxi-epigraf/</link>
+      <guid isPermaLink="true">https://frkn.org/b/taxi-epigraf/</guid>
+      <pubDate>Sun, 05 Oct 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>такси.txt Эпиграф Кажется водить такси раз эдак в пять тысяч веселее, чем смотреть на псевдоинтелектуальные ебасосины айтишников и выслушивать их поеботу на дейли митингах про то как они не смогли,…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Иллюзия выбора</title>
+      <link>https://frkn.org/b/illyuziya-vybora/</link>
+      <guid isPermaLink="true">https://frkn.org/b/illyuziya-vybora/</guid>
+      <pubDate>Thu, 02 Oct 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Я сижу и думаю, что в этой жизни у нас нет выбора. Мы думаем, что выбираем. Но всё это иллюзия выбора. Мы не выбираем – родителей, друзей, работу, свою жизнь. Ладно, с родителями понятно. А друзья?…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Деньги убивают всё веселье</title>
+      <link>https://frkn.org/b/denki-ubivayut-vesele/</link>
+      <guid isPermaLink="true">https://frkn.org/b/denki-ubivayut-vesele/</guid>
+      <pubDate>Fri, 22 Aug 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>В последнее время всё чаще посещает ещё одна мысль — деньги убивают всё веселье. Я никогда так не был счастлив на работе на зарплате как в 2012 году работая за 27 тыщ. Лучшие времена, в айти не был…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Нейросети ворвались в нашу жизнь</title>
+      <link>https://frkn.org/b/neyroseti-vorvalis/</link>
+      <guid isPermaLink="true">https://frkn.org/b/neyroseti-vorvalis/</guid>
+      <pubDate>Fri, 22 Aug 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>У меня тут бессоница и я сижу размышляю, интересно конечно как нейросети ворвались в нашу жизнь, и знаете что замечаю, нейросети ВЕЗДЕ. Ты смотришь рилзы которые сделали нейросети, к которым другие…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>РКН против VPN: гонка вооружений</title>
+      <link>https://frkn.org/b/rkn-vs-vpn/</link>
+      <guid isPermaLink="true">https://frkn.org/b/rkn-vs-vpn/</guid>
+      <pubDate>Sat, 16 Aug 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>В твитере увидел пост — кто победит в гонке? РКН или ВПНы? И вот что я думаю. Здесь не может быть победителей — это гонка вооружений. РКН нападает, мы защищаемся. Они придумывают, как блокировать,…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Буковски</title>
+      <link>https://frkn.org/b/bukovski/</link>
+      <guid isPermaLink="true">https://frkn.org/b/bukovski/</guid>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>О боги, я нашел фильм где сценарист Буковски, по книгам Буковски, где в главной роли Микки Рурк и всё это 1987 года с рейтингом 7 и 5 мать его баллов. Такое ощущение что меня сами боги благославили…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Запусти Docker</title>
+      <link>https://frkn.org/b/zapusti-docker/</link>
+      <guid isPermaLink="true">https://frkn.org/b/zapusti-docker/</guid>
+      <pubDate>Fri, 01 Aug 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Запусти Docker. Запусти Docker Compose с базой. Запусти бинарник с API. Запусти пару виртуалок в разных странах. Запусти бота. Запусти веб. Собери мобильное приложение для Google. Собери мобильное…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>This is your life</title>
+      <link>https://frkn.org/b/this-is-your-life/</link>
+      <guid isPermaLink="true">https://frkn.org/b/this-is-your-life/</guid>
+      <pubDate>Fri, 20 Jun 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>This is your life, good to the last drop. Doesn't get any better than this This is your life and it's ending one minute at a time This isn't a seminar! This isn't a weekend retreat! Where you are n…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Тупица на связи</title>
+      <link>https://frkn.org/b/tupica-na-svyazi/</link>
+      <guid isPermaLink="true">https://frkn.org/b/tupica-na-svyazi/</guid>
+      <pubDate>Thu, 05 Jun 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Привет котятки, тупица на связи. Я пишу не очень часто, но в этот раз я не могу пройти мимо. Тема очень горячая, поэтому наливайте чаёчек и погнали. Я долго думал, как объяснить феномен вообще людя…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Стиль — это ответ на всё</title>
+      <link>https://frkn.org/b/stil/</link>
+      <guid isPermaLink="true">https://frkn.org/b/stil/</guid>
+      <pubDate>Thu, 05 Jun 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Стиль – это ответ на всё. Свежий подход ко скучному или опасному дню. Лучше скучное дело сделать со стилем, Чем опасное дело без стиля. А если опасное дело делать со стилем – это, по-моему, будет и…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Супергерои</title>
+      <link>https://frkn.org/b/supergeroi/</link>
+      <guid isPermaLink="true">https://frkn.org/b/supergeroi/</guid>
+      <pubDate>Tue, 27 May 2025 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Супергерои Я думаю, книги испортили моё восприятие мира и вообще большинство книг даже вредны, чем полезны. Впрочем, синематограф и сериалы туда же. Меня воспитали на нереалистичных героях и идеала…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Продуктивность</title>
+      <link>https://frkn.org/b/produktivnost/</link>
+      <guid isPermaLink="true">https://frkn.org/b/produktivnost/</guid>
+      <pubDate>Fri, 04 Oct 2024 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Когда я был молод и глуп я очень переживал за продуктивность. Нужно читать полезные книги, нельзя терять время, нужно учиться и делать что-то полезное. Это продолжалось довольно долго - я не позвол…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Города</title>
+      <link>https://frkn.org/b/goroda/</link>
+      <guid isPermaLink="true">https://frkn.org/b/goroda/</guid>
+      <pubDate>Fri, 06 Sep 2024 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Города часто завораживают своей красотой. Здесь красивые здания и живописные улицы. За окнами домов кипит жизнь. На улицах города разворачиваются события, о которых можно узнать из табличек с имена…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Слова и поступки</title>
+      <link>https://frkn.org/b/slova/</link>
+      <guid isPermaLink="true">https://frkn.org/b/slova/</guid>
+      <pubDate>Fri, 19 Jul 2024 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Часто слышу от девушек фразу по типу - мне не нужны слова, мне нужны поступки. Но слова же тоже важны, без слов не бывает поступков, а поступков не бывает без слов. Слова вообще мощная штука. Слово…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>О расставаниях</title>
+      <link>https://frkn.org/b/rasstavaniya/</link>
+      <guid isPermaLink="true">https://frkn.org/b/rasstavaniya/</guid>
+      <pubDate>Fri, 12 Jul 2024 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Сегодня я думаю о расставаниях. Вот смотри, ты провожаешь человека и едешь с ним на вокзал или аэропорт, казалось бы, 21 век, вызвал такси и уехал, можно поцеловать в щёчку у двери или даже проводи…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Нейрошлем</title>
+      <link>https://frkn.org/b/neyroshlem/</link>
+      <guid isPermaLink="true">https://frkn.org/b/neyroshlem/</guid>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Представьте, вы прожили жизнь умираете и тут с вас снимают нейрошлем виртуальной реальности и говорят - нихуя ты на хардах играешь, на Земле в 2023 году при Путине выжил. А за окном 3703 год и ты в…</p>
+      ]]></description>
+    </item>
+
+    <item>
+      <title>Разработка</title>
+      <link>https://frkn.org/b/razrabotka/</link>
+      <guid isPermaLink="true">https://frkn.org/b/razrabotka/</guid>
+      <pubDate>Fri, 25 Aug 2023 00:00:00 +0300</pubDate>
+      <description><![CDATA[
+        <p>Разработка. Казалось бы возьми ноутбук, скачай себе любую иде и среду исполнения и пиши свой сраный код. Не знаешь как его писать — есть куча туториалов, да хоть книги, хоть видосики на ютьюбе, да…</p>
       ]]></description>
     </item>
 

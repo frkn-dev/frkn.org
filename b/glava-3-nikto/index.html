@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Глава 3. Никто — Блог Тупицы</title>
+    <meta name="description" content="Эпиграф В сущности, ведь я весь тут: голова, руки, ноги и все прочее; только так случилось, что я невидим. Г. Уэллс, Человек-невидимка Глава 3. Никто. Я – никто, в прошлой жизни я вроде был кем-то,…" />
+    <link rel="canonical" href="https://frkn.org/b/glava-3-nikto/" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Блог Тупицы"
+      href="/b/rss.xml"
+    />
+    <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
+    <script>
+      // Применяем сохранённый режим чтения до отрисовки, чтобы не было мигания
+      (function () {
+        try {
+          if (localStorage.getItem("frkn-read-mode") === "1") {
+            document.documentElement.classList.add("read");
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      :root {
+        --bg: #090b10;
+        --card: #121622;
+        --text: #e6e8ef;
+        --muted: #9aa1b2;
+        --accent: #38bdf8;
+        --border: #1f263a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      /* ===== Обычный режим — тёмный ===== */
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(
+            1200px 600px at 70% -10%,
+            rgba(91, 124, 250, 0.15),
+            transparent
+          ),
+          var(--bg);
+        color: var(--text);
+        font-family:
+          "Plus Jakarta Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Inter",
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        line-height: 1.75;
+        transition:
+          background 0.25s ease,
+          color 0.25s ease;
+      }
+
+      .page {
+        max-width: 760px;
+        margin: 48px auto;
+        padding: 48px 56px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        transition:
+          background 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 40px;
+      }
+
+      .back {
+        color: var(--muted);
+        text-decoration: none;
+        border-bottom: 1px dotted var(--muted);
+        font-size: 14px;
+        transition: color 0.2s ease;
+      }
+
+      .back:hover {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+
+      .read-toggle {
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--muted);
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 8px 14px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+      }
+
+      .read-toggle:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .disclaimer {
+        font-size: 11px;
+        color: var(--muted);
+        margin-bottom: 48px;
+        text-align: right;
+        line-height: 1.6;
+      }
+
+      h1 {
+        font-size: 30px;
+        line-height: 1.25;
+        margin: 0 0 32px;
+        letter-spacing: -0.01em;
+      }
+
+      p {
+        margin: 0 0 18px;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.4);
+        transition: all 0.15s ease;
+      }
+
+      a:hover {
+        border-bottom-color: var(--accent);
+      }
+
+      .signature {
+        margin-top: 48px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      /* ===== Read mode — бумага ===== */
+
+      html.read body {
+        background: #d7c9a3;
+        color: #1a1a1a;
+        font-family: "IBM Plex Mono", monospace;
+        line-height: 1.7;
+      }
+
+      html.read .page {
+        background: #f5e9c9;
+        background-image: repeating-linear-gradient(
+          rgba(0, 0, 0, 0.01) 0 1px,
+          transparent 1px 2px
+        );
+        border: none;
+        border-radius: 0;
+        box-shadow:
+          0 0 0 1px rgba(0, 0, 0, 0.1),
+          0 20px 60px rgba(0, 0, 0, 0.25);
+        margin: 60px auto;
+        padding: 60px 70px;
+      }
+
+      html.read .back {
+        color: #1a1a1a;
+        border-bottom: 1px dotted #1a1a1a;
+        font-size: 13px;
+      }
+
+      html.read .back:hover {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      html.read .read-toggle {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        color: #1a1a1a;
+        border: 1px solid #1a1a1a;
+        border-radius: 0;
+        padding: 6px 12px;
+      }
+
+      html.read .read-toggle:hover {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      html.read .disclaimer {
+        font-size: 10px;
+        letter-spacing: 0.5px;
+        color: #1a1a1a;
+        margin-bottom: 50px;
+      }
+
+      html.read h1 {
+        font-size: 34px;
+        margin-bottom: 24px;
+        letter-spacing: 1px;
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+      }
+
+      html.read p {
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+        letter-spacing: 0.5px;
+      }
+
+      html.read article a {
+        color: #000;
+        border-bottom: 1px solid #000;
+      }
+
+      html.read article a:hover {
+        background: #000;
+        color: #f5e9c9;
+      }
+
+      html.read .signature {
+        color: #1a1a1a;
+        opacity: 0.7;
+      }
+
+      /* ===== Реакции ===== */
+
+      .reactions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+      }
+
+      .reactions-label {
+        font-size: 14px;
+        color: var(--muted);
+        margin-right: 4px;
+      }
+
+      .reaction-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--muted);
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .reaction-btn:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .reaction-btn.active {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: rgba(56, 189, 248, 0.12);
+      }
+
+      .reaction-btn:disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
+
+      html.read .reactions {
+        border-top-color: rgba(0, 0, 0, 0.25);
+      }
+
+      html.read .reactions-label {
+        color: #1a1a1a;
+        opacity: 0.65;
+        font-size: 13px;
+      }
+
+      html.read .reaction-btn {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        color: #1a1a1a;
+        border: 1px solid #1a1a1a;
+        border-radius: 0;
+        padding: 6px 12px;
+      }
+
+      html.read .reaction-btn:hover {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      html.read .reaction-btn.active {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      /* ===== Мобильная версия ===== */
+
+      @media (max-width: 640px) {
+        .page {
+          margin: 0;
+          padding: 32px 22px;
+          border-radius: 0;
+          border-left: none;
+          border-right: none;
+        }
+
+        html.read .page {
+          margin: 0;
+          padding: 32px 22px;
+          box-shadow: none;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        html.read h1 {
+          font-size: 24px;
+        }
+      }
+    
+      .meta {
+        font-size: 13px;
+        color: var(--muted);
+        margin: -24px 0 32px;
+      }
+
+      html.read .meta {
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        color: #1a1a1a;
+        opacity: 0.65;
+      }
+
+      article p.photo {
+        text-align: center;
+      }
+
+      article img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin: 0 0 18px;
+      }
+
+      html.read article img {
+        border-radius: 0;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+      }
+</style>
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="topbar">
+        <a class="back" href="/b/">← Все статьи</a>
+        <button type="button" class="read-toggle" id="read-toggle">
+          📖 Read mode
+        </button>
+      </div>
+
+      <article>
+        <h1>Глава 3. Никто</h1>
+        <div class="meta">1 ноября 2025 · Блог Тупицы</div>
+
+        <p>Эпиграф</p>
+        <p>В сущности, ведь я весь тут: голова, руки, ноги и все прочее; только так случилось, что я невидим. Г. Уэллс, Человек-невидимка</p>
+        <p>Глава 3. Никто.</p>
+        <p>Я – никто, в прошлой жизни я вроде был кем-то, у меня были амбиции и мечты. Я к чему-то стремился, пробовал, ошибался, меня звали на подкасты, моё мнение было важно, компании пытались меня перекупить, я ездил в командировки, и я не считал деньги, вообще. Я строил системы, писал код, дизайнил сервисы, общался с заказчиками, спорил, отстаивал свою точку зрения как лучше сделать и как лучше не делать. Я жил и горел этим. И я был хорош в этом.</p>
+        <p>Сейчас, я функция – подать машину, отвезти из точки А в точку Б. Открыть багажник, помочь с чемоданом. Здравствуйте, добрый вечер, до свидания, хорошего дня. Мною командует приложение в моём телефоне на торпеде моей машины. Приложение мне говорит: что делать, куда ехать, как ехать, с кем ехать. Если я слушаюсь я получаю бонусные очки, если ошибаюсь то очки теряю – геймификация.</p>
+        <p>За смену я вожу десятки пассажиров, у каждого свои дела и свои заботы. Кто-то едет на маникюр, кто-то везёт ребёнка в школу, кто-то в бар, кто-то за закладкой. Кто-то говорит по телефону, кто-то слушает музыку в наушниках, кто-то другу рассказывает про последний фестиваль, кто-то тихо плачет, Я для них всех не существую. Они ведут себя так как будто меня нет. Впрочем, мне нет дела ни до них, ни до их проблем.</p>
+        <p>Когда-то давно когда мне было лет восемь или девять, я первый раз попал в аэропорт, мне было интересно наблюдать за людьми, кто-то спешил, кто-то сидел в ожидании. У каждого своя история, своё направление и мне было интересно угадать или придумать – а куда же и для чего она летит, встречает ли кто или это просто очередная командировка. Воображение рисовало картинку, и скорее всего я ошибался. Потом, когда я стал старше, я разглядывал людей в метро. Кто как одет, как себя ведёт, кто-то играет в телефоне, кто-то читает, кто-то пишет сообщения. Никому нет дела до остальных и только я что придумываю их истории.</p>
+        <p>Теперь я разглядываю людей в зеркало заднего вида. Я придумываю истории своим пассажирам, складывая эти истории из обрывков их разговоров, фраз, поведения, одежды, манеры речи. И я очень часто ошибаюсь. Но мне просто скучно, чем мне ещё заниматься на светофорах. А я для них не существую.</p>
+        <p>Я не существую для пассажиров, я не существую для прохожих, я не существую для сотрудников полиции. Таких машин в городе десятки тысяч. Белый седан, оранжевая шашка на крыше.</p>
+        <p>Я не существую для пассажиров, они свободно говорят по телефону, обсуждают свои дела, проблемы, болезни, победы и поражения. Многие даже на меня ни разу и не взглянут, всю дорогу залипают в телефон, кто в рилзики, кто в сериалы. Часто даже забывают поздороваться, только скупо отвечают Здрасьте после моего Здравствуйте, Добрый вечер.</p>
+        <p>Чему я научился — никогда не стоит судить о людях по внешнему виду. Те кто выглядят так, что могут создать проблем, благодарят и оставляют чаевые, А те, для кого семь сотен мелочь в кармане, вынут тебе душу за лишнюю минуту ожидания. Человек на Крестовском в дорогом пальто может просто забыть сказать здравствуйте, человек в пухане с вайлдбериз на коменде три раза поблагодарит и скажет что не нужно заезжать во дворы</p>
+        <p>– Вам будет неудобно выезжать, я пройдусь. Спасибо большое. Хорошего вам вечера.</p>
+        <p>Я ошибаюсь снова и снова, нащупываю газовый балон в кармане, а пассажир рассказывает целую экскурсию о местах где мы проезжаем. А потом благодарит и суёт пару сотен чаевых. Я опять ошибся и ошибусь снова.</p>
+        <p>Есть поездки когда тебя замечают, но ты думаешь лучше бы остаться невидимкой. Примерно одна из тридцати. Когда всю дорогу с тобой болтают, рассказывают про свою жизнь. Про свои победы, проблемы. А я только слушаю и киваю. Понимаю что человеку просто не с кем поговорить. У меня тоже бывали периоды в жизни, что водитель такси единственный с кем я мог поговорить.</p>
+        <p>Тебя не замечают и доблестные сотрудники госавтоинспекции. Ну, конечно, если только ты мимо главного управления не хуячишь под кирпич по встречке на красный. (Да было). Если просто едешь то ты им неинтересен, что с тебя взять. У тебя все деньги уходят на аренду и комиссию. Они лучше потратят время с бОльшей пользой – покошмарят очередной каршеринг. Если вам нужно перевезти что-то не привлекая внимание, машина такси – лучшая маскировка.</p>
+        <p>А вчера меня узнали в баре.</p>
+        <p>- Привет, ты же тупица? А я на тебя подписан</p>
+        <p>А я уже и забыл как это. Это осталось в прошлой жизни. Тогда я был кем-то. Теперь я никто. И мне это нравится.</p>
+        <p>Кажется я попал в фильм Балабанова</p>
+
+        <div class="reactions" data-article="b/glava-3-nikto">
+          <span class="reactions-label">Оцените статью:</span>
+          <button type="button" class="reaction-btn" data-reaction="1">
+            👍 <span class="reaction-count" data-count="1">–</span>
+          </button>
+          <button type="button" class="reaction-btn" data-reaction="-1">
+            👎 <span class="reaction-count" data-count="-1">–</span>
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <script>
+      (function () {
+        var KEY = "frkn-read-mode";
+        var root = document.documentElement;
+        var btn = document.getElementById("read-toggle");
+
+        function syncBtn() {
+          btn.textContent = root.classList.contains("read")
+            ? "✕ Обычный вид"
+            : "📖 Read mode";
+        }
+
+        btn.addEventListener("click", function () {
+          root.classList.toggle("read");
+          try {
+            if (root.classList.contains("read")) {
+              localStorage.setItem(KEY, "1");
+            } else {
+              localStorage.removeItem(KEY);
+            }
+          } catch (e) {}
+          syncBtn();
+        });
+
+        syncBtn();
+      })();
+    </script>
+    <script>
+      // Реакции: лайк/дизлайк через api.frkn.org/blog
+      (function () {
+        var box = document.querySelector(".reactions");
+        if (!box) return;
+
+        var articleId = box.dataset.article;
+        var API = "https://api.frkn.org";
+        var KEY = "frkn-visitor-id";
+
+        function getUserKey() {
+          try {
+            var k = localStorage.getItem(KEY);
+            if (!k) {
+              k =
+                (window.crypto && crypto.randomUUID && crypto.randomUUID()) ||
+                "v-" +
+                  Math.random().toString(36).slice(2) +
+                  Date.now().toString(36);
+              localStorage.setItem(KEY, k);
+            }
+            return k;
+          } catch (e) {
+            return "ephemeral-" + Math.random().toString(36).slice(2);
+          }
+        }
+
+        var userKey = getUserKey();
+        var myReaction = 0;
+        var busy = false;
+        var btns = Array.prototype.slice.call(
+          box.querySelectorAll(".reaction-btn"),
+        );
+
+        function render(likes, dislikes) {
+          box.querySelector('[data-count="1"]').textContent = likes;
+          box.querySelector('[data-count="-1"]').textContent = dislikes;
+          btns.forEach(function (b) {
+            b.classList.toggle(
+              "active",
+              Number(b.dataset.reaction) === myReaction,
+            );
+          });
+        }
+
+        fetch(
+          API +
+            "/blog/stats?article_id=" +
+            encodeURIComponent(articleId) +
+            "&user_key=" +
+            encodeURIComponent(userKey),
+        )
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject(r.status);
+          })
+          .then(function (data) {
+            myReaction = data.my_reaction || 0;
+            render(data.likes || 0, data.dislikes || 0);
+          })
+          .catch(function () {
+            // API недоступен — оставляем прочерки
+          });
+
+        btns.forEach(function (b) {
+          b.addEventListener("click", function () {
+            if (busy) return;
+            busy = true;
+            btns.forEach(function (x) {
+              x.disabled = true;
+            });
+            var value = Number(b.dataset.reaction);
+            var next = myReaction === value ? 0 : value;
+            fetch(API + "/blog/reaction", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                article_id: articleId,
+                user_key: userKey,
+                reaction: next,
+              }),
+            })
+              .then(function (r) {
+                return r.ok ? r.json() : Promise.reject(r.status);
+              })
+              .then(function (data) {
+                myReaction = data.my_reaction || 0;
+                render(data.likes || 0, data.dislikes || 0);
+              })
+              .catch(function () {})
+              .finally(function () {
+                busy = false;
+                btns.forEach(function (x) {
+                  x.disabled = false;
+                });
+              });
+          });
+        });
+      })();
+    </script>
+    <script src="/scripts/analytics.js" defer></script>
+  </body>
+</html>

@@ -1323,6 +1323,9 @@
         ? "http://localhost:3006"
         : "https://api.frkn.org";
 
+      // Preview-режим mini-app: true — мок-данные без API, false — боевое API
+      const PREVIEW_MINIAPP = false;
+
       // Mock-ответы для preview mini-app
       const MOCK_WG = {
         nodes: [
@@ -1341,31 +1344,33 @@
         ],
       };
 
-      const originalFetch = window.fetch;
-      window.fetch = async function (...args) {
-        const url = args[0];
-        if (typeof url === "string") {
-          if (url.includes("/info/connections/wireguard")) {
-            return new Response(JSON.stringify(MOCK_WG), {
-              status: 200,
-              headers: { "Content-Type": "application/json" },
-            });
+      if (PREVIEW_MINIAPP) {
+        const originalFetch = window.fetch;
+        window.fetch = async function (...args) {
+          const url = args[0];
+          if (typeof url === "string") {
+            if (url.includes("/info/connections/wireguard")) {
+              return new Response(JSON.stringify(MOCK_WG), {
+                status: 200,
+                headers: { "Content-Type": "application/json" },
+              });
+            }
+            if (url.includes("/info/connections/amneziawg")) {
+              return new Response(JSON.stringify(MOCK_AWG), {
+                status: 200,
+                headers: { "Content-Type": "application/json" },
+              });
+            }
+            if (url.includes("/referrals?code=")) {
+              return new Response(
+                JSON.stringify({ code: "f7a0353fbdbc", invited_count: 2 }),
+                { status: 200, headers: { "Content-Type": "application/json" } },
+              );
+            }
           }
-          if (url.includes("/info/connections/amneziawg")) {
-            return new Response(JSON.stringify(MOCK_AWG), {
-              status: 200,
-              headers: { "Content-Type": "application/json" },
-            });
-          }
-          if (url.includes("/referrals?code=")) {
-            return new Response(
-              JSON.stringify({ code: "f7a0353fbdbc", invited_count: 2 }),
-              { status: 200, headers: { "Content-Type": "application/json" } },
-            );
-          }
-        }
-        return originalFetch.apply(this, args);
-      };
+          return originalFetch.apply(this, args);
+        };
+      }
 
       const ENV_NAMES = {
         wl: "🐘 БС - Белые слоны",
@@ -1977,7 +1982,7 @@
 
         try {
           await loadVpnClients();
-          const useMock = true; // для preview mini-app
+          const useMock = PREVIEW_MINIAPP; // false — данные из API
           let data;
           if (useMock) {
             data = { ...MOCK_SUB, id: subId };

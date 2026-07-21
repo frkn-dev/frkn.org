@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Такси-дневник: 14 октября — Блог Тупицы</title>
+    <meta name="description" content="Приезжаю к электрику – смотри в чем проблема нажимаю кнопку закрытия дверей работают, нажимаю ещё раз не работает, не открывает двери – долбоёб чтоб открыть дверь вторая кнопка которая открывает дв…" />
+    <link rel="canonical" href="https://frkn.org/b/taxi-14-oktyabrya/" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Блог Тупицы"
+      href="/b/rss.xml"
+    />
+    <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
+    <script>
+      // Применяем сохранённый режим чтения до отрисовки, чтобы не было мигания
+      (function () {
+        try {
+          if (localStorage.getItem("frkn-read-mode") === "1") {
+            document.documentElement.classList.add("read");
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <style>
+      :root {
+        --bg: #090b10;
+        --card: #121622;
+        --text: #e6e8ef;
+        --muted: #9aa1b2;
+        --accent: #38bdf8;
+        --border: #1f263a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      /* ===== Обычный режим — тёмный ===== */
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(
+            1200px 600px at 70% -10%,
+            rgba(91, 124, 250, 0.15),
+            transparent
+          ),
+          var(--bg);
+        color: var(--text);
+        font-family:
+          "Plus Jakarta Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Inter",
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        line-height: 1.75;
+        transition:
+          background 0.25s ease,
+          color 0.25s ease;
+      }
+
+      .page {
+        max-width: 760px;
+        margin: 48px auto;
+        padding: 48px 56px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        transition:
+          background 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 40px;
+      }
+
+      .back {
+        color: var(--muted);
+        text-decoration: none;
+        border-bottom: 1px dotted var(--muted);
+        font-size: 14px;
+        transition: color 0.2s ease;
+      }
+
+      .back:hover {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+
+      .read-toggle {
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--muted);
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 8px 14px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+      }
+
+      .read-toggle:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .disclaimer {
+        font-size: 11px;
+        color: var(--muted);
+        margin-bottom: 48px;
+        text-align: right;
+        line-height: 1.6;
+      }
+
+      h1 {
+        font-size: 30px;
+        line-height: 1.25;
+        margin: 0 0 32px;
+        letter-spacing: -0.01em;
+      }
+
+      p {
+        margin: 0 0 18px;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.4);
+        transition: all 0.15s ease;
+      }
+
+      a:hover {
+        border-bottom-color: var(--accent);
+      }
+
+      .signature {
+        margin-top: 48px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      /* ===== Read mode — бумага ===== */
+
+      html.read body {
+        background: #d7c9a3;
+        color: #1a1a1a;
+        font-family: "IBM Plex Mono", monospace;
+        line-height: 1.7;
+      }
+
+      html.read .page {
+        background: #f5e9c9;
+        background-image: repeating-linear-gradient(
+          rgba(0, 0, 0, 0.01) 0 1px,
+          transparent 1px 2px
+        );
+        border: none;
+        border-radius: 0;
+        box-shadow:
+          0 0 0 1px rgba(0, 0, 0, 0.1),
+          0 20px 60px rgba(0, 0, 0, 0.25);
+        margin: 60px auto;
+        padding: 60px 70px;
+      }
+
+      html.read .back {
+        color: #1a1a1a;
+        border-bottom: 1px dotted #1a1a1a;
+        font-size: 13px;
+      }
+
+      html.read .back:hover {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      html.read .read-toggle {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        color: #1a1a1a;
+        border: 1px solid #1a1a1a;
+        border-radius: 0;
+        padding: 6px 12px;
+      }
+
+      html.read .read-toggle:hover {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      html.read .disclaimer {
+        font-size: 10px;
+        letter-spacing: 0.5px;
+        color: #1a1a1a;
+        margin-bottom: 50px;
+      }
+
+      html.read h1 {
+        font-size: 34px;
+        margin-bottom: 24px;
+        letter-spacing: 1px;
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+      }
+
+      html.read p {
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+        letter-spacing: 0.5px;
+      }
+
+      html.read article a {
+        color: #000;
+        border-bottom: 1px solid #000;
+      }
+
+      html.read article a:hover {
+        background: #000;
+        color: #f5e9c9;
+      }
+
+      html.read .signature {
+        color: #1a1a1a;
+        opacity: 0.7;
+      }
+
+      /* ===== Реакции ===== */
+
+      .reactions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+      }
+
+      .reactions-label {
+        font-size: 14px;
+        color: var(--muted);
+        margin-right: 4px;
+      }
+
+      .reaction-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--muted);
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 8px 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .reaction-btn:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .reaction-btn.active {
+        color: var(--accent);
+        border-color: var(--accent);
+        background: rgba(56, 189, 248, 0.12);
+      }
+
+      .reaction-btn:disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
+
+      html.read .reactions {
+        border-top-color: rgba(0, 0, 0, 0.25);
+      }
+
+      html.read .reactions-label {
+        color: #1a1a1a;
+        opacity: 0.65;
+        font-size: 13px;
+      }
+
+      html.read .reaction-btn {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 400;
+        color: #1a1a1a;
+        border: 1px solid #1a1a1a;
+        border-radius: 0;
+        padding: 6px 12px;
+      }
+
+      html.read .reaction-btn:hover {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      html.read .reaction-btn.active {
+        background: #1a1a1a;
+        color: #f5e9c9;
+      }
+
+      /* ===== Мобильная версия ===== */
+
+      @media (max-width: 640px) {
+        .page {
+          margin: 0;
+          padding: 32px 22px;
+          border-radius: 0;
+          border-left: none;
+          border-right: none;
+        }
+
+        html.read .page {
+          margin: 0;
+          padding: 32px 22px;
+          box-shadow: none;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        html.read h1 {
+          font-size: 24px;
+        }
+      }
+    
+      .meta {
+        font-size: 13px;
+        color: var(--muted);
+        margin: -24px 0 32px;
+      }
+
+      html.read .meta {
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        color: #1a1a1a;
+        opacity: 0.65;
+      }
+
+      article p.photo {
+        text-align: center;
+      }
+
+      article img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin: 0 0 18px;
+      }
+
+      html.read article img {
+        border-radius: 0;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+      }
+</style>
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="topbar">
+        <a class="back" href="/b/">← Все статьи</a>
+        <button type="button" class="read-toggle" id="read-toggle">
+          📖 Read mode
+        </button>
+      </div>
+
+      <article>
+        <h1>Такси-дневник: 14 октября</h1>
+        <div class="meta">14 октября 2025 · Блог Тупицы</div>
+
+        <p>Приезжаю к электрику</p>
+        <p>– смотри в чем проблема нажимаю кнопку закрытия дверей работают, нажимаю ещё раз не работает, не открывает двери</p>
+        <p>– долбоёб чтоб открыть дверь вторая кнопка которая открывает двери, одна открывает вторая закрывает</p>
+        <p>– в смысле я долбоеб? Нахуя мне две кнопки у тебя дома свет отдельной кнопкой выключается? Но спасибо что рассказал</p>
+        <p>Заехал на лахта центр на парковку, все заставлено, поставил тачку, пошел поссал, вернулся рядом встал крузак, ну встал и встал, я выехал прижался так чтоб рядом мог проехать даже камаз, стою на навигаторе смотрю чо по пробкам сзади сигналят, смотрю тот же крузак, думаю нахуя он сигналит там камаз проедет.</p>
+        <p>Выхожу с крузака выпрыгивает карлан 1.70 в очках и водолазке черной, Стив джобс хуев</p>
+        <p>– извините что вы хотите?</p>
+        <p>– ты чо встал не слышишь сигналят? Встать вот тут мы хотим</p>
+        <p>– вежливо можно?</p>
+        <p>– а хули ты вылез из машины</p>
+        <p>– ты чо так базаришь? Проще будь, щас уеду</p>
+        <p>Походу бумер пересмотрел, боец кухонный</p>
+        <p>Вообще быковать на таксиста очень хуевая идея, вы даже не представляете на что готов человек который от отчаяния пошел водилой в такси, ему уже нечего терять.</p>
+        <p>Затащило меня в Ломоносов (город такой) и я не хотел возвращаться в Питер пустой. Прилетает заказ, подача 8 минут, поездка — 4 минуты. Похуй делаем, когда не делали.</p>
+        <p>Приезжаю давлю кнопку на месте жду.</p>
+        <p>Дверь открывается</p>
+        <p>— и почему ты встал здесь? Я же адрес указала точный, почему такси постоянно так? Вы задолбали</p>
+        <p>— во-первых здравствуйте, во-вторых там где точку поставили туда и приехал, давайте я помогу вам с креслом</p>
+        <p>Бабка ожидала скандал, а мне поебать, первая мысль отменить поездку и пусть пиздует пешком, а потом вижу она на моё спокойное здравствуйте даже засмущалась что начала с наезда. Первый конфликт с пассажиром вот такой.</p>
+        <p>И вот объясни людям что ты тут самый бесправный и ничего не решаешь. Но кричат на тебя, кричите лучше на Яндекс, он хоть промокод даст.</p>
+        <p>Сажаю семью, пара и девочка лет 6. (У меня бустер, к детям я готов)</p>
+        <p>Они со мной на чистом русском, между собой что-то обсуждают на английском, мне не слышно особо, да и как-то похуй что они там обсуждают, своих проблем навалом, я даже в какой-то момент думал что белку поймал. И девочка с родителями на Английском и он с ней и между собой.</p>
+        <p>А я если чо 10 лет в международных компаниях кнопки давил.</p>
+        <p>- Спасибо, до свидания</p>
+        <p>- Have a good night</p>
+        <p>😬😬😬</p>
+        <p>Сегодня проиграл гонку с мостами, пришлось приносить дары богам ЗСД</p>
+        <p>Сижу на заправке трескаю эучпочмак и кофейком запиваю, подходит парнишка – ааа а аа это ввв вввва вваш аав аввтомобиль? – да мой – отвезите домой пожалуйста – а тебе куда? – начал говорить адрес</p>
+        <p>Я подумал пиздец с таким заиканием он сейчас час его говорить будет</p>
+        <p>– улица 1 мая</p>
+        <p>Мне стало и смешно и жалко парнягу, по карте минут 10 ехать и понимаю что ну явно он не очень здоров на голову и замёрз, а ещё от него перегаром таращит на метра 3, доел покурил и поехали. Он всё спрашивал про деньги, волновался. А знаете я хоть и бомбила но таких денег мне не надо.</p>
+        <p>Отвёз его, высадил у дома, он ещё раз предложил перевести денег,</p>
+        <p>– ну хоть пицот рублей</p>
+        <p>– тебе денег девать некуда?</p>
+        <p>– сейчас с карты сестры переведу</p>
+        <p>– не надо денег, ступай с миром</p>
+        <p>– спасибо большое</p>
+        <p>Он мне ещё махал когда я уезжал в темноту</p>
+        <p>Эпиграф</p>
+        <p>Если вы это читаете, значит я сегодня вернулся домой живым</p>
+        <p>Глава 2. Риск</p>
+        <p>Во всём мире, в каждой вселенной, в любой стране, в любой деятельности риск вознаграждается. Неважно что ты делаешь. Ты можешь ставить квартиру на красное, торговать колумбийским порошком, можешь забить лицо татуировками, чтобы пробиться в шоубиз, можешь брать взятки, пойти наёмником, воровать персональные данные, обманывать налоговую или обманывать пенсионерок. В каждом случае есть понимание, может выгореть и никаких забот, а может не выгореть и будут последствия, ну там долги, тюрьма или смерть.</p>
+        <p>Хай риск, хай реворд.</p>
+        <p>И только единственная вещь в мире несёт риски и никакого вознаграждения – работа водителем такси.</p>
+        <p>Каждое утро я не знаю вернусь ли я домой после смены.</p>
+        <p>Каждый день я сажусь в машину с мыслями – это будет хороший день.</p>
+        <p>Каждую ночь я возвращаюсь домой с мыслями – я живой, это был хороший день.</p>
+        <p>Каждое утро я вставляю ключ зажигания в пилотируемый снаряд весом полторы тонны, который может нестись со скоростью 230 километров в час.</p>
+        <p>Каждое утро я принимаю риск. За жизнь – за свою, пассажиров, пешеходов. Любая ошибка, промедление, неправильное считывание ситуации – смерть.</p>
+        <p>Твоя или чужая. Хорошо если только твоя, если чужая то ад это не самое плохое место. Для таких как я есть места пострашнее.</p>
+        <p>Каждое утро ты принимаешь правила игры. Ты один, тебе никто не поможет.</p>
+        <p>Государство тебя не защищает, в любом случае ты крайний, точнее самозанятый, налоги плати, но если чо сам виноват.</p>
+        <p>Таксопарку на тебя всё равно пока ты платишь аренду и процент. Нужно мне было сгонять за пределы области, звоню в СБ – такой-то такой-то надо туда-то разрешите съездить. Не разрешили. Сказали что сложно, в крайнем случае ехать машину на эквакуаторе везти в Питер, я тогда подумал что я сам эвакуатор не вызову? А потом понял. СБ знает толк в рисках – разъебись плиз насмерть так чтоб нам было удобно металлолом забрать. В пределах Ленинградской области пожалуйста. А то нам лень тащиться в Москву.</p>
+        <p>Каждый день я сажаю в машину незнакомых людей, они сидят сзади, я не вижу что они делают. Я везу их за город, в лес, каждый раз я думаю – надеюсь это наркоманы за закладкой, а не ребята решившие разжиться моей тыщей рублей в бардачке. А я и не могу знать. Я просто делаю свою работу, могут ли меня убить? Конечно, могут. Будет кто-либо об этом сожалеть, не думаю. Я сам согласился на эту авантюру за 500 рублей после вычета комиссии.</p>
+        <p>Я рискую – попасть на деньги. Ударил машину – ты виноват, плати. Получил штраф – плати. Клиент не заплатил? – плати комиссию и налог всё равно, это твои проблемы.</p>
+        <p>Я рискую – убить или умереть. Люди переходят дорогу на красный не глядя и в наушниках – я сяду, родители сажают ребёнка без детского кресла – да тут ехать пять минут – я сяду. Люди не смотрят в зеркала и останавливаются на автобусной полосе прямо там, где я мчу на следующий заказ – я убийца и надеюсь уже сам мёртв. А я не могу не торопиться, отсчёт времени идёт слишком быстро. Ведь он не знает, что есть красные светофоры по 120 секунд.</p>
+        <p>Каждый день я принимаю риски. Я знаю что могу сегодня не вернуться. Я могу умереть, я могу попасть в тюрьму, я могу попасть в реанимацию. И кажется, я единственный кто осознаёт риски.</p>
+        <p>И я очень завидую людям, кто об этом не думает. Да ладно, чего ты, нормально доедем, я сто раз так делал. Да ладно, довези моего ребенка, его там встретят – отправляют 11-летнюю девочку одну с незнакомым мужиком за город ночью. Да ладно гони, нам надо успеть на мосты.</p>
+        <p>А может люди просто думают обо мне лучше чем я сам. Не знаю, я просто делаю свою работу.</p>
+        <p>Этот город принадлежит мне</p>
+
+        <div class="reactions" data-article="b/taxi-14-oktyabrya">
+          <span class="reactions-label">Оцените статью:</span>
+          <button type="button" class="reaction-btn" data-reaction="1">
+            👍 <span class="reaction-count" data-count="1">–</span>
+          </button>
+          <button type="button" class="reaction-btn" data-reaction="-1">
+            👎 <span class="reaction-count" data-count="-1">–</span>
+          </button>
+        </div>
+      </article>
+    </div>
+
+    <script>
+      (function () {
+        var KEY = "frkn-read-mode";
+        var root = document.documentElement;
+        var btn = document.getElementById("read-toggle");
+
+        function syncBtn() {
+          btn.textContent = root.classList.contains("read")
+            ? "✕ Обычный вид"
+            : "📖 Read mode";
+        }
+
+        btn.addEventListener("click", function () {
+          root.classList.toggle("read");
+          try {
+            if (root.classList.contains("read")) {
+              localStorage.setItem(KEY, "1");
+            } else {
+              localStorage.removeItem(KEY);
+            }
+          } catch (e) {}
+          syncBtn();
+        });
+
+        syncBtn();
+      })();
+    </script>
+    <script>
+      // Реакции: лайк/дизлайк через api.frkn.org/blog
+      (function () {
+        var box = document.querySelector(".reactions");
+        if (!box) return;
+
+        var articleId = box.dataset.article;
+        var API = "https://api.frkn.org";
+        var KEY = "frkn-visitor-id";
+
+        function getUserKey() {
+          try {
+            var k = localStorage.getItem(KEY);
+            if (!k) {
+              k =
+                (window.crypto && crypto.randomUUID && crypto.randomUUID()) ||
+                "v-" +
+                  Math.random().toString(36).slice(2) +
+                  Date.now().toString(36);
+              localStorage.setItem(KEY, k);
+            }
+            return k;
+          } catch (e) {
+            return "ephemeral-" + Math.random().toString(36).slice(2);
+          }
+        }
+
+        var userKey = getUserKey();
+        var myReaction = 0;
+        var busy = false;
+        var btns = Array.prototype.slice.call(
+          box.querySelectorAll(".reaction-btn"),
+        );
+
+        function render(likes, dislikes) {
+          box.querySelector('[data-count="1"]').textContent = likes;
+          box.querySelector('[data-count="-1"]').textContent = dislikes;
+          btns.forEach(function (b) {
+            b.classList.toggle(
+              "active",
+              Number(b.dataset.reaction) === myReaction,
+            );
+          });
+        }
+
+        fetch(
+          API +
+            "/blog/stats?article_id=" +
+            encodeURIComponent(articleId) +
+            "&user_key=" +
+            encodeURIComponent(userKey),
+        )
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject(r.status);
+          })
+          .then(function (data) {
+            myReaction = data.my_reaction || 0;
+            render(data.likes || 0, data.dislikes || 0);
+          })
+          .catch(function () {
+            // API недоступен — оставляем прочерки
+          });
+
+        btns.forEach(function (b) {
+          b.addEventListener("click", function () {
+            if (busy) return;
+            busy = true;
+            btns.forEach(function (x) {
+              x.disabled = true;
+            });
+            var value = Number(b.dataset.reaction);
+            var next = myReaction === value ? 0 : value;
+            fetch(API + "/blog/reaction", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                article_id: articleId,
+                user_key: userKey,
+                reaction: next,
+              }),
+            })
+              .then(function (r) {
+                return r.ok ? r.json() : Promise.reject(r.status);
+              })
+              .then(function (data) {
+                myReaction = data.my_reaction || 0;
+                render(data.likes || 0, data.dislikes || 0);
+              })
+              .catch(function () {})
+              .finally(function () {
+                busy = false;
+                btns.forEach(function (x) {
+                  x.disabled = false;
+                });
+              });
+          });
+        });
+      })();
+    </script>
+    <script src="/scripts/analytics.js" defer></script>
+  </body>
+</html>
