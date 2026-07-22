@@ -35,13 +35,6 @@
     />
     <link rel="stylesheet" href="/styles.css?v=4" />
     <style>
-      .env-switcher-wrap {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        margin-bottom: 16px;
-      }
-
       .env-badge {
         display: inline-flex;
         align-items: center;
@@ -55,49 +48,6 @@
         color: #94a3b8;
         border: 1px solid rgba(255, 255, 255, 0.2);
         white-space: nowrap;
-      }
-
-      #env-switcher {
-        display: flex;
-        gap: 8px;
-        flex-direction: column;
-      }
-
-      #env-switcher .env-badge {
-        margin-bottom: 0;
-        cursor: pointer;
-        background: transparent;
-        color: var(--muted);
-        border: 1px solid var(--border);
-        transition: all 0.2s ease;
-      }
-
-      #env-switcher .env-badge:hover {
-        background: rgba(91, 124, 250, 0.15);
-        border-color: rgba(91, 124, 250, 0.3);
-        color: var(--text);
-      }
-
-      #env-switcher .env-badge.active {
-        background: rgba(91, 124, 250, 0.15);
-        border-color: var(--accent);
-        color: #fff;
-      }
-
-      .env-current-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 10px;
-        font-size: 12px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        border-radius: 6px;
-        background: rgba(16, 185, 129, 0.15);
-        color: #10b981;
-        border: 1px solid rgba(16, 185, 129, 0.35);
-        white-space: nowrap;
-        margin-top: 10px;
       }
 
       .available {
@@ -122,24 +72,63 @@
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 16px;
         background: rgba(30, 41, 59, 0.4);
-        padding: 20px 20px 64px 20px;
+        padding: 20px;
         border-radius: 16px;
         border: 1px solid var(--border);
-        position: relative;
       }
 
       .stats-actions {
-        position: absolute;
-        bottom: 16px;
-        right: 16px;
+        grid-column: 1 / -1;
         display: flex;
         gap: 8px;
-        flex-wrap: wrap;
-        justify-content: flex-end;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        margin-top: 7px;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+
+      .stats-actions::-webkit-scrollbar {
+        display: none;
       }
 
       .hero-stats .stats-add-btn {
         margin: 0;
+        padding: 8px 12px;
+        border-radius: 10px;
+        font-size: 11px;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .hero-stats .stats-add-btn:hover {
+        background: rgba(91, 124, 250, 0.2);
+        border-color: rgba(91, 124, 250, 0.5);
+        transform: translateY(-1px);
+      }
+
+      .hero-stats .email-bound {
+        margin: 0;
+        padding: 8px 12px;
+        border-radius: 10px;
+        font-size: 11px;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: #10b981;
+        background: rgba(16, 185, 129, 0.12);
+        border: 1px solid rgba(16, 185, 129, 0.35);
+        white-space: nowrap;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
       }
 
       .stat {
@@ -978,7 +967,7 @@
       .subscription-status-card .hero-stats {
         background: transparent;
         border: none;
-        padding: 0 0 56px;
+        padding: 0 0 20px;
         margin-bottom: 20px;
         border-bottom: 1px solid var(--border);
         border-radius: 0;
@@ -993,6 +982,7 @@
 
       .traffic-header {
         display: flex;
+        flex-direction: row-reverse;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 16px;
@@ -1057,6 +1047,7 @@
         color: #22d3ee;
         line-height: 1.1;
         text-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
+        transform: translateY(3px);
       }
 
       .traffic-big-label {
@@ -1286,6 +1277,114 @@
       .renew-field select:focus {
         outline: none;
         border-color: var(--accent);
+      }
+
+      .renew-field input[type="email"],
+      .renew-field input[type="text"] {
+        width: 100%;
+        background: #0f1320;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 10px 12px;
+        border-radius: 10px;
+        font-size: 14px;
+      }
+
+      .renew-field input[type="email"]:focus,
+      .renew-field input[type="text"]:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+
+      .email-opt {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        transition: border-color 0.2s ease;
+      }
+
+      .email-opt:hover {
+        border-color: rgba(56, 189, 248, 0.4);
+      }
+
+      .email-opt input[type="checkbox"] {
+        margin-top: 3px;
+        accent-color: var(--accent);
+        flex-shrink: 0;
+      }
+
+      .email-opt span {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .email-opt span b {
+        color: var(--text);
+      }
+
+      .stats-actions .small-add.hidden {
+        display: none;
+      }
+
+      .email-beta-notice {
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        color: #fbbf24;
+        font-size: 13px;
+        line-height: 1.5;
+        margin-bottom: 16px;
+      }
+
+      .email-beta-notice b {
+        color: #fbbf24;
+      }
+
+      .email-bound-modal {
+        padding: 14px 16px;
+        border-radius: 12px;
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: #10b981;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 16px;
+      }
+
+      .email-bound-modal.hidden {
+        display: none;
+      }
+
+      .email-change-link {
+        color: var(--muted);
+        text-decoration: underline dotted;
+        cursor: pointer;
+        text-transform: none;
+        letter-spacing: 0;
+      }
+
+      .email-change-link:hover {
+        color: var(--text);
+      }
+
+      #emailResult {
+        margin-top: 12px;
+        min-height: 18px;
+      }
+
+      #emailResult.error {
+        color: #ef4444;
+      }
+
+      #emailResult.success {
+        color: #10b981;
       }
 
       .renew-options {
@@ -1631,17 +1730,6 @@
       }
 
       @media (max-width: 560px) {
-        #env-switcher {
-          flex-direction: row;
-          flex-wrap: wrap;
-          width: 100%;
-        }
-
-        #env-switcher .env-badge {
-          font-size: 11px;
-          padding: 3px 8px;
-        }
-
         .small-id {
           word-break: break-all;
           font-size: 11px;
@@ -1687,12 +1775,11 @@
         .hero-stats {
           grid-template-columns: 1fr;
           gap: 12px;
-          padding: 16px 16px 60px 16px;
+          padding: 16px;
         }
 
         .stats-actions {
-          bottom: 12px;
-          right: 12px;
+          margin-top: 8px;
         }
 
         .stat {
@@ -1743,23 +1830,18 @@
 
         .hero-stats {
           grid-template-columns: 1fr;
-          padding: 16px 16px 70px 16px;
+          padding: 16px;
           gap: 12px;
         }
 
         .stats-actions {
-          bottom: 12px;
-          right: 12px;
-          max-width: calc(100% - 24px);
+          margin-top: 8px;
         }
 
         .hero-stats .stats-add-btn {
-          font-size: 10px;
-          padding: 7px 8px;
-          letter-spacing: 0.3px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          font-size: 11px;
+          padding: 9px 12px;
+          letter-spacing: 0.5px;
         }
 
         .stat {
@@ -1931,24 +2013,17 @@
         }
 
         .stats-actions {
-          position: relative;
-          bottom: auto;
-          right: auto;
           margin-top: 12px;
-          justify-content: stretch;
-          flex-direction: column;
+          flex-wrap: nowrap;
+          overflow-x: auto;
           width: 100%;
-          max-width: none;
         }
 
         .stats-actions .stats-add-btn {
-          width: 100%;
-          justify-content: center;
           font-size: 12px;
           padding: 10px 14px;
-          white-space: normal;
-          overflow: visible;
-          text-overflow: clip;
+          white-space: nowrap;
+          flex-shrink: 0;
         }
       }
     </style>
@@ -1959,11 +2034,6 @@
       <header>
         <div id="logo-container"></div>
       </header>
-
-      <div class="env-switcher-wrap">
-        <div id="env-switcher"></div>
-        <div id="env-current" class="env-current-badge"></div>
-      </div>
 
       <div id="error-content" class="error-state">
         <h2>Пупупууу! Подписка не найдена</h2>
@@ -2065,7 +2135,10 @@
                   >⚡ Докинуть дней</a
                 >
                 <a class="small-add stats-add-btn" id="openReferralModal"
-                  >👥 Пригласить друга</a
+                  >👥 Для друга</a
+                >
+                <a class="small-add stats-add-btn" id="openEmailModal"
+                  >✉️ Email</a
                 >
                 <a
                   class="small-add stats-add-btn tg-btn"
@@ -2329,6 +2402,74 @@
       <div id="qr-modal" class="qr-modal hidden">
         <div class="qr-content">
           <canvas id="qr-canvas"></canvas>
+        </div>
+      </div>
+
+      <div id="email-modal" class="renew-modal hidden">
+        <div class="renew-modal-content" style="max-width: 520px">
+          <button type="button" class="renew-modal-close" id="closeEmailModal">
+            ×
+          </button>
+          <h2 class="renew-modal-title">✉️ Привязать email</h2>
+          <p class="renew-modal-subtitle">
+            Напомним, когда подписка будет заканчиваться, и расскажем о
+            новостях. Сам email нигде на странице не отображается. Хранится в
+            отдельной базе данных в зашифрованном виде.
+          </p>
+
+          <div class="email-beta-notice">
+            <b>⚠️ Экспериментальная функция.</b> Привязка email необязательна —
+            это компромисс между удобством (напоминания о подписке) и
+            приватностью (хранение адреса в нашей базе). Без email всё
+            продолжит работать как раньше.
+          </div>
+
+          <div
+            id="email-bound-modal"
+            class="email-bound-modal hidden"
+          >
+            ✉️ Email привязан. Сменить можно через
+            <a
+              href="https://t.me/frkn_support"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="email-change-link"
+              >поддержку</a
+            >.
+          </div>
+
+          <div id="email-form-wrap">
+            <div class="renew-field" style="margin-bottom: 16px">
+              <label for="emailInput">Email</label>
+              <input
+                id="emailInput"
+                type="email"
+                placeholder="you@example.com"
+                autocomplete="email"
+              />
+            </div>
+
+            <label class="email-opt" for="optSystem">
+              <input type="checkbox" id="optSystem" checked />
+              <span
+                ><b>Системные уведомления</b> — напоминания об окончании
+                подписки: за 3 дня, за 24 часа и за 6 часов</span
+              >
+            </label>
+
+            <label class="email-opt" for="optMarketing">
+              <input type="checkbox" id="optMarketing" checked />
+              <span
+                ><b>Новости и статьи</b> — редкие письма о новых функциях и
+                статьях из FRKN Labs</span
+              >
+            </label>
+
+            <button id="emailSubmit" class="btn try" style="margin-top: 8px">
+              Привязать
+            </button>
+            <div id="emailResult" class="small"></div>
+          </div>
         </div>
       </div>
 
@@ -2658,6 +2799,7 @@
 
           showSuccess();
           renderSubscriptionData(data, subId, currentEnv);
+          initEmailBinding(subId);
         } catch (err) {
           console.error("❌ Критическая ошибка:", err);
           showError();
@@ -2938,33 +3080,7 @@
         document.getElementById("copy-ref-link").onclick = () =>
           copyText(refLink, "Ссылка скопирована! Поделись с другом");
 
-        const switcher = document.getElementById("env-switcher");
-        const currentBadge = document.getElementById("env-current");
-        if (switcher && data.locations) {
-          switcher.innerHTML = "";
-          if (currentBadge) {
-            currentBadge.innerText = ENV_NAMES[currentEnv] || currentEnv.toUpperCase();
-          }
-          data.locations.forEach((l) => {
-            if (l.env === "production") return;
-            if (l.env === currentEnv) return;
-            const hasXray = l.has_xray || l.hasXray;
-            const hasH2 = l.has_h2 || l.hasH2;
-            const hasMtproto = l.has_mtproto || l.hasMtproto;
-            const hasWg = l.has_wg || l.hasWg;
-            const hasAwg = l.has_awg || l.hasAwg;
-            if (!hasXray && !hasH2 && !hasMtproto && !hasWg && !hasAwg)
-              return;
-            const a = document.createElement("a");
-            a.href = `?id=${subId}&env=${l.env}`;
-            a.className = `env-badge`;
-            a.style.marginLeft = "8px";
-            a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
-            switcher.appendChild(a);
-          });
-        }
-
-        // Дублируем выбор окружения на карточку подборщика
+        // Выбор окружения в карточке подборщика
         const pickerEnvRow = document.getElementById("picker-env-row");
         const pickerEnvSwitcher = document.getElementById("picker-env-switcher");
         if (pickerEnvSwitcher && data.locations) {
@@ -3015,6 +3131,123 @@
             has_mtproto: hasMtproto,
           };
           initConnectionFlow();
+          initEmailBinding(subId);
+        }
+      }
+
+      // ---- Привязка email ----
+
+      function openEmailModalFn() {
+        const m = document.getElementById("email-modal");
+        if (m) m.classList.remove("hidden");
+      }
+
+      function closeEmailModalFn() {
+        const m = document.getElementById("email-modal");
+        if (m) m.classList.add("hidden");
+      }
+
+      function setEmailBoundUI(bound) {
+        const formWrap = document.getElementById("email-form-wrap");
+        const boundModal = document.getElementById("email-bound-modal");
+        if (formWrap) formWrap.classList.toggle("hidden", bound);
+        if (boundModal) boundModal.classList.toggle("hidden", !bound);
+        console.log("[email] UI bound state:", bound);
+      }
+
+      function initEmailBinding(subId) {
+        const FLAG_KEY = `frkn_email_bound_${subId}`;
+        let localBound = false;
+        try {
+          localBound = localStorage.getItem(FLAG_KEY) === "1";
+        } catch (e) {}
+        console.log("[email] localStorage bound:", localBound);
+        setEmailBoundUI(localBound);
+
+        const url = `${API_BASE}/validate/email?subscription_id=${encodeURIComponent(subId)}`;
+        console.log("[email] GET", url);
+        fetch(url)
+          .then((r) => {
+            console.log("[email] /validate/email status:", r.status);
+            return r.ok ? r.json() : Promise.reject(r.status);
+          })
+          .then((v) => {
+            const bound = v === true;
+            console.log("[email] /validate/email response:", v, "bound:", bound);
+            setEmailBoundUI(bound);
+            try {
+              if (bound) localStorage.setItem(FLAG_KEY, "1");
+              else localStorage.removeItem(FLAG_KEY);
+            } catch (e) {}
+          })
+          .catch((err) => {
+            console.warn("[email] /validate/email failed:", err);
+          });
+      }
+
+      async function submitEmailBinding(subId) {
+        const input = document.getElementById("emailInput");
+        const optSystem = document.getElementById("optSystem");
+        const optMarketing = document.getElementById("optMarketing");
+        const result = document.getElementById("emailResult");
+        const btn = document.getElementById("emailSubmit");
+        if (!input || !result || !btn) return;
+
+        const email = input.value.trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          result.className = "small error";
+          result.textContent = "Похоже, в email опечатка — проверьте адрес.";
+          return;
+        }
+
+        btn.disabled = true;
+        result.className = "small";
+        result.textContent = "Отправляем…";
+
+        const payload = {
+          email,
+          subscription_id: subId,
+          marketing_emails: optMarketing ? optMarketing.checked : true,
+          system_notifications: optSystem ? optSystem.checked : true,
+          language: "ru",
+        };
+        console.log("[email] POST /account payload:", payload);
+
+        try {
+          const response = await fetch(`${API_BASE}/account`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          console.log("[email] /account status:", response.status);
+          if (!response.ok) {
+            let msg = "";
+            try {
+              const data = await response.json();
+              console.log("[email] /account error response:", data);
+              if (data && data.message) msg = data.message;
+            } catch (e) {}
+            throw new Error(msg || `HTTP ${response.status}`);
+          }
+
+          const data = await response.json();
+          console.log("[email] /account success response:", data);
+          result.className = "small success";
+          result.textContent = "Готово! Email привязан.";
+          try {
+            localStorage.setItem(`frkn_email_bound_${subId}`, "1");
+          } catch (e) {}
+          setEmailBoundUI(true);
+          setTimeout(closeEmailModalFn, 1200);
+        } catch (e) {
+          console.error("[email] /account failed:", e);
+          result.className = "small error";
+          result.textContent =
+            e.message && !/^HTTP /.test(e.message)
+              ? e.message
+              : "Не получилось привязать. Попробуйте ещё раз чуть позже.";
+        } finally {
+          btn.disabled = false;
         }
       }
 
@@ -3768,6 +4001,51 @@
             closeRenewModal();
           }
         });
+
+        // Email modal
+        const emailModal = document.getElementById("email-modal");
+        const openEmailModalBtn = document.getElementById("openEmailModal");
+        const closeEmailModalBtn = document.getElementById("closeEmailModal");
+        const emailSubmitBtn = document.getElementById("emailSubmit");
+        const emailInput = document.getElementById("emailInput");
+
+        if (openEmailModalBtn) {
+          openEmailModalBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            openEmailModalFn();
+          });
+        }
+
+        if (closeEmailModalBtn) {
+          closeEmailModalBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            closeEmailModalFn();
+          });
+        }
+
+        if (emailModal) {
+          emailModal.addEventListener("click", (e) => {
+            if (e.target === emailModal) closeEmailModalFn();
+          });
+        }
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && emailModal && !emailModal.classList.contains("hidden")) {
+            closeEmailModalFn();
+          }
+        });
+
+        if (emailSubmitBtn) {
+          emailSubmitBtn.addEventListener("click", () => {
+            submitEmailBinding(getSubId());
+          });
+        }
+
+        if (emailInput) {
+          emailInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") submitEmailBinding(getSubId());
+          });
+        }
 
         // Referral modal
         const referralModal = document.getElementById("referral-modal");
