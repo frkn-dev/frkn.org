@@ -277,6 +277,8 @@
         flex-direction: column;
         gap: 14px;
         transition: border-color 0.2s ease;
+        height: 100%;
+        box-sizing: border-box;
       }
 
       .benefit-card:hover {
@@ -652,16 +654,25 @@
             <p>ID подписки — UUID, который пришёл после оплаты</p>
           </div>
 
-          <form id="subscriptionForm">
+          <form id="subscriptionForm" autocomplete="on">
             <div class="input-group">
               <label for="subId">ID подписки</label>
               <input
                 type="text"
                 id="subId"
-                name="id"
+                name="username"
                 placeholder="Введите ID подписки"
                 required
-                autocomplete="off"
+                autocomplete="username"
+              />
+              <input
+                type="password"
+                name="password"
+                autocomplete="current-password"
+                value="subscription"
+                style="display: none"
+                tabindex="-1"
+                aria-hidden="true"
               />
               <span class="input-hint"
                 >Например: 550e8400-e29b-41d4-a716-446655440000</span
@@ -692,7 +703,7 @@
             </div>
           </div>
 
-          <div class="benefit-card wide">
+          <div class="benefit-card">
             <div class="benefit-icon purple">📱</div>
             <div class="benefit-content">
               <h4>Настройка на любом устройстве</h4>

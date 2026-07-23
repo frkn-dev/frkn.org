@@ -39,6 +39,11 @@
   }
 
   function autoRedirect() {
+    // Do not auto-redirect on subscription pages: user may intentionally open /en/subscription/ or /subscription/
+    if (path.startsWith("/subscription") || path.startsWith("/en/subscription")) {
+      return;
+    }
+
     const saved = localStorage.getItem("frkn-lang");
     if (!saved || saved === currentLang) {
       sessionStorage.removeItem("frkn-lang-redirect-count");

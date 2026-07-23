@@ -171,7 +171,7 @@
       }
 
       .status-active {
-        margin-top: 10px;
+        margin-top: 0;
         color: #10b981 !important;
         background: rgba(16, 185, 129, 0.15);
         padding: 4px 12px !important;
@@ -500,7 +500,8 @@
         align-items: center;
         gap: 8px;
         flex-wrap: wrap;
-        margin-top: 12px;
+        margin-top: 4px;
+        margin-bottom: 16px;
       }
 
       .picker-env-label {
@@ -533,6 +534,24 @@
         background: rgba(91, 124, 250, 0.15);
         border-color: var(--accent);
         color: #fff;
+      }
+
+      .env-badge-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .env-badge-desc {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.3;
+        max-width: 180px;
+        display: none;
+      }
+
+      .env-badge-wrap.active .env-badge-desc {
+        display: block;
       }
 
       .protocol-grid {
@@ -2019,13 +2038,698 @@
           flex-shrink: 0;
         }
       }
+
+      /* --- New dashboard design --- */
+      .subscription-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+      }
+
+      .header-left {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .header-left .logo a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--text);
+        font-size: 1.25rem;
+        font-weight: 700;
+      }
+
+      .header-left .logo img {
+        width: 32px;
+        height: 32px;
+      }
+
+      .logo-tagline {
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--muted);
+        opacity: 0.5;
+      }
+
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .lang-switcher {
+        display: flex;
+        gap: 4px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        padding: 4px;
+      }
+
+      .lang-btn {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--muted);
+        text-decoration: none;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .lang-btn.active {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .support-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 14px;
+        border-radius: 10px;
+        background: rgba(239, 68, 68, 0.15);
+        color: #f87171;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        transition: all 0.2s ease;
+      }
+
+      .support-btn:hover {
+        background: rgba(239, 68, 68, 0.25);
+        transform: translateY(-1px);
+      }
+
+      .user-id-block {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .bookmark-btn {
+        background: transparent;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 4px;
+        opacity: 0.7;
+        transition: all 0.2s ease;
+      }
+
+      .bookmark-btn:hover,
+      .bookmark-btn.active {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+
+      .dashboard-card {
+        background: rgba(30, 41, 59, 0.4);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 24px;
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+
+      .card-header h2 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .status-id-line {
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+        color: var(--text);
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        border-right: 2px solid var(--accent);
+        padding-right: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .expires-line.hidden {
+        display: none;
+      }
+
+      .expires-line {
+        font-size: 14px;
+        color: var(--muted);
+        margin-top: 8px;
+      }
+
+      .traffic-summary-inline {
+        min-width: 140px;
+      }
+
+      .traffic-summary-inline .traffic-value {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #22d3ee;
+        text-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
+      }
+
+      .traffic-summary-inline .traffic-label {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 4px;
+        margin-bottom: 8px;
+      }
+
+      .traffic-summary-inline .traffic-bar {
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .traffic-summary-inline .traffic-bar-fill {
+        height: 100%;
+        background: #22d3ee;
+        border-radius: 999px;
+        width: 0%;
+        transition: width 0.5s ease;
+      }
+
+      .secondary-btn.tg-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        text-decoration: none;
+        color: #fff;
+        background: rgba(34, 158, 217, 0.15);
+        border-color: rgba(34, 158, 217, 0.4);
+      }
+
+      .secondary-btn.tg-btn:hover {
+        background: rgba(34, 158, 217, 0.25);
+        border-color: rgba(34, 158, 217, 0.6);
+      }
+
+      .connection-link-section h2 {
+        position: relative;
+        cursor: help;
+      }
+
+      .connection-link-section h2:hover::after {
+        content: "Universal connection link, works for most accounts";
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        margin-bottom: 8px;
+        padding: 8px 12px;
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 12px;
+        color: var(--text);
+        white-space: nowrap;
+        z-index: 10;
+      }
+
+      .status-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #10b981;
+        box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+      }
+
+      .status-body {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-bottom: 20px;
+      }
+
+      .status-info {
+        flex: 1;
+      }
+
+      .status-label {
+        font-size: 14px;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .days-circle {
+        position: relative;
+        width: 120px;
+        height: 120px;
+      }
+
+      .days-progress {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+      }
+
+      .days-progress-bg {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.1);
+        stroke-width: 8;
+      }
+
+      .days-progress-fill {
+        fill: none;
+        stroke: #10b981;
+        stroke-width: 8;
+        stroke-linecap: round;
+        stroke-dasharray: 339.292;
+        stroke-dashoffset: 339.292;
+        transition: stroke-dashoffset 0.5s ease;
+      }
+
+      .days-number {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #10b981;
+        text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+      }
+
+      .status-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+        background: rgba(16, 185, 129, 0.15);
+        color: #10b981;
+        width: fit-content;
+      }
+
+      .trial-pill {
+        display: inline-flex;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+        background: rgba(245, 158, 11, 0.15);
+        color: #fbbf24;
+        width: fit-content;
+      }
+
+      .trial-pill.hidden {
+        display: none;
+      }
+
+      .early-adopter-pill {
+        display: inline-flex;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 700;
+        background: rgba(139, 92, 246, 0.15);
+        color: #a78bfa;
+        width: fit-content;
+      }
+
+      .early-adopter-pill.hidden {
+        display: none;
+      }
+
+      .expires-line {
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .renew-main-btn {
+        width: 100%;
+        padding: 16px;
+        border-radius: 14px;
+        border: none;
+        background: #10b981;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-bottom: 16px;
+      }
+
+      .renew-main-btn:hover {
+        background: #0da271;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+      }
+
+      .secondary-actions {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .secondary-btn {
+        flex: 0 0 auto;
+        padding: 10px 16px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        text-decoration: none;
+        min-height: 40px;
+      }
+
+      .secondary-btn:hover {
+        background: rgba(91, 124, 250, 0.15);
+        border-color: rgba(91, 124, 250, 0.4);
+        transform: translateY(-1px);
+      }
+
+      .traffic-summary {
+        border-top: 1px solid var(--border);
+        padding-top: 20px;
+      }
+
+      .traffic-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #22d3ee;
+        text-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
+      }
+
+      .traffic-label {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 4px;
+        margin-bottom: 12px;
+      }
+
+      .traffic-bar {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .traffic-bar-fill {
+        height: 100%;
+        background: #22d3ee;
+        border-radius: 999px;
+        width: 0%;
+        transition: width 0.5s ease;
+      }
+
+      .connection-link-section h2 {
+        margin: 0 0 16px;
+        font-size: 18px;
+      }
+
+      .connection-link-box {
+        padding: 16px;
+        border-radius: 14px;
+        background: rgba(0, 0, 0, 0.25);
+        color: #10b981;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 1rem;
+        word-break: break-all;
+        margin-bottom: 16px;
+      }
+
+      .connection-actions {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .action-btn {
+        flex: 1;
+        padding: 14px;
+        border-radius: 12px;
+        border: none;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .action-btn.primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .action-btn.primary:hover {
+        background: #6d8bfb;
+        transform: translateY(-1px);
+      }
+
+      .action-btn.secondary {
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      .action-btn.secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .quick-start-section h3 {
+        margin: 0 0 16px;
+        font-size: 16px;
+      }
+
+      .quick-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-bottom: 20px;
+      }
+
+      .quick-step {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .step-number {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(91, 124, 250, 0.2);
+        color: var(--accent-2);
+        font-size: 13px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .step-icon {
+        font-size: 20px;
+        flex-shrink: 0;
+      }
+
+      .step-text {
+        font-size: 14px;
+        color: var(--text);
+        line-height: 1.4;
+      }
+
+      .device-picker {
+        border-top: 1px solid var(--border);
+        padding-top: 16px;
+      }
+
+      .device-picker-toggle {
+        display: inline-flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        width: fit-content;
+        padding: 12px 16px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        list-style: none;
+        border: 1px solid var(--border);
+        transition: all 0.2s ease;
+      }
+
+      .device-picker-toggle:hover {
+        background: rgba(91, 124, 250, 0.15);
+        border-color: rgba(91, 124, 250, 0.4);
+      }
+
+      .device-picker-toggle::-webkit-details-marker {
+        display: none;
+      }
+
+      .device-picker-arrow {
+        transition: transform 0.2s ease;
+      }
+
+      .device-picker[open] .device-picker-arrow {
+        transform: rotate(180deg);
+      }
+
+      .device-picker-content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .device-picker-content .pill-button {
+        padding: 10px 16px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .device-picker-content .pill-button:hover,
+      .device-picker-content .pill-button.active {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+
+      .subscription-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 0;
+        border-top: 1px solid var(--border);
+        margin-top: 32px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .footer-right {
+        display: flex;
+        gap: 16px;
+      }
+
+      .footer-right a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .footer-right a:hover {
+        color: var(--text);
+      }
+
+      @media (max-width: 900px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .status-body {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .status-meta {
+          align-items: center;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .subscription-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .header-right {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .connection-actions {
+          flex-direction: column;
+        }
+
+        .secondary-actions {
+          flex-direction: column;
+        }
+
+        .subscription-footer {
+          flex-direction: column;
+          gap: 12px;
+        }
+      }
     </style>
   </head>
 
   <body class="landing-page subscription-page">
     <div class="container">
-      <header>
-        <div id="logo-container"></div>
+      <header class="subscription-header">
+        <div class="header-left">
+          <div class="logo">
+            <a href="/en/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN</a>
+          </div>
+          <div class="logo-tagline">PRIVACY IS OUR RELIGION</div>
+        </div>
+        <div class="header-right">
+          <div class="lang-switcher">
+            <a class="lang-btn" href="/subscription/">RU</a>
+            <button class="lang-btn active" type="button">EN</button>
+          </div>
+          <a
+            class="support-btn"
+            href="https://t.me/frkn_support"
+            target="_blank"
+            rel="noopener noreferrer"
+            >❤️ Support</a
+          >
+        </div>
       </header>
 
       <div id="error-content" class="error-state">
@@ -2034,10 +2738,12 @@
           The link seems incorrect or the key has expired.
         </p>
 
-        <div style="margin: 20px 0">
+        <form id="sub-id-form" style="margin: 20px 0" autocomplete="on">
           <input
             type="text"
             id="sub-id-input"
+            name="username"
+            autocomplete="username"
             placeholder="Paste your Subscription ID"
             style="
               width: 100%;
@@ -2048,10 +2754,19 @@
               margin-bottom: 10px;
             "
           />
+          <input
+            type="password"
+            name="password"
+            autocomplete="current-password"
+            value="subscription"
+            style="display: none"
+            tabindex="-1"
+            aria-hidden="true"
+          />
 
           <br />
 
-          <button id="open-sub-btn" class="btn try">
+          <button id="open-sub-btn" class="btn try" type="submit">
             Open subscription
           </button>
 
@@ -2059,7 +2774,7 @@
             id="sub-error"
             style="color: #f87171; font-size: 13px; margin-top: 5px"
           ></div>
-        </div>
+        </form>
 
         <div class="error-actions">
           <a href="https://t.me/frkn_support"><button class="btn try">
@@ -2073,278 +2788,152 @@
       </div>
 
       <main class="main-content" id="main-content">
-        <section class="subscription-hero">
-          <h3 class="hero-title">Your personal account</h3>
-          <p class="hero-subtitle">
-            All subscription info, connection links and settings, and renewal
-            options. Setup is simple and takes just a couple of minutes.
-          </p>
+        <div class="dashboard-grid">
+          <!-- Status card -->
+          <div class="dashboard-card status-card">
+            <div class="card-header">
+              <span class="status-dot"></span>
+              <h2>Subscription status</h2>
+              <div class="status-pill" id="status-text">...</div>
+              <div class="trial-pill hidden" id="trial-pill">Trial</div>
+              <div class="early-adopter-pill hidden" id="early-adopter-pill">Early Adopter</div>
+            </div>
 
-          <div class="subscription-meta">
-            <span class="small-id">ID: <span id="sub-id">...</span></span>
-          </div>
+            <div class="status-id-line">
+              ID: <span id="sub-id">...</span>
+            </div>
 
-          <div id="urgency-banner"></div>
-        </section>
+            <div class="status-body">
+              <div class="status-info">
+                <div class="days-display">
+                  <div class="days-circle" id="days-toggle" style="cursor: pointer" title="Click to see expiry date">
+                    <svg viewBox="0 0 120 120" class="days-progress">
+                      <circle
+                        class="days-progress-bg"
+                        cx="60"
+                        cy="60"
+                        r="54"
+                      ></circle>
+                      <circle
+                        class="days-progress-fill"
+                        id="days-progress-fill"
+                        cx="60"
+                        cy="60"
+                        r="54"
+                      ></circle>
+                    </svg>
+                    <div class="days-number" id="days">...</div>
+                  </div>
+                </div>
+                <div class="expires-line hidden" id="expires-line">
+                  Expires: <span id="expires">...</span>
+                </div>
+              </div>
 
-        <div class="subscription-row">
-          <div class="subscription-notices">
-            <div class="info-tooltip">
-              <span>⭐</span>
-              <span
-                ><b>Bookmark this page.</b> Your subscription number is saved in
-                the browser — next time you’ll open it instantly, without a
-                key.</span
+              <div class="status-meta">
+                <div class="traffic-summary-inline" id="traffic-summary-inline" style="cursor: pointer" title="Click for details">
+                  <div class="traffic-value" id="traffic-total">0 B</div>
+                  <div class="traffic-label" id="traffic-limit-text">No limit</div>
+                  <div class="traffic-bar">
+                    <div class="traffic-bar-fill" id="traffic-bar-fill"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button class="renew-main-btn" id="scrollToAdd">
+              Renew subscription
+            </button>
+
+            <div class="secondary-actions">
+              <button class="secondary-btn" id="openReferralModal">
+                👥 Share with a friend
+              </button>
+              <button class="secondary-btn" id="openEmailModal">
+                ✉️ Email
+              </button>
+              <a
+                class="secondary-btn tg-btn"
+                href="https://t.me/frkn_org"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-            </div>
-          </div>
-        </div>
-
-        <div class="subscription-row">
-          <div class="subscription-status-card">
-            <div class="hero-stats" style="position: relative">
-              <div class="stat">Status<span id="status-text">...</span></div>
-              <div class="stat">Days left <b id="days">...</b></div>
-              <div class="stat">Expires <span id="expires">...</span></div>
-              <div class="stats-actions">
-                <a class="small-add stats-add-btn" id="scrollToAdd">⚡ Add days</a>
-                <a class="small-add stats-add-btn" id="openReferralModal"
-                  >👥 For a friend</a
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
                 >
-                <a class="small-add stats-add-btn" id="openEmailModal"
-                  >✉️ Email</a
-                >
-                <a
-                  class="small-add stats-add-btn tg-btn"
-                  href="https://t.me/frkn_org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.9-.74 1.12-1.5.7l-4.15-3.06-2 1.85c-.23.23-.42.42-.83.42z"
-                    />
-                  </svg>
-                  SUBSCRIBE
-                </a>
-              </div>
-            </div>
-
-            <div class="traffic-widget traffic-widget-compact">
-              <div class="traffic-header">
-                <div class="traffic-env-selector">
-                  <label for="traffic-env-select">Environment</label>
-                  <select id="traffic-env-select">
-                    <option value="all">All</option>
-                  </select>
-                </div>
-                <div class="traffic-toggle" id="traffic-toggle">
-                  <span>Details</span>
-                  <span class="traffic-arrow" id="traffic-arrow">▼</span>
-                </div>
-              </div>
-
-              <div class="traffic-main">
-                <div class="traffic-big-value" id="traffic-total">0 B</div>
-                <div class="traffic-limit-text" id="traffic-limit-text">
-                  No limit
-                </div>
-              </div>
-
-              <div
-                class="traffic-details"
-                id="traffic-details"
-                style="display: none"
-              >
-                <div class="traffic-detail-grid">
-                  <div class="traffic-detail-card">
-                    <div class="traffic-detail-label">Sent</div>
-                    <div class="traffic-detail-value" id="traffic-uplink">0 B</div>
-                  </div>
-                  <div class="traffic-detail-card">
-                    <div class="traffic-detail-label">Received</div>
-                    <div class="traffic-detail-value" id="traffic-downlink">0 B</div>
-                  </div>
-                  <div class="traffic-detail-card">
-                    <div class="traffic-detail-label">Sent today</div>
-                    <div class="traffic-detail-value" id="traffic-daily-uplink">0 B</div>
-                  </div>
-                  <div class="traffic-detail-card">
-                    <div class="traffic-detail-label">Received today</div>
-                    <div class="traffic-detail-value" id="traffic-daily-downlink">0 B</div>
-                  </div>
-                  <div class="traffic-detail-card">
-                    <div class="traffic-detail-label">Sent this month</div>
-                    <div class="traffic-detail-value" id="traffic-monthly-uplink">0 B</div>
-                  </div>
-                  <div class="traffic-detail-card">
-                    <div class="traffic-detail-label">Received this month</div>
-                    <div class="traffic-detail-value" id="traffic-monthly-downlink">0 B</div>
-                  </div>
-                </div>
-              </div>
+                  <path
+                    d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.9-.74 1.12-1.5.7l-4.15-3.06-2 1.85c-.23.23-.42.42-.83.42z"
+                  />
+                </svg>
+                Subscribe
+              </a>
             </div>
           </div>
 
-          <div class="subscription-link-card primary-action">
-            <div class="subscription-link-label">
-              <div class="label-main">🔗 Universal subscription link</div>
-              <div class="label-hint">
-                Copy it and paste into your client app. SCROLL DOWN FOR MORE.
-                AMNEZIA IS SET UP SEPARATELY.
-              </div>
-            </div>
-
-            <div class="subscription-link-row main-link-row">
-              <div id="subscription-link" class="subscription-link">
+          <!-- Connection card -->
+          <div class="dashboard-card connection-card">
+            <div class="connection-link-section">
+              <h2>🔗 Your connection link</h2>
+              <div class="connection-link-box" id="subscription-link">
                 sub.frkn.org/...
               </div>
-
-              <div class="subscription-actions">
-                <button id="copy-sub-link" class="btn try">📋 Copy link</button>
-
-                <button id="show-qr-btn" class="btn ghost">📱 QR Code</button>
+              <div class="connection-actions">
+                <button class="action-btn primary" id="copy-sub-link">
+                  📋 Copy link
+                </button>
+                <button class="action-btn secondary" id="show-qr-btn">
+                  📱 Show QR code
+                </button>
               </div>
+            </div>
+
+            <div class="quick-start-section">
+              <h3>Connect in 3 steps</h3>
+              <div class="quick-steps">
+                <div class="quick-step">
+                  <div class="step-number">1</div>
+                  <div class="step-icon">📋</div>
+                  <div class="step-text">
+                    Copy the link or scan the QR code
+                  </div>
+                </div>
+                <div class="quick-step">
+                  <div class="step-number">2</div>
+                  <div class="step-icon">📱</div>
+                  <div class="step-text">
+                    Download the recommended app for your device
+                  </div>
+                </div>
+                <div class="quick-step">
+                  <div class="step-number">3</div>
+                  <div class="step-icon">🔗</div>
+                  <div class="step-text">Paste the link into the app</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button class="device-picker-toggle" id="openDeviceModal" type="button">
+                More settings
+                <span class="device-picker-arrow">▼</span>
+              </button>
+              <button class="device-picker-toggle" id="openAwgModal" type="button">
+                <img
+                  src="/Images/wireguard.svg"
+                  alt=""
+                  style="width: 16px; height: 16px; filter: brightness(1.2);"
+                />
+                AmneziaWG 2.0
+              </button>
             </div>
           </div>
         </div>
 
-        <div class="subscription-row">
-          <div class="quick-start-card">
-            <h4>⚡ Quick start: how to connect</h4>
-            <ol class="quick-start-list">
-              <li>
-                <span class="step-num">1</span>
-                <span class="step-text"
-                  ><b>Copy the link</b> from the block below or scan the QR
-                  code.</span
-                >
-              </li>
-              <li>
-                <span class="step-num">2</span>
-                <span class="step-text"
-                  ><b>Install a client app</b> for your OS (Hiddify, V2RayNG,
-                  Streisand, etc.).</span
-                >
-              </li>
-              <li>
-                <span class="step-num">3</span>
-                <span class="step-text"
-                  ><b>Paste the link</b> into the app — it will load all the
-                  settings automatically.</span
-                >
-              </li>
-            </ol>
-            <div class="info-tooltip" style="margin-top: 14px">
-              💡 Not sure which app to choose? Use the picker below or go to the
-              setup page.
-            </div>
-          </div>
-
-          <details class="subscription-section subscription-picker">
-          <summary>
-            <div class="subscription-picker-header">
-              <h3>📲 App picker for your device</h3>
-              <p class="section-subtitle">
-                Answer 3 questions and we’ll suggest which app to download and which
-                link to use.
-              </p>
-              <div class="quick-protocol-row">
-                <button
-                  type="button"
-                  class="pill-button quick-protocol"
-                  data-protocol="hysteria2"
-                >
-                  💨 Hysteria2
-                </button>
-                <button
-                  type="button"
-                  class="pill-button quick-protocol"
-                  data-protocol="awg"
-                >
-                  <img src="/Images/wireguard.svg" alt="" /> AmneziaWG
-                </button>
-                <button
-                  type="button"
-                  class="pill-button quick-protocol"
-                  data-protocol="xray"
-                >
-                  <img src="/Images/xray.svg" alt="" /> Xray
-                </button>
-                <button
-                  type="button"
-                  class="pill-button all-options-btn"
-                  id="all-options-btn"
-                >
-                  View all options
-                  <span class="all-options-arrow">▼</span>
-                </button>
-              </div>
-              <div class="picker-env-row" id="picker-env-row">
-                <span class="picker-env-label">Region:</span>
-                <div id="picker-env-switcher" class="picker-env-badges"></div>
-              </div>
-            </div>
-            <span class="subscription-picker-chevron"></span>
-          </summary>
-
-          <div class="steps-flow">
-            <div class="step-card" id="protocol-step">
-              <h4>1. Which protocol to choose?</h4>
-              <p class="small" style="margin: 0 0 14px">
-                <b style="color: var(--text)">We recommend AmneziaWG and Hysteria2</b>
-                — they work more stably and faster in most cases.
-              </p>
-              <div id="protocol-options" class="protocol-grid"></div>
-              <div class="step-hint">
-                If unsure, choose AmneziaWG or Hysteria2. Other protocols are for
-                special cases.
-              </div>
-            </div>
-
-            <div class="step-card step-disabled" id="os-step">
-              <h4>2. Which device will you use Reelsoprovod on?</h4>
-              <div id="os-options" class="pill-group"></div>
-              <div class="step-hint">
-                Choose your operating system: Windows, macOS, Android, iOS, etc.
-              </div>
-            </div>
-
-            <div class="step-card step-disabled" id="client-step">
-              <h4>3. Which app to install?</h4>
-              <div id="client-options" class="pill-group"></div>
-              <div class="step-hint">
-                Choose a client app that supports your device.
-              </div>
-            </div>
-
-            <div class="step-card step-disabled" id="connection-step">
-              <h4>Done — link for the selected configuration</h4>
-              <div id="connection-content" class="small">
-                Choose a protocol, device, and app to get the exact connection link.
-              </div>
-            </div>
-          </div>
-
-          <div class="setup-help-card">
-            <div class="setup-help-icon">🌐</div>
-            <div class="setup-help-content">
-              <h4>Need a step-by-step guide?</h4>
-              <p>
-                On the setup page, select your OS, client, and protocol — we'll
-                show you how to set everything up in a couple of minutes.
-              </p>
-              <a href="/en/setup/" class="setup-help-link">Go to setup →</a>
-            </div>
-          </div>
-        </details>
-        </div>
+        <div id="urgency-banner"></div>
       </main>
 
       <div id="qr-modal" class="qr-modal hidden">
@@ -2421,6 +3010,122 @@
         </div>
       </div>
 
+      <div id="traffic-modal" class="renew-modal hidden">
+        <div class="renew-modal-content" style="max-width: 520px">
+          <button type="button" class="renew-modal-close" id="closeTrafficModal">
+            ×
+          </button>
+          <h2 class="renew-modal-title">📊 Traffic details</h2>
+          <p class="renew-modal-subtitle">
+            Usage statistics for all time, today, and this month.
+          </p>
+
+          <div class="picker-env-row" id="traffic-env-row">
+            <span class="picker-env-label">Region:</span>
+            <div id="traffic-env-switcher" class="picker-env-badges"></div>
+          </div>
+
+          <div class="traffic-detail-grid">
+            <div class="traffic-detail-card">
+              <div class="traffic-detail-label">Sent</div>
+              <div class="traffic-detail-value" id="traffic-uplink">0 B</div>
+            </div>
+            <div class="traffic-detail-card">
+              <div class="traffic-detail-label">Received</div>
+              <div class="traffic-detail-value" id="traffic-downlink">0 B</div>
+            </div>
+            <div class="traffic-detail-card">
+              <div class="traffic-detail-label">Sent today</div>
+              <div class="traffic-detail-value" id="traffic-daily-uplink">0 B</div>
+            </div>
+            <div class="traffic-detail-card">
+              <div class="traffic-detail-label">Received today</div>
+              <div class="traffic-detail-value" id="traffic-daily-downlink">0 B</div>
+            </div>
+            <div class="traffic-detail-card">
+              <div class="traffic-detail-label">Sent this month</div>
+              <div class="traffic-detail-value" id="traffic-monthly-uplink">0 B</div>
+            </div>
+            <div class="traffic-detail-card">
+              <div class="traffic-detail-label">Received this month</div>
+              <div class="traffic-detail-value" id="traffic-monthly-downlink">0 B</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="device-modal" class="renew-modal hidden">
+        <div class="renew-modal-content" style="max-width: 720px">
+          <button type="button" class="renew-modal-close" id="closeDeviceModal">
+            ×
+          </button>
+          <h2 class="renew-modal-title">📲 Choose your device and app</h2>
+          <p class="renew-modal-subtitle">
+            Answer 3 questions and we'll suggest which app to download and
+            which link to use.
+          </p>
+
+          <div class="picker-env-row" id="picker-env-row">
+            <span class="picker-env-label">Region:</span>
+            <div id="picker-env-switcher" class="picker-env-badges"></div>
+          </div>
+
+          <div id="wl-warning" class="info-tooltip warning" style="display: none">
+            <span>⚠️</span>
+            <span
+              ><b>White Elephants only work in the Happ app.</b>
+              <a
+                href="https://happ.su/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="color: var(--accent); text-decoration: underline"
+                >Download Happ</a
+              ></span
+            >
+          </div>
+
+          <div class="steps-flow">
+            <div class="step-card" id="protocol-step">
+              <h4>1. Which protocol to choose?</h4>
+              <p class="small" style="margin: 0 0 14px">
+                <b style="color: var(--text)">We recommend AmneziaWG and Hysteria2</b>
+                — they work more stably and faster in most cases.
+              </p>
+              <div id="protocol-options" class="protocol-grid"></div>
+              <div class="step-hint">
+                If unsure, choose AmneziaWG or Hysteria2. Other protocols are
+                for special cases.
+              </div>
+            </div>
+
+            <div class="step-card step-disabled" id="os-step">
+              <h4>2. Which device will you use Reelsoprovod on?</h4>
+              <div id="os-options" class="pill-group"></div>
+              <div class="step-hint">
+                Choose your operating system: Windows, macOS, Android, iOS,
+                etc.
+              </div>
+            </div>
+
+            <div class="step-card step-disabled" id="client-step">
+              <h4>3. Which app to install?</h4>
+              <div id="client-options" class="pill-group"></div>
+              <div class="step-hint">
+                Choose a client app that supports your device.
+              </div>
+            </div>
+
+            <div class="step-card step-disabled" id="connection-step">
+              <h4>Done — link for the selected configuration</h4>
+              <div id="connection-content" class="small">
+                Choose a protocol, device, and app to get the exact connection
+                link.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div id="renew-modal" class="renew-modal hidden">
         <div class="renew-modal-content">
           <button type="button" class="renew-modal-close" id="closeRenewModal">
@@ -2437,7 +3142,7 @@
               <h4>Already have an activation key?</h4>
               <p>Enter the key you received after purchase or from a friend.</p>
               <input id="keyInput" placeholder="Enter key" />
-              <button onclick="activateKey()" class="btn try">
+              <button onclick="activateKey()" class="action-btn primary" style="width: 100%;">
                 Activate key
               </button>
               <div class="renew-option-links">
@@ -2477,7 +3182,7 @@
                 <span class="renew-price-old" id="renewPriceOld"></span>
                 <span class="renew-price-new" id="renewPriceNew">500 ₽</span>
               </div>
-              <button type="button" class="btn try" id="renewBtn">
+              <button type="button" class="action-btn primary" id="renewBtn" style="width: 100%;">
                 Renew subscription
               </button>
               <div class="renew-error" id="renewError"></div>
@@ -2512,7 +3217,15 @@
         </div>
       </div>
 
-      <div id="footer-container"></div>
+      <footer class="subscription-footer">
+        <div class="footer-left">Vive la résistance!</div>
+        <div class="footer-right">
+          <a href="https://t.me/frkn_support" target="_blank" rel="noopener noreferrer">Support</a>
+          <a href="/en/about">About</a>
+          <a href="/en/privacy-policy">Privacy Policy</a>
+          <a href="/en/contacts">Contacts</a>
+        </div>
+      </footer>
       <div id="toast" class="toast"></div>
     </div>
     <script src="/scripts/analytics.js" defer></script>
@@ -2539,6 +3252,8 @@
   let selectedOs = null;
   let selectedClientId = null;
   let currentConnectionContext = null;
+  let currentEnv = "dev";
+  let currentLocations = [];
   const KNOWN_SUB_FORMATS = ["txt", "base64", "b64", "clash"];
   const AVAILABLE_PROTOCOLS = [
     {
@@ -2671,7 +3386,7 @@
   async function initPage() {
     const params = new URLSearchParams(window.location.search);
     const subId = getSubId();
-    const currentEnv = params.get("env") || "dev";
+    currentEnv = params.get("env") || "dev";
 
     const mainEl = document.getElementById("main-content");
     const errorEl = document.getElementById("error-content");
@@ -2790,57 +3505,145 @@
     }
   }
 
-  function renderTrafficWidget(data, currentEnv) {
-    trafficDataCache = data;
-    console.log("[traffic] env_traffic:", data.env_traffic);
-    console.log("[traffic] locations:", data.locations);
+  let currentTrafficEnv = "all";
 
-    const envNames = getTrafficEnvNames();
-    const select = document.getElementById("traffic-env-select");
-    select.innerHTML = `<option value="all">${envNames.all}</option>`;
+  function setTrafficEnv(env) {
+    currentTrafficEnv = env;
+    document
+      .querySelectorAll("#traffic-env-switcher .env-badge")
+      .forEach((b) => {
+        b.classList.toggle("active", b.dataset.env === env);
+      });
+    updateTrafficDisplay();
+  }
 
-    let envs = [];
-    if (Array.isArray(data.env_traffic) && data.env_traffic.length > 0) {
-      envs = data.env_traffic;
-    } else if (Array.isArray(data.locations) && data.locations.length > 0) {
-      envs = data.locations.map((l) => ({ env: l.env }));
+  function updateTrafficDisplay() {
+    const data = trafficDataCache;
+    if (!data) return;
+
+    let uplink = 0;
+    let downlink = 0;
+    let dailyUplink = 0;
+    let dailyDownlink = 0;
+    let monthlyUplink = 0;
+    let monthlyDownlink = 0;
+
+    if (currentTrafficEnv === "all") {
+      if (Array.isArray(data.env_traffic) && data.env_traffic.length > 0) {
+        data.env_traffic.forEach((env) => {
+          uplink += env.uplink || 0;
+          downlink += env.downlink || 0;
+          dailyUplink += env.daily_uplink || 0;
+          dailyDownlink += env.daily_downlink || 0;
+          monthlyUplink += env.monthly_uplink || 0;
+          monthlyDownlink += env.monthly_downlink || 0;
+        });
+      } else {
+        uplink = data.uplink || 0;
+        downlink = data.downlink || 0;
+        dailyUplink = data.daily_uplink || 0;
+        dailyDownlink = data.daily_downlink || 0;
+        monthlyUplink = data.monthly_uplink || 0;
+        monthlyDownlink = data.monthly_downlink || 0;
+      }
+    } else if (Array.isArray(data.env_traffic)) {
+      const env = data.env_traffic.find((e) => e.env === currentTrafficEnv);
+      if (env) {
+        uplink = env.uplink || 0;
+        downlink = env.downlink || 0;
+        dailyUplink = env.daily_uplink || 0;
+        dailyDownlink = env.daily_downlink || 0;
+        monthlyUplink = env.monthly_uplink || 0;
+        monthlyDownlink = env.monthly_downlink || 0;
+      }
     }
 
-    envs.forEach((env) => {
-      const option = document.createElement("option");
-      option.value = env.env;
-      option.innerText = envNames[env.env] || env.env;
-      select.appendChild(option);
-    });
+    const total = uplink + downlink;
+    const limitBytes = data.limit_bytes || 0;
 
-    const selectedEnv =
-      currentEnv && envs.some((e) => e.env === currentEnv)
-        ? currentEnv
-        : "all";
-    select.value = selectedEnv;
+    document.getElementById("traffic-total").innerText = formatBytes(total);
+    const limitText = document.getElementById("traffic-limit-text");
+    const barFill = document.getElementById("traffic-bar-fill");
 
-    select.onchange = () => {
-      updateTrafficDisplay(select.value);
+    if (limitBytes > 0) {
+      const percent = Math.min(100, Math.round((total / limitBytes) * 100));
+      limitText.innerText = `${percent}% of limit`;
+      if (barFill) barFill.style.width = `${percent}%`;
+    } else {
+      limitText.innerText = "No limit";
+      if (barFill) barFill.style.width = "0%";
+    }
+
+    // Fill traffic modal
+    const setText = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.innerText = formatBytes(val);
     };
+    setText("traffic-uplink", uplink);
+    setText("traffic-downlink", downlink);
+    setText("traffic-daily-uplink", dailyUplink);
+    setText("traffic-daily-downlink", dailyDownlink);
+    setText("traffic-monthly-uplink", monthlyUplink);
+    setText("traffic-monthly-downlink", monthlyDownlink);
+  }
 
-    const toggle = document.getElementById("traffic-toggle");
-    const details = document.getElementById("traffic-details");
-    const arrow = document.getElementById("traffic-arrow");
-    let isOpen = false;
+  function renderTrafficWidget(data, currentEnv) {
+    trafficDataCache = data;
+    currentTrafficEnv = "all";
 
-    toggle.onclick = () => {
-      isOpen = !isOpen;
-      details.style.display = isOpen ? "block" : "none";
-      arrow.classList.toggle("open", isOpen);
-    };
+    // Fill traffic env switcher
+    const trafficEnvRow = document.getElementById("traffic-env-row");
+    const trafficEnvSwitcher = document.getElementById("traffic-env-switcher");
+    if (trafficEnvSwitcher && Array.isArray(data.env_traffic) && data.env_traffic.length > 0) {
+      trafficEnvSwitcher.innerHTML = "";
 
-    updateTrafficDisplay(selectedEnv);
+      const allBtn = document.createElement("button");
+      allBtn.type = "button";
+      allBtn.className = "env-badge active";
+      allBtn.dataset.env = "all";
+      allBtn.innerText = "All";
+      allBtn.onclick = () => setTrafficEnv("all");
+      trafficEnvSwitcher.appendChild(allBtn);
+
+      data.env_traffic.forEach((env) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "env-badge";
+        btn.dataset.env = env.env;
+        btn.innerText = ENV_NAMES[env.env] || env.env.toUpperCase();
+        btn.onclick = () => setTrafficEnv(env.env);
+        trafficEnvSwitcher.appendChild(btn);
+      });
+
+      if (trafficEnvRow) {
+        trafficEnvRow.style.display = data.env_traffic.length > 1 ? "" : "none";
+      }
+    } else if (trafficEnvRow) {
+      trafficEnvRow.style.display = "none";
+    }
+
+    updateTrafficDisplay();
   }
 
   function renderSubscriptionData(data, subId, currentEnv) {
     const statusEl = document.getElementById("status-text");
     const daysEl = document.getElementById("days");
     const expiryDate = new Date(data.expires);
+
+    // Trial and Early Adopter badges
+    const trialPill = document.getElementById("trial-pill");
+    const earlyAdopterPill = document.getElementById("early-adopter-pill");
+    fetch(`${API_BASE}/subscription/trial?subscription_id=${encodeURIComponent(subId)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((meta) => {
+        if (trialPill) {
+          trialPill.classList.toggle("hidden", !meta?.trial);
+        }
+        if (earlyAdopterPill) {
+          earlyAdopterPill.classList.toggle("hidden", !meta?.early_adopter);
+        }
+      })
+      .catch(() => {});
 
     renderTrafficWidget(data, currentEnv);
 
@@ -2873,17 +3676,24 @@
       const diffSec = Math.floor(diffMs / 1000);
       const diffDays = diffMs / (1000 * 60 * 60 * 24);
 
+      const progressFill = document.getElementById("days-progress-fill");
+      const circumference = 2 * Math.PI * 54;
+
       if (diffMs <= 0) {
         statusEl.innerText = "Expired";
-        statusEl.className = "status-expired";
+        statusEl.className = "status-pill status-expired";
         daysEl.innerText = "0";
         daysEl.style.color = "#ff4d4d";
+        if (progressFill) {
+          progressFill.style.strokeDashoffset = circumference;
+          progressFill.style.stroke = "#ef4444";
+        }
         return;
       }
 
       if (diffDays < 1) {
         statusEl.innerText = "Almost expired";
-        statusEl.className = "status-warning";
+        statusEl.className = "status-pill status-warning";
         const h = Math.floor(diffSec / 3600)
           .toString()
           .padStart(2, "0");
@@ -2895,24 +3705,44 @@
         daysEl.style.fontSize = "1.8rem";
         daysEl.style.color = "#ffbd4d";
         daysEl.style.textShadow = "0 0 15px rgba(255, 189, 77, 0.4)";
+        if (progressFill) {
+          progressFill.style.strokeDashoffset = circumference * 0.95;
+          progressFill.style.stroke = "#ffbd4d";
+        }
         setTimeout(updateDisplay, 1000);
       } else {
         const fullDays = Math.floor(diffDays);
         statusEl.innerText = "Active";
-        statusEl.className = "status-active";
+        statusEl.className = "status-pill status-active";
         daysEl.innerText = fullDays;
         daysEl.style.fontSize = "2.5rem";
         if (fullDays < 4) {
           daysEl.style.color = "#ff4d4d";
           daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
+          if (progressFill) progressFill.style.stroke = "#ff4d4d";
         } else {
           daysEl.style.color = "#10b981";
           daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
+          if (progressFill) progressFill.style.stroke = "#10b981";
+        }
+        if (progressFill) {
+          const maxDays = 30;
+          const ratio = Math.min(fullDays / maxDays, 1);
+          progressFill.style.strokeDashoffset = circumference * (1 - ratio);
         }
       }
     }
 
     updateDisplay();
+
+    // Toggle expires line on days click
+    const daysToggle = document.getElementById("days-toggle");
+    const expiresLine = document.getElementById("expires-line");
+    if (daysToggle && expiresLine) {
+      daysToggle.addEventListener("click", () => {
+        expiresLine.classList.toggle("hidden");
+      });
+    }
 
     const subIdEl = document.getElementById("sub-id");
     subIdEl.innerText = data.id;
@@ -2950,13 +3780,14 @@
     document.getElementById("copy-ref-link").onclick = () =>
       copyText(refLink, "Link copied! Share with a friend");
 
-    // Env selector inside the picker card
+    // Env selector inside device modal
+    currentLocations = data.locations || [];
     const pickerEnvRow = document.getElementById("picker-env-row");
     const pickerEnvSwitcher = document.getElementById("picker-env-switcher");
-    if (pickerEnvSwitcher && data.locations) {
+    if (pickerEnvSwitcher && currentLocations.length > 0) {
       pickerEnvSwitcher.innerHTML = "";
       let pickerEnvCount = 0;
-      data.locations.forEach((l) => {
+      currentLocations.forEach((l) => {
         if (l.env === "production") return;
         const hasXray = l.has_xray || l.hasXray;
         const hasH2 = l.has_h2 || l.hasH2;
@@ -2965,12 +3796,30 @@
         const hasAwg = l.has_awg || l.hasAwg;
         if (!hasXray && !hasH2 && !hasMtproto && !hasWg && !hasAwg)
           return;
-        const a = document.createElement("a");
-        a.href = `?id=${subId}&env=${l.env}`;
-        a.className =
+        const envDescriptions = {
+          dev: "Access to foreign services",
+          wl: "Access to foreign services when unavailable from mobile operators",
+          ru: "Access to Russian services from abroad",
+        };
+        const wrap = document.createElement("div");
+        wrap.className =
+          "env-badge-wrap" + (l.env === currentEnv ? " active" : "");
+        wrap.dataset.env = l.env;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className =
           "env-badge" + (l.env === currentEnv ? " active" : "");
-        a.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
-        pickerEnvSwitcher.appendChild(a);
+        btn.dataset.env = l.env;
+        btn.innerText = ENV_NAMES[l.env] || l.env.toUpperCase();
+        btn.onclick = () => setEnv(l.env);
+        wrap.appendChild(btn);
+        if (envDescriptions[l.env]) {
+          const desc = document.createElement("div");
+          desc.className = "env-badge-desc";
+          desc.innerText = envDescriptions[l.env];
+          wrap.appendChild(desc);
+        }
+        pickerEnvSwitcher.appendChild(wrap);
         pickerEnvCount++;
       });
       if (pickerEnvRow) {
@@ -2999,9 +3848,61 @@
         has_h2: hasH2,
         has_mtproto: hasMtproto,
       };
+      // Show White Elephants warning on load if needed
+      const wlWarning = document.getElementById("wl-warning");
+      if (wlWarning) {
+        wlWarning.style.display = currentEnv === "wl" ? "flex" : "none";
+      }
+
       initConnectionFlow();
       initEmailBinding(subId);
     }
+  }
+
+  function setEnv(newEnv) {
+    currentEnv = newEnv;
+
+    // Show/hide White Elephants warning
+    const wlWarning = document.getElementById("wl-warning");
+    if (wlWarning) {
+      wlWarning.style.display = newEnv === "wl" ? "flex" : "none";
+    }
+
+    const loc =
+      currentLocations.find((l) => l.env === newEnv) ||
+      currentLocations[0];
+    if (!loc) return;
+
+    const hasXray = loc.has_xray || loc.hasXray;
+    const hasH2 = loc.has_h2 || loc.hasH2;
+    const hasMtproto = loc.has_mtproto || loc.hasMtproto;
+    const hasWg = loc.has_wg || loc.hasWg;
+    const hasAwg = loc.has_awg || loc.hasAwg;
+
+    currentConnectionContext = {
+      id: currentConnectionContext?.id || getSubId(),
+      env: loc.env,
+      hasXray,
+      has_wg: hasWg,
+      has_awg: hasAwg,
+      has_h2: hasH2,
+      has_mtproto: hasMtproto,
+    };
+
+    // Update active badge
+    document
+      .querySelectorAll("#picker-env-switcher .env-badge-wrap")
+      .forEach((w) => {
+        const isActive = w.dataset.env === newEnv;
+        w.classList.toggle("active", isActive);
+        const btn = w.querySelector(".env-badge");
+        if (btn) btn.classList.toggle("active", isActive);
+      });
+
+    renderProtocolStep();
+    renderOsStep();
+    renderClientStep();
+    renderConnectionStep();
   }
 
   // ---- Email binding ----
@@ -3359,9 +4260,9 @@
 
     content.innerHTML = `
       <h5 class="connection-title">${safeClientName} for ${safeOsLabel}</h5>
-      <a id="download-client-btn" target="_blank" rel="noopener noreferrer" aria-label="Download client (opens in a new tab)"><button class="btn try download-link">Download client</button></a>
-      <div class="subscription-link-row">
-        <button type="button" id="copy-subscription-link" class="btn try">Copy link</button>
+      <div class="connection-actions" style="margin-top: 16px; margin-bottom: 16px;">
+        <button type="button" id="copy-subscription-link" class="action-btn primary" style="flex: 1;">Copy link</button>
+        <a id="download-client-btn" target="_blank" rel="noopener noreferrer" aria-label="Download client (opens in a new tab)" style="flex: 1;"><button class="action-btn secondary" style="width: 100%;">Download client</button></a>
       </div>
       <div class="qr-wrapper">
         <button type="button" class="qr-toggle" onclick="this.nextElementSibling.classList.toggle('collapsed')">📷 Show QR code</button>
@@ -3404,7 +4305,32 @@
       btn.classList.toggle("active", btn.dataset.protocol === selectedProtocol);
     });
 
-    const protocols = AVAILABLE_PROTOCOLS;
+    function isProtocolAvailable(protocolId) {
+      if (!currentConnectionContext) return false;
+      switch (protocolId) {
+        case "awg":
+          return currentConnectionContext.has_awg;
+        case "wireguard":
+          return currentConnectionContext.has_wg;
+        case "hysteria2":
+          return currentConnectionContext.has_h2;
+        case "xray":
+        case "vless-tcp-reality":
+        case "vless-grpc-reality":
+        case "vless-xhttp-reality":
+          return currentConnectionContext.hasXray;
+        case "mtproto":
+          return currentConnectionContext.has_mtproto;
+        case "all":
+          return true;
+        default:
+          return true;
+      }
+    }
+
+    const protocols = AVAILABLE_PROTOCOLS.filter((p) =>
+      isProtocolAvailable(p.id),
+    );
 
     options.innerHTML = "";
 
@@ -3906,6 +4832,94 @@
       }
     });
 
+    // Traffic modal
+    const trafficModal = document.getElementById("traffic-modal");
+    const trafficSummaryInline = document.getElementById("traffic-summary-inline");
+    const closeTrafficModalBtn = document.getElementById("closeTrafficModal");
+
+    function openTrafficModalFn() {
+      if (trafficModal) trafficModal.classList.remove("hidden");
+    }
+
+    function closeTrafficModalFn() {
+      if (trafficModal) trafficModal.classList.add("hidden");
+    }
+
+    if (trafficSummaryInline) {
+      trafficSummaryInline.addEventListener("click", openTrafficModalFn);
+    }
+
+    if (closeTrafficModalBtn) {
+      closeTrafficModalBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        closeTrafficModalFn();
+      });
+    }
+
+    if (trafficModal) {
+      trafficModal.addEventListener("click", (e) => {
+        if (e.target === trafficModal) closeTrafficModalFn();
+      });
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && trafficModal && !trafficModal.classList.contains("hidden")) {
+        closeTrafficModalFn();
+      }
+    });
+
+    // Device modal
+    const deviceModal = document.getElementById("device-modal");
+    const openDeviceModalBtn = document.getElementById("openDeviceModal");
+    const closeDeviceModalBtn = document.getElementById("closeDeviceModal");
+
+    function openDeviceModalFn() {
+      if (deviceModal) deviceModal.classList.remove("hidden");
+    }
+
+    function closeDeviceModalFn() {
+      if (deviceModal) deviceModal.classList.add("hidden");
+    }
+
+    if (openDeviceModalBtn) {
+      openDeviceModalBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        openDeviceModalFn();
+      });
+    }
+
+    const openAwgModalBtn = document.getElementById("openAwgModal");
+    if (openAwgModalBtn) {
+      openAwgModalBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        selectedProtocol = "awg";
+        renderProtocolStep();
+        renderOsStep();
+        renderClientStep();
+        renderConnectionStep();
+        openDeviceModalFn();
+      });
+    }
+
+    if (closeDeviceModalBtn) {
+      closeDeviceModalBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        closeDeviceModalFn();
+      });
+    }
+
+    if (deviceModal) {
+      deviceModal.addEventListener("click", (e) => {
+        if (e.target === deviceModal) closeDeviceModalFn();
+      });
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && deviceModal && !deviceModal.classList.contains("hidden")) {
+        closeDeviceModalFn();
+      }
+    });
+
     // Email modal
     const emailModal = document.getElementById("email-modal");
     const openEmailModalBtn = document.getElementById("openEmailModal");
@@ -3951,25 +4965,20 @@
       });
     }
 
-    // Ввод ID
+    // Input ID
+    const subIdForm = document.getElementById("sub-id-form");
     const input = document.getElementById("sub-id-input");
-    const btn = document.getElementById("open-sub-btn");
     const error = document.getElementById("sub-error");
 
-    if (btn) {
-      btn.addEventListener("click", () => {
+    if (subIdForm) {
+      subIdForm.addEventListener("submit", (e) => {
+        e.preventDefault();
         const id = input?.value.trim();
         if (!id || !/^[0-9a-fA-F-]{36}$/.test(id)) {
           if (error) error.textContent = "❌ Invalid ID format";
           return;
         }
         window.location.href = `/en/subscription?id=${id}`;
-      });
-    }
-
-    if (input) {
-      input.addEventListener("keypress", (e) => {
-        if (e.key === "Enter" && btn) btn.click();
       });
     }
 
