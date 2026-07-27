@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Privacy Policy — FRKN</title>
+  <title>Политика конфиденциальности — FRKN</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
@@ -32,6 +32,7 @@
       padding: 50px;
       border-radius: 24px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      position: relative;
     }
 
     .header {
@@ -117,6 +118,35 @@
       color: #9ca3af;
     }
 
+    .lang-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .lang-btn {
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #9ca3af;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .lang-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .lang-divider {
+      color: #d1d5db;
+      font-size: 12px;
+    }
+
     @media (max-width: 768px) {
       .container {
         padding: 30px 20px;
@@ -132,65 +162,93 @@
 <body>
 
   <div class="container">
+    <div class="lang-switcher">
+      <a href="/privacy-policy/" class="lang-btn active">RU</a>
+      <span class="lang-divider">|</span>
+      <a href="/en/privacy-policy/" class="lang-btn">EN</a>
+    </div>
+
     <div class="header">
-      <h1>Privacy Policy</h1>
-      <div class="date">Last updated: April 11, 2026</div>
+      <h1>Политика конфиденциальности</h1>
+      <div class="date">Последнее обновление: 24 июля 2026</div>
     </div>
 
     <div class="highlight-box">
-      At <strong>FRKN</strong>, your privacy is our priority. We collect only the minimum amount of data required to
-      provide and maintain a high-performance, secure connection.
+      В <strong>FRKN</strong> ваша приватность — наш приоритет. Мы собираем только минимальный объем данных,
+      необходимый для предоставления и поддержания высокопроизводительного, безопасного соединения.
     </div>
 
-    <h2>1. Information We Collect</h2>
-    <p>To provide our services, we may collect the following limited information:</p>
+    <h2>1. Отсутствие логов VPN-активности</h2>
+    <p><strong>Мы не мониторим, не логируем и не храним вашу историю посещений, IP-адреса назначения, DNS-запросы
+        или содержимое трафика.</strong> Ваша интернет-активность остается приватной и никогда не записывается на
+      диск и не передается третьим лицам.</p>
+
+    <h2>2. Информация, которую мы собираем</h2>
+    <p>Для предоставления наших услуг мы собираем только следующую ограниченную информацию:</p>
     <ul>
-      <li><strong>Personal Information:</strong> Your email address (if provided during registration or trial access
-        request).</li>
-      <li><strong>Unique Identifier:</strong> A system-generated ID used to authenticate your subscription and manage
-        service access.</li>
-      <li><strong>Technical Data:</strong> Device type, app version, and basic connectivity logs (required for technical
-        functionality and load balancing).</li>
+      <li><strong>Личная информация:</strong> Ваш адрес электронной почты (если указан при регистрации, запросе
+        пробного доступа или обращении в поддержку).</li>
+      <li><strong>Уникальный идентификатор:</strong> Системный ID, используемый для аутентификации вашей подписки и
+        управления доступом к сервису.</li>
+      <li><strong>Метаданные подписки:</strong> Статус подписки, дата истечения и совокупное использование трафика
+        (только для контроля квоты).</li>
+      <li><strong>Технические данные:</strong> Тип устройства, версия приложения и версия ОС (для совместимости и
+        поддержки).</li>
+      <li><strong>Информация о покупках:</strong> Идентификаторы транзакций и состояние подписки, предоставляемые
+        Apple App Store или другими платежными процессорами. Мы не видим и не храним данные вашей платежной карты.</li>
     </ul>
-    <p>We <strong>do not</strong> collect sensitive data such as contacts, photos, browser history, or precise
-      geolocation.</p>
+    <p>Мы <strong>не</strong> собираем чувствительные данные, такие как контакты, фотографии, история браузера,
+      точная геолокация или номера платежных карт.</p>
 
-    <h2>2. How We Use Your Information</h2>
-    <p>Your data is used strictly for:</p>
+    <h2>3. Как мы используем вашу информацию</h2>
+    <p>Ваши данные используются строго для:</p>
     <ul>
-      <li>Providing and maintaining the technical infrastructure.</li>
-      <li>Managing user subscriptions and service access.</li>
-      <li>Sending essential service notifications (e.g., trial activation or account updates).</li>
-      <li>Improving service performance and reliability.</li>
+      <li>Предоставления и поддержания технической инфраструктуры.</li>
+      <li>Управления подписками, пробным доступом и правами на сервис.</li>
+      <li>Отправки важных сервисных уведомлений (например, активация пробного доступа, напоминания об истечении
+        подписки или обновления аккаунта).</li>
+      <li>Улучшения производительности, надежности и устранения неполадок.</li>
+      <li>Соблюдения юридических обязательств (если требуется по закону).</li>
     </ul>
 
-    <h2>3. Data Retention and Sharing</h2>
-    <p>3.1. <strong>Retention:</strong> We store your data only as long as necessary to provide the service. Connection
-      logs are stored temporarily and are subject to automatic deletion.</p>
-    <p>3.2. <strong>Sharing:</strong> We do <strong>not</strong> sell, rent, or trade your personal data. Data may only
-      be shared with infrastructure providers necessary to operate the service or if required by law.</p>
+    <h2>4. Хранение данных и передача</h2>
+    <p>4.1. <strong>Хранение:</strong> Мы храним ваши данные только столько, сколько необходимо для предоставления
+      сервиса. Адреса электронной почты хранятся до тех пор, пока вы не запросите удаление. Метаданные подписки
+      хранятся в течение срока действия подписки плюс ограниченный льготный период для целей поддержки. Технические
+      логи (если есть) автоматически удаляются через 30 дней.</p>
+    <p>4.2. <strong>Передача:</strong> Мы <strong>не</strong> продаем, не сдаем в аренду и не обмениваем ваши
+      персональные данные. Данные могут передаваться только инфраструктурным провайдерам, необходимым для работы
+      сервиса (например, облачный хостинг), или если требуется по закону. Все провайдеры связаны соглашениями о
+      конфиденциальности и защите данных.</p>
 
-    <h2>4. Security</h2>
-    <p>We implement reasonable technical and organizational measures to protect your information from unauthorized
-      access. However, please note that no method of transmission over the internet is 100% secure.</p>
+    <h2>5. Безопасность</h2>
+    <p>Мы применяем отраслевые стандартные технические и организационные меры для защиты вашей информации от
+      несанкционированного доступа, включая шифрование при передаче и хранении. Однако обратите внимание, что ни один
+      метод передачи данных по интернету не является на 100% безопасным.</p>
 
-    <h2>5. Your Rights</h2>
-    <p>You have the right to request access to the data we hold about you or request its deletion. To exercise these
-      rights, please contact us via the support channels listed below.</p>
+    <h2>6. Ваши права</h2>
+    <p>Вы имеете право запросить доступ к данным, которые мы храним о вас, запросить их исправление или удаление.
+      Чтобы воспользоваться этими правами, свяжитесь с нами по адресу <a href="mailto:privacy@frkn.org"
+        style="color: var(--primary); text-decoration: underline;">privacy@frkn.org</a>.</p>
 
-    <h2>6. Third-Party Services</h2>
-    <p>Our infrastructure may rely on third-party hosting and delivery providers. These partners have their own privacy
-      policies and are chosen for their reliability and security standards.</p>
+    <h2>7. Сторонние сервисы</h2>
+    <p>Наша инфраструктура может полагаться на сторонних хостинг-провайдеров, сети доставки контента и платежных
+      процессоров (например, Apple App Store, облачный хостинг). У этих партнеров есть собственные политики
+      конфиденциальности, и они выбраны за их надежность и стандарты безопасности. Мы рекомендуем вам ознакомиться с
+      их политиками.</p>
 
-    <h2>7. Children’s Privacy</h2>
-    <p>Our service is not intended for individuals under the age of 13. We do not knowingly collect personal data from
-      children.</p>
+    <h2>8. Конфиденциальность детей</h2>
+    <p>Наш сервис предназначен для широкой аудитории и имеет рейтинг 4+ в App Store. Мы не собираем намеренно
+      персональные данные детей младше 13 лет. Если вы считаете, что ребенок предоставил нам персональные данные,
+      свяжитесь с нами, и мы незамедлительно удалим их.</p>
 
     <div class="contact-card">
-      <h2>Contact Us</h2>
-      <p>If you have any questions or privacy concerns, please reach out to us:</p>
+      <h2>Свяжитесь с нами</h2>
+      <p>Если у вас есть вопросы или опасения по поводу конфиденциальности, свяжитесь с нами:</p>
       <ul style="list-style: none; padding: 0;">
-        <li>Email: <span style="color: #60a5fa; font-family: monospace;">pigeon@frkn.org</span></li>
+        <li>Email: <span style="color: #60a5fa; font-family: monospace;">privacy@frkn.org</span></li>
+        <li>Поддержка: <span style="color: #60a5fa; font-family: monospace;">pigeon@frkn.org</span></li>
+        <li>Юридическое лицо: FRKN LLP, Великобритания</li>
       </ul>
     </div>
 

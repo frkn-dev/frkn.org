@@ -26,37 +26,13 @@
     }
 
     .container {
-      position: relative;
       max-width: 850px;
       margin: 0 auto;
       background: #ffffff;
       padding: 50px;
       border-radius: 24px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-    }
-
-    .lang-switcher {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .lang-btn {
-      color: #666;
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 4px 8px;
-      border-radius: 6px;
-    }
-
-    .lang-btn.active {
-      color: #1d4ed8;
-      background: rgba(29, 78, 216, 0.1);
-    }
-
-    .lang-divider {
-      color: #ccc;
+      position: relative;
     }
 
     .header {
@@ -142,6 +118,35 @@
       color: #9ca3af;
     }
 
+    .lang-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .lang-btn {
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #9ca3af;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .lang-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .lang-divider {
+      color: #d1d5db;
+      font-size: 12px;
+    }
+
     @media (max-width: 768px) {
       .container {
         padding: 30px 20px;
@@ -157,7 +162,7 @@
 <body>
 
   <div class="container">
-    <div class="lang-switcher" style="position: absolute; top: 20px; right: 20px;">
+    <div class="lang-switcher">
       <a href="/privacy-policy/" class="lang-btn">RU</a>
       <span class="lang-divider">|</span>
       <a href="/en/privacy-policy/" class="lang-btn active">EN</a>
@@ -165,7 +170,7 @@
 
     <div class="header">
       <h1>Privacy Policy</h1>
-      <div class="date">Last updated: April 11, 2026</div>
+      <div class="date">Last updated: July 24, 2026</div>
     </div>
 
     <div class="highlight-box">
@@ -173,55 +178,75 @@
       provide and maintain a high-performance, secure connection.
     </div>
 
-    <h2>1. Information We Collect</h2>
-    <p>To provide our services, we may collect the following limited information:</p>
+    <h2>1. No VPN Activity Logs</h2>
+    <p><strong>We do not monitor, log, or store your browsing activity, destination IP addresses, DNS queries, or
+        traffic content.</strong> Your internet activity remains private and is never written to disk or transmitted to
+      third parties.</p>
+
+    <h2>2. Information We Collect</h2>
+    <p>To provide our services, we collect only the following limited information:</p>
     <ul>
-      <li><strong>Personal Information:</strong> Your email address (if provided during registration or trial access
-        request).</li>
+      <li><strong>Personal Information:</strong> Your email address (if provided during registration, trial access
+        request, or support contact).</li>
       <li><strong>Unique Identifier:</strong> A system-generated ID used to authenticate your subscription and manage
         service access.</li>
-      <li><strong>Technical Data:</strong> Device type, app version, and basic connectivity logs (required for technical
-        functionality and load balancing).</li>
+      <li><strong>Subscription Metadata:</strong> Subscription status, expiration date, and aggregate bandwidth usage
+        (for quota enforcement only).</li>
+      <li><strong>Technical Data:</strong> Device type, app version, and OS version (for compatibility and support
+        purposes).</li>
+      <li><strong>Purchase Information:</strong> Transaction identifiers and subscription state provided by Apple App
+        Store or other payment processors. We do not see or store your payment card details.</li>
     </ul>
-    <p>We <strong>do not</strong> collect sensitive data such as contacts, photos, browser history, or precise
-      geolocation.</p>
+    <p>We <strong>do not</strong> collect sensitive data such as contacts, photos, browser history, precise
+      geolocation, or payment card numbers.</p>
 
-    <h2>2. How We Use Your Information</h2>
+    <h2>3. How We Use Your Information</h2>
     <p>Your data is used strictly for:</p>
     <ul>
       <li>Providing and maintaining the technical infrastructure.</li>
-      <li>Managing user subscriptions and service access.</li>
-      <li>Sending essential service notifications (e.g., trial activation or account updates).</li>
-      <li>Improving service performance and reliability.</li>
+      <li>Managing user subscriptions, trial access, and service entitlements.</li>
+      <li>Sending essential service notifications (e.g., trial activation, subscription expiry reminders, or account
+        updates).</li>
+      <li>Improving service performance, reliability, and troubleshooting.</li>
+      <li>Complying with legal obligations (if required by law).</li>
     </ul>
 
-    <h2>3. Data Retention and Sharing</h2>
-    <p>3.1. <strong>Retention:</strong> We store your data only as long as necessary to provide the service. Connection
-      logs are stored temporarily and are subject to automatic deletion.</p>
-    <p>3.2. <strong>Sharing:</strong> We do <strong>not</strong> sell, rent, or trade your personal data. Data may only
-      be shared with infrastructure providers necessary to operate the service or if required by law.</p>
+    <h2>4. Data Retention and Sharing</h2>
+    <p>4.1. <strong>Retention:</strong> We store your data only as long as necessary to provide the service. Email
+      addresses are retained until you request deletion. Subscription metadata is kept for the duration of your
+      subscription plus a limited grace period for support purposes. Technical logs (if any) are automatically deleted
+      after 30 days.</p>
+    <p>4.2. <strong>Sharing:</strong> We do <strong>not</strong> sell, rent, or trade your personal data. Data may only
+      be shared with infrastructure providers necessary to operate the service (e.g., cloud hosting) or if required by
+      law. All providers are bound by confidentiality and data protection agreements.</p>
 
-    <h2>4. Security</h2>
-    <p>We implement reasonable technical and organizational measures to protect your information from unauthorized
-      access. However, please note that no method of transmission over the internet is 100% secure.</p>
+    <h2>5. Security</h2>
+    <p>We implement industry-standard technical and organizational measures to protect your information from
+      unauthorized access, including encryption in transit and at rest. However, please note that no method of
+      transmission over the internet is 100% secure.</p>
 
-    <h2>5. Your Rights</h2>
-    <p>You have the right to request access to the data we hold about you or request its deletion. To exercise these
-      rights, please contact us via the support channels listed below.</p>
+    <h2>6. Your Rights</h2>
+    <p>You have the right to request access to the data we hold about you, request its correction, or request its
+      deletion. To exercise these rights, please contact us at <a href="mailto:privacy@frkn.org"
+        style="color: var(--primary); text-decoration: underline;">privacy@frkn.org</a>.</p>
 
-    <h2>6. Third-Party Services</h2>
-    <p>Our infrastructure may rely on third-party hosting and delivery providers. These partners have their own privacy
-      policies and are chosen for their reliability and security standards.</p>
+    <h2>7. Third-Party Services</h2>
+    <p>Our infrastructure may rely on third-party hosting, content delivery, and payment processing providers (e.g.,
+      Apple App Store, cloud hosting). These partners have their own privacy policies and are chosen for their
+      reliability and security standards. We encourage you to review their policies.</p>
 
-    <h2>7. Children’s Privacy</h2>
-    <p>Our service is not intended for individuals under the age of 13. We do not knowingly collect personal data from
-      children.</p>
+    <h2>8. Children’s Privacy</h2>
+    <p>Our service is intended for general audiences and is rated 4+ on the App Store. We do not knowingly collect
+      personal data from children under the age of 13. If you believe a child has provided us with personal data,
+      please contact us, and we will delete it promptly.</p>
 
     <div class="contact-card">
       <h2>Contact Us</h2>
       <p>If you have any questions or privacy concerns, please reach out to us:</p>
       <ul style="list-style: none; padding: 0;">
-        <li>Email: <span style="color: #60a5fa; font-family: monospace;">pigeon@frkn.org</span></li>
+        <li>Email: <span style="color: #60a5fa; font-family: monospace;">privacy@frkn.org</span></li>
+        <li>Support: <span style="color: #60a5fa; font-family: monospace;">pigeon@frkn.org</span></li>
+        <li>Legal entity: FRKN LLP, United Kingdom</li>
       </ul>
     </div>
 
