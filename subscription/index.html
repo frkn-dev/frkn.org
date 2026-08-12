@@ -2793,6 +2793,7 @@
       </div>
 
       <main class="main-content" id="main-content">
+        <div id="urgency-banner"></div>
         <div class="dashboard-grid">
           <!-- Блок 1: Статус подписки -->
           <div class="dashboard-card status-card">
@@ -2802,6 +2803,9 @@
               <div class="status-pill" id="status-text">...</div>
               <div class="trial-pill hidden" id="trial-pill">Trial</div>
               <div class="early-adopter-pill hidden" id="early-adopter-pill">Early Adopter</div>
+              <div class="early-adopter-pill hidden" id="early-adopter-number-pill">
+                <span id="early-adopter-number"></span>
+              </div>
             </div>
 
             <div class="status-id-line">ID: <span id="sub-id">...</span></div>
@@ -2893,9 +2897,9 @@
           <div class="dashboard-card connection-card">
             <div class="connection-link-section">
               <h2>🔗 Ваша ссылка для подключения</h2>
-              <div class="connection-link-box" id="subscription-link">
+              <a class="connection-link-box" id="subscription-link" href="#" style="text-decoration: none; display: block;">
                 sub.frkn.org/...
-              </div>
+              </a>
               <div class="connection-actions">
                 <button class="action-btn primary" id="copy-sub-link">
                   📋 Скопировать ссылку
@@ -2920,7 +2924,7 @@
                   <div class="step-number">2</div>
                   <div class="step-icon">📱</div>
                   <div class="step-text">
-                    Скачайте рекомендованное приложение для вашего устройства
+                    Скачайте приложение FRKN Dopamine
                   </div>
                 </div>
                 <div class="quick-step">
@@ -2931,32 +2935,17 @@
               </div>
             </div>
 
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <button
-                class="device-picker-toggle"
-                id="openDeviceModal"
-                type="button"
-              >
-                Больше настроек
-                <span class="device-picker-arrow">▼</span>
-              </button>
-              <button
-                class="device-picker-toggle"
-                id="openAwgModal"
-                type="button"
-              >
-                <img
-                  src="/Images/wireguard.svg"
-                  alt=""
-                  style="width: 16px; height: 16px; filter: brightness(1.2);"
-                />
-                AmneziaWG 2.0
-              </button>
-            </div>
+            <button
+              class="device-picker-toggle"
+              id="openDeviceModal"
+              type="button"
+            >
+              Больше настроек и приложений
+              <span class="device-picker-arrow">▼</span>
+            </button>
           </div>
         </div>
 
-        <div id="urgency-banner"></div>
       </main>
 
       <div id="qr-modal" class="qr-modal hidden">
@@ -3100,20 +3089,6 @@
           <div class="picker-env-row" id="picker-env-row">
             <span class="picker-env-label">Регион:</span>
             <div id="picker-env-switcher" class="picker-env-badges"></div>
-          </div>
-
-          <div id="wl-warning" class="info-tooltip warning" style="display: none">
-            <span>⚠️</span>
-            <span
-              ><b>Белые слоны работают только в приложении Happ.</b>
-              <a
-                href="https://happ.su/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style="color: var(--accent); text-decoration: underline"
-                >Скачать Happ</a
-              ></span
-            >
           </div>
 
           <div class="steps-flow">
@@ -3728,6 +3703,8 @@
         // Trial and Early Adopter badges
         const trialPill = document.getElementById("trial-pill");
         const earlyAdopterPill = document.getElementById("early-adopter-pill");
+        const earlyAdopterNumberPill = document.getElementById("early-adopter-number-pill");
+        const earlyAdopterNumber = document.getElementById("early-adopter-number");
         fetch(`${API_BASE}/subscription/trial?subscription_id=${encodeURIComponent(subId)}`)
           .then((r) => (r.ok ? r.json() : null))
           .then((meta) => {
@@ -3737,14 +3714,23 @@
             if (earlyAdopterPill) {
               earlyAdopterPill.classList.toggle("hidden", !meta?.early_adopter);
             }
+            if (earlyAdopterNumberPill && earlyAdopterNumber) {
+              const hasNumber = !!meta?.early_adopter_number;
+              earlyAdopterNumberPill.classList.toggle("hidden", !hasNumber);
+              if (hasNumber) {
+                earlyAdopterNumber.innerText = `#${String(meta.early_adopter_number).padStart(6, "0")}`;
+              }
+            }
           })
           .catch(() => {});
 
         renderTrafficWidget(data, currentEnv);
 
-        const subUrl = `https://sub.frkn.org/${data.id}`;
+        const subUrl = `frkn://sub/${data.id}`;
 
-        document.getElementById("subscription-link").innerText = subUrl;
+        const subLinkEl = document.getElementById("subscription-link");
+        subLinkEl.innerText = subUrl;
+        subLinkEl.href = subUrl;
 
         document.getElementById("copy-sub-link").onclick = () => {
           copyText(subUrl, "Ссылка подписки скопирована");
@@ -3972,12 +3958,6 @@
             has_h2: hasH2,
             has_mtproto: hasMtproto,
           };
-          // Show White Elephants warning on load if needed
-          const wlWarning = document.getElementById("wl-warning");
-          if (wlWarning) {
-            wlWarning.style.display = currentEnv === "wl" ? "flex" : "none";
-          }
-
           initConnectionFlow();
           initEmailBinding(subId);
         }
@@ -3985,12 +3965,6 @@
 
       function setEnv(newEnv) {
         currentEnv = newEnv;
-
-        // Show/hide White Elephants warning
-        const wlWarning = document.getElementById("wl-warning");
-        if (wlWarning) {
-          wlWarning.style.display = newEnv === "wl" ? "flex" : "none";
-        }
 
         const loc =
           currentLocations.find((l) => l.env === newEnv) || currentLocations[0];
@@ -4246,9 +4220,12 @@
           return;
         }
 
-        const clients = vpnClients[selectedOs].clients.filter((client) =>
-          isProtocolSupportedByClient(selectedProtocol, client.configType),
-        );
+        const clients = vpnClients[selectedOs].clients.filter((client) => {
+          if (selectedProtocol === "hysteria2" && client.id === "dopamine") {
+            return false;
+          }
+          return isProtocolSupportedByClient(selectedProtocol, client.configType);
+        });
 
         if (clients.length === 0) {
           options.innerHTML = `<div class="small">Для выбранного протокола нет подходящих клиентов.</div>`;

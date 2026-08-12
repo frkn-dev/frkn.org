@@ -3,6 +3,12 @@
     "label": "Android",
     "clients": [
       {
+        "id": "dopamine",
+        "name": "FRKN Dopamine",
+        "downloadUrl": "https://frkn.app",
+        "configType": "txt"
+      },
+      {
         "id": "happ",
         "name": "happ",
         "downloadUrl": "https://happ.su/",
@@ -25,6 +31,12 @@
   "ios": {
     "label": "iOS",
     "clients": [
+      {
+        "id": "dopamine",
+        "name": "FRKN Dopamine",
+        "downloadUrl": "https://frkn.app",
+        "configType": "txt"
+      },
       {
         "id": "happ",
         "name": "happ",
@@ -55,6 +67,12 @@
     "label": "Windows",
     "clients": [
       {
+        "id": "dopamine",
+        "name": "FRKN Dopamine",
+        "downloadUrl": "https://frkn.app",
+        "configType": "txt"
+      },
+      {
         "id": "happ",
         "name": "happ",
         "downloadUrl": "https://happ.su/",
@@ -71,6 +89,12 @@
   "macos": {
     "label": "macOS",
     "clients": [
+      {
+        "id": "dopamine",
+        "name": "FRKN Dopamine",
+        "downloadUrl": "https://frkn.app",
+        "configType": "txt"
+      },
       {
         "id": "happ",
         "name": "happ",
@@ -94,6 +118,12 @@
   "linux": {
     "label": "Linux",
     "clients": [
+      {
+        "id": "dopamine",
+        "name": "FRKN Dopamine",
+        "downloadUrl": "https://frkn.app",
+        "configType": "txt"
+      },
       {
         "id": "happ",
         "name": "happ",

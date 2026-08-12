@@ -70,10 +70,50 @@
               >
                 Попробовать бесплатно
               </button>
+              <a
+                href="/dopamine"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="
+                  display: inline-flex;
+                  align-items: center;
+                  gap: 8px;
+                  padding: 14px 24px;
+                  font-size: 15px;
+                  background: var(--accent);
+                  color: #fff;
+                  border: none;
+                  border-radius: 12px;
+                  font-weight: 700;
+                  text-decoration: none;
+                  cursor: pointer;
+                  transition: all 0.2s ease;
+                "
+                onmouseover="this.style.background='#6d8bfb'; this.style.transform='translateY(-1px)'"
+                onmouseout="this.style.background='var(--accent)'; this.style.transform=''"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+                </svg>
+                Скачать
+              </a>
               <button
                 class="btn ghost"
                 onclick="window.open('https://t.me/unlock_internet_bot', '_blank')"
-                style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; font-size: 15px"
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 8px;
+                  padding: 14px 24px;
+                  font-size: 15px;
+                "
               >
                 <img
                   src="https://cdn.simpleicons.org/telegram"
@@ -85,16 +125,28 @@
             </div>
             <div class="cta-row secondary-actions">
               <a href="/pay"
-                ><button class="btn ghost" style="padding: 10px 16px; font-size: 13px"
-                  >Тарифы</button></a
+                ><button
+                  class="btn ghost"
+                  style="padding: 10px 16px; font-size: 13px"
+                >
+                  Тарифы
+                </button></a
               >
               <a href="/pay"
-                ><button class="btn ghost" style="padding: 10px 16px; font-size: 13px"
-                  >Купить</button></a
+                ><button
+                  class="btn ghost"
+                  style="padding: 10px 16px; font-size: 13px"
+                >
+                  Купить
+                </button></a
               >
               <a href="/switch-to-frkn"
-                ><button class="btn ghost" style="padding: 10px 16px; font-size: 13px"
-                  >Переход с другого сервиса</button></a
+                ><button
+                  class="btn ghost"
+                  style="padding: 10px 16px; font-size: 13px"
+                >
+                  Переход с другого сервиса
+                </button></a
               >
             </div>
           </div>
@@ -145,10 +197,21 @@
       <section id="trial" class="trial-section">
         <div class="trial-container">
           <div class="trial-info">
-            <h2>Тест-драйв <span style="color: var(--accent-2); font-size: 0.55em; vertical-align: middle; white-space: nowrap;">3 дня бесплатно</span></h2>
+            <h2>
+              Тест-драйв
+              <span
+                style="
+                  color: var(--accent-2);
+                  font-size: 0.55em;
+                  vertical-align: middle;
+                  white-space: nowrap;
+                "
+                >3 дня бесплатно</span
+              >
+            </h2>
             <p>
-              Даём 3 дня полного доступа. Без привязки карты. Просто введи
-              почту и получай доступ.
+              Даём 3 дня полного доступа. Без привязки карты. Просто введи почту
+              и получай доступ.
             </p>
             <div class="trial-steps">
               <span>1. Почта</span>
@@ -164,9 +227,7 @@
               placeholder="Твой e-mail"
               required
             />
-            <button class="btn try" type="submit">
-              Получить доступ
-            </button>
+            <button class="btn try" type="submit">Получить доступ</button>
             <p id="message" class="status-message"></p>
             <div class="trial-extra-actions">
               <a href="/activate"

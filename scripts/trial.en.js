@@ -88,8 +88,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         form.reset();
       } else {
+        let errorText = data.message || "Access error";
+        if (errorText === "Trial already requested") {
+          errorText = "A test drive has already been requested with this email. Check your inbox or contact support.";
+        } else if (errorText === "Invalid email") {
+          errorText = "Please check the email address — it looks invalid.";
+        }
         if (msg) {
-          msg.textContent = "❌ " + (data.message || "Access error");
+          msg.textContent = "❌ " + errorText;
           msg.classList.add("error");
         }
       }

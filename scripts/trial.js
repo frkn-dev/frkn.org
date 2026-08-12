@@ -88,8 +88,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         form.reset();
       } else {
+        let errorText = data.message || "Ошибка доступа";
+        if (errorText === "Trial already requested") {
+          errorText = "С этой почты уже запрашивали тест-драйв. Проверь входящие или напиши в поддержку.";
+        } else if (errorText === "Invalid email") {
+          errorText = "Похоже, в почте опечатка — проверь адрес.";
+        }
         if (msg) {
-          msg.textContent = "❌ " + (data.message || "Ошибка доступа");
+          msg.textContent = "❌ " + errorText;
           msg.classList.add("error");
         }
       }
