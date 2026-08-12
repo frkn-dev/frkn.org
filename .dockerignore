@@ -1,0 +1,9 @@
+.git
+.github
+.kimi-code
+.DS_Store
+.gitignore
+Dockerfile
+LICENSE.txt
+CNAME
+README.md
