@@ -24,3 +24,8 @@ dist-ssr
 *.sln
 *.sw?
 .aider*
+
+# App binaries (deployed via rsync, not git)
+dopamine/*.dmg
+dopamine/*.pkg
+dopamine/*.apk

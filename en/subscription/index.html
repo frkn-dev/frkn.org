@@ -2494,6 +2494,87 @@
         margin-bottom: 16px;
       }
 
+      .short-link-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 12px 16px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px dashed var(--border);
+        margin-bottom: 16px;
+      }
+
+      .short-link-label {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .short-link-code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #10b981;
+        letter-spacing: 0.04em;
+      }
+
+      .short-link-copy {
+        margin-left: auto;
+        padding: 6px 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .short-link-copy:hover {
+        border-color: var(--accent);
+      }
+
+      .main-link-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .main-link-row .connection-link-box {
+        flex: 1;
+        margin-bottom: 0;
+      }
+
+      .main-link-row .short-link-copy {
+        align-self: stretch;
+        display: inline-flex;
+        align-items: center;
+        margin-left: 0;
+        white-space: nowrap;
+      }
+
+      .download-btn-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+      }
+
+      @media (max-width: 560px) {
+        .main-link-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .main-link-row .short-link-copy {
+          justify-content: center;
+          padding: 10px;
+        }
+      }
+
       .connection-actions {
         display: flex;
         gap: 12px;
@@ -2882,13 +2963,39 @@
           <div class="dashboard-card connection-card">
             <div class="connection-link-section">
               <h2>🔗 Your connection link</h2>
-              <a class="connection-link-box" id="subscription-link" href="#" style="text-decoration: none; display: block;">
-                sub.frkn.org/...
-              </a>
-              <div class="connection-actions">
-                <button class="action-btn primary" id="copy-sub-link">
-                  📋 Copy link
+              <div class="main-link-row">
+                <a class="connection-link-box" id="subscription-link" href="#" style="text-decoration: none;">
+                  sub.frkn.org/...
+                </a>
+                <button type="button" class="short-link-copy" id="copy-sub-link">
+                  📋 Copy
                 </button>
+              </div>
+              <div class="short-link-row hidden" id="short-link-row">
+                <span class="short-link-label">Short link</span>
+                <code class="short-link-code" id="short-link-code"></code>
+                <button type="button" class="short-link-copy" id="copy-short-link">
+                  📋 Copy
+                </button>
+              </div>
+              <div class="connection-actions">
+                <a
+                  href="/dopamine/en/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="action-btn primary download-btn-link"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+                  </svg>
+                  Download
+                </a>
                 <button class="action-btn secondary" id="show-qr-btn">
                   📱 Show QR code
                 </button>
@@ -3640,6 +3747,21 @@
     const subLinkEl = document.getElementById("subscription-link");
     subLinkEl.innerText = subUrl;
     subLinkEl.href = subUrl;
+
+    // Short link for manual entry (s.frkn.org/xxxxx)
+    const shortRow = document.getElementById("short-link-row");
+    const shortCodeEl = document.getElementById("short-link-code");
+    fetch(`${API_BASE}/short?subscription_id=${encodeURIComponent(subId)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((short) => {
+        if (!short?.short_url || !shortRow || !shortCodeEl) return;
+        shortCodeEl.innerText = short.short_url.replace(/^https?:\/\//, "");
+        shortRow.classList.remove("hidden");
+        document.getElementById("copy-short-link").onclick = () => {
+          copyText(short.short_url, "Short link copied");
+        };
+      })
+      .catch(() => {});
 
     document.getElementById("copy-sub-link").onclick = () => {
       copyText(subUrl, "Subscription link copied");
