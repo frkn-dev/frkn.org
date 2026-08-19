@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Dopamine — приложение от FRKN</title>
+    <meta
+      name="description"
+      content="Dopamine — клиент для подключения к VPN от FRKN. Скачайте приложение или перейдите в магазин."
+    />
+    <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/styles.css?v=4" />
+    <style>
+      .dopamine-hero {
+        text-align: center;
+        padding: 60px 20px 40px;
+      }
+
+      .dopamine-logo {
+        width: 120px;
+        height: 120px;
+        border-radius: 28px;
+        background: linear-gradient(135deg, #5b7cfa, #22d3ee);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(91, 124, 250, 0.3);
+      }
+
+      .dopamine-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .dopamine-title {
+        font-size: 3rem;
+        font-weight: 800;
+        margin: 0 0 12px;
+        letter-spacing: -0.03em;
+      }
+
+      .dopamine-tagline {
+        font-size: 1.15rem;
+        color: var(--muted);
+        max-width: 500px;
+        margin: 0 auto 32px;
+        line-height: 1.6;
+      }
+
+      .powered-by {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--muted);
+        text-decoration: none;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border);
+        margin-bottom: 40px;
+        transition: all 0.2s ease;
+      }
+
+      .powered-by:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(91, 124, 250, 0.4);
+      }
+
+      .powered-by b {
+        color: var(--text);
+      }
+
+      .download-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        max-width: 900px;
+        margin: 0 auto 60px;
+      }
+
+      .download-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 28px 24px;
+        text-align: center;
+        transition: all 0.25s ease;
+      }
+
+      .download-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(91, 124, 250, 0.4);
+        box-shadow: 0 16px 40px rgba(91, 124, 250, 0.12);
+      }
+
+      .download-icon {
+        width: 56px;
+        height: 56px;
+        margin: 0 auto 16px;
+      }
+
+      .download-icon svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .download-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0 0 6px;
+      }
+
+      .download-hint {
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 18px;
+      }
+
+      .download-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 12px 20px;
+        border-radius: 12px;
+        background: var(--accent);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: opacity 0.2s ease;
+      }
+
+      .download-btn:hover {
+        opacity: 0.9;
+      }
+
+      .download-btn.placeholder {
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--muted);
+        border: 1px dashed var(--border);
+        cursor: default;
+      }
+
+      .download-btn.placeholder:hover {
+        opacity: 1;
+      }
+
+      .store-badge {
+        width: 100%;
+        max-width: 180px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        border-radius: 8px;
+      }
+
+      .features-section {
+        margin-bottom: 60px;
+      }
+
+      .features-section h2 {
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 1.6rem;
+      }
+
+      .feature-group {
+        margin-bottom: 36px;
+      }
+
+      .feature-group-title {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--accent);
+        margin: 0 0 16px;
+      }
+
+      .features-grid-simple {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+      }
+
+      .feature-item {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 22px;
+        transition: all 0.25s ease;
+      }
+
+      .feature-item:hover {
+        transform: translateY(-3px);
+        border-color: rgba(91, 124, 250, 0.35);
+      }
+
+      .feature-emoji {
+        display: block;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .feature-item h4 {
+        margin: 0 0 8px;
+        font-size: 1.05rem;
+      }
+
+      .feature-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .screenshots-section {
+        margin-bottom: 60px;
+        text-align: center;
+      }
+
+      .screenshots-section h2 {
+        margin-bottom: 32px;
+        font-size: 1.6rem;
+      }
+
+      .screenshots-grid {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+
+      .phone-shot {
+        width: 240px;
+        border-radius: 28px;
+        border: 1px solid var(--border);
+        box-shadow:
+          0 24px 60px rgba(0, 0, 0, 0.45),
+          0 0 0 6px rgba(255, 255, 255, 0.03);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .phone-shot.shot-left {
+        transform: rotate(-2deg);
+      }
+
+      .phone-shot.shot-right {
+        transform: rotate(2deg);
+      }
+
+      .phone-shot:hover {
+        transform: rotate(0deg) translateY(-6px);
+        box-shadow:
+          0 28px 70px rgba(91, 124, 250, 0.25),
+          0 0 0 6px rgba(255, 255, 255, 0.03);
+      }
+
+      .shot-caption {
+        margin-top: 14px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      @media (max-width: 560px) {
+        .phone-shot {
+          width: 200px;
+        }
+      }
+
+      .download-btn-row {
+        display: flex;
+        gap: 8px;
+      }
+
+      .download-btn-row .download-btn {
+        padding: 12px 10px;
+        font-size: 13px;
+      }
+
+      .install-link {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 0;
+        background: none;
+        border: none;
+        font-size: 13px;
+        color: var(--muted);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        cursor: pointer;
+      }
+
+      .install-link:hover {
+        color: var(--accent);
+      }
+
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 20px;
+      }
+
+      .modal-overlay.open {
+        display: flex;
+      }
+
+      .modal-card {
+        position: relative;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        max-width: 480px;
+        width: 100%;
+        max-height: 85vh;
+        overflow-y: auto;
+        padding: 28px;
+        text-align: left;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-card h3 {
+        margin: 0 0 16px;
+        font-size: 1.2rem;
+      }
+
+      .modal-card ol {
+        margin: 0;
+        padding-left: 20px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .modal-card ol li {
+        margin-bottom: 10px;
+      }
+
+      .modal-card ol li b {
+        color: var(--text);
+      }
+
+      .modal-card code {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 2px 6px;
+        border-radius: 6px;
+        font-size: 12px;
+        word-break: break-all;
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .modal-close:hover {
+        color: var(--text);
+      }
+
+      .footer-note {
+        text-align: center;
+        padding: 40px 20px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .footer-note a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      @media (max-width: 900px) {
+        .download-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 560px) {
+        .dopamine-hero {
+          padding: 40px 16px 30px;
+        }
+
+        .dopamine-title {
+          font-size: 2.2rem;
+        }
+
+        .dopamine-tagline {
+          font-size: 1rem;
+        }
+
+        .download-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div id="logo-container"></div>
+      </header>
+
+      <section class="dopamine-hero">
+        <div class="dopamine-logo">
+          <img src="/Images/logo.png" alt="Dopamine" />
+        </div>
+        <h1 class="dopamine-title">Dopamine</h1>
+        <p class="dopamine-tagline">
+          Приложение для быстрого и удобного подключения к VPN от FRKN. Работает
+          на телефоне и компьютере.
+        </p>
+        <a
+          href="https://frkn.org"
+          target="_blank"
+          rel="noopener"
+          class="powered-by"
+        >
+          Powered by <b>FRKN</b>
+        </a>
+      </section>
+
+      <section class="download-section">
+        <div class="download-grid">
+          <div class="download-card">
+            <div class="download-icon">
+              <svg viewBox="0 0 24 24" fill="#3DDC84" aria-label="Android">
+                <path
+                  d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-5.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 1.23 12.95 1 12 1c-.96 0-1.86.23-2.66.63L7.85.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.3 1.3C6.97 3.26 6 5.01 6 7h12c0-1.99-.97-3.75-2.47-4.84zM10 5H9V4h1v1zm5 0h-1V4h1v1z"
+                />
+              </svg>
+            </div>
+            <div class="download-name">Android</div>
+            <div class="download-hint">APK-файл для установки</div>
+            <a href="/dopamine/frkn-dopamine.apk" class="download-btn" download>
+              Скачать APK
+            </a>
+          </div>
+
+          <div class="download-card">
+            <div class="download-icon">
+              <svg viewBox="0 0 24 24" fill="#fff" aria-label="iOS">
+                <path
+                  d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
+                />
+              </svg>
+            </div>
+            <div class="download-name">iOS</div>
+            <div class="download-hint">Бета через TestFlight</div>
+            <a
+              href="https://testflight.apple.com/join/g64p8p4h"
+              target="_blank"
+              rel="noopener"
+              class="download-btn"
+            >
+              TestFlight
+            </a>
+          </div>
+
+          <div class="download-card">
+            <div class="download-icon">
+              <svg viewBox="0 0 24 24" fill="#00A4EF" aria-label="Windows">
+                <path
+                  d="M3 12V6l6-1v7H3zm8-8.5L21 2v10H11V3.5zM3 13h6v7L3 19v-6zm8 0h10v10L11 21v-8z"
+                />
+              </svg>
+            </div>
+            <div class="download-name">Windows</div>
+            <div class="download-hint">Установщик .exe</div>
+            <a
+              href="#"
+              class="download-btn placeholder"
+              onclick="event.preventDefault(); alert('Ссылка появится позже');"
+            >
+              Скачать (скоро)
+            </a>
+          </div>
+
+          <div class="download-card">
+            <div class="download-icon">
+              <svg viewBox="0 0 24 24" fill="#fff" aria-label="macOS">
+                <path
+                  d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
+                />
+              </svg>
+            </div>
+            <div class="download-name">macOS</div>
+            <div class="download-hint">Установщик .pkg</div>
+            <div class="download-btn-row">
+              <a
+                href="#"
+                class="download-btn placeholder"
+                onclick="event.preventDefault(); alert('Link coming soon');"
+              >
+                Apple Silicon: Download (СКОРО)
+              </a>
+              <a
+                href="#"
+                class="download-btn placeholder"
+                onclick="event.preventDefault(); alert('Link coming soon');"
+              >
+                Intel: Download (СКОРО)
+              </a>
+            </div>
+            <button type="button" class="install-link" id="macos-install-link">
+              Как установить?
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screenshots-section">
+        <h2></h2>
+        <div class="screenshots-grid">
+          <div>
+            <img
+              src="/Images/android-dopamine.jpg"
+              alt="Dopamine на Android — подключено"
+              class="phone-shot shot-left"
+            />
+            <div class="shot-caption">Android</div>
+          </div>
+          <div>
+            <img
+              src="/Images/ios-dopamine.jpg"
+              alt="Dopamine на iOS — подключено"
+              class="phone-shot shot-right"
+            />
+            <div class="shot-caption">iOS</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features-section">
+        <h2>Почему Dopamine</h2>
+
+        <div class="feature-group">
+          <h3 class="feature-group-title">Приватность и доступ</h3>
+          <div class="features-grid-simple">
+            <div class="feature-item">
+              <span class="feature-emoji">🕵️</span>
+              <h4>Без почты и аккаунтов</h4>
+              <p>
+                Анонимный триал в один тап: не собираем ни email, ни логи, ни
+                личные данные.
+              </p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-emoji">🛡️</span>
+              <h4>Устойчивость к блокировкам</h4>
+              <p>
+                VLESS Reality, XHTTP через CDN, gRPC и AmneziaWG с обфускацией
+                пакетов — для DPI это обычный HTTPS.
+              </p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-emoji">⚡</span>
+              <h4>Hysteria2</h4>
+              <p>Быстрый протокол на QUIC для нестабильных сетей.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-group">
+          <h3 class="feature-group-title">Управление трафиком</h3>
+          <div class="features-grid-simple">
+            <div class="feature-item">
+              <span class="feature-emoji">🎛️</span>
+              <h4>Гибкий сплит-туннель</h4>
+              <p>
+                VPN только для выбранных сайтов и сервисов — или наоборот «всё,
+                кроме выбранных». Применяется при переподключении.
+              </p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-emoji">✅</span>
+              <h4>Готовые пресеты сервисов</h4>
+              <p>
+                Маркетплейсы, социальные сети, банки и другие: один чекбокс
+                вместо ручного списка доменов.
+              </p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-emoji">🔋</span>
+              <h4>AmneziaWG Mobile</h4>
+              <p>
+                Отдельный профиль, заточенный под мобильные сети и экономию
+                батареи.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-group">
+          <h3 class="feature-group-title">Контроль и прозрачность</h3>
+          <div class="features-grid-simple">
+            <div class="feature-item">
+              <span class="feature-emoji">📶</span>
+              <h4>Живая проверка серверов</h4>
+              <p>
+                Доступность и задержка по каждому серверу прямо в списке:
+                зелёный/жёлтый/красный индикатор, по желанию — точные пинги.
+              </p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-emoji">🤝</span>
+              <h4>Честный статус подключения</h4>
+              <p>
+                Соединение подтверждается реальным handshake, а не просто фактом
+                запуска туннеля.
+              </p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-emoji">🌍</span>
+              <h4>Выбор окружения и протокола</h4>
+              <p>
+                Фильтры в списке серверов: страна с флагом, протокол, окружение.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-group">
+          <h3 class="feature-group-title">Платформа</h3>
+          <div class="features-grid-simple">
+            <div class="feature-item">
+              <span class="feature-emoji">📱</span>
+              <h4>iOS, macOS, Android</h4>
+              <p>Один аккаунт и одинаковый опыт на всех устройствах.</p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-emoji">🌐</span>
+              <h4>Русский, English, Українська</h4>
+              <p>Полная локализация интерфейса.</p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-emoji">✂️</span>
+              <h4>Kill Switch</h4>
+              <p>Трафик не утекает мимо туннеля при обрыве соединения.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer-note">
+        Dopamine — клиент для подключения к сети FRKN.<br />
+        Подробнее о сервисе на сайте
+        <a href="https://frkn.org" target="_blank" rel="noopener">frkn.org</a>.
+      </div>
+
+      <div id="footer-container"></div>
+    </div>
+
+    <div class="modal-overlay" id="macos-install-modal">
+      <div class="modal-card">
+        <button
+          type="button"
+          class="modal-close"
+          id="macos-install-close"
+          aria-label="Закрыть"
+        >
+          &times;
+        </button>
+        <h3>Как установить на macOS</h3>
+        <ol>
+          <li>
+            <b>Откройте</b> скачанный <code>Dopamine-arm64.pkg</code> (Apple
+            Silicon) или <code>Dopamine-intel.pkg</code> (Intel).
+          </li>
+          <li>
+            Если macOS покажет «Apple could not verify…» — нажмите
+            <b>«Done»</b>, затем откройте <b>«Системные настройки»</b> →
+            <b>«Конфиденциальность и безопасность»</b>, промотайте вниз и
+            нажмите <b>«Open Anyway»</b> рядом с упоминанием Dopamine →
+            подтвердите паролем → <b>«Open»</b>.<br />
+            Либо один раз в Терминале:
+            <code
+              >xattr -dr com.apple.quarantine
+              ~/Downloads/Dopamine-arm64.pkg</code
+            >
+            — и PKG откроется сразу.
+          </li>
+          <li>
+            <b>Пройдите инсталлер</b> — в конце система спросит пароль
+            администратора (так ставится системный VPN-сервис, это нормально).
+          </li>
+          <li>После установки приложение запустится само, всё работает.</li>
+        </ol>
+      </div>
+    </div>
+
+    <script src="/scripts/analytics.js" defer></script>
+    <script src="/scripts/i18n.js?v=2"></script>
+    <script src="/scripts/containers.js?v=3"></script>
+    <script>
+      (function () {
+        var overlay = document.getElementById("macos-install-modal");
+        document
+          .getElementById("macos-install-link")
+          .addEventListener("click", function () {
+            overlay.classList.add("open");
+          });
+        document
+          .getElementById("macos-install-close")
+          .addEventListener("click", function () {
+            overlay.classList.remove("open");
+          });
+        overlay.addEventListener("click", function (e) {
+          if (e.target === overlay) overlay.classList.remove("open");
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") overlay.classList.remove("open");
+        });
+      })();
+    </script>
+  </body>
+</html>

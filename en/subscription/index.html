@@ -2496,6 +2496,87 @@
         margin-bottom: 16px;
       }
 
+      .short-link-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding: 12px 16px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px dashed var(--border);
+        margin-bottom: 16px;
+      }
+
+      .short-link-label {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .short-link-code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #10b981;
+        letter-spacing: 0.04em;
+      }
+
+      .short-link-copy {
+        margin-left: auto;
+        padding: 6px 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .short-link-copy:hover {
+        border-color: var(--accent);
+      }
+
+      .main-link-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .main-link-row .connection-link-box {
+        flex: 1;
+        margin-bottom: 0;
+      }
+
+      .main-link-row .short-link-copy {
+        align-self: stretch;
+        display: inline-flex;
+        align-items: center;
+        margin-left: 0;
+        white-space: nowrap;
+      }
+
+      .download-btn-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        text-decoration: none;
+      }
+
+      @media (max-width: 560px) {
+        .main-link-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .main-link-row .short-link-copy {
+          justify-content: center;
+          padding: 10px;
+        }
+      }
+
       .connection-actions {
         display: flex;
         gap: 12px;
@@ -2790,6 +2871,7 @@
       </div>
 
       <main class="main-content" id="main-content">
+        <div id="urgency-banner"></div>
         <div class="dashboard-grid">
           <!-- Status card -->
           <div class="dashboard-card status-card">
@@ -2799,6 +2881,9 @@
               <div class="status-pill" id="status-text">...</div>
               <div class="trial-pill hidden" id="trial-pill">Trial</div>
               <div class="early-adopter-pill hidden" id="early-adopter-pill">Early Adopter</div>
+              <div class="early-adopter-pill hidden" id="early-adopter-number-pill">
+                <span id="early-adopter-number"></span>
+              </div>
             </div>
 
             <div class="status-id-line">
@@ -2880,13 +2965,39 @@
           <div class="dashboard-card connection-card">
             <div class="connection-link-section">
               <h2>🔗 Your connection link</h2>
-              <div class="connection-link-box" id="subscription-link">
-                sub.frkn.org/...
+              <div class="main-link-row">
+                <a class="connection-link-box" id="subscription-link" href="#" style="text-decoration: none;">
+                  sub.frkn.org/...
+                </a>
+                <button type="button" class="short-link-copy" id="copy-sub-link">
+                  📋 Copy
+                </button>
+              </div>
+              <div class="short-link-row hidden" id="short-link-row">
+                <span class="short-link-label">Short link</span>
+                <code class="short-link-code" id="short-link-code"></code>
+                <button type="button" class="short-link-copy" id="copy-short-link">
+                  📋 Copy
+                </button>
               </div>
               <div class="connection-actions">
-                <button class="action-btn primary" id="copy-sub-link">
-                  📋 Copy link
-                </button>
+                <a
+                  href="/dopamine/en/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="action-btn primary download-btn-link"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
+                  </svg>
+                  Download
+                </a>
                 <button class="action-btn secondary" id="show-qr-btn">
                   📱 Show QR code
                 </button>
@@ -2907,7 +3018,7 @@
                   <div class="step-number">2</div>
                   <div class="step-icon">📱</div>
                   <div class="step-text">
-                    Download the recommended app for your device
+                    Download the FRKN Dopamine app
                   </div>
                 </div>
                 <div class="quick-step">
@@ -2918,24 +3029,13 @@
               </div>
             </div>
 
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <button class="device-picker-toggle" id="openDeviceModal" type="button">
-                More settings
-                <span class="device-picker-arrow">▼</span>
-              </button>
-              <button class="device-picker-toggle" id="openAwgModal" type="button">
-                <img
-                  src="/Images/wireguard.svg"
-                  alt=""
-                  style="width: 16px; height: 16px; filter: brightness(1.2);"
-                />
-                AmneziaWG 2.0
-              </button>
-            </div>
+            <button class="device-picker-toggle" id="openDeviceModal" type="button">
+              More settings and apps
+              <span class="device-picker-arrow">▼</span>
+            </button>
           </div>
         </div>
 
-        <div id="urgency-banner"></div>
       </main>
 
       <div id="qr-modal" class="qr-modal hidden">
@@ -3070,20 +3170,6 @@
           <div class="picker-env-row" id="picker-env-row">
             <span class="picker-env-label">Region:</span>
             <div id="picker-env-switcher" class="picker-env-badges"></div>
-          </div>
-
-          <div id="wl-warning" class="info-tooltip warning" style="display: none">
-            <span>⚠️</span>
-            <span
-              ><b>White Elephants only work in the Happ app.</b>
-              <a
-                href="https://happ.su/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style="color: var(--accent); text-decoration: underline"
-                >Download Happ</a
-              ></span
-            >
           </div>
 
           <div class="steps-flow">
@@ -3635,6 +3721,8 @@
     // Trial and Early Adopter badges
     const trialPill = document.getElementById("trial-pill");
     const earlyAdopterPill = document.getElementById("early-adopter-pill");
+    const earlyAdopterNumberPill = document.getElementById("early-adopter-number-pill");
+    const earlyAdopterNumber = document.getElementById("early-adopter-number");
     fetch(`${API_BASE}/subscription/trial?subscription_id=${encodeURIComponent(subId)}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((meta) => {
@@ -3644,14 +3732,38 @@
         if (earlyAdopterPill) {
           earlyAdopterPill.classList.toggle("hidden", !meta?.early_adopter);
         }
+        if (earlyAdopterNumberPill && earlyAdopterNumber) {
+          const hasNumber = !!meta?.early_adopter_number;
+          earlyAdopterNumberPill.classList.toggle("hidden", !hasNumber);
+          if (hasNumber) {
+            earlyAdopterNumber.innerText = `#${String(meta.early_adopter_number).padStart(6, "0")}`;
+          }
+        }
       })
       .catch(() => {});
 
     renderTrafficWidget(data, currentEnv);
 
-    const subUrl = `https://sub.frkn.org/${data.id}`;
+    const subUrl = `frkn://sub/${data.id}`;
 
-    document.getElementById("subscription-link").innerText = subUrl;
+    const subLinkEl = document.getElementById("subscription-link");
+    subLinkEl.innerText = subUrl;
+    subLinkEl.href = subUrl;
+
+    // Short link for manual entry (s.frkn.org/xxxxx)
+    const shortRow = document.getElementById("short-link-row");
+    const shortCodeEl = document.getElementById("short-link-code");
+    fetch(`${API_BASE}/short?subscription_id=${encodeURIComponent(subId)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((short) => {
+        if (!short?.short_url || !shortRow || !shortCodeEl) return;
+        shortCodeEl.innerText = short.short_url.replace(/^https?:\/\//, "");
+        shortRow.classList.remove("hidden");
+        document.getElementById("copy-short-link").onclick = () => {
+          copyText(short.short_url, "Short link copied");
+        };
+      })
+      .catch(() => {});
 
     document.getElementById("copy-sub-link").onclick = () => {
       copyText(subUrl, "Subscription link copied");
@@ -3850,12 +3962,6 @@
         has_h2: hasH2,
         has_mtproto: hasMtproto,
       };
-      // Show White Elephants warning on load if needed
-      const wlWarning = document.getElementById("wl-warning");
-      if (wlWarning) {
-        wlWarning.style.display = currentEnv === "wl" ? "flex" : "none";
-      }
-
       initConnectionFlow();
       initEmailBinding(subId);
     }
@@ -3863,12 +3969,6 @@
 
   function setEnv(newEnv) {
     currentEnv = newEnv;
-
-    // Show/hide White Elephants warning
-    const wlWarning = document.getElementById("wl-warning");
-    if (wlWarning) {
-      wlWarning.style.display = newEnv === "wl" ? "flex" : "none";
-    }
 
     const loc =
       currentLocations.find((l) => l.env === newEnv) ||
@@ -4123,9 +4223,12 @@
       return;
     }
 
-    const clients = vpnClients[selectedOs].clients.filter((client) =>
-      isProtocolSupportedByClient(selectedProtocol, client.configType),
-    );
+    const clients = vpnClients[selectedOs].clients.filter((client) => {
+      if (selectedProtocol === "hysteria2" && client.id === "dopamine") {
+        return false;
+      }
+      return isProtocolSupportedByClient(selectedProtocol, client.configType);
+    });
 
     if (clients.length === 0) {
       options.innerHTML = `<div class="small">No suitable clients for the selected protocol.</div>`;
