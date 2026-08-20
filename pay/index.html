@@ -27,19 +27,28 @@
     />
     <meta name="twitter:image" content="https://frkn.org/Images/logo.png" />
     <title>FRKN Privacy — Тарифы</title>
-    <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/Images/apple-touch-icon.png" sizes="180x180">
+    <link
+      rel="icon"
+      href="/Images/favicon.ico"
+      sizes="any"
+      type="image/x-icon"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/Images/apple-touch-icon.png"
+      sizes="180x180"
+    />
     <link rel="stylesheet" href="/styles.css?v=4" />
     <style>
       :root {
-        --bg-color: var(--bg, #090B10);
+        --bg-color: var(--bg, #090b10);
         --card-bg: var(--card, #121622);
         --card-bg-hover: #1a1f2e;
-        --accent-color: var(--accent, #38BDF8);
+        --accent-color: var(--accent, #38bdf8);
         --accent-secondary: #22c55e;
         --text-main: var(--text, #e6e8ef);
         --text-dim: var(--muted, #9aa1b2);
-        --border-color: var(--border, #1F263A);
+        --border-color: var(--border, #1f263a);
       }
       * {
         margin: 0;
@@ -619,7 +628,11 @@
 
       <div class="pricing-section">
         <div class="pricing-grid pricing-grid-main">
-          <div class="price-card accent-border" data-duration="30" data-price="500">
+          <div
+            class="price-card accent-border"
+            data-duration="30"
+            data-price="500"
+          >
             <div class="card-subtitle">Попробовать Рилзопровод</div>
             <h3>1 месяц</h3>
             <div class="duration">30 дней доступа</div>
@@ -663,7 +676,11 @@
             </ul>
           </div>
 
-          <div class="price-card accent-border" data-duration="365" data-price="4500">
+          <div
+            class="price-card accent-border"
+            data-duration="365"
+            data-price="4500"
+          >
             <div class="card-subtitle">Для постоянного использования</div>
             <h3>12 месяцев</h3>
             <div class="duration">365 дней доступа</div>
@@ -761,8 +778,8 @@
           <div class="pay-benefit-content">
             <h4>Дни складываются</h4>
             <p>
-              Продление добавляет дни к текущей подписке, а не обнуляет её.
-              Уже имеющийся срок доступа не сгорает — только прибавляется.
+              Продление добавляет дни к текущей подписке, а не обнуляет её. Уже
+              имеющийся срок доступа не сгорает — только прибавляется.
             </p>
           </div>
         </div>
@@ -821,6 +838,12 @@
         <p style="font-size: 13px; text-align: center; margin-top: 15px">
           ⚠️ Не закрывайте это окно до подтверждения оплаты
         </p>
+        <p style="font-size: 15px; text-align: center; margin-top: 15px">
+          ‼️ Внимание: Если платёжная система не вернёт вас на наш сайт обратно
+          вставьте ID оплаты которая отдаст платежная система в ссылку
+          https://frkn.org/transaction?txid=<Ваш ID оплаты> (мы не виноваты,
+          сори за неудобство, оно у них работает через раз)
+        </p>
       </div>
     </div>
 
@@ -842,9 +865,7 @@
       const PAYMENT_API_BASE = isLocal
         ? "http://localhost:3006"
         : "https://api.frkn.org";
-      const PAYMENT_API_FALLBACK = isLocal
-        ? null
-        : "https://api.frkn.org";
+      const PAYMENT_API_FALLBACK = isLocal ? null : "https://api.frkn.org";
       let currentOrder = null;
 
       async function apiFetch(path, options = {}) {
@@ -932,9 +953,11 @@
       }
       function getPromoApplicableDurations() {
         const durations = [];
-        document.querySelectorAll(".buy-button[data-discounted-price]").forEach((btn) => {
-          durations.push(parseInt(btn.dataset.duration));
-        });
+        document
+          .querySelectorAll(".buy-button[data-discounted-price]")
+          .forEach((btn) => {
+            durations.push(parseInt(btn.dataset.duration));
+          });
         return [...new Set(durations)].sort((a, b) => a - b);
       }
       function showError(message) {
@@ -989,17 +1012,14 @@
           const duration = parseInt(btn.dataset.duration);
           const basePrice = parseInt(btn.dataset.price);
           try {
-            const response = await apiFetch(
-              `/promocode/validate`,
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  duration,
-                  promocode: promoCode.toUpperCase(),
-                }),
-              },
-            );
+            const response = await apiFetch(`/promocode/validate`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                duration,
+                promocode: promoCode.toUpperCase(),
+              }),
+            });
             if (!response.ok) continue;
             const data = await response.json();
             if (data.is_valid && data.discounted_price < data.original_price) {
@@ -1018,7 +1038,11 @@
               }
               badge.innerText = `-${data.discount_percent}%`;
               updateCardPricePerDay(card, data.discounted_price, duration);
-              updateCardSavings(card, data.discounted_price, data.original_price);
+              updateCardSavings(
+                card,
+                data.discounted_price,
+                data.original_price,
+              );
             }
           } catch (e) {
             console.error(`Failed to validate for duration ${duration}:`, e);
@@ -1056,17 +1080,14 @@
           return true;
         }
         try {
-          const response = await apiFetch(
-            `/promocode/validate`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                duration: currentOrder.duration,
-                promocode: promoValue,
-              }),
-            },
-          );
+          const response = await apiFetch(`/promocode/validate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              duration: currentOrder.duration,
+              promocode: promoValue,
+            }),
+          });
           if (!response.ok) throw new Error("Промокод недействителен");
           const data = await response.json();
           if (data.is_valid && data.discounted_price < data.original_price) {
@@ -1114,7 +1135,8 @@
           const response = await apiFetch(
             `/check/ref_code?code=${encodeURIComponent(refValue)}`,
           );
-          if (!response.ok) throw new Error("Не удалось проверить реферальный код");
+          if (!response.ok)
+            throw new Error("Не удалось проверить реферальный код");
           const data = await response.json();
           if (data.valid) {
             currentOrder.referral = refValue;
@@ -1185,7 +1207,8 @@
               const labels = applicable.map(formatDuration).join(", ");
               promoInfo.innerText = `Промокод не применяется к этому тарифу. Действует на: ${labels}`;
             } else {
-              promoInfo.innerText = "Промокод не действителен для текущих тарифов";
+              promoInfo.innerText =
+                "Промокод не действителен для текущих тарифов";
             }
             updateModalDisplay();
           }
@@ -1284,21 +1307,18 @@
           payBtn.innerHTML =
             '<span class="loading-spinner"></span> Создаем счет...';
           try {
-            const res = await apiFetch(
-              `/payment/platega/key/create`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  "X-Trace-Id": generateTraceId(),
-                },
-                body: JSON.stringify({
-                  duration: currentOrder.duration,
-                  promocode: currentOrder.promo || null,
-                  refCode: currentOrder.referral || null,
-                }),
+            const res = await apiFetch(`/payment/platega/key/create`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-Trace-Id": generateTraceId(),
               },
-            );
+              body: JSON.stringify({
+                duration: currentOrder.duration,
+                promocode: currentOrder.promo || null,
+                refCode: currentOrder.referral || null,
+              }),
+            });
             if (!res.ok) {
               const errorData = await res
                 .json()
@@ -1307,7 +1327,10 @@
             }
             const data = await res.json();
             if (data.transactionId) {
-              localStorage.setItem("frkn_last_transaction_id", data.transactionId);
+              localStorage.setItem(
+                "frkn_last_transaction_id",
+                data.transactionId,
+              );
             }
             if (data.status === "PENDING" && data.url) {
               window.location.href = data.url;
