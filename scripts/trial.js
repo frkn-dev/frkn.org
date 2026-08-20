@@ -61,6 +61,16 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    const emailRe = /^[a-z0-9._%+-]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/;
+    if (!emailRe.test(emailLow)) {
+      if (msg) {
+        msg.textContent =
+          "❌ Похоже, в почте опечатка — проверь адрес. Только латиница, цифры и . _ % + -";
+        msg.classList.add("error");
+      }
+      return;
+    }
+
     if (btn) btn.disabled = true;
 
     const payload = {
