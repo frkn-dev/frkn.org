@@ -28,3 +28,6 @@ dist-ssr
 # App binaries (deployed via rsync, not git)
 dopamine/*.dmg
 dopamine/*.pkg
+
+# Share output (skill `share` artifacts)
+share/
