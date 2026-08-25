@@ -5518,12 +5518,15 @@
         const safeClientName = escapeHtml(client.name);
         const safeOsLabel = escapeHtml(osConfig.label);
 
-        let subscriptionUrl = buildSubscriptionUrl(
-          selectedProtocol,
-          currentConnectionContext.id,
-          currentConnectionContext.env,
-          normalizeFormat(client.configType),
-        );
+        let subscriptionUrl =
+          client.id === "dopamine"
+            ? `frkn://sub/${currentConnectionContext.id}`
+            : buildSubscriptionUrl(
+                selectedProtocol,
+                currentConnectionContext.id,
+                currentConnectionContext.env,
+                normalizeFormat(client.configType),
+              );
         if (client.id === "happ" || client.name?.toLowerCase() === "happ") {
           subscriptionUrl += "&app=happ";
         }
