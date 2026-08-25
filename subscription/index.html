@@ -23,9 +23,18 @@
     <meta name="twitter:title" content="FRKN Подписка" />
     <meta name="twitter:description" content="FRKN Подписка" />
     <meta name="twitter:image" content="https://frkn.org/Images/logo.png" />
-    <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/Images/apple-touch-icon.png" sizes="180x180">
-    <meta name="apple-mobile-web-app-title" content="frkn sub">
+    <link
+      rel="icon"
+      href="/Images/favicon.ico"
+      sizes="any"
+      type="image/x-icon"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/Images/apple-touch-icon.png"
+      sizes="180x180"
+    />
+    <meta name="apple-mobile-web-app-title" content="frkn sub" />
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 
     <title>Информация о подписке</title>
@@ -3420,7 +3429,7 @@
                   id="deviceLabelInput"
                   type="text"
                   maxlength="64"
-                  placeholder="Мама Андроид"
+                  placeholder="Мой смартфон"
                   autocomplete="off"
                 />
                 <div class="devices-hint" style="margin-top: 6px">
@@ -4213,9 +4222,7 @@
         // Short link for manual entry (s.frkn.org/xxxxx)
         const shortRow = document.getElementById("short-link-row");
         const shortCodeEl = document.getElementById("short-link-code");
-        fetch(
-          `${API_BASE}/short?subscription_id=${encodeURIComponent(subId)}`,
-        )
+        fetch(`${API_BASE}/short?subscription_id=${encodeURIComponent(subId)}`)
           .then((r) => (r.ok ? r.json() : null))
           .then((short) => {
             if (!short?.short_url || !shortRow || !shortCodeEl) return;
@@ -4740,7 +4747,9 @@
             return;
           }
           if (j && j.status === 429) {
-            setErr("Слишком частые запросы — подождите минуту и попробуйте снова.");
+            setErr(
+              "Слишком частые запросы — подождите минуту и попробуйте снова.",
+            );
           } else {
             setErr((j && j.message) || "Не удалось создать ссылку");
           }
@@ -4808,7 +4817,10 @@
           );
           row.appendChild(
             deviceBtn("Clash", "device-connect-btn", () =>
-              copyText(buildDeviceFeedUrl(conn, "clash"), "Clash-ссылка скопирована"),
+              copyText(
+                buildDeviceFeedUrl(conn, "clash"),
+                "Clash-ссылка скопирована",
+              ),
             ),
           );
           content.appendChild(linkBox);
@@ -4858,7 +4870,10 @@
       }
 
       function sanitizeDeviceFileName(name) {
-        const clean = String(name || "device").replace(/[^\wа-яёА-ЯЁ-]+/gi, "_");
+        const clean = String(name || "device").replace(
+          /[^\wа-яёА-ЯЁ-]+/gi,
+          "_",
+        );
         return clean || "device";
       }
 
@@ -6206,11 +6221,9 @@
 
         // Devices modal
         const devicesModal = document.getElementById("user-devices-modal");
-        const openDevicesModalBtn =
-          document.getElementById("openDevicesModal");
-        const closeDevicesModalBtn = document.getElementById(
-          "closeDevicesModal",
-        );
+        const openDevicesModalBtn = document.getElementById("openDevicesModal");
+        const closeDevicesModalBtn =
+          document.getElementById("closeDevicesModal");
         const addDeviceBtn = document.getElementById("addDeviceBtn");
         const deviceSubmitBtn = document.getElementById("deviceSubmitBtn");
         const deviceEnvSelect = document.getElementById("deviceEnvSelect");
@@ -6273,9 +6286,7 @@
           deviceEnvSelect.addEventListener("change", fillDeviceProtoSelect);
         }
 
-        const deviceProtoSelect = document.getElementById(
-          "deviceProtoSelect",
-        );
+        const deviceProtoSelect = document.getElementById("deviceProtoSelect");
         if (deviceProtoSelect) {
           deviceProtoSelect.addEventListener("change", loadDeviceNodes);
         }
