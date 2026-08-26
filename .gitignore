@@ -28,3 +28,4 @@ dist-ssr
 # App binaries (deployed via rsync, not git)
 dopamine/*.dmg
 dopamine/*.pkg
+dopamine/*.apk
