@@ -4449,6 +4449,7 @@
       let devicesSubId = null;
       let deviceOptions = null; // null = options not loaded / unavailable
       let devicesData = null; // latest GET /subscription/{id} response
+      let deviceScope = null; // private env scope (null = regular user)
       let currentDetailConnId = null; // open detail-view (null = list)
 
       function initDevices(data, subId) {
@@ -4456,6 +4457,7 @@
         if (!data || !Array.isArray(data.connections)) return;
         devicesSubId = subId;
         devicesData = data;
+        deviceScope = data.scope || null;
         renderDevicesList(data.connections);
         loadDeviceOptions();
       }
@@ -4474,7 +4476,7 @@
         listEl.innerHTML = "";
         devices.forEach((c) => {
           const traffic = formatBytes((c.uplink || 0) + (c.downlink || 0));
-          const envName = ENV_NAMES[c.env] || String(c.env || "").toUpperCase();
+          const envName = deviceEnvDisplayName(c.env);
           const item = document.createElement("div");
           item.className = "device-item";
           const info = document.createElement("div");
@@ -4518,6 +4520,7 @@
           const data = await r.json();
           if (data && Array.isArray(data.connections)) {
             devicesData = data;
+            deviceScope = data.scope || null;
             if (currentDetailConnId) {
               renderDeviceDetail(currentDetailConnId);
             } else {
@@ -4578,8 +4581,7 @@
         const metaEl = document.getElementById("deviceDetailMeta");
         if (nameEl) nameEl.textContent = conn.label;
         if (metaEl) {
-          const envName =
-            ENV_NAMES[conn.env] || String(conn.env || "").toUpperCase();
+          const envName = deviceEnvDisplayName(conn.env);
           const traffic = formatBytes(
             (conn.uplink || 0) + (conn.downlink || 0),
           );
@@ -4916,11 +4918,27 @@
       }
 
       function getAvailableDeviceEnvs() {
-        if (!deviceOptions) return [];
-        const envs = currentLocations.map((l) => l.env);
-        return envs.filter(
-          (e) => Array.isArray(deviceOptions[e]) && deviceOptions[e].length > 0,
-        );
+        const envs = !deviceOptions
+          ? []
+          : currentLocations
+              .map((l) => l.env)
+              .filter(
+                (e) =>
+                  Array.isArray(deviceOptions[e]) && deviceOptions[e].length > 0,
+              );
+        // Private env (premium/personal) may be missing from both
+        // deviceOptions and currentLocations — always append it
+        if (deviceScope?.env && !envs.includes(deviceScope.env)) {
+          envs.push(deviceScope.env);
+        }
+        return envs;
+      }
+
+      function deviceEnvDisplayName(env) {
+        if (deviceScope && env === deviceScope.env) {
+          return deviceScope.kind === "personal" ? "Personal" : "Premium";
+        }
+        return ENV_NAMES[env] || String(env || "").toUpperCase();
       }
 
       function fillDeviceEnvSelect() {
@@ -4930,7 +4948,7 @@
         getAvailableDeviceEnvs().forEach((env) => {
           const opt = document.createElement("option");
           opt.value = env;
-          opt.textContent = ENV_NAMES[env] || env.toUpperCase();
+          opt.textContent = deviceEnvDisplayName(env);
           envSelect.appendChild(opt);
         });
         fillDeviceProtoSelect();
@@ -4939,8 +4957,12 @@
       function fillDeviceProtoSelect() {
         const envSelect = document.getElementById("deviceEnvSelect");
         const protoSelect = document.getElementById("deviceProtoSelect");
-        if (!envSelect || !protoSelect || !deviceOptions) return;
-        const protos = deviceOptions[envSelect.value] || [];
+        if (!envSelect || !protoSelect) return;
+        const isScopeEnv = deviceScope && envSelect.value === deviceScope.env;
+        if (!isScopeEnv && !deviceOptions) return;
+        const protos = isScopeEnv
+          ? deviceScope.protos || []
+          : deviceOptions[envSelect.value] || [];
         protoSelect.innerHTML = "";
         protos.forEach((p) => {
           const opt = document.createElement("option");
@@ -4969,7 +4991,7 @@
         nodeSelect.disabled = true;
         try {
           const r = await fetch(
-            `${API_BASE}/devices/nodes?env=${encodeURIComponent(envSelect.value)}&proto=${encodeURIComponent(protoSelect.value)}`,
+            `${API_BASE}/devices/nodes?env=${encodeURIComponent(envSelect.value)}&proto=${encodeURIComponent(protoSelect.value)}&subscription_id=${encodeURIComponent(devicesSubId)}`,
           );
           const j = await r.json().catch(() => null);
           if (seq !== deviceNodesReqSeq) return; // stale response
