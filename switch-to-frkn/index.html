@@ -6,13 +6,19 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>Переходи с другого сервиса доступа на Рилзопровод FRKN — Скидка на 6 месяцев</title>
+    <title>
+      Переходи с другого сервиса доступа на Рилзопровод FRKN — Скидка на 6
+      месяцев
+    </title>
     <meta
       name="description"
       content="Переходи с любого платного сервиса на FRKN Рилзопровод со скидкой на 6 месяцев. Пришли скриншот оплаченной подписки."
     />
     <link rel="canonical" href="https://frkn.org/switch-to-frkn/" />
-    <meta property="og:title" content="Переходи с другого сервиса доступа на Рилзопровод FRKN" />
+    <meta
+      property="og:title"
+      content="Переходи с другого сервиса доступа на Рилзопровод FRKN"
+    />
     <meta property="og:site_name" content="frkn" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://frkn.org/switch-to-frkn/" />
@@ -22,8 +28,17 @@
     />
     <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
     <meta name="theme-color" content="#0b0d12" />
-    <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/Images/apple-touch-icon.png" sizes="180x180">
+    <link
+      rel="icon"
+      href="/Images/favicon.ico"
+      sizes="any"
+      type="image/x-icon"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/Images/apple-touch-icon.png"
+      sizes="180x180"
+    />
     <link rel="stylesheet" href="/styles.css?v=4" />
     <style>
       .switch-page {
@@ -378,9 +393,9 @@
           <div class="switch-badge">⚡ Акция для новых пользователей</div>
           <h1>Переходи с другого сервиса доступа на Рилзопровод FRKN</h1>
           <p>
-            Получи скидку на 6 месяцев Рилзопровода FRKN. Достаточно прислать
-            скриншот оплаченной подписки другого сервиса или самохостингового
-            сервиса.
+            Получи скидку <strong>50 процентов</strong> на 6 месяцев
+            Рилзопровода FRKN. Достаточно прислать скриншот оплаченной подписки
+            другого сервиса или самохостингового сервиса.
           </p>
           <a class="btn try" href="#switch-form">Получить скидку</a>
         </div>
@@ -392,8 +407,9 @@
               <div class="step-content">
                 <h4>Сделай скриншот</h4>
                 <p>
-                  Сфотографируй подтверждение оплаты старого сервиса: чек, письмо,
-                  личный кабинет или любое другое доказательство покупки.
+                  Сфотографируй подтверждение оплаты старого сервиса: чек,
+                  письмо, личный кабинет или любое другое доказательство
+                  покупки.
                 </p>
               </div>
             </div>
@@ -451,8 +467,8 @@
               <div class="reason-icon">🏷️</div>
               <h4>Самая выгодная скидка</h4>
               <p>
-                Скидка на 6 месяцев — выгодное предложение для перехода с
-                любого другого сервиса.
+                Скидка на 6 месяцев — выгодное предложение для перехода с любого
+                другого сервиса.
               </p>
             </div>
             <div class="reason-card">
@@ -483,7 +499,8 @@
               <div class="reason-icon">🤝</div>
               <h4>Рекомендуют друзьям</h4>
               <p>
-                Приводи друзей и получай +7 дней доступа за каждого приглашённого.
+                Приводи друзей и получай +7 дней доступа за каждого
+                приглашённого.
               </p>
             </div>
             <div class="reason-card">
@@ -542,7 +559,7 @@
                 <strong>pigeon@frkn.org</strong>.
               </p>
 
-              <button type="submit" class="btn-submit" style="margin-top: 16px;">
+              <button type="submit" class="btn-submit" style="margin-top: 16px">
                 Отправить заявку
               </button>
             </form>
@@ -564,7 +581,10 @@
           <h2>Частые вопросы</h2>
           <div class="faq-item">
             <h4>Сколько времени занимает проверка?</h4>
-            <p>Обычно мы проверяем заявки в течение нескольких часов в рабочее время.</p>
+            <p>
+              Обычно мы проверяем заявки в течение нескольких часов в рабочее
+              время.
+            </p>
           </div>
           <div class="faq-item">
             <h4>Можно ли участвовать, если у меня закончилась подписка?</h4>
@@ -591,24 +611,22 @@
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script>
-      document
-        .getElementById("switchForm")
-        ?.addEventListener("submit", (e) => {
-          e.preventDefault();
+      document.getElementById("switchForm")?.addEventListener("submit", (e) => {
+        e.preventDefault();
 
-          const name = document.getElementById("name").value.trim();
-          const email = document.getElementById("email").value.trim();
-          const message = document.getElementById("message").value.trim();
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
 
-          const subject = encodeURIComponent(
-            "Заявка на переход с другого сервиса на FRKN",
-          );
-          const body = encodeURIComponent(
-            `Имя: ${name}\nEmail: ${email}\n\nСообщение:\n${message || "-"}\n\nПрикрепите, пожалуйста, скриншот оплаченной подписки другого сервиса.`,
-          );
+        const subject = encodeURIComponent(
+          "Заявка на переход с другого сервиса на FRKN",
+        );
+        const body = encodeURIComponent(
+          `Имя: ${name}\nEmail: ${email}\n\nСообщение:\n${message || "-"}\n\nПрикрепите, пожалуйста, скриншот оплаченной подписки другого сервиса.`,
+        );
 
-          window.location.href = `mailto:pigeon@frkn.org?subject=${subject}&body=${body}`;
-        });
+        window.location.href = `mailto:pigeon@frkn.org?subject=${subject}&body=${body}`;
+      });
     </script>
   </body>
 </html>

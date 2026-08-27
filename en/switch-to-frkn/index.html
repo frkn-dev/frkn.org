@@ -6,13 +6,18 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>Switch from your access service to FRKN RealPipe — 6 months discount</title>
+    <title>
+      Switch from your access service to FRKN RealPipe — 6 months discount
+    </title>
     <meta
       name="description"
       content="Switch from any paid service to FRKN and get 6 months discount. Send a screenshot of your paid subscription."
     />
     <link rel="canonical" href="https://frkn.org/en/switch-to-frkn/" />
-    <meta property="og:title" content="Switch from your access service to FRKN RealPipe" />
+    <meta
+      property="og:title"
+      content="Switch from your access service to FRKN RealPipe"
+    />
     <meta property="og:site_name" content="frkn" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://frkn.org/en/switch-to-frkn/" />
@@ -22,8 +27,17 @@
     />
     <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
     <meta name="theme-color" content="#0b0d12" />
-    <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/Images/apple-touch-icon.png" sizes="180x180">
+    <link
+      rel="icon"
+      href="/Images/favicon.ico"
+      sizes="any"
+      type="image/x-icon"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/Images/apple-touch-icon.png"
+      sizes="180x180"
+    />
     <link rel="stylesheet" href="/styles.css?v=4" />
     <style>
       .switch-page {
@@ -375,8 +389,9 @@
           <div class="switch-badge">⚡ New user offer</div>
           <h1>Switch from your access service to FRKN RealPipe</h1>
           <p>
-            Get a 6-month discount on FRKN RealPipe. Just send us a screenshot
-            of your paid subscription to another service or self-hosted solution.
+            Get a <strong>50% discount</strong> for at least 6-month FRKN
+            Service. Just send us a screenshot of your paid subscription to
+            another service or self-hosted solution.
           </p>
           <a class="btn" href="#switch-form">Get the discount</a>
         </div>
@@ -538,7 +553,7 @@
                 <strong>pigeon@frkn.org</strong>.
               </p>
 
-              <button type="submit" class="btn-submit" style="margin-top: 16px;">
+              <button type="submit" class="btn-submit" style="margin-top: 16px">
                 Send request
               </button>
             </form>
@@ -590,24 +605,22 @@
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script>
-      document
-        .getElementById("switchForm")
-        ?.addEventListener("submit", (e) => {
-          e.preventDefault();
+      document.getElementById("switchForm")?.addEventListener("submit", (e) => {
+        e.preventDefault();
 
-          const name = document.getElementById("name").value.trim();
-          const email = document.getElementById("email").value.trim();
-          const message = document.getElementById("message").value.trim();
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const message = document.getElementById("message").value.trim();
 
-          const subject = encodeURIComponent(
-            "Switch from old service to FRKN discount request",
-          );
-          const body = encodeURIComponent(
-            `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message || "-"}\n\nPlease attach a screenshot of your paid service subscription.`,
-          );
+        const subject = encodeURIComponent(
+          "Switch from old service to FRKN discount request",
+        );
+        const body = encodeURIComponent(
+          `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message || "-"}\n\nPlease attach a screenshot of your paid service subscription.`,
+        );
 
-          window.location.href = `mailto:pigeon@frkn.org?subject=${subject}&body=${body}`;
-        });
+        window.location.href = `mailto:pigeon@frkn.org?subject=${subject}&body=${body}`;
+      });
     </script>
   </body>
 </html>
