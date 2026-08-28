@@ -29,3 +29,8 @@ dist-ssr
 dopamine/*.dmg
 dopamine/*.pkg
 dopamine/*.apk
+
+share/
+
+
+

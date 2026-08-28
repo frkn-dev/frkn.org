@@ -23,9 +23,29 @@
 <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon">
 <link rel="apple-touch-icon" href="/Images/apple-touch-icon.png" sizes="180x180">
 <meta name="apple-mobile-web-app-title" content="frkn">
-<link rel="preload" as="image" href="/Images/main.webp" type="image/webp" />
 <link href="/styles.css?v=4" rel="stylesheet"/>
 <style>
+.hero {
+grid-template-columns: 1fr;
+}
+.hero-content {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 28px;
+background: var(--card);
+border: 1px solid var(--border);
+border-radius: 24px;
+padding: 48px 40px;
+text-align: center;
+}
+.hero-content .cta-group {
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+gap: 12px;
+}
 .hero-title {
 background: none;
 -webkit-background-clip: unset;
@@ -63,24 +83,67 @@ animation: title-appear 1s ease-out, title-breathe 5s ease-in-out infinite 1s;
 <button class="btn try pulse" id="scrollToTrial">
               به صورت رایگان امتحان کنید
             </button>
-<div class="cta-row secondary-actions">
 <a href="/fa/pay"><button class="btn ghost">قیمت گذاری</button></a>
-<a href="/fa/pay"><button class="btn ghost">خرید کنید</button></a>
+<a href="/fa/switch-to-frkn"><button class="btn ghost">جابجایی از سرویس دیگر</button></a>
 </div>
 </div>
+</section>
+<section id="trial" class="trial-section">
+<div class="trial-container card highlight-border">
+<div class="trial-info">
+<h2>تست درایو</h2>
+<p>
+              3 روز دسترسی کامل داشته باشید. بدون نیاز به کارت فقط خود را وارد کنید
+              ایمیل بزنید و دسترسی پیدا کنید.
+            </p>
+<div class="trial-steps">
+<div class="step"><span>1</span> ایمیل</div>
+<div class="step"><span>2</span> کلید</div>
+<div class="step"><span>3</span> اینترنت پر سرعت</div>
 </div>
-<div class="hero-image-wrapper">
-          <picture>
-            <source srcset="/Images/main.webp" type="image/webp" />
-            <img
-              src="/Images/main.png"
-              alt="FRKN"
-              loading="eager"
-              fetchpriority="high"
-              width="1040"
-              height="602"
-            />
-          </picture>
+</div>
+<form class="trial-form" id="trialForm">
+<input name="email" placeholder="ایمیل شما" required="" type="email" />
+<input id="code" name="code" placeholder="کد معرفی دوست (اختیاری)" type="text"/>
+<button class="btn try" type="submit">
+              دسترسی پیدا کنید
+            </button>
+<p class="status-message" id="message"></p>
+<p class="small">ما کلید دسترسی را ظرف یک دقیقه ارسال خواهیم کرد.</p>
+<div class="trial-extra-actions">
+<a href="/fa/subscription"><button class="btn ghost">از قبل اشتراک داشته باشید</button></a>
+<a href="/en/activate"><button class="btn ghost">کلید را فعال کنید</button></a>
+</div>
+</form>
+</div>
+</section>
+<section class="pricing-landing">
+<h2>قیمت گذاری</h2>
+<div class="pricing-landing-grid">
+<div class="pl-card free">
+<h3>رایگان</h3>
+<div class="pl-duration">3 روز تست درایو</div>
+<div class="pl-cost">0₽</div>
+<a href="#trial" class="btn try">امتحان کنید</a>
+</div>
+<div class="pl-card">
+<h3>1 ماه</h3>
+<div class="pl-duration">30 روز</div>
+<div class="pl-cost">500₽</div>
+<a href="/fa/pay" class="btn try">خرید کنید</a>
+</div>
+<div class="pl-card">
+<h3>3 ماه</h3>
+<div class="pl-duration">90 روز</div>
+<div class="pl-cost">1300₽</div>
+<a href="/fa/pay" class="btn try">خرید کنید</a>
+</div>
+<div class="pl-card">
+<h3>12 ماه</h3>
+<div class="pl-duration">365 روز</div>
+<div class="pl-cost">4500₽</div>
+<a href="/fa/pay" class="btn try">خرید کنید</a>
+</div>
 </div>
 </section>
 <section class="features-grid">
@@ -210,35 +273,6 @@ animation: title-appear 1s ease-out, title-breathe 5s ease-in-out infinite 1s;
 <div class="tech-desc">شفاف توسعه یافته است</div>
 </div>
 </div>
-</div>
-</section>
-<section class="trial-section" id="trial">
-<div class="trial-container card highlight-border">
-<div class="trial-info">
-<h2>تست درایو</h2>
-<p>
-              3 روز دسترسی کامل داشته باشید. بدون نیاز به کارت فقط خود را وارد کنید
-              ایمیل بزنید و دسترسی پیدا کنید.
-            </p>
-<div class="trial-steps">
-<div class="step"><span>1</span> ایمیل</div>
-<div class="step"><span>2</span> کلید</div>
-<div class="step"><span>3</span> اینترنت پر سرعت</div>
-</div>
-</div>
-<form class="trial-form" id="trialForm">
-<input name="email" placeholder="ایمیل شما" required="" type="email" />
-<input id="code" name="code" placeholder="کد معرفی دوست (اختیاری)" type="text"/>
-<button class="btn try" type="submit">
-              دسترسی پیدا کنید
-            </button>
-<p class="status-message" id="message"></p>
-<p class="small">ما کلید دسترسی را ظرف یک دقیقه ارسال خواهیم کرد.</p>
-<div class="trial-extra-actions">
-<a href="/fa/subscription"><button class="btn ghost">از قبل اشتراک داشته باشید</button></a>
-<a href="/en/activate"><button class="btn ghost">کلید را فعال کنید</button></a>
-</div>
-</form>
 </div>
 </section>
 <div id="footer-container"></div>
