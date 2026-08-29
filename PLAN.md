@@ -1,106 +1,93 @@
-# PLAN — кнопка «Скачать архив всех конфигов» для AmneziaWG в визарде
+# PLAN — кнопка «Скачать архив всех конфигов» в визарде /subscription
 
-Задача: в `/subscription/?id=<uuid>` добавить кнопку скачивания архива (zip) конфигов
-для **всех доступных серверов** в финальном шаге визарда («Готово — ссылка для
-выбранной конфигурации»), когда выбран протокол AmneziaWG.
+Задача: на странице `/subscription/?id=<uuid>` в визарде выбора приложений
+(финальный шаг «Готово — ссылка для выбранной конфигурации») добавить кнопку
+«Скачать все (.zip)», отдающую архив `.conf` для всех серверов выбранного
+региона. Первый протокол — AmneziaWG; механизм расширяется на остальные.
+
+## Статусы
+[user] проверил | [x] сделано | [ ] не начато | [~] в работе
+
+## Шаги (процесс)
+
+- [x] Исследовать страницу/модалку и зафиксировать в PLAN.md (текст ниже)
+- [x] Реализация кнопки + zip для AWG (JSZip через jsDelivr) — ru + en
+- [x] Обновить `docs/domains/subscription-app.md` (кнопка опосимова)
+- [ ] Мок локалки (`tools/mock-api/`), чтобы без api.frkn.org прогонять визард
+- [ ] e2e-тест (`tools/e2e/awg-zip-test.mjs`): клик на кнопку → zip валид
+- [ ] RUNBOOK: раздел «Quality checks» дописан — запуск мока + e2e + скриншоты
+- [~] Проверка после изменений (chrome headless скриншоты, `verify` skill)
+- [ ] Git: [x]→[x] по коммитам; при слове «мержим» — пр-мерж с `--no-ff` (отдельно)
+
+Текущий прогресс: исследование, ru/en-реализация и док-заметка закумчены коммитами
+`94a8719…0bc04ed`. Дальше — мок + e2e + RUNBOOK-дописка, потом можно мержить.
 
 ## 1. Where things live (research)
 
 ### Страница
-
 - `subscription/index.html` (~6551 строк) — single-file SPA (HTML+CSS+JS inline).
-- Зеркало на англ.: `en/subscription/index.html` (та же структура, синхронизация обязательна).
-- FA-варианта нет.
-- Каталог клиентов: `subscription/vpn-clients.json` (ru) + `en/subscription/vpn-clients.json`.
+- Зеркало на англ.: `en/subscription/index.html`.
+- FA-варианта нет. Каталог клиентов: `subscription/vpn-clients.json` (ru+en).
 - Доки: `docs/domains/subscription-app.md`, `docs/domains/api-integration.md`.
 
 ### Кнопка входа и модалка
-
-- Кнопка «Больше настроек и приложений» — `id="openDeviceModal"`, ~строка 3315.
-- Модалка `id="device-modal"` (классы `renew-modal`) — ~строка 3549, ширина `max-width: 720px`.
-- Открытие/закрытие — JS ~строка 6144 (`openDeviceModalFn` / `closeDeviceModalFn`, клик по
-  оверлею и Esc). Стили модалок: `.renew-modal` (~строка 263).
+- Кнопка «Больше настроек и приложений» — `id="openDeviceModal"` (~3315),
+  модалка `#device-modal` (`renew-modal`, 720px).
+- Открытие/закрытие — JS ~6144 (`openDeviceModalFn/closeDeviceModalFn`, клик по
+  оверлею/Esc).
 
 ### Визард (внутри модалки)
+Четыре `step-card` (~3565–3606):
+1. `protocol-step` — карточки из `AVAILABLE_PROTOCOLS` (~3793), `renderProtocolStep()` (~5588).
+2. `os-step` — pills ОС, `renderOsStep()` (~5339).
+3. `client-step` — pills клиентов, `renderClientStep()` (~5364); для
+   `wireguard|awg|mtproto` — инструкция «Как подключиться» без кнопок.
+4. `connection-step` — «Готово — ссылка для выбранной конфигурации»,
+   `renderConnectionStep()` (~5444).
 
-Четыре `step-card` (~строки 3565–3606):
+Состояние: `selectedProtocol`, `selectedOs`, `selectedClientId`,
+`currentConnectionContext` (`{id, env, hasXray, has_wg, has_awg, has_h2, has_mtproto}`).
 
-1. `protocol-step` — карточки из `AVAILABLE_PROTOCOLS` (~строка 3793), генерит
-   `renderProtocolStep()` (~5588). Для awg можно ещё переместить флаг `recommended`.
-2. `os-step` — pill-кнопки ОС, `renderOsStep()` (~5339).
-3. `client-step` — pill-кнопки клиентов из `vpn-clients.json`, `renderClientStep()` (~5364).
-   Для протоколов `wireguard`/`awg`/`mtproto` клиент не нужен — вместо кнопок показывается
-   инструкция «Как подключиться» (~строка 5384).
-4. `connection-step` — финальный экран, заголовок «Готово — ссылка для выбранной
-   конфигурации», рендерит `renderConnectionStep()` (~5444).
-
-Состояние визарда: `selectedProtocol`, `selectedOs`, `selectedClientId`,
-`currentConnectionContext` (`{ id, env, hasXray, has_wg, has_awg, has_h2, has_mtproto }`).
-
-### AWG-ветка (куда встраивается кнопка)
-
-- `renderConnectionStep()` при `selectedProtocol === 'awg'` вставляет
-  `<div id="awg-content">` и вызывает `renderAwg(id, env, has_awg)` (~строка 5484).
-- `renderAwg()` (~строка 5880):
-  - запрос `GET {API_BASE}/info/connections/amneziawg?id=<id>&env=<env>`;
-  - ответ: `{ nodes: [{ config, label, ... }] }`;
-  - рендерит список: Copy / Download (по одному `.conf`) / QR toggle.
-  - `prepareNodeLabels()` (~5857) очищает/дедуплицирует имена нод.
-- Скачивание файла: `downloadWG(content, name)` (~5952) и его дубль
-  `downloadAWG` (~5964) — Blob + `<a download>`.
-- Регион (env) берётся из `picker-env-switcher` внутри модалки (`setEnv()`, ~4468) —
-  список в `currentLocations` из `GET /subscription/{id}`. Поэтому «все серверы» =
-  все нод**ы** текущего env.
-- Та жеAWG-ветка работает и на самой странице: кнопки `.quick-protocol` (5676) просто
-  проставляют `selectedProtocol` и вызывают те же render-функции.
-
-### Запасной источник правды по формату
-
-- Модалка «Именованные устройства» (`user-devices-modal`) грузит конфиги устройства через
-  `loadDeviceConfigs()` (~4882): WG-family (Wireguard/AmneziaWg/AmneziaWgMobile) — тот же
-  `/info/connections/*` с `&conn=`, ответ парсится как INI-блоки/строки `scheme://`.
-  Там есть `parseDeviceConfigs()` (~4847) и `sanitizeDeviceFileName()` (~4874) — можно
-  переиспользовать подход к именованию.
+### AWG-ветка (куда встроена кнопка)
+- `renderConnectionStep()` при `selectedProtocol === 'awg'` → `<div id="awg-content">`,
+  `renderAwg(id, env, has_awg)` (~5484).
+- `renderAwg()` (~5880): GET `${API_BASE}/info/connections/amneziawg?id=&env=` →
+  `{nodes: [{config, label}]}`; список с Copy/Download/QR per node.
+- `prepareNodeLabels()` (~5857) — очистка+дедупл имена. `downloadWG()` (~5952) — Blob + `<a>`.
 
 ### Внешние зависимости
-
-- Единственная внешняя JS-либа сейчас — `qrcode` с jsDelivr (см. `<script>` в head).
-- Zip-либы в проекте нет (jszip/fflate не найдены). Для архива понадобится JSZip через CDN
-  либо собственный минимальный zip-генератор (store-only, без сжатия — ~100 строк).
+- `qrcode` из jsDelivr — единственная внешняя либа до нас.
+- Зип — через JSZip, `https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js`,
+  добавлен `<script>` в head обеих локалей.
 
 ## 2. Решение (согласовано)
 
-Бэк не трогаем — генерим zip **на клиенте** через JSZip (jsDelivr `jszip@3.10.1`, как
-qrcode). Схема эндпоинта бэка отменяется, но осталась как вариант для будущего.
-
-Разделение работ:
-1. **Фронт (этот репо)**: кнопка «Скачать все (.zip)» в шаге «Готово — ссылка для
-   выбранной конфигурации», ветка `awg`. Сборка — JSZip, скачивание — Blob +
-   `<a download>` (как `downloadWG`).
-
-### Фронт-детали
-
-- Точка встраивания — `renderAwg()`: после успешного fetch нод, над `.proxy-list`,
-  рендерим кнопку (`id="awg-download-all"`).
-- `downloadZip([{name, content}], zipName)` — создаёт JSZip, `generateAsync({type:"blob",
-  compression:"DEFLATE"})`, затем скачать. Фолбэк, если скрипт не загрузился — тост.
-- Имена файлов: `${sanitizeZipEntryName(labels[i])}.conf` (дедупликация через
-  `prepareNodeLabels`); имя архива — `frkn-awg-<env>.zip`.
-- Охват: **пока только AmneziaWG**; wireguard — симметрично при надобности.
-- Если бэк позже отдаст эндпоинт — кнопка можно переключить на сервер-URL без
-  изменения UI.
+- Генерация zip на клиенте через JSZip (jsDelivr). Бэк не трогаем.
+- Кнопка `«⬇ Скачать все (N конф., .zip)»` в `renderAwg()` над списком нод.
+- `downloadZip([{name, content}], zipName)` — `JSZip.generateAsync({type:'blob',
+  compression:'DEFLATE'})` + `<a download>`. Фолбэк при блоке CDN — тост.
+- Имена файлов: `${sanitizeZipEntryName(labels[i])}.conf` (через
+  `prepareNodeLabels`); имя архива `frkn-awg-<env>.zip`.
+- Охват: пока только AmneziaWG;_wireguard — симметрично при надобности.
+- Если позже появится бэк-эндпоинт — кнопка переключается на сервер-URL без UI-прайва.
 
 ## 3. Файлы для изменения
 
-- `subscription/index.html` — кнопка в `renderAwg()` + `downloadZip` + `<script>` JSZip.
-- `en/subscription/index.html` — зеркало.
-- `docs/domains/subscription-app.md` — приписка о кнопке. Приписка эндпоинта в
-  api-integration — оставлена на случай будущего бэка.
+- [x] `subscription/index.html` — JSZip script + `sanitizeZipEntryName` +
+  `downloadZip` + кнопка в `renderAwg`.
+- [x] `en/subscription/index.html` — зеркало.
+- [x] `docs/domains/subscription-app.md` — док-заметка.
+- [ ] `tools/mock-api/serve.js` — express-мок api.frkn.org на 3000, только
+  нужные эндпоинты.
+- [ ] `tools/e2e/awg-zip-test.mjs` — Node-чек (node-html? headless — см. подход ниже).
+- [ ] `docs/RUNBOOK.md` — раздел про мок/e2e.
 
 ## 4. Критерий приёмки
 
-- Фронт: в визарде (protocol=AmneziaWG, любой env) на шаге «Готово…» есть кнопка
-  «Скачать все (.zip)»; клик собирает zip в браузере и скачивает. Если jsDelivr
-  заблокирован — тост об ошибке, остальные контролы рабочие.
-- Существующие Copy/Download/QR на отдельных нодах не сломаны.
-- Ru и en страницы идентичны по поведению; док синхронизирован.
+- [x] В визарде (protocol=AmneziaWG, любой env) на шаге «Готово…» есть кнопка
+  «Скачать все (N конф., .zip)»; клик собирает zip в браузере и скачивает.
+- [x] Существуючие Copy/Download/QR per node — не тронуты.
+- [ ] e2e-прогон с мок-api: клик → валидный zip (проверка CRC, имена из мока).
+- [ ] Ru/en страницы идентичны по поведению; docs синхронизированы.
+- [ ] После изменений следлован чек-ап скриншотами (`verify` skill), затем
+  по слову «мержим» — MERGE `--no-ff`, отдельно.
