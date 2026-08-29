@@ -3742,7 +3742,8 @@
       const isLocal = ["localhost", "127.0.0.1"].includes(
         window.location.hostname,
       );
-      const API_BASE = isLocal
+      const useMock = new URLSearchParams(window.location.search).has("mock");
+      const API_BASE = isLocal || useMock
         ? "http://localhost:3000"
         : "https://api.frkn.org";
       const PAYMENT_API_BASE = isLocal
