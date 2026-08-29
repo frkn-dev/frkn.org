@@ -36,6 +36,7 @@
     />
     <meta name="apple-mobile-web-app-title" content="frkn sub" />
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 
     <title>Subscription information</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -5815,6 +5816,37 @@
         });
       }
 
+      function sanitizeZipEntryName(name) {
+        const clean = String(name || "config")
+          .replace(/[\\/:*?"<>| -\u001f]+/g, "_")
+          .replace(/\s+/g, " ")
+          .trim();
+        return clean || "config";
+      }
+
+      // Build + download a zip via JSZip (jsDelivr, same way as qrcode).
+      // entries: [{name, content}] -> blob -> a regular <a download>.
+      function downloadZip(entries, zipName) {
+        if (typeof JSZip !== "object" || typeof JSZip.file !== "function") {
+          showToast("JSZip failed to load — please try again later");
+          return;
+        }
+        const zip = new JSZip();
+        entries.forEach(({ name, content }) => {
+          zip.file(name, content);
+        });
+        zip.generateAsync({ type: "blob", compression: "DEFLATE" }).then(
+          (blob) => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = zipName;
+            a.click();
+            URL.revokeObjectURL(url);
+          },
+        );
+      }
+
       function renderAwg(id, env, has) {
         const container = document.getElementById("awg-content");
 
@@ -5835,7 +5867,16 @@
             const nodes = data.nodes || [];
             const labels = prepareNodeLabels(nodes);
 
+            const allBtnHtml = nodes.length
+              ? `
+              <div style="margin-bottom: 12px;">
+                <button type="button" class="secondary-btn" id="awg-download-all">⬇ Download all (${nodes.length} configs, .zip)</button>
+              </div>
+            `
+              : "";
+
             container.innerHTML = `
+            ${allBtnHtml}
             <ul class="proxy-list">
               ${nodes
                 .map(
@@ -5880,6 +5921,18 @@
                 },
               );
             });
+
+            const allBtn = document.getElementById("awg-download-all");
+            if (allBtn) {
+              allBtn.addEventListener("click", () => {
+                const entries = nodes.map((n, i) => ({
+                  name: `${sanitizeZipEntryName(labels[i])}.conf`,
+                  content: n.config || "",
+                }));
+                const envName = sanitizeZipEntryName(env || "all");
+                downloadZip(entries, `frkn-awg-${envName}.zip`);
+              });
+            }
           })
           .catch((e) => {
             console.error(e);
