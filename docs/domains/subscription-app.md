@@ -60,6 +60,7 @@ Features:
 - QR code (jsDelivr `qrcode` lib) of the connection link.
 - Client picker from local `vpn-clients.json` (3.6 KB): dopamine, happ, v2raytun, hiddify, streisand, shadowrocket, etc.
 - Traffic/connection details: `GET /info/connections/wireguard`, `/info/connections/amneziawg`.
+- Bulk `.conf` archive (zip) via client-side JSZip (jsDelivr `jszip`) in the AWG picker step of the device modal.
 - Email binding: `POST /validate/email` → `POST /account`.
 - Key activation, referral (`GET /referrals?code=`), renewal with promocode → `POST /payment/platega/subscription/create`.
 
