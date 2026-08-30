@@ -42,6 +42,34 @@ node tools/mock-api/serve.js            # http://127.0.0.1:3000
 
 Then open `http://localhost:8080/subscription/?id=any&mock=1` — page switches all
 API calls from `api.frkn.org` to the mock (`?mock=1` flag overrides `isLocal`).
+The mock now pretends to have every protocol: AmneziaWG, WireGuard, Hysteria2,
+Xray, MTProto, "All proxies".
+
+### Manual check — subscription wizard (AmneziaWG bulk .zip)
+
+Full scenario, no real backend needed:
+
+```bash
+# terminal 1 — the mock API (leave running)
+node tools/mock-api/serve.js
+
+# terminal 2 — the site
+docker build -t frkn-org .
+docker run -d --rm -p 8081:80 --name frkn-preview frkn-org
+```
+
+Then in a browser:
+
+1. Open `http://localhost:8081/subscription/?id=demo-uuid-0000&mock=1`.
+2. Click **«Больше настроек и приложений»** — the wizard modal opens.
+3. Step 1 → choose **AmneziaWG**; step 2 → any OS (e.g. Windows); step 3 →
+   just shows the hint (no client needed for AWG).
+4. Step 4 «Готово — ссылка для выбранной конфигурации»: above the per-node
+   list there is **«⬇ Скачать все (3 конф., .zip)»**. Click it — a
+   `frkn-awg-dev.zip` with 3 `.conf` files should download.
+5. If jsDelivr is unreachable the button shows a toast instead of a file.
+
+Cleanup: `docker rm -f frkn-preview`, `Ctrl+C` in the mock terminal.
 
 ### e2e — subscription wizard AWG bulk download
 
@@ -57,9 +85,9 @@ blob via JSZip. Exit 0/1 so it can be hooked to CI later.
 After any edit to /subscription verify manually:
 
 1. `docker build -t frkn-org . && docker run --rm -p 8080:80 frkn-org`
-1. `curl http://localhost:8080/health` → `ok`
-2. `cd tools/e2e && node awg-zip-test.mjs` → ✅
-3. Open affected pages in browser; check console for fetch errors and 404s on partials/assets.
+2. `curl http://localhost:8080/health` → `ok`
+3. `cd tools/e2e && node awg-zip-test.mjs` → ✅
+4. Open affected pages in browser; check console for fetch errors and 404s on partials/assets.
 
 ## Screenshots (visual check)
 

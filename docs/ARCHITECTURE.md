@@ -6,7 +6,7 @@ Static website for the VPN service FRKN ("Рилзопровод"), live at [frk
 
 - **Serving:** Nginx (`Dockerfile` → `nginx:1.31.3-alpine-slim`). `/install` served as `text/plain`, `/health` returns `ok`. 404 → `/404.html`.
 - **Frontend:** plain HTML + inline CSS/JS. One shared design system `styles.css` (~47 KB). Complex pages (`pay`, `subscription/`, `app/`, `profile/`, `activate/`, `transaction/`) are single-file SPAs with inline `<script>`.
-- **No dependencies:** no `package.json`, no framework, no CDN build. Only external CDNs: Google Fonts, `cdn.simpleicons.org`, `cdn.jsdelivr.net` (qrcode, chart.js), `telegram.org/js/telegram-web-app.js`.
+- **No runtime deps:** no build step, no framework, no `package.json` in the served site. Only external CDNs: Google Fonts, `cdn.simpleicons.org`, `cdn.jsdelivr.net` (qrcode, jszip, chart.js), `telegram.org/js/telegram-web-app.js`. Dev-only test harness lives in `tools/e2e/` (own `package.json` with jsdom, `node_modules` gitignored) — not part of the served site.
 
 ## How it fits together
 
@@ -40,7 +40,7 @@ Separate static trees `/` (ru), `/en/`, `/fa/`. `scripts/i18n.js` handles `[data
 | `status.frkn.org` | status badge (injected by `containers.js`). |
 | `frkn.org` | prod site (GitHub Pages + rsync mirror). |
 
-Local dev: pages fall back to `localhost:3000/3005/3006/8000` when host is `localhost`/`127.0.0.1`, otherwise hit `https://api.frkn.org`.
+Local dev: pages fall back to `localhost:3000/3005/3006/8000` when host is `localhost`/`127.0.0.1`, otherwise hit `https://api.frkn.org`. Additionally `subscription/` supports `?mock=1` to force the mock API (`tools/mock-api/serve.js`) on any host — see [RUNBOOK.md](RUNBOOK.md).
 
 ## Environments
 
