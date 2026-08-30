@@ -13,11 +13,12 @@
 - [x] Исследовать страницу/модалку (текст ниже)
 - [x] Реализация кнопки + zip для AWG (JSZip через jsDelivr) — ru + en
 - [x] Обновить `docs/domains/subscription-app.md`
-- [x] Мок локалки (`tools/mock-api/serve.js`) + `?mock=1`-флаг в странице
+- [x] Мок локалки (`tools/mock-api/serve.js`) — все протоколы (awg, wg, h2, xray,
+  mtproto) доступны для ручного прогона + `?mock=1`-флаг в странице
 - [x] e2e-тест (`tools/e2e/awg-zip-test.mjs`): button renders + dependency wired ✅
 - [x] RUNBOOK: mock + e2e шаги описаны в `docs/RUNBOOK.md`
-- [~] Проверка после изменений (скриншоты в контейнере, `verify` skill) — ран
-  через jsdom, той же из-за отголово DляғBOOTHS**
+- [~] Проверка после изменений — jsdom-e2e ✅, docker/manual — укомплектовано на
+  свежем build (без SyntaxError)
 - [ ] Git-Git: «мержим» → создание PR, отдельно
 
 Текущий прогресс: все закрыто, кроме мерж и финального docker-проzig. Финальная
