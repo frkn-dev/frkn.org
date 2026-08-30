@@ -21,6 +21,10 @@ const AWG_NODES = [
   { label: "Общага (2)", config: "[Interface]\nPrivateKey=EEEE\nAddress=10.0.0.4/32\n\n[Peer]\nPublicKey=FFFF\nEndpoint=shared-2.example.com:51820\nAllowedIPs=0.0.0.0/0\n" },
 ];
 
+const WG_NODES = [
+  { label: "WireGuard (mock)", config: "[Interface]\nPrivateKey=WWWG\nAddress=10.0.0.5/32\n\n[Peer]\nPublicKey=HHHH\nEndpoint=wg.example.com:51820\nAllowedIPs=0.0.0.0/0\n" },
+];
+
 const SUB = {
   id: "demo-uuid-0000",
   limit_bytes: 0,
@@ -32,8 +36,22 @@ const SUB = {
   monthly_downlink: 4000,
   expired_at: Date.now() + 30 * 86400_000,
   locations: [
-    { env: "dev", has_xray: false, has_h2: false, has_mtproto: false, has_wg: false, has_awg: true },
-    { env: "wl", has_xray: false, has_h2: false, has_mtproto: false, has_wg: false, has_awg: true },
+    {
+      env: "dev",
+      has_xray: true,
+      has_h2: true,
+      has_mtproto: true,
+      has_wg: true,
+      has_awg: true,
+    },
+    {
+      env: "wl",
+      has_xray: false,
+      has_h2: false,
+      has_mtproto: false,
+      has_wg: true,
+      has_awg: true,
+    },
   ],
   connections: [
     {
@@ -78,13 +96,19 @@ const server = http.createServer((req, res) => {
       return json(res, { status: 200, nodes: AWG_NODES });
     }
     if (req.method === "GET" && p.startsWith("/info/connections/wireguard")) {
-      return json(res, { status: 200, nodes: [] });
+      return json(res, { status: 200, nodes: WG_NODES });
     }
     if (req.method === "GET" && p === "/sub") {
       const proto = u.searchParams.get("proto") || "Proxy";
       const id = u.searchParams.get("id") || "demo";
+      const format = u.searchParams.get("format") || "txt";
+      const base = `demo://${proto}/${id}/${format}`;
+      let body = base;
+      if (proto === "Hysteria2") {
+        body = format === "base64" ? Buffer.from(base).toString("base64") : base;
+      }
       res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
-      return res.end(`demo://${proto}/${id}`);
+      return res.end(body);
     }
     if (req.method === "GET" && p === "/referrals") {
       return json(res, { status: 200, response: { count: 0 } });
