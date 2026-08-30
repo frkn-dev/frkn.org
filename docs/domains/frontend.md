@@ -45,7 +45,7 @@ Self-hosted, no GA/Yandex. `analytics.js` fires a pixel to `media.frkn.org` with
 
 - `fonts.googleapis.com` / `fonts.gstatic.com` — Plus Jakarta Sans, Inter, IBM Plex Mono.
 - `cdn.simpleicons.org` — brand icons (contacts).
-- `cdn.jsdelivr.net` — qrcode (subscription, app), chart.js + chartjs-adapter-date-fns (metrics).
+- `cdn.jsdelivr.net` — qrcode (subscription, app), jszip (subscription AWG bulk .zip), chart.js + chartjs-adapter-date-fns (metrics).
 - `telegram.org/js/telegram-web-app.js` — app/.
 
 ## Asset versioning
