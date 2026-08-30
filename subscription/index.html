@@ -5881,7 +5881,7 @@
 
       function sanitizeZipEntryName(name) {
         const clean = String(name || "config")
-          .replace(/[\\/:*?"<>| -\u001f]+/g, "_")
+          .replace(/[\x00-\x1f\\/:*?"<>|]+/g, "_")
           .replace(/\s+/g, " ")
           .trim();
         return clean || "config";
@@ -5890,7 +5890,7 @@
       // Сборка и скачивание zip через JSZip (jsDelivr, same way as qrcode).
       // entries: [{name, content}] -> blob -> обычный <a download>.
       function downloadZip(entries, zipName) {
-        if (typeof JSZip !== "object" || typeof JSZip.file !== "function") {
+        if (typeof JSZip !== "function" || typeof JSZip.prototype.file !== "function") {
           showToast("JSZip не загрузился — попробуйте ещё раз позже");
           return;
         }
@@ -5938,10 +5938,11 @@
             `
               : "";
 
+            const finalNodes = nodes;
             container.innerHTML = `
             ${allBtnHtml}
             <ul class="proxy-list">
-              ${nodes
+              ${finalNodes
                 .map(
                   (n, i) => `
                 <li class="proxy-item">
@@ -5988,7 +5989,7 @@
             const allBtn = document.getElementById("awg-download-all");
             if (allBtn) {
               allBtn.addEventListener("click", () => {
-                const entries = nodes.map((n, i) => ({
+                const entries = finalNodes.map((n, i) => ({
                   name: `${sanitizeZipEntryName(labels[i])}.conf`,
                   content: n.config || "",
                 }));
