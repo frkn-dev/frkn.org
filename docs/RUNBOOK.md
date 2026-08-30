@@ -32,10 +32,33 @@ Note: `dopamine/*.dmg|*.pkg` are gitignored but NOT excluded from rsync — they
 
 ## Quality checks
 
-None automated. After editing, verify manually:
+Two site-local sanity tools: a **mock API server** (no api.frkn.org needed) and an **e2e test** for the subscription wizard.
+
+### Mock API for /subscription (AWG wizard, devices, email binding)
+
+```bash
+node tools/mock-api/serve.js            # http://127.0.0.1:3000
+```
+
+Then open `http://localhost:8080/subscription/?id=any&mock=1` — page switches all
+API calls from `api.frkn.org` to the mock (`?mock=1` flag overrides `isLocal`).
+
+### e2e — subscription wizard AWG bulk download
+
+```bash
+# installs into tools/e2e/node_modules (gitignored)
+cd tools/e2e && npm install && node awg-zip-test.mjs
+```
+
+jsdom-driven test: opens the wizard, picks AmneziaWG, asserts the
+"Скачать все (.zip)" button renders, and the built-in `downloadZip` wires a
+blob via JSZip. Exit 0/1 so it can be hooked to CI later.
+
+After any edit to /subscription verify manually:
 
 1. `docker build -t frkn-org . && docker run --rm -p 8080:80 frkn-org`
-2. `curl http://localhost:8080/health` → `ok`
+1. `curl http://localhost:8080/health` → `ok`
+2. `cd tools/e2e && node awg-zip-test.mjs` → ✅
 3. Open affected pages in browser; check console for fetch errors and 404s on partials/assets.
 
 ## Screenshots (visual check)
