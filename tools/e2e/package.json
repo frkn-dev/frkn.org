@@ -1,0 +1,8 @@
+{
+  "name": "frkn-e2e",
+  "private": true,
+  "description": "Isolated e2e test for AWG zip download (subscription wizard). Deps live here only.",
+  "devDependencies": {
+    "jsdom": "^24.0.0"
+  }
+}
