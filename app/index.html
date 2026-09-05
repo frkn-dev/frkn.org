@@ -1311,6 +1311,112 @@
         border-radius: 20px;
         padding: 20px;
       }
+
+      /* ---- Короткая ссылка ---- */
+      .short-link-row {
+        background: var(--tg-secondary-bg);
+        border-radius: 14px;
+        padding: 10px 16px;
+        margin: -4px 0 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .short-link-label {
+        font-size: 12px;
+        color: var(--tg-hint);
+        flex-shrink: 0;
+      }
+
+      .short-link-code {
+        flex: 1;
+        font-family: ui-monospace, monospace;
+        font-size: 13px;
+        color: var(--tg-text);
+        word-break: break-all;
+      }
+
+      .short-link-copy {
+        flex-shrink: 0;
+        background: var(--tg-bg);
+        border: 1px solid var(--border);
+        color: var(--tg-link);
+        padding: 6px 12px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      /* ---- Трафик ---- */
+      .traffic-summary-inline {
+        background: var(--tg-secondary-bg);
+        border-radius: 14px;
+        padding: 12px 16px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .traffic-summary-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+
+      .traffic-value {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--tg-text);
+      }
+
+      .traffic-label {
+        font-size: 12px;
+        color: var(--tg-hint);
+      }
+
+      .traffic-bar {
+        height: 6px;
+        border-radius: 999px;
+        background: var(--tg-bg);
+        overflow: hidden;
+      }
+
+      .traffic-bar-fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 999px;
+        background: var(--tg-button);
+        transition: width 0.3s ease;
+      }
+
+      .traffic-detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .traffic-detail-card {
+        background: var(--tg-secondary-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px 14px;
+      }
+
+      .traffic-detail-label {
+        font-size: 11px;
+        color: var(--tg-hint);
+        margin-bottom: 4px;
+      }
+
+      .traffic-detail-value {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--tg-text);
+      }
     </style>
   </head>
 
@@ -1422,6 +1528,24 @@
         <div id="universal-sub-card" style="background: var(--tg-secondary-bg); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; cursor: pointer; user-select: none;" onclick="copyUniversalSub()">
           <div style="font-size: 13px; font-family: ui-monospace, monospace; word-break: break-all; color: var(--tg-text); line-height: 1.5;" id="universal-sub-link">sub.frkn.org/...</div>
           <div class="small" style="margin-top: 6px; font-size: 12px;">Нажмите, чтобы скопировать</div>
+        </div>
+        <div id="short-link-row" class="short-link-row hidden">
+          <span class="short-link-label">Короткая ссылка</span>
+          <code class="short-link-code" id="short-link-code"></code>
+          <button type="button" class="short-link-copy" id="copy-short-link">📋</button>
+        </div>
+        <div
+          id="traffic-summary-inline"
+          class="traffic-summary-inline"
+          title="Нажмите для подробностей"
+        >
+          <div class="traffic-summary-top">
+            <div class="traffic-value" id="traffic-total">0 B</div>
+            <div class="traffic-label" id="traffic-limit-text">Без лимита</div>
+          </div>
+          <div class="traffic-bar">
+            <div class="traffic-bar-fill" id="traffic-bar-fill"></div>
+          </div>
         </div>
         <div class="qr-row" style="margin-bottom: 16px;">
           <div class="qr-item">
@@ -1714,6 +1838,48 @@
                 существует устройство. Чтобы отключить её, удалите устройство
                 кнопкой «×» в списке устройств.
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="traffic-modal" class="renew-modal hidden">
+        <div class="renew-modal-content">
+          <button type="button" class="renew-modal-close" id="closeTrafficModal">×</button>
+          <h2 class="renew-modal-title">📊 Детали трафика</h2>
+          <p class="renew-modal-subtitle">
+            Статистика использования за всё время, сегодня и за месяц.
+          </p>
+
+          <div class="picker-env-row" id="traffic-env-row" style="margin-top: 0; margin-bottom: 12px;">
+            <span class="picker-env-label">Регион:</span>
+            <div id="traffic-env-switcher" class="picker-env-badges"></div>
+          </div>
+
+          <div class="traffic-detail-grid">
+            <div class="traffic-detail-card">
+              <div class="traffic-detail-label">Отправлено</div>
+              <div class="traffic-detail-value" id="traffic-uplink">0 B</div>
+            </div>
+            <div class="traffic-detail-card">
+              <div class="traffic-detail-label">Получено</div>
+              <div class="traffic-detail-value" id="traffic-downlink">0 B</div>
+            </div>
+            <div class="traffic-detail-card">
+              <div class="traffic-detail-label">Сегодня отправлено</div>
+              <div class="traffic-detail-value" id="traffic-daily-uplink">0 B</div>
+            </div>
+            <div class="traffic-detail-card">
+              <div class="traffic-detail-label">Сегодня получено</div>
+              <div class="traffic-detail-value" id="traffic-daily-downlink">0 B</div>
+            </div>
+            <div class="traffic-detail-card">
+              <div class="traffic-detail-label">За месяц отправлено</div>
+              <div class="traffic-detail-value" id="traffic-monthly-uplink">0 B</div>
+            </div>
+            <div class="traffic-detail-card">
+              <div class="traffic-detail-label">За месяц получено</div>
+              <div class="traffic-detail-value" id="traffic-monthly-downlink">0 B</div>
             </div>
           </div>
         </div>
@@ -2588,6 +2754,26 @@
             }
           }
 
+          // Короткая ссылка для ручного ввода (s.frkn.org/xxxxx)
+          const shortRow = document.getElementById("short-link-row");
+          const shortCodeEl = document.getElementById("short-link-code");
+          fetch(`${API_BASE}/short?subscription_id=${encodeURIComponent(subId)}`)
+            .then((r) => (r.ok ? r.json() : null))
+            .then((short) => {
+              if (!short?.short_url || !shortRow || !shortCodeEl) return;
+              shortCodeEl.innerText = short.short_url.replace(/^https?:\/\//, "");
+              shortRow.classList.remove("hidden");
+              const copyShortBtn = document.getElementById("copy-short-link");
+              if (copyShortBtn) {
+                copyShortBtn.onclick = () => {
+                  copyText(short.short_url, "Короткая ссылка скопирована");
+                };
+              }
+            })
+            .catch(() => {});
+
+          renderTrafficWidget(data);
+
           document.getElementById("expires").innerText =
             expiryDate.toLocaleString("ru-RU", {
               day: "2-digit",
@@ -2677,6 +2863,138 @@
         } catch (err) {
           console.error("renderSubscriptionData error:", err);
         }
+      }
+
+      // ---- Виджет трафика ----
+      // Данные — из того же ответа GET /subscription/{id} (env_traffic,
+      // limit_bytes), отдельных запросов нет.
+
+      let trafficDataCache = null;
+      let currentTrafficEnv = "all";
+
+      function setTrafficEnv(env) {
+        currentTrafficEnv = env;
+        document
+          .querySelectorAll("#traffic-env-switcher .env-badge")
+          .forEach((b) => {
+            b.classList.toggle("active", b.dataset.env === env);
+          });
+        updateTrafficDisplay();
+      }
+
+      function updateTrafficDisplay() {
+        const data = trafficDataCache;
+        if (!data) return;
+
+        let uplink = 0;
+        let downlink = 0;
+        let dailyUplink = 0;
+        let dailyDownlink = 0;
+        let monthlyUplink = 0;
+        let monthlyDownlink = 0;
+
+        if (currentTrafficEnv === "all") {
+          if (Array.isArray(data.env_traffic) && data.env_traffic.length > 0) {
+            data.env_traffic.forEach((env) => {
+              uplink += env.uplink || 0;
+              downlink += env.downlink || 0;
+              dailyUplink += env.daily_uplink || 0;
+              dailyDownlink += env.daily_downlink || 0;
+              monthlyUplink += env.monthly_uplink || 0;
+              monthlyDownlink += env.monthly_downlink || 0;
+            });
+          } else {
+            uplink = data.uplink || 0;
+            downlink = data.downlink || 0;
+            dailyUplink = data.daily_uplink || 0;
+            dailyDownlink = data.daily_downlink || 0;
+            monthlyUplink = data.monthly_uplink || 0;
+            monthlyDownlink = data.monthly_downlink || 0;
+          }
+        } else if (Array.isArray(data.env_traffic)) {
+          const env = data.env_traffic.find((e) => e.env === currentTrafficEnv);
+          if (env) {
+            uplink = env.uplink || 0;
+            downlink = env.downlink || 0;
+            dailyUplink = env.daily_uplink || 0;
+            dailyDownlink = env.daily_downlink || 0;
+            monthlyUplink = env.monthly_uplink || 0;
+            monthlyDownlink = env.monthly_downlink || 0;
+          }
+        }
+
+        const total = uplink + downlink;
+        const limitBytes = data.limit_bytes || 0;
+
+        const totalEl = document.getElementById("traffic-total");
+        if (totalEl) totalEl.innerText = formatBytes(total);
+        const limitText = document.getElementById("traffic-limit-text");
+        const barFill = document.getElementById("traffic-bar-fill");
+
+        if (limitBytes > 0) {
+          const percent = Math.min(100, Math.round((total / limitBytes) * 100));
+          if (limitText) limitText.innerText = `${percent}% от лимита`;
+          if (barFill) barFill.style.width = `${percent}%`;
+        } else {
+          if (limitText) limitText.innerText = "Без лимита";
+          if (barFill) barFill.style.width = "0%";
+        }
+
+        // Детали в модалке
+        const setText = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.innerText = formatBytes(val);
+        };
+        setText("traffic-uplink", uplink);
+        setText("traffic-downlink", downlink);
+        setText("traffic-daily-uplink", dailyUplink);
+        setText("traffic-daily-downlink", dailyDownlink);
+        setText("traffic-monthly-uplink", monthlyUplink);
+        setText("traffic-monthly-downlink", monthlyDownlink);
+      }
+
+      function renderTrafficWidget(data) {
+        trafficDataCache = data;
+        currentTrafficEnv = "all";
+
+        const trafficEnvRow = document.getElementById("traffic-env-row");
+        const trafficEnvSwitcher = document.getElementById(
+          "traffic-env-switcher",
+        );
+        if (
+          trafficEnvSwitcher &&
+          Array.isArray(data.env_traffic) &&
+          data.env_traffic.length > 0
+        ) {
+          trafficEnvSwitcher.innerHTML = "";
+
+          const allBtn = document.createElement("button");
+          allBtn.type = "button";
+          allBtn.className = "env-badge active";
+          allBtn.dataset.env = "all";
+          allBtn.innerText = "Все";
+          allBtn.onclick = () => setTrafficEnv("all");
+          trafficEnvSwitcher.appendChild(allBtn);
+
+          data.env_traffic.forEach((env) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "env-badge";
+            btn.dataset.env = env.env;
+            btn.innerText = ENV_NAMES[env.env] || env.env.toUpperCase();
+            btn.onclick = () => setTrafficEnv(env.env);
+            trafficEnvSwitcher.appendChild(btn);
+          });
+
+          if (trafficEnvRow) {
+            trafficEnvRow.style.display =
+              data.env_traffic.length > 1 ? "" : "none";
+          }
+        } else if (trafficEnvRow) {
+          trafficEnvRow.style.display = "none";
+        }
+
+        updateTrafficDisplay();
       }
 
       // ---- Именованные устройства ----
@@ -3707,6 +4025,36 @@
         const qrModal = document.getElementById("qr-modal");
         if (qrModal) {
           qrModal.addEventListener("click", () => qrModal.classList.add("hidden"));
+        }
+
+        // Traffic modal
+        const trafficModal = document.getElementById("traffic-modal");
+        const trafficSummaryInline = document.getElementById("traffic-summary-inline");
+        const closeTrafficModalBtn = document.getElementById("closeTrafficModal");
+
+        function openTrafficModalFn() {
+          if (trafficModal) trafficModal.classList.remove("hidden");
+        }
+
+        function closeTrafficModalFn() {
+          if (trafficModal) trafficModal.classList.add("hidden");
+        }
+
+        if (trafficSummaryInline) {
+          trafficSummaryInline.addEventListener("click", openTrafficModalFn);
+        }
+
+        if (closeTrafficModalBtn) {
+          closeTrafficModalBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            closeTrafficModalFn();
+          });
+        }
+
+        if (trafficModal) {
+          trafficModal.addEventListener("click", (e) => {
+            if (e.target === trafficModal) closeTrafficModalFn();
+          });
         }
 
         const input = document.getElementById("sub-id-input");
