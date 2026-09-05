@@ -1847,9 +1847,13 @@
           `;
           return;
         }
-        const clients = vpnClients[selectedOs].clients.filter((client) =>
-          isProtocolSupportedByClient(selectedProtocol, client.configType)
-        );
+        const clients = vpnClients[selectedOs].clients.filter((client) => {
+          // Dopamine не умеет hysteria2 — не предлагаем его при этом протоколе
+          if (selectedProtocol === "hysteria2" && client.id === "dopamine") {
+            return false;
+          }
+          return isProtocolSupportedByClient(selectedProtocol, client.configType);
+        });
         if (clients.length === 0) {
           options.innerHTML = `<div class="small">Для выбранного протокола нет подходящих клиентов.</div>`;
           selectedClientId = null;
@@ -1925,7 +1929,10 @@
         }
         const safeClientName = escapeHtml(client.name);
         const safeOsLabel = escapeHtml(osConfig.label);
-        let subscriptionUrl = buildSubscriptionUrl(selectedProtocol, currentConnectionContext.id, currentConnectionContext.env, normalizeFormat(client.configType));
+        let subscriptionUrl =
+          client.id === "dopamine"
+            ? `frkn://sub/${currentConnectionContext.id}`
+            : buildSubscriptionUrl(selectedProtocol, currentConnectionContext.id, currentConnectionContext.env, normalizeFormat(client.configType));
         if (client.id === "happ" || client.name?.toLowerCase() === "happ") {
           subscriptionUrl += "&app=happ";
         }
