@@ -28,6 +28,8 @@ Three rsync scripts, arg `$1` = `user@host`, `rsync -avz --delete -e ssh` of rep
 | `deploy-beta.sh` | `/opt/beta/frkn.org/` |
 | `deploy-testflight.sh` | `/opt/testflight/frkn.org/` |
 
+`deploy-site.sh` — main nginx host `/opt/frkn.org/` (default `root@141.133.173.16`). Rsync of the local tree with `--delete`, no server-side git. dopamine binaries are excluded from the main pass and synced separately with `--chmod=F644`.
+
 ## CI
 
 `.github/workflows/pages.yml` — deploys static content to GitHub Pages on push to `main` + manual. checkout → configure-pages → upload artifact → deploy-pages. No build/tests/lint.
