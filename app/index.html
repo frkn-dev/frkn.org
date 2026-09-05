@@ -1524,13 +1524,13 @@
           </div>
         </section>
 
-        <div class="section-title" style="margin-top: 16px">Универсальная ссылка</div>
+        <div class="section-title" style="margin-top: 16px">Ссылка для подключения</div>
         <div id="universal-sub-card" style="background: var(--tg-secondary-bg); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; cursor: pointer; user-select: none;" onclick="copyUniversalSub()">
-          <div style="font-size: 13px; font-family: ui-monospace, monospace; word-break: break-all; color: var(--tg-text); line-height: 1.5;" id="universal-sub-link">sub.frkn.org/...</div>
-          <div class="small" style="margin-top: 6px; font-size: 12px;">Нажмите, чтобы скопировать</div>
+          <div style="font-size: 13px; font-family: ui-monospace, monospace; word-break: break-all; color: var(--tg-text); line-height: 1.5;" id="universal-sub-link">frkn://sub/...</div>
+          <div class="small" style="margin-top: 6px; font-size: 12px;">Нажмите, чтобы скопировать. Ссылка frkn:// — для приложения FRKN Dopamine.</div>
         </div>
         <div id="short-link-row" class="short-link-row hidden">
-          <span class="short-link-label">Короткая ссылка</span>
+          <span class="short-link-label">Для Happ, Streisand, Clash (https)</span>
           <code class="short-link-code" id="short-link-code"></code>
           <button type="button" class="short-link-copy" id="copy-short-link">📋</button>
         </div>
@@ -2804,7 +2804,7 @@
           subIdEl.innerText = data.id;
           subIdEl.onclick = () => copyText(data.id, "ID скопирован");
 
-          const universalSubUrl = `https://sub.frkn.org/${data.id}`;
+          const universalSubUrl = `frkn://sub/${data.id}`;
           const universalLinkEl = document.getElementById("universal-sub-link");
           if (universalLinkEl) universalLinkEl.innerText = universalSubUrl;
           window.currentUniversalSubUrl = universalSubUrl;
