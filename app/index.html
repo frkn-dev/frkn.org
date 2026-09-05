@@ -1894,6 +1894,7 @@
     <div id="toast" class="toast"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <script src="/scripts/utils.js?v=1"></script>
 
     <script>
@@ -2119,6 +2120,51 @@
 
       function escapeBackticks(str) {
         return str.replace(/`/g, "\\`").replace(/\$/g, "\\$");
+      }
+
+      function sanitizeZipEntryName(name) {
+        const clean = String(name || "config")
+          .replace(/[\x00-\x1f\\/:*?"<>|]+/g, "_")
+          .replace(/\s+/g, " ")
+          .trim();
+        return clean || "config";
+      }
+
+      // Сборка и скачивание zip через JSZip (jsDelivr, как и qrcode).
+      // В Telegram WebView blob-download может не сработать — сначала
+      // пробуем нативный шеринг файла, как в downloadWG.
+      async function downloadZip(entries, zipName) {
+        if (typeof JSZip !== "function" || typeof JSZip.prototype.file !== "function") {
+          showToast("JSZip не загрузился — попробуйте ещё раз позже");
+          return;
+        }
+        const zip = new JSZip();
+        entries.forEach(({ name, content }) => {
+          zip.file(name, content);
+        });
+        const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE" });
+        const file = new File([blob], zipName, { type: "application/zip" });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file], title: zipName });
+            tgNotify('success');
+            return;
+          } catch (e) {
+            // Пользователь отменил или шеринг не сработал — идём дальше
+          }
+        }
+        try {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = zipName;
+          a.click();
+          URL.revokeObjectURL(url);
+          showToast("Архив скачан");
+        } catch (e) {
+          console.error("Zip download failed:", e);
+          showToast("Не удалось скачать архив");
+        }
       }
 
       let vpnClients = {};
@@ -2573,7 +2619,13 @@
               container.innerHTML = `<div class="small">Нет доступных AmneziaWG конфигураций</div>`;
               return;
             }
+            const allBtnHtml = `
+              <div style="margin-bottom: 12px;">
+                <button type="button" id="awg-download-all">⬇ Скачать все (${nodes.length} конф., .zip)</button>
+              </div>
+            `;
             container.innerHTML = `
+              ${allBtnHtml}
               <ul class="proxy-list">
                 ${nodes.map((n, i) => `
                   <li class="proxy-item">
@@ -2596,6 +2648,17 @@
             nodes.forEach((n, i) => {
               QRCode.toCanvas(document.getElementById(`awg-qr-${i}`), n.config, { width: 180 });
             });
+            const allBtn = document.getElementById("awg-download-all");
+            if (allBtn) {
+              allBtn.addEventListener("click", () => {
+                const entries = nodes.map((n, i) => ({
+                  name: `${sanitizeZipEntryName(labels[i])}.conf`,
+                  content: n.config || "",
+                }));
+                const envName = sanitizeZipEntryName(env || "all");
+                downloadZip(entries, `frkn-awg-${envName}.zip`);
+              });
+            }
           })
           .catch((e) => {
             console.error(e);
