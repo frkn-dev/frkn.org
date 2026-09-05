@@ -31,7 +31,7 @@ EOF
 # outside git: rsync straight into the checkout. Untracked files survive
 # `git reset --hard`, so later site deploys don't wipe them.
 shopt -s nullglob
-bins=(dopamine/*.pkg dopamine/*.apk dopamine/*.dmg)
+bins=(dopamine/*.pkg dopamine/*.msi dopamine/*.apk dopamine/*.dmg)
 if ((${#bins[@]})); then
     echo "Syncing dopamine binaries: ${bins[*]}"
     rsync -av --progress "${bins[@]}" "${HOST}:${REMOTE_DIR}/dopamine/"
