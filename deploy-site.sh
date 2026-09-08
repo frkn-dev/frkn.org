@@ -1,40 +1,43 @@
 #!/usr/bin/env bash
 # Deploy frkn.org static site to our own nginx host (replaces GitHub Pages).
 #
-# Usage: ./deploy-site.sh [user@host] [branch]
-#   defaults: root@<api-server>, main
+# Usage: ./deploy-site.sh [user@host]
+#   defaults: root@<api-server>
 #
-# The server keeps a plain git checkout at /opt/frkn.org; deploy = fetch +
-# reset to origin/<branch>. Deterministic: only committed state goes live.
+# Deploy = rsync of the local working tree to /opt/frkn.org. No git on the
+# server: what you have locally is what goes live (so deploy from a clean
+# checkout of the branch you want).
 set -euo pipefail
 
 HOST="${1:-root@141.133.173.16}"
-BRANCH="${2:-main}"
 REMOTE_DIR="/opt/frkn.org"
-REPO_URL="https://github.com/frkn-dev/frkn.org.git"
 
-echo "Deploying frkn.org (${BRANCH}) to ${HOST}:${REMOTE_DIR}..."
+echo "Deploying frkn.org (local tree) to ${HOST}:${REMOTE_DIR}..."
 
-ssh "$HOST" bash -s <<EOF
-set -euo pipefail
-if [ ! -d "${REMOTE_DIR}/.git" ]; then
-    git clone "${REPO_URL}" "${REMOTE_DIR}"
-fi
-cd "${REMOTE_DIR}"
-git fetch origin "${BRANCH}"
-git checkout "${BRANCH}"
-git reset --hard "origin/${BRANCH}"
-echo "Deployed: \$(git log --oneline -1)"
-EOF
+# Site content. --delete keeps the remote in sync; VCS/local agent configs
+# and macOS junk never leave the machine. dopamine binaries are excluded
+# here and synced separately below with fixed permissions.
+rsync -av --progress --delete \
+    --exclude='.git/' \
+    --exclude='.github/' \
+    --exclude='.kimi-code/' \
+    --exclude='.opencode/' \
+    --exclude='.aider.tags.cache.v4/' \
+    --exclude='.DS_Store' \
+    --exclude='dopamine/*.pkg' \
+    --exclude='dopamine/*.msi' \
+    --exclude='dopamine/*.apk' \
+    --exclude='dopamine/*.dmg' \
+    ./ "${HOST}:${REMOTE_DIR}/"
 
-# dopamine binaries (*.pkg, *.apk, *.dmg) are gitignored — they travel
-# outside git: rsync straight into the checkout. Untracked files survive
-# `git reset --hard`, so later site deploys don't wipe them.
+# dopamine binaries are gitignored — they travel outside git, and we force
+# 644 so nginx can read them regardless of local umask.
 shopt -s nullglob
 bins=(dopamine/*.pkg dopamine/*.msi dopamine/*.apk dopamine/*.dmg)
 if ((${#bins[@]})); then
     echo "Syncing dopamine binaries: ${bins[*]}"
-    rsync -av --progress "${bins[@]}" "${HOST}:${REMOTE_DIR}/dopamine/"
+    rsync -av --progress --chmod=F644 \
+        "${bins[@]}" "${HOST}:${REMOTE_DIR}/dopamine/"
 fi
 
 echo "Done. Nginx vhost: nginx-site.conf (one-time setup, see header there)."

@@ -867,8 +867,7 @@ header {
 }
 body {
   margin: 0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  font-family: "IBM Plex Mono", monospace;
   background:
     radial-gradient(
       1200px 600px at 70% -10%,
@@ -881,7 +880,7 @@ body {
 }
 
 .landing-page {
-  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  font-family: "IBM Plex Mono", monospace;
   background: var(--bg);
 }
 a {
@@ -1744,9 +1743,9 @@ footer .footer-divider {
 }
 
 .landing-page .hero-title {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "IBM Plex Mono", monospace;
   font-size: clamp(32px, 5vw, 48px);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.05;
   margin: 0 0 12px;
   color: var(--accent);
@@ -1859,6 +1858,7 @@ footer .footer-divider {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  filter: invert(1);
 }
 
 .landing-page .feature-mini h3 {

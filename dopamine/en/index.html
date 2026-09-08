@@ -12,7 +12,7 @@
       content="Dopamine — a client to connect to FRKN VPN. Download the app or go to the store."
     />
     <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="/styles.css?v=4" />
+    <link rel="stylesheet" href="/styles.css?v=6" />
     <style>
       .dopamine-hero {
         text-align: center;
@@ -209,6 +209,11 @@
         display: block;
         font-size: 1.5rem;
         margin-bottom: 10px;
+      }
+      .feature-emoji img {
+        width: 24px;
+        height: 24px;
+        filter: invert(1);
       }
 
       .feature-item h4 {
@@ -461,7 +466,11 @@
             </div>
             <div class="download-name">Android</div>
             <div class="download-hint">APK file for manual install</div>
-            <a href="/dopamine/frkn-dopamine-4.8.14.46.apk" class="download-btn" download>
+            <a
+              href="/dopamine/frkn-dopamine-4.8.14.54.apk"
+              class="download-btn"
+              download
+            >
               Download APK
             </a>
           </div>
@@ -495,13 +504,13 @@
               </svg>
             </div>
             <div class="download-name">Windows</div>
-            <div class="download-hint">.exe installer</div>
+            <div class="download-hint">.msi installer</div>
             <a
-              href="#"
-              class="download-btn placeholder"
-              onclick="event.preventDefault(); alert('Link coming soon');"
+              href="/dopamine/Dopamine-4.8.14.54-win64.msi"
+              class="download-btn"
+              download
             >
-              Download (soon)
+              Download MSI
             </a>
           </div>
 
@@ -517,23 +526,20 @@
             <div class="download-hint">.pkg installer</div>
             <div class="download-btn-row">
               <a
-                href="/dopamine/Dopamine-arm64-4.8.14.46.pkg"
+                href="/dopamine/Dopamine-arm64-4.8.14.54.pkg"
                 class="download-btn"
                 download
               >
                 Apple Silicon
               </a>
               <a
-                href="/dopamine/Dopamine-intel-4.8.14.46.pkg"
+                href="/dopamine/Dopamine-intel-4.8.14.54.pkg"
                 class="download-btn"
                 download
               >
                 Intel
               </a>
             </div>
-            <button type="button" class="install-link" id="macos-install-link">
-              How to install?
-            </button>
           </div>
         </div>
       </section>
@@ -543,7 +549,7 @@
         <div class="screenshots-grid">
           <div>
             <img
-              src="/Images/android-dopamine.jpg"
+              src="/dopamine/Images/android.jpg"
               alt="Dopamine on Android — connected"
               class="phone-shot shot-left"
             />
@@ -551,7 +557,7 @@
           </div>
           <div>
             <img
-              src="/Images/ios-dopamine.jpg"
+              src="/dopamine/Images/ios.png"
               alt="Dopamine on iOS — connected"
               class="phone-shot shot-right"
             />
@@ -567,7 +573,9 @@
           <h3 class="feature-group-title">Privacy &amp; access</h3>
           <div class="features-grid-simple">
             <div class="feature-item">
-              <span class="feature-emoji">🕵️</span>
+              <span class="feature-emoji"
+                ><img src="/Images/privacy.png" alt=""
+              /></span>
               <h4>No email, no accounts</h4>
               <p>
                 Anonymous one-tap trial: we collect no email, no logs, no
@@ -575,7 +583,9 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">🛡️</span>
+              <span class="feature-emoji"
+                ><img src="/Images/shield.png" alt=""
+              /></span>
               <h4>Censorship resistance</h4>
               <p>
                 VLESS Reality, XHTTP via CDN, gRPC and AmneziaWG with packet
@@ -583,7 +593,9 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">⚡</span>
+              <span class="feature-emoji"
+                ><img src="/Images/arrows.png" alt=""
+              /></span>
               <h4>Hysteria2</h4>
               <p>A fast QUIC-based protocol built for unstable networks.</p>
             </div>
@@ -594,7 +606,9 @@
           <h3 class="feature-group-title">Traffic control</h3>
           <div class="features-grid-simple">
             <div class="feature-item">
-              <span class="feature-emoji">🎛️</span>
+              <span class="feature-emoji"
+                ><img src="/Images/settings.png" alt=""
+              /></span>
               <h4>Flexible split tunneling</h4>
               <p>
                 VPN only for selected sites and services — or the other way
@@ -602,7 +616,9 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">✅</span>
+              <span class="feature-emoji"
+                ><img src="/Images/checkmark.png" alt=""
+              /></span>
               <h4>Ready-made service presets</h4>
               <p>
                 Ozon, banks and more: one checkbox instead of a manual domain
@@ -610,7 +626,9 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">🔋</span>
+              <span class="feature-emoji"
+                ><img src="/Images/electric.png" alt=""
+              /></span>
               <h4>AmneziaWG Mobile</h4>
               <p>
                 A separate profile tuned for mobile networks and battery life.
@@ -623,7 +641,9 @@
           <h3 class="feature-group-title">Control &amp; transparency</h3>
           <div class="features-grid-simple">
             <div class="feature-item">
-              <span class="feature-emoji">📶</span>
+              <span class="feature-emoji"
+                ><img src="/Images/signal-status.png" alt=""
+              /></span>
               <h4>Live server checks</h4>
               <p>
                 Availability and latency for every server right in the list:
@@ -631,7 +651,9 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">🤝</span>
+              <span class="feature-emoji"
+                ><img src="/Images/add-user.png" alt=""
+              /></span>
               <h4>Honest connection status</h4>
               <p>
                 The connection is confirmed by a real handshake, not just by the
@@ -639,7 +661,9 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">🌍</span>
+              <span class="feature-emoji"
+                ><img src="/Images/world.png" alt=""
+              /></span>
               <h4>Environment &amp; protocol filters</h4>
               <p>
                 Filter the server list by country with flag, protocol, or
@@ -653,17 +677,23 @@
           <h3 class="feature-group-title">Platform</h3>
           <div class="features-grid-simple">
             <div class="feature-item">
-              <span class="feature-emoji">📱</span>
+              <span class="feature-emoji"
+                ><img src="/Images/responsive-app.png" alt=""
+              /></span>
               <h4>iOS, macOS, Android</h4>
               <p>One account and the same experience on every device.</p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">🌐</span>
+              <span class="feature-emoji"
+                ><img src="/Images/translate.png" alt=""
+              /></span>
               <h4>Russian, English, Ukrainian</h4>
               <p>Fully localized interface.</p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">✂️</span>
+              <span class="feature-emoji"
+                ><img src="/Images/split.png" alt=""
+              /></span>
               <h4>Kill Switch</h4>
               <p>
                 Traffic never leaks outside the tunnel if the connection drops.
@@ -680,44 +710,6 @@
       </div>
 
       <div id="footer-container"></div>
-    </div>
-
-    <div class="modal-overlay" id="macos-install-modal">
-      <div class="modal-card">
-        <button
-          type="button"
-          class="modal-close"
-          id="macos-install-close"
-          aria-label="Close"
-        >
-          &times;
-        </button>
-        <h3>How to install on macOS</h3>
-        <ol>
-          <li>
-            <b>Open</b> the downloaded <code>Dopamine-arm64-4.8.14.46.pkg</code>
-            (Apple Silicon) or <code>Dopamine-intel-4.8.14.46.pkg</code> (Intel).
-          </li>
-          <li>
-            If macOS shows "Apple could not verify…" — click <b>"Done"</b>, then
-            open <b>System Settings</b> → <b>Privacy &amp; Security</b>, scroll
-            down and click <b>"Open Anyway"</b> next to Dopamine → confirm with
-            your password → <b>"Open"</b>.<br />
-            Or run once in Terminal:
-            <code
-              >xattr -dr com.apple.quarantine
-              ~/Downloads/Dopamine-*.pkg</code
-            >
-            — the PKG will open right away.
-          </li>
-          <li>
-            <b>Follow the installer</b> — at the end the system will ask for the
-            administrator password (this installs the system VPN service, that's
-            normal).
-          </li>
-          <li>The app launches automatically after installation — all set.</li>
-        </ol>
-      </div>
     </div>
 
     <script src="/scripts/analytics.js" defer></script>

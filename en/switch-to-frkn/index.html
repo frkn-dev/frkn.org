@@ -38,7 +38,7 @@
       href="/Images/apple-touch-icon.png"
       sizes="180x180"
     />
-    <link rel="stylesheet" href="/styles.css?v=4" />
+    <link rel="stylesheet" href="/styles.css?v=6" />
     <style>
       .switch-page {
         max-width: 760px;
@@ -120,6 +120,12 @@
         gap: 8px;
       }
 
+      .terms-card h3 img {
+        width: 18px;
+        height: 18px;
+        filter: invert(1);
+      }
+
       .terms-card ul {
         margin: 0;
         padding-left: 18px;
@@ -165,8 +171,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 22px;
         margin-bottom: 14px;
+      }
+
+      .reason-icon img {
+        width: 22px;
+        height: 22px;
+        filter: invert(1);
       }
 
       .reason-card h4 {
@@ -435,7 +446,7 @@
           <h2>Offer terms</h2>
           <div class="terms-grid">
             <div class="terms-card">
-              <h3>✅ Accepted</h3>
+              <h3><img src="/Images/checkmark.png" alt="" /> Accepted</h3>
               <ul>
                 <li>Any active paid service</li>
                 <li>Own server</li>
@@ -444,7 +455,7 @@
               </ul>
             </div>
             <div class="terms-card">
-              <h3>❌ Not accepted</h3>
+              <h3><img src="/Images/no.png" alt="" /> Not accepted</h3>
               <ul>
                 <li>Free services</li>
                 <li>Trial periods without payment</li>
@@ -459,7 +470,7 @@
           <h2>6 reasons to switch to FRKN</h2>
           <div class="reasons-grid">
             <div class="reason-card">
-              <div class="reason-icon">🏷️</div>
+              <div class="reason-icon"><img src="/Images/tag.png" alt="" /></div>
               <h4>Best switching deal</h4>
               <p>
                 6 months off — the best offer for switching from any other
@@ -467,7 +478,7 @@
               </p>
             </div>
             <div class="reason-card">
-              <div class="reason-icon">📱</div>
+              <div class="reason-icon"><img src="/Images/smartphone.png" alt="" /></div>
               <h4>Unlimited devices</h4>
               <p>
                 Connect phones, laptops, tablets, and even a router — no device
@@ -475,7 +486,7 @@
               </p>
             </div>
             <div class="reason-card">
-              <div class="reason-icon">🛡️</div>
+              <div class="reason-icon"><img src="/Images/shield.png" alt="" /></div>
               <h4>Block-resistant</h4>
               <p>
                 VLESS Reality, Hysteria2, AmneziaWG and other protocols for
@@ -483,7 +494,7 @@
               </p>
             </div>
             <div class="reason-card">
-              <div class="reason-icon">💸</div>
+              <div class="reason-icon"><img src="/Images/money-back-guarantee.png" alt="" /></div>
               <h4>7-day refund</h4>
               <p>
                 Not satisfied? Get a full refund within a week, no questions
@@ -491,14 +502,14 @@
               </p>
             </div>
             <div class="reason-card">
-              <div class="reason-icon">🤝</div>
+              <div class="reason-icon"><img src="/Images/add-user.png" alt="" /></div>
               <h4>Refer friends</h4>
               <p>
                 Invite friends and get +7 days of access for each invited user.
               </p>
             </div>
             <div class="reason-card">
-              <div class="reason-icon">🖥️</div>
+              <div class="reason-icon"><img src="/Images/responsive-app.png" alt="" /></div>
               <h4>Apps for every platform</h4>
               <p>
                 Works on iOS, Android, Windows, macOS, Linux, and routers — set

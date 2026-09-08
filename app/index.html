@@ -18,6 +18,13 @@
     <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon">
     <link rel="apple-touch-icon" href="/Images/apple-touch-icon.png" sizes="180x180">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
       :root {
         --tg-bg: var(--tg-theme-bg-color, #0b0d12);
@@ -153,7 +160,7 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-family: "IBM Plex Mono", monospace;
         background: var(--tg-bg);
         color: var(--tg-text);
         margin: 0;
@@ -1524,10 +1531,28 @@
           </div>
         </section>
 
-        <div class="section-title" style="margin-top: 16px">Универсальная ссылка</div>
+        <div class="section-title" style="margin-top: 16px">Ссылка для подключения</div>
         <div id="universal-sub-card" style="background: var(--tg-secondary-bg); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; cursor: pointer; user-select: none;" onclick="copyUniversalSub()">
-          <div style="font-size: 13px; font-family: ui-monospace, monospace; word-break: break-all; color: var(--tg-text); line-height: 1.5;" id="universal-sub-link">sub.frkn.org/...</div>
-          <div class="small" style="margin-top: 6px; font-size: 12px;">Нажмите, чтобы скопировать</div>
+          <div style="font-size: 13px; font-family: ui-monospace, monospace; word-break: break-all; color: var(--tg-text); line-height: 1.5;" id="universal-sub-link">frkn://sub/...</div>
+          <div class="small" style="margin-top: 6px; font-size: 12px;">Нажмите, чтобы скопировать. Ссылка frkn:// — для приложения FRKN Dopamine.</div>
+        </div>
+        <div id="short-link-row" class="short-link-row hidden">
+          <span class="short-link-label">Для Happ, Streisand, Clash (https)</span>
+          <code class="short-link-code" id="short-link-code"></code>
+          <button type="button" class="short-link-copy" id="copy-short-link">📋</button>
+        </div>
+        <div
+          id="traffic-summary-inline"
+          class="traffic-summary-inline"
+          title="Нажмите для подробностей"
+        >
+          <div class="traffic-summary-top">
+            <div class="traffic-value" id="traffic-total">0 B</div>
+            <div class="traffic-label" id="traffic-limit-text">Без лимита</div>
+          </div>
+          <div class="traffic-bar">
+            <div class="traffic-bar-fill" id="traffic-bar-fill"></div>
+          </div>
         </div>
         <div id="short-link-row" class="short-link-row hidden">
           <span class="short-link-label">Короткая ссылка</span>
@@ -2804,7 +2829,7 @@
           subIdEl.innerText = data.id;
           subIdEl.onclick = () => copyText(data.id, "ID скопирован");
 
-          const universalSubUrl = `https://sub.frkn.org/${data.id}`;
+          const universalSubUrl = `frkn://sub/${data.id}`;
           const universalLinkEl = document.getElementById("universal-sub-link");
           if (universalLinkEl) universalLinkEl.innerText = universalSubUrl;
           window.currentUniversalSubUrl = universalSubUrl;

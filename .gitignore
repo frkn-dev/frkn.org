@@ -29,8 +29,11 @@ dist-ssr
 dopamine/*.dmg
 dopamine/*.pkg
 dopamine/*.apk
+dopamine/*.msi
 
 share/
 
 
 
+*.msi
+*.msi
