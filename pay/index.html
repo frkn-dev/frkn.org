@@ -38,7 +38,13 @@
       href="/Images/apple-touch-icon.png"
       sizes="180x180"
     />
-    <link rel="stylesheet" href="/styles.css?v=4" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css?v=6" />
     <style>
       :root {
         --bg-color: var(--bg, #090b10);
@@ -58,9 +64,7 @@
       body {
         background-color: var(--bg-color);
         color: var(--text-main);
-        font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-          Arial, sans-serif;
+        font-family: "IBM Plex Mono", monospace;
         line-height: 1.5;
       }
       .container {
@@ -242,9 +246,12 @@
         gap: 8px;
       }
       .feature-list li::before {
-        content: "✓";
-        color: var(--accent-secondary);
-        font-weight: bold;
+        content: "";
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        background: url("/Images/checkmark.png") center / contain no-repeat;
+        filter: invert(1);
       }
       .pricing-grid-main {
         grid-template-columns: repeat(3, minmax(280px, 1fr));
@@ -552,6 +559,11 @@
         justify-content: center;
         font-size: 22px;
       }
+      .pay-benefit-icon img {
+        width: 22px;
+        height: 22px;
+        filter: invert(1);
+      }
       .pay-benefit-icon.green {
         background: rgba(34, 197, 94, 0.12);
       }
@@ -764,7 +776,7 @@
 
       <div class="pay-benefits">
         <div class="pay-benefit-card">
-          <div class="pay-benefit-icon green">🛡️</div>
+          <div class="pay-benefit-icon green"><img src="/Images/shield.png" alt="" /></div>
           <div class="pay-benefit-content">
             <h4>Без карты и автосписаний</h4>
             <p>
@@ -774,7 +786,7 @@
           </div>
         </div>
         <div class="pay-benefit-card">
-          <div class="pay-benefit-icon blue">➕</div>
+          <div class="pay-benefit-icon blue"><img src="/Images/add.png" alt="" /></div>
           <div class="pay-benefit-content">
             <h4>Дни складываются</h4>
             <p>
