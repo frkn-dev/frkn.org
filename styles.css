@@ -1894,7 +1894,7 @@ footer .footer-divider {
 }
 .pricing-landing-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin-bottom: 8px;
 }
@@ -1944,12 +1944,7 @@ footer .footer-divider {
   color: #05060a;
   font-weight: 700;
 }
-.pl-card.free {
-  border-color: rgba(56, 189, 248, 0.5);
-}
-.pl-card.free .btn.try {
-  background: var(--accent-2);
-}
+
 @media (max-width: 900px) {
   .pricing-landing-grid {
     display: flex;
