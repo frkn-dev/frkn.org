@@ -2,6 +2,12 @@
 
 Notable changes to the frkn.org website. Date-based (no SemVer — the site has no releases).
 
+## 2026-09-08 — Removed the free «0₽» tariff card
+
+### Removed
+
+- **Free «0₽» card** from the landing pricing carousel (ru/en/fa). It duplicated the Test-drive section and its `#trial` anchor didn't work. Grid tightened 4 → 3 columns; dead `.pl-card.free` CSS removed. Cache-bust: `styles.css` bumped to `v7`.
+
 ## 2026-08-21 — Landing revamp + LLM docs (`epic/site-dev`)
 
 ### Added
