@@ -237,9 +237,12 @@
         gap: 8px;
       }
       .feature-list li::before {
-        content: "✓";
-        color: var(--accent-secondary);
-        font-weight: bold;
+        content: "";
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+        background: url("/Images/checkmark.png") center / contain no-repeat;
+        filter: invert(1);
       }
       .pricing-grid-main {
         grid-template-columns: repeat(3, minmax(280px, 1fr));
