@@ -2,9 +2,9 @@
 
 Design system, shared scripts, header/footer partials, i18n, analytics. Load when editing styles, shared JS, or any "normal" page (not `b/`, `app/`, `metrics/` which have own themes).
 
-## Design system — `styles.css` (46.9 KB, 2456 lines)
+## Design system — `styles.css` (46.3 KB, 2481 lines)
 
-One shared stylesheet for ~40 "normal" pages. Connected as `/styles.css?v=6`.
+One shared stylesheet for ~40 "normal" pages. Connected as `/styles.css?v=7`.
 
 - CSS vars in `:root`: `--bg:#090B10`, `--card:#121622`, `--accent:#38BDF8`, `--border:#1F263A`, etc. Dark theme.
 - Components: header, hero, cards, buttons, modals, toasts, pricing, language switch.
@@ -50,4 +50,4 @@ Self-hosted, no GA/Yandex. `analytics.js` fires a pixel to `media.frkn.org` with
 
 ## Asset versioning
 
-Manual cache-busting query strings: `styles.css?v=6`, `i18n.js?v=2`, `containers.js?v=3`, `utils.js?v=1`. Bump when changing a shared asset.
+Manual cache-busting query strings: `styles.css?v=7`, `i18n.js?v=2`, `containers.js?v=3`, `utils.js?v=1`. Bump when changing a shared asset.
