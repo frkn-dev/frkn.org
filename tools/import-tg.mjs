@@ -454,7 +454,7 @@ function renderArticle({ slug, title, iso, contentHtml, disclaimer }) {
     <link rel="canonical" href="https://frkn.org/b/${slug}/" />
 
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap"
       rel="stylesheet"
     />
     <link
