@@ -2,9 +2,11 @@
 
 Platega payment flows across `pay/`, `donate/`, `transaction/`, `activate/`, promocodes. Load when editing any purchase/donation flow.
 
-## Provider
+## Providers
 
-**Platega** only. Card / SBP (fast payments) / crypto. Endpoints live under `api.frkn.org/payment/platega/...` (see [api-integration.md](api-integration.md)).
+**Platega** — main. Card / SBP (fast payments) / crypto. Endpoints live under `api.frkn.org/payment/platega/...` (see [api-integration.md](api-integration.md)).
+
+**Planta** — on hold (waiting for merchant creds), card/SBP. `pay/` has a hidden secondary button (`#planta-pay-btn`, `display: none`) → `POST /payment/planta/key/create`. Unlike Platega, create returns `paymentUrl: null`; the page polls `GET /payment/check/{txid}` (~3 s) until `paymentUrl` appears, then redirects. No email/phone collected — Planta allows invoices without contacts.
 
 ## Flow overview
 

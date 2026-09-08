@@ -470,6 +470,25 @@
         opacity: 0.6;
         cursor: not-allowed;
       }
+      .btn-pay-secondary {
+        margin-top: 10px;
+        background: transparent;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        box-shadow: none;
+      }
+      .btn-pay-secondary:hover {
+        background: rgba(91, 124, 250, 0.12);
+        box-shadow: none;
+        transform: translateY(-1px);
+      }
+      .planta-waiting {
+        display: none;
+        color: #aaa;
+        font-size: 13px;
+        text-align: center;
+        margin-top: 12px;
+      }
       .loading-spinner {
         display: inline-block;
         width: 18px;
@@ -776,7 +795,9 @@
 
       <div class="pay-benefits">
         <div class="pay-benefit-card">
-          <div class="pay-benefit-icon green"><img src="/Images/shield.png" alt="" /></div>
+          <div class="pay-benefit-icon green">
+            <img src="/Images/shield.png" alt="" />
+          </div>
           <div class="pay-benefit-content">
             <h4>Без карты и автосписаний</h4>
             <p>
@@ -786,7 +807,9 @@
           </div>
         </div>
         <div class="pay-benefit-card">
-          <div class="pay-benefit-icon blue"><img src="/Images/add.png" alt="" /></div>
+          <div class="pay-benefit-icon blue">
+            <img src="/Images/add.png" alt="" />
+          </div>
           <div class="pay-benefit-content">
             <h4>Дни складываются</h4>
             <p>
@@ -826,6 +849,16 @@
         </div>
         <div class="modal-total-wrapper" id="modal-total-wrapper"></div>
         <button class="btn-pay" id="final-pay-btn">Оплатить</button>
+        <button
+          class="btn-pay btn-pay-secondary"
+          id="planta-pay-btn"
+          style="display: none"
+        >
+          Оплата Картой/СБП
+        </button>
+        <div class="planta-waiting" id="planta-waiting">
+          <span class="loading-spinner"></span> Ждем ссылку на оплату от СБП...
+        </div>
         <p
           style="
             color: #666;
@@ -918,6 +951,8 @@
       const errorPopup = document.getElementById("error-popup");
       const popupMessage = document.getElementById("popup-message");
       const payBtn = document.getElementById("final-pay-btn");
+      const plantaPayBtn = document.getElementById("planta-pay-btn");
+      const plantaWaiting = document.getElementById("planta-waiting");
 
       // --- Вспомогательные функции ---
       function formatSavings(amount) {
@@ -1356,9 +1391,73 @@
           }
         };
       }
+      if (plantaPayBtn) {
+        plantaPayBtn.onclick = async () => {
+          if (!currentOrder) {
+            showError("Заказ не найден. Попробуйте выбрать тариф заново.");
+            return;
+          }
+          plantaPayBtn.disabled = true;
+          payBtn.disabled = true;
+          plantaWaiting.style.display = "block";
+          try {
+            const res = await apiFetch(`/payment/planta/key/create`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-Trace-Id": generateTraceId(),
+              },
+              body: JSON.stringify({
+                duration: currentOrder.duration,
+                promocode: currentOrder.promo || null,
+                refCode: currentOrder.referral || null,
+              }),
+            });
+            if (!res.ok) {
+              const errorData = await res
+                .json()
+                .catch(() => ({ error: "Ошибка сервера" }));
+              throw new Error(errorData.error || "Не удалось создать платеж");
+            }
+            const data = await res.json();
+            if (!data.transactionId) {
+              throw new Error("API не вернул ID транзакции");
+            }
+            localStorage.setItem(
+              "frkn_last_transaction_id",
+              data.transactionId,
+            );
+            // Planta не отдает ссылку сразу — qrLink приходит постбэком,
+            // поллим /payment/check, пока не появится paymentUrl.
+            const paymentUrl = await pollPlantaPaymentUrl(data.transactionId);
+            window.location.href = paymentUrl;
+          } catch (e) {
+            showError(e.message);
+            plantaPayBtn.disabled = false;
+            payBtn.disabled = false;
+            plantaWaiting.style.display = "none";
+          }
+        };
+      }
+      async function pollPlantaPaymentUrl(txid) {
+        const MAX_ATTEMPTS = 40; // ~2 минуты с интервалом 3 секунды
+        for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+          const res = await apiFetch(`/payment/check/${txid}`);
+          const data = await res.json().catch(() => ({}));
+          if (data.paymentUrl) return data.paymentUrl;
+          if (data.status === "failed" || data.status === "cancelled") {
+            throw new Error("Платеж отменен, попробуйте еще раз");
+          }
+        }
+        throw new Error(
+          "СБП не ответил вовремя. Проверьте статус по ID транзакции: " + txid,
+        );
+      }
       window.onclick = (event) => {
         if (event.target === paymentModal) closeModal();
       };
+
       initializePage();
     </script>
     <script src="/scripts/analytics.js" defer></script>
