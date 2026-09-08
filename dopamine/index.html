@@ -527,11 +527,7 @@
               </svg>
             </div>
             <div class="download-name">Windows</div>
-            <div class="download-hint">
-              Установщик <br />
-              .msi
-            </div>
-
+            <div class="download-hint">Установщик .msi</div>
             <a
               href="/dopamine/Dopamine-4.8.14.54-win64.msi"
               class="download-btn"
@@ -550,14 +546,14 @@
               </svg>
             </div>
             <div class="download-name">macOS</div>
-            <div class="download-hint">Установщик <br />.pkg</div>
+            <div class="download-hint">Установщик .pkg</div>
             <div class="download-btn-row">
               <a
                 href="/dopamine/Dopamine-arm64-4.8.14.54.pkg"
                 class="download-btn"
                 download
               >
-                Apple
+                Apple Silicon
               </a>
               <a
                 href="/dopamine/Dopamine-intel-4.8.14.54.pkg"
@@ -567,6 +563,9 @@
                 Intel
               </a>
             </div>
+            <button type="button" class="install-link" id="macos-install-link">
+              Как установить?
+            </button>
           </div>
         </div>
       </section>
@@ -600,9 +599,7 @@
           <h3 class="feature-group-title">Приватность и доступ</h3>
           <div class="features-grid-simple">
             <div class="feature-item">
-              <span class="feature-emoji"
-                ><img src="/Images/privacy.png" alt=""
-              /></span>
+              <span class="feature-emoji"><img src="/Images/privacy.png" alt="" /></span>
               <h4>Без почты и аккаунтов</h4>
               <p>
                 Анонимный триал в один тап: не собираем ни email, ни логи, ни
@@ -610,9 +607,7 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji"
-                ><img src="/Images/shield.png" alt=""
-              /></span>
+              <span class="feature-emoji"><img src="/Images/shield.png" alt="" /></span>
               <h4>Быстрое и стабильное подключение</h4>
               <p>
                 Множество вариантов подключения – на любую ситуацию VLESS
@@ -620,9 +615,7 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji"
-                ><img src="/Images/arrows.png" alt=""
-              /></span>
+              <span class="feature-emoji"><img src="/Images/arrows.png" alt="" /></span>
               <h4>Hysteria2</h4>
               <p>Быстрый протокол на QUIC для нестабильных сетей.</p>
             </div>
@@ -633,9 +626,7 @@
           <h3 class="feature-group-title">Управление трафиком</h3>
           <div class="features-grid-simple">
             <div class="feature-item">
-              <span class="feature-emoji"
-                ><img src="/Images/settings.png" alt=""
-              /></span>
+              <span class="feature-emoji"><img src="/Images/settings.png" alt="" /></span>
               <h4>Гибкий сплит-туннель</h4>
               <p>
                 VPN только для выбранных приложений, сайтов и сервисов — или
@@ -643,9 +634,7 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji"
-                ><img src="/Images/checkmark.png" alt=""
-              /></span>
+              <span class="feature-emoji"><img src="/Images/checkmark.png" alt="" /></span>
               <h4>Готовые пресеты сервисов</h4>
               <p>
                 Маркетплейсы, социальные сети, банки и другие: один чекбокс
@@ -653,9 +642,7 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji"
-                ><img src="/Images/electric.png" alt=""
-              /></span>
+              <span class="feature-emoji"><img src="/Images/electric.png" alt="" /></span>
               <h4>AmneziaWG Mobile</h4>
               <p>
                 Отдельный профиль, заточенный под мобильные сети и экономию
@@ -669,9 +656,7 @@
           <h3 class="feature-group-title">Контроль и прозрачность</h3>
           <div class="features-grid-simple">
             <div class="feature-item">
-              <span class="feature-emoji"
-                ><img src="/Images/signal-status.png" alt=""
-              /></span>
+              <span class="feature-emoji"><img src="/Images/signal-status.png" alt="" /></span>
               <h4>Живая проверка серверов</h4>
               <p>
                 Доступность и задержка по каждому серверу прямо в списке:
@@ -679,9 +664,7 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji"
-                ><img src="/Images/add-user.png" alt=""
-              /></span>
+              <span class="feature-emoji"><img src="/Images/add-user.png" alt="" /></span>
               <h4>Честный статус подключения</h4>
               <p>
                 Соединение подтверждается реальным handshake, а не просто фактом
@@ -689,9 +672,7 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji"
-                ><img src="/Images/world.png" alt=""
-              /></span>
+              <span class="feature-emoji"><img src="/Images/world.png" alt="" /></span>
               <h4>Выбор окружения и протокола</h4>
               <p>
                 Фильтры в списке серверов: страна с флагом, протокол, окружение.
@@ -704,23 +685,17 @@
           <h3 class="feature-group-title">Платформа</h3>
           <div class="features-grid-simple">
             <div class="feature-item">
-              <span class="feature-emoji"
-                ><img src="/Images/responsive-app.png" alt=""
-              /></span>
+              <span class="feature-emoji"><img src="/Images/responsive-app.png" alt="" /></span>
               <h4>iOS, macOS, Windows, Android</h4>
               <p>Один аккаунт и одинаковый опыт на всех устройствах.</p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji"
-                ><img src="/Images/translate.png" alt=""
-              /></span>
+              <span class="feature-emoji">🌐</span>
               <h4>Русский, English, Українська</h4>
               <p>Полная локализация интерфейса.</p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji"
-                ><img src="/Images/split.png" alt=""
-              /></span>
+              <span class="feature-emoji"><img src="/Images/split.png" alt="" /></span>
               <h4>Kill Switch</h4>
               <p>Трафик не утекает мимо туннеля при обрыве соединения.</p>
             </div>
@@ -735,6 +710,44 @@
       </div>
 
       <div id="footer-container"></div>
+    </div>
+
+    <div class="modal-overlay" id="macos-install-modal">
+      <div class="modal-card">
+        <button
+          type="button"
+          class="modal-close"
+          id="macos-install-close"
+          aria-label="Закрыть"
+        >
+          &times;
+        </button>
+        <h3>Как установить на macOS</h3>
+        <ol>
+          <li>
+            <b>Откройте</b> скачанный
+            <code>Dopamine-arm64-4.8.14.54.pkg</code> (Apple Silicon) или
+            <code>Dopamine-intel-4.8.14.54.pkg</code> (Intel).
+          </li>
+          <li>
+            Если macOS покажет «Apple could not verify…» — нажмите
+            <b>«Done»</b>, затем откройте <b>«Системные настройки»</b> →
+            <b>«Конфиденциальность и безопасность»</b>, промотайте вниз и
+            нажмите <b>«Open Anyway»</b> рядом с упоминанием Dopamine →
+            подтвердите паролем → <b>«Open»</b>.<br />
+            Либо один раз в Терминале:
+            <code
+              >xattr -dr com.apple.quarantine ~/Downloads/Dopamine-*.pkg</code
+            >
+            — и PKG откроется сразу.
+          </li>
+          <li>
+            <b>Пройдите инсталлер</b> — в конце система спросит пароль
+            администратора (так ставится системный VPN-сервис, это нормально).
+          </li>
+          <li>После установки приложение запустится само, всё работает.</li>
+        </ol>
+      </div>
     </div>
 
     <script src="/scripts/analytics.js" defer></script>
