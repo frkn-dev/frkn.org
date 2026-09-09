@@ -287,8 +287,11 @@ const server = http.createServer((req, res) => {
 module.exports = { AWG_NODES, SUB };
 
 if (require.main === module) {
-  server.listen(PORT, "127.0.0.1", () => {
-    console.log(`mock api.frkn.org on http://127.0.0.1:${PORT}`);
+  // MOCK_HOST=0.0.0.0 — слушать на всех интерфейсах (проверка с телефона в
+  // той же сети: страница берёт адрес мока из своего hostname).
+  const HOST = process.env.MOCK_HOST || "127.0.0.1";
+  server.listen(PORT, HOST, () => {
+    console.log(`mock api.frkn.org on http://${HOST}:${PORT}`);
     if (!REAL_AWG_NODES) console.log(`AWG nodes: ${AWG_NODES.length} (mock fixtures)`);
   });
 }

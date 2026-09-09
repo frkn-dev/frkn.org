@@ -54,6 +54,20 @@ of N tunnels»); the real cause is in logcat: `adb logcat -s AmneziaWG/TunnelImp
 The mock now pretends to have every protocol: AmneziaWG, WireGuard, Hysteria2,
 Xray, MTProto, "All proxies".
 
+### Test on a phone (same Wi-Fi, no Docker)
+
+The pages resolve the mock as `http://<page hostname>:3000`, so serve both on
+all interfaces and open the site by the Mac's LAN IP:
+
+```bash
+MOCK_HOST=0.0.0.0 node tools/mock-api/serve.js & python3 -m http.server 8081
+ipconfig getifaddr en0        # → 192.168.x.x
+```
+
+On the phone: `http://192.168.x.x:8081/subscription/?id=demo-uuid-0000&mock=1`
+→ AmneziaWG → any OS → download a zip → import into the AmneziaWG app.
+Firewall prompt on macOS: allow `node` and `python3`.
+
 ### Manual check — subscription wizard (AmneziaWG bulk .zip)
 
 Full scenario, no real backend needed:
