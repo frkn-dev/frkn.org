@@ -26,6 +26,8 @@ Three manual rsync scripts, arg `$1` = `user@host` (SSH keys assumed). All exclu
 
 Note: `dopamine/*.dmg|*.pkg` are gitignored but NOT excluded from rsync — they sync to the server if present locally.
 
+`./deploy-site.sh [user@host]` — deploy to the main nginx host (`/opt/frkn.org/`). Pure rsync of the local tree (`--delete`, excludes VCS/agent configs), no git on the server: what you have locally is what goes live, so deploy from a clean checkout. dopamine binaries (`*.pkg|*.msi|*.apk|*.dmg`) sync in a second pass with forced `644` permissions (nginx can't read `600` files — rsync `-a` preserves local modes).
+
 ## CI
 
 `.github/workflows/pages.yml` — "Deploy static content to Pages". Triggers: push to `main` + `workflow_dispatch`. Steps: checkout → configure-pages → upload-pages-artifact (repo root) → deploy-pages. No build, no tests.

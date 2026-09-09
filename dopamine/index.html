@@ -12,7 +12,7 @@
       content="Dopamine — клиент для подключения к VPN от FRKN. Скачайте приложение или перейдите в магазин."
     />
     <link rel="icon" href="/Images/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="/styles.css?v=4" />
+    <link rel="stylesheet" href="/styles.css?v=6" />
     <style>
       .dopamine-hero {
         text-align: center;
@@ -231,6 +231,11 @@
         display: block;
         font-size: 1.5rem;
         margin-bottom: 10px;
+      }
+      .feature-emoji img {
+        width: 24px;
+        height: 24px;
+        filter: invert(1);
       }
 
       .feature-item h4 {
@@ -472,7 +477,7 @@
       </section>
 
       <section class="download-section">
-        <div class="version-badge"><b>v4.8.14.52</b> обновлено 05.09.2026</div>
+        <div class="version-badge"><b>v4.8.14.54</b> обновлено 08.09.2026</div>
         <div class="download-grid">
           <div class="download-card">
             <div class="download-icon">
@@ -484,7 +489,11 @@
             </div>
             <div class="download-name">Android</div>
             <div class="download-hint">APK-файл для установки</div>
-            <a href="/dopamine/frkn-dopamine-4.8.14.52.apk" class="download-btn" download>
+            <a
+              href="/dopamine/frkn-dopamine-4.8.14.54.apk"
+              class="download-btn"
+              download
+            >
               Скачать APK
             </a>
           </div>
@@ -518,9 +527,13 @@
               </svg>
             </div>
             <div class="download-name">Windows</div>
-            <div class="download-hint">Установщик .msi</div>
+            <div class="download-hint">
+              Установщик <br />
+              .msi
+            </div>
+
             <a
-              href="/dopamine/Dopamine-4.8.14.52-win64.msi"
+              href="/dopamine/Dopamine-4.8.14.54-win64.msi"
               class="download-btn"
               download
             >
@@ -537,26 +550,23 @@
               </svg>
             </div>
             <div class="download-name">macOS</div>
-            <div class="download-hint">Установщик .pkg</div>
+            <div class="download-hint">Установщик <br />.pkg</div>
             <div class="download-btn-row">
               <a
-                href="/dopamine/Dopamine-arm64-4.8.14.52.pkg"
+                href="/dopamine/Dopamine-arm64-4.8.14.54.pkg"
                 class="download-btn"
                 download
               >
-                Apple Silicon
+                Apple
               </a>
               <a
-                href="/dopamine/Dopamine-intel-4.8.14.52.pkg"
+                href="/dopamine/Dopamine-intel-4.8.14.54.pkg"
                 class="download-btn"
                 download
               >
                 Intel
               </a>
             </div>
-            <button type="button" class="install-link" id="macos-install-link">
-              Как установить?
-            </button>
           </div>
         </div>
       </section>
@@ -566,7 +576,7 @@
         <div class="screenshots-grid">
           <div>
             <img
-              src="/Images/android-dopamine.jpg"
+              src="Images/android.jpg"
               alt="Dopamine на Android — подключено"
               class="phone-shot shot-left"
             />
@@ -574,7 +584,7 @@
           </div>
           <div>
             <img
-              src="/Images/ios-dopamine.jpg"
+              src="Images/ios.png"
               alt="Dopamine на iOS — подключено"
               class="phone-shot shot-right"
             />
@@ -590,7 +600,9 @@
           <h3 class="feature-group-title">Приватность и доступ</h3>
           <div class="features-grid-simple">
             <div class="feature-item">
-              <span class="feature-emoji">🕵️</span>
+              <span class="feature-emoji"
+                ><img src="/Images/privacy.png" alt=""
+              /></span>
               <h4>Без почты и аккаунтов</h4>
               <p>
                 Анонимный триал в один тап: не собираем ни email, ни логи, ни
@@ -598,15 +610,19 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">🛡️</span>
-              <h4>Устойчивость к блокировкам</h4>
+              <span class="feature-emoji"
+                ><img src="/Images/shield.png" alt=""
+              /></span>
+              <h4>Быстрое и стабильное подключение</h4>
               <p>
-                VLESS Reality, XHTTP через CDN, gRPC и AmneziaWG с обфускацией
-                пакетов — для DPI это обычный HTTPS.
+                Множество вариантов подключения – на любую ситуацию VLESS
+                Reality, XHTTP через CDN, gRPC и AmneziaWG
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">⚡</span>
+              <span class="feature-emoji"
+                ><img src="/Images/arrows.png" alt=""
+              /></span>
               <h4>Hysteria2</h4>
               <p>Быстрый протокол на QUIC для нестабильных сетей.</p>
             </div>
@@ -617,15 +633,19 @@
           <h3 class="feature-group-title">Управление трафиком</h3>
           <div class="features-grid-simple">
             <div class="feature-item">
-              <span class="feature-emoji">🎛️</span>
+              <span class="feature-emoji"
+                ><img src="/Images/settings.png" alt=""
+              /></span>
               <h4>Гибкий сплит-туннель</h4>
               <p>
-                VPN только для выбранных сайтов и сервисов — или наоборот «всё,
-                кроме выбранных». Применяется при переподключении.
+                VPN только для выбранных приложений, сайтов и сервисов — или
+                наоборот «всё, кроме выбранных».
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">✅</span>
+              <span class="feature-emoji"
+                ><img src="/Images/checkmark.png" alt=""
+              /></span>
               <h4>Готовые пресеты сервисов</h4>
               <p>
                 Маркетплейсы, социальные сети, банки и другие: один чекбокс
@@ -633,7 +653,9 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">🔋</span>
+              <span class="feature-emoji"
+                ><img src="/Images/electric.png" alt=""
+              /></span>
               <h4>AmneziaWG Mobile</h4>
               <p>
                 Отдельный профиль, заточенный под мобильные сети и экономию
@@ -647,7 +669,9 @@
           <h3 class="feature-group-title">Контроль и прозрачность</h3>
           <div class="features-grid-simple">
             <div class="feature-item">
-              <span class="feature-emoji">📶</span>
+              <span class="feature-emoji"
+                ><img src="/Images/signal-status.png" alt=""
+              /></span>
               <h4>Живая проверка серверов</h4>
               <p>
                 Доступность и задержка по каждому серверу прямо в списке:
@@ -655,7 +679,9 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">🤝</span>
+              <span class="feature-emoji"
+                ><img src="/Images/add-user.png" alt=""
+              /></span>
               <h4>Честный статус подключения</h4>
               <p>
                 Соединение подтверждается реальным handshake, а не просто фактом
@@ -663,7 +689,9 @@
               </p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">🌍</span>
+              <span class="feature-emoji"
+                ><img src="/Images/world.png" alt=""
+              /></span>
               <h4>Выбор окружения и протокола</h4>
               <p>
                 Фильтры в списке серверов: страна с флагом, протокол, окружение.
@@ -676,17 +704,23 @@
           <h3 class="feature-group-title">Платформа</h3>
           <div class="features-grid-simple">
             <div class="feature-item">
-              <span class="feature-emoji">📱</span>
-              <h4>iOS, macOS, Android</h4>
+              <span class="feature-emoji"
+                ><img src="/Images/responsive-app.png" alt=""
+              /></span>
+              <h4>iOS, macOS, Windows, Android</h4>
               <p>Один аккаунт и одинаковый опыт на всех устройствах.</p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">🌐</span>
+              <span class="feature-emoji"
+                ><img src="/Images/translate.png" alt=""
+              /></span>
               <h4>Русский, English, Українська</h4>
               <p>Полная локализация интерфейса.</p>
             </div>
             <div class="feature-item">
-              <span class="feature-emoji">✂️</span>
+              <span class="feature-emoji"
+                ><img src="/Images/split.png" alt=""
+              /></span>
               <h4>Kill Switch</h4>
               <p>Трафик не утекает мимо туннеля при обрыве соединения.</p>
             </div>
@@ -701,44 +735,6 @@
       </div>
 
       <div id="footer-container"></div>
-    </div>
-
-    <div class="modal-overlay" id="macos-install-modal">
-      <div class="modal-card">
-        <button
-          type="button"
-          class="modal-close"
-          id="macos-install-close"
-          aria-label="Закрыть"
-        >
-          &times;
-        </button>
-        <h3>Как установить на macOS</h3>
-        <ol>
-          <li>
-            <b>Откройте</b> скачанный <code>Dopamine-arm64-4.8.14.52.pkg</code> (Apple
-            Silicon) или <code>Dopamine-intel-4.8.14.52.pkg</code> (Intel).
-          </li>
-          <li>
-            Если macOS покажет «Apple could not verify…» — нажмите
-            <b>«Done»</b>, затем откройте <b>«Системные настройки»</b> →
-            <b>«Конфиденциальность и безопасность»</b>, промотайте вниз и
-            нажмите <b>«Open Anyway»</b> рядом с упоминанием Dopamine →
-            подтвердите паролем → <b>«Open»</b>.<br />
-            Либо один раз в Терминале:
-            <code
-              >xattr -dr com.apple.quarantine
-              ~/Downloads/Dopamine-*.pkg</code
-            >
-            — и PKG откроется сразу.
-          </li>
-          <li>
-            <b>Пройдите инсталлер</b> — в конце система спросит пароль
-            администратора (так ставится системный VPN-сервис, это нормально).
-          </li>
-          <li>После установки приложение запустится само, всё работает.</li>
-        </ol>
-      </div>
     </div>
 
     <script src="/scripts/analytics.js" defer></script>
