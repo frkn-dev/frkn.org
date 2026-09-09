@@ -3773,7 +3773,7 @@
       }
       const useMock = new URLSearchParams(window.location.search).has("mock");
       const API_BASE = isLocal || useMock
-        ? "http://localhost:3000"
+        ? `http://${window.location.hostname}:3000`
         : "https://api.frkn.org";
       const PAYMENT_API_BASE = isLocal
         ? "http://localhost:3006"
@@ -5801,6 +5801,7 @@
           .then((data) => {
             const nodes = data.nodes || [];
             const labels = prepareNodeLabels(nodes);
+            const names = awgTunnelNames(nodes.map((n) => n.label));
 
             container.innerHTML = `
             <ul class="proxy-list">
@@ -5818,7 +5819,7 @@
                       Copy
                     </button>
 
-                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, "")}')">
+                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${names[i]}')">
                       Download
                     </button>
 
@@ -5887,6 +5888,129 @@
         return clean || "config";
       }
 
+      // Имя туннеля для официальных клиентов AmneziaWG: имя файла в zip
+      // становится именем туннеля, а Android и awg-quick принимают только
+      // ^[a-zA-Z0-9_=+.-]{1,15}$ (Windows — до 32). «Uncle Sam (USA)» ->
+      // «uncle-sam-usa». Кириллица транслитерируется, остальное выкидывается.
+      const AWG_TUNNEL_NAME_MAX = 15;
+      const CONFIG_SLUG_TRANSLIT = {
+        а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ё: "e", ж: "zh",
+        з: "z", и: "i", й: "y", к: "k", л: "l", м: "m", н: "n", о: "o",
+        п: "p", р: "r", с: "s", т: "t", у: "u", ф: "f", х: "h", ц: "ts",
+        ч: "ch", ш: "sh", щ: "sch", ъ: "", ы: "y", ь: "", э: "e", ю: "yu",
+        я: "ya",
+      };
+
+      function awgTunnelName(label, maxLen = AWG_TUNNEL_NAME_MAX) {
+        const translit = Array.from(
+          String(label || "").toLowerCase(),
+          (ch) => CONFIG_SLUG_TRANSLIT[ch] ?? ch,
+        ).join("");
+        const slug = translit
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "")
+          .slice(0, maxLen)
+          .replace(/-+$/g, "");
+        return slug || "frkn";
+      }
+
+      // Уникальные имена: при дубе первый без суффикса, дальше -2, -3…;
+      // база обрезается так, чтобы вместе с суффиксом не превысить лимит.
+      function awgTunnelNames(labels) {
+        const base = labels.map((l) => awgTunnelName(l));
+        const counts = {};
+        base.forEach((s) => {
+          counts[s] = (counts[s] || 0) + 1;
+        });
+        const used = {};
+        const taken = new Set();
+        return base.map((s) => {
+          let name = s;
+          if (counts[s] > 1) {
+            used[s] = (used[s] || 0) + 1;
+            if (used[s] > 1) {
+              const suffix = `-${used[s]}`;
+              name =
+                awgTunnelName(s, AWG_TUNNEL_NAME_MAX - suffix.length) + suffix;
+            }
+          }
+          let n = 2;
+          while (taken.has(name)) {
+            const suffix = `-${n++}`;
+            name = awgTunnelName(s, AWG_TUNNEL_NAME_MAX - suffix.length) + suffix;
+          }
+          taken.add(name);
+          return name;
+        });
+      }
+
+      // Поля [Interface] по версиям официального клиента AmneziaWG.
+      // 2.0 — всё, что понимает любой клиент с весны 2026 (Google Play):
+      // стандартные WireGuard + Jc/Jmin/Jmax, S1–S4, H1–H4 (в т.ч. диапазоны
+      // «100000-200000»), I1–I5. 3.1 — плюс поля AWG 3.0/3.1 (сборки с
+      // GitHub, август 2026+). Всё, что не в списке уровня, вырезается;
+      // пустые значения и комментарии — тоже. [Peer] проходит как есть.
+      const AWG_INTERFACE_KEYS_20 = [
+        "PrivateKey", "Address", "DNS", "MTU", "ListenPort",
+        "Jc", "Jmin", "Jmax", "S1", "S2", "S3", "S4",
+        "H1", "H2", "H3", "H4", "I1", "I2", "I3", "I4", "I5",
+      ];
+      const AWG_INTERFACE_KEYS_31 = AWG_INTERFACE_KEYS_20.concat([
+        "HeaderProtectionKey", "ContentPaddingAddition",
+        "RekeyAfterTime", "RekeyTimeout", "RejectAfterTime",
+        "KeepaliveTimeout", "MaxHandshakeAttempts",
+        "RandomTrailers", "DisableCookies",
+      ]);
+      const AWG_CLIENT_KEYS = {
+        "2.0": new Set(AWG_INTERFACE_KEYS_20.map((k) => k.toLowerCase())),
+        "3.1": new Set(AWG_INTERFACE_KEYS_31.map((k) => k.toLowerCase())),
+      };
+
+      // Конфиг под конкретную версию клиента. Для 2.0 клиентские тайминги
+      // 3.1 (Rekey*, RejectAfterTime, KeepaliveTimeout, MaxHandshakeAttempts,
+      // ContentPaddingAddition, DisableCookies) просто выкидываются, а вот
+      // HeaderProtectionKey и RandomTrailers=on должны совпадать с сервером —
+      // без них конфиг импортируется, но не подключится. Такие ноды
+      // помечаются blockers и в архив для 2.x не попадают.
+      function toAwgClientConfig(config, level = "2.0") {
+        const allowed = AWG_CLIENT_KEYS[level] || AWG_CLIENT_KEYS["2.0"];
+        const out = [];
+        const blockers = [];
+        let inInterface = false;
+        String(config || "")
+          .split(/\r?\n/)
+          .forEach((line) => {
+            const t = line.trim();
+            if (t === "" || t.startsWith("#") || t.startsWith(";")) {
+              if (t === "") out.push("");
+              return;
+            }
+            if (t.startsWith("[")) {
+              inInterface = t.replace(/\s+/g, "").toLowerCase() === "[interface]";
+              out.push(t);
+              return;
+            }
+            const eq = t.indexOf("=");
+            if (eq === -1) return;
+            const key = t.slice(0, eq).trim();
+            const value = t.slice(eq + 1).trim();
+            if (!value) return;
+            if (inInterface) {
+              const k = key.toLowerCase();
+              if (level === "2.0") {
+                if (k === "headerprotectionkey") blockers.push("HeaderProtectionKey");
+                if (k === "randomtrailers" && /^(on|1|true|t|yes|y)$/i.test(value)) {
+                  blockers.push("RandomTrailers");
+                }
+              }
+              if (!allowed.has(k)) return;
+            }
+            out.push(`${key} = ${value}`);
+          });
+        const text = out.join("\n").replace(/\n{3,}/g, "\n\n").trim() + "\n";
+        return { config: text, blockers };
+      }
+
       // Сборка и скачивание zip через JSZip (jsDelivr, same way as qrcode).
       // entries: [{name, content}] -> blob -> обычный <a download>.
       function downloadZip(entries, zipName) {
@@ -5920,8 +6044,6 @@
 
         const url = `${API_BASE}/info/connections/amneziawg?id=${id}&env=${env}`;
 
-        console.log(url);
-
         container.innerHTML = `<div class="small">Загрузка Amnezia WireGuard...</div>`;
 
         fetch(url)
@@ -5929,12 +6051,22 @@
           .then((data) => {
             const nodes = data.nodes || [];
             const labels = prepareNodeLabels(nodes);
+            const names = awgTunnelNames(nodes.map((n) => n.label));
+            const compat = nodes.map((n) => toAwgClientConfig(n.config, "2.0"));
+            const compatIdx = [];
+            const blockedIdx = [];
+            compat.forEach((c, i) =>
+              (c.blockers.length ? blockedIdx : compatIdx).push(i),
+            );
 
             const allBtnHtml = nodes.length
               ? `
-              <div style="margin-bottom: 12px;">
-                <button type="button" class="secondary-btn" id="awg-download-all">⬇ Скачать все (${nodes.length} конф., .zip)</button>
+              <div style="margin-bottom: 12px; display:flex; gap:10px; flex-wrap:wrap;">
+                <button type="button" class="secondary-btn" id="awg-download-all" title="Все конфиги как отдаёт сервер, без изменений">⬇ Скачать все (${nodes.length} конф., .zip)</button>
+                <button type="button" class="secondary-btn" id="awg-download-all-3x" title="Для клиента AmneziaWG 3.x (август 2026+): все серверы, поля 3.1 сохранены">⬇ AmneziaWG 3.x (${nodes.length} конф., .zip)</button>
+                <button type="button" class="secondary-btn" id="awg-download-all-2x" title="Для клиента AmneziaWG 2.x: только поля AmneziaWG 2.0, серверы с обфускацией 3.1 пропущены"${compatIdx.length ? "" : " disabled"}>⬇ AmneziaWG 2.x (${compatIdx.length} из ${nodes.length} конф., .zip)</button>
               </div>
+              ${blockedIdx.length ? `<p class="small" id="awg-compat-note" style="margin: -4px 0 12px;">Некоторые серверы работают только с AmneziaWG 3.1 и в архив для 2.x не вошли.</p>` : ""}
             `
               : "";
 
@@ -5956,7 +6088,7 @@
                       Copy
                     </button>
 
-                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${labels[i].replace(/\s+/g, "")}')">
+                    <button onclick="downloadWG(\`${escapeBackticks(n.config)}\`, '${names[i]}')">
                       Download
                     </button>
 
@@ -5986,17 +6118,30 @@
               );
             });
 
-            const allBtn = document.getElementById("awg-download-all");
-            if (allBtn) {
-              allBtn.addEventListener("click", () => {
-                const entries = finalNodes.map((n, i) => ({
-                  name: `${sanitizeZipEntryName(labels[i])}.conf`,
-                  content: n.config || "",
-                }));
-                const envName = sanitizeZipEntryName(env || "all");
-                downloadZip(entries, `frkn-awg-${envName}.zip`);
-              });
-            }
+            const envName = sanitizeZipEntryName(env || "all");
+            const bindZip = (btnId, build, zipName) => {
+              const btn = document.getElementById(btnId);
+              if (btn) btn.addEventListener("click", () => downloadZip(build(), zipName));
+            };
+            bindZip(
+              "awg-download-all",
+              () => finalNodes.map((n, i) => ({ name: `${names[i]}.conf`, content: n.config || "" })),
+              `frkn-awg-${envName}.zip`,
+            );
+            bindZip(
+              "awg-download-all-3x",
+              () =>
+                finalNodes.map((n, i) => ({
+                  name: `${names[i]}.conf`,
+                  content: toAwgClientConfig(n.config, "3.1").config,
+                })),
+              `frkn-awg-${envName}-awg3x.zip`,
+            );
+            bindZip(
+              "awg-download-all-2x",
+              () => compatIdx.map((i) => ({ name: `${names[i]}.conf`, content: compat[i].config })),
+              `frkn-awg-${envName}-awg2x.zip`,
+            );
           })
           .catch((e) => {
             console.error(e);

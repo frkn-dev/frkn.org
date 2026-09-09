@@ -3,6 +3,7 @@
   "private": true,
   "description": "Isolated e2e test for AWG zip download (subscription wizard). Deps live here only.",
   "devDependencies": {
-    "jsdom": "^24.0.0"
+    "jsdom": "^24.0.0",
+    "jszip": "^3.10.1"
   }
 }

@@ -63,7 +63,7 @@ http://localhost:8081/subscription/?id=demo-uuid-0000&mock=1
 ```
 
 Click **«Больше настроек и приложений»** → AmneziaWG → pick an OS → the
-final step shows **«⬇ Скачать все (N конф., .zip)»**.
+final step shows **«⬇ Скачать все (N конф., .zip)»** (raw), **«⬇ AmneziaWG 3.x (N конф., .zip)»** (3.1 client) and **«⬇ AmneziaWG 2.x (M из N конф., .zip)»** (AWG 2.0 field set for the Google Play build).
 
 ## Docs
 

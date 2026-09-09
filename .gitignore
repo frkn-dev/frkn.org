@@ -33,6 +33,8 @@ dopamine/*.msi
 
 share/
 
+# Local AWG config dumps (contain live private keys)
+frkn-awg-dev/
 
 
 *.msi
