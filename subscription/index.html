@@ -2487,6 +2487,70 @@
         transition: width 0.5s ease;
       }
 
+      .traffic-limit-block {
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+      }
+
+      .traffic-limit-block .traffic-limit-title {
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .traffic-limit-block .traffic-limit-title span {
+        color: #22d3ee;
+        font-weight: 700;
+      }
+
+      .traffic-limit-block .traffic-bar {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .traffic-limit-block .traffic-bar-fill {
+        height: 100%;
+        background: #22d3ee;
+        border-radius: 999px;
+        width: 0%;
+        transition: width 0.5s ease;
+      }
+
+      .traffic-mode-note {
+        font-size: 13px;
+        color: #fbbf24;
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+
+      .topup-block {
+        margin-top: 14px;
+      }
+
+      .topup-block .topup-title {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      .topup-block .topup-buttons {
+        display: flex;
+        gap: 8px;
+      }
+
+      .topup-block .topup-btn {
+        flex: 1;
+      }
+
+      .topup-block .topup-error {
+        color: #ff4d4d;
+        font-size: 13px;
+        margin-top: 8px;
+      }
+
       .secondary-btn.tg-btn {
         display: inline-flex;
         align-items: center;
@@ -3186,6 +3250,41 @@
                     <div class="traffic-bar-fill" id="traffic-bar-fill"></div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div class="traffic-limit-block hidden" id="traffic-limit-block">
+              <div class="traffic-limit-title">
+                Трафик: использовано <span id="topup-used">0</span> из
+                <span id="topup-limit">0</span> (осталось
+                <span id="topup-remaining">0</span>)
+              </div>
+              <div class="traffic-bar">
+                <div class="traffic-bar-fill" id="topup-bar-fill"></div>
+              </div>
+              <div class="traffic-mode-note hidden" id="traffic-mode-note">
+                ⚡ Hysteria2 временно недоступна — в режиме трафика работают
+                WireGuard, AmneziaWG и VLESS.
+              </div>
+              <div class="topup-block hidden" id="topup-block">
+                <div class="topup-title">Докупить трафик</div>
+                <div class="topup-buttons">
+                  <button
+                    type="button"
+                    class="secondary-btn topup-btn"
+                    data-gb="5"
+                  >
+                    +5 ГБ
+                  </button>
+                  <button
+                    type="button"
+                    class="secondary-btn topup-btn"
+                    data-gb="10"
+                  >
+                    +10 ГБ
+                  </button>
+                </div>
+                <div class="topup-error" id="topupError"></div>
               </div>
             </div>
 
@@ -4178,6 +4277,92 @@
         updateTrafficDisplay();
       }
 
+      function renderTrafficQuota(data, subId) {
+        const block = document.getElementById("traffic-limit-block");
+        const note = document.getElementById("traffic-mode-note");
+        const topup = document.getElementById("topup-block");
+        if (!block || !note || !topup) return;
+
+        const limitBytes = data.limit_bytes || 0;
+        const usedBytes = data.used_bytes || 0;
+        const remainingBytes =
+          data.remaining_bytes ?? Math.max(0, limitBytes - usedBytes);
+
+        if (limitBytes <= 0) {
+          block.classList.add("hidden");
+          return;
+        }
+
+        block.classList.remove("hidden");
+        document.getElementById("topup-used").innerText =
+          formatBytes(usedBytes);
+        document.getElementById("topup-limit").innerText =
+          formatBytes(limitBytes);
+        document.getElementById("topup-remaining").innerText =
+          formatBytes(remainingBytes);
+        const percent = Math.min(
+          100,
+          Math.round((usedBytes / limitBytes) * 100),
+        );
+        document.getElementById("topup-bar-fill").style.width = `${percent}%`;
+
+        const planKind = data.plan_kind || "standard";
+        const expiresAt = data.expires ? new Date(data.expires) : null;
+        const timeExpired =
+          planKind === "standard" && expiresAt && expiresAt < new Date();
+        const trafficMode =
+          (!expiresAt || timeExpired) && usedBytes < limitBytes;
+        note.classList.toggle("hidden", !trafficMode);
+
+        // top-up запрещён бэком на активной по времени подписке — прячем кнопки
+        const canTopup =
+          !!timeExpired || (!expiresAt && remainingBytes > 0);
+        topup.classList.toggle("hidden", !canTopup);
+        if (!canTopup) return;
+
+        document.querySelectorAll(".topup-btn").forEach((btn) => {
+          btn.onclick = async () => {
+            const errEl = document.getElementById("topupError");
+            errEl.textContent = "";
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = "Создаём платёж...";
+            try {
+              const res = await fetch(
+                `${PAYMENT_API_BASE}/payment/platega/topup/create`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "X-Trace-Id": generateTraceId(),
+                  },
+                  body: JSON.stringify({
+                    subscription_id: subId,
+                    gb: parseInt(btn.dataset.gb, 10),
+                  }),
+                },
+              );
+              const respData = await res.json().catch(() => ({}));
+              if (!res.ok) {
+                throw new Error(
+                  respData.error ||
+                    respData.message ||
+                    "Не удалось создать платёж",
+                );
+              }
+              if (!respData.url) {
+                throw new Error("API не вернуло ссылку на оплату");
+              }
+              window.location.href = respData.url;
+            } catch (e) {
+              errEl.textContent = e.message;
+              btn.disabled = false;
+              btn.textContent = originalText;
+            }
+          };
+        });
+      }
+
       function renderSubscriptionData(data, subId, currentEnv) {
         const statusEl = document.getElementById("status-text");
         const daysEl = document.getElementById("days");
@@ -4214,6 +4399,7 @@
           .catch(() => {});
 
         renderTrafficWidget(data, currentEnv);
+        renderTrafficQuota(data, subId);
 
         const subUrl = `frkn://sub/${data.id}`;
 
