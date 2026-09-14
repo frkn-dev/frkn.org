@@ -1423,6 +1423,11 @@
               "frkn_last_transaction_id",
               data.transactionId,
             );
+            // Прод Планты отдает ссылку сразу в create-ответе.
+            if (data.paymentUrl) {
+              window.location.href = data.paymentUrl;
+              return;
+            }
             // Planta не отдает ссылку сразу — qrLink приходит постбэком,
             // поллим /payment/check, пока не появится paymentUrl.
             const paymentUrl = await pollPlantaPaymentUrl(data.transactionId);
