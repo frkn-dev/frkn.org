@@ -140,7 +140,7 @@
         );
       }
       .price-card.popular::before {
-        content: "⭐ Выгодно";
+        content: "Выгодно";
         position: absolute;
         top: -6px;
         left: 50%;
@@ -157,7 +157,7 @@
         border: 2px solid var(--accent-secondary);
       }
       .price-card.recommended::before {
-        content: "🔥 Популярно";
+        content: "Популярно";
         position: absolute;
         top: -6px;
         left: 50%;
@@ -169,6 +169,13 @@
         padding: 4px 16px;
         border-radius: 10px;
         white-space: nowrap;
+      }
+      .pricing-grid-traffic .price-card {
+        border: 2px solid #f59e0b;
+      }
+      .pricing-grid-traffic .price-card:hover {
+        border-color: #fbbf24;
+        box-shadow: 0 20px 40px rgba(245, 158, 11, 0.25);
       }
       .price-card h3 {
         font-size: 18px;
