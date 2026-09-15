@@ -64,20 +64,20 @@
                 width: 100%;
               "
             >
-              <button
-                class="btn try pulse"
-                id="scrollToTrial"
-                style="padding: 14px 24px; font-size: 15px"
-              >
-                Попробовать за 67₽
-              </button>
-
               <a href="/dopamine"
                 ><button
                   class="btn try"
                   style="padding: 14px 24px; font-size: 15px"
                 >
                   Скачать
+                </button></a
+              >
+              <a href="/pay"
+                ><button
+                  class="btn ghost btn-fire"
+                  style="padding: 14px 24px; font-size: 15px"
+                >
+                  🔥 Тарифы
                 </button></a
               >
               <div class="hero-btn-break"></div>
@@ -102,14 +102,6 @@
                 Бесплатные TG прокси
               </button>
 
-              <a href="/pay"
-                ><button
-                  class="btn ghost"
-                  style="padding: 14px 24px; font-size: 15px"
-                >
-                  Тарифы
-                </button></a
-              >
               <a href="/switch-to-frkn"
                 ><button
                   class="btn ghost"
@@ -126,7 +118,7 @@
         <div class="trial-container">
           <div class="trial-info">
             <h2>
-              Попробовать
+              Резервный интернет
               <span
                 style="
                   color: var(--accent-2);
@@ -138,24 +130,34 @@
               >
             </h2>
             <p>
-              Не готов платить за месяц вперёд? Возьми 1 ГБ трафика за 67₽ —
-              живёт, пока не израсходуешь.
+              Даже если у вас есть VPN — это лучший вариант сохранить доступ.
+              Гигабайт живёт вечно.
             </p>
             <div class="trial-steps">
-              <span>1. Почта</span>
-              <span>2. Оплата</span>
-              <span class="active">3. Интернет</span>
+              <span>1. Оплата</span>
+              <span class="active">2. Интернет</span>
             </div>
-            <p class="small">Ключ придёт на почту сразу после оплаты.</p>
+            <p class="small">
+              Без почты и регистрации — ключ покажем на странице сразу после
+              оплаты.
+            </p>
           </div>
-          <form id="trialForm" class="trial-form">
-            <input
-              type="email"
-              name="email"
-              placeholder="Твой e-mail"
-              required
-            />
-            <button class="btn try" type="submit">Купить 1 ГБ за 67₽</button>
+          <div id="trialForm" class="trial-form">
+            <button
+              class="btn try trial-buy-btn"
+              type="button"
+              data-price="67"
+            >
+              Я зумер — 1 ГБ за 67₽
+            </button>
+            <button
+              class="btn ghost trial-buy-btn"
+              type="button"
+              data-price="69"
+              data-alt="true"
+            >
+              Я миллениал — 69₽
+            </button>
             <p id="message" class="status-message"></p>
             <div class="trial-extra-actions">
               <a href="/activate"
@@ -164,7 +166,7 @@
                 </button></a
               >
             </div>
-          </form>
+          </div>
         </div>
       </section>
       <section class="pricing-landing">
@@ -226,24 +228,10 @@
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script>
-      const scrollBtn = document.getElementById("scrollToTrial");
-      const buySection = document.getElementById("trial");
-      const trialEmail = document.querySelector(
-        "#trialForm input[type='email']",
-      );
-
-      function focusTrialEmail() {
-        if (trialEmail) trialEmail.focus({ preventScroll: true });
-      }
-
-      scrollBtn.addEventListener("click", () => {
-        buySection.scrollIntoView({ behavior: "smooth" });
-        focusTrialEmail();
-      });
-
       if (window.location.hash === "#trial") {
-        buySection.scrollIntoView({ behavior: "smooth" });
-        focusTrialEmail();
+        document
+          .getElementById("trial")
+          .scrollIntoView({ behavior: "smooth" });
       }
 
       const trialContainer = document.querySelector(".trial-container");

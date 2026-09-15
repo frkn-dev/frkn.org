@@ -64,16 +64,13 @@
                 width: 100%;
               "
             >
-              <button
-                class="btn try pulse"
-                id="scrollToTrial"
-                style="padding: 14px 24px; font-size: 15px"
-              >
-                Try for 67₽
-              </button>
               <a href="/dopamine/en/"
                 ><button class="btn try" style="padding: 14px 24px; font-size: 15px"
                   >Download</button></a
+              >
+              <a href="/en/pay"
+                ><button class="btn ghost btn-fire" style="padding: 14px 24px; font-size: 15px"
+                  >🔥 Pricing</button></a
               >
               <div class="hero-btn-break"></div>
               <button
@@ -88,10 +85,6 @@
                 />
                 Free TG proxies
               </button>
-              <a href="/en/pay"
-                ><button class="btn ghost" style="padding: 14px 24px; font-size: 15px"
-                  >Pricing</button></a
-              >
               <a href="/en/switch-to-frkn"
                 ><button class="btn ghost" style="padding: 14px 24px; font-size: 15px"
                   >Switch from old service</button></a
@@ -103,27 +96,23 @@
       <section id="trial" class="trial-section">
         <div class="trial-container">
           <div class="trial-info">
-            <h2>Test drive <span style="color: var(--accent-2); font-size: 0.55em; vertical-align: middle; white-space: nowrap;">1 GB for 67₽</span></h2>
+            <h2>Backup internet <span style="color: var(--accent-2); font-size: 0.55em; vertical-align: middle; white-space: nowrap;">1 GB for 67₽</span></h2>
             <p>
-              Not ready to pay for a month upfront? Grab 1 GB of traffic for
-              67₽ — it lasts until you use it up.
+              Even if you already have a VPN — this is the best way to keep
+              your access. A gigabyte lasts forever.
             </p>
             <div class="trial-steps">
-              <span>1. Email</span>
-              <span>2. Payment</span>
-              <span class="active">3. Internet</span>
+              <span>1. Payment</span>
+              <span class="active">2. Internet</span>
             </div>
-            <p class="small">The key arrives by email right after payment.</p>
+            <p class="small">No email, no sign-up — the key appears on the page right after payment.</p>
           </div>
-          <form id="trialForm" class="trial-form">
-            <input
-              type="email"
-              name="email"
-              placeholder="Your email"
-              required
-            />
-            <button class="btn try" type="submit">
-              Buy 1 GB for 67₽
+          <div id="trialForm" class="trial-form">
+            <button class="btn try trial-buy-btn" type="button" data-price="67">
+              I'm a zoomer — 1 GB for 67₽
+            </button>
+            <button class="btn ghost trial-buy-btn" type="button" data-price="69" data-alt="true">
+              I'm a millennial — 69₽
             </button>
             <p id="message" class="status-message"></p>
             <div class="trial-extra-actions">
@@ -138,7 +127,7 @@
                 </button></a
               >
             </div>
-          </form>
+          </div>
         </div>
       </section>
       <section class="pricing-landing">
@@ -199,24 +188,10 @@
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script>
-      const scrollBtn = document.getElementById("scrollToTrial");
-      const buySection = document.getElementById("trial");
-      const trialEmail = document.querySelector(
-        "#trialForm input[type='email']",
-      );
-
-      function focusTrialEmail() {
-        if (trialEmail) trialEmail.focus({ preventScroll: true });
-      }
-
-      scrollBtn.addEventListener("click", () => {
-        buySection.scrollIntoView({ behavior: "smooth" });
-        focusTrialEmail();
-      });
-
       if (window.location.hash === "#trial") {
-        buySection.scrollIntoView({ behavior: "smooth" });
-        focusTrialEmail();
+        document
+          .getElementById("trial")
+          .scrollIntoView({ behavior: "smooth" });
       }
 
       const trialContainer = document.querySelector(".trial-container");
