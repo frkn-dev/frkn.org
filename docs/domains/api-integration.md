@@ -13,6 +13,7 @@ Catalog of every `api.frkn.org` endpoint and which page calls it. Load when touc
 | `POST /subscription/trial` | create trial subscription | `subscription/` |
 | `GET /sub?id=...&proto=...&format=...` | connection link/QR content per protocol | `subscription/`, `app/` |
 | `GET /short` | short link helper | `subscription/` |
+| `GET s.frkn.org/{code}` | resolve short code → `{subscription_id, subscription_url}` (JSON with `Accept: application/json`, CORS open for frkn.org) | `sub/` |
 | `GET /referrals?code=` | referral info | `subscription/`, `app/` |
 | `POST /validate/email` | validate email before bind | `subscription/` |
 | `POST /promocode/validate` | validate promocode | `pay/`, `subscription/` |

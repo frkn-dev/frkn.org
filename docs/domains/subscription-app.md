@@ -69,6 +69,12 @@ Features:
 - Email binding: `POST /validate/email` → `POST /account`.
 - Key activation, referral (`GET /referrals?code=`), renewal with promocode → `POST /payment/platega/subscription/create`.
 
+## `sub/` — short-code entry to the cabinet
+
+Redirector page: `/sub/<code>` (e.g. `/sub/38jf-dcrc-23`) serves `sub/index.html` via a dedicated nginx location (`~* ^/sub/[a-z0-9-]+/?$` in `Dockerfile`, `nginx-site.conf`, `nginx-testflight.conf`). The page resolves the code through `GET https://s.frkn.org/<code>` (returns `{subscription_id, subscription_url}`, CORS open for frkn.org) and `location.replace`s to `/subscription/?id=<UUID>` (`/en/` for non-ru browsers). Unknown code → "Код не найден" screen with links to `/` and `/activate`. The plain `/subscription?id=UUID` variant keeps working.
+
+Not to be confused with the API endpoint `api.frkn.org/sub?id=` (connection links) — different host, different thing.
+
 ## `app/` — Telegram Mini App (105.6 KB, 2783 lines)
 
 Full subscription cabinet inside Telegram (bot @unlock_internet_bot). Loads `https://telegram.org/js/telegram-web-app.js`; theming via `--tg-theme-*` CSS vars (does NOT use root `styles.css`).

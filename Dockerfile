@@ -49,6 +49,10 @@ server {
         try_files $uri =404;
     }
 
+    location ~* ^/sub/[a-z0-9-]+/?$ {
+        try_files /sub/index.html =404;
+    }
+
     location / {
         try_files $uri $uri/ =404;
     }

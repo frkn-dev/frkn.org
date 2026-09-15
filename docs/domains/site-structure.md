@@ -39,6 +39,7 @@ Map of every top-level directory and root file. Load when you need to know which
 | `scripts/` | Shared client JS | analytics, containers, i18n, trial, utils. See [frontend.md](frontend.md). |
 | `setup/` | Connection guides | `index.html` (platform tabs), `routers/` (VPN on router), `amneziawg-routers/` (redirect stub) |
 | `subscription/` | **Subscription cabinet** (168.9 KB, largest page) | by `?id=`. See [subscription-app.md](subscription-app.md). |
+| `sub/` | Short-code cabinet entry | `/sub/<code>` → resolves via `s.frkn.org/<code>` → redirects to `subscription/?id=` |
 | `switch-to-frkn/` | Promo: switch from another VPN | 6-month discount, send screenshot to support |
 | `transaction/` | Payment return | polls `GET /payment/check/{txid}`. `transaction/fail/` = error page. |
 | `user-agreement/` | User agreement | static |
