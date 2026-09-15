@@ -281,7 +281,9 @@
           window.location.hostname === "127.0.0.1";
         const API_BASE = isLocal
           ? "http://localhost:3006"
-          : "https://api.frkn.org";
+          : window.location.hostname.endsWith(".onion")
+            ? window.location.origin + "/api"
+            : "https://api.frkn.org";
 
         const form = document.getElementById("donateForm");
         const amountInput = document.getElementById("amount");

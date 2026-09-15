@@ -2052,10 +2052,14 @@
       }
       const API_BASE = isLocal
         ? `http://${window.location.hostname}:3000`
-        : "https://api.frkn.org";
+        : window.location.hostname.endsWith(".onion")
+          ? window.location.origin + "/api"
+          : "https://api.frkn.org";
       const PAYMENT_API_BASE = isLocal
         ? "http://localhost:3006"
-        : "https://api.frkn.org";
+        : window.location.hostname.endsWith(".onion")
+          ? window.location.origin + "/api"
+          : "https://api.frkn.org";
 
       // Preview-режим mini-app: true — мок-данные без API, false — боевое API
       const PREVIEW_MINIAPP = false;

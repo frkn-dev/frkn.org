@@ -909,8 +909,13 @@
         window.location.hostname === "127.0.0.1";
       const PAYMENT_API_BASE = isLocal
         ? "http://localhost:3006"
-        : "https://api.frkn.org";
-      const PAYMENT_API_FALLBACK = isLocal ? null : "https://api.frkn.org";
+        : window.location.hostname.endsWith(".onion")
+          ? window.location.origin + "/api"
+          : "https://api.frkn.org";
+      const PAYMENT_API_FALLBACK =
+        isLocal || window.location.hostname.endsWith(".onion")
+          ? null
+          : "https://api.frkn.org";
       let currentOrder = null;
 
       async function apiFetch(path, options = {}) {

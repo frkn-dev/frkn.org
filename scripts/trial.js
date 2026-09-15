@@ -4,7 +4,11 @@ const isLocal =
 
 const BASE = isLocal ? "http://localhost:8000" : "https://frkn.org";
 
-const API_BASE = isLocal ? "http://localhost:3005" : "https://api.frkn.org";
+const API_BASE = isLocal
+  ? "http://localhost:3005"
+  : window.location.hostname.endsWith(".onion")
+    ? window.location.origin + "/api"
+    : "https://api.frkn.org";
 
 function getUrlRefCode() {
   const params = new URLSearchParams(window.location.search);
