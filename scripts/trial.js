@@ -9,8 +9,8 @@ const PAYMENT_API_BASE = isLocal
   : "https://api.frkn.org";
 
 const TRIAL_I18N = {
-  modalTitle: "Покупка трафика<br>1 ГБ",
-  gbLabel: "1 ГБ трафика — живёт вечно",
+  modalTitle: "Покупка трафика<br>{gb} ГБ",
+  gbLabel: "{gb} ГБ трафика — живёт вечно",
   promoLabel: "Промокод",
   promoPlaceholder: "Введите промокод",
   promoApply: "Применить",
@@ -321,8 +321,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const { price, originalPrice } = currentOrder;
     totalEl.innerHTML =
       price < originalPrice
-        ? `<div><span class="tm-old-price">${originalPrice}₽</span><span class="tm-total-price">${price}₽</span><div class="tm-gb-label" style="color:#22c55e">${TRIAL_I18N.gbLabel}</div></div>`
-        : `<div><div class="tm-total-price">${price}₽</div><div class="tm-gb-label">${TRIAL_I18N.gbLabel}</div></div>`;
+        ? `<div><span class="tm-old-price">${originalPrice}₽</span><span class="tm-total-price">${price}₽</span><div class="tm-gb-label" style="color:#22c55e">${TRIAL_I18N.gbLabel.replaceAll("{gb}", currentOrder.trafficGib)}</div></div>`
+        : `<div><div class="tm-total-price">${price}₽</div><div class="tm-gb-label">${TRIAL_I18N.gbLabel.replaceAll("{gb}", currentOrder.trafficGib)}</div></div>`;
   }
 
   async function applyPromo(promoCode) {
@@ -404,17 +404,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function openModal(price, altPrice) {
+  function openModal(price, altPrice, trafficGib = 1) {
     currentOrder = {
       duration: 0,
       kind: "lite",
-      trafficGib: 1,
+      trafficGib: trafficGib,
       price: price,
       originalPrice: price,
       altPrice: altPrice,
       promo: null,
       referral: null,
     };
+    document.getElementById("tm-title").innerHTML =
+      TRIAL_I18N.modalTitle.replaceAll("{gb}", trafficGib);
     promoInput.value = getUrlPromoCode() || "";
     promoInput.style.borderColor = "";
     promoInfo.style.display = "none";
@@ -532,7 +534,8 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", () => {
       const price = parseInt(btn.dataset.price, 10);
       const alt = btn.dataset.alt === "true";
-      openModal(price, alt);
+      const gb = parseInt(btn.dataset.gb || "1", 10);
+      openModal(price, alt, gb);
     }),
   );
 

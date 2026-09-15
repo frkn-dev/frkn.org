@@ -25,6 +25,15 @@
 <meta name="apple-mobile-web-app-title" content="frkn">
 <link href="/styles.css?v=7" rel="stylesheet"/>
 <style>
+      .lp-sub { color: var(--muted); margin: -8px 0 25px; font-size: 15px; }
+      .lp-grid-4 { grid-template-columns: repeat(4, 1fr); }
+      .lp-price-note { font-size: 11px; color: var(--muted); margin: 0 0 14px; line-height: 1.5; }
+      .lp-price-option { cursor: pointer; padding: 2px 4px; border-radius: 6px; transition: all 0.15s ease; }
+      .lp-price-option:hover { color: var(--accent); background: rgba(56, 189, 248, 0.12); }
+      .lp-unlim { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #22d3ee; margin-bottom: 8px; }
+      .lp-spacer { margin-top: 56px; }
+    </style>
+<style>
 .hero {
 grid-template-columns: 1fr;
 }
@@ -89,7 +98,7 @@ animation: title-appear 1s ease-out, title-breathe 5s ease-in-out infinite 1s;
 <section id="trial" class="trial-section">
 <div class="trial-container card highlight-border">
 <div class="trial-info">
-<h2>دسترسی به اینترنت</h2>
+<h2>دسترسی مادام‌العمر به اینترنت <span style="color: var(--accent-2); font-size: 0.55em; vertical-align: middle; white-space: nowrap;">از ۶۷₽</span></h2>
 <p>
               حتی اگر VPN دارید — این بهترین راه حفظ دسترسی است.
               گیگابایت برای همیشه می‌ماند.
@@ -116,21 +125,74 @@ animation: title-appear 1s ease-out, title-breathe 5s ease-in-out infinite 1s;
 </div>
 </section>
 <section class="pricing-landing">
-<h2>قیمت گذاری</h2>
+<h2>طرح‌های مادام‌العمر</h2>
+<p class="lp-sub">پرداخت به ازای گیگابایت — ترافیک نمی‌سوزد</p>
+<div class="pricing-landing-grid lp-grid-4">
+<div class="pl-card">
+<h3>۱ گیگابایت</h3>
+<div class="pl-duration">تا وقتی تمامش نکنید</div>
+<div class="pl-cost">۶۷₽</div>
+<div class="lp-price-note">
+<span class="lp-price-option trial-buy-btn" data-gb="1" data-price="67">۶۷₽ زومرها</span>
+/
+<span class="lp-price-option trial-buy-btn" data-gb="1" data-price="69" data-alt="true">۶۹₽ میلنیال‌ها</span>
+</div>
+<button class="btn try trial-buy-btn" data-gb="1" data-price="67">انتخاب</button>
+</div>
+<div class="pl-card">
+<h3>۵ گیگابایت</h3>
+<div class="pl-duration">تا وقتی تمامش نکنید</div>
+<div class="pl-cost">۱۶۷₽</div>
+<div class="lp-price-note">
+<span class="lp-price-option trial-buy-btn" data-gb="5" data-price="167">۱۶۷₽ زومرها</span>
+/
+<span class="lp-price-option trial-buy-btn" data-gb="5" data-price="169" data-alt="true">۱۶۹₽ میلنیال‌ها</span>
+</div>
+<button class="btn try trial-buy-btn" data-gb="5" data-price="167">انتخاب</button>
+</div>
+<div class="pl-card">
+<h3>۱۰ گیگابایت</h3>
+<div class="pl-duration">تا وقتی تمامش نکنید</div>
+<div class="pl-cost">۲۶۷₽</div>
+<div class="lp-price-note">
+<span class="lp-price-option trial-buy-btn" data-gb="10" data-price="267">۲۶۷₽ زومرها</span>
+/
+<span class="lp-price-option trial-buy-btn" data-gb="10" data-price="269" data-alt="true">۲۶۹₽ میلنیال‌ها</span>
+</div>
+<button class="btn try trial-buy-btn" data-gb="10" data-price="267">انتخاب</button>
+</div>
+<div class="pl-card">
+<h3>۵۰ گیگابایت</h3>
+<div class="pl-duration">تا وقتی تمامش نکنید</div>
+<div class="pl-cost">۳۶۷₽</div>
+<div class="lp-price-note">
+<span class="lp-price-option trial-buy-btn" data-gb="50" data-price="367">۳۶۷₽ زومرها</span>
+/
+<span class="lp-price-option trial-buy-btn" data-gb="50" data-price="369" data-alt="true">۳۶۹₽ میلنیال‌ها</span>
+</div>
+<button class="btn try trial-buy-btn" data-gb="50" data-price="367">انتخاب</button>
+</div>
+</div>
+
+<h2 class="lp-spacer">طرح‌های نامحدود</h2>
+<p class="lp-sub">پرداخت به ازای زمان — ترافیک ∞</p>
 <div class="pricing-landing-grid">
 <div class="pl-card">
+<div class="lp-unlim">∞ نامحدود</div>
 <h3>1 ماه</h3>
 <div class="pl-duration">30 روز</div>
 <div class="pl-cost">500₽</div>
 <a href="/fa/pay" class="btn try">خرید کنید</a>
 </div>
 <div class="pl-card">
+<div class="lp-unlim">∞ نامحدود</div>
 <h3>3 ماه</h3>
 <div class="pl-duration">90 روز</div>
 <div class="pl-cost">1300₽</div>
 <a href="/fa/pay" class="btn try">خرید کنید</a>
 </div>
 <div class="pl-card">
+<div class="lp-unlim">∞ نامحدود</div>
 <h3>12 ماه</h3>
 <div class="pl-duration">365 روز</div>
 <div class="pl-cost">4500₽</div>
@@ -270,7 +332,7 @@ animation: title-appear 1s ease-out, title-breathe 5s ease-in-out infinite 1s;
 <div id="footer-container"></div>
 </div>
 <script defer="" src="/scripts/analytics.js"></script>
-<script src="/scripts/trial.en.js?v=2"></script>
+<script src="/scripts/trial.en.js?v=3"></script>
 <script src="/scripts/i18n.js?v=2"></script>
 <script src="/scripts/containers.js?v=3"></script>
 <script>

@@ -38,6 +38,15 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles.css?v=7" />
+    <style>
+      .lp-sub { color: var(--muted); margin: -8px 0 25px; font-size: 15px; }
+      .lp-grid-4 { grid-template-columns: repeat(4, 1fr); }
+      .lp-price-note { font-size: 11px; color: var(--muted); margin: 0 0 14px; line-height: 1.5; }
+      .lp-price-option { cursor: pointer; padding: 2px 4px; border-radius: 6px; transition: all 0.15s ease; }
+      .lp-price-option:hover { color: var(--accent); background: rgba(56, 189, 248, 0.12); }
+      .lp-unlim { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #22d3ee; margin-bottom: 8px; }
+      .lp-spacer { margin-top: 56px; }
+    </style>
   </head>
   <body class="landing-page">
     <div class="container">
@@ -96,7 +105,7 @@
       <section id="trial" class="trial-section">
         <div class="trial-container">
           <div class="trial-info">
-            <h2>Internet Access <span style="color: var(--accent-2); font-size: 0.55em; vertical-align: middle; white-space: nowrap;">1 GB for 67₽</span></h2>
+            <h2>Lifetime Internet Access <span style="color: var(--accent-2); font-size: 0.55em; vertical-align: middle; white-space: nowrap;">from 67₽</span></h2>
             <p>
               Even if you already have a VPN — this is the best way to keep
               your access. A gigabyte lasts forever.
@@ -131,21 +140,74 @@
         </div>
       </section>
       <section class="pricing-landing">
-        <h2>Pricing</h2>
+        <h2>Lifetime Plans</h2>
+        <p class="lp-sub">pay per gigabyte — traffic never expires</p>
+        <div class="pricing-landing-grid lp-grid-4">
+          <div class="pl-card">
+            <h3>1 GB</h3>
+            <div class="pl-duration">lasts until used up</div>
+            <div class="pl-cost">67₽</div>
+            <div class="lp-price-note">
+              <span class="lp-price-option trial-buy-btn" data-gb="1" data-price="67">67₽ zoomers</span>
+              /
+              <span class="lp-price-option trial-buy-btn" data-gb="1" data-price="69" data-alt="true">69₽ millennials</span>
+            </div>
+            <button class="btn try trial-buy-btn" data-gb="1" data-price="67">Choose</button>
+          </div>
+          <div class="pl-card">
+            <h3>5 GB</h3>
+            <div class="pl-duration">lasts until used up</div>
+            <div class="pl-cost">167₽</div>
+            <div class="lp-price-note">
+              <span class="lp-price-option trial-buy-btn" data-gb="5" data-price="167">167₽ zoomers</span>
+              /
+              <span class="lp-price-option trial-buy-btn" data-gb="5" data-price="169" data-alt="true">169₽ millennials</span>
+            </div>
+            <button class="btn try trial-buy-btn" data-gb="5" data-price="167">Choose</button>
+          </div>
+          <div class="pl-card">
+            <h3>10 GB</h3>
+            <div class="pl-duration">lasts until used up</div>
+            <div class="pl-cost">267₽</div>
+            <div class="lp-price-note">
+              <span class="lp-price-option trial-buy-btn" data-gb="10" data-price="267">267₽ zoomers</span>
+              /
+              <span class="lp-price-option trial-buy-btn" data-gb="10" data-price="269" data-alt="true">269₽ millennials</span>
+            </div>
+            <button class="btn try trial-buy-btn" data-gb="10" data-price="267">Choose</button>
+          </div>
+          <div class="pl-card">
+            <h3>50 GB</h3>
+            <div class="pl-duration">lasts until used up</div>
+            <div class="pl-cost">367₽</div>
+            <div class="lp-price-note">
+              <span class="lp-price-option trial-buy-btn" data-gb="50" data-price="367">367₽ zoomers</span>
+              /
+              <span class="lp-price-option trial-buy-btn" data-gb="50" data-price="369" data-alt="true">369₽ millennials</span>
+            </div>
+            <button class="btn try trial-buy-btn" data-gb="50" data-price="367">Choose</button>
+          </div>
+        </div>
+
+        <h2 class="lp-spacer">Unlimited Plans</h2>
+        <p class="lp-sub">pay for time — ∞ traffic</p>
         <div class="pricing-landing-grid">
           <div class="pl-card">
+            <div class="lp-unlim">∞ UNLIMITED</div>
             <h3>1 month</h3>
             <div class="pl-duration">30 days</div>
             <div class="pl-cost">500₽</div>
             <a href="/en/pay" class="btn try">Buy</a>
           </div>
           <div class="pl-card">
+            <div class="lp-unlim">∞ UNLIMITED</div>
             <h3>3 months</h3>
             <div class="pl-duration">90 days</div>
             <div class="pl-cost">1300₽</div>
             <a href="/en/pay" class="btn try">Buy</a>
           </div>
           <div class="pl-card">
+            <div class="lp-unlim">∞ UNLIMITED</div>
             <h3>12 months</h3>
             <div class="pl-duration">365 days</div>
             <div class="pl-cost">4500₽</div>
@@ -184,7 +246,7 @@
       <div id="footer-container"></div>
     </div>
     <script src="/scripts/analytics.js" defer></script>
-    <script src="/scripts/trial.en.js?v=2"></script>
+    <script src="/scripts/trial.en.js?v=3"></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script>
