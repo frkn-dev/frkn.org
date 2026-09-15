@@ -12,7 +12,7 @@ Docker, nginx configs, deploy scripts, CI, environments. Load when touching depl
 - Denies dotfiles (`/\.(?!well-known)`); static assets cached 7 days.
 - `RUN rm -rf .git .github .kimi-code .DS_Store`.
 
-`.dockerignore`: `.git`, `.github`, `.kimi-code`, `.DS_Store`, `.gitignore`, `Dockerfile`, `LICENSE.txt`, `CNAME`, `README.md`. Note: `nginx-testflight.conf`, `deploy-*.sh`, `tools/` DO ship into the image.
+`.dockerignore`: `.git`, `.github`, `.kimi-code`, `.DS_Store`, `.gitignore`, `Dockerfile`, `LICENSE.txt`, `CNAME`, `README.md`. Note: `nginx-testflight.conf`, `nginx-onion.conf`, `deploy-*.sh`, `tools/` DO ship into the image.
 
 ## Nginx (testflight host)
 
@@ -34,12 +34,19 @@ Three rsync scripts, arg `$1` = `user@host`, `rsync -avz --delete -e ssh` of rep
 
 `.github/workflows/pages.yml` — deploys static content to GitHub Pages on push to `main` + manual. checkout → configure-pages → upload artifact → deploy-pages. No build/tests/lint.
 
+## Nginx (onion mirror)
+
+`nginx-onion.conf` — Tor mirror vhost (`frknnkuwoa2i3rfjmlzcd3q4nczhy7o2vkqqc46vwsefx7em5cogdrid.onion`), lives next to the prod site on the same host: `listen 127.0.0.1:8080`, same `root /opt/frkn.org`, no TLS (onion v3 encrypts end-to-end), `access_log off`. API and the short-code resolver go same-origin: `location /api/` proxies to the local api.frkn.org vhost (loopback + SNI, WS upgrade headers for /ws/metrics), `location /s/` to s.frkn.org. Pages detect `.onion` in `location.hostname` and switch their API base to `location.origin + '/api'` — Tor users never leave the Tor network. Prod vhost advertises the mirror via the `Onion-Location` header. Depends on the `map $http_upgrade $connection_upgrade` block from `sites-available/api`.
+
+Tor side: `tor` package, `torrc` has `HiddenServiceDir /var/lib/tor/frkn-onion/` + `HiddenServicePort 80 127.0.0.1:8080`. Vanity keys generated with mkp224o; backup at `/root/backups/frkn-onion-keys-*.tar.gz` — the keys ARE the address, losing them loses the onion name.
+
 ## Environments
 
 | Env | How | Notes |
 |---|---|---|
-| `prod` `frkn.org` | GitHub Pages (CNAME) + rsync mirror `/opt/mirror/frkn.org/` | |
-| `beta` | rsync `/opt/beta/frkn.org/` | branch `origin/beta` exists; no nginx config in repo; no `beta.frkn.org` domain in code |
+| `prod` `frkn.org` | own nginx `/opt/frkn.org` (`nginx-site.conf`) + rsync mirror `/opt/mirror/frkn.org/` | GitHub Pages no longer used |
+| `onion` | Tor → `127.0.0.1:8080` → same `/opt/frkn.org` (`nginx-onion.conf`) | mirrors prod content; API via `/api` proxy |
+| `beta` | rsync `/opt/beta/frkn.org/` | branch `origin/beta` exists; beta vhost lives in `sites-available/api` on the server |
 | `testflight` `testflight.frkn.org` | rsync `/opt/testflight/frkn.org/` + `nginx-testflight.conf` | branch `origin/testflight` exists |
 | `local` | Docker, port 8080 | pages fall back to `localhost:3000/3005/3006/8000` |
 
