@@ -6,7 +6,7 @@ Map of every top-level directory and root file. Load when you need to know which
 
 | Path | Size | What |
 |---|---|---|
-| `index.html` | 9.7 KB | Landing: hero, 3 features, trial form (email → `POST api.frkn.org/account` via `/scripts/trial.js`, ProtonMail blocked). |
+| `index.html` | 9.7 KB | Landing: hero, 3 features, "trial" form — actually a lite 1 GB/67₽ purchase (email → Platega redirect via `/scripts/trial.js`, ProtonMail blocked). |
 | `404.html` | 1.3 KB | 404 + JS redirect of any `/fa/*` miss → `/en/*`. |
 | `styles.css` | 46.3 KB | Shared design system (see [frontend.md](frontend.md)). |
 | `install` | 24.5 KB | bash installer for a VPN node (`curl | sh`). See [install-setup.md](install-setup.md). |

@@ -6,6 +6,10 @@ const BASE = isLocal ? "http://localhost:8000" : "https://frkn.org";
 
 const API_BASE = isLocal ? "http://localhost:3005" : "https://api.frkn.org";
 
+const PAYMENT_API_BASE = isLocal
+  ? "http://localhost:3006"
+  : "https://api.frkn.org";
+
 function getUrlRefCode() {
   const params = new URLSearchParams(window.location.search);
   return (
@@ -29,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn = form.querySelector("button");
 
     if (msg) {
-      msg.textContent = "Sending...";
+      msg.textContent = "Creating payment...";
       msg.className = "status-message";
     }
 
@@ -73,41 +77,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (btn) btn.disabled = true;
 
+    // lite key: 1 GB of traffic, duration 0 — lives until the traffic runs out
     const payload = {
+      duration: 0,
+      kind: "lite",
+      traffic_gib: 1,
       email: emailLow,
-      language: "en",
-      trial: true,
-      ...(refCode ? { referred_by: refCode.toUpperCase() } : {}),
+      promocode: null,
+      refCode: refCode ? refCode.toUpperCase() : null,
     };
 
     try {
-      const res = await fetch(`${API_BASE}/account`, {
+      const res = await fetch(`${PAYMENT_API_BASE}/payment/platega/key/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
-      if (res.ok && data.subscription_id) {
-        if (msg) {
-          msg.textContent =
-            "✅ Test drive request accepted! Check your email. If needed, check the spam folder too.";
+      if (res.ok && data.url) {
+        if (data.transactionId) {
+          localStorage.setItem("frkn_last_transaction_id", data.transactionId);
+        }
+        window.location.href = data.url;
+        return;
+      }
 
-          msg.classList.add("success");
-        }
-        form.reset();
-      } else {
-        let errorText = data.message || "Access error";
-        if (errorText === "Trial already requested") {
-          errorText = "A test drive has already been requested with this email. Check your inbox or contact support.";
-        } else if (errorText === "Invalid email") {
-          errorText = "Please check the email address — it looks invalid.";
-        }
-        if (msg) {
-          msg.textContent = "❌ " + errorText;
-          msg.classList.add("error");
-        }
+      const errorText = data.error || data.message || "Failed to create payment";
+      if (msg) {
+        msg.textContent = "❌ " + errorText;
+        msg.classList.add("error");
       }
     } catch (err) {
       if (msg) {

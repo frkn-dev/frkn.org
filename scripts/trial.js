@@ -6,6 +6,10 @@ const BASE = isLocal ? "http://localhost:8000" : "https://frkn.org";
 
 const API_BASE = isLocal ? "http://localhost:3005" : "https://api.frkn.org";
 
+const PAYMENT_API_BASE = isLocal
+  ? "http://localhost:3006"
+  : "https://api.frkn.org";
+
 function getUrlRefCode() {
   const params = new URLSearchParams(window.location.search);
   return (
@@ -29,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn = form.querySelector("button");
 
     if (msg) {
-      msg.textContent = "Отправка...";
+      msg.textContent = "Создаём платёж...";
       msg.className = "status-message";
     }
 
@@ -73,41 +77,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (btn) btn.disabled = true;
 
+    // lite-ключ: 1 ГБ трафика, duration 0 — живёт, пока трафик не кончится
     const payload = {
+      duration: 0,
+      kind: "lite",
+      traffic_gib: 1,
       email: emailLow,
-      language: "ru",
-      trial: true,
-      ...(refCode ? { referred_by: refCode.toUpperCase() } : {}),
+      promocode: null,
+      refCode: refCode ? refCode.toUpperCase() : null,
     };
 
     try {
-      const res = await fetch(`${API_BASE}/account`, {
+      const res = await fetch(`${PAYMENT_API_BASE}/payment/platega/key/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
-      if (res.ok && data.subscription_id) {
-        if (msg) {
-          msg.textContent =
-            "✅ Заявка на тест-драйв принята! Проверь e-mail. Если чо, папку спам тоже глянь.";
+      if (res.ok && data.url) {
+        if (data.transactionId) {
+          localStorage.setItem("frkn_last_transaction_id", data.transactionId);
+        }
+        window.location.href = data.url;
+        return;
+      }
 
-          msg.classList.add("success");
-        }
-        form.reset();
-      } else {
-        let errorText = data.message || "Ошибка доступа";
-        if (errorText === "Trial already requested") {
-          errorText = "С этой почты уже запрашивали тест-драйв. Проверь входящие или напиши в поддержку.";
-        } else if (errorText === "Invalid email") {
-          errorText = "Похоже, в почте опечатка — проверь адрес.";
-        }
-        if (msg) {
-          msg.textContent = "❌ " + errorText;
-          msg.classList.add("error");
-        }
+      const errorText = data.error || data.message || "Не удалось создать платёж";
+      if (msg) {
+        msg.textContent = "❌ " + errorText;
+        msg.classList.add("error");
       }
     } catch (err) {
       if (msg) {

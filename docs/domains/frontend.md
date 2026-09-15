@@ -19,7 +19,7 @@ One shared stylesheet for ~40 "normal" pages. Connected as `/styles.css?v=7`.
 | `analytics.js` | self-hosted pixel: `GET https://media.frkn.org/pixel?page=&host=&ref=&lang=&utm_*`. Loaded in 123/134 pages. | — |
 | `containers.js` | fetch header/footer partials into `#logo-container`/`#footer-container`; injects "Status" badge → `status.frkn.org` (skipped on subscription pages). | `?v=3` |
 | `i18n.js` | ru/en/fa switch: `[data-lang-switch]` buttons, `localStorage frkn-lang`, auto-redirect (max 2/session). `FA_PAGES` whitelist hardcoded. | `?v=2` |
-| `trial.js` / `trial.en.js` | trial form → `POST api.frkn.org/account` | — |
+| `trial.js` / `trial.en.js` | "trial" form → lite key purchase 1 GB/67₽ (`POST /payment/platega/key/create` with `duration:0, kind:"lite", traffic_gib:1`) → Platega redirect | — |
 | `utils.js` | UUID v4 generator | `?v=1` |
 
 ## Header/footer partials — `container/`
