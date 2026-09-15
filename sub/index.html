@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="robots" content="noindex" />
+    <title>FRKN — Личный кабинет</title>
+    <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon" />
+    <link
+      rel="apple-touch-icon"
+      href="/Images/apple-touch-icon.png"
+      sizes="180x180"
+    />
+    <link rel="stylesheet" href="/styles.css?v=7" />
+    <style>
+      .sub-redirect {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+
+      .sub-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 40px 32px;
+        max-width: 420px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .sub-spinner {
+        width: 36px;
+        height: 36px;
+        margin: 0 auto 20px;
+        border: 3px solid rgba(255, 255, 255, 0.15);
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        animation: sub-spin 0.7s linear infinite;
+      }
+
+      @keyframes sub-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .sub-card h1 {
+        font-size: 20px;
+        margin: 0 0 8px;
+      }
+
+      .sub-card p {
+        color: var(--muted);
+        font-size: 14px;
+        margin: 0 0 20px;
+      }
+
+      .sub-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .sub-actions a {
+        color: var(--accent);
+        font-size: 14px;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.4);
+      }
+
+      .sub-actions a:hover {
+        border-bottom-color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="sub-redirect">
+      <div class="sub-card">
+        <div class="sub-spinner" id="spinner"></div>
+        <h1 id="title">Открываем личный кабинет…</h1>
+        <p id="text">Секунду, проверяем код.</p>
+        <div class="sub-actions" id="actions" hidden>
+          <a href="/" id="home-link">На главную</a>
+          <a href="/activate" id="activate-link">Активировать ключ</a>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        var ru = (navigator.language || "ru").toLowerCase().indexOf("ru") === 0;
+
+        var i18n = ru
+          ? {
+              badLink: "Ссылка должна выглядеть как frkn.org/sub/xxxx-xxxx-xx",
+              notFound: "Код не найден",
+              notFoundText:
+                "Проверь код или открой кабинет по полной ссылке из письма.",
+              home: "На главную",
+              activate: "Активировать ключ",
+            }
+          : {
+              badLink: "The link should look like frkn.org/sub/xxxx-xxxx-xx",
+              notFound: "Code not found",
+              notFoundText:
+                "Check the code or open your dashboard via the full link.",
+              home: "Home",
+              activate: "Activate key",
+            };
+
+        var spinner = document.getElementById("spinner");
+        var titleEl = document.getElementById("title");
+        var textEl = document.getElementById("text");
+        var actions = document.getElementById("actions");
+
+        function fail(title, text) {
+          spinner.style.display = "none";
+          titleEl.textContent = title;
+          textEl.textContent = text;
+          document.getElementById("home-link").textContent = i18n.home;
+          document.getElementById("activate-link").textContent = i18n.activate;
+          actions.hidden = false;
+        }
+
+        // Коды живут на проде — резолвер всегда s.frkn.org, даже локально
+        var m = location.pathname.match(/^\/sub\/([A-Za-z0-9-]+)\/?$/);
+        if (!m) {
+          fail(i18n.notFound, i18n.badLink);
+          return;
+        }
+
+        var code = m[1].toLowerCase();
+
+        fetch("https://s.frkn.org/" + code, {
+          headers: { Accept: "application/json" },
+        })
+          .then(function (r) {
+            return r.ok ? r.json() : Promise.reject(r.status);
+          })
+          .then(function (data) {
+            var id = data && data.subscription_id;
+            if (!id) return Promise.reject("no-id");
+            location.replace(
+              (ru ? "/subscription/?id=" : "/en/subscription/?id=") +
+                encodeURIComponent(id),
+            );
+          })
+          .catch(function () {
+            fail(i18n.notFound, i18n.notFoundText);
+          });
+      })();
+    </script>
+  </body>
+</html>
