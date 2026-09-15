@@ -38,10 +38,11 @@ Separate static trees `/` (ru), `/en/`, `/fa/`. `scripts/i18n.js` handles `[data
 | `api.frkn.org` | REST + WebSocket (metrics). Full catalog: [domains/api-integration.md](domains/api-integration.md). |
 | `media.frkn.org` | self-hosted analytics pixel. |
 | `status.frkn.org` | status badge (injected by `containers.js`). |
-| `frkn.org` | prod site (GitHub Pages + rsync mirror). |
+| `frkn.org` | prod site (own nginx, `/opt/frkn.org`). |
+| `frknnkuwoa2i3rfjmlzcd3q4nczhy7o2vkqqc46vwsefx7em5cogdrid.onion` | Tor mirror of prod (`nginx-onion.conf`, API via same-origin `/api` proxy). |
 
-Local dev: pages fall back to `localhost:3000/3005/3006/8000` when host is `localhost`/`127.0.0.1`, otherwise hit `https://api.frkn.org`. Additionally `subscription/` supports `?mock=1` to force the mock API (`tools/mock-api/serve.js`) on any host — see [RUNBOOK.md](RUNBOOK.md).
+Local dev: pages fall back to `localhost:3000/3005/3006/8000` when host is `localhost`/`127.0.0.1`, on `*.onion` they use same-origin `/api` (proxied to api.frkn.org by the onion vhost), otherwise hit `https://api.frkn.org`. Additionally `subscription/` supports `?mock=1` to force the mock API (`tools/mock-api/serve.js`) on any host — see [RUNBOOK.md](RUNBOOK.md).
 
 ## Environments
 
-See [domains/infrastructure.md](domains/infrastructure.md) for full matrix. Quick view: `prod` (GitHub Pages + `/opt/mirror`), `beta` (`/opt/beta`), `testflight` (`testflight.frkn.org`, `/opt/testflight` + `nginx-testflight.conf`), `local` (Docker, port 8080).
+See [domains/infrastructure.md](domains/infrastructure.md) for full matrix. Quick view: `prod` (own nginx `/opt/frkn.org` + `/opt/mirror` rsync copy), `onion` (Tor mirror of prod), `beta` (`/opt/beta`), `testflight` (`testflight.frkn.org`, `/opt/testflight` + `nginx-testflight.conf`), `local` (Docker, port 8080).

@@ -6,7 +6,9 @@ const isLocal =
 
 const PAYMENT_API_BASE = isLocal
   ? "http://localhost:3006"
-  : "https://api.frkn.org";
+  : window.location.hostname.endsWith(".onion")
+    ? window.location.origin + "/api"
+    : "https://api.frkn.org";
 
 const TRIAL_I18N = {
   modalTitle: "Покупка трафика<br>{gb} ГБ",

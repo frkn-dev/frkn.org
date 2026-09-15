@@ -138,7 +138,11 @@
 
         var code = m[1].toLowerCase();
 
-        fetch("https://s.frkn.org/" + code, {
+        var S_BASE = location.hostname.endsWith(".onion")
+          ? location.origin + "/s"
+          : "https://s.frkn.org";
+
+        fetch(S_BASE + "/" + code, {
           headers: { Accept: "application/json" },
         })
           .then(function (r) {

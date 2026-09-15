@@ -830,7 +830,9 @@
         window.location.hostname === "127.0.0.1";
       const API_BASE = isLocal
         ? "http://localhost:3000"
-        : "https://api.frkn.org";
+        : window.location.hostname.endsWith(".onion")
+          ? window.location.origin + "/api"
+          : "https://api.frkn.org";
       const subForm = document.getElementById("subscriptionForm");
       const subMessage = document.getElementById("subMessage");
       const modal = document.getElementById("activationModal");
