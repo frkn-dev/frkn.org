@@ -366,6 +366,34 @@
         color: var(--accent);
         background: rgba(91, 124, 250, 0.12);
       }
+      .pay-tabs {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+      .pay-tab {
+        padding: 14px 28px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        background: transparent;
+        color: var(--text-dim);
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .pay-tab:hover {
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .pay-tab.active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
+      }
       @media (max-width: 960px) {
         .pricing-grid-traffic {
           grid-template-columns: repeat(2, 1fr);
@@ -700,6 +728,126 @@
         <a href="/activate" class="text-link">Активируй его здесь</a>
       </p>
 
+      <div class="pay-tabs">
+        <button class="pay-tab active" id="tab-traffic" type="button">
+          Купить трафик
+        </button>
+        <button class="pay-tab" id="tab-unlimited" type="button">
+          Купить безлимит
+        </button>
+      </div>
+
+      <div id="section-traffic">
+      <div class="pricing-section">
+        <div class="pricing-grid pricing-grid-traffic">
+          <div
+            class="price-card compact"
+            data-duration="0"
+            data-gb="1"
+            data-price="67"
+          >
+            <h3>1 ГБ</h3>
+            <div class="duration">живёт, пока не кончится</div>
+            <div class="cost-wrapper">
+              <div class="cost">67₽</div>
+            </div>
+            <div class="traffic-pricing-note">
+              <span class="price-option" data-price="67">67₽ зумерам</span>
+              /
+              <span class="price-option" data-price="69" data-alt="true">69₽ миллениалам</span>
+            </div>
+            <button
+              class="buy-button"
+              data-duration="0"
+              data-gb="1"
+              data-price="67"
+            >
+              Выбрать
+            </button>
+          </div>
+
+          <div
+            class="price-card compact"
+            data-duration="0"
+            data-gb="5"
+            data-price="167"
+          >
+            <h3>5 ГБ</h3>
+            <div class="duration">живёт, пока не кончится</div>
+            <div class="cost-wrapper">
+              <div class="cost">167₽</div>
+            </div>
+            <div class="traffic-pricing-note">
+              <span class="price-option" data-price="167">167₽ зумерам</span>
+              /
+              <span class="price-option" data-price="169" data-alt="true">169₽ миллениалам</span>
+            </div>
+            <button
+              class="buy-button"
+              data-duration="0"
+              data-gb="5"
+              data-price="167"
+            >
+              Выбрать
+            </button>
+          </div>
+
+          <div
+            class="price-card compact"
+            data-duration="0"
+            data-gb="10"
+            data-price="267"
+          >
+            <h3>10 ГБ</h3>
+            <div class="duration">живёт, пока не кончится</div>
+            <div class="cost-wrapper">
+              <div class="cost">267₽</div>
+            </div>
+            <div class="traffic-pricing-note">
+              <span class="price-option" data-price="267">267₽ зумерам</span>
+              /
+              <span class="price-option" data-price="269" data-alt="true">269₽ миллениалам</span>
+            </div>
+            <button
+              class="buy-button"
+              data-duration="0"
+              data-gb="10"
+              data-price="267"
+            >
+              Выбрать
+            </button>
+          </div>
+
+          <div
+            class="price-card compact"
+            data-duration="0"
+            data-gb="50"
+            data-price="367"
+          >
+            <h3>50 ГБ</h3>
+            <div class="duration">живёт, пока не кончится</div>
+            <div class="cost-wrapper">
+              <div class="cost">367₽</div>
+            </div>
+            <div class="traffic-pricing-note">
+              <span class="price-option" data-price="367">367₽ зумерам</span>
+              /
+              <span class="price-option" data-price="369" data-alt="true">369₽ миллениалам</span>
+            </div>
+            <button
+              class="buy-button"
+              data-duration="0"
+              data-gb="50"
+              data-price="367"
+            >
+              Выбрать
+            </button>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div id="section-unlimited" style="display: none">
       <div class="pricing-section">
         <div class="pricing-grid pricing-grid-main">
           <div
@@ -842,114 +990,6 @@
           </div>
         </div>
       </div>
-
-      <div class="pricing-section">
-        <h2 class="section-title">Трафик</h2>
-        <div class="pricing-grid pricing-grid-traffic">
-          <div
-            class="price-card compact"
-            data-duration="0"
-            data-gb="1"
-            data-price="67"
-          >
-            <h3>1 ГБ</h3>
-            <div class="duration">живёт, пока не кончится</div>
-            <div class="cost-wrapper">
-              <div class="cost">67₽</div>
-            </div>
-            <div class="traffic-pricing-note">
-              <span class="price-option" data-price="67">67₽ зумерам</span>
-              /
-              <span class="price-option" data-price="69" data-alt="true">69₽ миллениалам</span>
-            </div>
-            <button
-              class="buy-button"
-              data-duration="0"
-              data-gb="1"
-              data-price="67"
-            >
-              Выбрать
-            </button>
-          </div>
-
-          <div
-            class="price-card compact"
-            data-duration="0"
-            data-gb="5"
-            data-price="167"
-          >
-            <h3>5 ГБ</h3>
-            <div class="duration">живёт, пока не кончится</div>
-            <div class="cost-wrapper">
-              <div class="cost">167₽</div>
-            </div>
-            <div class="traffic-pricing-note">
-              <span class="price-option" data-price="167">167₽ зумерам</span>
-              /
-              <span class="price-option" data-price="169" data-alt="true">169₽ миллениалам</span>
-            </div>
-            <button
-              class="buy-button"
-              data-duration="0"
-              data-gb="5"
-              data-price="167"
-            >
-              Выбрать
-            </button>
-          </div>
-
-          <div
-            class="price-card compact"
-            data-duration="0"
-            data-gb="10"
-            data-price="267"
-          >
-            <h3>10 ГБ</h3>
-            <div class="duration">живёт, пока не кончится</div>
-            <div class="cost-wrapper">
-              <div class="cost">267₽</div>
-            </div>
-            <div class="traffic-pricing-note">
-              <span class="price-option" data-price="267">267₽ зумерам</span>
-              /
-              <span class="price-option" data-price="269" data-alt="true">269₽ миллениалам</span>
-            </div>
-            <button
-              class="buy-button"
-              data-duration="0"
-              data-gb="10"
-              data-price="267"
-            >
-              Выбрать
-            </button>
-          </div>
-
-          <div
-            class="price-card compact"
-            data-duration="0"
-            data-gb="50"
-            data-price="367"
-          >
-            <h3>50 ГБ</h3>
-            <div class="duration">живёт, пока не кончится</div>
-            <div class="cost-wrapper">
-              <div class="cost">367₽</div>
-            </div>
-            <div class="traffic-pricing-note">
-              <span class="price-option" data-price="367">367₽ зумерам</span>
-              /
-              <span class="price-option" data-price="369" data-alt="true">369₽ миллениалам</span>
-            </div>
-            <button
-              class="buy-button"
-              data-duration="0"
-              data-gb="50"
-              data-price="367"
-            >
-              Выбрать
-            </button>
-          </div>
-        </div>
       </div>
 
       <div class="pay-benefits">
@@ -1537,6 +1577,21 @@
             : "Дополнительные варианты";
         });
       }
+      const tabTraffic = document.getElementById("tab-traffic");
+      const tabUnlimited = document.getElementById("tab-unlimited");
+      const sectionTraffic = document.getElementById("section-traffic");
+      const sectionUnlimited = document.getElementById("section-unlimited");
+      function selectPayTab(which) {
+        const traffic = which === "traffic";
+        tabTraffic?.classList.toggle("active", traffic);
+        tabUnlimited?.classList.toggle("active", !traffic);
+        if (sectionTraffic)
+          sectionTraffic.style.display = traffic ? "" : "none";
+        if (sectionUnlimited)
+          sectionUnlimited.style.display = traffic ? "none" : "";
+      }
+      tabTraffic?.addEventListener("click", () => selectPayTab("traffic"));
+      tabUnlimited?.addEventListener("click", () => selectPayTab("unlimited"));
       if (payBtn) {
         payBtn.onclick = async () => {
           if (!currentOrder) {
