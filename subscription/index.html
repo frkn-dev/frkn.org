@@ -3353,7 +3353,7 @@
                 </button>
               </div>
               <div class="short-link-row hidden" id="short-link-row">
-                <span class="short-link-label">Короткая ссылка</span>
+                <span class="short-link-label">Код для приложения</span>
                 <code class="short-link-code" id="short-link-code"></code>
                 <button
                   type="button"
@@ -4407,17 +4407,19 @@
         subLinkEl.innerText = subUrl;
         subLinkEl.href = subUrl;
 
-        // Short link for manual entry (s.frkn.org/xxxxx)
+        // App code for manual entry in Dopamine (last segment of s.frkn.org/xxxxx)
         const shortRow = document.getElementById("short-link-row");
         const shortCodeEl = document.getElementById("short-link-code");
         fetch(`${API_BASE}/short?subscription_id=${encodeURIComponent(subId)}`)
           .then((r) => (r.ok ? r.json() : null))
           .then((short) => {
             if (!short?.short_url || !shortRow || !shortCodeEl) return;
-            shortCodeEl.innerText = short.short_url.replace(/^https?:\/\//, "");
+            const code = short.short_url.replace(/\/+$/, "").split("/").pop();
+            if (!code) return;
+            shortCodeEl.innerText = code;
             shortRow.classList.remove("hidden");
             document.getElementById("copy-short-link").onclick = () => {
-              copyText(short.short_url, "Короткая ссылка скопирована");
+              copyText(code, "Код скопирован");
             };
           })
           .catch(() => {});

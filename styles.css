@@ -1,11 +1,11 @@
 :root {
-  --bg: #090B10;
+  --bg: #090b10;
   --card: #121622;
   --text: #e6e8ef;
   --muted: #9aa1b2;
-  --accent: #38BDF8;
+  --accent: #38bdf8;
   --accent-2: #0ea5e9;
-  --border: #1F263A;
+  --border: #1f263a;
 }
 * {
   box-sizing: border-box;
@@ -21,6 +21,11 @@ header {
   display: flex;
   justify-content: space-between;
   padding: 0 0 48px;
+}
+
+.hero-btn-break {
+  flex-basis: 100%;
+  height: 0;
 }
 
 #logo-container {
@@ -588,7 +593,11 @@ header {
   right: -30%;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(91, 124, 250, 0.12), transparent 60%);
+  background: radial-gradient(
+    circle,
+    rgba(91, 124, 250, 0.12),
+    transparent 60%
+  );
   pointer-events: none;
   z-index: 0;
 }
@@ -1486,7 +1495,8 @@ footer .footer-divider {
 }
 
 @keyframes status-pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
@@ -1598,7 +1608,6 @@ footer .footer-divider {
     grid-template-columns: 1fr;
   }
 }
-
 
 /* ================= RTL (Farsi) ================= */
 [dir="rtl"] body {
