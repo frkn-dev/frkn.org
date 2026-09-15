@@ -356,6 +356,16 @@
         margin-bottom: 12px;
         line-height: 1.5;
       }
+      .price-option {
+        cursor: pointer;
+        padding: 2px 4px;
+        border-radius: 6px;
+        transition: all 0.15s ease;
+      }
+      .price-option:hover {
+        color: var(--accent);
+        background: rgba(91, 124, 250, 0.12);
+      }
       @media (max-width: 960px) {
         .pricing-grid-traffic {
           grid-template-columns: repeat(2, 1fr);
@@ -848,7 +858,9 @@
               <div class="cost">67₽</div>
             </div>
             <div class="traffic-pricing-note">
-              67₽ зумерам / 69₽ миллениалам
+              <span class="price-option" data-price="67">67₽ зумерам</span>
+              /
+              <span class="price-option" data-price="69" data-alt="true">69₽ миллениалам</span>
             </div>
             <button
               class="buy-button"
@@ -872,7 +884,9 @@
               <div class="cost">167₽</div>
             </div>
             <div class="traffic-pricing-note">
-              167₽ зумерам / 169₽ миллениалам
+              <span class="price-option" data-price="167">167₽ зумерам</span>
+              /
+              <span class="price-option" data-price="169" data-alt="true">169₽ миллениалам</span>
             </div>
             <button
               class="buy-button"
@@ -896,7 +910,9 @@
               <div class="cost">267₽</div>
             </div>
             <div class="traffic-pricing-note">
-              267₽ зумерам / 269₽ миллениалам
+              <span class="price-option" data-price="267">267₽ зумерам</span>
+              /
+              <span class="price-option" data-price="269" data-alt="true">269₽ миллениалам</span>
             </div>
             <button
               class="buy-button"
@@ -920,7 +936,9 @@
               <div class="cost">367₽</div>
             </div>
             <div class="traffic-pricing-note">
-              367₽ зумерам / 369₽ миллениалам
+              <span class="price-option" data-price="367">367₽ зумерам</span>
+              /
+              <span class="price-option" data-price="369" data-alt="true">369₽ миллениалам</span>
             </div>
             <button
               class="buy-button"
@@ -1196,12 +1214,14 @@
           const btn = card.querySelector(".buy-button");
           const duration = parseInt(btn.dataset.duration);
           const basePrice = parseInt(btn.dataset.price);
+          const gb = btn.dataset.gb ? parseInt(btn.dataset.gb) : null;
           try {
             const response = await apiFetch(`/promocode/validate`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 duration,
+                ...(gb ? { kind: "lite", traffic_gib: gb } : {}),
                 promocode: promoCode.toUpperCase(),
               }),
             });
@@ -1278,6 +1298,13 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               duration: currentOrder.duration,
+              ...(currentOrder.kind === "lite"
+                ? {
+                    kind: "lite",
+                    traffic_gib: currentOrder.trafficGib,
+                    alt_price: currentOrder.altPrice === true,
+                  }
+                : {}),
               promocode: promoValue,
             }),
           });
@@ -1354,11 +1381,16 @@
       }
 
       // --- Открытие модального окна ---
-      async function openModal(duration, basePrice, element) {
+      // override: {price, alt} — выбранная кликом цена ("зумер"/"миллениал")
+      async function openModal(duration, basePrice, element, override = null) {
         let finalPrice = basePrice;
         let originalPrice = basePrice;
         if (element && element.dataset.discountedPrice)
           finalPrice = parseInt(element.dataset.discountedPrice);
+        if (override && override.price) {
+          finalPrice = override.price;
+          originalPrice = override.price;
+        }
         const trafficGib =
           element && element.dataset.gb ? parseInt(element.dataset.gb) : null;
         currentOrder = {
@@ -1369,6 +1401,7 @@
           referral: null,
           kind: trafficGib ? "lite" : "standard",
           trafficGib: trafficGib,
+          altPrice: override ? override.alt === true : false,
         };
         promoInput.value = urlPromoCode || "";
         promoInput.style.borderColor = "";
@@ -1460,6 +1493,18 @@
           openModal(btn.dataset.duration, btn.dataset.price, btn);
         }),
       );
+      document.querySelectorAll(".price-option").forEach((opt) =>
+        opt.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const card = opt.closest(".price-card");
+          if (!card) return;
+          const btn = card.querySelector(".buy-button");
+          openModal(card.dataset.duration, card.dataset.price, btn, {
+            price: parseInt(opt.dataset.price),
+            alt: opt.dataset.alt === "true",
+          });
+        }),
+      );
       document
         .getElementById("apply-promo-btn")
         ?.addEventListener("click", () =>
@@ -1514,7 +1559,11 @@
               body: JSON.stringify({
                 duration: currentOrder.duration,
                 ...(currentOrder.kind === "lite"
-                  ? { kind: "lite", traffic_gib: currentOrder.trafficGib }
+                  ? {
+                      kind: "lite",
+                      traffic_gib: currentOrder.trafficGib,
+                      alt_price: currentOrder.altPrice === true,
+                    }
                   : {}),
                 promocode: currentOrder.promo || null,
                 refCode: currentOrder.referral || null,
@@ -1564,7 +1613,11 @@
               body: JSON.stringify({
                 duration: currentOrder.duration,
                 ...(currentOrder.kind === "lite"
-                  ? { kind: "lite", traffic_gib: currentOrder.trafficGib }
+                  ? {
+                      kind: "lite",
+                      traffic_gib: currentOrder.trafficGib,
+                      alt_price: currentOrder.altPrice === true,
+                    }
                   : {}),
                 promocode: currentOrder.promo || null,
                 refCode: currentOrder.referral || null,
