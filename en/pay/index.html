@@ -461,6 +461,25 @@
         opacity: 0.6;
         cursor: not-allowed;
       }
+      .btn-pay-secondary {
+        margin-top: 10px;
+        background: transparent;
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        box-shadow: none;
+      }
+      .btn-pay-secondary:hover {
+        background: rgba(91, 124, 250, 0.12);
+        box-shadow: none;
+        transform: translateY(-1px);
+      }
+      .planta-waiting {
+        display: none;
+        color: #aaa;
+        font-size: 13px;
+        text-align: center;
+        margin-top: 12px;
+      }
       .loading-spinner {
         display: inline-block;
         width: 18px;
@@ -807,7 +826,14 @@
           <div class="promo-info" id="ref-info"></div>
         </div>
         <div class="modal-total-wrapper" id="modal-total-wrapper"></div>
-        <button class="btn-pay" id="final-pay-btn">Pay</button>
+        <button class="btn-pay" id="planta-pay-btn">Pay via SBP</button>
+        <button class="btn-pay btn-pay-secondary" id="final-pay-btn">
+          Pay with MIR card / Crypto
+        </button>
+        <div class="planta-waiting" id="planta-waiting">
+          <span class="loading-spinner"></span> Waiting for the SBP payment
+          link...
+        </div>
         <p
           style="
             color: #666;
@@ -816,7 +842,8 @@
             margin-top: 20px;
           "
         >
-          By clicking «Pay», you will be redirected to the Platega gateway. We do not store your data.
+          «Pay via SBP» — Planta gateway, «Pay with MIR card / Crypto» —
+          Platega gateway. We do not store your data.
         </p>
         <p
           style="
@@ -895,6 +922,8 @@
       const errorPopup = document.getElementById("error-popup");
       const popupMessage = document.getElementById("popup-message");
       const payBtn = document.getElementById("final-pay-btn");
+      const plantaPayBtn = document.getElementById("planta-pay-btn");
+      const plantaWaiting = document.getElementById("planta-waiting");
 
       // --- Helper functions ---
       function formatSavings(amount) {
@@ -1330,6 +1359,75 @@
             payBtn.innerText = originalText;
           }
         };
+      }
+      if (plantaPayBtn) {
+        plantaPayBtn.onclick = async () => {
+          if (!currentOrder) {
+            showError("Order not found. Try selecting a plan again.");
+            return;
+          }
+          plantaPayBtn.disabled = true;
+          payBtn.disabled = true;
+          plantaWaiting.style.display = "block";
+          try {
+            const res = await apiFetch(`/payment/planta/key/create`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-Trace-Id": generateTraceId(),
+              },
+              body: JSON.stringify({
+                duration: currentOrder.duration,
+                promocode: currentOrder.promo || null,
+                refCode: currentOrder.referral || null,
+              }),
+            });
+            if (!res.ok) {
+              const errorData = await res
+                .json()
+                .catch(() => ({ error: "Server error" }));
+              throw new Error(errorData.error || "Failed to create payment");
+            }
+            const data = await res.json();
+            if (!data.transactionId) {
+              throw new Error("API did not return a transaction ID");
+            }
+            localStorage.setItem(
+              "frkn_last_transaction_id",
+              data.transactionId,
+            );
+            // Planta prod returns the link right in the create response.
+            if (data.paymentUrl) {
+              window.location.href = data.paymentUrl;
+              return;
+            }
+            // Otherwise qrLink arrives via postback — poll /payment/check
+            // until paymentUrl shows up.
+            const paymentUrl = await pollPlantaPaymentUrl(data.transactionId);
+            window.location.href = paymentUrl;
+          } catch (e) {
+            showError(e.message);
+            plantaPayBtn.disabled = false;
+            payBtn.disabled = false;
+            plantaWaiting.style.display = "none";
+          }
+        };
+      }
+      async function pollPlantaPaymentUrl(txid) {
+        const MAX_ATTEMPTS = 40; // ~2 minutes at 3-second intervals
+        for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+          const res = await apiFetch(`/payment/check/${txid}`);
+          const data = await res.json().catch(() => ({}));
+          if (data.paymentUrl) return data.paymentUrl;
+          if (data.status === "failed" || data.status === "cancelled") {
+            throw new Error("Payment cancelled, try again");
+          }
+        }
+        throw new Error(
+          "SBP did not respond in time. Check the status by transaction ID: " +
+            txid,
+        );
       }
       window.onclick = (event) => {
         if (event.target === paymentModal) closeModal();
