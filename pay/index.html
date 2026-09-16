@@ -1046,6 +1046,11 @@
           </div>
           <div class="promo-info" id="ref-info"></div>
         </div>
+        <div class="form-group">
+          <label>Email (необязательно)</label>
+          <input type="email" id="user-email" placeholder="Для письма с ключом и напоминаний" />
+          <div class="promo-info">Можно указать позже в Личном Кабинете.</div>
+        </div>
         <div class="modal-total-wrapper" id="modal-total-wrapper"></div>
         <button class="btn-pay" id="planta-pay-btn">Оплата СБП</button>
         <button class="btn-pay btn-pay-secondary" id="final-pay-btn">
@@ -1530,6 +1535,14 @@
       }
 
       // --- Обработчики событий ---
+      function orderEmail() {
+        const raw = (
+          document.getElementById("user-email")?.value || ""
+        ).trim().toLowerCase();
+        return /^[a-z0-9._%+-]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(raw)
+          ? raw
+          : null;
+      }
       document.querySelectorAll(".buy-button").forEach((btn) =>
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
@@ -1625,6 +1638,7 @@
                   : {}),
                 promocode: currentOrder.promo || null,
                 refCode: currentOrder.referral || null,
+                email: orderEmail(),
               }),
             });
             if (!res.ok) {
@@ -1679,6 +1693,7 @@
                   : {}),
                 promocode: currentOrder.promo || null,
                 refCode: currentOrder.referral || null,
+                email: orderEmail(),
               }),
             });
             if (!res.ok) {
