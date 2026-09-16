@@ -1239,15 +1239,15 @@ button {
   opacity: 1;
 }
 .btn.ghost.btn-fire {
-  color: #fca5a5;
-  border-color: rgba(248, 113, 113, 0.55);
-  box-shadow: 0 0 18px rgba(239, 68, 68, 0.22);
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.55);
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.22);
 }
 .btn.ghost.btn-fire:hover {
-  color: #fecaca;
-  border-color: rgba(248, 113, 113, 0.8);
-  background: rgba(239, 68, 68, 0.12);
-  box-shadow: 0 0 28px rgba(239, 68, 68, 0.35);
+  color: #fde68a;
+  border-color: rgba(245, 158, 11, 0.8);
+  background: rgba(245, 158, 11, 0.12);
+  box-shadow: 0 0 28px rgba(245, 158, 11, 0.35);
 }
 .btn.pay {
   margin-top: 10px;
