@@ -570,7 +570,7 @@ header {
   grid-template-columns: 1fr 1fr;
   gap: 40px;
   padding: 48px;
-  align-items: center;
+  align-items: start;
   position: relative;
   overflow: hidden;
   background:
@@ -2008,6 +2008,7 @@ footer .footer-divider {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 24px;
+  align-items: start;
 }
 
 .landing-page .trial-info h2 {
