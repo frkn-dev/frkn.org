@@ -861,8 +861,8 @@
           const gib = fmtGb(keyData?.traffic_bytes);
           if (daysEl) daysEl.textContent = gib;
           if (infoEl) infoEl.textContent = gib;
-          if (daysTextEl) daysTextEl.textContent = "трафика навсегда";
-          if (infoUnitEl) infoUnitEl.textContent = " трафика";
+          if (daysTextEl) daysTextEl.textContent = "трафика";
+          if (infoUnitEl) infoUnitEl.textContent = " ГБ трафика";
         } else {
           const days = keyData?.days ?? 0;
           if (daysEl) daysEl.textContent = days;
