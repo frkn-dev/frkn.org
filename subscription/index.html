@@ -2961,6 +2961,22 @@
         flex-shrink: 0;
       }
 
+      .step-icon img {
+        width: 22px;
+        height: 22px;
+        display: block;
+      }
+
+      .step-text a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.4);
+      }
+
+      .step-text a:hover {
+        border-bottom-color: var(--accent);
+      }
+
       .step-text {
         font-size: 14px;
         color: var(--text);
@@ -3392,20 +3408,32 @@
               <div class="quick-steps">
                 <div class="quick-step">
                   <div class="step-number">1</div>
-                  <div class="step-icon">📋</div>
-                  <div class="step-text">Скачайте приложение FRKN Dopamine</div>
+                  <div class="step-icon">
+                    <img src="/Images/dopamine.png" alt="" />
+                  </div>
+                  <div class="step-text">
+                    Скачайте приложение
+                    <a href="/dopamine" target="_blank" rel="noopener noreferrer">FRKN Dopamine</a>
+                  </div>
                 </div>
                 <div class="quick-step">
                   <div class="step-number">2</div>
-                  <div class="step-icon">📱</div>
+                  <div class="step-icon">
+                    <img src="/Images/smartphone.png" alt="" />
+                  </div>
                   <div class="step-text">
-                    Скопируйте ссылку или отсканируйте QR-код
+                    Скопируйте ссылку, короткий код или отсканируйте QR-код
                   </div>
                 </div>
                 <div class="quick-step">
                   <div class="step-number">3</div>
-                  <div class="step-icon">🔗</div>
-                  <div class="step-text">Вставьте ссылку в приложение</div>
+                  <div class="step-icon">
+                    <img src="/Images/responsive-app.png" alt="" />
+                  </div>
+                  <div class="step-text">
+                    Вставьте ссылку или короткий код в приложение
+                    <a href="/dopamine" target="_blank" rel="noopener noreferrer">FRKN Dopamine</a>
+                  </div>
                 </div>
               </div>
             </div>
