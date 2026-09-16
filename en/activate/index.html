@@ -929,10 +929,10 @@
             return;
           }
 
-          const keyRegex =
-            /^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{1}$/i;
+          const keyValueClean = keyValue.replace(/-/g, "").toUpperCase();
+          const keyRegex = /^[A-Z0-9]{26}$|^[A-Z0-9]{31}$/;
 
-          if (!keyRegex.test(keyValue)) {
+          if (!keyRegex.test(keyValueClean)) {
             showMessage("❌ Invalid key format", "error");
             return;
           }
@@ -941,7 +941,7 @@
 
           try {
             const res = await fetch(
-              `${API_BASE}/key/validate?key=${encodeURIComponent(keyValue)}`,
+              `${API_BASE}/key/validate?key=${encodeURIComponent(keyValueClean)}`,
             );
             const data = await res.json();
 

@@ -944,8 +944,8 @@
           const uuidRegex =
             /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-          const keyRegex =
-            /^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{1}$/i;
+          const valueClean = value.replace(/-/g, "").toUpperCase();
+          const keyRegex = /^[A-Z0-9]{26}$|^[A-Z0-9]{31}$/;
 
           if (uuidRegex.test(value)) {
             showMessage("✅ Opening subscription...", "success");
@@ -953,12 +953,12 @@
             return;
           }
 
-          if (keyRegex.test(value)) {
+          if (keyRegex.test(valueClean)) {
             showMessage("⏳ Checking key...", "info");
 
             try {
               const res = await fetch(
-                `${API_BASE}/key/validate?key=${encodeURIComponent(value)}`,
+                `${API_BASE}/key/validate?key=${encodeURIComponent(valueClean)}`,
               );
               const data = await res.json();
 
