@@ -263,8 +263,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="tm-info" id="tm-ref-info"></div>
         </div>
         <div class="tm-total" id="tm-total"></div>
+        <!-- Planta temporarily hidden while webhook is unverified.
         <button class="tm-pay-btn" id="tm-pay-planta">${TRIAL_I18N.payPlanta}</button>
-        <button class="tm-pay-btn tm-secondary" id="tm-pay-platega">${TRIAL_I18N.payPlatega}</button>
+        -->
+        <button class="tm-pay-btn" id="tm-pay-platega">Оплатить</button>
         <div class="tm-waiting" id="tm-waiting">
           <span class="tm-spinner"></span> ${TRIAL_I18N.waitingPlanta}
         </div>
@@ -294,7 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const refInput = document.getElementById("tm-ref");
   const refInfo = document.getElementById("tm-ref-info");
   const totalEl = document.getElementById("tm-total");
-  const plantaBtn = document.getElementById("tm-pay-planta");
+  // const plantaBtn = document.getElementById("tm-pay-planta");
   const plategaBtn = document.getElementById("tm-pay-platega");
   const waitingEl = document.getElementById("tm-waiting");
 
@@ -428,8 +430,9 @@ document.addEventListener("DOMContentLoaded", () => {
     refInfo.style.display = "none";
     refInfo.className = "tm-info";
     waitingEl.style.display = "none";
-    plantaBtn.disabled = false;
+    // plantaBtn.disabled = false;
     plategaBtn.disabled = false;
+    plategaBtn.innerText = "Оплатить";
     updateTotal();
     modal.classList.add("active");
     if (promoInput.value) applyPromo(promoInput.value);
@@ -500,9 +503,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  plantaBtn.onclick = async () => {
+  /*
+  // plantaBtn.onclick = async () => {
     if (!currentOrder) return;
-    plantaBtn.disabled = true;
     plategaBtn.disabled = true;
     waitingEl.style.display = "block";
     try {
@@ -531,11 +534,11 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = paymentUrl;
     } catch (e) {
       showError(e.message);
-      plantaBtn.disabled = false;
       plategaBtn.disabled = false;
       waitingEl.style.display = "none";
     }
-  };
+  };  */
+
 
   buyButtons.forEach((btn) =>
     btn.addEventListener("click", () => {

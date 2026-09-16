@@ -1052,9 +1052,11 @@
           <div class="promo-info">Можно указать позже в Личном Кабинете.</div>
         </div>
         <div class="modal-total-wrapper" id="modal-total-wrapper"></div>
+        <!-- Planta temporarily hidden while webhook is unverified.
         <button class="btn-pay" id="planta-pay-btn">Оплата СБП</button>
-        <button class="btn-pay btn-pay-secondary" id="final-pay-btn">
-          Оплата картой МИР/Криптой
+        -->
+        <button class="btn-pay" id="final-pay-btn">
+          Оплатить
         </button>
         <div class="planta-waiting" id="planta-waiting">
           <span class="loading-spinner"></span> Ждем ссылку на оплату от СБП...
@@ -1154,7 +1156,7 @@
       const errorPopup = document.getElementById("error-popup");
       const popupMessage = document.getElementById("popup-message");
       const payBtn = document.getElementById("final-pay-btn");
-      const plantaPayBtn = document.getElementById("planta-pay-btn");
+      // const plantaPayBtn = document.getElementById("planta-pay-btn");
       const plantaWaiting = document.getElementById("planta-waiting");
 
       // --- Вспомогательные функции ---
