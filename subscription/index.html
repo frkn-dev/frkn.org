@@ -4549,9 +4549,17 @@
           document.getElementById("qr-modal").classList.add("hidden");
         };
 
-        function renderUrgencyBanner(diffMs, diffDays) {
+        function renderUrgencyBanner(diffMs, diffDays, planKind) {
           const banner = document.getElementById("urgency-banner");
           if (!banner) return;
+
+          // Lite subscriptions live on traffic balance, not time — the
+          // "продлите подписку" banner is meaningless and confusing here.
+          if (planKind === "lite") {
+            banner.innerHTML = "";
+            banner.className = "";
+            return;
+          }
 
           if (diffMs <= 0) {
             banner.className = "urgency-banner critical";
@@ -4583,7 +4591,7 @@
           const diffSec = Math.floor(diffMs / 1000);
           const diffDays = diffMs / (1000 * 60 * 60 * 24);
 
-          renderUrgencyBanner(diffMs, diffDays);
+          renderUrgencyBanner(diffMs, diffDays, planKind);
 
           const progressFill = document.getElementById("days-progress-fill");
           const circumference = 2 * Math.PI * 54;
