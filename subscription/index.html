@@ -2828,6 +2828,7 @@
       .short-link-label {
         font-size: 13px;
         color: var(--muted);
+        flex-basis: 100%;
       }
 
       .short-link-code {
@@ -2836,6 +2837,12 @@
         font-weight: 700;
         color: #10b981;
         letter-spacing: 0.04em;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+      }
+
+      .short-link-code:hover {
+        opacity: 0.75;
       }
 
       .short-link-copy {
@@ -4457,6 +4464,8 @@
             const code = short.short_url.replace(/\/+$/, "").split("/").pop();
             if (!code) return;
             shortCodeEl.innerText = code;
+            shortCodeEl.title = "Нажмите, чтобы скопировать";
+            shortCodeEl.onclick = () => copyText(code, "Код скопирован");
             shortRow.classList.remove("hidden");
             document.getElementById("copy-short-link").onclick = () => {
               copyText(code, "Код скопирован");
