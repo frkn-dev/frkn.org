@@ -4473,16 +4473,6 @@
         const planKind = data.plan_kind || "standard";
         const expiryDate = data.expires ? new Date(data.expires) : null;
 
-        // Lite has no time-based expiry — show ∞ and skip the ticking
-        // day-counter entirely; the traffic bar is rendered separately.
-        if (!expiryDate) {
-          statusEl.innerText = "Активна";
-          statusEl.className = "status-pill status-active";
-          daysEl.innerText = "∞";
-          daysEl.style.fontSize = "2.5rem";
-          daysEl.style.color = "#10b981";
-        }
-
         // Trial and Early Adopter badges
         const trialPill = document.getElementById("trial-pill");
         const earlyAdopterPill = document.getElementById("early-adopter-pill");
@@ -4597,7 +4587,21 @@
         }
 
         function updateDisplay() {
-          if (!expiryDate) return;
+          if (!expiryDate) {
+            statusEl.innerText = "Активна";
+            statusEl.className = "status-pill status-active";
+            daysEl.innerText = "∞";
+            daysEl.style.fontSize = "2.5rem";
+            daysEl.style.color = "#10b981";
+            daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
+            const progressFill = document.getElementById("days-progress-fill");
+            if (progressFill) {
+              const circumference = 2 * Math.PI * 54;
+              progressFill.style.strokeDashoffset = 0;
+              progressFill.style.stroke = "#10b981";
+            }
+            return;
+          }
           const now = new Date();
           const diffMs = expiryDate - now;
           const diffSec = Math.floor(diffMs / 1000);
