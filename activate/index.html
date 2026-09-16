@@ -485,6 +485,22 @@
         color: var(--muted);
         line-height: 1.5;
       }
+      .info-box svg,
+      .warning-box svg {
+        flex-shrink: 0;
+        vertical-align: middle;
+        margin-right: 6px;
+        margin-top: 2px;
+      }
+      .icon-check {
+        color: #22c55e;
+      }
+      .icon-info {
+        color: #fbbf24;
+      }
+      .lite-extra {
+        display: none;
+      }
 
       .separator {
         height: 1px;
@@ -751,11 +767,19 @@
         <div class="info-box">
           <div class="info-title">Что произойдёт после активации?</div>
           <p>
-            ✅ Будет создана новая подписка на
+            <svg class="icon-check" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4L8.3 12.6l7.4-7.3a1 1 0 0 1 1.4 0z"/></svg>
+            Будет создана новая подписка на
             <strong id="infoDaysNumber">—</strong>
             <span id="infoDaysUnit">дней</span>
           </p>
-          <p>✅ Ты получишь доступ ко всем функциям Рилзопровода FRKN</p>
+          <p>
+            <svg class="icon-check" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4L8.3 12.6l7.4-7.3a1 1 0 0 1 1.4 0z"/></svg>
+            Ты получишь доступ ко всем функциям Рилзопровода FRKN
+          </p>
+          <p class="lite-extra" id="liteExtraNote">
+            <svg class="icon-info" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 4a1 1 0 0 1 1 1v4a1 1 0 0 1-2 0V7a1 1 0 0 1 1-1zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
+            Трафик не сгорает пока не кончится — можно хранить его хоть год
+          </p>
         </div>
 
         <div class="separator"></div>
@@ -763,13 +787,18 @@
         <div class="warning-box">
           <div class="warning-title">ВАЖНАЯ ИНФОРМАЦИЯ</div>
           <p>
-            🔸 <strong>Ключ одноразовый</strong> — после активации его нельзя
+            <svg class="icon-info" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 4a1 1 0 0 1 1 1v4a1 1 0 0 1-2 0V7a1 1 0 0 1 1-1zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
+            <strong>Ключ одноразовый</strong> — после активации его нельзя
             использовать повторно
           </p>
-          <p>🔸 Активация создаёт <strong>НОВУЮ подписку</strong></p>
           <p>
-            🔸 Если хочешь продлить текущую подписку, активируй ключ в личном
-            кабинете: <a href="/subscription">frkn.org/subscription</a>
+            <svg class="icon-info" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 4a1 1 0 0 1 1 1v4a1 1 0 0 1-2 0V7a1 1 0 0 1 1-1zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
+            Активация создаёт <strong>НОВУЮ подписку</strong>
+          </p>
+          <p>
+            <svg class="icon-info" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 4a1 1 0 0 1 1 1v4a1 1 0 0 1-2 0V7a1 1 0 0 1 1-1zm0 8a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>
+            Если хочешь продлить текущую подписку, активируй ключ в личном
+            кабинете: <a href="/sub/">frkn.org/sub/</a>
           </p>
         </div>
 
@@ -850,25 +879,28 @@
         const infoEl = document.getElementById("infoDaysNumber");
         const daysTextEl = document.getElementById("daysTextLabel");
         const infoUnitEl = document.getElementById("infoDaysUnit");
+        const liteExtraEl = document.getElementById("liteExtraNote");
         const isLite = keyData?.kind === "lite" || keyData?.days === 0;
         const fmtGb = (bytes) => {
           if (!bytes) return "∞";
           const gib = bytes / (1024 * 1024 * 1024);
-          if (gib >= 100) return `${Math.round(gib)} ГБ`;
-          return `${Number.isInteger(gib) ? gib : gib.toFixed(1)} ГБ`;
+          if (gib >= 100) return `${Math.round(gib)}`;
+          return `${Number.isInteger(gib) ? gib : gib.toFixed(1)}`;
         };
         if (isLite) {
-          const gib = fmtGb(keyData?.traffic_bytes);
-          if (daysEl) daysEl.textContent = gib;
-          if (infoEl) infoEl.textContent = gib;
+          const n = fmtGb(keyData?.traffic_bytes);
+          if (daysEl) daysEl.textContent = `${n} ГБ`;
+          if (infoEl) infoEl.textContent = n;
           if (daysTextEl) daysTextEl.textContent = "трафика";
           if (infoUnitEl) infoUnitEl.textContent = " ГБ трафика";
+          if (liteExtraEl) liteExtraEl.style.display = "block";
         } else {
           const days = keyData?.days ?? 0;
           if (daysEl) daysEl.textContent = days;
           if (infoEl) infoEl.textContent = days;
           if (daysTextEl) daysTextEl.textContent = "дней доступа";
           if (infoUnitEl) infoUnitEl.textContent = " дней";
+          if (liteExtraEl) liteExtraEl.style.display = "none";
         }
 
         modal.classList.add("active");
