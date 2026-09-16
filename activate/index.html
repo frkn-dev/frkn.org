@@ -945,7 +945,12 @@
 
           try {
             const res = await fetch(
-              `${API_BASE}/key/validate?key=${encodeURIComponent(keyValueClean)}`,
+              `${API_BASE}/key/validate`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ key: keyValueClean }),
+              },
             );
             const data = await res.json();
 
