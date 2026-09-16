@@ -4685,14 +4685,18 @@
         subIdEl.innerText = data.id;
         subIdEl.onclick = () => copyText(data.id, "ID скопирован");
 
-        document.getElementById("expires").innerText =
-          expiryDate.toLocaleString("ru-RU", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          });
+        if (expiryDate) {
+          document.getElementById("expires").innerText =
+            expiryDate.toLocaleString("ru-RU", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+        } else {
+          document.getElementById("expires").innerText = "∞";
+        }
 
         const refCode = data.ref_code || subId.slice(-12) || "---";
         const refLink = `${window.location.origin}/pay?ref=${refCode}`;
