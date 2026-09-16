@@ -13,7 +13,7 @@ description: >-
 
 | Ассет | Параметр |
 |---|---|
-| `/styles.css` | `?v=4` |
+| `/styles.css` | `?v=9` |
 | `/scripts/i18n.js` | `?v=2` |
 | `/scripts/containers.js` | `?v=3` |
 | `/scripts/utils.js` | `?v=1` |

@@ -14,7 +14,7 @@
       href="/Images/apple-touch-icon.png"
       sizes="180x180"
     />
-    <link rel="stylesheet" href="/styles.css?v=7" />
+    <link rel="stylesheet" href="/styles.css?v=9" />
     <style>
       .sub-redirect {
         min-height: 100vh;
@@ -138,7 +138,11 @@
 
         var code = m[1].toLowerCase();
 
-        fetch("https://s.frkn.org/" + code, {
+        var S_BASE = location.hostname.endsWith(".onion")
+          ? location.origin + "/s"
+          : "https://s.frkn.org";
+
+        fetch(S_BASE + "/" + code, {
           headers: { Accept: "application/json" },
         })
           .then(function (r) {

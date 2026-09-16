@@ -570,7 +570,7 @@ header {
   grid-template-columns: 1fr 1fr;
   gap: 40px;
   padding: 48px;
-  align-items: center;
+  align-items: start;
   position: relative;
   overflow: hidden;
   background:
@@ -1237,6 +1237,17 @@ button {
   border-color: var(--accent);
   background: rgba(91, 124, 250, 0.08);
   opacity: 1;
+}
+.btn.ghost.btn-fire {
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.55);
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.22);
+}
+.btn.ghost.btn-fire:hover {
+  color: #fde68a;
+  border-color: rgba(245, 158, 11, 0.8);
+  background: rgba(245, 158, 11, 0.12);
+  box-shadow: 0 0 28px rgba(245, 158, 11, 0.35);
 }
 .btn.pay {
   margin-top: 10px;
@@ -1997,6 +2008,7 @@ footer .footer-divider {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 24px;
+  align-items: start;
 }
 
 .landing-page .trial-info h2 {

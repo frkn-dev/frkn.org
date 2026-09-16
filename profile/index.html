@@ -30,7 +30,7 @@
     <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon">
     <link rel="apple-touch-icon" href="/Images/apple-touch-icon.png" sizes="180x180">
     <meta name="apple-mobile-web-app-title" content="frkn profile">
-    <link rel="stylesheet" href="/styles.css?v=7" />
+    <link rel="stylesheet" href="/styles.css?v=9" />
     <style>
       .activate-page {
         max-width: 560px;
@@ -844,7 +844,9 @@
         window.location.hostname === "127.0.0.1";
       const API_BASE = isLocal
         ? "http://localhost:3000"
-        : "https://api.frkn.org";
+        : window.location.hostname.endsWith(".onion")
+          ? window.location.origin + "/api"
+          : "https://api.frkn.org";
       const subForm = document.getElementById("subscriptionForm");
       const subMessage = document.getElementById("subMessage");
       const modal = document.getElementById("activationModal");
@@ -956,8 +958,8 @@
           const uuidRegex =
             /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-          const keyRegex =
-            /^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{1}$/i;
+          const valueClean = value.replace(/-/g, "").toUpperCase();
+          const keyRegex = /^[A-Z0-9]{26}$|^[A-Z0-9]{31}$/;
 
           if (uuidRegex.test(value)) {
             showMessage("✅ Открываем подписку...", "success");
@@ -965,12 +967,12 @@
             return;
           }
 
-          if (keyRegex.test(value)) {
+          if (keyRegex.test(valueClean)) {
             showMessage("⏳ Проверяем ключ...", "info");
 
             try {
               const res = await fetch(
-                `${API_BASE}/key/validate?key=${encodeURIComponent(value)}`,
+                `${API_BASE}/key/validate?key=${encodeURIComponent(valueClean)}`,
               );
               const data = await res.json();
 

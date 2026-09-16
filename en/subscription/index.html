@@ -45,7 +45,7 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css?v=7" />
+    <link rel="stylesheet" href="/styles.css?v=9" />
     <style>
       .env-badge {
         display: inline-flex;
@@ -248,7 +248,7 @@
         justify-content: center;
         background: rgba(0, 0, 0, 0.7);
         backdrop-filter: blur(6px);
-        z-index: 1000;
+        z-index: 1200;
       }
 
       .qr-content {
@@ -1279,6 +1279,13 @@
         align-items: center;
         justify-content: space-between;
         gap: 12px;
+      }
+
+      .connection-title-row h2 img {
+        width: 20px;
+        height: 20px;
+        vertical-align: -3px;
+        margin-right: 4px;
       }
 
       .device-add-fab {
@@ -2504,7 +2511,7 @@
       }
 
       .connection-link-section h2:hover::after {
-        content: "Universal connection link, works for most accounts";
+        content: "Dopamine connection link";
         position: absolute;
         bottom: 100%;
         left: 0;
@@ -2681,6 +2688,18 @@
         min-height: 40px;
       }
 
+      .secondary-btn img {
+        width: 15px;
+        height: 15px;
+      }
+
+      .renew-modal-title img {
+        width: 20px;
+        height: 20px;
+        vertical-align: -3px;
+        margin-right: 4px;
+      }
+
       .secondary-btn:hover {
         background: rgba(91, 124, 250, 0.15);
         border-color: rgba(91, 124, 250, 0.4);
@@ -2752,6 +2771,7 @@
       .short-link-label {
         font-size: 13px;
         color: var(--muted);
+        flex-basis: 100%;
       }
 
       .short-link-code {
@@ -2760,6 +2780,12 @@
         font-weight: 700;
         color: #10b981;
         letter-spacing: 0.04em;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+      }
+
+      .short-link-code:hover {
+        opacity: 0.75;
       }
 
       .short-link-copy {
@@ -2890,6 +2916,22 @@
       .step-icon {
         font-size: 20px;
         flex-shrink: 0;
+      }
+
+      .step-icon img {
+        width: 22px;
+        height: 22px;
+        display: block;
+      }
+
+      .step-text a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.4);
+      }
+
+      .step-text a:hover {
+        border-bottom-color: var(--accent);
       }
 
       .step-text {
@@ -3053,7 +3095,12 @@
             href="https://t.me/frkn_support"
             target="_blank"
             rel="noopener noreferrer"
-            >❤️ Support</a
+            ><img
+              src="/Images/heart-red.png"
+              alt=""
+              style="width: 14px; height: 14px; vertical-align: -2px"
+            />
+            Support</a
           >
         </div>
       </header>
@@ -3190,10 +3237,10 @@
 
             <div class="secondary-actions">
               <button class="secondary-btn" id="openReferralModal">
-                👥 Share with a friend
+                <img src="/Images/friends-red.png" alt="" /> Share with a friend
               </button>
               <button class="secondary-btn" id="openEmailModal">
-                ✉️ Email
+                <img src="/Images/mail-white.png" alt="" /> Email
               </button>
               <a
                 class="secondary-btn tg-btn"
@@ -3221,7 +3268,10 @@
           <div class="dashboard-card connection-card">
             <div class="connection-link-section">
               <div class="connection-title-row">
-                <h2>🔗 Your connection link</h2>
+                <h2>
+                  <img src="/Images/link-white.png" alt="" /> Your connection
+                  link for the Dopamine app
+                </h2>
                 <button
                   type="button"
                   class="device-add-fab"
@@ -3245,18 +3295,30 @@
                   class="short-link-copy"
                   id="copy-sub-link"
                 >
-                  📋 Copy
+                  <img
+                    src="/Images/copy-white.png"
+                    alt=""
+                    style="width: 14px; height: 14px; vertical-align: -2px"
+                  />
+                  Copy
                 </button>
               </div>
               <div class="short-link-row hidden" id="short-link-row">
-                <span class="short-link-label">App code</span>
+                <span class="short-link-label"
+                  >Short Code for the Dopamine app</span
+                >
                 <code class="short-link-code" id="short-link-code"></code>
                 <button
                   type="button"
                   class="short-link-copy"
                   id="copy-short-link"
                 >
-                  📋 Copy
+                  <img
+                    src="/Images/copy-white.png"
+                    alt=""
+                    style="width: 14px; height: 14px; vertical-align: -2px"
+                  />
+                  Copy
                 </button>
               </div>
               <div class="connection-actions">
@@ -3275,10 +3337,15 @@
                   >
                     <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" />
                   </svg>
-                  Download
+                  Download Dopamine
                 </a>
                 <button class="action-btn secondary" id="show-qr-btn">
-                  📱 Show QR code
+                  <img
+                    src="/Images/qr-code-white.png"
+                    alt=""
+                    style="width: 14px; height: 14px; vertical-align: -2px"
+                  />
+                  Show QR code
                 </button>
               </div>
             </div>
@@ -3288,18 +3355,44 @@
               <div class="quick-steps">
                 <div class="quick-step">
                   <div class="step-number">1</div>
-                  <div class="step-icon">📋</div>
-                  <div class="step-text">Copy the link or scan the QR code</div>
+                  <div class="step-icon">
+                    <img src="/Images/dopamine-icon.png" alt="" />
+                  </div>
+                  <div class="step-text">
+                    Download the
+                    <a
+                      href="/dopamine/en/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >FRKN Dopamine</a
+                    >
+                    app
+                  </div>
                 </div>
                 <div class="quick-step">
                   <div class="step-number">2</div>
-                  <div class="step-icon">📱</div>
-                  <div class="step-text">Download the FRKN Dopamine app</div>
+                  <div class="step-icon">
+                    <img src="/Images/smartphone-white.png" alt="" />
+                  </div>
+                  <div class="step-text">
+                    Copy the link, short code, or scan the QR code
+                  </div>
                 </div>
                 <div class="quick-step">
                   <div class="step-number">3</div>
-                  <div class="step-icon">🔗</div>
-                  <div class="step-text">Paste the link into the app</div>
+                  <div class="step-icon">
+                    <img src="/Images/link-white.png" alt="" />
+                  </div>
+                  <div class="step-text">
+                    Paste the link or short code into the
+                    <a
+                      href="/dopamine/en/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >FRKN Dopamine</a
+                    >
+                    app
+                  </div>
                 </div>
               </div>
             </div>
@@ -3327,7 +3420,9 @@
           <button type="button" class="renew-modal-close" id="closeEmailModal">
             ×
           </button>
-          <h2 class="renew-modal-title">✉️ Bind email</h2>
+          <h2 class="renew-modal-title">
+            <img src="/Images/mail-white.png" alt="" /> Bind email
+          </h2>
           <p class="renew-modal-subtitle">
             We'll remind you before your subscription expires and share updates.
             Your email address is never shown on this page. It is stored
@@ -3342,7 +3437,12 @@
           </div>
 
           <div id="email-bound-modal" class="email-bound-modal hidden">
-            ✉️ Email bound. Change via
+            <img
+              src="/Images/mail-white.png"
+              alt=""
+              style="width: 14px; height: 14px; vertical-align: -2px"
+            />
+            Email bound. Change via
             <a
               href="https://t.me/frkn_support"
               target="_blank"
@@ -3396,7 +3496,9 @@
           >
             ×
           </button>
-          <h2 class="renew-modal-title">📱 Devices</h2>
+          <h2 class="renew-modal-title">
+            <img src="/Images/smartphone-white.png" alt="" /> Devices
+          </h2>
           <p class="renew-modal-subtitle">
             Separate named connections for each of your devices.
           </p>
@@ -3694,7 +3796,10 @@
           >
             ×
           </button>
-          <h2 class="renew-modal-title">👥 Invite friends — get free days</h2>
+          <h2 class="renew-modal-title">
+            <img src="/Images/friends-white.png" alt="" /> Invite friends — get
+            free days
+          </h2>
           <p class="renew-modal-subtitle">
             Share the link with a friend and get a bonus — 1 month free
           </p>
@@ -3737,18 +3842,24 @@
     <script src="/scripts/utils.js?v=1"></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
+    <script src="/scripts/lk-tour.js?v=1" defer></script>
     <script>
       const toMB = (bytes) => (bytes / (1024 * 1024)).toFixed(2);
       const isLocal = ["localhost", "127.0.0.1"].includes(
         window.location.hostname,
       );
       const useMock = new URLSearchParams(window.location.search).has("mock");
-      const API_BASE = isLocal || useMock
-        ? `http://${window.location.hostname}:3000`
-        : "https://api.frkn.org";
+      const API_BASE =
+        isLocal || useMock
+          ? `http://${window.location.hostname}:3000`
+          : window.location.hostname.endsWith(".onion")
+            ? window.location.origin + "/api"
+            : "https://api.frkn.org";
       const PAYMENT_API_BASE = isLocal
         ? "http://localhost:3006"
-        : "https://api.frkn.org";
+        : window.location.hostname.endsWith(".onion")
+          ? window.location.origin + "/api"
+          : "https://api.frkn.org";
 
       const ENV_NAMES = {
         wl: "🐘 WS - White Elephants",
@@ -4201,6 +4312,8 @@
             const code = short.short_url.replace(/\/+$/, "").split("/").pop();
             if (!code) return;
             shortCodeEl.innerText = code;
+            shortCodeEl.title = "Click to copy";
+            shortCodeEl.onclick = () => copyText(code, "Code copied");
             shortRow.classList.remove("hidden");
             document.getElementById("copy-short-link").onclick = () => {
               copyText(code, "Code copied");
@@ -4928,7 +5041,8 @@
               .map((l) => l.env)
               .filter(
                 (e) =>
-                  Array.isArray(deviceOptions[e]) && deviceOptions[e].length > 0,
+                  Array.isArray(deviceOptions[e]) &&
+                  deviceOptions[e].length > 0,
               );
         // Private env (premium/personal) may be missing from both
         // deviceOptions and currentLocations — always append it
@@ -5834,10 +5948,38 @@
       // "uncle-sam-usa". Cyrillic is transliterated, the rest is dropped.
       const AWG_TUNNEL_NAME_MAX = 15;
       const CONFIG_SLUG_TRANSLIT = {
-        а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ё: "e", ж: "zh",
-        з: "z", и: "i", й: "y", к: "k", л: "l", м: "m", н: "n", о: "o",
-        п: "p", р: "r", с: "s", т: "t", у: "u", ф: "f", х: "h", ц: "ts",
-        ч: "ch", ш: "sh", щ: "sch", ъ: "", ы: "y", ь: "", э: "e", ю: "yu",
+        а: "a",
+        б: "b",
+        в: "v",
+        г: "g",
+        д: "d",
+        е: "e",
+        ё: "e",
+        ж: "zh",
+        з: "z",
+        и: "i",
+        й: "y",
+        к: "k",
+        л: "l",
+        м: "m",
+        н: "n",
+        о: "o",
+        п: "p",
+        р: "r",
+        с: "s",
+        т: "t",
+        у: "u",
+        ф: "f",
+        х: "h",
+        ц: "ts",
+        ч: "ch",
+        ш: "sh",
+        щ: "sch",
+        ъ: "",
+        ы: "y",
+        ь: "",
+        э: "e",
+        ю: "yu",
         я: "ya",
       };
 
@@ -5877,7 +6019,8 @@
           let n = 2;
           while (taken.has(name)) {
             const suffix = `-${n++}`;
-            name = awgTunnelName(s, AWG_TUNNEL_NAME_MAX - suffix.length) + suffix;
+            name =
+              awgTunnelName(s, AWG_TUNNEL_NAME_MAX - suffix.length) + suffix;
           }
           taken.add(name);
           return name;
@@ -5891,19 +6034,42 @@
       // (GitHub builds, Aug 2026+). Anything outside the level's list is cut,
       // so are empty values and comments. [Peer] passes through as-is.
       const AWG_INTERFACE_KEYS_20 = [
-        "PrivateKey", "Address", "DNS", "MTU", "ListenPort",
-        "Jc", "Jmin", "Jmax", "S1", "S2", "S3", "S4",
-        "H1", "H2", "H3", "H4", "I1", "I2", "I3", "I4", "I5",
+        "PrivateKey",
+        "Address",
+        "DNS",
+        "MTU",
+        "ListenPort",
+        "Jc",
+        "Jmin",
+        "Jmax",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "H1",
+        "H2",
+        "H3",
+        "H4",
+        "I1",
+        "I2",
+        "I3",
+        "I4",
+        "I5",
       ];
       const AWG_INTERFACE_KEYS_31 = AWG_INTERFACE_KEYS_20.concat([
-        "HeaderProtectionKey", "ContentPaddingAddition",
-        "RekeyAfterTime", "RekeyTimeout", "RejectAfterTime",
-        "KeepaliveTimeout", "MaxHandshakeAttempts",
-        "RandomTrailers", "DisableCookies",
+        "HeaderProtectionKey",
+        "ContentPaddingAddition",
+        "RekeyAfterTime",
+        "RekeyTimeout",
+        "RejectAfterTime",
+        "KeepaliveTimeout",
+        "MaxHandshakeAttempts",
+        "RandomTrailers",
+        "DisableCookies",
       ]);
       const AWG_CLIENT_KEYS = {
         "2.0": new Set(AWG_INTERFACE_KEYS_20.map((k) => k.toLowerCase())),
-        "3.1": new Set(AWG_INTERFACE_KEYS_31.map((k) => k.toLowerCase())),
+        3.1: new Set(AWG_INTERFACE_KEYS_31.map((k) => k.toLowerCase())),
       };
 
       // Config for a specific client version. For 2.0 the client-side 3.1
@@ -5926,7 +6092,8 @@
               return;
             }
             if (t.startsWith("[")) {
-              inInterface = t.replace(/\s+/g, "").toLowerCase() === "[interface]";
+              inInterface =
+                t.replace(/\s+/g, "").toLowerCase() === "[interface]";
               out.push(t);
               return;
             }
@@ -5938,8 +6105,12 @@
             if (inInterface) {
               const k = key.toLowerCase();
               if (level === "2.0") {
-                if (k === "headerprotectionkey") blockers.push("HeaderProtectionKey");
-                if (k === "randomtrailers" && /^(on|1|true|t|yes|y)$/i.test(value)) {
+                if (k === "headerprotectionkey")
+                  blockers.push("HeaderProtectionKey");
+                if (
+                  k === "randomtrailers" &&
+                  /^(on|1|true|t|yes|y)$/i.test(value)
+                ) {
                   blockers.push("RandomTrailers");
                 }
               }
@@ -5947,14 +6118,21 @@
             }
             out.push(`${key} = ${value}`);
           });
-        const text = out.join("\n").replace(/\n{3,}/g, "\n\n").trim() + "\n";
+        const text =
+          out
+            .join("\n")
+            .replace(/\n{3,}/g, "\n\n")
+            .trim() + "\n";
         return { config: text, blockers };
       }
 
       // Build + download a zip via JSZip (jsDelivr, same way as qrcode).
       // entries: [{name, content}] -> blob -> a regular <a download>.
       function downloadZip(entries, zipName) {
-        if (typeof JSZip !== "function" || typeof JSZip.prototype.file !== "function") {
+        if (
+          typeof JSZip !== "function" ||
+          typeof JSZip.prototype.file !== "function"
+        ) {
           showToast("JSZip failed to load — please try again later");
           return;
         }
@@ -5962,16 +6140,16 @@
         entries.forEach(({ name, content }) => {
           zip.file(name, content);
         });
-        zip.generateAsync({ type: "blob", compression: "DEFLATE" }).then(
-          (blob) => {
+        zip
+          .generateAsync({ type: "blob", compression: "DEFLATE" })
+          .then((blob) => {
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
             a.download = zipName;
             a.click();
             URL.revokeObjectURL(url);
-          },
-        );
+          });
       }
 
       function renderAwg(id, env, has) {
@@ -6061,11 +6239,18 @@
             const envName = sanitizeZipEntryName(env || "all");
             const bindZip = (btnId, build, zipName) => {
               const btn = document.getElementById(btnId);
-              if (btn) btn.addEventListener("click", () => downloadZip(build(), zipName));
+              if (btn)
+                btn.addEventListener("click", () =>
+                  downloadZip(build(), zipName),
+                );
             };
             bindZip(
               "awg-download-all",
-              () => finalNodes.map((n, i) => ({ name: `${names[i]}.conf`, content: n.config || "" })),
+              () =>
+                finalNodes.map((n, i) => ({
+                  name: `${names[i]}.conf`,
+                  content: n.config || "",
+                })),
               `frkn-awg-${envName}.zip`,
             );
             bindZip(
@@ -6079,7 +6264,11 @@
             );
             bindZip(
               "awg-download-all-2x",
-              () => compatIdx.map((i) => ({ name: `${names[i]}.conf`, content: compat[i].config })),
+              () =>
+                compatIdx.map((i) => ({
+                  name: `${names[i]}.conf`,
+                  content: compat[i].config,
+                })),
               `frkn-awg-${envName}-awg2x.zip`,
             );
           })

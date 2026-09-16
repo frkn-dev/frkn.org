@@ -148,7 +148,9 @@
       const WS_URL =
         location.hostname === "localhost"
           ? "ws://localhost:3000"
-          : "wss://api.frkn.org";
+          : location.hostname.endsWith(".onion")
+            ? location.origin.replace(/^http/, "ws") + "/api"
+            : "wss://api.frkn.org";
 
       const grid = document.getElementById("grid");
       const charts = {};

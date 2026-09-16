@@ -12,7 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css?v=7" />
+    <link rel="stylesheet" href="/styles.css?v=9" />
     <style>
       body {
         background-color: #0a0a0a;
@@ -244,7 +244,13 @@
       const BASE = isLocal ? "http://localhost:8000" : "https://frkn.org";
       const PAYMENT_API_BASE = isLocal
         ? "http://localhost:3000"
-        : "https://api.frkn.org";
+        : window.location.hostname.endsWith(".onion")
+          ? window.location.origin + "/api"
+          : "https://api.frkn.org";
+      const PAYMENT_API_FALLBACK =
+        isLocal || window.location.hostname.endsWith(".onion")
+          ? null
+          : "https://api.frkn.org";
 
       const params = new URLSearchParams(window.location.search);
       const txid = params.get("txid") || params.get("id");
@@ -281,7 +287,8 @@
           const res = await fetch(`${PAYMENT_API_BASE}${url}`, fullOptions);
           if (res.ok || res.status >= 400) return res;
         } catch (e) {}
-        return fetch(`https://api.frkn.org${url}`, fullOptions);
+        if (!PAYMENT_API_FALLBACK) throw new Error("API unreachable");
+        return fetch(`${PAYMENT_API_FALLBACK}${url}`, fullOptions);
       }
 
       const MAX_POLL_ATTEMPTS = 150;

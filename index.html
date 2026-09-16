@@ -37,7 +37,16 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css?v=7" />
+    <link rel="stylesheet" href="/styles.css?v=9" />
+    <style>
+      .lp-sub { color: var(--muted); margin: -8px 0 25px; font-size: 15px; }
+      .lp-grid-4 { grid-template-columns: repeat(4, 1fr); }
+      .lp-price-note { font-size: 11px; color: var(--muted); margin: 0 0 14px; line-height: 1.5; }
+      .lp-price-option { cursor: pointer; padding: 2px 4px; border-radius: 6px; transition: all 0.15s ease; }
+      .lp-price-option:hover { color: var(--accent); background: rgba(56, 189, 248, 0.12); }
+      .lp-unlim { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #22d3ee; margin-bottom: 8px; }
+      .lp-spacer { margin-top: 56px; }
+    </style>
   </head>
   <body class="landing-page">
     <div class="container">
@@ -64,20 +73,20 @@
                 width: 100%;
               "
             >
-              <button
-                class="btn try pulse"
-                id="scrollToTrial"
-                style="padding: 14px 24px; font-size: 15px"
-              >
-                Попробовать бесплатно
-              </button>
-
               <a href="/dopamine"
                 ><button
                   class="btn try"
                   style="padding: 14px 24px; font-size: 15px"
                 >
                   Скачать
+                </button></a
+              >
+              <a href="/pay"
+                ><button
+                  class="btn ghost btn-fire"
+                  style="padding: 14px 24px; font-size: 15px"
+                >
+                  Тарифы
                 </button></a
               >
               <div class="hero-btn-break"></div>
@@ -102,20 +111,12 @@
                 Бесплатные TG прокси
               </button>
 
-              <a href="/pay"
-                ><button
-                  class="btn ghost"
-                  style="padding: 14px 24px; font-size: 15px"
-                >
-                  Тарифы
-                </button></a
-              >
               <a href="/switch-to-frkn"
                 ><button
                   class="btn ghost"
                   style="padding: 14px 24px; font-size: 15px"
                 >
-                  Переход с другого сервиса
+                  Trade-In
                 </button></a
               >
             </div>
@@ -126,7 +127,7 @@
         <div class="trial-container">
           <div class="trial-info">
             <h2>
-              Тест-драйв
+              Вечный Доступ в Интернет
               <span
                 style="
                   color: var(--accent-2);
@@ -134,28 +135,47 @@
                   vertical-align: middle;
                   white-space: nowrap;
                 "
-                >3 дня бесплатно</span
+                >от 67₽</span
               >
             </h2>
             <p>
-              Даём 3 дня полного доступа. Без привязки карты. Просто введи почту
-              и получай доступ.
+              Даже если у вас есть VPN — это лучший вариант сохранить доступ.
+              Гигабайт живёт вечно.
             </p>
             <div class="trial-steps">
-              <span>1. Почта</span>
-              <span>2. Ключ</span>
-              <span class="active">3. Интернет</span>
+              <span>1. Оплата</span>
+              <span class="active">2. Интернет</span>
             </div>
-            <p class="small">Отправим ключ доступа в течение минуты.</p>
+            <p class="small">
+              Без почты и регистрации — ключ покажем на странице сразу после
+              оплаты.
+            </p>
           </div>
-          <form id="trialForm" class="trial-form">
+          <div id="trialForm" class="trial-form">
             <input
               type="email"
-              name="email"
-              placeholder="Твой e-mail"
-              required
+              id="trialEmail"
+              placeholder="Твой e-mail (необязательно)"
             />
-            <button class="btn try" type="submit">Получить доступ</button>
+            <p class="small" style="margin: 0 0 10px; color: var(--muted); font-size: 12px">
+              Нужен для напоминаний и уведомлений — необязательно. Можно
+              указать позже в Личном Кабинете.
+            </p>
+            <button
+              class="btn try trial-buy-btn"
+              type="button"
+              data-price="67"
+            >
+              Я зумер — 1 ГБ за 67₽
+            </button>
+            <button
+              class="btn ghost trial-buy-btn"
+              type="button"
+              data-price="69"
+              data-alt="true"
+            >
+              Я миллениал — 69₽
+            </button>
             <p id="message" class="status-message"></p>
             <div class="trial-extra-actions">
               <a href="/activate"
@@ -164,25 +184,78 @@
                 </button></a
               >
             </div>
-          </form>
+          </div>
         </div>
       </section>
       <section class="pricing-landing">
-        <h2>Тарифы</h2>
+        <h2>Вечные Тарифы</h2>
+        <p class="lp-sub">с оплатой за гигабайты — трафик не сгорает</p>
+        <div class="pricing-landing-grid lp-grid-4">
+          <div class="pl-card">
+            <h3>1 ГБ</h3>
+            <div class="pl-duration">живёт, пока не кончится</div>
+            <div class="pl-cost">67₽</div>
+            <div class="lp-price-note">
+              <span class="lp-price-option trial-buy-btn" data-gb="1" data-price="67">67₽ зумерам</span>
+              /
+              <span class="lp-price-option trial-buy-btn" data-gb="1" data-price="69" data-alt="true">69₽ миллениалам</span>
+            </div>
+            <button class="btn try trial-buy-btn" data-gb="1" data-price="67">Выбрать</button>
+          </div>
+          <div class="pl-card">
+            <h3>5 ГБ</h3>
+            <div class="pl-duration">живёт, пока не кончится</div>
+            <div class="pl-cost">167₽</div>
+            <div class="lp-price-note">
+              <span class="lp-price-option trial-buy-btn" data-gb="5" data-price="167">167₽ зумерам</span>
+              /
+              <span class="lp-price-option trial-buy-btn" data-gb="5" data-price="169" data-alt="true">169₽ миллениалам</span>
+            </div>
+            <button class="btn try trial-buy-btn" data-gb="5" data-price="167">Выбрать</button>
+          </div>
+          <div class="pl-card">
+            <h3>10 ГБ</h3>
+            <div class="pl-duration">живёт, пока не кончится</div>
+            <div class="pl-cost">267₽</div>
+            <div class="lp-price-note">
+              <span class="lp-price-option trial-buy-btn" data-gb="10" data-price="267">267₽ зумерам</span>
+              /
+              <span class="lp-price-option trial-buy-btn" data-gb="10" data-price="269" data-alt="true">269₽ миллениалам</span>
+            </div>
+            <button class="btn try trial-buy-btn" data-gb="10" data-price="267">Выбрать</button>
+          </div>
+          <div class="pl-card">
+            <h3>50 ГБ</h3>
+            <div class="pl-duration">живёт, пока не кончится</div>
+            <div class="pl-cost">367₽</div>
+            <div class="lp-price-note">
+              <span class="lp-price-option trial-buy-btn" data-gb="50" data-price="367">367₽ зумерам</span>
+              /
+              <span class="lp-price-option trial-buy-btn" data-gb="50" data-price="369" data-alt="true">369₽ миллениалам</span>
+            </div>
+            <button class="btn try trial-buy-btn" data-gb="50" data-price="367">Выбрать</button>
+          </div>
+        </div>
+
+        <h2 class="lp-spacer">Безлимитные Тарифы</h2>
+        <p class="lp-sub">с оплатой за время — ∞ трафика</p>
         <div class="pricing-landing-grid">
           <div class="pl-card">
+            <div class="lp-unlim">∞ БЕЗЛИМИТ</div>
             <h3>1 месяц</h3>
             <div class="pl-duration">30 дней</div>
             <div class="pl-cost">500₽</div>
             <a href="/pay" class="btn try">Купить</a>
           </div>
           <div class="pl-card">
+            <div class="lp-unlim">∞ БЕЗЛИМИТ</div>
             <h3>3 месяца</h3>
             <div class="pl-duration">90 дней</div>
             <div class="pl-cost">1300₽</div>
             <a href="/pay" class="btn try">Купить</a>
           </div>
           <div class="pl-card">
+            <div class="lp-unlim">∞ БЕЗЛИМИТ</div>
             <h3>12 месяцев</h3>
             <div class="pl-duration">365 дней</div>
             <div class="pl-cost">4500₽</div>
@@ -193,7 +266,7 @@
       <section class="features-grid">
         <div class="feature-mini">
           <div class="feature-icon">
-            <img src="/Images/nologs.png" alt="" />
+            <img src="/Images/nologs.png" alt="" style="transform: scale(0.85)" />
           </div>
           <div>
             <h3>Без логов и регистраций</h3>
@@ -222,28 +295,14 @@
       <div id="footer-container"></div>
     </div>
     <script src="/scripts/analytics.js" defer></script>
-    <script src="/scripts/trial.js"></script>
+    <script src="/scripts/trial.js?v=4"></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script>
-      const scrollBtn = document.getElementById("scrollToTrial");
-      const buySection = document.getElementById("trial");
-      const trialEmail = document.querySelector(
-        "#trialForm input[type='email']",
-      );
-
-      function focusTrialEmail() {
-        if (trialEmail) trialEmail.focus({ preventScroll: true });
-      }
-
-      scrollBtn.addEventListener("click", () => {
-        buySection.scrollIntoView({ behavior: "smooth" });
-        focusTrialEmail();
-      });
-
       if (window.location.hash === "#trial") {
-        buySection.scrollIntoView({ behavior: "smooth" });
-        focusTrialEmail();
+        document
+          .getElementById("trial")
+          .scrollIntoView({ behavior: "smooth" });
       }
 
       const trialContainer = document.querySelector(".trial-container");

@@ -44,7 +44,7 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css?v=7" />
+    <link rel="stylesheet" href="/styles.css?v=9" />
     <style>
       :root {
         --bg-color: var(--bg, #090b10);
@@ -332,6 +332,77 @@
       }
       .savings-text.regular {
         color: var(--text-dim);
+      }
+      .unlimited-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        background: linear-gradient(135deg, #22d3ee, #0ea5e9);
+        color: #04121a;
+        padding: 4px 10px;
+        border-radius: 999px;
+        box-shadow: 0 0 16px rgba(34, 211, 238, 0.35);
+      }
+      .pricing-grid-traffic {
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 16px;
+      }
+      .traffic-pricing-note {
+        font-size: 11px;
+        color: var(--text-dim);
+        margin-bottom: 12px;
+        line-height: 1.5;
+      }
+      .price-option {
+        cursor: pointer;
+        padding: 2px 4px;
+        border-radius: 6px;
+        transition: all 0.15s ease;
+      }
+      .price-option:hover {
+        color: var(--accent);
+        background: rgba(91, 124, 250, 0.12);
+      }
+      .pay-tabs {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+      .pay-tab {
+        padding: 14px 28px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        background: transparent;
+        color: var(--text-dim);
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .pay-tab:hover {
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .pay-tab.active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
+      }
+      @media (max-width: 960px) {
+        .pricing-grid-traffic {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 480px) {
+        .pricing-grid-traffic {
+          grid-template-columns: 1fr;
+        }
       }
       .modal-overlay {
         display: none;
@@ -657,6 +728,126 @@
         <a href="/activate" class="text-link">Активируй его здесь</a>
       </p>
 
+      <div class="pay-tabs">
+        <button class="pay-tab active" id="tab-traffic" type="button">
+          Купить трафик
+        </button>
+        <button class="pay-tab" id="tab-unlimited" type="button">
+          Безлимитные Тарифы
+        </button>
+      </div>
+
+      <div id="section-traffic">
+      <div class="pricing-section">
+        <div class="pricing-grid pricing-grid-traffic">
+          <div
+            class="price-card compact"
+            data-duration="0"
+            data-gb="1"
+            data-price="67"
+          >
+            <h3>1 ГБ</h3>
+            <div class="duration">живёт, пока не кончится</div>
+            <div class="cost-wrapper">
+              <div class="cost">67₽</div>
+            </div>
+            <div class="traffic-pricing-note">
+              <span class="price-option" data-price="67">67₽ зумерам</span>
+              /
+              <span class="price-option" data-price="69" data-alt="true">69₽ миллениалам</span>
+            </div>
+            <button
+              class="buy-button"
+              data-duration="0"
+              data-gb="1"
+              data-price="67"
+            >
+              Выбрать
+            </button>
+          </div>
+
+          <div
+            class="price-card compact"
+            data-duration="0"
+            data-gb="5"
+            data-price="167"
+          >
+            <h3>5 ГБ</h3>
+            <div class="duration">живёт, пока не кончится</div>
+            <div class="cost-wrapper">
+              <div class="cost">167₽</div>
+            </div>
+            <div class="traffic-pricing-note">
+              <span class="price-option" data-price="167">167₽ зумерам</span>
+              /
+              <span class="price-option" data-price="169" data-alt="true">169₽ миллениалам</span>
+            </div>
+            <button
+              class="buy-button"
+              data-duration="0"
+              data-gb="5"
+              data-price="167"
+            >
+              Выбрать
+            </button>
+          </div>
+
+          <div
+            class="price-card compact"
+            data-duration="0"
+            data-gb="10"
+            data-price="267"
+          >
+            <h3>10 ГБ</h3>
+            <div class="duration">живёт, пока не кончится</div>
+            <div class="cost-wrapper">
+              <div class="cost">267₽</div>
+            </div>
+            <div class="traffic-pricing-note">
+              <span class="price-option" data-price="267">267₽ зумерам</span>
+              /
+              <span class="price-option" data-price="269" data-alt="true">269₽ миллениалам</span>
+            </div>
+            <button
+              class="buy-button"
+              data-duration="0"
+              data-gb="10"
+              data-price="267"
+            >
+              Выбрать
+            </button>
+          </div>
+
+          <div
+            class="price-card compact"
+            data-duration="0"
+            data-gb="50"
+            data-price="367"
+          >
+            <h3>50 ГБ</h3>
+            <div class="duration">живёт, пока не кончится</div>
+            <div class="cost-wrapper">
+              <div class="cost">367₽</div>
+            </div>
+            <div class="traffic-pricing-note">
+              <span class="price-option" data-price="367">367₽ зумерам</span>
+              /
+              <span class="price-option" data-price="369" data-alt="true">369₽ миллениалам</span>
+            </div>
+            <button
+              class="buy-button"
+              data-duration="0"
+              data-gb="50"
+              data-price="367"
+            >
+              Выбрать
+            </button>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div id="section-unlimited" style="display: none">
       <div class="pricing-section">
         <div class="pricing-grid pricing-grid-main">
           <div
@@ -664,6 +855,7 @@
             data-duration="30"
             data-price="500"
           >
+            <span class="unlimited-badge">∞ БЕЗЛИМИТ</span>
             <div class="card-subtitle">Попробовать Рилзопровод</div>
             <h3>1 месяц</h3>
             <div class="duration">30 дней доступа</div>
@@ -688,6 +880,7 @@
             data-duration="90"
             data-price="1300"
           >
+            <span class="unlimited-badge">∞ БЕЗЛИМИТ</span>
             <div class="card-subtitle"></div>
             <h3>3 месяца</h3>
             <div class="duration">90 дней доступа</div>
@@ -712,6 +905,7 @@
             data-duration="365"
             data-price="4500"
           >
+            <span class="unlimited-badge">∞ БЕЗЛИМИТ</span>
             <div class="card-subtitle">Для постоянного использования</div>
             <h3>12 месяцев</h3>
             <div class="duration">365 дней доступа</div>
@@ -740,6 +934,7 @@
       <div class="extra-options hidden" id="extra-options">
         <div class="pricing-grid pricing-grid-extra">
           <div class="price-card compact" data-duration="3" data-price="100">
+            <span class="unlimited-badge">∞ БЕЗЛИМИТ</span>
             <h3>3 дня</h3>
             <div class="duration">3 дня доступа</div>
             <div class="cost-wrapper">
@@ -753,6 +948,7 @@
           </div>
 
           <div class="price-card compact" data-duration="7" data-price="200">
+            <span class="unlimited-badge">∞ БЕЗЛИМИТ</span>
             <h3>7 дней</h3>
             <div class="duration">7 дней доступа</div>
             <div class="cost-wrapper">
@@ -766,6 +962,7 @@
           </div>
 
           <div class="price-card compact" data-duration="14" data-price="300">
+            <span class="unlimited-badge">∞ БЕЗЛИМИТ</span>
             <h3>14 дней</h3>
             <div class="duration">14 дней доступа</div>
             <div class="cost-wrapper">
@@ -779,6 +976,7 @@
           </div>
 
           <div class="price-card compact" data-duration="180" data-price="2700">
+            <span class="unlimited-badge">∞ БЕЗЛИМИТ</span>
             <h3>6 месяцев</h3>
             <div class="duration">180 дней доступа</div>
             <div class="cost-wrapper">
@@ -791,6 +989,7 @@
             </button>
           </div>
         </div>
+      </div>
       </div>
 
       <div class="pay-benefits">
@@ -847,14 +1046,15 @@
           </div>
           <div class="promo-info" id="ref-info"></div>
         </div>
+        <div class="form-group">
+          <label>Email (необязательно)</label>
+          <input type="email" id="user-email" placeholder="Для письма с ключом и напоминаний" />
+          <div class="promo-info">Можно указать позже в Личном Кабинете.</div>
+        </div>
         <div class="modal-total-wrapper" id="modal-total-wrapper"></div>
-        <button class="btn-pay" id="final-pay-btn">Оплатить</button>
-        <button
-          class="btn-pay btn-pay-secondary"
-          id="planta-pay-btn"
-          style="display: none"
-        >
-          Оплата Картой/СБП
+        <button class="btn-pay" id="planta-pay-btn">Оплата СБП</button>
+        <button class="btn-pay btn-pay-secondary" id="final-pay-btn">
+          Оплата картой МИР/Криптой
         </button>
         <div class="planta-waiting" id="planta-waiting">
           <span class="loading-spinner"></span> Ждем ссылку на оплату от СБП...
@@ -867,8 +1067,8 @@
             margin-top: 20px;
           "
         >
-          Нажимая «Оплатить», вы переходите на шлюз Platega. Мы не храним ваши
-          данные.
+          «Оплата СБП» — шлюз Planta, «Оплата Картой МИР/Криптой» — шлюз
+          Platega. Мы не храним ваши данные.
         </p>
         <p
           style="
@@ -884,10 +1084,8 @@
           ⚠️ Не закрывайте это окно до подтверждения оплаты
         </p>
         <p style="font-size: 15px; text-align: center; margin-top: 15px">
-          ‼️ Внимание: Если платёжная система не вернёт вас на наш сайт обратно
-          вставьте ID оплаты которая отдаст платежная система в ссылку
-          https://frkn.org/transaction?txid=<Ваш ID оплаты> (мы не виноваты,
-          сори за неудобство, оно у них работает через раз)
+          🙏 Пожалуйста, платите по СБП или Криптой — так мы заплатим меньше
+          комиссий. Цена для вас не меняется.
         </p>
       </div>
     </div>
@@ -909,8 +1107,13 @@
         window.location.hostname === "127.0.0.1";
       const PAYMENT_API_BASE = isLocal
         ? "http://localhost:3006"
-        : "https://api.frkn.org";
-      const PAYMENT_API_FALLBACK = isLocal ? null : "https://api.frkn.org";
+        : window.location.hostname.endsWith(".onion")
+          ? window.location.origin + "/api"
+          : "https://api.frkn.org";
+      const PAYMENT_API_FALLBACK =
+        isLocal || window.location.hostname.endsWith(".onion")
+          ? null
+          : "https://api.frkn.org";
       let currentOrder = null;
 
       async function apiFetch(path, options = {}) {
@@ -987,6 +1190,7 @@
       }
 
       function formatDuration(days) {
+        if (days === 0) return "пакеты трафика";
         const map = {
           3: "3 дня",
           7: "7 дней",
@@ -1058,12 +1262,14 @@
           const btn = card.querySelector(".buy-button");
           const duration = parseInt(btn.dataset.duration);
           const basePrice = parseInt(btn.dataset.price);
+          const gb = btn.dataset.gb ? parseInt(btn.dataset.gb) : null;
           try {
             const response = await apiFetch(`/promocode/validate`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 duration,
+                ...(gb ? { kind: "lite", traffic_gib: gb } : {}),
                 promocode: promoCode.toUpperCase(),
               }),
             });
@@ -1102,6 +1308,14 @@
       function updateModalDisplay() {
         if (!currentOrder) return;
         const { duration, price: finalPrice, originalPrice } = currentOrder;
+        if (currentOrder.kind === "lite") {
+          const gbLabel = `${currentOrder.trafficGib} ГБ трафика`;
+          modalTotalWrapper.innerHTML =
+            finalPrice < originalPrice
+              ? `<div><span class="modal-old-price">${originalPrice}₽</span><span class="modal-discount-price">${finalPrice}₽</span><div style="font-size: 14px; margin-top: 8px; color: #22c55e;">${gbLabel}</div></div>`
+              : `<div><div class="modal-total">${finalPrice}₽</div><div style="font-size: 14px; margin-top: 8px; color: #888;">${gbLabel}</div></div>`;
+          return;
+        }
         const pricePerDay = (finalPrice / duration).toFixed(1);
         if (finalPrice < originalPrice) {
           const originalPricePerDay = (originalPrice / duration).toFixed(1);
@@ -1132,6 +1346,13 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               duration: currentOrder.duration,
+              ...(currentOrder.kind === "lite"
+                ? {
+                    kind: "lite",
+                    traffic_gib: currentOrder.trafficGib,
+                    alt_price: currentOrder.altPrice === true,
+                  }
+                : {}),
               promocode: promoValue,
             }),
           });
@@ -1208,17 +1429,27 @@
       }
 
       // --- Открытие модального окна ---
-      async function openModal(duration, basePrice, element) {
+      // override: {price, alt} — выбранная кликом цена ("зумер"/"миллениал")
+      async function openModal(duration, basePrice, element, override = null) {
         let finalPrice = basePrice;
         let originalPrice = basePrice;
         if (element && element.dataset.discountedPrice)
           finalPrice = parseInt(element.dataset.discountedPrice);
+        if (override && override.price) {
+          finalPrice = override.price;
+          originalPrice = override.price;
+        }
+        const trafficGib =
+          element && element.dataset.gb ? parseInt(element.dataset.gb) : null;
         currentOrder = {
           duration: parseInt(duration),
           price: finalPrice,
           originalPrice: originalPrice,
           promo: null,
           referral: null,
+          kind: trafficGib ? "lite" : "standard",
+          trafficGib: trafficGib,
+          altPrice: override ? override.alt === true : false,
         };
         promoInput.value = urlPromoCode || "";
         promoInput.style.borderColor = "";
@@ -1278,8 +1509,9 @@
           if (applyRefBtn) applyRefBtn.style.display = "flex";
         }
         updateModalDisplay();
-        document.getElementById("modal-title").innerHTML =
-          `Оформление подписки<br>на ${duration} дней`;
+        document.getElementById("modal-title").innerHTML = trafficGib
+          ? `Покупка трафика<br>${trafficGib} ГБ`
+          : `Оформление подписки<br>на ${duration} дней`;
         paymentModal.classList.add("active");
       }
 
@@ -1303,10 +1535,30 @@
       }
 
       // --- Обработчики событий ---
+      function orderEmail() {
+        const raw = (
+          document.getElementById("user-email")?.value || ""
+        ).trim().toLowerCase();
+        return /^[a-z0-9._%+-]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(raw)
+          ? raw
+          : null;
+      }
       document.querySelectorAll(".buy-button").forEach((btn) =>
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
           openModal(btn.dataset.duration, btn.dataset.price, btn);
+        }),
+      );
+      document.querySelectorAll(".price-option").forEach((opt) =>
+        opt.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const card = opt.closest(".price-card");
+          if (!card) return;
+          const btn = card.querySelector(".buy-button");
+          openModal(card.dataset.duration, card.dataset.price, btn, {
+            price: parseInt(opt.dataset.price),
+            alt: opt.dataset.alt === "true",
+          });
         }),
       );
       document
@@ -1343,6 +1595,21 @@
             : "Дополнительные варианты";
         });
       }
+      const tabTraffic = document.getElementById("tab-traffic");
+      const tabUnlimited = document.getElementById("tab-unlimited");
+      const sectionTraffic = document.getElementById("section-traffic");
+      const sectionUnlimited = document.getElementById("section-unlimited");
+      function selectPayTab(which) {
+        const traffic = which === "traffic";
+        tabTraffic?.classList.toggle("active", traffic);
+        tabUnlimited?.classList.toggle("active", !traffic);
+        if (sectionTraffic)
+          sectionTraffic.style.display = traffic ? "" : "none";
+        if (sectionUnlimited)
+          sectionUnlimited.style.display = traffic ? "none" : "";
+      }
+      tabTraffic?.addEventListener("click", () => selectPayTab("traffic"));
+      tabUnlimited?.addEventListener("click", () => selectPayTab("unlimited"));
       if (payBtn) {
         payBtn.onclick = async () => {
           if (!currentOrder) {
@@ -1362,8 +1629,16 @@
               },
               body: JSON.stringify({
                 duration: currentOrder.duration,
+                ...(currentOrder.kind === "lite"
+                  ? {
+                      kind: "lite",
+                      traffic_gib: currentOrder.trafficGib,
+                      alt_price: currentOrder.altPrice === true,
+                    }
+                  : {}),
                 promocode: currentOrder.promo || null,
                 refCode: currentOrder.referral || null,
+                email: orderEmail(),
               }),
             });
             if (!res.ok) {
@@ -1409,8 +1684,16 @@
               },
               body: JSON.stringify({
                 duration: currentOrder.duration,
+                ...(currentOrder.kind === "lite"
+                  ? {
+                      kind: "lite",
+                      traffic_gib: currentOrder.trafficGib,
+                      alt_price: currentOrder.altPrice === true,
+                    }
+                  : {}),
                 promocode: currentOrder.promo || null,
                 refCode: currentOrder.referral || null,
+                email: orderEmail(),
               }),
             });
             if (!res.ok) {
@@ -1427,6 +1710,11 @@
               "frkn_last_transaction_id",
               data.transactionId,
             );
+            // Прод Планты отдает ссылку сразу в create-ответе.
+            if (data.paymentUrl) {
+              window.location.href = data.paymentUrl;
+              return;
+            }
             // Planta не отдает ссылку сразу — qrLink приходит постбэком,
             // поллим /payment/check, пока не появится paymentUrl.
             const paymentUrl = await pollPlantaPaymentUrl(data.transactionId);

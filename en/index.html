@@ -37,7 +37,16 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css?v=7" />
+    <link rel="stylesheet" href="/styles.css?v=9" />
+    <style>
+      .lp-sub { color: var(--muted); margin: -8px 0 25px; font-size: 15px; }
+      .lp-grid-4 { grid-template-columns: repeat(4, 1fr); }
+      .lp-price-note { font-size: 11px; color: var(--muted); margin: 0 0 14px; line-height: 1.5; }
+      .lp-price-option { cursor: pointer; padding: 2px 4px; border-radius: 6px; transition: all 0.15s ease; }
+      .lp-price-option:hover { color: var(--accent); background: rgba(56, 189, 248, 0.12); }
+      .lp-unlim { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #22d3ee; margin-bottom: 8px; }
+      .lp-spacer { margin-top: 56px; }
+    </style>
   </head>
   <body class="landing-page">
     <div class="container">
@@ -64,16 +73,13 @@
                 width: 100%;
               "
             >
-              <button
-                class="btn try pulse"
-                id="scrollToTrial"
-                style="padding: 14px 24px; font-size: 15px"
-              >
-                Try for free
-              </button>
               <a href="/dopamine/en/"
                 ><button class="btn try" style="padding: 14px 24px; font-size: 15px"
                   >Download</button></a
+              >
+              <a href="/en/pay"
+                ><button class="btn ghost btn-fire" style="padding: 14px 24px; font-size: 15px"
+                  >Pricing</button></a
               >
               <div class="hero-btn-break"></div>
               <button
@@ -88,13 +94,9 @@
                 />
                 Free TG proxies
               </button>
-              <a href="/en/pay"
-                ><button class="btn ghost" style="padding: 14px 24px; font-size: 15px"
-                  >Pricing</button></a
-              >
               <a href="/en/switch-to-frkn"
                 ><button class="btn ghost" style="padding: 14px 24px; font-size: 15px"
-                  >Switch from old service</button></a
+                  >Trade-In</button></a
               >
             </div>
           </div>
@@ -103,27 +105,32 @@
       <section id="trial" class="trial-section">
         <div class="trial-container">
           <div class="trial-info">
-            <h2>Test drive</h2>
+            <h2>Lifetime Internet Access <span style="color: var(--accent-2); font-size: 0.55em; vertical-align: middle; white-space: nowrap;">from 67₽</span></h2>
             <p>
-              Get 3 days of full access. No card required. Just enter your
-              email and get access.
+              Even if you already have a VPN — this is the best way to keep
+              your access. A gigabyte lasts forever.
             </p>
             <div class="trial-steps">
-              <span>1. Email</span>
-              <span>2. Key</span>
-              <span class="active">3. Internet</span>
+              <span>1. Payment</span>
+              <span class="active">2. Internet</span>
             </div>
-            <p class="small">We'll send the access key within a minute.</p>
+            <p class="small">No email, no sign-up — the key appears on the page right after payment.</p>
           </div>
-          <form id="trialForm" class="trial-form">
+          <div id="trialForm" class="trial-form">
             <input
               type="email"
-              name="email"
-              placeholder="Your email"
-              required
+              id="trialEmail"
+              placeholder="Your email (optional)"
             />
-            <button class="btn try" type="submit">
-              Get access
+            <p class="small" style="margin: 0 0 10px; color: var(--muted); font-size: 12px">
+              For reminders and notifications only — optional. You can add it
+              later in your dashboard.
+            </p>
+            <button class="btn try trial-buy-btn" type="button" data-price="67">
+              I'm a zoomer — 1 GB for 67₽
+            </button>
+            <button class="btn ghost trial-buy-btn" type="button" data-price="69" data-alt="true">
+              I'm a millennial — 69₽
             </button>
             <p id="message" class="status-message"></p>
             <div class="trial-extra-actions">
@@ -138,25 +145,78 @@
                 </button></a
               >
             </div>
-          </form>
+          </div>
         </div>
       </section>
       <section class="pricing-landing">
-        <h2>Pricing</h2>
+        <h2>Lifetime Plans</h2>
+        <p class="lp-sub">pay per gigabyte — traffic never expires</p>
+        <div class="pricing-landing-grid lp-grid-4">
+          <div class="pl-card">
+            <h3>1 GB</h3>
+            <div class="pl-duration">lasts until used up</div>
+            <div class="pl-cost">67₽</div>
+            <div class="lp-price-note">
+              <span class="lp-price-option trial-buy-btn" data-gb="1" data-price="67">67₽ zoomers</span>
+              /
+              <span class="lp-price-option trial-buy-btn" data-gb="1" data-price="69" data-alt="true">69₽ millennials</span>
+            </div>
+            <button class="btn try trial-buy-btn" data-gb="1" data-price="67">Choose</button>
+          </div>
+          <div class="pl-card">
+            <h3>5 GB</h3>
+            <div class="pl-duration">lasts until used up</div>
+            <div class="pl-cost">167₽</div>
+            <div class="lp-price-note">
+              <span class="lp-price-option trial-buy-btn" data-gb="5" data-price="167">167₽ zoomers</span>
+              /
+              <span class="lp-price-option trial-buy-btn" data-gb="5" data-price="169" data-alt="true">169₽ millennials</span>
+            </div>
+            <button class="btn try trial-buy-btn" data-gb="5" data-price="167">Choose</button>
+          </div>
+          <div class="pl-card">
+            <h3>10 GB</h3>
+            <div class="pl-duration">lasts until used up</div>
+            <div class="pl-cost">267₽</div>
+            <div class="lp-price-note">
+              <span class="lp-price-option trial-buy-btn" data-gb="10" data-price="267">267₽ zoomers</span>
+              /
+              <span class="lp-price-option trial-buy-btn" data-gb="10" data-price="269" data-alt="true">269₽ millennials</span>
+            </div>
+            <button class="btn try trial-buy-btn" data-gb="10" data-price="267">Choose</button>
+          </div>
+          <div class="pl-card">
+            <h3>50 GB</h3>
+            <div class="pl-duration">lasts until used up</div>
+            <div class="pl-cost">367₽</div>
+            <div class="lp-price-note">
+              <span class="lp-price-option trial-buy-btn" data-gb="50" data-price="367">367₽ zoomers</span>
+              /
+              <span class="lp-price-option trial-buy-btn" data-gb="50" data-price="369" data-alt="true">369₽ millennials</span>
+            </div>
+            <button class="btn try trial-buy-btn" data-gb="50" data-price="367">Choose</button>
+          </div>
+        </div>
+
+        <h2 class="lp-spacer">Unlimited Plans</h2>
+        <p class="lp-sub">pay for time — ∞ traffic</p>
         <div class="pricing-landing-grid">
           <div class="pl-card">
+            <div class="lp-unlim">∞ UNLIMITED</div>
             <h3>1 month</h3>
             <div class="pl-duration">30 days</div>
             <div class="pl-cost">500₽</div>
             <a href="/en/pay" class="btn try">Buy</a>
           </div>
           <div class="pl-card">
+            <div class="lp-unlim">∞ UNLIMITED</div>
             <h3>3 months</h3>
             <div class="pl-duration">90 days</div>
             <div class="pl-cost">1300₽</div>
             <a href="/en/pay" class="btn try">Buy</a>
           </div>
           <div class="pl-card">
+            <div class="lp-unlim">∞ UNLIMITED</div>
             <h3>12 months</h3>
             <div class="pl-duration">365 days</div>
             <div class="pl-cost">4500₽</div>
@@ -167,7 +227,7 @@
       <section class="features-grid">
         <div class="feature-mini">
           <div class="feature-icon">
-            <img src="/Images/nologs.png" alt="" />
+            <img src="/Images/nologs.png" alt="" style="transform: scale(0.85)" />
           </div>
           <div>
             <h3>No Logs</h3>
@@ -195,28 +255,14 @@
       <div id="footer-container"></div>
     </div>
     <script src="/scripts/analytics.js" defer></script>
-    <script src="/scripts/trial.en.js"></script>
+    <script src="/scripts/trial.en.js?v=4"></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script>
-      const scrollBtn = document.getElementById("scrollToTrial");
-      const buySection = document.getElementById("trial");
-      const trialEmail = document.querySelector(
-        "#trialForm input[type='email']",
-      );
-
-      function focusTrialEmail() {
-        if (trialEmail) trialEmail.focus({ preventScroll: true });
-      }
-
-      scrollBtn.addEventListener("click", () => {
-        buySection.scrollIntoView({ behavior: "smooth" });
-        focusTrialEmail();
-      });
-
       if (window.location.hash === "#trial") {
-        buySection.scrollIntoView({ behavior: "smooth" });
-        focusTrialEmail();
+        document
+          .getElementById("trial")
+          .scrollIntoView({ behavior: "smooth" });
       }
 
       const trialContainer = document.querySelector(".trial-container");

@@ -429,7 +429,7 @@
         if (!box) return;
 
         var articleId = box.dataset.article;
-        var API = "https://api.frkn.org";
+        var API = location.hostname.endsWith(".onion") ? location.origin + "/api" : "https://api.frkn.org";
         var KEY = "frkn-visitor-id";
 
         function getUserKey() {
