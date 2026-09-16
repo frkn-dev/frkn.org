@@ -4601,8 +4601,13 @@
             const progressFill = document.getElementById("days-progress-fill");
             if (progressFill) {
               const circumference = 2 * Math.PI * 54;
-              progressFill.style.strokeDashoffset = 0;
-              progressFill.style.stroke = "#10b981";
+              const limit = data.limit_bytes || 0;
+              const used = data.used_bytes || 0;
+              const ratio = limit > 0 ? Math.min(Math.max(1 - used / limit, 0), 1) : 1;
+              progressFill.style.strokeDashoffset = circumference * (1 - ratio);
+              const color =
+                ratio > 0.5 ? "#10b981" : ratio > 0.2 ? "#ffbd4d" : "#ef4444";
+              progressFill.style.stroke = color;
             }
             return;
           }
