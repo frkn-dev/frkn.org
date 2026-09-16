@@ -436,6 +436,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function orderPayload() {
+    const emailRaw = (
+      document.getElementById("trialEmail")?.value || ""
+    ).trim().toLowerCase();
+    const emailOk = /^[a-z0-9._%+-]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(emailRaw);
     return {
       duration: 0,
       kind: "lite",
@@ -443,6 +447,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alt_price: currentOrder.altPrice,
       promocode: currentOrder.promo || null,
       refCode: currentOrder.referral || null,
+      ...(emailOk ? { email: emailRaw } : {}),
     };
   }
 
