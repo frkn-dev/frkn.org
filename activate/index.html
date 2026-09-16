@@ -744,15 +744,16 @@
         <div class="key-display" id="modalKeyDisplay"></div>
 
         <div class="days-highlight">
-          <span class="days-number" id="keyDaysNumber">66</span>
-          <span class="days-text">дней доступа</span>
+          <span class="days-number" id="keyDaysNumber">—</span>
+          <span class="days-text" id="daysTextLabel">дней доступа</span>
         </div>
 
         <div class="info-box">
           <div class="info-title">Что произойдёт после активации?</div>
           <p>
             ✅ Будет создана новая подписка на
-            <strong id="infoDaysNumber">66</strong> дней
+            <strong id="infoDaysNumber">—</strong>
+            <span id="infoDaysUnit">дней</span>
           </p>
           <p>✅ Ты получишь доступ ко всем функциям Рилзопровода FRKN</p>
         </div>
@@ -845,9 +846,21 @@
 
         document.getElementById("modalKeyDisplay").textContent = keyValue;
 
-        const days = keyData?.days || 66;
-        document.getElementById("keyDaysNumber").textContent = days;
-        document.getElementById("infoDaysNumber").textContent = days;
+        const daysEl = document.getElementById("keyDaysNumber");
+        const infoEl = document.getElementById("infoDaysNumber");
+        const daysTextEl = document.getElementById("daysTextLabel");
+        const infoUnitEl = document.getElementById("infoDaysUnit");
+        const isLite = keyData?.kind === "lite" || keyData?.days === 0;
+        if (isLite) {
+          if (daysEl) daysEl.textContent = "∞";
+          if (infoEl) infoEl.textContent = "∞";
+          if (daysTextEl) daysTextEl.textContent = "доступа (пока есть трафик)";
+          if (infoUnitEl) infoUnitEl.textContent = " — пока есть трафик";
+        } else {
+          const days = keyData?.days ?? 0;
+          if (daysEl) daysEl.textContent = days;
+          if (infoEl) infoEl.textContent = days;
+        }
 
         modal.classList.add("active");
         document.body.style.overflow = "hidden";
