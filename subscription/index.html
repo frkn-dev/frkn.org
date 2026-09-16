@@ -6626,10 +6626,16 @@
             return;
           }
 
-          const addedDays = data.response?.instance?.Key?.days;
-          resultEl.innerText = addedDays
-            ? `✅ Активировано (+${addedDays} дней)`
-            : "✅ Активировано";
+          const keyData = data.response?.instance?.Key;
+          const addedDays = keyData?.days;
+          const addedBytes = keyData?.traffic_bytes;
+          if (addedBytes && addedBytes > 0) {
+            resultEl.innerText = `✅ Активировано (+${formatBytes(addedBytes)} трафика)`;
+          } else {
+            resultEl.innerText = addedDays
+              ? `✅ Активировано (+${addedDays} дней)`
+              : "✅ Активировано";
+          }
           setTimeout(() => location.reload(), 1000);
         } catch (e) {
           resultEl.innerText = "Ошибка";
