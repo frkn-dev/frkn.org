@@ -4155,12 +4155,16 @@
           await loadVpnClients();
           const response = await fetch(`${API_BASE}/subscription/${subId}`);
           if (!response.ok) {
+            // Stale id (sub deleted, or wrong uuid pasted) — clear and let
+            // the user re-enter via the form on the error screen.
+            try { localStorage.removeItem("frkn_sub_id"); } catch (e) {}
             showError();
             return;
           }
 
           const data = await response.json();
           if (!data || !data.id) {
+            try { localStorage.removeItem("frkn_sub_id"); } catch (e) {}
             showError();
             return;
           }
