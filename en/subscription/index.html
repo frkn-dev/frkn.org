@@ -3167,7 +3167,6 @@
               <span class="status-dot"></span>
               <h2>Subscription status</h2>
               <div class="status-pill" id="status-text">...</div>
-              <div class="trial-pill hidden" id="trial-pill">Trial</div>
               <div class="early-adopter-pill hidden" id="early-adopter-pill">
                 Early Adopter
               </div>
@@ -4265,7 +4264,7 @@
         const expiryDate = new Date(data.expires);
 
         // Trial and Early Adopter badges
-        const trialPill = document.getElementById("trial-pill");
+        // Early Adopter badges (Trial больше не раздаём — плашка убрана)
         const earlyAdopterPill = document.getElementById("early-adopter-pill");
         const earlyAdopterNumberPill = document.getElementById(
           "early-adopter-number-pill",
@@ -4278,9 +4277,6 @@
         )
           .then((r) => (r.ok ? r.json() : null))
           .then((meta) => {
-            if (trialPill) {
-              trialPill.classList.toggle("hidden", !meta?.trial);
-            }
             if (earlyAdopterPill) {
               earlyAdopterPill.classList.toggle("hidden", !meta?.early_adopter);
             }
