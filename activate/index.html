@@ -851,15 +851,24 @@
         const daysTextEl = document.getElementById("daysTextLabel");
         const infoUnitEl = document.getElementById("infoDaysUnit");
         const isLite = keyData?.kind === "lite" || keyData?.days === 0;
+        const fmtGb = (bytes) => {
+          if (!bytes) return "∞";
+          const gib = bytes / (1024 * 1024 * 1024);
+          if (gib >= 100) return `${Math.round(gib)} ГБ`;
+          return `${Number.isInteger(gib) ? gib : gib.toFixed(1)} ГБ`;
+        };
         if (isLite) {
-          if (daysEl) daysEl.textContent = "∞";
-          if (infoEl) infoEl.textContent = "∞";
-          if (daysTextEl) daysTextEl.textContent = "доступа (пока есть трафик)";
-          if (infoUnitEl) infoUnitEl.textContent = " — пока есть трафик";
+          const gib = fmtGb(keyData?.traffic_bytes);
+          if (daysEl) daysEl.textContent = gib;
+          if (infoEl) infoEl.textContent = gib;
+          if (daysTextEl) daysTextEl.textContent = "трафика навсегда";
+          if (infoUnitEl) infoUnitEl.textContent = " трафика";
         } else {
           const days = keyData?.days ?? 0;
           if (daysEl) daysEl.textContent = days;
           if (infoEl) infoEl.textContent = days;
+          if (daysTextEl) daysTextEl.textContent = "дней доступа";
+          if (infoUnitEl) infoUnitEl.textContent = " дней";
         }
 
         modal.classList.add("active");
