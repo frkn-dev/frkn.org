@@ -4470,7 +4470,18 @@
       function renderSubscriptionData(data, subId, currentEnv) {
         const statusEl = document.getElementById("status-text");
         const daysEl = document.getElementById("days");
-        const expiryDate = new Date(data.expires);
+        const planKind = data.plan_kind || "standard";
+        const expiryDate = data.expires ? new Date(data.expires) : null;
+
+        // Lite has no time-based expiry — show ∞ and skip the ticking
+        // day-counter entirely; the traffic bar is rendered separately.
+        if (!expiryDate) {
+          statusEl.innerText = "Активна";
+          statusEl.className = "status-pill status-active";
+          daysEl.innerText = "∞";
+          daysEl.style.fontSize = "2.5rem";
+          daysEl.style.color = "#10b981";
+        }
 
         // Trial and Early Adopter badges
         const trialPill = document.getElementById("trial-pill");
@@ -4586,6 +4597,7 @@
         }
 
         function updateDisplay() {
+          if (!expiryDate) return;
           const now = new Date();
           const diffMs = expiryDate - now;
           const diffSec = Math.floor(diffMs / 1000);
