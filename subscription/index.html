@@ -4393,8 +4393,21 @@
 
         const limitBytes = data.limit_bytes || 0;
         const usedBytes = data.used_bytes || 0;
-        const remainingBytes =
-          data.remaining_bytes ?? Math.max(0, limitBytes - usedBytes);
+        const planKind = data.plan_kind || "standard";
+        const liveConns = Array.isArray(data.connections)
+          ? data.connections.filter((c) => !c.is_deleted).length
+          : 0;
+        // Exhausted lite: the backend counts traffic per live connection,
+        // so used_bytes drops to 0 after the wipe — but the user really
+        // burned the whole package. Show the honest full bar, not 0.
+        const liteExhausted =
+          planKind === "lite" &&
+          limitBytes > 0 &&
+          (usedBytes >= limitBytes || liveConns === 0);
+        const shownUsed = liteExhausted ? limitBytes : usedBytes;
+        const remainingBytes = liteExhausted
+          ? 0
+          : data.remaining_bytes ?? Math.max(0, limitBytes - usedBytes);
 
         if (limitBytes <= 0) {
           block.classList.add("hidden");
@@ -4403,18 +4416,17 @@
 
         block.classList.remove("hidden");
         document.getElementById("topup-used").innerText =
-          formatBytes(usedBytes);
+          formatBytes(shownUsed);
         document.getElementById("topup-limit").innerText =
           formatBytes(limitBytes);
         document.getElementById("topup-remaining").innerText =
           formatBytes(remainingBytes);
         const percent = Math.min(
           100,
-          Math.round((usedBytes / limitBytes) * 100),
+          Math.round((shownUsed / limitBytes) * 100),
         );
         document.getElementById("topup-bar-fill").style.width = `${percent}%`;
 
-        const planKind = data.plan_kind || "standard";
         const expiresAt = data.expires ? new Date(data.expires) : null;
         const timeExpired =
           planKind === "standard" && expiresAt && expiresAt < new Date();
@@ -4422,8 +4434,12 @@
           (!expiresAt || timeExpired) && usedBytes < limitBytes;
         note.classList.toggle("hidden", !trafficMode);
 
-        // top-up запрещён бэком на активной по времени подписке — прячем кнопки
-        const canTopup = !!timeExpired || (!expiresAt && remainingBytes > 0);
+        // top-up запрещён бэком на активной по времени подписке — прячем кнопки;
+        // исчерпанной lite докупка всегда нужна.
+        const canTopup =
+          liteExhausted ||
+          !!timeExpired ||
+          (!expiresAt && remainingBytes > 0);
         topup.classList.toggle("hidden", !canTopup);
         if (!canTopup) return;
 
