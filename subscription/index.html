@@ -4475,6 +4475,13 @@
         const daysEl = document.getElementById("days");
         const planKind = data.plan_kind || "standard";
         const expiryDate = data.expires ? new Date(data.expires) : null;
+        const usedBytes = data.used_bytes || 0;
+        const limitBytes = data.limit_bytes || 0;
+        const liveConns = Array.isArray(data.connections)
+          ? data.connections.filter((c) => !c.is_deleted).length
+          : 0;
+        const liteExhausted =
+          planKind === "lite" && (usedBytes >= limitBytes || liveConns === 0);
 
         // Early Adopter badges (Trial больше не раздаём — плашка убрана)
         const earlyAdopterPill = document.getElementById("early-adopter-pill");
@@ -4587,6 +4594,21 @@
 
         function updateDisplay() {
           if (!expiryDate) {
+            if (liteExhausted) {
+              statusEl.innerText = "Трафик кончился";
+              statusEl.className = "status-pill status-expired";
+              daysEl.innerText = "0";
+              daysEl.style.fontSize = "2.5rem";
+              daysEl.style.color = "#ff4d4d";
+              daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
+              const progressFill = document.getElementById("days-progress-fill");
+              if (progressFill) {
+                const circumference = 2 * Math.PI * 54;
+                progressFill.style.strokeDashoffset = circumference;
+                progressFill.style.stroke = "#ef4444";
+              }
+              return;
+            }
             statusEl.innerText = "Активна";
             statusEl.className = "status-pill status-active";
             daysEl.innerText = "∞";
