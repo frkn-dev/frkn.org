@@ -2489,6 +2489,62 @@
         transition: width 0.5s ease;
       }
 
+      .traffic-limit-block {
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+      }
+
+      .traffic-limit-block .traffic-limit-title {
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .traffic-limit-block .traffic-limit-title span {
+        color: #22d3ee;
+        font-weight: 700;
+      }
+
+      .traffic-limit-block .traffic-bar {
+        height: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .traffic-mode-note {
+        font-size: 13px;
+        color: #fbbf24;
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+
+      .topup-block {
+        margin-top: 14px;
+      }
+
+      .topup-block .topup-title {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+
+      .topup-block .topup-buttons {
+        display: flex;
+        gap: 8px;
+      }
+
+      .topup-block .topup-btn {
+        flex: 1;
+      }
+
+      .topup-block .topup-error {
+        color: #ff4d4d;
+        font-size: 13px;
+        margin-top: 8px;
+      }
+
       .secondary-btn.tg-btn {
         display: inline-flex;
         align-items: center;
@@ -3227,6 +3283,41 @@
                     <div class="traffic-bar-fill" id="traffic-bar-fill"></div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div class="traffic-limit-block hidden" id="traffic-limit-block">
+              <div class="traffic-limit-title">
+                Traffic: used <span id="topup-used">0</span> of
+                <span id="topup-limit">0</span> (left
+                <span id="topup-remaining">0</span>)
+              </div>
+              <div class="traffic-bar">
+                <div class="traffic-bar-fill" id="topup-bar-fill"></div>
+              </div>
+              <div class="traffic-mode-note hidden" id="traffic-mode-note">
+                ⚡ Hysteria2 is temporarily unavailable — in traffic mode
+                WireGuard, AmneziaWG and VLESS work.
+              </div>
+              <div class="topup-block hidden" id="topup-block">
+                <div class="topup-title">Buy more traffic</div>
+                <div class="topup-buttons">
+                  <button
+                    type="button"
+                    class="secondary-btn topup-btn"
+                    data-gb="5"
+                  >
+                    +5 GB
+                  </button>
+                  <button
+                    type="button"
+                    class="secondary-btn topup-btn"
+                    data-gb="10"
+                  >
+                    +10 GB
+                  </button>
+                </div>
+                <div class="topup-error" id="topupError"></div>
               </div>
             </div>
 
@@ -4258,10 +4349,103 @@
         updateTrafficDisplay();
       }
 
+      function renderTrafficQuota(data, subId) {
+        const block = document.getElementById("traffic-limit-block");
+        const note = document.getElementById("traffic-mode-note");
+        const topup = document.getElementById("topup-block");
+        if (!block || !note || !topup) return;
+
+        const limitBytes = data.limit_bytes || 0;
+        const usedBytes = data.used_bytes || 0;
+        const remainingBytes =
+          data.remaining_bytes ?? Math.max(0, limitBytes - usedBytes);
+
+        if (limitBytes <= 0) {
+          block.classList.add("hidden");
+          return;
+        }
+
+        block.classList.remove("hidden");
+        document.getElementById("topup-used").innerText =
+          formatBytes(usedBytes);
+        document.getElementById("topup-limit").innerText =
+          formatBytes(limitBytes);
+        document.getElementById("topup-remaining").innerText =
+          formatBytes(remainingBytes);
+        const percent = Math.min(
+          100,
+          Math.round((usedBytes / limitBytes) * 100),
+        );
+        document.getElementById("topup-bar-fill").style.width = `${percent}%`;
+
+        const planKind = data.plan_kind || "standard";
+        const expiresAt = data.expires ? new Date(data.expires) : null;
+        const timeExpired =
+          planKind === "standard" && expiresAt && expiresAt < new Date();
+        const trafficMode =
+          (!expiresAt || timeExpired) && usedBytes < limitBytes;
+        note.classList.toggle("hidden", !trafficMode);
+
+        // Backend rejects top-up on a time-active subscription — hide buttons
+        const canTopup = !!timeExpired || (!expiresAt && remainingBytes > 0);
+        topup.classList.toggle("hidden", !canTopup);
+        if (!canTopup) return;
+
+        document.querySelectorAll(".topup-btn").forEach((btn) => {
+          btn.onclick = async () => {
+            const errEl = document.getElementById("topupError");
+            errEl.textContent = "";
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = "Creating payment...";
+            try {
+              const res = await fetch(
+                `${PAYMENT_API_BASE}/payment/platega/topup/create`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "X-Trace-Id": generateTraceId(),
+                  },
+                  body: JSON.stringify({
+                    subscription_id: subId,
+                    gb: parseInt(btn.dataset.gb, 10),
+                  }),
+                },
+              );
+              const respData = await res.json().catch(() => ({}));
+              if (!res.ok) {
+                throw new Error(
+                  respData.error ||
+                    respData.message ||
+                    "Failed to create payment",
+                );
+              }
+              if (!respData.url) {
+                throw new Error("API returned no payment link");
+              }
+              window.location.href = respData.url;
+            } catch (e) {
+              errEl.textContent = e.message;
+              btn.disabled = false;
+              btn.textContent = originalText;
+            }
+          };
+        });
+      }
+
       function renderSubscriptionData(data, subId, currentEnv) {
         const statusEl = document.getElementById("status-text");
         const daysEl = document.getElementById("days");
-        const expiryDate = new Date(data.expires);
+        const planKind = data.plan_kind || "standard";
+        const expiryDate = data.expires ? new Date(data.expires) : null;
+        const usedBytes = data.used_bytes || 0;
+        const limitBytes = data.limit_bytes || 0;
+        const liveConns = Array.isArray(data.connections)
+          ? data.connections.filter((c) => !c.is_deleted).length
+          : 0;
+        const liteExhausted =
+          planKind === "lite" && (usedBytes >= limitBytes || liveConns === 0);
 
         // Trial and Early Adopter badges
         // Early Adopter badges (Trial больше не раздаём — плашка убрана)
@@ -4291,6 +4475,7 @@
           .catch(() => {});
 
         renderTrafficWidget(data, currentEnv);
+        renderTrafficQuota(data, subId);
 
         const subUrl = `frkn://sub/${data.id}`;
 
@@ -4337,6 +4522,41 @@
         };
 
         function updateDisplay() {
+          if (!expiryDate) {
+            if (liteExhausted) {
+              statusEl.innerText = "Traffic exhausted";
+              statusEl.className = "status-pill status-expired";
+              daysEl.innerText = "0";
+              daysEl.style.fontSize = "2.5rem";
+              daysEl.style.color = "#ff4d4d";
+              daysEl.style.textShadow = "0 0 15px rgba(255, 77, 77, 0.5)";
+              const progressFill = document.getElementById("days-progress-fill");
+              if (progressFill) {
+                const circumference = 2 * Math.PI * 54;
+                progressFill.style.strokeDashoffset = circumference;
+                progressFill.style.stroke = "#ef4444";
+              }
+              return;
+            }
+            statusEl.innerText = "Active";
+            statusEl.className = "status-pill status-active";
+            daysEl.innerText = "∞";
+            daysEl.style.fontSize = "2.5rem";
+            daysEl.style.color = "#10b981";
+            daysEl.style.textShadow = "0 0 15px rgba(16, 185, 129, 0.3)";
+            const progressFill = document.getElementById("days-progress-fill");
+            if (progressFill) {
+              const circumference = 2 * Math.PI * 54;
+              const limit = data.limit_bytes || 0;
+              const used = data.used_bytes || 0;
+              const ratio = limit > 0 ? Math.min(Math.max(1 - used / limit, 0), 1) : 1;
+              progressFill.style.strokeDashoffset = circumference * (1 - ratio);
+              const color =
+                ratio > 0.5 ? "#10b981" : ratio > 0.2 ? "#ffbd4d" : "#ef4444";
+              progressFill.style.stroke = color;
+            }
+            return;
+          }
           const now = new Date();
           const diffMs = expiryDate - now;
           const diffSec = Math.floor(diffMs / 1000);
@@ -4414,14 +4634,18 @@
         subIdEl.innerText = data.id;
         subIdEl.onclick = () => copyText(data.id, "ID copied");
 
-        document.getElementById("expires").innerText =
-          expiryDate.toLocaleString("en-US", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          });
+        if (expiryDate) {
+          document.getElementById("expires").innerText =
+            expiryDate.toLocaleString("en-US", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+        } else {
+          document.getElementById("expires").innerText = "∞";
+        }
 
         const refCode = data.ref_code || subId.slice(-12) || "---";
         const refLink = `${window.location.origin}/en/pay?ref=${refCode}`;
