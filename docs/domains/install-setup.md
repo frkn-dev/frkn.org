@@ -1,29 +1,28 @@
 # Install & setup
 
-The `install` script (self-hosted VPN node installer) and the `setup/` connection guides. Load when editing either.
+The `install` script and the `setup/` connection guides.
 
-## `install` (24.5 KB, 823 lines, bash)
+Marketing page (private / self-hosted users): [`/selfhosted`](../../selfhosted/).  
+**Core fleet cheat sheet (internal):** [core-node-install.md](core-node-install.md).
 
-Interactive installer for a user's own FRKN VPN node, served as `text/plain` at `GET /install` (special Nginx location) for `curl | sh`.
+## `install` (bash, Ubuntu)
 
-Steps:
-- Checks root + OS, installs packages via apt/yum/dnf.
-- Installs **Xray-core** (releases from `github.com/XTLS/Xray-core`, default v26.3.27, generates Reality x25519 keys).
-- Installs **Hysteria2** (`github.com/apernet/hysteria`, ACME, masquerade as microsoft.com, optional HTTP auth via `https://api.frkn.org/auth`).
-- Installs **Fnode** (`github.com/frkn-dev/fcore`).
-- All with systemd units. Menu: install Xray / Hysteria2 / Fnode.
+Served as `text/plain` at `GET /install` for `curl | bash`.
+
+| Mode | Flag | Who |
+|---|---|---|
+| private | `--token inst_…` | end users (cabinet) |
+| core | `--api-token … --env dev\|ru\|wl\|…` | our shared fleet |
+| premium | `--api-token … --env custom…` | managed premium scope |
+
+Profiles: `full` (default) = awg0+awg1+hysteria2+fnode; `awg`; `hysteria2`.
+
+Banner at start shows `Private` / `Core` / `Premium` by mode.
+
+Aliases: `/install/full`, `/install/amnezia`, `/install/hysteria2`, `/install/legacy`.
+
+Arch Linux: planned after Ubuntu is battle-tested.
 
 ## `setup/`
 
-Static connection guides (no API):
-
-| Path | What |
-|---|---|
-| `setup/index.html` (27.7 KB) | "How to connect" with platform tabs |
-| `setup/routers/` (45.5 KB) | "VPN on router": XKeen / OpenWRT / AmneziaWG |
-| `setup/amneziawg-routers/` | redirect stub → `/setup/routers/` |
-
-## Related
-
-- `dopamine/` is the landing for FRKN's own client (not setup docs). See [site-structure.md](site-structure.md).
-- Protocol explainers live in `info/subscriptions/`.
+Static connection guides (no API) — platform tabs and router how-tos.

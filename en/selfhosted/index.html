@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Self-hosted node — FRKN</title>
+    <meta
+      name="description"
+      content="Run your own FRKN node on a VPS: AmneziaWG, Hysteria2 and fnode. Ubuntu, one command."
+    />
+    <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon" />
+    <link
+      rel="apple-touch-icon"
+      href="/Images/apple-touch-icon.png"
+      sizes="180x180"
+    />
+    <link rel="stylesheet" href="/styles.css?v=9" />
+    <style>
+      .sh-hero {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .sh-hero h1 {
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+        margin: 0 0 0.75rem;
+        letter-spacing: -0.02em;
+      }
+      .sh-hero p {
+        color: rgba(255, 255, 255, 0.72);
+        max-width: 42rem;
+        line-height: 1.5;
+        margin: 0;
+      }
+      .sh-steps {
+        margin: 0 0 2rem;
+        padding: 0;
+        list-style: none;
+        counter-reset: sh;
+      }
+      .sh-steps > li {
+        counter-increment: sh;
+        position: relative;
+        padding: 1rem 1rem 1rem 3.25rem;
+        margin-bottom: 0.75rem;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgba(11, 14, 22, 0.55);
+      }
+      .sh-steps > li::before {
+        content: counter(sh);
+        position: absolute;
+        left: 0.9rem;
+        top: 1rem;
+        width: 1.7rem;
+        height: 1.7rem;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #041018;
+        font-weight: 700;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .sh-steps h3 {
+        margin: 0 0 0.4rem;
+        font-size: 1.05rem;
+      }
+      .sh-steps p,
+      .sh-steps li {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+        line-height: 1.45;
+        margin: 0;
+      }
+      .sh-steps ul {
+        margin: 0.5rem 0 0;
+        padding-left: 1.1rem;
+      }
+      .sh-cmd {
+        display: flex;
+        gap: 0.75rem;
+        align-items: stretch;
+        flex-wrap: wrap;
+        margin: 0.85rem 0 0;
+      }
+      .sh-cmd code {
+        flex: 1 1 16rem;
+        display: block;
+        padding: 0.9rem 1rem;
+        border-radius: 12px;
+        background: #0b0e16;
+        border: 1px solid var(--border);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.82rem;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      .sh-cmd button {
+        border: 0;
+        border-radius: 12px;
+        padding: 0 1.1rem;
+        background: var(--accent);
+        color: #041018;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .sh-note {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.55);
+        margin: 0.5rem 0 0;
+      }
+      .sh-card {
+        margin-bottom: 1rem;
+      }
+      .sh-card h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1.05rem;
+      }
+      .sh-card p,
+      .sh-card li {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+        line-height: 1.45;
+      }
+      .sh-card ul {
+        margin: 0.5rem 0 0;
+        padding-left: 1.1rem;
+      }
+      .sh-badge {
+        display: inline-block;
+        font-size: 0.75rem;
+        padding: 0.15rem 0.5rem;
+        border-radius: 999px;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div id="logo-container"></div>
+      </header>
+
+      <section class="sh-hero">
+        <h1>Your own VPS node</h1>
+        <p>
+          Buy an Ubuntu box, SSH in, paste one command — get AmneziaWG +
+          AmneziaWG Mobile + Hysteria2 and the fnode agent. Your node stays out
+          of shared FRKN pools.
+        </p>
+      </section>
+
+      <ol class="sh-steps">
+        <li>
+          <h3>VPS</h3>
+          <p>You need a normal VPS:</p>
+          <ul>
+            <li>Ubuntu <strong>22.04</strong> or <strong>24.04</strong></li>
+            <li><strong>root</strong> SSH access</li>
+            <li>public IP (optional domain → that IP for Hysteria2)</li>
+          </ul>
+        </li>
+        <li>
+          <h3>Token</h3>
+          <p>
+            Get a one-time <code>inst_…</code> token (we issue it for now; later
+            — a cabinet button). Token lives about an hour.
+          </p>
+        </li>
+        <li>
+          <h3>Command</h3>
+          <p>
+            SSH in: <code>ssh root@YOUR_IP</code>. Paste the command, replace
+            <code>inst_YOUR_TOKEN</code> with yours:
+          </p>
+          <div class="sh-cmd">
+            <code id="sh-main-cmd"
+              >curl -fsSL https://beta.frkn.org/install | bash -s -- --token inst_YOUR_TOKEN</code
+            >
+            <button type="button" id="sh-copy">Copy</button>
+          </div>
+          <p class="sh-note">
+            Installer is on beta: <code>beta.frkn.org/install</code>. Do not
+            use old <code>frkn.org/install</code> links.
+          </p>
+        </li>
+        <li>
+          <h3>Wait and check</h3>
+          <p>
+            Takes a few minutes (packages, AWG kernel, fnode binary). No red
+            errors at the end. Verify:
+          </p>
+          <div class="sh-cmd">
+            <code>systemctl status fnode --no-pager</code>
+          </div>
+          <p class="sh-note" style="margin-top: 0.75rem">
+            Expect <code>active (running)</code>. If it failed — paste the
+            output to support.
+          </p>
+        </li>
+      </ol>
+
+      <section class="card feature sh-card">
+        <span class="sh-badge">optional</span>
+        <h3>What to install</h3>
+        <ul>
+          <li>
+            no flag — everything (<code>full</code>): awg0 + awg1 + hysteria2 +
+            fnode
+          </li>
+          <li>AmneziaWG only: <code>--profile awg</code></li>
+          <li>
+            Hysteria2 only: <code>--profile hysteria2</code> (needs a DNS A
+            record for the hostname)
+          </li>
+        </ul>
+        <div class="sh-cmd" style="margin-top: 0.85rem">
+          <code
+            >curl -fsSL https://beta.frkn.org/install | bash -s -- --token inst_… --profile awg</code
+          >
+        </div>
+      </section>
+
+      <section class="card feature sh-card" style="margin-bottom: 2rem">
+        <h3>If it breaks</h3>
+        <ul>
+          <li>Not Ubuntu 22/24 → reinstall a clean image and retry.</li>
+          <li>Not root → <code>sudo -i</code> and try again.</li>
+          <li>Token expired / already used → ask for a new <code>inst_…</code>.</li>
+          <li>
+            Hysteria2 cert errors → point a DNS A record at this machine’s IP.
+          </li>
+        </ul>
+      </section>
+
+      <div id="footer-container"></div>
+    </div>
+
+    <script src="/scripts/analytics.js" defer></script>
+    <script src="/scripts/i18n.js?v=2"></script>
+    <script src="/scripts/containers.js?v=3"></script>
+    <script>
+      (function () {
+        var btn = document.getElementById("sh-copy");
+        var cmd = document.getElementById("sh-main-cmd");
+        if (!btn || !cmd) return;
+        btn.addEventListener("click", function () {
+          var text = cmd.textContent.trim();
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () {
+              btn.textContent = "Copied";
+              setTimeout(function () {
+                btn.textContent = "Copy";
+              }, 1500);
+            });
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
