@@ -1,517 +1,461 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+FRKN_INSTALL_VERSION="1.0.0"
+FNODE_VERSION="${FNODE_VERSION:-v0.6.41}"
+API_ENDPOINT="${API_ENDPOINT:-https://api.frkn.org}"
+ZMQ_ENDPOINT="${ZMQ_ENDPOINT:-tcp://api.frkn.org:3001}"
+METRICS_ZMQ_ENDPOINT="${METRICS_ZMQ_ENDPOINT:-tcp://api.frkn.org:3002}"
+ACME_EMAIL="${ACME_EMAIL:-acme@frkn.org}"
+HTTP_AUTH_URL="${HTTP_AUTH_URL:-https://api.frkn.org/auth}"
+
+PROFILE="full"
+MODE=""
+INSTALL_TOKEN=""
+API_TOKEN=""
+ENV_NAME="dev"
+LABEL=""
+COUNTRY=""
+NODE_UUID=""
+HOSTNAME_OVERRIDE=""
+MAX_BANDWIDTH_BPS="${MAX_BANDWIDTH_BPS:-200000000}"
+ENV_FILE=""
+AWG_PORT=51820
+AWG_MOBILE_PORT=8443
+
+log() { printf '[frkn-install] %s\n' "$*"; }
+die() { printf '[frkn-install] ERROR: %s\n' "$*" >&2; exit 1; }
+
+is_shared_env() {
+  case "$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')" in
+    dev|development|ru|wl|prod|production|experimental|exp) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+is_personal_env() {
+  case "$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')" in
+    personal*|custompersonal*) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+print_banner() {
+  local kind="$1"
+  local label
+  case "$kind" in
+    private) label="PRIVATE" ;;
+    core) label="CORE" ;;
+    premium) label="PREMIUM" ;;
+    *) label="$(printf '%s' "$kind" | tr '[:lower:]' '[:upper:]')" ;;
+  esac
+  label="$(printf '%-7s' "$label")"
+  local Y=$'\033[1;33m' N=$'\033[0m'
+  echo -e "${Y}"
+  cat <<EOF
+//
+//    ${label}           __      _
+//                     / _|    | |
+//                    | |_ _ __| | ___ __
+//      _____      _  |  _| '__| |/ / '_ \\
+//     |  __ \\    (_) | | | |  |   <| | | |
+//     | |__) | __ __ |_|_|_| _|_|\\_\\_| |_|
+//     |  ___/ '__| \\ \\ / / _\` |/ __| | | |
+//     | |   | |  | |\\ V / (_| | (__| |_| |
+//     |_|___|_|  |_| \\_/ \\__,_|\\___|\\__, |
+//      / ____|                       __/ |
+//     | |     ___  _ __ ___  _ __   |___/_ __  _   _
+//     | |    / _ \\| '_ \` _ \\| '_ \\ / _\` | '_ \\| | | |
+//     | |___| (_) | | | | | | |_) | (_| | | | | |_| |
+//      \\_____\\___/|_| |_| |_| .__/ \\__,_|_| |_|\\__, |
+//                           | |                 __/ |
+//                           |_|                |___/
+EOF
+  echo -e "${N}"
+}
+
+write_logo_sh() {
+  local kind="$1"
+  local label
+  case "$kind" in
+    private) label="PRIVATE" ;;
+    core) label="CORE" ;;
+    premium) label="PREMIUM" ;;
+    *) label="PREMIUM" ;;
+  esac
+  label="$(printf '%-7s' "$label")"
+  cat > /root/.logo.sh << EOF
 #!/bin/bash
-
-set -e
-
-exec < /dev/tty
-
-# Цвета для вывода
-RED='\033[0;31m'
-GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-CYAN='\033[0;36m'
-NC='\033[0m' # No Color
-
-# Функции для вывода
-print_info() {
-    echo -e "${BLUE}[INFO]${NC} $1"
-}
-
-print_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
-}
-
-print_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
-}
-
-print_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
-}
-
-print_header() {
-    echo ""
-    echo -e "${GREEN}========================================${NC}"
-    echo -e "${GREEN}$1${NC}"
-    echo -e "${GREEN}========================================${NC}"
-    echo ""
-}
-
-print_protocol() {
-    echo -e "${CYAN}🔧 $1${NC}"
-}
-
-# Проверка прав root
-check_root() {
-    if [[ $EUID -ne 0 ]]; then
-        print_error "Этот скрипт должен запускаться от root пользователя!"
-        echo "Используйте: sudo bash $0"
-        exit 1
-    fi
-}
-
-# Проверка ОС
-check_os() {
-    if [[ ! -f /etc/os-release ]]; then
-        print_error "Не удалось определить ОС"
-        exit 1
-    fi
-
-    source /etc/os-release
-    print_info "ОС: $NAME $VERSION"
-}
-
-# Установка зависимостей
-install_dependencies() {
-    print_info "Установка необходимых пакетов..."
-
-    if command -v apt-get &> /dev/null; then
-        apt-get update
-        apt-get install -y curl unzip uuid-runtime jq openssl
-    elif command -v yum &> /dev/null; then
-        yum install -y curl unzip uuidgen jq openssl
-    elif command -v dnf &> /dev/null; then
-        dnf install -y curl unzip uuidgen jq openssl
-    else
-        print_error "Не удалось определить менеджер пакетов"
-        exit 1
-    fi
-}
-
-# Генерация UUID
-generate_uuid() {
-    echo $(uuidgen | tr '[:upper:]' '[:lower:]')
-}
-
-# Генерация ключей Xray Reality (без вывода лишних сообщений)
-generate_reality_keys() {
-    local PRIVATE_KEY=""
-    local PUBLIC_KEY=""
-
-    # Пробуем использовать xray из установленной директории
-    if [[ -f "/opt/xray/xray" ]]; then
-        # Генерируем ключи через xray
-        local XRAY_OUTPUT=$(/opt/xray/xray x25519 2>/dev/null)
-        PRIVATE_KEY=$(echo "$XRAY_OUTPUT" | grep "Private key:" | awk '{print $3}')
-        PUBLIC_KEY=$(echo "$XRAY_OUTPUT" | grep "Public key:" | awk '{print $3}')
-    fi
-
-    # Если xray не сработал или не выдал ключи, используем openssl
-    if [[ -z "$PRIVATE_KEY" || -z "$PUBLIC_KEY" ]]; then
-        PRIVATE_KEY=$(openssl rand -base64 32 | tr -d '\n')
-        PUBLIC_KEY=$(openssl rand -base64 32 | tr -d '\n')
-    fi
-
-    # Генерация shortId
-    SHORT_ID=$(openssl rand -hex 8)
-
-    echo "$PRIVATE_KEY|$PUBLIC_KEY|$SHORT_ID"
-}
-
-# Функция установки Xray с конфигом
-install_xray() {
-    print_header "Установка Xray-core с генерацией конфига"
-
-    INSTALL_DIR="/opt/xray"
-
-    XRAY_VERSION="${XRAY_VERSION:-v26.3.27}"
-    
-    print_info "Xray будет установлен в: $INSTALL_DIR"
-
-    # Проверяем установлен ли уже xray
-    if [[ -f "$INSTALL_DIR/xray" ]]; then
-        print_warning "Xray уже установлен. Переустановить? (y/N): "
-        read reinstall
-        if [[ ! "$reinstall" =~ ^[Yy] ]]; then
-            print_info "Пропускаем установку Xray"
-            return 0
-        fi
-    fi
-
-    mkdir -p "$INSTALL_DIR"
-    cd "$INSTALL_DIR"
-
-    echo "Installing xray-core version $XRAY_VERSION..."
-    XRAY_URL="https://github.com/XTLS/Xray-core/releases/download/$XRAY_VERSION/Xray-linux-64.zip"
-    curl -L -o xray.zip "$XRAY_URL"
-    unzip -o xray.zip -d "$INSTALL_DIR"
-    rm xray.zip
-
-    chmod +x $INSTALL_DIR/xray
-
-    print_success "Xray установлен"
-    $INSTALL_DIR/xray --version
-
-    # Выбор протоколов для установки
-    print_header "Настройка протоколов Xray"
-    echo "Выберите протоколы для установки:"
-    echo ""
-    echo "1) VLESS + TCP + Reality"
-    echo "2) VLESS + gRPC + Reality"
-    echo "3) VLESS + XHTTP + Reality"
-    echo "4) Установить все протоколы"
-    echo "5) Пропустить настройку"
-    echo ""
-    read -p "Ваш выбор [1-5]: " protocol_choice
-
-    if [[ "$protocol_choice" == "5" ]]; then
-        print_warning "Создан пустой конфиг. Настройте вручную: $INSTALL_DIR/xray-config.json"
-        cat > $INSTALL_DIR/xray-config.json <<EOF
-{
-    "log": {
-        "loglevel": "debug"
-    },
-    "inbounds": [],
-    "outbounds": [
-        {
-            "protocol": "freedom",
-            "tag": "DIRECT"
-        }
-    ]
-}
+NC='\033[0m'
+echo -e "\${YELLOW}"
+cat << 'BANNER'
+//
+//    ${label}           __      _
+//                     / _|    | |
+//                    | |_ _ __| | ___ __
+//      _____      _  |  _| '__| |/ / '_ \\
+//     |  __ \\    (_) | | | |  |   <| | | |
+//     | |__) | __ __ |_|_|_| _|_|\\_\\_| |_|
+//     |  ___/ '__| \\ \\ / / _\` |/ __| | | |
+//     | |   | |  | |\\ V / (_| | (__| |_| |
+//     |_|___|_|  |_| \\_/ \\__,_|\\___|\\__, |
+//      / ____|                       __/ |
+//     | |     ___  _ __ ___  _ __   |___/_ __  _   _
+//     | |    / _ \\| '_ \` _ \\| '_ \\ / _\` | '_ \\| | | |
+//     | |___| (_) | | | | | | |_) | (_| | | | | |_| |
+//      \\_____\\___/|_| |_| |_| .__/ \\__,_|_| |_|\\__, |
+//                           | |                 __/ |
+//                           |_|                |___/
+BANNER
+echo -e "\${NC}"
 EOF
-    else
-        generate_xray_config "$protocol_choice"
-    fi
-
-    # Создание systemd сервиса
-    cat <<EOF | tee /etc/systemd/system/xray.service > /dev/null
-[Unit]
-Description=Xray Core Service
-After=network.target
-
-[Service]
-ExecStart=$INSTALL_DIR/xray run -config $INSTALL_DIR/xray-config.json
-Restart=on-failure
-RestartSec=5
-LimitNOFILE=1048576
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-    systemctl daemon-reload
-    systemctl enable xray
-
-    print_success "Xray установлен и настроен!"
-    echo ""
-    print_info "Конфигурация сохранена в: $INSTALL_DIR/xray-config.json"
-    echo ""
-    print_info "Запустите командой: sudo systemctl start xray"
+  chmod +x /root/.logo.sh
+  touch /root/.hushlogin
+  grep -qxF 'source ~/.logo.sh' /root/.bashrc 2>/dev/null || echo 'source ~/.logo.sh' >> /root/.bashrc
+  grep -qxF 'source ~/.env' /root/.bashrc 2>/dev/null || echo 'source ~/.env' >> /root/.bashrc
+  if ! grep -q 'PS1=.*ENV' /root/.bashrc 2>/dev/null; then
+    echo 'export PS1="[${ENV} $HOSTNAME ] λ "' >> /root/.bashrc
+  fi
 }
 
-# Генерация конфига Xray
-generate_xray_config() {
-    local choice=$1
-    INSTALL_DIR="/opt/xray"
+usage() {
+  cat <<'EOF'
+FRKN node installer (Ubuntu).
 
-    print_info "Генерация ключей Reality..."
+Private:
+  curl -fsSL https://beta.frkn.org/install | bash -s -- --token inst_… [--profile full|awg|hysteria2]
 
-    # Генерация ключей
-    KEYS=$(generate_reality_keys)
-    PRIVATE_KEY=$(echo $KEYS | cut -d'|' -f1)
-    PUBLIC_KEY=$(echo $KEYS | cut -d'|' -f2)
-    SHORT_ID=$(echo $KEYS | cut -d'|' -f3)
+Core (shared fleet env):
+  curl -fsSL https://beta.frkn.org/install | bash -s -- --api-token … --env dev --profile full \
+    [--label SWE2] [--country SWE] [--uuid …] [--env-file path]
 
-    print_success "Ключи сгенерированы!"
-    echo -e "${CYAN}Private Key:${NC} $PRIVATE_KEY"
-    echo -e "${CYAN}Public Key:${NC} $PUBLIC_KEY"
-    echo -e "${CYAN}Short ID:${NC} $SHORT_ID"
-    echo ""
+Premium (managed scope env, same API service token):
+  curl -fsSL https://beta.frkn.org/install | bash -s -- --api-token … --env customSCOPE \
+    --profile full [--label …] [--country …] [--uuid …]
 
-    read -p "Введите serverNames (через запятую, например: mail.google.com,google.com): " SERVER_NAMES
-    SERVER_NAMES=${SERVER_NAMES:-"mail.google.com"}
-
-    read -p "Введите target (например: mail.google.com:443): " TARGET
-    TARGET=${TARGET:-"mail.google.com:443"}
-
-    # Преобразуем serverNames в массив JSON
-    IFS=',' read -ra NAMES_ARRAY <<< "$SERVER_NAMES"
-    SERVER_NAMES_JSON=""
-    for name in "${NAMES_ARRAY[@]}"; do
-        trimmed_name=$(echo "$name" | xargs)
-        SERVER_NAMES_JSON="$SERVER_NAMES_JSON\"$trimmed_name\","
-    done
-    SERVER_NAMES_JSON="[${SERVER_NAMES_JSON%,}]"
-
-    # Начинаем формирование конфига
-    cat > $INSTALL_DIR/xray-config.json <<EOF
-{
-    "log": {
-        "loglevel": "debug"
-    },
-    "inbounds": [
+Flags:
+  --token TOKEN          private install token (inst_…)
+  --api-token TOKEN      API service token (core or premium)
+  --profile NAME         full | awg | hysteria2  (default: full)
+  --env NAME             core: dev|ru|wl|…  / premium: custom… scope env
+  --label TEXT           node label
+  --country CC           ISO country code
+  --uuid UUID            reuse node uuid
+  --hostname NAME        override hostname (ACME / node.hostname)
+  --env-file PATH        source KEY=VALUE file before parsing flags
+  --help                 this help
 EOF
-
-    # Добавляем выбранные протоколы
-    port=8443
-    added=0
-
-    add_inbound() {
-        local network=$1
-        local port_offset=$2
-        local extra_settings=""
-
-        if [[ $added -gt 0 ]]; then
-            echo "," >> $INSTALL_DIR/xray-config.json
-        fi
-
-        if [[ "$network" == "grpc" ]]; then
-            extra_settings=",
-            \"grpcSettings\": {
-                \"serviceName\": \"grpc\"
-            }"
-        elif [[ "$network" == "xhttp" ]]; then
-            extra_settings=",
-            \"xhttpSettings\": {
-                \"path\": \"/\"
-            }"
-        fi
-
-        cat >> $INSTALL_DIR/xray-config.json <<EOF
-        {
-            "tag": "Vless${network^}Reality",
-            "listen": "0.0.0.0",
-            "port": $((port + port_offset)),
-            "protocol": "vless",
-            "settings": {
-                "clients": [],
-                "decryption": "none"
-            },
-            "streamSettings": {
-                "network": "$network",
-                "security": "reality",
-                "realitySettings": {
-                    "xver": 0,
-                    "target": "$TARGET",
-                    "serverNames": $SERVER_NAMES_JSON,
-                    "privateKey": "$PRIVATE_KEY",
-                    "publicKey": "$PUBLIC_KEY",
-                    "shortIds": ["$SHORT_ID"]
-                }$extra_settings
-            },
-            "sniffing": {
-                "enabled": true,
-                "destOverride": ["http", "tls", "quic"]
-            }
-        }
-EOF
-        added=1
-    }
-
-    case $choice in
-    1)
-        add_inbound "tcp" 0
-        ;;
-    2)
-        add_inbound "grpc" 0
-        ;;
-    3)
-        add_inbound "xhttp" 0
-        ;;
-    4)
-        add_inbound "tcp" 0
-        add_inbound "grpc" 2
-        add_inbound "xhttp" 3
-        ;;
-    esac
-
-    # Добавляем остальную часть конфига
-    cat >> $INSTALL_DIR/xray-config.json <<EOF
-    ],
-    "outbounds": [
-        {
-            "protocol": "freedom",
-            "tag": "DIRECT"
-        },
-        {
-            "protocol": "blackhole",
-            "tag": "BLOCK"
-        }
-    ],
-    "routing": {
-        "rules": [
-            {
-                "ip": ["geoip:private"],
-                "outboundTag": "BLOCK",
-                "type": "field"
-            },
-            {
-                "domain": ["geosite:private"],
-                "outboundTag": "BLOCK",
-                "type": "field"
-            },
-            {
-                "protocol": ["bittorrent"],
-                "outboundTag": "BLOCK",
-                "type": "field"
-            },
-            {
-                "type": "field",
-                "network": "tcp,udp",
-                "outboundTag": "DIRECT"
-            }
-        ]
-    },
-    "api": {
-        "listen": "127.0.0.1:23456",
-        "services": [
-            "HandlerService",
-            "StatsService",
-            "LoggerService",
-            "ReflectionService"
-        ],
-        "tag": "API"
-    },
-    "stats": {},
-    "policy": {
-        "levels": {
-            "0": {
-                "statsUserUplink": true,
-                "statsUserDownlink": true,
-                "statsUserOnline": true
-            }
-        },
-        "system": {
-            "statsInboundDownlink": true,
-            "statsInboundUplink": true,
-            "statsOutboundDownlink": true,
-            "statsOutboundUplink": true
-        }
-    }
-}
-EOF
-
-    print_success "Конфигурация Xray создана!"
-    echo ""
-    print_info "Информация для подключения:"
-    echo -e "${CYAN}Публичный ключ Reality:${NC} $PUBLIC_KEY"
-    echo -e "${CYAN}Short ID:${NC} $SHORT_ID"
-    echo -e "${CYAN}Server Names:${NC} $SERVER_NAMES"
-    echo ""
 }
 
-# Функция установки Hysteria2
-install_hysteria() {
-    print_header "Установка Hysteria2"
+load_env_file() {
+  local f="$1"
+  [[ -f "$f" ]] || die "env file not found: $f"
+  set -a
+  # shellcheck disable=SC1090
+  source "$f"
+  set +a
+  INSTALL_TOKEN="${INSTALL_TOKEN:-${FRKN_INSTALL_TOKEN:-${TOKEN:-}}}"
+  API_TOKEN="${API_TOKEN:-${FRKN_API_TOKEN:-}}"
+  ENV_NAME="${ENV:-$ENV_NAME}"
+  PROFILE="${PROFILE:-full}"
+  LABEL="${LABEL:-}"
+  COUNTRY="${COUNTRY:-}"
+  NODE_UUID="${UUID:-$NODE_UUID}"
+  HOSTNAME_OVERRIDE="${HOSTNAME_OVERRIDE:-${NODE_HOSTNAME:-}}"
+}
 
-    INSTALL_DIR="/opt/hysteria"
-    BIN_PATH="$INSTALL_DIR/hysteria"
-    CONFIG_PATH="$INSTALL_DIR/config.yaml"
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --token) INSTALL_TOKEN="$2"; shift 2 ;;
+    --api-token) API_TOKEN="$2"; shift 2 ;;
+    --profile) PROFILE="$2"; shift 2 ;;
+    --env) ENV_NAME="$2"; shift 2 ;;
+    --label) LABEL="$2"; shift 2 ;;
+    --country) COUNTRY="$2"; shift 2 ;;
+    --uuid) NODE_UUID="$2"; shift 2 ;;
+    --hostname) HOSTNAME_OVERRIDE="$2"; shift 2 ;;
+    --env-file) ENV_FILE="$2"; shift 2 ;;
+    --help|-h) usage; exit 0 ;;
+    *) die "unknown arg: $1 (see --help)" ;;
+  esac
+done
 
-    print_info "Hysteria2 будет установлен в: $INSTALL_DIR"
+if [[ -n "$ENV_FILE" ]]; then
+  load_env_file "$ENV_FILE"
+fi
 
-    if [[ -f "$BIN_PATH" ]]; then
-        print_warning "Hysteria2 уже установлен. Переустановить? (y/N): "
-        read reinstall
-        if [[ ! "$reinstall" =~ ^[Yy] ]]; then
-            print_info "Пропускаем установку Hysteria2"
-            return 0
-        fi
-    fi
+case "$PROFILE" in
+  full|awg|hysteria2) ;;
+  amnezia) PROFILE="awg" ;;
+  *) die "profile must be full|awg|hysteria2" ;;
+esac
 
-    ARCH=$(uname -m)
-    case "$ARCH" in
-        x86_64) ARCH="amd64" ;;
-        aarch64) ARCH="arm64" ;;
-        armv7l) ARCH="armv7" ;;
-    *)
-        print_error "Unsupported architecture: $ARCH"
-        exit 1
-        ;;
-    esac
+if [[ -n "$INSTALL_TOKEN" && -n "$API_TOKEN" ]]; then
+  die "--token and --api-token are mutually exclusive"
+fi
+if [[ -n "$INSTALL_TOKEN" ]]; then
+  MODE="private"
+  [[ "$INSTALL_TOKEN" == inst_* ]] || die "private token must start with inst_"
+elif [[ -n "$API_TOKEN" ]]; then
+  [[ -n "$ENV_NAME" ]] || die "--api-token requires --env"
+  if is_personal_env "$ENV_NAME"; then
+    die "personal env needs --token inst_… (private), not --api-token"
+  fi
+  if is_shared_env "$ENV_NAME"; then
+    MODE="core"
+  else
+    MODE="premium"
+  fi
+else
+  die "pass --token inst_… (private) or --api-token … (core|premium)"
+fi
 
-    # Создание пользователя
-    if ! id "hysteria" &>/dev/null; then
-        useradd -r -s /bin/false -m -d /nonexistent hysteria
-    fi
+print_banner "$MODE"
 
-    mkdir -p $INSTALL_DIR
+[[ $EUID -eq 0 ]] || die "run as root"
 
-    echo "===> Downloading hysteria binary..."
-    curl -L -o $BIN_PATH https://github.com/apernet/hysteria/releases/latest/download/hysteria-linux-$ARCH
-    chmod +x $BIN_PATH
+write_logo_sh "$MODE"
 
-    # Генерация пароля для Hysteria
-    HYSTERIA_PASSWORD=$(openssl rand -base64 32)
+if [[ ! -f /etc/os-release ]]; then
+  die "cannot detect OS"
+fi
+# shellcheck disable=SC1091
+source /etc/os-release
+[[ "${ID:-}" == "ubuntu" ]] || die "Ubuntu only for now (got ${ID:-unknown}); Arch later"
 
-    read -p "Введите hostname для Hysteria (например: example.com): " HOSTNAME
-    EMAIL="2pizza1063@gmail.com"
+UBUNTU_CODENAME="${VERSION_CODENAME:-}"
+case "$UBUNTU_CODENAME" in
+  focal|jammy|noble) PPA_CODENAME="$UBUNTU_CODENAME" ;;
+  *) PPA_CODENAME="noble"; log "WARN: falling back to noble PPA for $UBUNTU_CODENAME" ;;
+esac
 
-    echo "Выберите тип аутентификации:"
-    echo "1) Password (пароль)"
-    echo "2) HTTP (внешний API)"
-    read -p "Ваш выбор [1-2]: " auth_choice
+export DEBIAN_FRONTEND=noninteractive
 
-    cat > $CONFIG_PATH <<EOF
+NODE_HOST="${HOSTNAME_OVERRIDE:-$(hostname -f 2>/dev/null || hostname)}"
+if [[ -z "$NODE_UUID" ]]; then
+  if command -v uuidgen >/dev/null 2>&1; then
+    NODE_UUID="$(uuidgen | tr '[:upper:]' '[:lower:]')"
+  else
+    NODE_UUID="$(cat /proc/sys/kernel/random/uuid)"
+  fi
+fi
+[[ -n "$LABEL" ]] || LABEL="$NODE_HOST"
+[[ -n "$COUNTRY" ]] || COUNTRY="XX"
+
+DEFAULT_IFACE="$(ip route get 1.1.1.1 2>/dev/null | awk '/dev/ {for(i=1;i<=NF;i++) if($i=="dev"){print $(i+1); exit}}')"
+[[ -n "$DEFAULT_IFACE" ]] || die "cannot detect default interface"
+DEFAULT_IP="$(ip -o -4 addr show dev "$DEFAULT_IFACE" | awk '{print $4}' | cut -d/ -f1 | head -n1)"
+[[ -n "$DEFAULT_IP" ]] || die "cannot detect IPv4 on $DEFAULT_IFACE"
+
+CORES="$(nproc 2>/dev/null || echo 1)"
+NEED_AWG=0
+NEED_H2=0
+case "$PROFILE" in
+  full) NEED_AWG=1; NEED_H2=1 ;;
+  awg) NEED_AWG=1 ;;
+  hysteria2) NEED_H2=1 ;;
+esac
+
+log "mode=$MODE profile=$PROFILE host=$NODE_HOST ip=$DEFAULT_IP iface=$DEFAULT_IFACE uuid=$NODE_UUID"
+
+install_base_packages() {
+  apt-get update -y
+  apt-get install -y curl ca-certificates gnupg software-properties-common \
+    iptables iproute2 uuid-runtime jq openssl unzip net-tools
+}
+
+rand_between() {
+  local min="$1" max="$2"
+  echo $((RANDOM % (max - min + 1) + min))
+}
+
+install_amneziawg() {
+  log "installing AmneziaWG…"
+  apt-get install -y "linux-headers-$(uname -r)" dkms || true
+  mkdir -p /etc/apt/keyrings
+  if [[ ! -f /etc/apt/keyrings/amnezia.gpg ]]; then
+    curl -fsSL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x57290828" \
+      | gpg --dearmor --yes -o /etc/apt/keyrings/amnezia.gpg
+  fi
+  cat >/etc/apt/sources.list.d/amnezia.list <<EOF
+deb [signed-by=/etc/apt/keyrings/amnezia.gpg] https://ppa.launchpadcontent.net/amnezia/ppa/ubuntu ${PPA_CODENAME} main
+EOF
+  apt-get update -y
+  apt-get install -y amneziawg
+  modprobe amneziawg || true
+  cat >/etc/sysctl.d/99-amnezia.conf <<EOF
+net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
+EOF
+  sysctl --system >/dev/null || true
+
+  mkdir -p /opt/amnezia /etc/amnezia/amneziawg
+  command -v awg >/dev/null || die "awg not found after install"
+  command -v awg-quick >/dev/null || die "awg-quick not found after install"
+
+  write_awg0_conf
+  write_awg1_conf
+
+  ln -sf /opt/amnezia/awg0.conf /etc/amnezia/amneziawg/awg0.conf
+  ln -sf /opt/amnezia/awg1.conf /etc/amnezia/amneziawg/awg1.conf
+  chmod 600 /opt/amnezia/awg0.conf /opt/amnezia/awg1.conf
+
+  awg-quick down awg0 2>/dev/null || true
+  awg-quick down awg1 2>/dev/null || true
+  awg-quick up awg0
+  awg-quick up awg1
+  systemctl enable "awg-quick@awg0" "awg-quick@awg1" || true
+}
+
+bt_reject_rules() {
+  local net="$1"
+  printf '%s' "iptables -I FORWARD -s ${net} -m string --algo bm --string \"BitTorrent protocol\" -j REJECT; iptables -I FORWARD -d ${net} -m string --algo bm --string \"BitTorrent protocol\" -j REJECT; iptables -I FORWARD -s ${net} -p udp -m string --algo bm --string \"d1:ad2:id20:\" -j REJECT; iptables -I FORWARD -s ${net} -m string --algo bm --string \"info_hash\" -j REJECT; iptables -I FORWARD -s ${net} -m string --algo bm --string \"peer_id=\" -j REJECT"
+}
+
+bt_reject_teardown() {
+  local net="$1"
+  printf '%s' "iptables -D FORWARD -s ${net} -m string --algo bm --string \"BitTorrent protocol\" -j REJECT; iptables -D FORWARD -d ${net} -m string --algo bm --string \"BitTorrent protocol\" -j REJECT; iptables -D FORWARD -s ${net} -p udp -m string --algo bm --string \"d1:ad2:id20:\" -j REJECT; iptables -D FORWARD -s ${net} -m string --algo bm --string \"info_hash\" -j REJECT; iptables -D FORWARD -s ${net} -m string --algo bm --string \"peer_id=\" -j REJECT"
+}
+
+write_awg0_conf() {
+  local priv jc jmin jmax s1 s2 s3 s4
+  if [[ -f /opt/amnezia/awg0.conf ]]; then
+    log "awg0.conf exists — keep"
+    return
+  fi
+  priv="$(awg genkey)"
+  jc="$(rand_between 3 8)"
+  jmin="$(rand_between 40 70)"
+  jmax="$(rand_between 90 150)"
+  s1="$(rand_between 40 80)"
+  s2="$(rand_between 40 80)"
+  s3="$(rand_between 8 32)"
+  s4="$(rand_between 8 24)"
+  local bt_up bt_down
+  bt_up="$(bt_reject_rules "100.64.0.0/10")"
+  bt_down="$(bt_reject_teardown "100.64.0.0/10")"
+  cat >/opt/amnezia/awg0.conf <<EOF
+[Interface]
+PrivateKey = ${priv}
+Address = 100.64.0.1/10
+ListenPort = ${AWG_PORT}
+MTU = 1280
+
+PostUp = iptables -I FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -s 100.64.0.0/10 -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_up}
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -s 100.64.0.0/10 -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_down}
+
+Jc = ${jc}
+Jmin = ${jmin}
+Jmax = ${jmax}
+S1 = ${s1}
+S2 = ${s2}
+S3 = ${s3}
+S4 = ${s4}
+H1 = 100000-200000
+H2 = 300000-400000
+H3 = 500000-600000
+H4 = 700000-800000
+I1 = <r 128>
+EOF
+}
+
+write_awg1_conf() {
+  local priv jc jmin jmax s1 s2 s3 s4
+  if [[ -f /opt/amnezia/awg1.conf ]]; then
+    log "awg1.conf exists — keep"
+    return
+  fi
+  priv="$(awg genkey)"
+  jc="$(rand_between 5 9)"
+  jmin="$(rand_between 40 70)"
+  jmax="$(rand_between 90 160)"
+  s1="$(rand_between 30 60)"
+  s2="$(rand_between 40 70)"
+  s3="$(rand_between 8 24)"
+  s4="$(rand_between 8 24)"
+  local bt_up bt_down
+  bt_up="$(bt_reject_rules "10.77.0.0/16")"
+  bt_down="$(bt_reject_teardown "10.77.0.0/16")"
+  cat >/opt/amnezia/awg1.conf <<EOF
+[Interface]
+PrivateKey = ${priv}
+Address = 10.77.0.1/16
+ListenPort = ${AWG_MOBILE_PORT}
+MTU = 1280
+
+PostUp = iptables -I FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -s 10.77.0.0/16 -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_up}
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -s 10.77.0.0/16 -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_down}
+
+Jc = ${jc}
+Jmin = ${jmin}
+Jmax = ${jmax}
+S1 = ${s1}
+S2 = ${s2}
+S3 = ${s3}
+S4 = ${s4}
+H1 = 100000-200000
+H2 = 300000-400000
+H3 = 500000-600000
+H4 = 700000-800000
+I1 = <r 128>
+RandomTrailers = on
+DisableCookies = on
+EOF
+}
+
+install_hysteria2() {
+  log "installing Hysteria2…"
+  local arch bin
+  case "$(uname -m)" in
+    x86_64) arch="amd64" ;;
+    aarch64) arch="arm64" ;;
+    armv7l) arch="armv7" ;;
+    *) die "unsupported arch for hysteria2: $(uname -m)" ;;
+  esac
+  mkdir -p /opt/hysteria2
+  if ! id hysteria2 >/dev/null 2>&1; then
+    useradd -r -s /bin/false -M hysteria2 || true
+  fi
+  bin="/opt/hysteria2/hysteria"
+  curl -fsSL -o "$bin" "https://github.com/apernet/hysteria/releases/latest/download/hysteria-linux-${arch}"
+  chmod +x "$bin"
+  if [[ ! -f /opt/hysteria2/config.yaml ]]; then
+    cat >/opt/hysteria2/config.yaml <<EOF
 listen: :443
 
 acme:
   domains:
-    - $HOSTNAME
-  email: $EMAIL
+    - ${NODE_HOST}
+  email: ${ACME_EMAIL}
 
-EOF
-
-    if [[ "$auth_choice" == "1" ]]; then
-        cat >> $CONFIG_PATH <<EOF
-auth:
-  type: password
-  password: $HYSTERIA_PASSWORD
-
-EOF
-        print_success "Пароль сгенерирован: $HYSTERIA_PASSWORD"
-        echo -e "${CYAN}Сохраните этот пароль для подключения!${NC}"
-    else
-        HTTP_AUTH_URL="https://api.frkn.org/auth"
-        cat >> $CONFIG_PATH <<EOF
 auth:
   type: http
   http:
-    url: $HTTP_AUTH_URL
+    url: ${HTTP_AUTH_URL}
 
-EOF
-    fi
-
-    cat >> $CONFIG_PATH <<EOF
 masquerade:
   type: proxy
   proxy:
     url: https://www.microsoft.com/
     rewriteHost: true
-
-bandwidth:
-  up: 1 gbps
-  down: 1 gbps
-
-ignoreClientBandwidth: false
-
-quic:
-  initStreamReceiveWindow: 16777216
-  maxStreamReceiveWindow: 33554432
-  initConnReceiveWindow: 33554432
-  maxConnReceiveWindow: 67108864
-  maxIdleTimeout: 30s
-  maxIncomingStreams: 1024
-  disablePathMTUDiscovery: false
 EOF
-
-    chown -R hysteria:hysteria $INSTALL_DIR
-
-    cat > /etc/systemd/system/hysteria.service <<EOF
+  fi
+  chown -R hysteria2:hysteria2 /opt/hysteria2
+  cat >/etc/systemd/system/hysteria2.service <<EOF
 [Unit]
-Description=Hysteria 2 Service
+Description=Hysteria 2
 After=network.target
 
 [Service]
 Type=simple
-WorkingDirectory=$INSTALL_DIR
-ExecStart=$BIN_PATH server -c $CONFIG_PATH
+WorkingDirectory=/opt/hysteria2
+ExecStart=/opt/hysteria2/hysteria server -c /opt/hysteria2/config.yaml
 Restart=always
 RestartSec=5
 LimitNOFILE=1048576
-User=hysteria
-Group=hysteria
+User=hysteria2
+Group=hysteria2
 Environment=HYSTERIA_LOG_LEVEL=info
 CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE CAP_NET_RAW
 AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE CAP_NET_RAW
@@ -520,304 +464,179 @@ NoNewPrivileges=true
 [Install]
 WantedBy=multi-user.target
 EOF
-
-    systemctl daemon-reload
-    systemctl enable hysteria
-
-    print_success "Hysteria2 установлен успешно!"
-    echo ""
-    echo -e "${CYAN}Информация для подключения:${NC}"
-    echo "Hostname: $HOSTNAME"
-    echo "Port: 443"
-    if [[ "$auth_choice" == "1" ]]; then
-        echo "Password: $HYSTERIA_PASSWORD"
-    else
-        echo "Auth type: HTTP API"
-    fi
-    echo ""
-    print_info "Запустите командой: sudo systemctl start hysteria"
+  systemctl daemon-reload
+  systemctl enable hysteria2
+  systemctl restart hysteria2
 }
 
-# Функция установки Fnode
-# Функция установки Fnode
-install_fnode() {
-    print_header "Установка Fnode"
+detect_arch_fnode() {
+  case "$(uname -m)" in
+    x86_64|amd64) echo "x86_64" ;;
+    aarch64|arm64) echo "aarch64" ;;
+    *) die "unsupported arch for fnode: $(uname -m)" ;;
+  esac
+}
 
-    FNODE_VERSION="${FNODE_VERSION:-v0.5.7-dev}"
-    INSTALL_DIR="/opt/fnode"
-    ARCH=$(uname -m)
+write_root_env() {
+  local token="$1"
+  cat >/root/.env <<EOF
+FRKN_MODE=${MODE}
+FRKN_PROFILE=${PROFILE}
+FRKN_INSTALL_VERSION=${FRKN_INSTALL_VERSION}
+API_ENDPOINT=${API_ENDPOINT}
+API_TOKEN=${token}
+ZMQ_ENDPOINT=${ZMQ_ENDPOINT}
+METRICS_ZMQ_ENDPOINT=${METRICS_ZMQ_ENDPOINT}
+ENV=${ENV_NAME}
+UUID=${NODE_UUID}
+HOSTNAME=${NODE_HOST}
+ADDRESS=${DEFAULT_IP}
+INTERFACE=${DEFAULT_IFACE}
+LABEL=${LABEL}
+COUNTRY=${COUNTRY}
+MAX_BANDWIDTH_BPS=${MAX_BANDWIDTH_BPS}
+EOF
+  chmod 600 /root/.env
+  if [[ -f /opt/fnode/.env ]]; then
+    cp /root/.env /opt/fnode/.env
+  else
+    mkdir -p /opt/fnode
+    cp /root/.env /opt/fnode/.env
+  fi
+}
 
-    print_info "Fnode будет установлен в: $INSTALL_DIR"
-
-    # Генерация UUID
-    NODE_UUID=$(generate_uuid)
-    print_info "Сгенерирован UUID для узла: $NODE_UUID"
-
-    # Запрос параметров с дефолтными значениями
-    echo ""
-    echo -e "${CYAN}Настройка параметров узла:${NC}"
-    echo ""
-
-    read -p "Label (название узла) [🏴‍☠️ Great Britain]: " LABEL
-    LABEL=${LABEL:-"🏴‍☠️ Great Britain"}
-
-    read -p "Country код [GB]: " COUNTRY
-    COUNTRY=${COUNTRY:-"GB"}
-
-    read -p "Node type (common/gateway) [common]: " NODE_TYPE
-    NODE_TYPE=${NODE_TYPE:-"common"}
-
-    read -p "Max bandwidth bps (пропускная способность в бит/с) [200000000]: " MAX_BANDWIDTH_BPS
-    MAX_BANDWIDTH_BPS=${MAX_BANDWIDTH_BPS:-200000000}
-
-    # Преобразование для удобства чтения
-    if [[ $MAX_BANDWIDTH_BPS -ge 1000000000 ]]; then
-        BW_READABLE="$((MAX_BANDWIDTH_BPS / 1000000000)) Gbps"
-    elif [[ $MAX_BANDWIDTH_BPS -ge 1000000 ]]; then
-        BW_READABLE="$((MAX_BANDWIDTH_BPS / 1000000)) Mbps"
-    else
-        BW_READABLE="$((MAX_BANDWIDTH_BPS / 1000)) Kbps"
-    fi
-
-    echo ""
-    print_info "Параметры узла:"
-    echo -e "  ${CYAN}UUID:${NC} $NODE_UUID"
-    echo -e "  ${CYAN}Label:${NC} $LABEL"
-    echo -e "  ${CYAN}Country:${NC} $COUNTRY"
-    echo -e "  ${CYAN}Type:${NC} $NODE_TYPE"
-    echo -e "  ${CYAN}Max Bandwidth:${NC} $BW_READABLE ($MAX_BANDWIDTH_BPS bps)"
-    echo ""
-
-    # ИСПРАВЛЕНО: API endpoint по умолчанию api.frkn.org
-    read -p "API Endpoint [https://api.frkn.org]: " API_ENDPOINT
-    API_ENDPOINT=${API_ENDPOINT:-"https://api.frkn.org"}
-
-    read -p "API Token [mysecrettoken]: " API_TOKEN
-    API_TOKEN=${API_TOKEN:-"mysecrettoken"}
-
-    FNODE_URL="https://github.com/frkn-dev/fcore/releases/download/$FNODE_VERSION/node-$ARCH"
-    FNODE_CONFIG_PATH="$INSTALL_DIR/config.toml"
-
-    ZMQ_ENDPOINT="${ZMQ_ENDPOINT:-tcp://localhost:3000}"
-    METRICS_ZMQ_ENDPOINT="${METRICS_ZMQ_ENDPOINT:-tcp://localhost:3000}"
-    ENV="experimental"
-
-    mkdir -p "$INSTALL_DIR/snapshots"
-    cd "$INSTALL_DIR"
-
-    echo "Installing fnode version $FNODE_VERSION..."
-    curl -L -o fnode "$FNODE_URL"
-    chmod +x fnode
-
-    # Автоматическое определение интерфейса и IP
-    default_interface=$(ip route | grep '^default' | awk '{print $5}' | head -n 1)
-
-    if [[ -n "$default_interface" ]]; then
-        default_ip=$(ip -o -4 addr show dev "$default_interface" | awk '{print $4}' | cut -d'/' -f1 | head -n 1)
-        print_info "Обнаружен интерфейс: $default_interface"
-        print_info "Обнаружен IP адрес: $default_ip"
-
-        read -p "Использовать автоматически определенный интерфейс и IP? (Y/n): " use_default
-        if [[ "$use_default" =~ ^[Nn] ]]; then
-            read -p "Введите интерфейс (например eth0): " INTERFACE
-            read -p "Введите IP адрес: " ADDRESS
-        else
-            INTERFACE="$default_interface"
-            ADDRESS="$default_ip"
-        fi
-    else
-        print_warning "Не удалось определить интерфейс по умолчанию"
-        read -p "Введите интерфейс (например eth0): " INTERFACE
-        read -p "Введите IP адрес: " ADDRESS
-    fi
-
-    # Получение hostname
-    CURRENT_HOSTNAME=$(hostname)
-    read -p "Hostname [${CURRENT_HOSTNAME}]: " HOSTNAME
-    HOSTNAME=${HOSTNAME:-$CURRENT_HOSTNAME}
-
-    # Создание конфига
-    cat <<EOF | tee "$FNODE_CONFIG_PATH" > /dev/null
+write_fnode_config() {
+  local token="$1"
+  local awg_en=false awg_m_en=false h2_en=false
+  local toml_env="$ENV_NAME"
+  if [[ "$MODE" == "premium" && "$toml_env" == custom* ]]; then
+    toml_env="${toml_env#custom}"
+  fi
+  [[ "$NEED_AWG" -eq 1 ]] && awg_en=true && awg_m_en=true
+  [[ "$NEED_H2" -eq 1 ]] && h2_en=true
+  mkdir -p /opt/fnode/snapshots
+  cat >/opt/fnode/config.toml <<EOF
 [service]
 snapshot_interval = 60
 snapshot_path = "snapshots/snapshot-agent.bin"
 log_velel = "debug"
-updates_endpoint_zmq = "$ZMQ_ENDPOINT"
+updates_endpoint_zmq = "${ZMQ_ENDPOINT}"
 
 [metrics]
 interval = 10
-publisher = "$METRICS_ZMQ_ENDPOINT"
+publisher = "${METRICS_ZMQ_ENDPOINT}"
+endpoint = "127.0.0.1:3000"
 
 [xray]
 enabled = false
 path = "/opt/xray/xray-config.json"
 
 [h2]
-enabled = false
-path = "/opt/hysteria/config.yaml"
+enabled = ${h2_en}
+path = "/opt/hysteria2/config.yaml"
 
 [wg]
-enabled =  false
+enabled = false
 path = "experimental/utun7.conf"
+
+[awg]
+enabled = ${awg_en}
+path = "/opt/amnezia/awg0.conf"
+
+[awg_mobile]
+enabled = ${awg_m_en}
+path = "/opt/amnezia/awg1.conf"
+keepalive = 15
 
 [mtproto]
 enabled = false
 path = "/opt/teleproxy/config.toml"
 
 [node]
-env = "$ENV"
-uuid = "$NODE_UUID"
-hostname = "$HOSTNAME"
-default_interface = "$INTERFACE"
-address = "$ADDRESS"
-label = "$LABEL"
-max_bandwidth_bps = $MAX_BANDWIDTH_BPS
-country = "$COUNTRY"
-type = "$NODE_TYPE"
+env = "${toml_env}"
+uuid = "${NODE_UUID}"
+hostname = "${NODE_HOST}"
+default_interface = "${DEFAULT_IFACE}"
+address = "${DEFAULT_IP}"
+label = "${LABEL}"
+max_bandwidth_bps = ${MAX_BANDWIDTH_BPS}
+country = "${COUNTRY}"
+type = "common"
+node_ips = ["${DEFAULT_IP}"]
 
 [api]
-endpoint = "$API_ENDPOINT"
-token = "$API_TOKEN"
+endpoint = "${API_ENDPOINT}"
+token = "${token}"
 EOF
+}
 
-    # Создание systemd сервиса
-    cat <<EOF | tee /etc/systemd/system/fnode.service > /dev/null
+install_fnode() {
+  local token="$1"
+  local arch
+  arch="$(detect_arch_fnode)"
+  log "installing fnode ${FNODE_VERSION} (${arch})…"
+  mkdir -p /opt/fnode/snapshots
+  curl -fsSL -o /opt/fnode/fnode \
+    "https://github.com/frkn-dev/fcore/releases/download/${FNODE_VERSION}/node-${arch}"
+  chmod +x /opt/fnode/fnode
+  write_fnode_config "$token"
+  write_root_env "$token"
+  cat >/etc/systemd/system/fnode.service <<EOF
 [Unit]
-Description=Fnode Service
-After=network.target
+Description=Fnode
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=$INSTALL_DIR/fnode $FNODE_CONFIG_PATH
+ExecStart=/opt/fnode/fnode /opt/fnode/config.toml
 Restart=on-failure
 RestartSec=5
-WorkingDirectory=$INSTALL_DIR
+WorkingDirectory=/opt/fnode
 
 [Install]
 WantedBy=multi-user.target
 EOF
-
-    systemctl daemon-reload
-    systemctl enable fnode
-
-    print_success "Fnode установлен успешно!"
-    echo ""
-    print_header "Итоговая информация по Fnode"
-    echo -e "${CYAN}UUID:${NC} $NODE_UUID"
-    echo -e "${CYAN}Label:${NC} $LABEL"
-    echo -e "${CYAN}Country:${NC} $COUNTRY"
-    echo -e "${CYAN}Type:${NC} $NODE_TYPE"
-    echo -e "${CYAN}Max Bandwidth:${NC} $BW_READABLE ($MAX_BANDWIDTH_BPS bps)"
-    echo -e "${CYAN}Interface:${NC} $INTERFACE"
-    echo -e "${CYAN}Address:${NC} $ADDRESS"
-    echo -e "${CYAN}Hostname:${NC} $HOSTNAME"
-    echo -e "${CYAN}Environment:${NC} $ENV"
-    echo -e "${CYAN}API Endpoint:${NC} $API_ENDPOINT"
-    echo ""
-    print_info "Конфиг сохранен: $FNODE_CONFIG_PATH"
-    print_info "Запустите командой: sudo systemctl start fnode"
+  systemctl daemon-reload
+  systemctl enable fnode
+  systemctl restart fnode
 }
 
-# Функция установки всего
-install_all() {
-    print_header "Установка всех компонентов"
-
-    read -p "Установить Xray? (y/N): " install_x
-    read -p "Установить Hysteria2? (y/N): " install_h
-    read -p "Установить Fnode? (y/N): " install_f
-
-    echo ""
-
-    [[ "$install_x" =~ ^[Yy] ]] && install_xray
-    [[ "$install_h" =~ ^[Yy] ]] && install_hysteria
-    [[ "$install_f" =~ ^[Yy] ]] && install_fnode
-
-    print_success "Установка завершена!"
-
-    # Показываем статус сервисов
-    echo ""
-    print_header "Статус установленных сервисов"
-    for service in xray hysteria fnode; do
-        if systemctl is-enabled --quiet $service 2>/dev/null; then
-            echo -e "${GREEN}✓${NC} $service - установлен и включен"
-        fi
-    done
-
-    echo ""
-    print_info "Для запуска сервисов используйте:"
-    echo "  sudo systemctl start xray"
-    echo "  sudo systemctl start hysteria"
-    echo "  sudo systemctl start fnode"
+private_register_and_token() {
+  log "private mode: fnode will POST /private/nodes with install token, then persist node_token"
+  echo "$INSTALL_TOKEN"
 }
 
-# Главное меню
-show_menu() {
-    print_header "FRKN Network Node Installer"
-    YELLOW='\033[1;33m'
-    NC='\033[0m' # No Color
-
-    echo -e "${YELLOW}"
-    cat << "EOF"
-//                      __      _
-//                     / _|    | |
-//                    | |_ _ __| | ___ __
-//      _____      _  |  _| '__| |/ / '_ \
-//     |  __ \    (_) | | | |  |   <| | | |
-//     | |__) | __ __ |_|_|_| _|_|\_\_| |_|
-//     |  ___/ '__| \ \ / / _` |/ __| | | |
-//     | |   | |  | |\ V / (_| | (__| |_| |
-//     |_|___|_|  |_| \_/ \__,_|\___|\__, |
-//      / ____|                       __/ |
-//     | |     ___  _ __ ___  _ __   |___/_ __  _   _
-//     | |    / _ \| '_ ` _ \| '_ \ / _` | '_ \| | | |
-//     | |___| (_) | | | | | | |_) | (_| | | | | |_| |
-//      \_____\___/|_| |_| |_| .__/ \__,_|_| |_|\__, |
-//                           | |                 __/ |
-//                           |_|                |___/
-EOF
-    echo -e "${NC}"
-
-    echo "Выберите компоненты для установки:"
-    echo ""
-    echo "1) Установить Xray-core (с генерацией Reality конфига)"
-    echo "2) Установить Hysteria2 (с генерацией конфига)"
-    echo "3) Установить Fnode"
-    echo "4) Установить ВСЕ компоненты"
-    echo "5) Выход"
-    echo ""
-    read -p "Ваш выбор [1-5]: " choice
-
-    case $choice in
-    1)
-        install_xray
-        ;;
-    2)
-        install_hysteria
-        ;;
-    3)
-        install_fnode
-        ;;
-    4)
-        install_all
-        ;;
-    5)
-        print_info "До свидания!"
-        exit 0
-        ;;
-    *)
-        print_error "Неверный выбор!"
-        exit 1
-        ;;
-    esac
-}
-
-# Основная функция
 main() {
-    check_root
-    check_os
-    install_dependencies
-    show_menu
+  install_base_packages
+  if [[ "$NEED_AWG" -eq 1 ]]; then
+    install_amneziawg
+  fi
+  if [[ "$NEED_H2" -eq 1 ]]; then
+    install_hysteria2
+  fi
+
+  local runtime_token
+  case "$MODE" in
+    core|premium)
+      runtime_token="$API_TOKEN"
+      ;;
+    private)
+      runtime_token="$(private_register_and_token)"
+      ENV_NAME="dev"
+      ;;
+  esac
+
+  install_fnode "$runtime_token"
+
+  log "done. mode=$MODE profile=$PROFILE env=$ENV_NAME"
+  log "fnode: systemctl status fnode"
+  [[ "$NEED_AWG" -eq 1 ]] && log "awg: awg show awg0; awg show awg1"
+  [[ "$NEED_H2" -eq 1 ]] && log "hysteria2: systemctl status hysteria2"
+  log "env: /root/.env"
+  if [[ "$MODE" == "private" ]]; then
+    log "after first successful register, durable token is in /opt/fnode/api.token"
+  fi
 }
 
-# Запуск
 main

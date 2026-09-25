@@ -39,6 +39,26 @@ server {
         try_files /install =404;
     }
 
+    location = /install/legacy {
+        default_type text/plain;
+        try_files /install.legacy =404;
+    }
+
+    location = /install/full {
+        default_type text/plain;
+        try_files /install-full =404;
+    }
+
+    location = /install/amnezia {
+        default_type text/plain;
+        try_files /install-amnezia =404;
+    }
+
+    location = /install/hysteria2 {
+        default_type text/plain;
+        try_files /install-hysteria2 =404;
+    }
+
     location ~ /\.(?!well-known) {
         deny all;
     }
