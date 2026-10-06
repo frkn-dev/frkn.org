@@ -1752,6 +1752,7 @@ footer .footer-divider {
 }
 
 .landing-page .hero-content {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1759,13 +1760,21 @@ footer .footer-divider {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 24px;
-  padding: 40px;
+  padding: 56px 40px 40px;
 }
 
 .landing-page .money-back-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  left: auto;
+  z-index: 2;
+  align-self: flex-end;
   display: inline-flex;
   align-items: center;
-  margin: 0 0 14px;
+  width: fit-content;
+  max-width: calc(100% - 32px);
+  margin: 0;
   padding: 6px 12px;
   font-size: 12px;
   font-weight: 600;
@@ -1858,6 +1867,17 @@ footer .footer-divider {
   color: #fff;
   border-color: var(--accent);
   background: rgba(56, 189, 248, 0.08);
+}
+
+.landing-page .btn.hero-btn-small {
+  padding: 8px 14px;
+  font-size: 13px;
+  border-radius: 10px;
+}
+
+.landing-page .btn.hero-btn-small img {
+  width: 13px;
+  height: 13px;
 }
 
 .landing-page .features-grid {
@@ -2146,7 +2166,12 @@ footer .footer-divider {
 
   .landing-page .hero-content {
     align-items: center;
-    padding: 32px;
+    padding: 56px 32px 32px;
+  }
+
+  .landing-page .money-back-badge {
+    right: 12px;
+    left: auto;
   }
 
   .landing-page .hero-subtitle {
@@ -2197,9 +2222,14 @@ footer .footer-divider {
   }
 
   .landing-page .hero-content {
-    padding: 20px;
+    padding: 52px 20px 20px;
     align-items: flex-start;
     text-align: left;
+  }
+
+  .landing-page .money-back-badge {
+    right: 10px;
+    left: auto;
   }
 
   .landing-page .hero-title {

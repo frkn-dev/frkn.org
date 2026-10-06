@@ -9,7 +9,7 @@
     <title>Self-hosted node — FRKN</title>
     <meta
       name="description"
-      content="Run your own FRKN node on a VPS: AmneziaWG, Hysteria2 and fnode. Ubuntu, one command."
+      content="Run your own FRKN node on a VPS: AmneziaWG, WireGuard, Hysteria2 and fnode-agent. Linux, one command."
     />
     <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon" />
     <link
@@ -24,6 +24,10 @@
         margin-bottom: 1.5rem;
       }
       .sh-hero h1 {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.65rem;
         font-size: clamp(1.8rem, 4vw, 2.4rem);
         margin: 0 0 0.75rem;
         letter-spacing: -0.02em;
@@ -33,6 +37,91 @@
         max-width: 42rem;
         line-height: 1.5;
         margin: 0;
+      }
+      .sh-shots {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 1.25rem;
+        margin: 0 0 1.25rem;
+      }
+      .sh-shots img {
+        width: min(220px, 44vw);
+        height: auto;
+        border-radius: 28px;
+        border: 1px solid var(--border);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      }
+      @media (max-width: 640px) {
+        .sh-shots {
+          gap: 0.75rem;
+        }
+        .sh-shots img {
+          width: min(168px, 46vw);
+          border-radius: 22px;
+        }
+      }
+      .sh-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin: 0 0 1.25rem;
+      }
+      .sh-os {
+        display: flex;
+        gap: 10px;
+        margin: 0;
+        flex-wrap: wrap;
+      }
+      .sh-os-btn {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+        min-height: 44px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .sh-os-btn.active {
+        border-color: var(--accent);
+        color: var(--text);
+        background: rgba(56, 189, 248, 0.12);
+      }
+      .sh-os-btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+      }
+      .sh-os-soon {
+        margin-left: 8px;
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .sh-os-panel[hidden] {
+        display: none;
+      }
+      .sh-skill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--accent);
+        background: rgba(56, 189, 248, 0.12);
+        color: var(--text);
+        text-decoration: none;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .sh-skill:hover {
+        background: rgba(56, 189, 248, 0.22);
       }
       .sh-steps {
         margin: 0 0 2rem;
@@ -139,6 +228,192 @@
         color: var(--accent);
         margin-bottom: 0.5rem;
       }
+      .sh-beta {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin: 0 0 1.25rem;
+        padding: 0.75rem 1rem;
+        border-radius: 14px;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        background: rgba(56, 189, 248, 0.08);
+      }
+      .sh-beta-tag {
+        flex: 0 0 auto;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #041018;
+      }
+      .sh-beta p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 0.95rem;
+        line-height: 1.45;
+      }
+      .sh-beta a,
+      .sh-card a {
+        color: var(--accent);
+      }
+      .sh-profiles-head {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        flex-wrap: wrap;
+        margin: 0 0 0.35rem;
+      }
+      .sh-profiles-head h3 {
+        margin: 0;
+      }
+      .sh-profiles-more {
+        margin: 0;
+      }
+      .sh-profiles-more > summary {
+        cursor: pointer;
+        list-style: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: rgba(56, 189, 248, 0.1);
+        color: var(--text);
+        user-select: none;
+      }
+      .sh-profiles-more > summary::-webkit-details-marker {
+        display: none;
+      }
+      .sh-profiles-more > summary::marker {
+        content: "";
+      }
+      .sh-profiles-chevron {
+        display: inline-block;
+        font-size: 14px;
+        line-height: 1;
+        transition: transform 0.15s ease;
+      }
+      .sh-profiles-more[open] > summary .sh-profiles-chevron {
+        transform: rotate(180deg);
+      }
+      .sh-profiles-more > ul {
+        margin: 0.75rem 0 0;
+      }
+      .sh-proto-note {
+        margin: 0.85rem 0 0;
+        line-height: 1.55;
+      }
+      .sh-proto-note + .sh-proto-note {
+        margin-top: 0.65rem;
+      }
+      .sh-debug summary {
+        cursor: pointer;
+        list-style: none;
+      }
+      .sh-debug summary::-webkit-details-marker {
+        display: none;
+      }
+      .sh-debug summary::marker {
+        content: "";
+      }
+      .sh-debug-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+      }
+      .sh-debug-title {
+        font-size: 1.05rem;
+        font-weight: 600;
+      }
+      .sh-debug-btn {
+        display: inline-flex;
+        align-items: center;
+        min-height: 36px;
+        padding: 6px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--accent);
+        background: rgba(56, 189, 248, 0.12);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .sh-debug .sh-debug-open {
+        display: none;
+      }
+      .sh-debug[open] .sh-debug-closed {
+        display: none;
+      }
+      .sh-debug[open] .sh-debug-open {
+        display: inline;
+      }
+      .sh-debug-body {
+        margin-top: 0.85rem;
+      }
+      .sh-debug-tabs {
+        display: flex;
+        gap: 10px;
+        margin: 0 0 0.65rem;
+        flex-wrap: wrap;
+      }
+      .sh-debug-lead {
+        margin: 0 0 0.85rem;
+      }
+      .sh-debug-banner {
+        margin: 0 0 0.85rem;
+        padding: 0.55rem 0.85rem;
+        border-radius: 12px;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        background: rgba(56, 189, 248, 0.08);
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 0.9rem;
+        line-height: 1.4;
+      }
+      .sh-limits {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin: 0 0 1.25rem;
+      }
+      .sh-limits article {
+        margin: 0;
+        padding: 1rem 1.05rem 1.05rem;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgba(11, 14, 22, 0.55);
+      }
+      .sh-limits-kicker {
+        margin: 0 0 0.35rem;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .sh-limits h2 {
+        margin: 0 0 0.4rem;
+        font-size: 1.2rem;
+        letter-spacing: -0.02em;
+      }
+      .sh-limits p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 0.92rem;
+        line-height: 1.45;
+      }
+      .sh-limits-wide {
+        grid-column: 1 / -1;
+      }
+      @media (max-width: 640px) {
+        .sh-limits {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
   </head>
   <body>
@@ -148,29 +423,92 @@
       </header>
 
       <section class="sh-hero">
-        <h1>Your own VPS node</h1>
+        <h1>Your own VPS node <span class="sh-beta-tag">Beta</span></h1>
         <p>
-          Buy an Ubuntu box, SSH in, paste one command — get AmneziaWG +
-          AmneziaWG Mobile + Hysteria2 and the fnode agent. Your node stays out
-          of shared FRKN pools.
+          Your own node is independence from VPN services and fine tuning
+          for a region or a provider's limits. FRKN lets you run a node with
+          minimal knowledge of VPN networks and system administration, and
+          gives its tooling, features and
+          app to everyone — for free.
         </p>
       </section>
 
+      <section class="sh-limits" aria-label="In short">
+        <article>
+          <p class="sh-limits-kicker">per account</p>
+          <h2>3 servers</h2>
+          <p>For now, one subscription can't have more than three private nodes.</p>
+        </article>
+        <article>
+          <p class="sh-limits-kicker">after install</p>
+          <h2>Connection ready — refresh the subscription in Dopamine.</h2>
+          <p>More connections are created in the cabinet.</p>
+        </article>
+        <article class="sh-limits-wide">
+          <p class="sh-limits-kicker">per node</p>
+          <h2>A pack of IPs</h2>
+          <p>
+            Buy extra addresses on the same VPS. The app walks around an RKN
+            block on its own: if one address is blocked, Dopamine tries the
+            rest and picks one that works.
+          </p>
+        </article>
+      </section>
+
+      <div class="sh-shots">
+        <img
+          src="/Images/selfhosted-connected.png"
+          alt="Dopamine connected to your own server"
+          width="1290"
+          height="2796"
+        />
+        <img
+          src="/Images/selfhosted-list.png"
+          alt="Your server in the Dopamine connection list"
+          width="1290"
+          height="2796"
+        />
+      </div>
+
+      <aside class="sh-beta">
+        <p>
+          If something unexpected breaks, find us in the
+          <a href="https://t.me/frkn_dev">t.me/frkn_dev</a> chat.
+        </p>
+      </aside>
+
+      <div class="sh-toolbar">
+        <div class="sh-os" role="tablist" aria-label="Distro">
+          <button type="button" class="sh-os-btn active" data-os="ubuntu" aria-pressed="true">
+            Ubuntu
+          </button>
+          <button type="button" class="sh-os-btn" data-os="arch" aria-pressed="false">
+            Arch
+          </button>
+        </div>
+        <a class="sh-skill" href="/selfhosted/SKILL.md">SKILL for AI-agent</a>
+      </div>
+
+      <div class="sh-os-panel" data-os-panel="ubuntu">
       <ol class="sh-steps">
         <li>
           <h3>VPS</h3>
           <p>You need a normal VPS:</p>
           <ul>
-            <li>Ubuntu <strong>22.04</strong> or <strong>24.04</strong></li>
+            <li>Ubuntu <strong>22.04</strong>, <strong>24.04</strong> or <strong>26.04</strong></li>
             <li><strong>root</strong> SSH access</li>
-            <li>public IP (optional domain → that IP for Hysteria2)</li>
+            <li>
+              public IP (optional domain → that IP for Hysteria2). You can add
+              a pack of IPs: if one gets blocked, the client tries the rest
+              and picks one that works
+            </li>
           </ul>
         </li>
         <li>
           <h3>Token</h3>
           <p>
-            Get a one-time <code>inst_…</code> token (we issue it for now; later
-            — a cabinet button). Token lives about an hour.
+            Get a one-time <code>inst_…</code> token in the cabinet, button
+            “Your node”. Token lives about an hour.
           </p>
         </li>
         <li>
@@ -181,62 +519,441 @@
           </p>
           <div class="sh-cmd">
             <code id="sh-main-cmd"
-              >curl -fsSL https://beta.frkn.org/install | bash -s -- --token inst_YOUR_TOKEN</code
+              >curl -fsSL https://frkn.org/install | bash -s -- --token inst_YOUR_TOKEN</code
             >
             <button type="button" id="sh-copy">Copy</button>
           </div>
-          <p class="sh-note">
-            Installer is on beta: <code>beta.frkn.org/install</code>. Do not
-            use old <code>frkn.org/install</code> links.
-          </p>
         </li>
         <li>
           <h3>Wait and check</h3>
           <p>
-            Takes a few minutes (packages, AWG kernel, fnode binary). No red
+            Takes a few minutes (packages, AWG kernel, fnode-agent binary). No red
             errors at the end. Verify:
           </p>
           <div class="sh-cmd">
             <code>systemctl status fnode --no-pager</code>
           </div>
           <p class="sh-note" style="margin-top: 0.75rem">
-            Expect <code>active (running)</code>. If it failed — paste the
+            Expect <code>active (running)</code>. The service is named
+            <code>fnode</code> — that's fnode-agent. If it failed — paste the
             output to support.
           </p>
         </li>
       </ol>
+      </div>
+
+      <div class="sh-os-panel" data-os-panel="arch" hidden>
+        <ol class="sh-steps">
+          <li>
+            <h3>VPS</h3>
+            <p>You need a normal VPS:</p>
+            <ul>
+              <li>Arch Linux</li>
+              <li><strong>root</strong> SSH access</li>
+              <li>
+                public IP (optional domain → that IP for Hysteria2). You can add
+                a pack of IPs: if one gets blocked, the client tries the rest
+                and picks one that works
+              </li>
+            </ul>
+          </li>
+          <li>
+            <h3>Token</h3>
+            <p>
+              Get a one-time <code>inst_…</code> token in the cabinet, button
+              “Your node”. Token lives about an hour.
+            </p>
+          </li>
+          <li>
+            <h3>Command</h3>
+            <p>
+              Same as Ubuntu. SSH in: <code>ssh root@YOUR_IP</code>. Paste the
+              command, replace <code>inst_YOUR_TOKEN</code> with yours.
+              AmneziaWG is built from the AUR — slower than apt.
+            </p>
+            <div class="sh-cmd">
+              <code id="sh-arch-cmd"
+                >curl -fsSL https://frkn.org/install | bash -s -- --token inst_YOUR_TOKEN</code
+              >
+              <button type="button" id="sh-copy-arch">Copy</button>
+            </div>
+          </li>
+          <li>
+            <h3>Wait and check</h3>
+            <p>
+              Takes a few minutes (packages, AWG kernel, fnode-agent binary). No red
+              errors at the end. Verify:
+            </p>
+            <div class="sh-cmd">
+              <code>systemctl status fnode --no-pager</code>
+            </div>
+            <p class="sh-note" style="margin-top: 0.75rem">
+              Expect <code>active (running)</code>. The service is named
+              <code>fnode</code> — that's fnode-agent. If it failed — paste the
+              output to support.
+            </p>
+          </li>
+        </ol>
+      </div>
 
       <section class="card feature sh-card">
         <span class="sh-badge">optional</span>
-        <h3>What to install</h3>
-        <ul>
-          <li>
-            no flag — everything (<code>full</code>): awg0 + awg1 + hysteria2 +
-            fnode
-          </li>
-          <li>AmneziaWG only: <code>--profile awg</code></li>
-          <li>
-            Hysteria2 only: <code>--profile hysteria2</code> (needs a DNS A
-            record for the hostname)
-          </li>
-        </ul>
+        <div class="sh-profiles-head">
+          <h3>What to install</h3>
+          <details class="sh-profiles-more">
+            <summary aria-label="Profile details" title="Details">
+              <span class="sh-profiles-chevron" aria-hidden="true">▼</span>
+            </summary>
+            <ul>
+              <li>
+                no flag — everything (<code>full</code>): awg0 + awg1 +
+                hysteria2 + fnode-agent (no WireGuard)
+              </li>
+              <li>
+                AmneziaWG and AmneziaWG Mobile, no Hysteria2:
+                <code>--profile awg</code>
+              </li>
+              <li>
+                plain WireGuard only (no Amnezia obfuscation):
+                <code>--profile wg</code>
+                — interface <code>wg0</code>, UDP <code>51820</code>, net
+                <code>10.100.0.0/16</code>, config
+                <code>/opt/wireguard/wg0.conf</code>. Re-runs keep the conf; to
+                rotate keys pass <code>--force-wg-conf</code>, then fully refresh
+                the client subscription.
+              </li>
+              <li>
+                Hysteria2 only: <code>--profile hysteria2</code> (needs a DNS A
+                record for the hostname)
+              </li>
+              <li>
+                extra IPs that are not on an interface yet:
+                <code>--ips 5.6.7.8,7.8.9.10</code>. Addresses already on the box
+                are picked up at install. The first in the list is the
+                default-route address. On a node that is already up, add them to
+                <code>node_ips</code> in <code>/opt/fnode/config.toml</code> and
+                <code>systemctl restart fnode</code>
+              </li>
+              <li>
+                AmneziaWG obfuscation generation:
+                <code>--awg-version 3.1</code> (default) or
+                <code>--awg-version 2.0</code>. Mobile only (awg1):
+                <code>--awg-mobile-version 2.0</code> or
+                <code>--awg-mobile-version legacy</code> when LTE fails on 3.1.
+                Re-runs keep existing confs; to switch generation pass
+                <code>--force-awg-conf</code>, then fully refresh the client
+                subscription.
+              </li>
+            </ul>
+          </details>
+        </div>
+        <p class="sh-proto-note">
+          <strong>AmneziaWG</strong> (awg0) is for Wi‑Fi and routers — older
+          apps understand it.
+        </p>
+        <p class="sh-proto-note">
+          <strong>AmneziaWG Mobile</strong> (awg1) is tuned for LTE and mobile
+          networks: better connection and link quality. On older clients and
+          routers Mobile may not work.
+        </p>
+        <p class="sh-proto-note">
+          <strong>WireGuard</strong> (<code>--profile wg</code>) is plain WG
+          without Amnezia junk — simpler for routing experiments, weaker where
+          vanilla WireGuard is filtered.
+        </p>
+        <p class="sh-proto-note">
+          <strong>Hysteria2</strong> is a fast UDP protocol; it needs a domain
+          with a DNS A record pointing at this machine’s IP (for the ACME cert).
+          No domain — ask in
+          <a href="https://t.me/frkn_dev">@frkn_dev</a>.
+        </p>
         <div class="sh-cmd" style="margin-top: 0.85rem">
           <code
-            >curl -fsSL https://beta.frkn.org/install | bash -s -- --token inst_… --profile awg</code
+            >curl -fsSL https://frkn.org/install | bash -s -- --token inst_… --profile awg</code>
+          >
+        </div>
+        <div class="sh-cmd" style="margin-top: 0.5rem">
+          <code
+            >curl -fsSL https://frkn.org/install | bash -s -- --token inst_… --profile wg</code>
           >
         </div>
       </section>
 
-      <section class="card feature sh-card" style="margin-bottom: 2rem">
+      <section class="card feature sh-card">
         <h3>If it breaks</h3>
         <ul>
-          <li>Not Ubuntu 22/24 → reinstall a clean image and retry.</li>
+          <li>Not Ubuntu 22/24/26 and not Arch → reinstall one of those and retry.</li>
+          <li>
+            On Arch the AWG module did not load → headers must match the kernel
+            (<code>linux-lts</code> → <code>linux-lts-headers</code>), then run
+            the command again.
+          </li>
           <li>Not root → <code>sudo -i</code> and try again.</li>
-          <li>Token expired / already used → ask for a new <code>inst_…</code>.</li>
+          <li>Token expired / already used → get a new <code>inst_…</code> in the cabinet.</li>
           <li>
             Hysteria2 cert errors → point a DNS A record at this machine’s IP.
           </li>
         </ul>
+      </section>
+
+      <section class="card feature sh-card" style="margin-bottom: 2rem">
+        <details class="sh-debug" id="debug">
+          <summary>
+            <span class="sh-debug-row">
+            <span class="sh-debug-title">Debug</span>
+            <span class="sh-debug-btn">
+              <span class="sh-debug-closed">Show</span>
+              <span class="sh-debug-open">Hide</span>
+            </span>
+            </span>
+          </summary>
+          <div class="sh-debug-body">
+            <p class="sh-debug-banner">
+              These checks work on any server running AmneziaWG and Hysteria2.
+            </p>
+            <div class="sh-debug-tabs" role="tablist" aria-label="What to debug">
+              <button type="button" class="sh-os-btn active" data-debug-tab="awg" aria-pressed="true">Amnezia</button>
+              <button type="button" class="sh-os-btn" data-debug-tab="h2" aria-pressed="false">Hysteria2</button>
+              <button type="button" class="sh-os-btn" data-debug-tab="fnode" aria-pressed="false">fnode</button>
+            </div>
+            <p class="sh-debug-lead">
+              If something does not work or will not connect — basic checks are here.
+            </p>
+            <div data-debug-panel="awg">
+        <p>If Amnezia does not connect, check that UDP reaches the box at all.</p>
+
+        <p style="margin: 0.85rem 0 0"><strong>UDP via netcat</strong></p>
+        <p>
+          AmneziaWG listens on <code>51820</code>, Mobile on <code>8443</code>.
+          Install netcat and free the port — the tunnel holds it:
+        </p>
+        <div class="sh-cmd"><code>apt-get install -y netcat-openbsd</code></div>
+        <div class="sh-cmd"><code>awg-quick down awg0</code></div>
+        <p class="sh-note">
+          For AmneziaWG Mobile — <code>awg-quick down awg1</code>.
+        </p>
+        <div class="sh-cmd"><code>nc -u -l 51820</code></div>
+        <p style="margin: 0.75rem 0 0">
+          From your computer. Turn VPN off on it, or the test is wrong. On
+          macOS and Linux:
+        </p>
+        <div class="sh-cmd"><code>nc -u YOUR-SERVER-IP-ADDRESS 51820</code></div>
+        <p class="sh-note">
+          Type any line and press Enter. For example <code>TEST</code> then Enter.
+          That line should show up in the server console where netcat is running.
+        </p>
+        <p style="margin: 0.75rem 0 0">
+          Windows has no <code>nc</code>. From PowerShell, with the node IP:
+        </p>
+        <div class="sh-cmd">
+          <code>$u = New-Object System.Net.Sockets.UdpClient; $b = [Text.Encoding]::ASCII.GetBytes("ping`n"); [void]$u.Send($b, $b.Length, "YOUR-SERVER-IP-ADDRESS", 51820); $u.Close()</code>
+        </div>
+        <p class="sh-note">
+          The node should print <code>ping</code>. Silence means UDP is not
+          getting through. Bring the tunnel back:
+          <code>awg-quick up awg0</code>. For Mobile, same steps with
+          <code>awg1</code> and port <code>8443</code>.
+        </p>
+        <p style="margin: 0.75rem 0 0">
+          If the line never shows up, try other ports the same way. Sometimes
+          one of them gets through. On the server listen with
+          <code>nc -u -l PORT</code> (stop whatever holds it), and send to that
+          port from your computer. Try <code>443</code>, <code>8443</code>,
+          <code>51820</code>, <code>3000</code>. Also <code>53</code>,
+          <code>123</code> and <code>4500</code> — those often pass when the
+          usual VPN ports do not.
+        </p>
+        <p style="margin: 0.75rem 0 0">
+          If the test line arrived on a port, put it in <code>ListenPort</code>.
+          AmneziaWG: <code>/opt/amnezia/awg0.conf</code>. Mobile:
+          <code>/opt/amnezia/awg1.conf</code>. Each file needs its own port —
+          do not put the same one in both. Then bring the interface and
+          fnode-agent back up so clients pick up the new port:
+        </p>
+        <div class="sh-cmd">
+          <code>awg-quick down awg0 &amp;&amp; awg-quick up awg0 &amp;&amp; systemctl restart fnode</code>
+        </div>
+        <p class="sh-note">
+          For Mobile, same steps with <code>awg1</code>. Open that UDP port in
+          the firewall.
+        </p>
+
+        <p style="margin: 0.85rem 0 0"><strong>Firewall</strong></p>
+        <div class="sh-cmd"><code>ufw status</code></div>
+        <p class="sh-note">
+          If ufw is active and the ports are missing:
+          <code>ufw allow 51820/udp</code> and <code>ufw allow 8443/udp</code>.
+          No such command — ufw is not installed, check iptables.
+        </p>
+        <div class="sh-cmd"><code>iptables -S INPUT</code></div>
+        <p class="sh-note">
+          Look for DROP or REJECT on those UDP ports. Open them:
+          <code>iptables -I INPUT -p udp --dport 51820 -j ACCEPT</code>
+          and the same for <code>8443</code>. The hoster's panel can block UDP
+          too — open the ports there as well.
+        </p>
+
+        <p style="margin: 0.85rem 0 0"><strong>Kernel module logs</strong></p>
+        <p>
+          This is the Amnezia module debug log. It shows whether packets
+          arrive and where the connection breaks.
+        </p>
+        <div class="sh-cmd">
+          <code>echo 'module amneziawg +p' &gt; /sys/kernel/debug/dynamic_debug/control</code>
+        </div>
+        <div class="sh-cmd"><code>dmesg -wT</code></div>
+        <p class="sh-note">
+          If the file is missing:
+          <code>mount -t debugfs none /sys/kernel/debug</code>. Turn it off:
+          <code>echo 'module amneziawg -p' &gt; /sys/kernel/debug/dynamic_debug/control</code>.
+        </p>
+
+        <p style="margin: 0.85rem 0 0"><strong>Obfuscation: 3.1 / 2.0 / legacy</strong></p>
+        <p>
+          Installer default is <strong>AmneziaWG 3.1</strong>
+          (<code>S1–S4</code>, H‑ranges, <code>I1</code>,
+          <code>RandomTrailers</code>, <code>DisableCookies</code>). On some
+          RU LTE links 3.1 never comes up; rolling mobile back to
+          <strong>2.0</strong> (no 3.1 flags) or <strong>legacy</strong>
+          (<code>H1=1…H4=4</code>, only <code>S1/S2</code>) usually fixes it.
+        </p>
+        <p class="sh-note">
+          Profiles: Mobile / aggressive networks (RU LTE) — prefer legacy or
+          an explicit client↔server matrix. Desktop / Wi‑Fi — 2.0/3.x is fine.
+          Do not reshuffle mobile↔desktop ports without need — it breaks sub
+          cache for every client; change obfuscation generation first.
+          Example split: Mobile = legacy AWG + <code>:443</code>, Desktop =
+          3.x + <code>:51820</code> — intentional, not a bug.
+        </p>
+        <p style="margin: 0.75rem 0 0">
+          Checklist when Mobile fails <em>only</em> on LTE:
+        </p>
+        <ul>
+          <li>Same node over Wi‑Fi OK?</li>
+          <li>Desktop AWG on the same node over LTE OK?</li>
+          <li>Another node over LTE OK?</li>
+          <li>
+            In <code>dmesg</code>: handshake initiation with no keepalive /
+            stopped hearing back?
+          </li>
+          <li>
+            Mobile conf has <code>S3/S4</code>, H‑ranges,
+            <code>I1=&lt;r…&gt;</code>, HPK, <code>RandomTrailers</code>?
+            → try legacy.
+          </li>
+        </ul>
+        <p style="margin: 0.75rem 0 0">
+          Roll back mobile via the installer (rewrites junk — then
+          <strong>fully</strong> refresh the client subscription):
+        </p>
+        <div class="sh-cmd">
+          <code>curl -fsSL https://frkn.org/install | bash -s -- --awg-mobile-version legacy --force-awg-conf</code>
+        </div>
+        <p class="sh-note">
+          Or edit <code>/opt/amnezia/awg1.conf</code>: drop
+          <code>S3/S4</code>, <code>I*</code>, HPK, <code>RandomTrailers</code>,
+          set <code>H1=1</code>…<code>H4=4</code>. Then:
+          <code>awg-quick down awg1 &amp;&amp; awg-quick up awg1 &amp;&amp; systemctl restart fnode</code>
+          and refresh the subscription. Stale junk = Unknown message /
+          Invalid MAC.
+        </p>
+        <p class="sh-note">
+          One-liner: if AmneziaWG Mobile will not come up on LTE while
+          Wi‑Fi / desktop / another node work — roll mobile obfuscation
+          back to legacy, restart awg1+fnode, and refresh the subscription.
+        </p>
+            </div>
+            <div data-debug-panel="h2" hidden>
+        <p>Service logs:</p>
+        <div class="sh-cmd"><code>journalctl -u hysteria2 -n 80 --no-pager</code></div>
+        <p style="margin: 0.75rem 0 0">
+          Domain. In <code>/opt/hysteria2/config.yaml</code>,
+          <code>acme.domains</code> is the name the certificate is issued for.
+          Its A record must point at this machine's public IP:
+        </p>
+        <div class="sh-cmd"><code>grep -A3 '^acme:' /opt/hysteria2/config.yaml</code></div>
+        <div class="sh-cmd"><code>getent hosts DOMAIN</code></div>
+        <p class="sh-note">
+          The address should match this machine
+          (<code>ip -4 route get 1.1.1.1</code>). <code>127.0.0.1</code> means
+          the name is only in <code>/etc/hosts</code> — you need a real DNS A record.
+        </p>
+        <p style="margin: 0.75rem 0 0">Certificate. On this machine:</p>
+        <div class="sh-cmd">
+          <code>echo | openssl s_client -connect 127.0.0.1:443 -servername DOMAIN 2&gt;/dev/null | openssl x509 -noout -subject -dates</code>
+        </div>
+        <p class="sh-note">
+          You should see a subject and dates. Empty or an error means the
+          certificate was not issued — read the log above.
+        </p>
+        <p style="margin: 0.75rem 0 0">Port. Hysteria listens on <code>443</code>:</p>
+        <div class="sh-cmd"><code>ss -ulpn | grep ':443'</code></div>
+        <div class="sh-cmd"><code>ss -tlpn | grep ':443'</code></div>
+        <p class="sh-note">
+          UDP 443 is Hysteria itself. TCP 443 is how it gets the certificate.
+          Nothing listening — the service did not come up, back to
+          <code>journalctl</code>. Open the port in the firewall and in the
+          hoster's panel.
+        </p>
+            </div>
+            <div data-debug-panel="fnode" hidden>
+        <p>
+          Service logs. The unit is named <code>fnode</code> — that is
+          fnode-agent:
+        </p>
+        <div class="sh-cmd"><code>journalctl -u fnode -n 80 --no-pager</code></div>
+        <div class="sh-cmd"><code>systemctl is-active fnode</code></div>
+        <p class="sh-note">
+          It should say <code>active</code>. If it crashes and comes back right
+          away, <code>/opt/fnode/config.toml</code> is usually broken. The first
+          address in <code>node_ips</code> must match <code>address</code>.
+          After the edit: <code>systemctl restart fnode</code>.
+        </p>
+        <p style="margin: 0.75rem 0 0">
+          Cabinet. The node should show up there. Extra connections are
+          created there too. The durable token is written after a successful
+          registration:
+        </p>
+        <div class="sh-cmd"><code>test -f /opt/fnode/api.token && echo ok</code></div>
+        <p class="sh-note">
+          <code>ok</code> means registration went through. No file — the agent
+          never registered, so it will not appear in the cabinet. An
+          <code>inst_…</code> token is one-time: do not run the installer
+          again, get a new one in the cabinet.
+        </p>
+        <p style="margin: 0.75rem 0 0">
+          API reachability. The agent talks to <code>api.frkn.org</code>: HTTPS
+          and TCP <code>3001</code>, <code>3002</code>. If the hoster blocks
+          outbound traffic, the log shows connection errors and the node never
+          appears in the cabinet.
+        </p>
+        <div class="sh-cmd">
+          <code>curl -sS -o /dev/null -w '%{http_code}\n' --max-time 10 https://api.frkn.org</code>
+        </div>
+        <p class="sh-note">
+          <code>000</code> or a timeout means the API is unreachable — that is
+          the hoster's panel. Any other code means the network path is open.
+        </p>
+        <p style="margin: 0.75rem 0 0">
+          Configs the agent hands to clients. A missing file, or a different
+          path in <code>config.toml</code>, means that protocol will not show
+          up in the app even while the service is <code>active</code>:
+        </p>
+        <div class="sh-cmd">
+          <code>ls /opt/amnezia/awg0.conf /opt/amnezia/awg1.conf /opt/wireguard/wg0.conf /opt/hysteria2/config.yaml</code>
+        </div>
+        <p class="sh-note">
+          A missing file is fine if you did not install that piece. After
+          editing these files, run <code>systemctl restart fnode</code> or
+          clients keep the old port and addresses.
+        </p>
+            </div>
+        <p style="margin: 0.85rem 0 0">
+          If something still does not work — the
+          <a href="https://t.me/frkn_dev">t.me/frkn_dev</a> chat is there for help.
+        </p>
+          </div>
+        </details>
       </section>
 
       <div id="footer-container"></div>
@@ -245,22 +962,69 @@
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
+    <script src="/scripts/dopamine-site.js?v=2"></script>
     <script>
       (function () {
-        var btn = document.getElementById("sh-copy");
-        var cmd = document.getElementById("sh-main-cmd");
-        if (!btn || !cmd) return;
-        btn.addEventListener("click", function () {
-          var text = cmd.textContent.trim();
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(function () {
-              btn.textContent = "Copied";
-              setTimeout(function () {
-                btn.textContent = "Copy";
-              }, 1500);
-            });
-          }
+        function bind(btnId, cmdId, done, idle) {
+          var btn = document.getElementById(btnId);
+          var cmd = document.getElementById(cmdId);
+          if (!btn || !cmd) return;
+          btn.addEventListener("click", function () {
+            var text = cmd.textContent.trim();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text).then(function () {
+                btn.textContent = done;
+                setTimeout(function () {
+                  btn.textContent = idle;
+                }, 1500);
+              });
+            }
+          });
+        }
+        bind("sh-copy", "sh-main-cmd", "Copied", "Copy");
+        bind("sh-copy-arch", "sh-arch-cmd", "Copied", "Copy");
+        var tabs = document.querySelectorAll("[data-os]");
+        var panels = document.querySelectorAll("[data-os-panel]");
+        function show(id) {
+          tabs.forEach(function (tab) {
+            var on = tab.getAttribute("data-os") === id;
+            tab.classList.toggle("active", on);
+            tab.setAttribute("aria-pressed", on ? "true" : "false");
+          });
+          panels.forEach(function (panel) {
+            panel.hidden = panel.getAttribute("data-os-panel") !== id;
+          });
+        }
+        tabs.forEach(function (tab) {
+          tab.addEventListener("click", function () {
+            show(tab.getAttribute("data-os"));
+          });
         });
+      })();
+      (function () {
+        var root = document.querySelector(".sh-debug");
+        if (!root) return;
+        var tabs = root.querySelectorAll("[data-debug-tab]");
+        var panels = root.querySelectorAll("[data-debug-panel]");
+        tabs.forEach(function (tab) {
+          tab.addEventListener("click", function () {
+            var id = tab.getAttribute("data-debug-tab");
+            tabs.forEach(function (item) {
+              var on = item === tab;
+              item.classList.toggle("active", on);
+              item.setAttribute("aria-pressed", on ? "true" : "false");
+            });
+            panels.forEach(function (panel) {
+              panel.hidden = panel.getAttribute("data-debug-panel") !== id;
+            });
+          });
+        });
+        function openFromHash() {
+          if (location.hash !== "#debug") return;
+          root.open = true;
+        }
+        openFromHash();
+        window.addEventListener("hashchange", openFromHash);
       })();
     </script>
   </body>

@@ -1,0 +1,334 @@
+{
+  "updated_at": "2026-09-26",
+  "presets": [
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "aliases": [
+        "ютуб",
+        "ютюб",
+        "yt"
+      ],
+      "domains": [
+        "youtube.com",
+        "googlevideo.com",
+        "i.ytimg.com",
+        "img.youtube.com",
+        "youtube-nocookie.com",
+        "youtubei.googleapis.com",
+        "youtube.googleapis.com"
+      ]
+    },
+    {
+      "id": "chatgpt",
+      "name": "ChatGPT",
+      "aliases": [
+        "чатгпт",
+        "gpt",
+        "openai"
+      ],
+      "domains": [
+        "chatgpt.com",
+        "openai.com",
+        "oaistatic.com",
+        "files.oaiusercontent.com",
+        "chat.com"
+      ]
+    },
+    {
+      "id": "gemini",
+      "name": "Gemini",
+      "aliases": [
+        "джемини",
+        "bard"
+      ],
+      "domains": [
+        "gemini.google.com",
+        "bard.google.com",
+        "gstatic.com"
+      ]
+    },
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "aliases": [
+        "инстаграм",
+        "инста",
+        "ig"
+      ],
+      "domains": [
+        "instagram.com",
+        "static.cdninstagram.com",
+        "scontent.cdninstagram.com",
+        "ig.me"
+      ]
+    },
+    {
+      "id": "tiktok",
+      "name": "TikTok",
+      "aliases": [
+        "тикток",
+        "тт"
+      ],
+      "domains": [
+        "tiktok.com",
+        "tiktokv.com",
+        "sf16.tiktokcdn.com",
+        "p16.tiktokcdn.com",
+        "musical.ly"
+      ]
+    },
+    {
+      "id": "x",
+      "name": "X",
+      "aliases": [
+        "twitter",
+        "твиттер",
+        "икс"
+      ],
+      "domains": [
+        "x.com",
+        "twitter.com",
+        "pbs.twimg.com",
+        "abs.twimg.com",
+        "video.twimg.com",
+        "t.co"
+      ]
+    },
+    {
+      "id": "facebook",
+      "name": "Facebook",
+      "aliases": [
+        "фейсбук",
+        "fb"
+      ],
+      "domains": [
+        "facebook.com",
+        "fb.com",
+        "fbcdn.net",
+        "fbsbx.com"
+      ]
+    },
+    {
+      "id": "whatsapp",
+      "name": "WhatsApp",
+      "aliases": [
+        "ватсап",
+        "whats app",
+        "wa"
+      ],
+      "domains": [
+        "whatsapp.com",
+        "whatsapp.net"
+      ]
+    },
+    {
+      "id": "telegram",
+      "name": "Telegram",
+      "aliases": [
+        "телеграм",
+        "телеграмм",
+        "тг",
+        "tg"
+      ],
+      "domains": [
+        "telegram.org",
+        "t.me",
+        "telegra.ph",
+        "telesco.pe",
+        "cdn4.telegram.org"
+      ]
+    },
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "aliases": [
+        "нетфликс"
+      ],
+      "domains": [
+        "netflix.com",
+        "nflxvideo.net",
+        "dnm.nflximg.net",
+        "art-s.nflximg.net",
+        "nflxext.com"
+      ]
+    },
+    {
+      "id": "spotify",
+      "name": "Spotify",
+      "aliases": [
+        "спотифай"
+      ],
+      "domains": [
+        "spotify.com",
+        "i.scdn.co",
+        "audio-fa.scdn.co"
+      ]
+    },
+    {
+      "id": "discord",
+      "name": "Discord",
+      "aliases": [
+        "дискорд"
+      ],
+      "domains": [
+        "discord.com",
+        "discord.gg",
+        "discordapp.com",
+        "discordcdn.com"
+      ]
+    },
+    {
+      "id": "vk",
+      "name": "VK",
+      "aliases": [
+        "вк",
+        "вконтакте",
+        "vkontakte"
+      ],
+      "domains": [
+        "vk.com",
+        "vk.ru",
+        "vk.me",
+        "vk.cc",
+        "id.vk.com",
+        "login.vk.com",
+        "oauth.vk.com",
+        "api.vk.com",
+        "m.vk.com",
+        "static.vk.com",
+        "queuev4.vk.com",
+        "userapi.com",
+        "vkuseraudio.net",
+        "vkuserlive.net",
+        "vkuservideo.net",
+        "vk-portal.net"
+      ]
+    },
+    {
+      "id": "ozon",
+      "name": "Ozon",
+      "aliases": [
+        "озон"
+      ],
+      "domains": [
+        "ozon.ru",
+        "cdn1.ozonusercontent.com",
+        "ir.ozone.ru",
+        "ozone.ru",
+        "ozon.travel"
+      ]
+    },
+    {
+      "id": "wildberries",
+      "name": "Wildberries",
+      "aliases": [
+        "вайлдберриз",
+        "вайлдбериз",
+        "wb"
+      ],
+      "domains": [
+        "wildberries.ru",
+        "wb.ru",
+        "wbstatic.net",
+        "basket-01.wbbasket.ru",
+        "wildberries.com"
+      ]
+    },
+    {
+      "id": "kinopoisk",
+      "name": "Кинопоиск",
+      "aliases": [
+        "кинопоиск"
+      ],
+      "domains": [
+        "kinopoisk.ru",
+        "yastatic.net"
+      ]
+    },
+    {
+      "id": "yandex",
+      "name": "Яндекс",
+      "aliases": [
+        "яндекс",
+        "ya"
+      ],
+      "domains": [
+        "yandex.ru",
+        "ya.ru",
+        "yandex.com",
+        "yandex.net",
+        "yastatic.net"
+      ]
+    },
+    {
+      "id": "gosuslugi",
+      "name": "Госуслуги",
+      "aliases": [
+        "госуслуги",
+        "гос услуги"
+      ],
+      "domains": [
+        "gosuslugi.ru",
+        "gosuslugi.net",
+        "gu-st.ru",
+        "stat.sputnik.ru"
+      ]
+    },
+    {
+      "id": "erudit",
+      "name": "Эрудит",
+      "aliases": [
+        "эрудит",
+        "erugame"
+      ],
+      "domains": [
+        "erugame.ru",
+        "www.erugame.ru",
+        "game.erugame.ru",
+        "new.erugame.ru",
+        "cdn.erugame.ru"
+      ]
+    },
+    {
+      "id": "builtin-ru-direct",
+      "name": "RU services",
+      "aliases": [
+        "ru services",
+        "русские сервисы",
+        "ru"
+      ],
+      "domains": []
+    },
+    {
+      "id": "builtin-ru-banking",
+      "name": "Online Banking",
+      "aliases": [
+        "банки",
+        "banking",
+        "online banking"
+      ],
+      "domains": []
+    },
+    {
+      "id": "builtin-ru-vpn",
+      "name": "Blocked in RU",
+      "aliases": [
+        "blocked in ru",
+        "заблочено",
+        "vpn list"
+      ],
+      "domains": []
+    },
+    {
+      "id": "builtin-ai",
+      "name": "AI",
+      "aliases": [
+        "ai",
+        "ии",
+        "нейросети"
+      ],
+      "domains": []
+    }
+  ]
+}

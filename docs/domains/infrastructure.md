@@ -16,7 +16,10 @@ Docker, nginx configs, deploy scripts, CI, environments. Load when touching depl
 
 ## Nginx (testflight host)
 
-`nginx-testflight.conf` — host Nginx for `testflight.frkn.org` (not Docker): 80→443, Let's Encrypt certs, `root /opt/testflight/frkn.org`. Differs from Dockerfile conf: TLS + HSTS, stricter headers (X-Frame-Options, X-XSS-Protection), 1-year immutable cache, HTML no-cache, extensionless URLs (`$uri.html $uri/index.html`), no `/health`/`/install`.
+`nginx-testflight.conf` — vhost for `testflight.frkn.org`. **Disabled:** both
+HTTP and HTTPS return `410 Gone` (site retired; content under `/opt/testflight`
+is unused). Re-enable by restoring the previous try_files config from git
+history.
 
 ## Deploy scripts
 
@@ -24,11 +27,14 @@ Three rsync scripts, arg `$1` = `user@host`, `rsync -avz --delete -e ssh` of rep
 
 | Script | Destination |
 |---|---|
-| `deploy.sh` | `/opt/mirror/frkn.org/` (prod mirror) |
-| `deploy-beta.sh` | `/opt/beta/frkn.org/` |
+| `deploy-site.sh` | `/opt/frkn.org/` → `frkn.org` |
+| `deploy-app.sh` | `/opt/frkn.app/` → `frkn.app` |
+| `deploy-beta.sh` | `/opt/beta/frkn.org/` → `beta.frkn.org` |
+| `deploy-beta-app.sh` | `/opt/beta/frkn.app/` → `beta.frkn.app` (docroot; vhost/DNS optional) |
 | `deploy-testflight.sh` | `/opt/testflight/frkn.org/` |
+| `deploy.sh` | `/opt/mirror/frkn.org/` (prod mirror) |
 
-`deploy-site.sh` — main nginx host `/opt/frkn.org/` (default `root@141.133.173.16`). Rsync of the local tree with `--delete`, no server-side git. dopamine binaries are excluded from the main pass and synced separately with `--chmod=F644`.
+`deploy-site.sh` — main nginx host (default `root@141.133.173.16`). Rsync of the local tree with `--delete`, no server-side git. dopamine binaries are excluded from the main pass and synced separately with `--chmod=F644`. App deploys exclude `preset/requests.csv` so the suggestion queue survives `--delete`.
 
 ## CI
 
@@ -44,11 +50,24 @@ Tor side: `tor` package, `torrc` has `HiddenServiceDir /var/lib/tor/frkn-onion/`
 
 | Env | How | Notes |
 |---|---|---|
-| `prod` `frkn.org` | own nginx `/opt/frkn.org` (`nginx-site.conf`) + rsync mirror `/opt/mirror/frkn.org/` | GitHub Pages no longer used |
-| `onion` | Tor → `127.0.0.1:8080` → same `/opt/frkn.org` (`nginx-onion.conf`) | mirrors prod content; API via `/api` proxy |
-| `beta` | rsync `/opt/beta/frkn.org/` | branch `origin/beta` exists; beta vhost lives in `sites-available/api` on the server |
-| `testflight` `testflight.frkn.org` | rsync `/opt/testflight/frkn.org/` + `nginx-testflight.conf` | branch `origin/testflight` exists |
+| `prod` `frkn.org` | `/opt/frkn.org` + rsync mirror `/opt/mirror/frkn.org/` | host is the api.frkn.org box |
+| `prod` `frkn.app` | `/opt/frkn.app` (`nginx-frkn-app.conf`) | Dopamine mini-site; `/preset/` → CSV inbox; other paths 302 → frkn.org |
+| `onion` | Tor → `127.0.0.1:8080` → same `/opt/frkn.org` | mirrors prod; API via `/api` proxy |
+| `beta` `beta.frkn.org` | `/opt/beta/frkn.org/` | vhost in `sites-available/api` |
+| `beta` `beta.frkn.app` | `/opt/beta/frkn.app/` | docroot ready; wire DNS+nginx when needed |
+| `testflight` | `/opt/testflight/frkn.org/` + `nginx-testflight.conf` | currently `410 Gone` |
 | `local` | Docker, port 8080 | pages fall back to `localhost:3000/3005/3006/8000` |
+
+Layout on disk (siblings):
+
+```
+/opt/frkn.org
+/opt/frkn.app
+/opt/beta/frkn.org
+/opt/beta/frkn.app
+```
+
+Preset queue CSV: `/opt/frkn.app/preset/requests.csv` (not web-served).
 
 ## Misc
 

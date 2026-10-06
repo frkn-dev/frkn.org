@@ -1,0 +1,25 @@
+[Unit]
+Description=FRKN preset request inbox (CSV queue)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+Environment=PRESET_INBOX_HOST=127.0.0.1
+Environment=PRESET_INBOX_PORT=9120
+Environment=PRESET_INBOX_CSV=/opt/frkn.app/preset/requests.csv
+Environment=PRESET_INBOX_KNOWN=/opt/frkn.app/preset/known.json
+EnvironmentFile=-/etc/frkn/preset-inbox.env
+ExecStart=/usr/bin/python3 /opt/frkn-tools/preset-inbox.py
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/frkn.app/preset
+ReadOnlyPaths=/opt/frkn-tools
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

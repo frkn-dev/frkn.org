@@ -132,11 +132,30 @@
         // Коды живут на проде — резолвер всегда s.frkn.org, даже локально
         var m = location.pathname.match(/^\/sub\/([A-Za-z0-9-]+)\/?$/);
         if (!m) {
+          var savedCode = "";
+          var savedId = "";
+          var savedLang = "";
+          try {
+            savedCode = localStorage.getItem("frkn_sub_code") || "";
+            savedId = localStorage.getItem("frkn_sub_id") || "";
+            savedLang = localStorage.getItem("frkn-lang") || "";
+          } catch (e) {}
+          if (/^[a-z0-9-]+$/.test(savedCode)) {
+            location.replace("/sub/" + savedCode);
+            return;
+          }
+          if (savedId) {
+            location.replace(savedLang === "en" ? "/en/subscription/" : "/subscription/");
+            return;
+          }
           fail(i18n.notFound, i18n.badLink);
           return;
         }
 
         var code = m[1].toLowerCase();
+        try {
+          localStorage.setItem("frkn_sub_code", code);
+        } catch (e) {}
 
         var S_BASE = location.hostname.endsWith(".onion")
           ? location.origin + "/s"
@@ -151,10 +170,33 @@
           .then(function (data) {
             var id = data && data.subscription_id;
             if (!id) return Promise.reject("no-id");
-            location.replace(
-              (ru ? "/subscription/?id=" : "/en/subscription/?id=") +
-                encodeURIComponent(id),
+            var saved = "";
+            try {
+              saved = localStorage.getItem("frkn-lang") || "";
+            } catch (e) {}
+            var lang = saved === "en" || saved === "ru" ? saved : ru ? "ru" : "en";
+            var env = "";
+            try {
+              env = new URLSearchParams(location.search).get("env") || "";
+            } catch (e) {}
+            try {
+              sessionStorage.setItem(
+                "frkn_sub_boot",
+                JSON.stringify({ code: code, id: id, env: env }),
+              );
+            } catch (e) {}
+            return fetch(lang === "en" ? "/en/subscription/" : "/subscription/").then(
+              function (page) {
+                if (!page.ok) return Promise.reject(page.status);
+                return page.text();
+              },
             );
+          })
+          .then(function (html) {
+            if (!html) return;
+            document.open();
+            document.write(html);
+            document.close();
           })
           .catch(function () {
             fail(i18n.notFound, i18n.notFoundText);

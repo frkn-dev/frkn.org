@@ -37,7 +37,7 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css?v=10" />
+    <link rel="stylesheet" href="/styles.css?v=14" />
     <style>
       .lp-sub { color: var(--muted); margin: -8px 0 25px; font-size: 15px; }
       .lp-grid-4 { grid-template-columns: repeat(4, 1fr); }
@@ -46,6 +46,7 @@
       .lp-price-option:hover { color: var(--accent); background: rgba(56, 189, 248, 0.12); }
       .lp-unlim { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #22d3ee; margin-bottom: 8px; }
       .lp-spacer { margin-top: 56px; }
+      .pl-card .btn + .btn { margin-top: 8px; }
     </style>
   </head>
   <body class="landing-page">
@@ -55,8 +56,8 @@
       </header>
       <section class="hero">
         <div class="hero-content">
+          <span class="money-back-badge">Don't like it — money back</span>
           <div>
-            <span class="money-back-badge">Don't like it — money back</span>
             <h1 class="hero-title">Reelsoprovod</h1>
             <p class="hero-subtitle">
               Your personal guide to fast internet.<br />
@@ -82,22 +83,31 @@
                 ><button class="btn ghost btn-fire" style="padding: 14px 24px; font-size: 15px"
                   >Pricing</button></a
               >
+              <a href="/en/activate"
+                ><button class="btn ghost" style="padding: 14px 24px; font-size: 15px"
+                  >Activate key</button></a
+              >
               <div class="hero-btn-break"></div>
               <button
-                class="btn ghost"
+                class="btn ghost hero-btn-small"
                 onclick="window.open('https://t.me/unlock_internet_bot', '_blank')"
-                style="display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; font-size: 15px"
+                style="display: inline-flex; align-items: center; gap: 8px"
               >
-                <img
-                  src="https://cdn.simpleicons.org/telegram"
-                  alt=""
-                  style="width: 16px; height: 16px"
-                />
+                <img src="https://cdn.simpleicons.org/telegram" alt="" />
                 Free TG proxies
               </button>
               <a href="/en/switch-to-frkn"
-                ><button class="btn ghost" style="padding: 14px 24px; font-size: 15px"
-                  >Trade-In</button></a
+                ><button class="btn ghost hero-btn-small">Trade-In</button></a
+              >
+              <a href="/en/promise/"
+                ><button class="btn ghost hero-btn-small">Pay later</button></a
+              >
+              <div class="hero-btn-break"></div>
+              <a href="https://frkn.app/en/selfhosted"
+                ><button class="btn ghost hero-btn-small">Self-hosted</button></a
+              >
+              <a href="/en/premium/"
+                ><button class="btn ghost hero-btn-small">Dedicated IP</button></a
               >
             </div>
           </div>
@@ -140,66 +150,12 @@
                   Already have a subscription
                 </button></a
               >
-              <a href="/en/activate"
-                ><button type="button" class="btn ghost">
-                  Activate key
-                </button></a
-              >
             </div>
           </div>
         </div>
       </section>
       <section class="pricing-landing">
-        <h2>Lifetime Plans</h2>
-        <p class="lp-sub">pay per gigabyte — traffic never expires</p>
-        <div class="pricing-landing-grid lp-grid-4">
-          <div class="pl-card">
-            <h3>1 GB</h3>
-            <div class="pl-duration">lasts until used up</div>
-            <div class="pl-cost">67₽</div>
-            <div class="lp-price-note">
-              <span class="lp-price-option trial-buy-btn" data-gb="1" data-price="67">67₽ zoomers</span>
-              /
-              <span class="lp-price-option trial-buy-btn" data-gb="1" data-price="69" data-alt="true">69₽ millennials</span>
-            </div>
-            <button class="btn try trial-buy-btn" data-gb="1" data-price="67">Choose</button>
-          </div>
-          <div class="pl-card">
-            <h3>5 GB</h3>
-            <div class="pl-duration">lasts until used up</div>
-            <div class="pl-cost">167₽</div>
-            <div class="lp-price-note">
-              <span class="lp-price-option trial-buy-btn" data-gb="5" data-price="167">167₽ zoomers</span>
-              /
-              <span class="lp-price-option trial-buy-btn" data-gb="5" data-price="169" data-alt="true">169₽ millennials</span>
-            </div>
-            <button class="btn try trial-buy-btn" data-gb="5" data-price="167">Choose</button>
-          </div>
-          <div class="pl-card">
-            <h3>10 GB</h3>
-            <div class="pl-duration">lasts until used up</div>
-            <div class="pl-cost">267₽</div>
-            <div class="lp-price-note">
-              <span class="lp-price-option trial-buy-btn" data-gb="10" data-price="267">267₽ zoomers</span>
-              /
-              <span class="lp-price-option trial-buy-btn" data-gb="10" data-price="269" data-alt="true">269₽ millennials</span>
-            </div>
-            <button class="btn try trial-buy-btn" data-gb="10" data-price="267">Choose</button>
-          </div>
-          <div class="pl-card">
-            <h3>50 GB</h3>
-            <div class="pl-duration">lasts until used up</div>
-            <div class="pl-cost">367₽</div>
-            <div class="lp-price-note">
-              <span class="lp-price-option trial-buy-btn" data-gb="50" data-price="367">367₽ zoomers</span>
-              /
-              <span class="lp-price-option trial-buy-btn" data-gb="50" data-price="369" data-alt="true">369₽ millennials</span>
-            </div>
-            <button class="btn try trial-buy-btn" data-gb="50" data-price="367">Choose</button>
-          </div>
-        </div>
-
-        <h2 class="lp-spacer">Unlimited Plans</h2>
+        <h2>Unlimited Plans</h2>
         <p class="lp-sub">pay for time — ∞ traffic</p>
         <div class="pricing-landing-grid">
           <div class="pl-card">
@@ -222,6 +178,39 @@
             <div class="pl-duration">365 days</div>
             <div class="pl-cost">4500₽</div>
             <a href="/en/pay" class="btn try">Buy</a>
+          </div>
+        </div>
+
+        <h2 class="lp-spacer">Lifetime Plans</h2>
+        <p class="lp-sub">pay per gigabyte — traffic never expires</p>
+        <div class="pricing-landing-grid lp-grid-4">
+          <div class="pl-card">
+            <h3>1 GB</h3>
+            <div class="pl-duration">lasts until used up</div>
+            <div class="pl-cost">67₽</div>
+            <button class="btn try trial-buy-btn" data-gb="1" data-price="67">Zoomers 67₽</button>
+            <button class="btn ghost trial-buy-btn" data-gb="1" data-price="69" data-alt="true">Millennials 69₽</button>
+          </div>
+          <div class="pl-card">
+            <h3>5 GB</h3>
+            <div class="pl-duration">lasts until used up</div>
+            <div class="pl-cost">167₽</div>
+            <button class="btn try trial-buy-btn" data-gb="5" data-price="167">Zoomers 167₽</button>
+            <button class="btn ghost trial-buy-btn" data-gb="5" data-price="169" data-alt="true">Millennials 169₽</button>
+          </div>
+          <div class="pl-card">
+            <h3>10 GB</h3>
+            <div class="pl-duration">lasts until used up</div>
+            <div class="pl-cost">267₽</div>
+            <button class="btn try trial-buy-btn" data-gb="10" data-price="267">Zoomers 267₽</button>
+            <button class="btn ghost trial-buy-btn" data-gb="10" data-price="269" data-alt="true">Millennials 269₽</button>
+          </div>
+          <div class="pl-card">
+            <h3>50 GB</h3>
+            <div class="pl-duration">lasts until used up</div>
+            <div class="pl-cost">367₽</div>
+            <button class="btn try trial-buy-btn" data-gb="50" data-price="367">Zoomers 367₽</button>
+            <button class="btn ghost trial-buy-btn" data-gb="50" data-price="369" data-alt="true">Millennials 369₽</button>
           </div>
         </div>
       </section>
@@ -256,7 +245,7 @@
       <div id="footer-container"></div>
     </div>
     <script src="/scripts/analytics.js" defer></script>
-    <script src="/scripts/trial.en.js?v=5"></script>
+    <script src="/scripts/trial.en.js?v=7"></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script>

@@ -413,6 +413,23 @@
         margin-bottom: 6px;
       }
 
+      .device-form label.device-main-feed {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+        color: var(--text);
+      }
+
+      .device-form label.device-main-feed.hidden {
+        display: none;
+      }
+
+      .device-form label.device-main-feed input {
+        width: auto;
+        padding: 0;
+      }
+
       .device-form-error {
         color: #ff6b6b;
         font-size: 13px;
@@ -2775,6 +2792,53 @@
         transform: translateY(-1px);
       }
 
+      .node-install-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+
+      #openNodeInstall.is-open,
+      #openNodeInstall.is-open:hover {
+        background: rgba(91, 124, 250, 0.28);
+        border-color: rgba(91, 124, 250, 0.75);
+      }
+
+      #openNodeInstall:focus {
+        outline: none;
+      }
+
+      .node-install {
+        margin: 12px 0 0;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .node-install-note {
+        font-size: 13px;
+        opacity: 0.85;
+        margin-bottom: 8px;
+      }
+
+      .node-install-cmd {
+        margin: 0 0 10px;
+        padding: 10px;
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.35);
+        font-size: 12px;
+        line-height: 1.45;
+        white-space: pre-wrap;
+        word-break: break-all;
+      }
+
+      .node-install-more {
+        margin-left: 10px;
+        font-size: 13px;
+      }
+
       .traffic-summary {
         border-top: 1px solid var(--border);
         padding-top: 20px;
@@ -3155,7 +3219,7 @@
         <div class="header-right">
           <div class="lang-switcher">
             <button class="lang-btn active" type="button">RU</button>
-            <a class="lang-btn" href="/en/subscription/">EN</a>
+            <a class="lang-btn" href="/en/subscription/" onclick="try{localStorage.setItem('frkn-lang','en')}catch(e){}if(/^\/sub\//.test(location.pathname)){location.reload();return false;}">EN</a>
           </div>
           <a
             class="support-btn"
@@ -3498,14 +3562,30 @@
               </div>
             </div>
 
-            <button
-              class="device-picker-toggle"
-              id="openDeviceModal"
-              type="button"
-            >
-              Больше настроек и приложений
-              <span class="device-picker-arrow">▼</span>
-            </button>
+            <div class="node-install-row">
+              <button
+                class="device-picker-toggle"
+                id="openDeviceModal"
+                type="button"
+              >
+                Больше настроек и приложений
+                <span class="device-picker-arrow">▼</span>
+              </button>
+              <button class="device-picker-toggle" id="openNodeInstall" type="button">
+                Своя нода
+              </button>
+            </div>
+            <div class="node-install hidden" id="node-install">
+              <div class="node-install-note" id="node-install-note">
+                Вставь на своём сервере. Команда живёт час.
+              </div>
+              <pre class="node-install-cmd" id="node-install-cmd"></pre>
+              <button type="button" class="secondary-btn" id="node-install-copy">
+                Скопировать
+              </button>
+              <a class="node-install-more" href="/selfhosted/">Как поставить</a>
+              <a class="node-install-more" href="https://t.me/frkn_dev" target="_blank" rel="noopener noreferrer">Нужна помощь</a>
+            </div>
           </div>
         </div>
       </main>
@@ -3645,6 +3725,10 @@
                 <label for="deviceNodeSelect">Сервер</label>
                 <select id="deviceNodeSelect"></select>
               </div>
+              <label class="device-main-feed hidden" id="deviceMainFeedRow">
+                <input type="checkbox" id="deviceMainFeed" />
+                Добавить сервер в общую подписку
+              </label>
               <div class="device-form-error" id="deviceFormError"></div>
               <button type="button" class="btn try" id="deviceSubmitBtn">
                 Создать
@@ -3668,7 +3752,8 @@
               <div id="deviceShareContent"></div>
               <div class="devices-hint">
                 Обе ссылки выше — один доступ к одному серверу: frkn:// для
-                приложения FRKN Dopamine, https — для Happ/Streisand/Clash. У
+                приложения FRKN Dopamine, https — для INCY/Streisand/Clash.
+                Happ не рекомендуется из-за блокировок РКН. У
                 получателя сервер появится с именем этого устройства. Кнопка
                 «Отозвать» гасит обе ссылки сразу.
               </div>
@@ -4050,15 +4135,59 @@
       ];
       let selectedProtocol = null;
 
+      function subPathCode() {
+        const m = location.pathname.match(/^\/sub\/([a-z0-9-]+)\/?$/i);
+        return m ? m[1].toLowerCase() : "";
+      }
+
+      function readSubBoot() {
+        const code = subPathCode();
+        if (!code) return null;
+        try {
+          const boot = JSON.parse(sessionStorage.getItem("frkn_sub_boot") || "null");
+          if (boot && String(boot.code).toLowerCase() === code && boot.id) return boot;
+        } catch (e) {}
+        return null;
+      }
+
       function getSubId() {
         const params = new URLSearchParams(window.location.search);
         const urlId = params.get("id");
-        const stored = localStorage.getItem("frkn_sub_id");
-        const id = urlId || stored;
-        if (urlId) {
-          localStorage.setItem("frkn_sub_id", urlId);
+        const boot = readSubBoot();
+        const id = urlId || (boot && boot.id) || localStorage.getItem("frkn_sub_id");
+        if (id) {
+          localStorage.setItem("frkn_sub_id", id);
         }
         return id;
+      }
+
+      async function goToShortUrl(subId) {
+        if (subPathCode() || useMock) return false;
+        try {
+          const r = await fetch(
+            `${API_BASE}/short?subscription_id=${encodeURIComponent(subId)}`,
+          );
+          if (!r.ok) return false;
+          const short = await r.json();
+          const code = String(short.short_url || "")
+            .replace(/\/+$/, "")
+            .split("/")
+            .pop()
+            .toLowerCase();
+          if (!code || !/^[a-z0-9-]+$/.test(code)) return false;
+          const env = new URLSearchParams(location.search).get("env") || "";
+          try {
+            localStorage.setItem("frkn_sub_code", code);
+          } catch (e) {}
+          sessionStorage.setItem(
+            "frkn_sub_boot",
+            JSON.stringify({ code: code, id: subId, env: env }),
+          );
+          location.replace("/sub/" + code);
+          return true;
+        } catch (e) {
+          return false;
+        }
       }
 
       function formatBytes(bytes) {
@@ -4077,7 +4206,7 @@
       }
 
       async function loadVpnClients() {
-        const response = await fetch("vpn-clients.json");
+        const response = await fetch("/subscription/vpn-clients.json");
         if (!response.ok) {
           throw new Error(
             `Не удалось загрузить конфиг клиентов (HTTP ${response.status})`,
@@ -4127,7 +4256,9 @@
       async function initPage() {
         const params = new URLSearchParams(window.location.search);
         const subId = getSubId();
-        currentEnv = params.get("env") || "dev";
+        if (subId && (await goToShortUrl(subId))) return;
+        const boot = readSubBoot();
+        currentEnv = params.get("env") || (boot && boot.env) || "dev";
 
         const mainEl = document.getElementById("main-content");
         const errorEl = document.getElementById("error-content");
@@ -4312,7 +4443,9 @@
         }
 
         const total = uplink + downlink;
-        const limitBytes = data.limit_bytes || 0;
+        const expiresAt = data.expires ? new Date(data.expires) : null;
+        const limitBytes =
+          expiresAt && expiresAt > new Date() ? 0 : data.limit_bytes || 0;
 
         document.getElementById("traffic-total").innerText = formatBytes(total);
         const limitText = document.getElementById("traffic-limit-text");
@@ -4394,6 +4527,8 @@
         const limitBytes = data.limit_bytes || 0;
         const usedBytes = data.used_bytes || 0;
         const planKind = data.plan_kind || "standard";
+        const expiresAt = data.expires ? new Date(data.expires) : null;
+        const timeActive = expiresAt && expiresAt > new Date();
         const liveConns = Array.isArray(data.connections)
           ? data.connections.filter((c) => !c.is_deleted).length
           : 0;
@@ -4409,7 +4544,7 @@
           ? 0
           : data.remaining_bytes ?? Math.max(0, limitBytes - usedBytes);
 
-        if (limitBytes <= 0) {
+        if (limitBytes <= 0 || timeActive) {
           block.classList.add("hidden");
           return;
         }
@@ -4427,7 +4562,6 @@
         );
         document.getElementById("topup-bar-fill").style.width = `${percent}%`;
 
-        const expiresAt = data.expires ? new Date(data.expires) : null;
         const timeExpired =
           planKind === "standard" && expiresAt && expiresAt < new Date();
         const trafficMode =
@@ -4543,6 +4677,9 @@
             if (!short?.short_url || !shortRow || !shortCodeEl) return;
             const code = short.short_url.replace(/\/+$/, "").split("/").pop();
             if (!code) return;
+            try {
+              localStorage.setItem("frkn_sub_code", code.toLowerCase());
+            } catch (e) {}
             shortCodeEl.innerText = code;
             shortCodeEl.title = "Нажмите, чтобы скопировать";
             shortCodeEl.onclick = () => copyText(code, "Код скопирован");
@@ -4556,6 +4693,96 @@
         document.getElementById("copy-sub-link").onclick = () => {
           copyText(subUrl, "Ссылка подписки скопирована");
         };
+
+        (function setupNodeInstall() {
+          const btn = document.getElementById("openNodeInstall");
+          const box = document.getElementById("node-install");
+          const note = document.getElementById("node-install-note");
+          const cmd = document.getElementById("node-install-cmd");
+          const copyBtn = document.getElementById("node-install-copy");
+          if (!btn || !box || !cmd || !copyBtn || !subId) return;
+          const key = "frkn-inst:" + subId;
+          const defaultNote =
+            "Вставь на своём сервере. Команда живёт час. Повторно не жми — слотов три.";
+          function readSaved() {
+            try {
+              const saved = JSON.parse(localStorage.getItem(key) || "null");
+              if (!saved || !saved.hint || !saved.expires_at) return null;
+              if (new Date(saved.expires_at).getTime() <= Date.now()) return null;
+              return saved;
+            } catch (e) {
+              return null;
+            }
+          }
+          function setOpen(open) {
+            box.classList.toggle("hidden", !open);
+            btn.classList.toggle("is-open", open);
+          }
+          function show(hint, noteText) {
+            if (hint) cmd.textContent = hint;
+            note.textContent = noteText || defaultNote;
+            if (hint) copyBtn.onclick = () => copyText(hint, "Команда скопирована");
+            setOpen(true);
+          }
+          btn.onclick = async () => {
+            if (!box.classList.contains("hidden")) {
+              setOpen(false);
+              btn.blur();
+              return;
+            }
+            const again = readSaved();
+            if (again) {
+              show(again.hint);
+              btn.blur();
+              return;
+            }
+            btn.disabled = true;
+            try {
+              const r = await fetch(API_BASE + "/private/install-token", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ subscription_id: subId }),
+              });
+              const data = await r.json().catch(() => ({}));
+              if (r.status === 429) {
+                note.textContent =
+                  "Уже три живых команды. Подожди час или поставь ноду одной из прошлых.";
+                cmd.textContent = "";
+                setOpen(true);
+                return;
+              }
+              const token = data.response && data.response.token;
+              const hint =
+                (data.response && data.response.install_hint) ||
+                (token
+                  ? "curl -fsSL https://frkn.org/install | bash -s -- --token " +
+                    token
+                  : "");
+              if (!r.ok || !hint) {
+                note.textContent = "Не вышло выдать команду. Напиши в поддержку.";
+                cmd.textContent = "";
+                setOpen(true);
+                return;
+              }
+              try {
+                localStorage.setItem(
+                  key,
+                  JSON.stringify({
+                    hint: hint,
+                    expires_at: data.response.expires_at,
+                  }),
+                );
+              } catch (e) {}
+              show(hint);
+            } catch (e) {
+              note.textContent = "Нет связи с API.";
+              cmd.textContent = "";
+              setOpen(true);
+            } finally {
+              btn.disabled = false;
+            }
+          };
+        })();
 
         document.getElementById("show-qr-btn").onclick = async () => {
           const modal = document.getElementById("qr-modal");
@@ -5059,7 +5286,7 @@
             const feedLabel = document.createElement("div");
             feedLabel.className = "devices-hint";
             feedLabel.textContent =
-              "Сторонние клиенты (Happ, Streisand, Clash):";
+              "Сторонние клиенты (INCY, Streisand, Clash). Happ не рекомендуется из-за блокировок РКН:";
             const feedBox = document.createElement("div");
             feedBox.className = "device-link-box";
             feedBox.textContent = conn.share_feed_url;
@@ -5405,6 +5632,21 @@
           protoSelect.appendChild(opt);
         });
         loadDeviceNodes();
+        syncDeviceMainFeed();
+      }
+
+      function syncDeviceMainFeed() {
+        const row = document.getElementById("deviceMainFeedRow");
+        const box = document.getElementById("deviceMainFeed");
+        const envSelect = document.getElementById("deviceEnvSelect");
+        if (!row) return;
+        const show =
+          deviceScope &&
+          deviceScope.kind === "personal" &&
+          envSelect &&
+          envSelect.value === deviceScope.env;
+        row.classList.toggle("hidden", !show);
+        if (!show && box) box.checked = false;
       }
 
       // Server selector for the device pin (GET /devices/nodes). No default
@@ -5463,6 +5705,8 @@
         if (form) form.classList.add("hidden");
         if (input) input.value = "";
         if (nodeSelect) nodeSelect.innerHTML = "";
+        const mainFeed = document.getElementById("deviceMainFeed");
+        if (mainFeed) mainFeed.checked = false;
         setDeviceFormError("");
       }
 
@@ -5497,6 +5741,8 @@
               proto: protoSelect.value,
               label,
               node_id: nodeSelect.value,
+              include_in_main:
+                document.getElementById("deviceMainFeed")?.checked === true,
             }),
           });
           const j = await r.json().catch(() => null);
@@ -5806,6 +6052,11 @@
           };
           options.appendChild(btn);
         });
+        const happNote = document.createElement("div");
+        happNote.className = "small";
+        happNote.style.marginTop = "10px";
+        happNote.textContent = "Happ не рекомендуется из-за блокировок РКН.";
+        options.appendChild(happNote);
       }
 
       function renderConnectionStep() {
@@ -5916,7 +6167,12 @@
                 currentConnectionContext.env,
                 normalizeFormat(client.configType),
               );
-        if (client.id === "happ" || client.name?.toLowerCase() === "happ") {
+        if (
+          client.id === "incy" ||
+          client.id === "happ" ||
+          client.name?.toLowerCase() === "incy" ||
+          client.name?.toLowerCase() === "happ"
+        ) {
           subscriptionUrl += "&app=happ";
         }
 
@@ -5935,7 +6191,7 @@
           </div>
         </div>
       </div>
-      <div class="small connection-hint">Отсканируйте QR-код в приложении или вставьте ссылку вручную.</div>
+      <div class="small connection-hint">Отсканируйте QR-код в приложении или вставьте ссылку вручную. Happ не рекомендуется из-за блокировок РКН.</div>
     `;
 
         const copyBtn = document.getElementById("copy-subscription-link");

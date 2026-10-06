@@ -314,6 +314,17 @@
         padding: 10px;
         font-size: 14px;
       }
+      .buy-button.alt {
+        margin-top: 8px;
+        background: transparent;
+        color: var(--text-main);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: none;
+      }
+      .buy-button.alt:hover {
+        background: rgba(91, 124, 250, 0.12);
+        box-shadow: none;
+      }
       @media (max-width: 960px) {
         .pricing-grid-main {
           grid-template-columns: 1fr;
@@ -806,20 +817,22 @@
               <div class="cost-wrapper">
                 <div class="cost">67₽</div>
               </div>
-              <div class="traffic-pricing-note">
-                <span class="price-option" data-price="67">67₽ зумерам</span>
-                /
-                <span class="price-option" data-price="69" data-alt="true"
-                  >69₽ миллениалам</span
-                >
-              </div>
               <button
                 class="buy-button"
                 data-duration="0"
                 data-gb="1"
                 data-price="67"
               >
-                Выбрать
+                Зумерам 67₽
+              </button>
+              <button
+                class="buy-button alt"
+                data-duration="0"
+                data-gb="1"
+                data-price="69"
+                data-alt="true"
+              >
+                Миллениалам 69₽
               </button>
             </div>
 
@@ -834,20 +847,22 @@
               <div class="cost-wrapper">
                 <div class="cost">167₽</div>
               </div>
-              <div class="traffic-pricing-note">
-                <span class="price-option" data-price="167">167₽ зумерам</span>
-                /
-                <span class="price-option" data-price="169" data-alt="true"
-                  >169₽ миллениалам</span
-                >
-              </div>
               <button
                 class="buy-button"
                 data-duration="0"
                 data-gb="5"
                 data-price="167"
               >
-                Выбрать
+                Зумерам 167₽
+              </button>
+              <button
+                class="buy-button alt"
+                data-duration="0"
+                data-gb="5"
+                data-price="169"
+                data-alt="true"
+              >
+                Миллениалам 169₽
               </button>
             </div>
 
@@ -862,20 +877,22 @@
               <div class="cost-wrapper">
                 <div class="cost">267₽</div>
               </div>
-              <div class="traffic-pricing-note">
-                <span class="price-option" data-price="267">267₽ зумерам</span>
-                /
-                <span class="price-option" data-price="269" data-alt="true"
-                  >269₽ миллениалам</span
-                >
-              </div>
               <button
                 class="buy-button"
                 data-duration="0"
                 data-gb="10"
                 data-price="267"
               >
-                Выбрать
+                Зумерам 267₽
+              </button>
+              <button
+                class="buy-button alt"
+                data-duration="0"
+                data-gb="10"
+                data-price="269"
+                data-alt="true"
+              >
+                Миллениалам 269₽
               </button>
             </div>
 
@@ -890,20 +907,22 @@
               <div class="cost-wrapper">
                 <div class="cost">367₽</div>
               </div>
-              <div class="traffic-pricing-note">
-                <span class="price-option" data-price="367">367₽ зумерам</span>
-                /
-                <span class="price-option" data-price="369" data-alt="true"
-                  >369₽ миллениалам</span
-                >
-              </div>
               <button
                 class="buy-button"
                 data-duration="0"
                 data-gb="50"
                 data-price="367"
               >
-                Выбрать
+                Зумерам 367₽
+              </button>
+              <button
+                class="buy-button alt"
+                data-duration="0"
+                data-gb="50"
+                data-price="369"
+                data-alt="true"
+              >
+                Миллениалам 369₽
               </button>
             </div>
           </div>
@@ -1123,35 +1142,24 @@
           <div class="promo-info">Можно указать позже в Личном Кабинете.</div>
         </div>
         <div class="modal-total-wrapper" id="modal-total-wrapper"></div>
+        <!-- Planta temporarily hidden while small amounts are disabled.
         <button class="btn-pay" id="planta-pay-btn">Оплата СБП</button>
-        <button class="btn-pay btn-pay-secondary" id="final-pay-btn">
-          Оплата Мир/Крипта
-        </button>
-        <p
-          id="planta-min-note"
-          style="
-            display: none;
-            color: #aaa;
-            font-size: 13px;
-            text-align: center;
-            margin: 10px 0 0;
-            line-height: 1.4;
-          "
-        >
-          СБП от 100₽ — для 1 ГБ пока только Мир/Крипта.
-        </p>
+        -->
+        <button class="btn-pay" id="final-pay-btn">Оплатить</button>
         <div class="planta-waiting" id="planta-waiting">
           <span class="loading-spinner"></span> Ждем ссылку на оплату от СБП...
         </div>
         <div class="modal-footnotes">
           <p>
-            Оплата проходит на внешних сервисах (Planta / Platega). Мы не храним
-            ваши платёжные данные.
+            Оплата проходит на внешнем сервисе. Мы не храним ваши платёжные
+            данные.
           </p>
           <p>⚠️ Не закрывайте окно до подтверждения оплаты</p>
+          <!--
           <p class="prefer">
             Предпочитаем СБП — там меньше комиссия, цена для вас та же.
           </p>
+          -->
         </div>
       </div>
     </div>
@@ -1371,17 +1379,11 @@
       }
 
       // --- Обновление отображения в модалке (для ТЕКУЩЕГО заказа) ---
-      const PLANTA_MIN_AMOUNT = 100;
       function syncPayButtons() {
         if (!plantaPayBtn || !currentOrder) return;
-        const sbpOk = Number(currentOrder.price) >= PLANTA_MIN_AMOUNT;
-        plantaPayBtn.style.display = sbpOk ? "" : "none";
-        plantaPayBtn.disabled = !sbpOk;
-        if (payBtn) {
-          payBtn.classList.toggle("btn-pay-secondary", sbpOk);
-        }
-        const note = document.getElementById("planta-min-note");
-        if (note) note.style.display = sbpOk ? "none" : "block";
+        plantaPayBtn.style.display = "";
+        plantaPayBtn.disabled = false;
+        if (payBtn) payBtn.classList.add("btn-pay-secondary");
       }
       function updateModalDisplay() {
         if (!currentOrder) return;
@@ -1626,7 +1628,14 @@
       document.querySelectorAll(".buy-button").forEach((btn) =>
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
-          openModal(btn.dataset.duration, btn.dataset.price, btn);
+          openModal(
+            btn.dataset.duration,
+            btn.dataset.price,
+            btn,
+            btn.dataset.alt === "true"
+              ? { price: parseInt(btn.dataset.price, 10), alt: true }
+              : undefined,
+          );
         }),
       );
       document.querySelectorAll(".price-option").forEach((opt) =>
@@ -1793,11 +1802,6 @@
             if (data.paymentUrl) {
               window.location.href = data.paymentUrl;
               return;
-            }
-            if (Number(currentOrder.price) < PLANTA_MIN_AMOUNT) {
-              throw new Error(
-                "СБП от 100₽. Для этого тарифа используй оплату Мир/Крипта.",
-              );
             }
             const paymentUrl = await pollPlantaPaymentUrl(data.transactionId);
             window.location.href = paymentUrl;

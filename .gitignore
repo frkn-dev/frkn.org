@@ -30,6 +30,7 @@ dopamine/*.dmg
 dopamine/*.pkg
 dopamine/*.apk
 dopamine/*.msi
+dopamine/*.bin
 
 share/
 

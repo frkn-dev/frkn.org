@@ -15,7 +15,7 @@ premium both use the API service token; mode is picked from `--env`:
 ## Core one-liner
 
 ```bash
-curl -fsSL https://beta.frkn.org/install | bash -s -- \
+curl -fsSL https://frkn.org/install | bash -s -- \
   --api-token 'SERVICE_TOKEN' \
   --env dev \
   --profile full \
@@ -28,7 +28,7 @@ curl -fsSL https://beta.frkn.org/install | bash -s -- \
 Same token, scope env from the subscription (`scope_env`, usually `custom…`):
 
 ```bash
-curl -fsSL https://beta.frkn.org/install | bash -s -- \
+curl -fsSL https://frkn.org/install | bash -s -- \
   --api-token 'SERVICE_TOKEN' \
   --env 'customSCOPE' \
   --profile full \
@@ -39,7 +39,7 @@ curl -fsSL https://beta.frkn.org/install | bash -s -- \
 Reuse an existing node uuid on reinstall:
 
 ```bash
-curl -fsSL https://beta.frkn.org/install | bash -s -- \
+curl -fsSL https://frkn.org/install | bash -s -- \
   --api-token 'SERVICE_TOKEN' \
   --env dev \
   --profile full \
@@ -66,7 +66,7 @@ MAX_BANDWIDTH_BPS=200000000
 ```
 
 ```bash
-curl -fsSL https://beta.frkn.org/install | bash -s -- --env-file /root/frkn-setup.env
+curl -fsSL https://frkn.org/install | bash -s -- --env-file /root/frkn-setup.env
 ```
 
 `--token` and `--api-token` are mutually exclusive. Core/premium never use `inst_…`.
@@ -75,15 +75,55 @@ curl -fsSL https://beta.frkn.org/install | bash -s -- --env-file /root/frkn-setu
 
 | Profile | Packages |
 |---|---|
-| `full` (default) | awg0 + awg1 + hysteria2 + fnode |
+| `full` (default) | awg0 + awg1 + hysteria2 + fnode (**no** WireGuard) |
 | `awg` | awg0 + awg1 + fnode |
+| `wg` | wireguard wg0 + fnode |
 | `hysteria2` | hysteria2 + fnode |
+
+### WireGuard-only (core)
+
+Matches API `wireguard_network = 10.100.0.0/16`. Path: `/opt/wireguard/wg0.conf`.
+
+```bash
+curl -fsSL https://frkn.org/install | bash -s -- \
+  --api-token 'SERVICE_TOKEN' \
+  --env ru \
+  --profile wg \
+  --label 'MSK TW' \
+  --country RU \
+  --hostname msk-tw.frkn.org
+```
+
+`--force-wg-conf` regenerates server keys (then refresh client sub).
+
+## AWG obfuscation generation
+
+| Flag | Values | Default |
+|---|---|---|
+| `--awg-version` | `3.1` \| `2.0` | `3.1` (awg0 + awg1) |
+| `--awg-mobile-version` | `3.1` \| `2.0` \| `legacy` | same as `--awg-version` |
+| `--force-awg-conf` | — | keep existing `/opt/amnezia/awg{0,1}.conf` |
+
+- **3.1** — S1–S4, H-ranges, `I1=<r 128>`, `RandomTrailers=on`, `DisableCookies=on`
+- **2.0** — same field set without 3.1 device flags (LTE fallback when 3.1 stalls)
+- **legacy** (mobile) — `H1=1…H4=4`, only S1/S2 — aggressive RU LTE middleboxes
+
+After `--force-awg-conf`: `systemctl restart fnode` (script does) + **full**
+client subscription refresh. Stale junk → Unknown message / Invalid MAC.
+Prefer changing generation over reshuffling mobile↔desktop ports.
+
+## Idempotent re-run
+
+Second run should not fail: uuid reused from `/root/.env` or
+`/opt/fnode/config.toml`; awg/hysteria confs kept unless `--force-awg-conf`;
+private mode reuses `/opt/fnode/api.token` (can omit a fresh `--token`).
+`awg-quick` is brought down/up with leftover link cleanup.
 
 Aliases (still need flags/`--env-file` for the token):
 
-- `https://beta.frkn.org/install/full`
-- `https://beta.frkn.org/install/amnezia` → profile `awg`
-- `https://beta.frkn.org/install/hysteria2`
+- `https://frkn.org/install/full`
+- `https://frkn.org/install/amnezia` → profile `awg`
+- `https://frkn.org/install/hysteria2`
 
 ## What the script writes
 

@@ -32,6 +32,7 @@
       .lp-price-option:hover { color: var(--accent); background: rgba(56, 189, 248, 0.12); }
       .lp-unlim { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #22d3ee; margin-bottom: 8px; }
       .lp-spacer { margin-top: 56px; }
+      .pl-card .btn + .btn { margin-top: 8px; }
     </style>
 <style>
 .hero {
@@ -121,62 +122,12 @@ animation: title-appear 1s ease-out, title-breathe 5s ease-in-out infinite 1s;
 <p class="small">بدون ایمیل — کلید بلافاصله پس از پرداخت روی صفحه نشان داده می‌شود.</p>
 <div class="trial-extra-actions">
 <a href="/fa/subscription"><button class="btn ghost">از قبل اشتراک داشته باشید</button></a>
-<a href="/en/activate"><button class="btn ghost">کلید را فعال کنید</button></a>
 </div>
 </div>
 </div>
 </section>
 <section class="pricing-landing">
-<h2>طرح‌های مادام‌العمر</h2>
-<p class="lp-sub">پرداخت به ازای گیگابایت — ترافیک نمی‌سوزد</p>
-<div class="pricing-landing-grid lp-grid-4">
-<div class="pl-card">
-<h3>۱ گیگابایت</h3>
-<div class="pl-duration">تا وقتی تمامش نکنید</div>
-<div class="pl-cost">۶۷₽</div>
-<div class="lp-price-note">
-<span class="lp-price-option trial-buy-btn" data-gb="1" data-price="67">۶۷₽ زومرها</span>
-/
-<span class="lp-price-option trial-buy-btn" data-gb="1" data-price="69" data-alt="true">۶۹₽ میلنیال‌ها</span>
-</div>
-<button class="btn try trial-buy-btn" data-gb="1" data-price="67">انتخاب</button>
-</div>
-<div class="pl-card">
-<h3>۵ گیگابایت</h3>
-<div class="pl-duration">تا وقتی تمامش نکنید</div>
-<div class="pl-cost">۱۶۷₽</div>
-<div class="lp-price-note">
-<span class="lp-price-option trial-buy-btn" data-gb="5" data-price="167">۱۶۷₽ زومرها</span>
-/
-<span class="lp-price-option trial-buy-btn" data-gb="5" data-price="169" data-alt="true">۱۶۹₽ میلنیال‌ها</span>
-</div>
-<button class="btn try trial-buy-btn" data-gb="5" data-price="167">انتخاب</button>
-</div>
-<div class="pl-card">
-<h3>۱۰ گیگابایت</h3>
-<div class="pl-duration">تا وقتی تمامش نکنید</div>
-<div class="pl-cost">۲۶۷₽</div>
-<div class="lp-price-note">
-<span class="lp-price-option trial-buy-btn" data-gb="10" data-price="267">۲۶۷₽ زومرها</span>
-/
-<span class="lp-price-option trial-buy-btn" data-gb="10" data-price="269" data-alt="true">۲۶۹₽ میلنیال‌ها</span>
-</div>
-<button class="btn try trial-buy-btn" data-gb="10" data-price="267">انتخاب</button>
-</div>
-<div class="pl-card">
-<h3>۵۰ گیگابایت</h3>
-<div class="pl-duration">تا وقتی تمامش نکنید</div>
-<div class="pl-cost">۳۶۷₽</div>
-<div class="lp-price-note">
-<span class="lp-price-option trial-buy-btn" data-gb="50" data-price="367">۳۶۷₽ زومرها</span>
-/
-<span class="lp-price-option trial-buy-btn" data-gb="50" data-price="369" data-alt="true">۳۶۹₽ میلنیال‌ها</span>
-</div>
-<button class="btn try trial-buy-btn" data-gb="50" data-price="367">انتخاب</button>
-</div>
-</div>
-
-<h2 class="lp-spacer">طرح‌های نامحدود</h2>
+<h2>طرح‌های نامحدود</h2>
 <p class="lp-sub">پرداخت به ازای زمان — ترافیک ∞</p>
 <div class="pricing-landing-grid">
 <div class="pl-card">
@@ -199,6 +150,39 @@ animation: title-appear 1s ease-out, title-breathe 5s ease-in-out infinite 1s;
 <div class="pl-duration">365 روز</div>
 <div class="pl-cost">4500₽</div>
 <a href="/fa/pay" class="btn try">خرید کنید</a>
+</div>
+</div>
+
+<h2 class="lp-spacer">طرح‌های مادام‌العمر</h2>
+<p class="lp-sub">پرداخت به ازای گیگابایت — ترافیک نمی‌سوزد</p>
+<div class="pricing-landing-grid lp-grid-4">
+<div class="pl-card">
+<h3>۱ گیگابایت</h3>
+<div class="pl-duration">تا وقتی تمامش نکنید</div>
+<div class="pl-cost">۶۷₽</div>
+<button class="btn try trial-buy-btn" data-gb="1" data-price="67">زومرها ۶۷₽</button>
+<button class="btn ghost trial-buy-btn" data-gb="1" data-price="69" data-alt="true">میلنیال‌ها ۶۹₽</button>
+</div>
+<div class="pl-card">
+<h3>۵ گیگابایت</h3>
+<div class="pl-duration">تا وقتی تمامش نکنید</div>
+<div class="pl-cost">۱۶۷₽</div>
+<button class="btn try trial-buy-btn" data-gb="5" data-price="167">زومرها ۱۶۷₽</button>
+<button class="btn ghost trial-buy-btn" data-gb="5" data-price="169" data-alt="true">میلنیال‌ها ۱۶۹₽</button>
+</div>
+<div class="pl-card">
+<h3>۱۰ گیگابایت</h3>
+<div class="pl-duration">تا وقتی تمامش نکنید</div>
+<div class="pl-cost">۲۶۷₽</div>
+<button class="btn try trial-buy-btn" data-gb="10" data-price="267">زومرها ۲۶۷₽</button>
+<button class="btn ghost trial-buy-btn" data-gb="10" data-price="269" data-alt="true">میلنیال‌ها ۲۶۹₽</button>
+</div>
+<div class="pl-card">
+<h3>۵۰ گیگابایت</h3>
+<div class="pl-duration">تا وقتی تمامش نکنید</div>
+<div class="pl-cost">۳۶۷₽</div>
+<button class="btn try trial-buy-btn" data-gb="50" data-price="367">زومرها ۳۶۷₽</button>
+<button class="btn ghost trial-buy-btn" data-gb="50" data-price="369" data-alt="true">میلنیال‌ها ۳۶۹₽</button>
 </div>
 </div>
 </section>
@@ -334,7 +318,7 @@ animation: title-appear 1s ease-out, title-breathe 5s ease-in-out infinite 1s;
 <div id="footer-container"></div>
 </div>
 <script defer="" src="/scripts/analytics.js"></script>
-<script src="/scripts/trial.en.js?v=5"></script>
+<script src="/scripts/trial.en.js?v=7"></script>
 <script src="/scripts/i18n.js?v=2"></script>
 <script src="/scripts/containers.js?v=3"></script>
 <script>

@@ -20,7 +20,10 @@ Three manual rsync scripts, arg `$1` = `user@host` (SSH keys assumed). All exclu
 
 ```bash
 ./deploy.sh            $SERVER   # prod mirror  → /opt/mirror/frkn.org/
-./deploy-beta.sh       $SERVER   # beta          → /opt/beta/frkn.org/
+./deploy-site.sh       $SERVER   # frkn.org      → /opt/frkn.org/
+./deploy-app.sh        $SERVER   # frkn.app      → /opt/frkn.app/
+./deploy-beta.sh       $SERVER   # beta.frkn.org → /opt/beta/frkn.org/
+./deploy-beta-app.sh   $SERVER   # beta.frkn.app → /opt/beta/frkn.app/
 ./deploy-testflight.sh $SERVER   # testflight    → /opt/testflight/frkn.org/
 ```
 

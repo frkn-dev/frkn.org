@@ -28,12 +28,13 @@ rsync -av --progress --delete \
     --exclude='dopamine/*.msi' \
     --exclude='dopamine/*.apk' \
     --exclude='dopamine/*.dmg' \
+    --exclude='dopamine/*.bin' \
     ./ "${HOST}:${REMOTE_DIR}/"
 
 # dopamine binaries are gitignored — they travel outside git, and we force
 # 644 so nginx can read them regardless of local umask.
 shopt -s nullglob
-bins=(dopamine/*.pkg dopamine/*.msi dopamine/*.apk dopamine/*.dmg)
+bins=(dopamine/*.pkg dopamine/*.msi dopamine/*.apk dopamine/*.dmg dopamine/*.bin)
 if ((${#bins[@]})); then
     echo "Syncing dopamine binaries: ${bins[*]}"
     rsync -av --progress --chmod=F644 \

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Предложить пресет — FRKN</title>
+    <meta
+      name="description"
+      content="Устал включать VPN ради одного сайта? Предложи сервис для каталога Dopamine."
+    />
+    <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon" />
+    <link
+      rel="apple-touch-icon"
+      href="/Images/apple-touch-icon.png"
+      sizes="180x180"
+    />
+    <link rel="stylesheet" href="/styles.css?v=9" />
+    <style>
+      .preset-page.container {
+        padding-top: 24px;
+      }
+      .preset-wrap {
+        max-width: 36rem;
+        margin: 1.5rem auto 4rem;
+      }
+      .preset-wrap h1 {
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+        margin: 0 0 0.75rem;
+        letter-spacing: -0.02em;
+      }
+      .preset-wrap .lead {
+        color: rgba(255, 255, 255, 0.78);
+        line-height: 1.55;
+        margin: 0 0 0.85rem;
+      }
+      .preset-wrap .lead-note {
+        color: rgba(255, 255, 255, 0.55);
+        line-height: 1.5;
+        margin: 0 0 1.35rem;
+        font-size: 14px;
+      }
+      .preset-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .preset-form label {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .preset-form input,
+      .preset-form textarea {
+        width: 100%;
+        box-sizing: border-box;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 15px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text);
+      }
+      .preset-form textarea {
+        min-height: 7rem;
+        resize: vertical;
+      }
+      .preset-form button {
+        align-self: flex-start;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+        min-height: 44px;
+        padding: 10px 18px;
+        border-radius: 12px;
+        border: 1px solid var(--accent);
+        background: rgba(56, 189, 248, 0.14);
+        color: var(--text);
+        cursor: pointer;
+      }
+      .preset-form button:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+      .preset-msg {
+        margin-top: 0.75rem;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+      .preset-msg a {
+        color: var(--accent);
+      }
+      .preset-msg.ok {
+        color: #86efac;
+      }
+      .preset-msg.err {
+        color: #fca5a5;
+      }
+      .preset-msg.warn {
+        color: #fde68a;
+      }
+      .preset-note {
+        margin-top: 1.5rem;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.5);
+        line-height: 1.45;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container preset-page">
+      <div id="logo-container"></div>
+      <div class="preset-wrap">
+        <h1>Предложить пресет</h1>
+        <p class="lead">
+          Устал включать и выключать VPN ради какого-то сайта, сервиса или
+          социальной сети — напиши его тут, и мы его добавим.
+        </p>
+        <p class="lead-note">
+          Обрати внимание: это произойдёт не сразу. В каталог Dopamine домены
+          попадут только после ручной проверки.
+        </p>
+        <form class="preset-form" id="preset-form">
+          <label for="urls"
+            >Сайт, домен или название (по одному в строке)</label
+          >
+          <textarea
+            id="urls"
+            name="urls"
+            required
+            placeholder="https://foo.bar&#10;telegram&#10;эрудит"
+            autocomplete="off"
+          ></textarea>
+          <label for="contact">Email или Telegram (по желанию)</label>
+          <input
+            id="contact"
+            name="contact"
+            type="text"
+            placeholder="@username или you@mail.com"
+            autocomplete="off"
+          />
+          <button type="submit" id="submit-btn">Отправить</button>
+        </form>
+        <div class="preset-msg" id="msg" hidden></div>
+        <p class="preset-note">
+          Можно URL (<code>https://foo.bar</code>), домен (<code>foo.bar</code>)
+          или просто имя — <code>телеграм</code>, <code>эрудит</code>. Если
+          сервис уже есть в каталоге, напиши в
+          <a href="https://t.me/frkn_support" target="_blank" rel="noopener"
+            >@frkn_support</a
+          >, что именно не работает.
+        </p>
+      </div>
+      <div id="footer-container"></div>
+    </div>
+    <script src="/scripts/containers.js"></script>
+    <script>
+      (function () {
+        var form = document.getElementById("preset-form");
+        var btn = document.getElementById("submit-btn");
+        var msg = document.getElementById("msg");
+        var support = "https://t.me/frkn_support";
+
+        function show(html, kind) {
+          msg.hidden = false;
+          msg.className = "preset-msg " + (kind || "err");
+          msg.innerHTML = html;
+        }
+
+        function supportLink() {
+          return (
+            '<a href="' +
+            support +
+            '" target="_blank" rel="noopener">@frkn_support</a>'
+          );
+        }
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var raw = document.getElementById("urls").value || "";
+          var items = raw
+            .split(/\r?\n|;/)
+            .map(function (s) {
+              return s.trim();
+            })
+            .filter(Boolean);
+          if (!items.length) {
+            show("Нужен хотя бы один сайт или название.", "err");
+            return;
+          }
+          var contact = (document.getElementById("contact").value || "").trim();
+          btn.disabled = true;
+          fetch("/preset/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ items: items, contact: contact || undefined }),
+          })
+            .then(function (r) {
+              return r.json().then(function (j) {
+                return { status: r.status, j: j };
+              });
+            })
+            .then(function (res) {
+              var j = res.j || {};
+              if (res.status === 409 || j.error === "already_known") {
+                var names = (j.already || [])
+                  .map(function (a) {
+                    return a.name || a.id;
+                  })
+                  .filter(Boolean);
+                var uniq = names.filter(function (n, i) {
+                  return names.indexOf(n) === i;
+                });
+                show(
+                  "Ой, такое уже есть" +
+                    (uniq.length ? " (" + uniq.join(", ") + ")" : "") +
+                    ". Если у тебя что-то не работает — напиши в поддержку " +
+                    supportLink() +
+                    ".",
+                  "warn"
+                );
+                return;
+              }
+              if (res.status >= 200 && res.status < 300 && j.ok) {
+                var accepted = (j.accepted || [])
+                  .map(function (a) {
+                    return a.value || a;
+                  })
+                  .join(", ");
+                var text = "Принято в очередь: " + accepted + ".";
+                if (j.already && j.already.length) {
+                  text +=
+                    " Часть уже была в каталоге — если не работает, пиши " +
+                    supportLink() +
+                    ".";
+                  show(text, "warn");
+                } else {
+                  show(text, "ok");
+                }
+                form.reset();
+                return;
+              }
+              if (j.error === "bad_contact") {
+                show(
+                  "Контакт не похож на email или Telegram. Оставь пустым или поправь.",
+                  "err"
+                );
+                return;
+              }
+              show("Не вышло. Проверь ввод и попробуй ещё раз.", "err");
+            })
+            .catch(function () {
+              show("Сеть или сервер не ответили. Попробуй позже.", "err");
+            })
+            .finally(function () {
+              btn.disabled = false;
+            });
+        });
+      })();
+    </script>
+  </body>
+</html>

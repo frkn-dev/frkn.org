@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Как установить и пользоваться приложением FRKN Dopamine: скачать, добавить ссылку, подключиться."
+    />
+    <link rel="canonical" href="https://frkn.org/setup/dopamine/" />
+    <link rel="alternate" href="https://frkn.app/setup/" />
+    <title>Dopamine — настройка и использование — FRKN</title>
+    <link
+      rel="icon"
+      href="/Images/favicon.ico"
+      sizes="any"
+      type="image/x-icon"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/Images/apple-touch-icon.png"
+      sizes="180x180"
+    />
+    <meta name="apple-mobile-web-app-title" content="frkn" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css?v=12" />
+    <style>
+      .page-header {
+        text-align: center;
+        margin: 12px 0 36px;
+      }
+      .page-header h1 {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: clamp(26px, 5vw, 40px);
+        margin: 0 0 10px;
+        color: var(--accent);
+        letter-spacing: -0.02em;
+      }
+      .page-header p {
+        color: var(--muted);
+        font-size: 16px;
+        line-height: 1.55;
+        max-width: 640px;
+        margin: 0 auto 18px;
+      }
+      .page-header .page-lead {
+        color: rgba(255, 255, 255, 0.82);
+        margin-bottom: 8px;
+      }
+      .page-header .tip-box {
+        text-align: left;
+        max-width: 640px;
+        margin: 14px auto 18px;
+      }
+      .header-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+      }
+      .header-actions .btn {
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 12px 18px;
+      }
+      .header-actions .btn-quiet {
+        color: var(--muted);
+        opacity: 0.55;
+        font-size: 13px;
+        text-decoration: none;
+        padding: 6px 4px;
+      }
+      .header-actions .btn-quiet:hover {
+        opacity: 0.85;
+        color: var(--muted);
+      }
+      .guide-step {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: clamp(20px, 3vw, 28px);
+        margin-bottom: 18px;
+      }
+      @media (min-width: 860px) {
+        .guide-step.has-shot {
+          grid-template-columns: 1.15fr 0.85fr;
+          align-items: start;
+        }
+      }
+      .step-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 9px;
+        background: rgba(56, 189, 248, 0.14);
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        color: var(--accent);
+        font-size: 13px;
+        font-weight: 700;
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+      .guide-step h2 {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin: 0 0 10px;
+        font-size: clamp(18px, 3vw, 22px);
+        font-family: "IBM Plex Mono", monospace;
+        letter-spacing: -0.02em;
+      }
+      .guide-step p,
+      .guide-step li {
+        color: var(--muted);
+        line-height: 1.55;
+        font-size: 15px;
+      }
+      .guide-step ol {
+        margin: 0;
+        padding-left: 1.2em;
+        display: grid;
+        gap: 8px;
+      }
+      .guide-step a {
+        color: var(--accent);
+      }
+      .shot {
+        margin: 0;
+      }
+      .shot img {
+        display: block;
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      }
+      .shot figcaption {
+        margin-top: 10px;
+        text-align: center;
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+      .shots-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+      @media (max-width: 640px) {
+        .shots-row {
+          grid-template-columns: 1fr;
+        }
+        .shot img {
+          max-width: 240px;
+        }
+      }
+      .ping-legend {
+        list-style: none;
+        margin: 16px 0 0;
+        padding: 0;
+        display: grid;
+        gap: 8px;
+      }
+      .ping-legend li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .ping-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .ping-dot.green {
+        background: #34c759;
+      }
+      .ping-dot.yellow {
+        background: #ff9f0a;
+      }
+      .ping-dot.red {
+        background: #ff453a;
+      }
+      .ping-cross {
+        width: 10px;
+        color: #ff453a;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        flex-shrink: 0;
+      }
+      .tip-box {
+        background: rgba(56, 189, 248, 0.08);
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        border-radius: 16px;
+        padding: 16px 18px;
+        margin: 8px 0 28px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .tip-box strong {
+        color: var(--text);
+      }
+      .tip-box a {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+      .back-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px 18px;
+        margin: 8px 0 40px;
+        font-size: 14px;
+      }
+      .back-links a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+      .back-links a:hover {
+        color: var(--accent);
+      }
+    </style>
+  
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FRKN" />
+    <meta property="og:title" content="Dopamine — настройка и использование — FRKN" />
+    <meta property="og:description" content="Как установить и пользоваться приложением FRKN Dopamine: скачать, добавить ссылку, подключиться." />
+    <meta property="og:image" content="https://frkn.org/Images/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Dopamine — настройка и использование — FRKN" />
+    <meta name="twitter:description" content="Как установить и пользоваться приложением FRKN Dopamine: скачать, добавить ссылку, подключиться." />
+    <meta name="twitter:image" content="https://frkn.org/Images/og.png" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div id="logo-container"></div>
+      </header>
+
+      <div class="page-header">
+        <h1>Dopamine by FRKN</h1>
+        <p class="page-lead">
+          VPN-клиент от FRKN с кучей крутых штук — FRKN рекомендует.
+          Доставит рилзики без задержек и в хорошем качестве. Работает на
+          Android, iOS, Windows, macOS и Linux.
+        </p>
+        <div class="tip-box">
+          <strong>Короткий гайд.</strong> Скачать приложение, взять ссылку из
+          кабинета, подключиться и пользоваться.
+        </div>
+        <div class="header-actions">
+          <a class="btn try" href="/dopamine" data-ds-home="ru">Скачать Dopamine</a>
+          <a class="btn ghost" href="https://frkn.org/subscription">Личный кабинет</a>
+          <a class="btn-quiet" href="https://frkn.org/setup/">Хочу другое приложение</a>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <strong>Совет.</strong> Если длинную ссылку неудобно копировать — в
+        <a href="/sub">личном кабинете</a> есть короткий код. Его
+        можно просто перепечатать в приложении вместо URL.
+      </div>
+
+      <article class="guide-step">
+        <div>
+          <h2><span class="step-num">1</span> Скачай приложение</h2>
+          <ol>
+            <li>
+              Открой страницу
+              <a href="/dopamine" data-ds-home="ru" data-ds-label="frkn.app"
+                >frkn.org/dopamine</a
+              >
+              и выбери свою платформу (Android APK, iOS TestFlight, Windows,
+              macOS, Linux).
+            </li>
+            <li>Установи Dopamine как обычное приложение.</li>
+            <li>
+              На Android при установке из APK разреши установку из
+              неизвестных источников, если система спросит.
+            </li>
+          </ol>
+          <div class="tip-box">
+            На iOS приложение пока ставится через TestFlight — это официальный
+            способ Apple раздавать приложения на тест. Для VPN у Apple очень
+            строгие правила: мы проходим ревью, и скоро Dopamine будет в App
+            Store и Google Play. Пока ставь через TestFlight на iOS или APK на
+            Android. На Windows 11, если у установщика ещё нет доверенного
+            сертификата (это пропадёт, когда накопим денежки и купим сертификат
+            у Microsoft), SmartScreen пишет, что издатель неизвестен. Это
+            нормально: «Подробнее», потом «Выполнить в любом случае».
+          </div>
+        </div>
+      </article>
+
+      <article class="guide-step">
+        <div>
+          <h2><span class="step-num">2</span> Возьми ссылку в кабинете</h2>
+          <ol>
+            <li>
+              Зайди в
+              <a href="/subscription">личный кабинет</a>
+              по ссылке из письма или бота.
+            </li>
+            <li>
+              При первом заходе id сохраняется в localStorage браузера. В
+              следующий раз писать его в адресной строке необязательно —
+              кабинет откроется сам.
+            </li>
+            <li>
+              В блоке «Ваша ссылка для подключения в приложении Dopamine»
+              нажми на ссылку или «Скопировать».
+            </li>
+            <li>
+              Можно просто кликнуть по ссылке, если Dopamine уже установлен —
+              приложение откроется само.
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="guide-step">
+        <div>
+          <h2><span class="step-num">3</span> Добавь подписку в Dopamine</h2>
+          <ol>
+            <li>Открой Dopamine.</li>
+            <li>
+              Вставь ссылку из кабинета (или короткий код, если ссылку
+              скопировать не вышло).
+            </li>
+            <li>
+              Дождись, пока подписка подтянется — появятся серверы.
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="guide-step">
+        <div>
+          <h2><span class="step-num">4</span> Подключись</h2>
+          <ol>
+            <li>
+              Открой список серверов — карточка внизу или «Connections».
+              Можно оставить Auto-select: приложение само возьмёт самый
+              быстрый из доступных.
+            </li>
+            <li>
+              Нажми большую круглую кнопку по центру — птеродактиль взлетит,
+              кольцо загорится.
+            </li>
+            <li>
+              Разреши VPN-профиль системы, если iOS или Android попросит
+              подтверждение.
+            </li>
+            <li>
+              Готово: в карточке видны сервер, протокол и скорость ↑↓.
+            </li>
+          </ol>
+          <p>Можно выбирать протокол в списке серверов.</p>
+          <ul>
+            <li>
+              Для LTE и мобильных сетей —
+              <strong>AmneziaWgMobile</strong>. Заточен под мобильные: лучше
+              держит коннект и качество связи. В старых приложениях и на
+              роутерах Mobile может не работать.
+            </li>
+            <li>
+              Для Wi‑Fi и роутеров —
+              <strong>AmneziaWG</strong>. Его понимают роутеры и старые
+              клиенты.
+            </li>
+            <li>
+              Если ничего не подключается и включены белые списки — выбирай
+              протокол <strong>Vless</strong> и подключение, в названии
+              которого есть <strong>BelySlon</strong>.
+            </li>
+          </ul>
+          <p>
+            Цифры ↑↓ на карточке — не твоя максимальная «скорость» интернета,
+            а насколько активно подключение используется прямо сейчас. Начнёшь
+            качать большой файл через VPN — цифры вырастут. Так устроен интернет.
+          </p>
+          <p>
+            Рядом с сервером — цветная точка. Циферки в миллисекундах
+            включаются в настройках: шестерёнка → Приложение → Диагностика →
+            «Показывать значения пинга серверов». По умолчанию только точка.
+          </p>
+          <ul class="ping-legend">
+            <li>
+              <span class="ping-dot green"></span> меньше 120 мс — хорошо
+            </li>
+            <li>
+              <span class="ping-dot yellow"></span> от 120 до 300 мс — неплохо
+            </li>
+            <li>
+              <span class="ping-dot red"></span> 300 мс и больше — плоховато
+            </li>
+            <li><span class="ping-cross">×</span> недоступен</li>
+          </ul>
+        </div>
+        <figure class="shot">
+          <img
+            src="/dopamine/Images/desktop-servers.png"
+            alt="Список серверов Dopamine с цветными точками пинга"
+            loading="lazy"
+          />
+          <figcaption>Список серверов. Точка — пинг, крестик — недоступен</figcaption>
+        </figure>
+        <div class="shots-row">
+          <figure class="shot">
+            <img
+              src="/dopamine/Images/android.jpg"
+              alt="Dopamine на Android — подключено"
+              loading="lazy"
+            />
+            <figcaption>Android — подключено</figcaption>
+          </figure>
+          <figure class="shot">
+            <img
+              src="/dopamine/Images/ios.png"
+              alt="Dopamine на iOS — подключено"
+              loading="lazy"
+            />
+            <figcaption>iOS — подключено</figcaption>
+          </figure>
+          <figure class="shot">
+            <img
+              src="/dopamine/Images/desktop-connected.png"
+              alt="Dopamine на компьютере — подключено"
+              loading="lazy"
+            />
+            <figcaption>Windows и macOS — то же окно</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="guide-step">
+        <div>
+          <h2><span class="step-num">5</span> Туннель, настройки, диагностика</h2>
+          <ol>
+            <li>
+              <strong>Раздельное туннелирование</strong> — кнопка внизу
+              главного экрана. На Android и Windows можно исключать приложения
+              из туннеля: они ходят напрямую, мимо VPN. Рекомендуем так
+              делать для банков и всего, что VPN ломает. На iPhone приложения
+              целиком исключить нельзя — там готовые пресеты популярных
+              сервисов. Иногда они работают не очень качественно. Если упёрся —
+              <a href="https://t.me/frkn_support" target="_blank" rel="noopener noreferrer">напиши в поддержку</a>,
+              поправим.
+            </li>
+            <li>
+              <strong>Настройки</strong> — шестерёнка справа сверху. Внутри:
+              Подключения (список серверов), Соединение (локальная сеть и
+              KillSwitch на компьютере, исключения приложений на Android и
+              Windows), Приложение (язык, тема, диагностика).
+            </li>
+            <li>
+              <strong>Диагностика</strong> — Приложение → Диагностика. Логи
+              по умолчанию выключены и хранятся только на устройстве. Включи
+              «Включить логи», если что-то сломалось: на главном экране сверху
+              появится «Режим диагностики включён». Потом экспортируй логи и
+              пришли в
+              <a href="https://t.me/frkn_support" target="_blank" rel="noopener noreferrer">поддержку</a>.
+              Там же включаются цифры пинга.
+            </li>
+            <li>
+              Несколько устройств — отдельные ссылки, чтобы они не мешали друг
+              другу. В
+              <a href="/subscription">личном кабинете</a>
+              это плюсик рядом с твоей ссылкой для подключения.
+            </li>
+          </ol>
+        </div>
+      </article>
+
+      <div class="tip-box">
+        Не Dopamine, а роутер / другой клиент?
+        <a href="https://frkn.org/setup/">Общие инструкции</a>
+        и отдельно
+        <a href="https://frkn.org/setup/routers/">гайд по роутерам</a>.
+      </div>
+
+      <div class="back-links">
+        <a href="/dopamine" data-ds-home="ru">← Скачать Dopamine</a>
+        <a href="https://frkn.org/setup/">Все инструкции</a>
+        <a href="https://frkn.org/subscription">Личный кабинет</a>
+      </div>
+
+      <div id="footer-container"></div>
+    </div>
+    <script src="/scripts/analytics.js" defer></script>
+    <script src="/scripts/i18n.js?v=2"></script>
+    <script src="/scripts/containers.js?v=3"></script>
+    <script src="/scripts/dopamine-site.js?v=2"></script>
+  </body>
+</html>

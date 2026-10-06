@@ -19,36 +19,23 @@
         padding: 60px 20px 40px;
       }
 
-      .dopamine-logo {
-        width: 120px;
-        height: 120px;
-        border-radius: 28px;
-        background: linear-gradient(135deg, #5b7cfa, #22d3ee);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 24px;
-        overflow: hidden;
-        box-shadow: 0 20px 60px rgba(91, 124, 250, 0.3);
-      }
-
-      .dopamine-logo img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      .title-block {
+        position: relative;
+        display: inline-block;
+        margin: 0 0 12px;
       }
 
       .dopamine-title {
         font-size: 3rem;
         font-weight: 800;
-        margin: 0 0 12px;
+        margin: 0;
         letter-spacing: -0.03em;
       }
 
       .dopamine-tagline {
         font-size: 1.15rem;
         color: var(--muted);
-        max-width: 500px;
+        max-width: 640px;
         margin: 0 auto 32px;
         line-height: 1.6;
       }
@@ -77,12 +64,40 @@
         color: var(--text);
       }
 
+      .app-extra {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        max-width: 1100px;
+        margin: 0 auto 18px;
+      }
+
+      .app-extra a {
+        display: inline-flex;
+        align-items: center;
+        margin: 0;
+        padding: 6px 16px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--card);
+        font-size: 13px;
+        color: var(--muted);
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .app-extra a:hover {
+        border-color: var(--accent);
+        color: var(--text);
+      }
+
       .download-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         gap: 16px;
-        max-width: 900px;
-        margin: 0 auto 60px;
+        max-width: 1100px;
+        margin: 0 auto;
       }
 
       .download-card {
@@ -92,6 +107,13 @@
         padding: 28px 24px;
         text-align: center;
         transition: all 0.25s ease;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .download-card > .download-btn,
+      .download-card > .download-btn-row {
+        margin-top: auto;
       }
 
       .download-card:hover {
@@ -152,6 +174,224 @@
 
       .download-btn.placeholder:hover {
         opacity: 1;
+      }
+
+      .download-section {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+
+      .setup-guide {
+        padding: 6px 16px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--card);
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .setup-guide:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .version-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+        padding: 6px 16px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--card);
+        font-size: 13px;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .version-badge b {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .version-notes {
+        position: relative;
+      }
+
+      .version-notes > summary {
+        cursor: pointer;
+        list-style: none;
+      }
+
+      .version-notes > summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .version-notes > summary::after {
+        content: "";
+        width: 0;
+        height: 0;
+        border: 4px solid transparent;
+        border-top-color: currentColor;
+        transform: translateY(2px);
+      }
+
+      .version-notes[open] > summary::after {
+        border-top-color: transparent;
+        border-bottom-color: currentColor;
+        transform: translateY(-2px);
+      }
+
+      .version-notes-pop {
+        left: 0;
+        right: auto;
+        width: min(420px, calc(100vw - 32px));
+        max-height: min(70vh, 520px);
+        overflow: auto;
+      }
+
+      .notes-ver {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .notes-block + .notes-block {
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+      }
+
+      .notes-plat {
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .version-notes-pop ul {
+        margin: 6px 0 0;
+        padding-left: 18px;
+        color: var(--text);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .version-notes-pop li + li {
+        margin-top: 6px;
+      }
+
+      .version-stack {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .download-count {
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.2;
+        color: var(--muted);
+      }
+
+      .download-count strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .version-row {
+        position: relative;
+        z-index: 5;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 0 0 28px;
+      }
+
+      .old-versions {
+        position: relative;
+      }
+
+      .old-versions summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 6px 16px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--card);
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .old-versions summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .old-versions summary::after {
+        content: "";
+        display: inline-block;
+        margin-left: 8px;
+        border: 4px solid transparent;
+        border-top-color: currentColor;
+        vertical-align: 2px;
+      }
+
+      .old-versions[open] summary::after {
+        border-top-color: transparent;
+        border-bottom-color: currentColor;
+        vertical-align: 4px;
+      }
+
+      .old-pop {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        z-index: 30;
+        width: max-content;
+        max-width: min(540px, calc(100vw - 32px));
+        padding: 16px;
+        border-radius: 16px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+        text-align: left;
+      }
+
+      .old-pop-ver + .old-pop-ver {
+        margin-top: 14px;
+        padding-top: 14px;
+        border-top: 1px solid var(--border);
+      }
+
+      .old-pop-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .old-pop-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+      }
+
+      .old-pop-links a {
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        color: var(--text);
+        text-decoration: none;
+        font-size: 13px;
+      }
+
+      .old-pop-links a:hover {
+        border-color: var(--accent);
+        color: var(--accent);
       }
 
       .store-badge {
@@ -215,6 +455,9 @@
         height: 24px;
         filter: invert(1);
       }
+      .feature-emoji img.keep {
+        filter: none;
+      }
 
       .feature-item h4 {
         margin: 0 0 8px;
@@ -226,6 +469,28 @@
         color: var(--muted);
         font-size: 14px;
         line-height: 1.5;
+      }
+
+      .feature-item a {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+
+      .feature-item a.feature-cta {
+        display: inline-flex;
+        margin-top: 14px;
+        padding: 6px 14px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--card);
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 13px;
+      }
+
+      .feature-item a.feature-cta:hover {
+        border-color: var(--accent);
+        color: var(--accent);
       }
 
       .screenshots-section {
@@ -427,6 +692,18 @@
         }
       }
     </style>
+  
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FRKN" />
+    <meta property="og:title" content="Dopamine — app by FRKN" />
+    <meta property="og:description" content="Dopamine — a client to connect to FRKN VPN. Download the app or go to the store." />
+    <meta property="og:image" content="https://frkn.org/Images/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Dopamine — app by FRKN" />
+    <meta name="twitter:description" content="Dopamine — a client to connect to FRKN VPN. Download the app or go to the store." />
+    <meta name="twitter:image" content="https://frkn.org/Images/og.png" />
   </head>
 
   <body>
@@ -436,13 +713,13 @@
       </header>
 
       <section class="dopamine-hero">
-        <div class="dopamine-logo">
-          <img src="/Images/logo.png" alt="Dopamine" />
+        <div class="title-block">
+          <h1 class="dopamine-title">Dopamine</h1>
         </div>
-        <h1 class="dopamine-title">Dopamine</h1>
         <p class="dopamine-tagline">
-          A fast and easy way to connect to FRKN VPN. Works on phone and
-          computer.
+          A VPN client from FRKN, with a pile of good stuff. Reels show up
+          without lag and in good quality. Works on Android, iOS, Windows,
+          macOS and Linux.
         </p>
         <a
           href="https://frkn.org"
@@ -455,6 +732,93 @@
       </section>
 
       <section class="download-section">
+        <div class="version-row">
+          <div class="version-stack">
+            <details class="version-notes">
+              <summary class="version-badge"><b>v4.8.14.66</b> updated 02.10.2026</summary>
+              <div class="old-pop version-notes-pop">
+                <div class="notes-block">
+                  <div class="notes-ver">4.8.14.66</div>
+                  <div class="notes-plat">Linux</div>
+                  <ul>
+                    <li>AmneziaWG Mobile connects.</li>
+                    <li>Auto-select finishes in seconds instead of several minutes.</li>
+                    <li>The tunnel no longer covers local 10.x addresses.</li>
+                  </ul>
+                </div>
+                <div class="notes-block">
+                  <div class="notes-ver">4.8.14.65</div>
+                  <div class="notes-plat">Android, iOS</div>
+                  <ul>
+                    <li>If the main API does not answer, the key and config request is retried through the spare address.</li>
+                    <li>The app no longer closes when the API does not answer.</li>
+                  </ul>
+                </div>
+                <div class="notes-block">
+                  <div class="notes-ver">4.8.14.62</div>
+                  <div class="notes-plat">Android, iOS, macOS</div>
+                  <ul>
+                    <li>After a subscription refresh the list opens on AmneziaWG Mobile. Premium opens first when it exists, otherwise private.</li>
+                    <li>Premium and private are separate entries in the environment list.</li>
+                    <li>The subscription refreshes from the button and on its own every 6 hours. Background errors stay in the log.</li>
+                    <li>A server missing from the subscription stays for 6 hours, then is removed.</li>
+                  </ul>
+                  <div class="notes-plat">Android</div>
+                  <ul>
+                    <li>Empty settings are copied from the old FRKN or Amnezia app.</li>
+                  </ul>
+                </div>
+                <div class="notes-block">
+                  <div class="notes-ver">4.8.14.61</div>
+                  <ul>
+                    <li>Removed trial account creation. The VPN by FRKN screen now only asks for a subscription ID.</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+            <p class="download-count" id="download-count" hidden>
+              Downloaded <strong>0</strong> times
+            </p>
+          </div>
+          <details class="old-versions">
+            <summary>Previous versions</summary>
+            <div class="old-pop">
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.62</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.62.apk" download>Android</a>
+                  <a href="/dopamine/Dopamine-arm64-4.8.14.62.pkg" download>macOS Apple</a>
+                  <a href="/dopamine/Dopamine-intel-4.8.14.62.pkg" download>macOS Intel</a>
+                </div>
+              </div>
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.61</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.61.apk" download>Android</a>
+                  <a href="/dopamine/Dopamine-4.8.14.61-win64.msi" download>Windows</a>
+                  <a href="/dopamine/Dopamine-arm64-4.8.14.61.pkg" download>macOS Apple</a>
+                  <a href="/dopamine/Dopamine-intel-4.8.14.61.pkg" download>macOS Intel</a>
+                </div>
+              </div>
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.60</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.60.apk" download>Android</a>
+                  <a href="/dopamine/Dopamine-4.8.14.60-win64.msi" download>Windows</a>
+                  <a href="/dopamine/Dopamine-arm64-4.8.14.60.pkg" download>macOS Apple</a>
+                  <a href="/dopamine/Dopamine-intel-4.8.14.60.pkg" download>macOS Intel</a>
+                </div>
+              </div>
+            </div>
+          </details>
+          <a class="setup-guide" href="/en/setup/dopamine/" data-ds-setup="en"
+            >How to set up</a
+          >
+        </div>
+        <div class="app-extra">
+          <a href="/en/selfhosted/">Self-hosted</a>
+          <a href="/preset/">Presets</a>
+        </div>
         <div class="download-grid">
           <div class="download-card">
             <div class="download-icon">
@@ -465,9 +829,12 @@
               </svg>
             </div>
             <div class="download-name">Android</div>
-            <div class="download-hint">APK file for manual install</div>
+            <div class="download-hint">
+              APK file for manual install<br />
+              old version 4.8.14.65
+            </div>
             <a
-              href="/dopamine/frkn-dopamine-4.8.14.55.apk"
+              href="/dopamine/frkn-dopamine-4.8.14.65.apk"
               class="download-btn"
               download
             >
@@ -484,7 +851,7 @@
               </svg>
             </div>
             <div class="download-name">iOS</div>
-            <div class="download-hint">Beta via TestFlight</div>
+            <div class="download-hint">Beta via TestFlight<br />old version 4.8.14.65</div>
             <a
               href="https://testflight.apple.com/join/g64p8p4h"
               target="_blank"
@@ -504,9 +871,9 @@
               </svg>
             </div>
             <div class="download-name">Windows</div>
-            <div class="download-hint">.msi installer</div>
+            <div class="download-hint">.msi installer<br />old version 4.8.14.61</div>
             <a
-              href="/dopamine/Dopamine-4.8.14.55-win64.msi"
+              href="/dopamine/Dopamine-4.8.14.61-win64.msi"
               class="download-btn"
               download
             >
@@ -523,23 +890,55 @@
               </svg>
             </div>
             <div class="download-name">macOS</div>
-            <div class="download-hint">.pkg installer</div>
+            <div class="download-hint">.pkg installer<br />old version 4.8.14.62</div>
             <div class="download-btn-row">
               <a
-                href="/dopamine/Dopamine-arm64-4.8.14.55.pkg"
+                href="/dopamine/Dopamine-arm64-4.8.14.62.pkg"
                 class="download-btn"
                 download
               >
                 Apple Silicon
               </a>
               <a
-                href="/dopamine/Dopamine-intel-4.8.14.55.pkg"
+                href="/dopamine/Dopamine-intel-4.8.14.62.pkg"
                 class="download-btn"
                 download
               >
                 Intel
               </a>
             </div>
+          </div>
+
+          <div class="download-card">
+            <div class="download-icon">
+              <svg viewBox="0 0 24 24" fill="none" aria-label="Linux">
+                <rect
+                  x="3"
+                  y="4"
+                  width="18"
+                  height="16"
+                  rx="2"
+                  stroke="#fff"
+                  stroke-width="1.6"
+                />
+                <path
+                  d="M7 9l3 3-3 3M12 15h5"
+                  stroke="#FCC624"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="download-name">Linux</div>
+            <div class="download-hint">.bin · x64<br />4.8.14.66</div>
+            <a
+              href="/dopamine/Dopamine-4.8.14.66-linux-x64.bin"
+              class="download-btn"
+              download
+            >
+              Download
+            </a>
           </div>
         </div>
       </section>
@@ -578,7 +977,7 @@
               /></span>
               <h4>No email, no accounts</h4>
               <p>
-                Anonymous one-tap trial: we collect no email, no logs, no
+                Anonymous one-tap access: we collect no email, no logs, no
                 personal data.
               </p>
             </div>
@@ -598,6 +997,38 @@
               /></span>
               <h4>Hysteria2</h4>
               <p>A fast QUIC-based protocol built for unstable networks.</p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-emoji"
+                ><img src="/Images/proto.png" alt=""
+              /></span>
+              <h4>White Elephants</h4>
+              <p>A backup channel — it works when nothing else does.</p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-emoji"
+                ><img src="/Images/copy.png" alt="" class="keep"
+              /></span>
+              <h4>Open source</h4>
+              <p>
+                The source is public under GPLv3: anyone can
+                <a
+                  href="https://github.com/frkn-dev/dopamine"
+                  target="_blank"
+                  rel="noopener"
+                  >check our code</a
+                >.
+              </p>
+            </div>
+            <div class="feature-item">
+              <span class="feature-emoji"
+                ><img src="/Images/add.png" alt=""
+              /></span>
+              <h4>Your own servers</h4>
+              <p>
+                Connect your own servers.
+                <a href="/en/selfhosted/">Guide</a>.
+              </p>
             </div>
           </div>
         </div>
@@ -624,6 +1055,7 @@
                 Ozon, banks and more: one checkbox instead of a manual domain
                 list.
               </p>
+              <a class="feature-cta" href="/preset/">Suggest a service</a>
             </div>
             <div class="feature-item">
               <span class="feature-emoji"
@@ -640,6 +1072,13 @@
         <div class="feature-group">
           <h3 class="feature-group-title">Control &amp; transparency</h3>
           <div class="features-grid-simple">
+            <div class="feature-item">
+              <span class="feature-emoji"
+                ><img src="/Images/checkmark.png" alt=""
+              /></span>
+              <h4>Auto-select</h4>
+              <p>Finds the best server and connects to it.</p>
+            </div>
             <div class="feature-item">
               <span class="feature-emoji"
                 ><img src="/Images/signal-status.png" alt=""
@@ -660,16 +1099,6 @@
                 tunnel being up.
               </p>
             </div>
-            <div class="feature-item">
-              <span class="feature-emoji"
-                ><img src="/Images/world.png" alt=""
-              /></span>
-              <h4>Environment &amp; protocol filters</h4>
-              <p>
-                Filter the server list by country with flag, protocol, or
-                environment.
-              </p>
-            </div>
           </div>
         </div>
 
@@ -680,7 +1109,7 @@
               <span class="feature-emoji"
                 ><img src="/Images/responsive-app.png" alt=""
               /></span>
-              <h4>iOS, macOS, Android</h4>
+              <h4>iOS, macOS, Windows, Android and Linux</h4>
               <p>One account and the same experience on every device.</p>
             </div>
             <div class="feature-item">
@@ -715,6 +1144,39 @@
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
+    <script src="/scripts/dopamine-site.js?v=2"></script>
+    <script src="/scripts/download-counter.js?v=1"></script>
+    <script>
+      document.querySelectorAll(".old-versions, .version-notes").forEach(function (root) {
+        var pop = root.querySelector(".old-pop");
+        function place() {
+          pop.style.transform = "";
+          var r = pop.getBoundingClientRect();
+          var shift = 0;
+          if (r.left < 16) shift = 16 - r.left;
+          else if (r.right > innerWidth - 16) shift = innerWidth - 16 - r.right;
+          if (shift) pop.style.transform = "translateX(" + shift + "px)";
+        }
+        root.addEventListener("toggle", function () {
+          if (root.open) requestAnimationFrame(place);
+        });
+        root.querySelector("summary").addEventListener("click", function () {
+          requestAnimationFrame(function () {
+            if (root.open) place();
+          });
+        });
+        window.addEventListener("resize", function () {
+          if (root.open) place();
+        });
+        document.addEventListener("click", function (e) {
+          if (!root.open || root.contains(e.target)) return;
+          root.open = false;
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") root.open = false;
+        });
+      });
+    </script>
     <script>
       (function () {
         var overlay = document.getElementById("macos-install-modal");

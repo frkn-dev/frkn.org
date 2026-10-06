@@ -29,7 +29,7 @@ const TRIAL_I18N = {
   creating: "Creating invoice...",
   waitingPlanta: "Waiting for the SBP payment link...",
   gatewaysNote:
-    "«Pay via SBP» — Planta gateway, «Pay with MIR card/Crypto» — Platega gateway. We don't store your data.",
+    "Payment goes through an external service. We don't store your data.",
   secureNote: "🔒 Secure payment by card, SBP, crypto",
   keepOpenNote: "⚠️ Don't close this window until the payment is confirmed",
   txidNote:
@@ -262,8 +262,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="tm-info" id="tm-ref-info"></div>
         </div>
         <div class="tm-total" id="tm-total"></div>
+        <!-- Planta temporarily hidden while small amounts are disabled.
         <button class="tm-pay-btn" id="tm-pay-planta">${TRIAL_I18N.payPlanta}</button>
-        <button class="tm-pay-btn tm-secondary" id="tm-pay-platega">${TRIAL_I18N.payPlatega}</button>
+        -->
+        <button class="tm-pay-btn" id="tm-pay-platega">Pay</button>
         <div class="tm-waiting" id="tm-waiting">
           <span class="tm-spinner"></span> ${TRIAL_I18N.waitingPlanta}
         </div>
@@ -293,7 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const refInput = document.getElementById("tm-ref");
   const refInfo = document.getElementById("tm-ref-info");
   const totalEl = document.getElementById("tm-total");
-  const plantaBtn = document.getElementById("tm-pay-planta");
+  // const plantaBtn = document.getElementById("tm-pay-planta");
   const plategaBtn = document.getElementById("tm-pay-platega");
   const waitingEl = document.getElementById("tm-waiting");
 
@@ -427,7 +429,7 @@ document.addEventListener("DOMContentLoaded", () => {
     refInfo.style.display = "none";
     refInfo.className = "tm-info";
     waitingEl.style.display = "none";
-    plantaBtn.disabled = false;
+    // plantaBtn.disabled = false;
     plategaBtn.disabled = false;
     updateTotal();
     modal.classList.add("active");
@@ -499,8 +501,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  plantaBtn.onclick = async () => {
-    if (!currentOrder) return;
+  /*
+  // plantaBtn.onclick = async () => {
+    if (!currentOrder || Number(currentOrder.price) < 100) return;
     plantaBtn.disabled = true;
     plategaBtn.disabled = true;
     waitingEl.style.display = "block";
@@ -535,6 +538,7 @@ document.addEventListener("DOMContentLoaded", () => {
       waitingEl.style.display = "none";
     }
   };
+  */
 
   buyButtons.forEach((btn) =>
     btn.addEventListener("click", () => {
