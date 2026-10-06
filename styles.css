@@ -1929,6 +1929,45 @@ footer .footer-divider {
   line-height: 1.5;
 }
 
+.landing-page .trust-gallery {
+  margin: 8px 0 48px;
+}
+.landing-page .trust-gallery h2 {
+  margin: 0 0 8px;
+  font-size: 26px;
+}
+.landing-page .trust-gallery .lp-sub a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.landing-page .trust-gallery .lp-sub a:hover {
+  text-decoration: underline;
+}
+.landing-page .trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.landing-page .trust-item {
+  display: block;
+  aspect-ratio: 1;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+.landing-page .trust-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (max-width: 900px) {
+  .landing-page .trust-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* ============ Landing pricing carousel ============ */
 .pricing-landing {
   margin: 0 0 24px;
