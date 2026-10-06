@@ -37,7 +37,7 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles.css?v=15" />
+    <link rel="stylesheet" href="/styles.css?v=22" />
     <style>
       .lp-sub { color: var(--muted); margin: -8px 0 25px; font-size: 15px; }
       .lp-grid-4 { grid-template-columns: repeat(4, 1fr); }
@@ -132,6 +132,23 @@
               >
             </div>
           </div>
+        <section class="trust-gallery" id="trust">
+          <details>
+            <summary>
+              <span class="trust-summary-top">
+                <h2>Нам доверяют</h2>
+                <span class="trust-chevron" aria-hidden="true"></span>
+              </span>
+              <p class="lp-sub">Хвостатые пользователи рилзопровода.</p>
+            </summary>
+            <div class="trust-grid" data-page-size="6"></div>
+            <div class="trust-pager">
+              <button type="button" class="trust-prev" aria-label="Назад">‹</button>
+              <span class="trust-page"></span>
+              <button type="button" class="trust-next" aria-label="Вперёд">›</button>
+            </div>
+          </details>
+        </section>
         </div>
       </section>
       <section id="trial" class="trial-section">
@@ -280,26 +297,13 @@
           </div>
         </div>
       </section>
-      <section class="trust-gallery" id="trust">
-        <h2>Нам доверяют</h2>
-        <p class="lp-sub">
-          Пушистые пользователи рилзопровода.
-          <a href="https://t.me/frkn_org/1506">Скинуть своего</a>
-        </p>
-        <div class="trust-grid">
-          <a class="trust-item" href="/Images/pets/1.jpg"><img src="/Images/pets/1.jpg" alt="" /></a>
-          <a class="trust-item" href="/Images/pets/2.jpg"><img src="/Images/pets/2.jpg" alt="" /></a>
-          <a class="trust-item" href="/Images/pets/3.jpg"><img src="/Images/pets/3.jpg" alt="" /></a>
-          <a class="trust-item" href="/Images/pets/4.jpg"><img src="/Images/pets/4.jpg" alt="" /></a>
-          <a class="trust-item" href="/Images/pets/5.jpg"><img src="/Images/pets/5.jpg" alt="" /></a>
-        </div>
-      </section>
       <div id="footer-container"></div>
     </div>
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/trial.js?v=6"></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
+    <script src="/scripts/trust-gallery.js?v=5"></script>
     <script>
       if (window.location.hash === "#trial") {
         document

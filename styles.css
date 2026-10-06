@@ -1930,11 +1930,59 @@ footer .footer-divider {
 }
 
 .landing-page .trust-gallery {
-  margin: 8px 0 48px;
+  margin: 8px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  align-self: stretch;
+  width: 100%;
+}
+.landing-page .trust-gallery summary {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  cursor: pointer;
+  user-select: none;
+}
+.landing-page .trust-gallery summary::-webkit-details-marker {
+  display: none;
+}
+.landing-page .trust-summary-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .landing-page .trust-gallery h2 {
-  margin: 0 0 8px;
+  margin: 0;
   font-size: 26px;
+}
+.landing-page .trust-gallery .lp-sub {
+  margin: 6px 0 0;
+}
+.landing-page .trust-gallery details[open] .lp-sub {
+  margin-bottom: 16px;
+}
+.landing-page .trust-chevron {
+  display: inline-block;
+  width: 0.7em;
+  height: 1em;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+.landing-page .trust-chevron::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  top: -0.15em;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--muted);
+}
+.landing-page .trust-gallery details[open] .trust-chevron {
+  transform: rotate(90deg);
+}
+.landing-page .trust-gallery details[open] .lp-sub {
+  margin-top: 8px;
 }
 .landing-page .trust-gallery .lp-sub a {
   color: var(--accent);
@@ -1961,6 +2009,38 @@ footer .footer-divider {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+.landing-page .trust-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 14px;
+}
+.landing-page .trust-pager button {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.landing-page .trust-pager button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.landing-page .trust-pager button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.landing-page .trust-page {
+  min-width: 3.5em;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
 }
 @media (max-width: 900px) {
   .landing-page .trust-grid {
