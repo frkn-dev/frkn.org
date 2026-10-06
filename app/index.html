@@ -1196,6 +1196,23 @@
         margin-bottom: 6px;
       }
 
+      .device-form label.device-main-feed {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+        color: var(--tg-text);
+      }
+
+      .device-form label.device-main-feed.hidden {
+        display: none;
+      }
+
+      .device-form label.device-main-feed input {
+        width: auto;
+        padding: 0;
+      }
+
       .device-form-error {
         color: var(--tg-destructive-text);
         font-size: 13px;
@@ -1536,7 +1553,7 @@
           <div style="font-size: 13px; font-family: ui-monospace, monospace; word-break: break-all; color: var(--tg-text); line-height: 1.5;" id="universal-sub-link">frkn://sub/...</div>
         </div>
         <div id="short-link-row" class="short-link-row hidden">
-          <span class="short-link-label">Для Happ, Streisand, Clash (https)</span>
+          <span class="short-link-label">Для INCY, Streisand, Clash (https). Happ не рекомендуется из-за блокировок РКН.</span>
           <code class="short-link-code" id="short-link-code"></code>
           <button type="button" class="short-link-copy" id="copy-short-link">📋</button>
         </div>
@@ -1861,6 +1878,10 @@
                 <label for="deviceNodeSelect">Сервер</label>
                 <select id="deviceNodeSelect"></select>
               </div>
+              <label class="device-main-feed hidden" id="deviceMainFeedRow">
+                <input type="checkbox" id="deviceMainFeed" />
+                Добавить сервер в общую подписку
+              </label>
               <div class="device-form-error" id="deviceFormError"></div>
               <button type="button" class="renew-action-btn primary" id="deviceSubmitBtn">
                 Создать
@@ -1884,7 +1905,8 @@
               <div id="deviceShareContent"></div>
               <div class="devices-hint">
                 Обе ссылки выше — один доступ к одному серверу: frkn:// для
-                приложения FRKN Dopamine, https — для Happ/Streisand/Clash. У
+                приложения FRKN Dopamine, https — для INCY/Streisand/Clash.
+                Happ не рекомендуется из-за блокировок РКН. У
                 получателя сервер появится с именем этого устройства. Кнопка
                 «Отозвать» гасит обе ссылки сразу.
               </div>
@@ -2599,6 +2621,11 @@
           };
           options.appendChild(btn);
         });
+        const happNote = document.createElement("div");
+        happNote.className = "small";
+        happNote.style.marginTop = "10px";
+        happNote.textContent = "Happ не рекомендуется из-за блокировок РКН.";
+        options.appendChild(happNote);
       }
 
       function renderConnectionStep() {
@@ -2656,7 +2683,12 @@
           client.id === "dopamine"
             ? `frkn://sub/${currentConnectionContext.id}`
             : buildSubscriptionUrl(selectedProtocol, currentConnectionContext.id, currentConnectionContext.env, normalizeFormat(client.configType));
-        if (client.id === "happ" || client.name?.toLowerCase() === "happ") {
+        if (
+          client.id === "incy" ||
+          client.id === "happ" ||
+          client.name?.toLowerCase() === "incy" ||
+          client.name?.toLowerCase() === "happ"
+        ) {
           subscriptionUrl += "&app=happ";
         }
         content.innerHTML = `
@@ -2671,7 +2703,7 @@
               <div class="qr-item"><span>QR-код подключения</span><canvas id="selected-subscription-qr"></canvas></div>
             </div>
           </div>
-          <div class="small connection-hint">Отсканируйте QR-код в приложении или вставьте ссылку вручную.</div>
+          <div class="small connection-hint">Отсканируйте QR-код в приложении или вставьте ссылку вручную. Happ не рекомендуется из-за блокировок РКН.</div>
         `;
         const copyBtn = document.getElementById("copy-subscription-link");
         const qrCanvas = document.getElementById("selected-subscription-qr");
@@ -3198,7 +3230,9 @@
         }
 
         const total = uplink + downlink;
-        const limitBytes = data.limit_bytes || 0;
+        const expiresAt = data.expires ? new Date(data.expires) : null;
+        const limitBytes =
+          expiresAt && expiresAt > new Date() ? 0 : data.limit_bytes || 0;
 
         const totalEl = document.getElementById("traffic-total");
         if (totalEl) totalEl.innerText = formatBytes(total);
@@ -3474,7 +3508,7 @@
             const feedLabel = document.createElement("div");
             feedLabel.className = "devices-hint";
             feedLabel.textContent =
-              "Сторонние клиенты (Happ, Streisand, Clash):";
+              "Сторонние клиенты (INCY, Streisand, Clash). Happ не рекомендуется из-за блокировок РКН:";
             const feedBox = document.createElement("div");
             feedBox.className = "device-link-box";
             feedBox.textContent = conn.share_feed_url;
@@ -3819,6 +3853,21 @@
           protoSelect.appendChild(opt);
         });
         loadDeviceNodes();
+        syncDeviceMainFeed();
+      }
+
+      function syncDeviceMainFeed() {
+        const row = document.getElementById("deviceMainFeedRow");
+        const box = document.getElementById("deviceMainFeed");
+        const envSelect = document.getElementById("deviceEnvSelect");
+        if (!row) return;
+        const show =
+          deviceScope &&
+          deviceScope.kind === "personal" &&
+          envSelect &&
+          envSelect.value === deviceScope.env;
+        row.classList.toggle("hidden", !show);
+        if (!show && box) box.checked = false;
       }
 
       // Выбор сервера для привязки устройства (GET /devices/nodes). Без
@@ -3877,6 +3926,8 @@
         if (form) form.classList.add("hidden");
         if (input) input.value = "";
         if (nodeSelect) nodeSelect.innerHTML = "";
+        const mainFeed = document.getElementById("deviceMainFeed");
+        if (mainFeed) mainFeed.checked = false;
         setDeviceFormError("");
       }
 
@@ -3911,6 +3962,8 @@
               proto: protoSelect.value,
               label,
               node_id: nodeSelect.value,
+              include_in_main:
+                document.getElementById("deviceMainFeed")?.checked === true,
             }),
           });
           const j = await r.json().catch(() => null);

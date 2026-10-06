@@ -34,11 +34,16 @@
   function switchLang(lang) {
     localStorage.setItem("frkn-lang", lang);
     sessionStorage.removeItem("frkn-lang-redirect-count");
+    if (/^\/sub\/[a-z0-9-]+\/?$/i.test(path)) {
+      location.reload();
+      return;
+    }
     const url = getPairUrl(lang);
     if (url) window.location.href = url;
   }
 
   function autoRedirect() {
+    if (/^\/sub(\/|$)/.test(path)) return;
     // Do not auto-redirect on subscription pages: user may intentionally open /en/subscription/ or /subscription/
     if (path.startsWith("/subscription") || path.startsWith("/en/subscription")) {
       return;

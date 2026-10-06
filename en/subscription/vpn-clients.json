@@ -3,9 +3,9 @@
     "label": "Android",
     "clients": [
       {
-        "id": "happ",
-        "name": "happ",
-        "downloadUrl": "https://happ.su/",
+        "id": "incy",
+        "name": "INCY",
+        "downloadUrl": "https://incy.cc/",
         "configType": "txt"
       },
       {
@@ -26,9 +26,9 @@
     "label": "iOS",
     "clients": [
       {
-        "id": "happ",
-        "name": "happ",
-        "downloadUrl": "https://happ.su/",
+        "id": "incy",
+        "name": "INCY",
+        "downloadUrl": "https://incy.cc/",
         "configType": "txt"
       },
       {
@@ -55,9 +55,9 @@
     "label": "Windows",
     "clients": [
       {
-        "id": "happ",
-        "name": "happ",
-        "downloadUrl": "https://happ.su/",
+        "id": "incy",
+        "name": "INCY",
+        "downloadUrl": "https://incy.cc/",
         "configType": "txt"
       },
       {
@@ -72,9 +72,9 @@
     "label": "macOS",
     "clients": [
       {
-        "id": "happ",
-        "name": "happ",
-        "downloadUrl": "https://happ.su/",
+        "id": "incy",
+        "name": "INCY",
+        "downloadUrl": "https://incy.cc/",
         "configType": "txt"
       },
       {
@@ -95,9 +95,9 @@
     "label": "Linux",
     "clients": [
       {
-        "id": "happ",
-        "name": "happ",
-        "downloadUrl": "https://happ.su/",
+        "id": "incy",
+        "name": "INCY",
+        "downloadUrl": "https://incy.cc/",
         "configType": "txt"
       },
       {

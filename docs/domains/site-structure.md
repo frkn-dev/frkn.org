@@ -24,7 +24,7 @@ Map of every top-level directory and root file. Load when you need to know which
 | `contacts/` | Contact cards | pigeon@frkn.org, TG support/bots, GitHub |
 | `container/` | **HTML partials** (not a page) | `logo.{html,en,fa}.html`, `footer.{html,en,fa}.html`, `services.html`. See [frontend.md](frontend.md). |
 | `donate/` | Donation | `POST /payment/platega/donation/create` → Platega |
-| `dopamine/` | FRKN Dopamine client landing | APK (73.3 MB) + TestFlight + app-store badges. `.dmg/.pkg` gitignored. `dopamine/styles.css`, `scripts/`, `container/`, `Images/` are dead duplicates — pages use root `/styles.css`, `/scripts/`. |
+| `dopamine/` | FRKN Dopamine client landing | Also served as apex of `frkn.app` (see `nginx-frkn-app.conf`). APK + TestFlight + badges. |
 | `en/` | **English localization** (22 files) | mirrors of most pages, static HTML |
 | `fa/` | **Persian, partial** | only `index.html` + `pay/` real; rest are redirect stubs to `/en/` |
 | `Images/` | shared assets (3.3 MB) | logos, favicon, hero, og-image, protocol icons |
@@ -32,7 +32,11 @@ Map of every top-level directory and root file. Load when you need to know which
 | `metrics/` | internal monitoring dashboard | Chart.js + WS `wss://api.frkn.org/ws/metrics`. No auth. |
 | `oferta/` | Public offer | static |
 | `pay/` | Pricing + purchase | Platega key purchase, promocode. See [payments.md](payments.md). |
-| `premium/` | Personal server landing | 1 Gbps dedicated, CTA → TG @frkn_support |
+| `premium/` | Dedicated access landing | we run the node, dedicated IP, 1 000 ₽/mo or 10 000 ₽/year, CTA → TG @frkn_support |
+| `b2b/` | Business VPN landing | custom layout, neural nets, priority support, CTA → TG |
+| `partner/` | Partner program landing | cabinet, promo codes, stats, weekly USDT |
+| `promise/` | Promised payment | 3–7 day key via support, pay the subscription later |
+| `preset/` | Suggest a split-preset domain | form → `/preset/submit` → CSV queue (`tools/preset-inbox.py`); manual approve before mrkting upsert |
 | `privacy-policy/` | Privacy policy | static |
 | `profile/` | Subscription access | login by subscription UUID, key activation modal |
 | `referral/` | Referral program rules | static |

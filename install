@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-FRKN_INSTALL_VERSION="1.0.0"
+FRKN_INSTALL_VERSION="1.2.6"
 FNODE_VERSION="${FNODE_VERSION:-v0.6.41}"
 API_ENDPOINT="${API_ENDPOINT:-https://api.frkn.org}"
 ZMQ_ENDPOINT="${ZMQ_ENDPOINT:-tcp://api.frkn.org:3001}"
@@ -18,17 +18,25 @@ LABEL=""
 COUNTRY=""
 NODE_UUID=""
 HOSTNAME_OVERRIDE=""
+NODE_IPS="${NODE_IPS:-}"
 MAX_BANDWIDTH_BPS="${MAX_BANDWIDTH_BPS:-200000000}"
 ENV_FILE=""
 AWG_PORT=51820
 AWG_MOBILE_PORT=8443
+AWG_VERSION="${AWG_VERSION:-3.1}"
+AWG_MOBILE_VERSION="${AWG_MOBILE_VERSION:-}"
+FORCE_AWG_CONF=0
+WG_PORT="${WG_PORT:-51820}"
+WG_NETWORK="${WG_NETWORK:-10.100.0.0/16}"
+WG_ADDRESS="${WG_ADDRESS:-10.100.0.1/16}"
+FORCE_WG_CONF=0
 
-log() { printf '[frkn-install] %s\n' "$*"; }
+log() { printf '[frkn-install] %s\n' "$*" >&2; }
 die() { printf '[frkn-install] ERROR: %s\n' "$*" >&2; exit 1; }
 
 is_shared_env() {
   case "$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')" in
-    dev|development|ru|wl|prod|production|experimental|exp) return 0 ;;
+    dev|development|ru|wl|prod|production|experimental|exp|gaming) return 0 ;;
     *) return 1 ;;
   esac
 }
@@ -39,6 +47,93 @@ is_personal_env() {
     *) return 1 ;;
   esac
 }
+
+is_ipv4() {
+  local n
+  [[ "$1" =~ ^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$ ]] || return 1
+  for n in "${BASH_REMATCH[@]:1}"; do
+    ((10#$n <= 255)) || return 1
+  done
+}
+
+is_public_ipv4() {
+  local second
+  is_ipv4 "$1" || return 1
+  [[ "$1" == 10.* || "$1" == 127.* || "$1" == 192.168.* || "$1" == 169.254.* ]] && return 1
+  if [[ "$1" == 172.* ]]; then
+    second="${1#172.}"
+    second="${second%%.*}"
+    if ((10#$second >= 16 && 10#$second <= 31)); then
+      return 1
+    fi
+  fi
+  if [[ "$1" == 100.* ]]; then
+    second="${1#100.}"
+    second="${second%%.*}"
+    if ((10#$second >= 64 && 10#$second <= 127)); then
+      return 1
+    fi
+  fi
+}
+
+ip_in_node_list() {
+  local have
+  for have in "${NODE_IP_LIST[@]}"; do
+    [[ "$have" == "$1" ]] && return 0
+  done
+  return 1
+}
+
+format_node_ips() {
+  local out="" ip
+  for ip in "$@"; do
+    [[ -n "$out" ]] && out+=", "
+    out+="\"$ip\""
+  done
+  printf '%s' "$out"
+}
+
+collect_node_ips() {
+  local ip extra
+  NODE_IP_LIST=("$DEFAULT_IP")
+  while read -r ip; do
+    [[ -z "$ip" || "$ip" == "$DEFAULT_IP" ]] && continue
+    is_public_ipv4 "$ip" || continue
+    ip_in_node_list "$ip" && continue
+    NODE_IP_LIST+=("$ip")
+  done < <(ip -4 -o addr show scope global | awk '{print $4}' | cut -d/ -f1)
+  extra="${NODE_IPS//,/ }"
+  [[ -z "${extra// }" ]] && return 0
+  local -a extra_ips=()
+  read -r -a extra_ips <<< "$extra"
+  for ip in "${extra_ips[@]}"; do
+    is_ipv4 "$ip" || die "bad IP in --ips: $ip"
+    ip_in_node_list "$ip" && continue
+    NODE_IP_LIST+=("$ip")
+  done
+}
+
+frkn_install_self_check() {
+  is_ipv4 1.2.3.4 || die "self-check: 1.2.3.4"
+  is_ipv4 999.1.1.1 && die "self-check: 999 should fail"
+  is_public_ipv4 8.8.8.8 || die "self-check: 8.8.8.8"
+  is_public_ipv4 10.1.1.1 && die "self-check: 10"
+  is_public_ipv4 172.16.0.1 && die "self-check: 172.16"
+  is_public_ipv4 172.32.0.1 || die "self-check: 172.32"
+  is_public_ipv4 192.168.0.1 && die "self-check: 192.168"
+  is_public_ipv4 100.64.0.1 && die "self-check: cgnat low"
+  is_public_ipv4 100.127.1.1 && die "self-check: cgnat high"
+  is_public_ipv4 100.63.1.1 || die "self-check: 100.63"
+  is_public_ipv4 100.128.0.1 || die "self-check: 100.128"
+  is_public_ipv4 169.254.1.1 && die "self-check: linklocal"
+  [[ "$(format_node_ips 1.1.1.1 8.8.8.8)" == '"1.1.1.1", "8.8.8.8"' ]] || die "self-check: format"
+  log "self-check ok"
+}
+
+if [[ "${FRKN_INSTALL_SELF_CHECK:-}" == 1 ]]; then
+  frkn_install_self_check
+  exit 0
+fi
 
 print_banner() {
   local kind="$1"
@@ -121,30 +216,48 @@ EOF
 
 usage() {
   cat <<'EOF'
-FRKN node installer (Ubuntu).
+FRKN node installer (Ubuntu or Arch).
 
 Private:
-  curl -fsSL https://beta.frkn.org/install | bash -s -- --token inst_… [--profile full|awg|hysteria2]
+  curl -fsSL https://frkn.org/install | bash -s -- --token inst_… [--profile full|awg|wg|hysteria2]
 
 Core (shared fleet env):
-  curl -fsSL https://beta.frkn.org/install | bash -s -- --api-token … --env dev --profile full \
+  curl -fsSL https://frkn.org/install | bash -s -- --api-token … --env dev --profile full \
     [--label SWE2] [--country SWE] [--uuid …] [--env-file path]
 
+Core WireGuard-only (routing experiments):
+  curl -fsSL https://frkn.org/install | bash -s -- --api-token … --env ru --profile wg \
+    --label 'MSK TW' --country RU --hostname msk-tw.frkn.org
+
 Premium (managed scope env, same API service token):
-  curl -fsSL https://beta.frkn.org/install | bash -s -- --api-token … --env customSCOPE \
+  curl -fsSL https://frkn.org/install | bash -s -- --api-token … --env customSCOPE \
     --profile full [--label …] [--country …] [--uuid …]
 
 Flags:
   --token TOKEN          private install token (inst_…)
   --api-token TOKEN      API service token (core or premium)
-  --profile NAME         full | awg | hysteria2  (default: full)
+  --profile NAME         full | awg | wg | hysteria2  (default: full)
+                         full = awg0+awg1+hysteria2 (no WireGuard);
+                         wg = plain WireGuard only
   --env NAME             core: dev|ru|wl|…  / premium: custom… scope env
-  --label TEXT           node label
-  --country CC           ISO country code
+  --label TEXT           node label (required for core/premium; private default: CC| Private)
+  --country CC           country code (default: detect from egress IP, else XX)
   --uuid UUID            reuse node uuid
   --hostname NAME        override hostname (ACME / node.hostname)
+  --ips IP,IP            extra entry IPv4s (primary stays the default-route address)
+  --awg-version VER      3.1 (default) | 2.0 | 1.0 — obfuscation for awg0+awg1
+                         1.0 = legacy (H1..H4=1..4, S1/S2 only)
+  --awg-mobile-version V override awg1 only: 3.1 | 2.0 | 1.0 | legacy
+  --force-awg-conf       regenerate /opt/amnezia/awg{0,1}.conf (new junk → refresh client sub)
+  --wg-port PORT         WireGuard ListenPort (default: 51820)
+  --force-wg-conf        regenerate /opt/wireguard/wg0.conf
   --env-file PATH        source KEY=VALUE file before parsing flags
   --help                 this help
+
+Re-run is idempotent: existing awg/wg/hysteria configs and node uuid are kept;
+private mode reuses /opt/fnode/api.token when present. Pass --force-awg-conf
+only when switching --awg-version (then restart fnode and fully refresh the
+client subscription — old junk = Unknown message / Invalid MAC).
 EOF
 }
 
@@ -163,6 +276,13 @@ load_env_file() {
   COUNTRY="${COUNTRY:-}"
   NODE_UUID="${UUID:-$NODE_UUID}"
   HOSTNAME_OVERRIDE="${HOSTNAME_OVERRIDE:-${NODE_HOSTNAME:-}}"
+  AWG_VERSION="${AWG_VERSION:-3.1}"
+  AWG_MOBILE_VERSION="${AWG_MOBILE_VERSION:-}"
+  FORCE_AWG_CONF="${FORCE_AWG_CONF:-0}"
+  WG_PORT="${WG_PORT:-51820}"
+  WG_NETWORK="${WG_NETWORK:-10.100.0.0/16}"
+  WG_ADDRESS="${WG_ADDRESS:-10.100.0.1/16}"
+  FORCE_WG_CONF="${FORCE_WG_CONF:-0}"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -175,6 +295,12 @@ while [[ $# -gt 0 ]]; do
     --country) COUNTRY="$2"; shift 2 ;;
     --uuid) NODE_UUID="$2"; shift 2 ;;
     --hostname) HOSTNAME_OVERRIDE="$2"; shift 2 ;;
+    --ips) NODE_IPS="$2"; shift 2 ;;
+    --awg-version) AWG_VERSION="$2"; shift 2 ;;
+    --awg-mobile-version) AWG_MOBILE_VERSION="$2"; shift 2 ;;
+    --force-awg-conf) FORCE_AWG_CONF=1; shift ;;
+    --wg-port) WG_PORT="$2"; shift 2 ;;
+    --force-wg-conf) FORCE_WG_CONF=1; shift ;;
     --env-file) ENV_FILE="$2"; shift 2 ;;
     --help|-h) usage; exit 0 ;;
     *) die "unknown arg: $1 (see --help)" ;;
@@ -186,9 +312,28 @@ if [[ -n "$ENV_FILE" ]]; then
 fi
 
 case "$PROFILE" in
-  full|awg|hysteria2) ;;
+  full|awg|wg|hysteria2) ;;
   amnezia) PROFILE="awg" ;;
-  *) die "profile must be full|awg|hysteria2" ;;
+  wireguard) PROFILE="wg" ;;
+  *) die "profile must be full|awg|wg|hysteria2" ;;
+esac
+
+case "$AWG_VERSION" in
+  3.1|2.0|legacy) ;;
+  3) AWG_VERSION="3.1" ;;
+  2) AWG_VERSION="2.0" ;;
+  1.0|1) AWG_VERSION="legacy" ;;
+  *) die "--awg-version must be 3.1, 2.0 or 1.0 (got $AWG_VERSION)" ;;
+esac
+if [[ -z "$AWG_MOBILE_VERSION" ]]; then
+  AWG_MOBILE_VERSION="$AWG_VERSION"
+fi
+case "$AWG_MOBILE_VERSION" in
+  3.1|2.0|legacy) ;;
+  3) AWG_MOBILE_VERSION="3.1" ;;
+  2) AWG_MOBILE_VERSION="2.0" ;;
+  1.0|1) AWG_MOBILE_VERSION="legacy" ;;
+  *) die "--awg-mobile-version must be 3.1|2.0|1.0|legacy (got $AWG_MOBILE_VERSION)" ;;
 esac
 
 if [[ -n "$INSTALL_TOKEN" && -n "$API_TOKEN" ]]; then
@@ -207,6 +352,9 @@ elif [[ -n "$API_TOKEN" ]]; then
   else
     MODE="premium"
   fi
+elif [[ -f /opt/fnode/api.token && -s /opt/fnode/api.token ]]; then
+  MODE="private"
+  log "no --token: reusing existing private install (/opt/fnode/api.token)"
 else
   die "pass --token inst_… (private) or --api-token … (core|premium)"
 fi
@@ -222,44 +370,137 @@ if [[ ! -f /etc/os-release ]]; then
 fi
 # shellcheck disable=SC1091
 source /etc/os-release
-[[ "${ID:-}" == "ubuntu" ]] || die "Ubuntu only for now (got ${ID:-unknown}); Arch later"
-
-UBUNTU_CODENAME="${VERSION_CODENAME:-}"
-case "$UBUNTU_CODENAME" in
-  focal|jammy|noble) PPA_CODENAME="$UBUNTU_CODENAME" ;;
-  *) PPA_CODENAME="noble"; log "WARN: falling back to noble PPA for $UBUNTU_CODENAME" ;;
-esac
-
-export DEBIAN_FRONTEND=noninteractive
+if [[ "${ID:-}" == "ubuntu" ]]; then
+  OS_FAMILY="debian"
+  UBUNTU_CODENAME="${VERSION_CODENAME:-}"
+  case "$UBUNTU_CODENAME" in
+    focal|jammy|noble|resolute) PPA_CODENAME="$UBUNTU_CODENAME" ;;
+    *) PPA_CODENAME="noble"; log "WARN: falling back to noble PPA for $UBUNTU_CODENAME" ;;
+  esac
+  export DEBIAN_FRONTEND=noninteractive
+elif [[ "${ID:-}" == "arch" || ",${ID_LIKE:-}," == *,arch,* ]]; then
+  OS_FAMILY="arch"
+else
+  die "Ubuntu or Arch only (got ${ID:-unknown})"
+fi
 
 NODE_HOST="${HOSTNAME_OVERRIDE:-$(hostname -f 2>/dev/null || hostname)}"
+if [[ -z "$NODE_UUID" && -f /root/.env ]]; then
+  NODE_UUID="$(grep -E '^UUID=' /root/.env 2>/dev/null | head -n1 | cut -d= -f2- | tr -d '[:space:]"')"
+fi
+if [[ -z "$NODE_UUID" && -f /opt/fnode/config.toml ]]; then
+  NODE_UUID="$(grep -E '^[[:space:]]*uuid[[:space:]]*=' /opt/fnode/config.toml 2>/dev/null | head -n1 | sed -E 's/.*=[[:space:]]*"?([^"]*)"?[[:space:]]*$/\1/' | tr -d '[:space:]')"
+fi
 if [[ -z "$NODE_UUID" ]]; then
   if command -v uuidgen >/dev/null 2>&1; then
     NODE_UUID="$(uuidgen | tr '[:upper:]' '[:lower:]')"
   else
     NODE_UUID="$(cat /proc/sys/kernel/random/uuid)"
   fi
+else
+  log "reusing node uuid $NODE_UUID"
 fi
-[[ -n "$LABEL" ]] || LABEL="$NODE_HOST"
-[[ -n "$COUNTRY" ]] || COUNTRY="XX"
+if [[ "$MODE" != "private" && -z "$LABEL" ]]; then
+  die "--label is required for core and premium"
+fi
 
 DEFAULT_IFACE="$(ip route get 1.1.1.1 2>/dev/null | awk '/dev/ {for(i=1;i<=NF;i++) if($i=="dev"){print $(i+1); exit}}')"
 [[ -n "$DEFAULT_IFACE" ]] || die "cannot detect default interface"
 DEFAULT_IP="$(ip -o -4 addr show dev "$DEFAULT_IFACE" | awk '{print $4}' | cut -d/ -f1 | head -n1)"
 [[ -n "$DEFAULT_IP" ]] || die "cannot detect IPv4 on $DEFAULT_IFACE"
+is_ipv4 "$DEFAULT_IP" || die "default address is not IPv4: $DEFAULT_IP"
+collect_node_ips
 
 CORES="$(nproc 2>/dev/null || echo 1)"
 NEED_AWG=0
+NEED_WG=0
 NEED_H2=0
 case "$PROFILE" in
   full) NEED_AWG=1; NEED_H2=1 ;;
   awg) NEED_AWG=1 ;;
+  wg) NEED_WG=1 ;;
   hysteria2) NEED_H2=1 ;;
 esac
 
-log "mode=$MODE profile=$PROFILE host=$NODE_HOST ip=$DEFAULT_IP iface=$DEFAULT_IFACE uuid=$NODE_UUID"
+log "os=$OS_FAMILY mode=$MODE profile=$PROFILE awg=$AWG_VERSION mobile=$AWG_MOBILE_VERSION wg_port=$WG_PORT host=$NODE_HOST ip=$DEFAULT_IP ips=${NODE_IP_LIST[*]} iface=$DEFAULT_IFACE uuid=$NODE_UUID"
+
+arch_kernel_headers() {
+  case "$(uname -r)" in
+    *-lts*) echo linux-lts-headers ;;
+    *-zen*) echo linux-zen-headers ;;
+    *-hardened*) echo linux-hardened-headers ;;
+    *) echo linux-headers ;;
+  esac
+}
+
+arch_aur_install() {
+  local pkgname="$1" tmpdir pkgfile
+  if pacman -Qi "$pkgname" &>/dev/null; then
+    log "$pkgname already installed"
+    return 0
+  fi
+  log "building $pkgname from AUR…"
+  tmpdir="$(mktemp -d)"
+  if id aur_builder &>/dev/null; then
+    userdel aur_builder 2>/dev/null || true
+  fi
+  useradd -r -d "$tmpdir" -s /bin/bash aur_builder
+  chown -R aur_builder:aur_builder "$tmpdir"
+  if ! su -s /bin/bash aur_builder -c "cd '$tmpdir' && git clone --depth 1 'https://aur.archlinux.org/${pkgname}.git' && cd '${pkgname}' && makepkg --noconfirm"; then
+    userdel aur_builder 2>/dev/null || true
+    rm -rf "$tmpdir"
+    die "failed to build $pkgname from AUR"
+  fi
+  pkgfile="$(find "$tmpdir/$pkgname" -name '*.pkg.tar.*' ! -name '*-debug-*' | head -n1)"
+  if [[ -z "$pkgfile" ]]; then
+    userdel aur_builder 2>/dev/null || true
+    rm -rf "$tmpdir"
+    die "no package file for $pkgname"
+  fi
+  pacman -U --noconfirm "$pkgfile"
+  userdel aur_builder 2>/dev/null || true
+  rm -rf "$tmpdir"
+}
+
+detect_country() {
+  local body loc
+  body="$(curl -fsS --max-time 8 https://1.1.1.1/cdn-cgi/trace 2>/dev/null || true)"
+  loc="$(printf '%s\n' "$body" | awk -F= '$1=="loc"{print $2; exit}')"
+  loc="$(printf '%s' "$loc" | tr '[:lower:]' '[:upper:]' | tr -cd 'A-Z')"
+  if [[ ${#loc} -eq 2 ]]; then
+    printf '%s' "$loc"
+    return 0
+  fi
+  loc="$(curl -fsS --max-time 8 https://ipinfo.io/country 2>/dev/null || true)"
+  loc="$(printf '%s' "$loc" | tr '[:lower:]' '[:upper:]' | tr -cd 'A-Z')"
+  if [[ ${#loc} -eq 2 ]]; then
+    printf '%s' "$loc"
+    return 0
+  fi
+  return 1
+}
+
+ensure_country() {
+  if [[ -n "$COUNTRY" ]]; then
+    COUNTRY="$(printf '%s' "$COUNTRY" | tr '[:lower:]' '[:upper:]' | tr -cd 'A-Z')"
+    [[ -n "$COUNTRY" ]] || die "--country is empty"
+    return
+  fi
+  if COUNTRY="$(detect_country)"; then
+    log "detected country $COUNTRY"
+    return
+  fi
+  COUNTRY="XX"
+  log "WARN: country detect failed, using XX"
+}
 
 install_base_packages() {
+  if [[ "$OS_FAMILY" == "arch" ]]; then
+    pacman -Sy --noconfirm --needed \
+      curl ca-certificates iptables iproute2 jq openssl unzip net-tools \
+      git base-devel
+    return
+  fi
   apt-get update -y
   apt-get install -y curl ca-certificates gnupg software-properties-common \
     iptables iproute2 uuid-runtime jq openssl unzip net-tools
@@ -270,19 +511,206 @@ rand_between() {
   echo $((RANDOM % (max - min + 1) + min))
 }
 
-install_amneziawg() {
-  log "installing AmneziaWG…"
-  apt-get install -y "linux-headers-$(uname -r)" dkms || true
-  mkdir -p /etc/apt/keyrings
-  if [[ ! -f /etc/apt/keyrings/amnezia.gpg ]]; then
-    curl -fsSL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x57290828" \
-      | gpg --dearmor --yes -o /etc/apt/keyrings/amnezia.gpg
+is_kernel_meta() {
+  case "$1" in
+    linux-generic|linux-virtual|linux-image-generic|linux-headers-generic|linux-image-virtual|linux-headers-virtual)
+      return 0 ;;
+    linux-generic-hwe-*|linux-image-generic-hwe-*|linux-headers-generic-hwe-*|linux-modules-generic-hwe-*)
+      return 0 ;;
+    *)
+      return 1 ;;
+  esac
+}
+
+amneziawg_for_kernel() {
+  modinfo -n -k "$1" amneziawg &>/dev/null
+}
+
+pin_ubuntu_kernel() {
+  local kver pkg
+  local -a hold=()
+  kver="$(uname -r)"
+  while IFS= read -r pkg; do
+    [[ -n "$pkg" ]] || continue
+    is_kernel_meta "$pkg" || continue
+    hold+=("$pkg")
+  done < <(dpkg-query -W -f='${Status} ${Package}\n' 2>/dev/null | awk '/^install ok installed /{print $NF}')
+  for pkg in "linux-image-${kver}" "linux-headers-${kver}" "linux-modules-${kver}"; do
+    if dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -q 'install ok installed'; then
+      hold+=("$pkg")
+    fi
+  done
+  if ((${#hold[@]} > 0)); then
+    apt-mark hold "${hold[@]}" >/dev/null
+    log "held kernel: ${hold[*]}"
+  else
+    log "WARN: no kernel packages to hold"
   fi
-  cat >/etc/apt/sources.list.d/amnezia.list <<EOF
+  cat >/etc/apt/apt.conf.d/99frkn-kernel <<'EOF'
+Unattended-Upgrade::Package-Blacklist {
+    "linux-generic";
+    "linux-headers";
+    "linux-image";
+    "linux-modules";
+    "linux-virtual";
+};
+Unattended-Upgrade::Remove-Unused-Kernel-Packages "false";
+EOF
+}
+
+ensure_amneziawg_kernels() {
+  local img ver
+  for img in /boot/vmlinuz-*; do
+    [[ -f "$img" ]] || continue
+    ver="${img#/boot/vmlinuz-}"
+    amneziawg_for_kernel "$ver" && continue
+    log "building amneziawg for $ver"
+    if ! apt-get install -y "linux-headers-${ver}"; then
+      log "WARN: headers missing for $ver"
+      continue
+    fi
+    dkms autoinstall -k "$ver" || log "WARN: dkms failed for $ver"
+  done
+}
+
+grub_entry_id() {
+  local ver="$1" line
+  [[ -f /boot/grub/grub.cfg ]] || return 1
+  line="$(grep -F "gnulinux-${ver}-advanced-" /boot/grub/grub.cfg | head -n1 || true)"
+  [[ -n "$line" ]] || return 1
+  printf '%s\n' "$line" | sed -n "s/.*'\(gnulinux-[^']*\)'.*/\1/p"
+}
+
+pin_grub_if_module_missing() {
+  local img ver id unsafe=0
+  ver="$(uname -r)"
+  for img in /boot/vmlinuz-*; do
+    [[ -f "$img" ]] || continue
+    amneziawg_for_kernel "${img#/boot/vmlinuz-}" && continue
+    unsafe=1
+    log "WARN: no amneziawg module for ${img#/boot/vmlinuz-}"
+  done
+  if [[ "$unsafe" -eq 0 ]]; then
+    log "amneziawg module present for every installed kernel"
+    return 0
+  fi
+  amneziawg_for_kernel "$ver" || {
+    log "WARN: running kernel has no amneziawg module"
+    return 0
+  }
+  [[ -f /etc/default/grub ]] || { log "WARN: no /etc/default/grub"; return 0; }
+  command -v update-grub >/dev/null || { log "WARN: no update-grub"; return 0; }
+  command -v grub-set-default >/dev/null || { log "WARN: no grub-set-default"; return 0; }
+  if grep -q '^GRUB_DEFAULT=' /etc/default/grub; then
+    sed -i 's/^GRUB_DEFAULT=.*/GRUB_DEFAULT=saved/' /etc/default/grub
+  else
+    printf '\nGRUB_DEFAULT=saved\n' >> /etc/default/grub
+  fi
+  update-grub >/dev/null
+  id="$(grub_entry_id "$ver" || true)"
+  if [[ -z "$id" ]]; then
+    log "WARN: grub entry for $ver not found"
+    return 0
+  fi
+  grub-set-default "$id"
+  log "grub pinned to $ver"
+}
+
+ignore_pkg_has() {
+  [[ " $1 " == *" $2 "* ]]
+}
+
+pin_arch_kernel() {
+  local headers kernel conf=/etc/pacman.conf line
+  headers="$(arch_kernel_headers)"
+  kernel="${headers%-headers}"
+  if ! grep -q '^\[options\]' "$conf"; then
+    log "WARN: no [options] in pacman.conf, kernel not pinned"
+    return 0
+  fi
+  if grep -q '^IgnorePkg' "$conf"; then
+    line="$(grep '^IgnorePkg' "$conf" | head -n1)"
+    if ! ignore_pkg_has "$line" "$kernel"; then
+      sed -i "s/^IgnorePkg.*/& ${kernel}/" "$conf"
+    fi
+    line="$(grep '^IgnorePkg' "$conf" | head -n1)"
+    if ! ignore_pkg_has "$line" "$headers"; then
+      sed -i "s/^IgnorePkg.*/& ${headers}/" "$conf"
+    fi
+  else
+    sed -i "/^\[options\]/a IgnorePkg = ${kernel} ${headers}" "$conf"
+  fi
+  log "pacman IgnorePkg: ${kernel} ${headers}"
+  dkms autoinstall || log "WARN: dkms autoinstall failed; reboot may miss amneziawg"
+}
+
+install_awg_boot_helper() {
+  cat >/usr/local/sbin/frkn-awg-module <<'EOF'
+#!/bin/bash
+set -euo pipefail
+export DEBIAN_FRONTEND=noninteractive
+modprobe amneziawg 2>/dev/null && exit 0
+k="$(uname -r)"
+if command -v apt-get >/dev/null 2>&1; then
+  apt-get install -y "linux-headers-${k}" dkms \
+    || { apt-get update -y && apt-get install -y "linux-headers-${k}" dkms; }
+elif command -v pacman >/dev/null 2>&1; then
+  case "$k" in
+    *-lts*) pacman -S --noconfirm --needed linux-lts-headers dkms ;;
+    *-zen*) pacman -S --noconfirm --needed linux-zen-headers dkms ;;
+    *-hardened*) pacman -S --noconfirm --needed linux-hardened-headers dkms ;;
+    *) pacman -S --noconfirm --needed linux-headers dkms ;;
+  esac
+fi
+dkms autoinstall -k "$k"
+depmod -a
+modprobe amneziawg
+EOF
+  chmod 755 /usr/local/sbin/frkn-awg-module
+  mkdir -p /etc/systemd/system/awg-quick@.service.d
+  cat >/etc/systemd/system/awg-quick@.service.d/frkn-module.conf <<'EOF'
+[Service]
+ExecStartPre=/usr/local/sbin/frkn-awg-module
+TimeoutStartSec=300
+EOF
+  systemctl daemon-reload || true
+}
+
+pin_kernel_for_reboot() {
+  if [[ "$OS_FAMILY" == "arch" ]]; then
+    pin_arch_kernel
+  else
+    pin_ubuntu_kernel
+    ensure_amneziawg_kernels
+    pin_grub_if_module_missing
+  fi
+  install_awg_boot_helper
+}
+
+install_amneziawg() {
+  log "installing AmneziaWG (desktop=${AWG_VERSION}, mobile=${AWG_MOBILE_VERSION})…"
+  if [[ "$OS_FAMILY" == "arch" ]]; then
+    local headers
+    headers="$(arch_kernel_headers)"
+    log "kernel headers package: $headers"
+    pacman -S --noconfirm --needed "$headers" dkms openresolv bc \
+      || die "failed to install $headers (headers must match the running kernel)"
+    arch_aur_install amneziawg-tools
+    arch_aur_install amneziawg-dkms
+  else
+    apt-get install -y "linux-headers-$(uname -r)" dkms \
+      || die "need linux-headers-$(uname -r) and dkms"
+    mkdir -p /etc/apt/keyrings
+    if [[ ! -f /etc/apt/keyrings/amnezia.gpg ]]; then
+      curl -fsSL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x57290828" \
+        | gpg --dearmor --yes -o /etc/apt/keyrings/amnezia.gpg
+    fi
+    cat >/etc/apt/sources.list.d/amnezia.list <<EOF
 deb [signed-by=/etc/apt/keyrings/amnezia.gpg] https://ppa.launchpadcontent.net/amnezia/ppa/ubuntu ${PPA_CODENAME} main
 EOF
-  apt-get update -y
-  apt-get install -y amneziawg
+    apt-get update -y
+    apt-get install -y amneziawg
+  fi
   modprobe amneziawg || true
   cat >/etc/sysctl.d/99-amnezia.conf <<EOF
 net.ipv4.ip_forward=1
@@ -296,16 +724,27 @@ EOF
 
   write_awg0_conf
   write_awg1_conf
+  printf 'desktop=%s\nmobile=%s\n' "$AWG_VERSION" "$AWG_MOBILE_VERSION" \
+    >/opt/amnezia/.frkn-awg-version
 
   ln -sf /opt/amnezia/awg0.conf /etc/amnezia/amneziawg/awg0.conf
   ln -sf /opt/amnezia/awg1.conf /etc/amnezia/amneziawg/awg1.conf
   chmod 600 /opt/amnezia/awg0.conf /opt/amnezia/awg1.conf
 
-  awg-quick down awg0 2>/dev/null || true
-  awg-quick down awg1 2>/dev/null || true
-  awg-quick up awg0
-  awg-quick up awg1
+  bring_up_awg awg0
+  bring_up_awg awg1
   systemctl enable "awg-quick@awg0" "awg-quick@awg1" || true
+  pin_kernel_for_reboot
+}
+
+bring_up_awg() {
+  local iface="$1"
+  awg-quick down "$iface" 2>/dev/null || true
+  if ip link show "$iface" >/dev/null 2>&1; then
+    log "removing leftover link $iface"
+    ip link delete "$iface" 2>/dev/null || true
+  fi
+  awg-quick up "$iface"
 }
 
 bt_reject_rules() {
@@ -318,33 +757,29 @@ bt_reject_teardown() {
   printf '%s' "iptables -D FORWARD -s ${net} -m string --algo bm --string \"BitTorrent protocol\" -j REJECT; iptables -D FORWARD -d ${net} -m string --algo bm --string \"BitTorrent protocol\" -j REJECT; iptables -D FORWARD -s ${net} -p udp -m string --algo bm --string \"d1:ad2:id20:\" -j REJECT; iptables -D FORWARD -s ${net} -m string --algo bm --string \"info_hash\" -j REJECT; iptables -D FORWARD -s ${net} -m string --algo bm --string \"peer_id=\" -j REJECT"
 }
 
-write_awg0_conf() {
-  local priv jc jmin jmax s1 s2 s3 s4
-  if [[ -f /opt/amnezia/awg0.conf ]]; then
-    log "awg0.conf exists — keep"
-    return
-  fi
-  priv="$(awg genkey)"
-  jc="$(rand_between 3 8)"
-  jmin="$(rand_between 40 70)"
-  jmax="$(rand_between 90 150)"
-  s1="$(rand_between 40 80)"
-  s2="$(rand_between 40 80)"
-  s3="$(rand_between 8 32)"
-  s4="$(rand_between 8 24)"
-  local bt_up bt_down
-  bt_up="$(bt_reject_rules "100.64.0.0/10")"
-  bt_down="$(bt_reject_teardown "100.64.0.0/10")"
-  cat >/opt/amnezia/awg0.conf <<EOF
-[Interface]
-PrivateKey = ${priv}
-Address = 100.64.0.1/10
-ListenPort = ${AWG_PORT}
-MTU = 1280
-
-PostUp = iptables -I FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -s 100.64.0.0/10 -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_up}
-PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -s 100.64.0.0/10 -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_down}
-
+# Emit Jc.. obfuscation lines for the chosen generation.
+# 3.1 = 2.0 field set + RandomTrailers/DisableCookies (needs 3.1+ module).
+# 2.0 = S1–S4, H ranges, I1 — no 3.1 device flags.
+# legacy = H1..H4 = 1..4, only S1/S2 (RU LTE / aggressive middleboxes).
+awg_obfuscation_lines() {
+  local ver="$1"
+  local jc="$2" jmin="$3" jmax="$4" s1="$5" s2="$6" s3="$7" s4="$8"
+  case "$ver" in
+    legacy|1.0)
+      cat <<EOF
+Jc = ${jc}
+Jmin = ${jmin}
+Jmax = ${jmax}
+S1 = ${s1}
+S2 = ${s2}
+H1 = 1
+H2 = 2
+H3 = 3
+H4 = 4
+EOF
+      ;;
+    2.0)
+      cat <<EOF
 Jc = ${jc}
 Jmin = ${jmin}
 Jmax = ${jmax}
@@ -358,35 +793,9 @@ H3 = 500000-600000
 H4 = 700000-800000
 I1 = <r 128>
 EOF
-}
-
-write_awg1_conf() {
-  local priv jc jmin jmax s1 s2 s3 s4
-  if [[ -f /opt/amnezia/awg1.conf ]]; then
-    log "awg1.conf exists — keep"
-    return
-  fi
-  priv="$(awg genkey)"
-  jc="$(rand_between 5 9)"
-  jmin="$(rand_between 40 70)"
-  jmax="$(rand_between 90 160)"
-  s1="$(rand_between 30 60)"
-  s2="$(rand_between 40 70)"
-  s3="$(rand_between 8 24)"
-  s4="$(rand_between 8 24)"
-  local bt_up bt_down
-  bt_up="$(bt_reject_rules "10.77.0.0/16")"
-  bt_down="$(bt_reject_teardown "10.77.0.0/16")"
-  cat >/opt/amnezia/awg1.conf <<EOF
-[Interface]
-PrivateKey = ${priv}
-Address = 10.77.0.1/16
-ListenPort = ${AWG_MOBILE_PORT}
-MTU = 1280
-
-PostUp = iptables -I FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -s 10.77.0.0/16 -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_up}
-PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -s 10.77.0.0/16 -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_down}
-
+      ;;
+    3.1)
+      cat <<EOF
 Jc = ${jc}
 Jmin = ${jmin}
 Jmax = ${jmax}
@@ -402,6 +811,143 @@ I1 = <r 128>
 RandomTrailers = on
 DisableCookies = on
 EOF
+      ;;
+    *) die "internal: bad awg version $ver" ;;
+  esac
+}
+
+keep_or_regen_awg_conf() {
+  local path="$1" label="$2"
+  if [[ -f "$path" && "$FORCE_AWG_CONF" -ne 1 ]]; then
+    log "${label} exists — keep (use --force-awg-conf to regenerate for --awg-version)"
+    return 1
+  fi
+  if [[ -f "$path" && "$FORCE_AWG_CONF" -eq 1 ]]; then
+    log "regenerating ${label} (--force-awg-conf); refresh client subscription after fnode restart"
+  fi
+  return 0
+}
+
+write_awg0_conf() {
+  local priv jc jmin jmax s1 s2 s3 s4 bt_up bt_down
+  keep_or_regen_awg_conf /opt/amnezia/awg0.conf awg0.conf || return 0
+  priv="$(awg genkey)"
+  jc="$(rand_between 3 8)"
+  jmin="$(rand_between 40 70)"
+  jmax="$(rand_between 90 150)"
+  s1="$(rand_between 40 80)"
+  s2="$(rand_between 40 80)"
+  s3="$(rand_between 8 32)"
+  s4="$(rand_between 8 24)"
+  bt_up="$(bt_reject_rules "100.64.0.0/10")"
+  bt_down="$(bt_reject_teardown "100.64.0.0/10")"
+  cat >/opt/amnezia/awg0.conf <<EOF
+[Interface]
+PrivateKey = ${priv}
+Address = 100.64.0.1/10
+ListenPort = ${AWG_PORT}
+MTU = 1280
+
+PostUp = iptables -I FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -s 100.64.0.0/10 -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_up}
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -s 100.64.0.0/10 -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_down}
+
+$(awg_obfuscation_lines "$AWG_VERSION" "$jc" "$jmin" "$jmax" "$s1" "$s2" "$s3" "$s4")
+EOF
+}
+
+write_awg1_conf() {
+  local priv jc jmin jmax s1 s2 s3 s4 bt_up bt_down
+  keep_or_regen_awg_conf /opt/amnezia/awg1.conf awg1.conf || return 0
+  priv="$(awg genkey)"
+  jc="$(rand_between 5 9)"
+  jmin="$(rand_between 40 70)"
+  jmax="$(rand_between 90 160)"
+  s1="$(rand_between 30 60)"
+  s2="$(rand_between 40 70)"
+  s3="$(rand_between 8 24)"
+  s4="$(rand_between 8 24)"
+  bt_up="$(bt_reject_rules "10.77.0.0/16")"
+  bt_down="$(bt_reject_teardown "10.77.0.0/16")"
+  cat >/opt/amnezia/awg1.conf <<EOF
+[Interface]
+PrivateKey = ${priv}
+Address = 10.77.0.1/16
+ListenPort = ${AWG_MOBILE_PORT}
+MTU = 1280
+
+PostUp = iptables -I FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -s 10.77.0.0/16 -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_up}
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -s 10.77.0.0/16 -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_down}
+
+$(awg_obfuscation_lines "$AWG_MOBILE_VERSION" "$jc" "$jmin" "$jmax" "$s1" "$s2" "$s3" "$s4")
+EOF
+}
+
+keep_or_regen_wg_conf() {
+  local path="$1" label="$2"
+  if [[ -f "$path" && "$FORCE_WG_CONF" -ne 1 ]]; then
+    log "${label} exists — keep (use --force-wg-conf to regenerate)"
+    return 1
+  fi
+  if [[ -f "$path" && "$FORCE_WG_CONF" -eq 1 ]]; then
+    log "regenerating ${label} (--force-wg-conf); refresh client subscription after fnode restart"
+  fi
+  return 0
+}
+
+write_wg0_conf() {
+  local priv bt_up bt_down
+  keep_or_regen_wg_conf /opt/wireguard/wg0.conf wg0.conf || return 0
+  priv="$(wg genkey)"
+  bt_up="$(bt_reject_rules "${WG_NETWORK}")"
+  bt_down="$(bt_reject_teardown "${WG_NETWORK}")"
+  cat >/opt/wireguard/wg0.conf <<EOF
+[Interface]
+PrivateKey = ${priv}
+Address = ${WG_ADDRESS}
+ListenPort = ${WG_PORT}
+MTU = 1280
+
+PostUp = iptables -I FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -s ${WG_NETWORK} -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_up}
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -s ${WG_NETWORK} -o ${DEFAULT_IFACE} -j MASQUERADE; ${bt_down}
+EOF
+}
+
+bring_up_wg() {
+  local iface="$1"
+  wg-quick down "$iface" 2>/dev/null || true
+  if ip link show "$iface" >/dev/null 2>&1; then
+    log "removing leftover link $iface"
+    ip link delete "$iface" 2>/dev/null || true
+  fi
+  wg-quick up "$iface"
+}
+
+install_wireguard() {
+  log "installing WireGuard (port=${WG_PORT}, net=${WG_NETWORK})…"
+  if [[ "$OS_FAMILY" == "arch" ]]; then
+    pacman -S --noconfirm --needed wireguard-tools \
+      || die "failed to install wireguard-tools"
+  else
+    apt-get install -y wireguard wireguard-tools \
+      || die "failed to install wireguard"
+  fi
+  modprobe wireguard || true
+  cat >/etc/sysctl.d/99-frkn-forward.conf <<EOF
+net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
+EOF
+  sysctl --system >/dev/null || true
+
+  mkdir -p /opt/wireguard /etc/wireguard
+  command -v wg >/dev/null || die "wg not found after install"
+  command -v wg-quick >/dev/null || die "wg-quick not found after install"
+
+  write_wg0_conf
+  ln -sf /opt/wireguard/wg0.conf /etc/wireguard/wg0.conf
+  chmod 600 /opt/wireguard/wg0.conf
+
+  bring_up_wg wg0
+  systemctl enable "wg-quick@wg0" || true
 }
 
 install_hysteria2() {
@@ -483,6 +1029,11 @@ write_root_env() {
 FRKN_MODE=${MODE}
 FRKN_PROFILE=${PROFILE}
 FRKN_INSTALL_VERSION=${FRKN_INSTALL_VERSION}
+AWG_VERSION=${AWG_VERSION}
+AWG_MOBILE_VERSION=${AWG_MOBILE_VERSION}
+WG_PORT=${WG_PORT}
+WG_NETWORK=${WG_NETWORK}
+WG_ADDRESS=${WG_ADDRESS}
 API_ENDPOINT=${API_ENDPOINT}
 API_TOKEN=${token}
 ZMQ_ENDPOINT=${ZMQ_ENDPOINT}
@@ -491,8 +1042,9 @@ ENV=${ENV_NAME}
 UUID=${NODE_UUID}
 HOSTNAME=${NODE_HOST}
 ADDRESS=${DEFAULT_IP}
+NODE_IPS=${NODE_IP_LIST[*]}
 INTERFACE=${DEFAULT_IFACE}
-LABEL=${LABEL}
+LABEL='${LABEL}'
 COUNTRY=${COUNTRY}
 MAX_BANDWIDTH_BPS=${MAX_BANDWIDTH_BPS}
 EOF
@@ -507,12 +1059,13 @@ EOF
 
 write_fnode_config() {
   local token="$1"
-  local awg_en=false awg_m_en=false h2_en=false
+  local awg_en=false awg_m_en=false wg_en=false h2_en=false
   local toml_env="$ENV_NAME"
   if [[ "$MODE" == "premium" && "$toml_env" == custom* ]]; then
     toml_env="${toml_env#custom}"
   fi
   [[ "$NEED_AWG" -eq 1 ]] && awg_en=true && awg_m_en=true
+  [[ "$NEED_WG" -eq 1 ]] && wg_en=true
   [[ "$NEED_H2" -eq 1 ]] && h2_en=true
   mkdir -p /opt/fnode/snapshots
   cat >/opt/fnode/config.toml <<EOF
@@ -536,8 +1089,8 @@ enabled = ${h2_en}
 path = "/opt/hysteria2/config.yaml"
 
 [wg]
-enabled = false
-path = "experimental/utun7.conf"
+enabled = ${wg_en}
+path = "/opt/wireguard/wg0.conf"
 
 [awg]
 enabled = ${awg_en}
@@ -562,7 +1115,7 @@ label = "${LABEL}"
 max_bandwidth_bps = ${MAX_BANDWIDTH_BPS}
 country = "${COUNTRY}"
 type = "common"
-node_ips = ["${DEFAULT_IP}"]
+node_ips = [$(format_node_ips "${NODE_IP_LIST[@]}")]
 
 [api]
 endpoint = "${API_ENDPOINT}"
@@ -603,14 +1156,31 @@ EOF
 }
 
 private_register_and_token() {
+  if [[ -f /opt/fnode/api.token && -s /opt/fnode/api.token ]]; then
+    local existing
+    existing="$(tr -d '[:space:]' </opt/fnode/api.token)"
+    if [[ -n "$existing" ]]; then
+      log "private mode: reusing /opt/fnode/api.token (idempotent re-run)"
+      printf '%s\n' "$existing"
+      return
+    fi
+  fi
+  [[ -n "$INSTALL_TOKEN" ]] || die "private re-run needs /opt/fnode/api.token or a fresh --token inst_…"
   log "private mode: fnode will POST /private/nodes with install token, then persist node_token"
-  echo "$INSTALL_TOKEN"
+  printf '%s\n' "$INSTALL_TOKEN"
 }
 
 main() {
   install_base_packages
+  ensure_country
+  if [[ "$MODE" == "private" && -z "$LABEL" ]]; then
+    LABEL="${COUNTRY}| Private"
+  fi
   if [[ "$NEED_AWG" -eq 1 ]]; then
     install_amneziawg
+  fi
+  if [[ "$NEED_WG" -eq 1 ]]; then
+    install_wireguard
   fi
   if [[ "$NEED_H2" -eq 1 ]]; then
     install_hysteria2
@@ -629,13 +1199,17 @@ main() {
 
   install_fnode "$runtime_token"
 
-  log "done. mode=$MODE profile=$PROFILE env=$ENV_NAME"
+  log "done. mode=$MODE profile=$PROFILE env=$ENV_NAME country=$COUNTRY awg=$AWG_VERSION mobile=$AWG_MOBILE_VERSION wg=$NEED_WG"
   log "fnode: systemctl status fnode"
   [[ "$NEED_AWG" -eq 1 ]] && log "awg: awg show awg0; awg show awg1"
+  [[ "$NEED_WG" -eq 1 ]] && log "wg: wg show wg0"
   [[ "$NEED_H2" -eq 1 ]] && log "hysteria2: systemctl status hysteria2"
   log "env: /root/.env"
   if [[ "$MODE" == "private" ]]; then
     log "after first successful register, durable token is in /opt/fnode/api.token"
+  fi
+  if [[ "$FORCE_AWG_CONF" -eq 1 ]]; then
+    log "junk regenerated — fully refresh the client subscription (do not keep old config)"
   fi
 }
 
