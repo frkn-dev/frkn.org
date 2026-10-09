@@ -9,7 +9,8 @@
   max-width: 18ch;
 }
 .of-hero h1.of-title-ip {
-  max-width: 24ch;
+  max-width: none;
+  font-size: clamp(1.55rem, 3.1vw, 2.15rem);
 }
 .of-hero p {
   color: rgba(255, 255, 255, 0.72);
@@ -125,6 +126,7 @@
 .of-note {
   margin: -0.6rem 0 1.5rem;
 }
+.of-hero p a,
 .of-note a,
 .of-card a {
   color: var(--accent);
