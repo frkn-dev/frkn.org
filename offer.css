@@ -48,6 +48,20 @@
   gap: 10px;
   align-items: center;
 }
+.of-why {
+  margin: 1.35rem 0 1.6rem;
+  max-width: 40rem;
+}
+.of-why h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.2rem;
+}
+.of-why p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.55;
+  font-size: 1.05rem;
+}
 .of-actions .btn {
   text-decoration: none;
 }
