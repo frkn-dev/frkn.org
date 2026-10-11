@@ -3231,8 +3231,13 @@
 
         const total = uplink + downlink;
         const expiresAt = data.expires ? new Date(data.expires) : null;
+        const planKind = data.plan_kind || "standard";
         const limitBytes =
-          expiresAt && expiresAt > new Date() ? 0 : data.limit_bytes || 0;
+          planKind === "lite"
+            ? data.limit_bytes || 0
+            : expiresAt && expiresAt > new Date()
+              ? 0
+              : data.limit_bytes || 0;
 
         const totalEl = document.getElementById("traffic-total");
         if (totalEl) totalEl.innerText = formatBytes(total);

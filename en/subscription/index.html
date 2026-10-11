@@ -4409,8 +4409,13 @@
 
         const total = uplink + downlink;
         const expiresAt = data.expires ? new Date(data.expires) : null;
+        const planKind = data.plan_kind || "standard";
         const limitBytes =
-          expiresAt && expiresAt > new Date() ? 0 : data.limit_bytes || 0;
+          planKind === "lite"
+            ? data.limit_bytes || 0
+            : expiresAt && expiresAt > new Date()
+              ? 0
+              : data.limit_bytes || 0;
 
         document.getElementById("traffic-total").innerText = formatBytes(total);
         const limitText = document.getElementById("traffic-limit-text");
@@ -4508,7 +4513,7 @@
           ? 0
           : data.remaining_bytes ?? Math.max(0, limitBytes - usedBytes);
 
-        if (limitBytes <= 0 || timeActive) {
+        if (limitBytes <= 0 || (timeActive && planKind !== "lite")) {
           block.classList.add("hidden");
           return;
         }
