@@ -2135,6 +2135,7 @@
         wl: "🐘 БС - Белые слоны",
         ru: "🇷🇺 Обратный",
         dev: "⌯✈︎ Основной",
+        production: "Продакшен",
       };
 
       function getSubId() {
@@ -3123,7 +3124,6 @@
             pickerEnvSwitcher.innerHTML = "";
             let pickerEnvCount = 0;
             data.locations.forEach((l) => {
-              if (l.env === "production") return;
               const hasXray = l.has_xray || l.hasXray;
               const hasH2 = l.has_h2 || l.hasH2;
               const hasMtproto = l.has_mtproto || l.hasMtproto;
@@ -3231,8 +3231,13 @@
 
         const total = uplink + downlink;
         const expiresAt = data.expires ? new Date(data.expires) : null;
+        const planKind = data.plan_kind || "standard";
         const limitBytes =
-          expiresAt && expiresAt > new Date() ? 0 : data.limit_bytes || 0;
+          planKind === "lite"
+            ? data.limit_bytes || 0
+            : expiresAt && expiresAt > new Date()
+              ? 0
+              : data.limit_bytes || 0;
 
         const totalEl = document.getElementById("traffic-total");
         if (totalEl) totalEl.innerText = formatBytes(total);

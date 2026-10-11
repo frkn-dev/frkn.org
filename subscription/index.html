@@ -4071,6 +4071,7 @@
         wl: "🐘 БС - Белые слоны",
         ru: "🇷🇺 Обратный",
         dev: "⌯✈︎ Основной",
+        production: "Продакшен",
       };
 
       let vpnClients = {};
@@ -4444,8 +4445,13 @@
 
         const total = uplink + downlink;
         const expiresAt = data.expires ? new Date(data.expires) : null;
+        const planKind = data.plan_kind || "standard";
         const limitBytes =
-          expiresAt && expiresAt > new Date() ? 0 : data.limit_bytes || 0;
+          planKind === "lite"
+            ? data.limit_bytes || 0
+            : expiresAt && expiresAt > new Date()
+              ? 0
+              : data.limit_bytes || 0;
 
         document.getElementById("traffic-total").innerText = formatBytes(total);
         const limitText = document.getElementById("traffic-limit-text");
@@ -4544,7 +4550,7 @@
           ? 0
           : data.remaining_bytes ?? Math.max(0, limitBytes - usedBytes);
 
-        if (limitBytes <= 0 || timeActive) {
+        if (limitBytes <= 0 || (timeActive && planKind !== "lite")) {
           block.classList.add("hidden");
           return;
         }
@@ -4994,7 +5000,6 @@
           pickerEnvSwitcher.innerHTML = "";
           let pickerEnvCount = 0;
           currentLocations.forEach((l) => {
-            if (l.env === "production") return;
             const hasXray = l.has_xray || l.hasXray;
             const hasH2 = l.has_h2 || l.hasH2;
             const hasMtproto = l.has_mtproto || l.hasMtproto;
