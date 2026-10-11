@@ -4040,6 +4040,7 @@
         wl: "🐘 WS - White Elephants",
         ru: "🇷🇺 Reverse",
         dev: "⌯✈︎ Main",
+        production: "Production",
       };
 
       let vpnClients = {};
@@ -4921,7 +4922,6 @@
           pickerEnvSwitcher.innerHTML = "";
           let pickerEnvCount = 0;
           currentLocations.forEach((l) => {
-            if (l.env === "production") return;
             const hasXray = l.has_xray || l.hasXray;
             const hasH2 = l.has_h2 || l.hasH2;
             const hasMtproto = l.has_mtproto || l.hasMtproto;
