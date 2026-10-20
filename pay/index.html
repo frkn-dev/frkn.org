@@ -1426,7 +1426,6 @@
             finalPrice < originalPrice
               ? `<div><span class="modal-old-price">${originalPrice}₽</span><span class="modal-discount-price">${finalPrice}₽</span><div style="font-size: 14px; margin-top: 8px; color: #22c55e;">${gbLabel}</div></div>`
               : `<div><div class="modal-total">${finalPrice}₽</div><div style="font-size: 14px; margin-top: 8px; color: #888;">${gbLabel}</div></div>`;
-          syncProductIncludes();
           syncPayButtons();
           return;
         }
