@@ -463,6 +463,41 @@
         color: var(--text);
       }
 
+      .product-line {
+        background: rgba(34, 197, 94, 0.08);
+        border: 1px solid rgba(34, 197, 94, 0.2);
+        border-radius: 16px;
+        padding: 14px 18px;
+        margin: 0 0 20px;
+        text-align: left;
+      }
+
+      .product-line-title {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #8b949e;
+        margin-bottom: 4px;
+      }
+
+      .product-line-name {
+        font-size: 18px;
+        font-weight: 700;
+        color: #22c55e;
+      }
+
+      .product-line-includes {
+        margin: 8px 0 0;
+        padding: 0;
+        list-style: none;
+        font-size: 14px;
+        color: var(--text);
+      }
+
+      .product-line-includes li {
+        margin: 2px 0;
+      }
+
       .info-box {
         background: rgba(34, 197, 94, 0.08);
         border-left: 3px solid #22c55e;
@@ -764,6 +799,12 @@
           <span class="days-text" id="daysTextLabel">дней доступа</span>
         </div>
 
+        <div class="product-line" id="productLine" hidden>
+          <div class="product-line-title">Тариф</div>
+          <div class="product-line-name" id="productName"></div>
+          <ul class="product-line-includes" id="productIncludes"></ul>
+        </div>
+
         <div class="info-box">
           <div class="info-title">Что произойдёт после активации?</div>
           <p>
@@ -817,6 +858,7 @@
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script src="/scripts/utils.js?v=1"></script>
+    <script src="/scripts/plans.js?v=1"></script>
 
     <script>
       const params = new URLSearchParams(window.location.search);
@@ -905,6 +947,29 @@
 
         modal.classList.add("active");
         document.body.style.overflow = "hidden";
+
+        // Tariff product of the key (fcore returns it in the key instance).
+        // Only non-standard products get a dedicated block: the standard one is
+        // already described by the info box below.
+        const productLine = document.getElementById("productLine");
+        if (productLine) {
+          const product = keyData?.product || "standard";
+          const known = window.FRKNPlans ? window.FRKNPlans.meta(product) : null;
+          if (known && product !== "standard") {
+            document.getElementById("productName").textContent =
+              window.FRKNPlans.name(product);
+            const list = document.getElementById("productIncludes");
+            list.innerHTML = "";
+            window.FRKNPlans.includes(product).forEach((line) => {
+              const li = document.createElement("li");
+              li.textContent = "• " + line;
+              list.appendChild(li);
+            });
+            productLine.hidden = false;
+          } else {
+            productLine.hidden = true;
+          }
+        }
       }
 
       function hideModal() {
