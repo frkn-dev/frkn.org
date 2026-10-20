@@ -86,7 +86,7 @@
       id: "standard",
       betaOnly: false,
       ru: {
-        name: "Золотой Стандарт",
+        name: "Стандарт",
         tagline: "Комфорт для ежедневного использования: YouTube и соцсети",
         includes: [
           "Безлимитный трафик",
@@ -95,7 +95,7 @@
         ],
       },
       en: {
-        name: "Gold Standard",
+        name: "Standard",
         tagline: "Comfort for everyday use: YouTube and social media",
         includes: [
           "Unlimited traffic",
@@ -136,28 +136,28 @@
       id: "standard-gaming",
       betaOnly: true,
       ru: {
-        name: "Золотой + Игровой",
+        name: "Стандарт + Игровой",
         tagline: "Стандарт и серверы в Турции",
-        includes: ["Серверы Золотого Стандарта", "Игровые серверы"],
+        includes: ["Все обычные серверы", "Игровые серверы"],
       },
       en: {
-        name: "Gold + Gaming",
+        name: "Standard + Gaming",
         tagline: "Standard and Turkey servers",
-        includes: ["Gold Standard servers", "Gaming servers"],
+        includes: ["All regular servers", "Gaming servers"],
       },
     },
     {
       id: "standard-bs-prem",
       betaOnly: true,
       ru: {
-        name: "Золотой + Белые Слоны",
+        name: "Стандарт + Белые Слоны",
         tagline: "Стандарт и Белые Слоны",
-        includes: ["Серверы Золотого Стандарта", "Серверы Белые Слоны"],
+        includes: ["Все обычные серверы", "Серверы Белые Слоны"],
       },
       en: {
-        name: "Gold + White Elephants",
+        name: "Standard + White Elephants",
         tagline: "Standard and White Elephants",
-        includes: ["Gold Standard servers", "White Elephants servers"],
+        includes: ["All regular servers", "White Elephants servers"],
       },
     },
     {
@@ -167,7 +167,7 @@
         name: "Полный",
         tagline: "Все серверы сразу",
         includes: [
-          "Серверы Золотого Стандарта",
+          "Все обычные серверы",
           "Игровые серверы",
           "Серверы Белые Слоны",
         ],
@@ -176,7 +176,7 @@
         name: "Full",
         tagline: "Every server at once",
         includes: [
-          "Gold Standard servers",
+          "All regular servers",
           "Gaming servers",
           "White Elephants servers",
         ],
@@ -334,15 +334,21 @@
     var style = document.createElement("style");
     style.id = "frkn-plans-styles";
     style.textContent = [
-      ".product-chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:0 auto 22px;max-width:1240px;padding:0 16px}",
+      ".product-chips{display:flex;flex-direction:column;gap:10px;margin:0 auto 22px;max-width:1240px;padding:0 16px}",
+      ".chips-row{display:grid;gap:10px}",
+      ".chips-row-main{grid-template-columns:repeat(4,minmax(0,1fr))}",
+      ".chips-row-compact{grid-template-columns:repeat(3,minmax(0,1fr));max-width:720px;margin:0 auto;width:100%}",
+      ".chips-row-compact .product-chip{padding:8px 12px}",
+      ".chips-row-compact .chip-name{font-size:13px}",
+      ".chips-row-compact .chip-tagline{font-size:11px}",
       ".product-chip{display:flex;flex-direction:column;gap:2px;align-items:flex-start;min-width:0;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 16px;color:#e8e8e8;cursor:pointer;font:inherit;text-align:left;transition:border-color .15s,background .15s,box-shadow .15s}",
       ".product-chip:hover{border-color:rgba(255,255,255,.3)}",
       ".product-chip.active{border-color:#22c55e;background:rgba(34,197,94,.16);box-shadow:inset 0 0 0 1px rgba(34,197,94,.35)}",
       ".product-chip-link{text-decoration:none}",
       ".product-chip .chip-name{font-weight:600;font-size:15px}",
       ".product-chip .chip-tagline{font-size:12px;color:#9aa0a6;line-height:1.25}",
-      "@media (max-width:1100px){.product-chips{grid-template-columns:repeat(3,minmax(0,1fr))}}",
-      "@media (max-width:620px){.product-chips{grid-template-columns:repeat(2,minmax(0,1fr))}}",
+      "@media (max-width:900px){.chips-row-main{grid-template-columns:repeat(2,minmax(0,1fr))}}",
+      "@media (max-width:620px){.chips-row-main,.chips-row-compact{grid-template-columns:repeat(2,minmax(0,1fr))}}",
       "#product-includes{margin:8px 0 0;padding:0;list-style:none;font-size:13px;color:#9aa0a6}",
       "#product-includes li{margin:2px 0}",
     ].join("");
@@ -464,6 +470,27 @@
     return out;
   }
 
+  function chipHtml(product) {
+    var info = localized(product);
+    var active = product.id === selected;
+    return (
+      '<button type="button" class="product-chip' +
+      (active ? " active" : "") +
+      '" data-product="' +
+      escapeHtml(product.id) +
+      '" aria-pressed="' +
+      active +
+      '">' +
+      '<span class="chip-name">' +
+      escapeHtml(info.name) +
+      "</span>" +
+      '<span class="chip-tagline">' +
+      escapeHtml(info.tagline) +
+      "</span>" +
+      "</button>"
+    );
+  }
+
   // Premium is sold through Telegram, not the gateway: same card shape, but a
   // link to the landing instead of a selectable product.
   function premiumChipHtml() {
@@ -488,32 +515,31 @@
       container.style.display = "none";
       return;
     }
-    // Inline style, because the markup starts with display:none. Must match
-    // the grid the injected stylesheet sets up.
-    container.style.display = "grid";
+    // Inline style, because the markup starts with display:none.
+    container.style.display = "flex";
     container.setAttribute("aria-label", strings().productLabel);
-    container.innerHTML = chips
-      .map(function (product) {
-        var info = localized(product);
-        var active = product.id === selected;
-        return (
-          '<button type="button" class="product-chip' +
-          (active ? " active" : "") +
-          '" data-product="' +
-          escapeHtml(product.id) +
-          '" aria-pressed="' +
-          active +
-          '">' +
-          '<span class="chip-name">' +
-          escapeHtml(info.name) +
-          "</span>" +
-          '<span class="chip-tagline">' +
-          escapeHtml(info.tagline) +
-          "</span>" +
-          "</button>"
-        );
-      })
-      .join("") + premiumChipHtml();
+
+    // Base products on top (next to the Premium link), bundles on a smaller
+    // second row. A product is "base" if it is sold on its own.
+    var base = [];
+    var bundles = [];
+    for (var i = 0; i < chips.length; i++) {
+      var id = chips[i].id;
+      if (id === "standard" || id === "gaming" || id === "bs-prem") base.push(chips[i]);
+      else bundles.push(chips[i]);
+    }
+
+    container.innerHTML =
+      '<div class="chips-row chips-row-main">' +
+      base.map(chipHtml).join("") +
+      premiumChipHtml() +
+      "</div>" +
+      (bundles.length
+        ? '<div class="chips-row chips-row-compact">' +
+          bundles.map(chipHtml).join("") +
+          "</div>"
+        : "");
+
     container.querySelectorAll("button.product-chip").forEach(function (chip) {
       chip.addEventListener("click", function () {
         selectProduct(chip.dataset.product);
