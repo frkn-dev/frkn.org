@@ -21,7 +21,7 @@
         a.className = "trust-item";
         a.href = "/Images/pets/" + name;
         const img = document.createElement("img");
-        img.src = a.href + "?v=4";
+        img.src = a.href + "?v=5";
         img.alt = "";
         a.append(img);
         return a;
