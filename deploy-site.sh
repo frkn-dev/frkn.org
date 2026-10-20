@@ -30,6 +30,7 @@ rsync -av --progress --delete \
     --exclude='dopamine/*.dmg' \
     --exclude='dopamine/*.bin' \
     --exclude='node_modules/' \
+    --exclude='__pycache__/' \
     ./ "${HOST}:${REMOTE_DIR}/"
 
 # dopamine binaries are gitignored — they travel outside git, and we force
