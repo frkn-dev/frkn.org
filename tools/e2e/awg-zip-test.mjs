@@ -66,12 +66,12 @@ const dom = new JSDOM(cleanHtml, {
         json: async () => d,
         text: async () => (typeof d === "string" ? d : JSON.stringify(d)),
       });
-      if (u.pathname.startsWith("/subscription/")) return resp(SUB);
-      if (u.pathname === "/vpn-clients.json")
+      if (u.pathname.endsWith("/vpn-clients.json"))
         return resp({
           android: { label: "Android", clients: [{ id: "dopamine", name: "FRKN Dopamine", downloadUrl: "https://frkn.org/dopamine", configType: "txt" }] },
           windows: { label: "Windows", clients: [] },
         });
+      if (u.pathname.startsWith("/subscription/")) return resp(SUB);
       if (u.pathname === "/info/connections/amneziawg") return resp({ nodes: NODES, status: 200 });
       if (u.pathname === "/validate/email") return resp({ status: 200 });
       if (u.pathname === "/key/validate") return resp({ valid: true });
