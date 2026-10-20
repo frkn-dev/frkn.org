@@ -29,6 +29,7 @@ rsync -av --progress --delete \
     --exclude='dopamine/*.apk' \
     --exclude='dopamine/*.dmg' \
     --exclude='dopamine/*.bin' \
+    --exclude='node_modules/' \
     ./ "${HOST}:${REMOTE_DIR}/"
 
 # dopamine binaries are gitignored — they travel outside git, and we force
