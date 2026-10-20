@@ -3,6 +3,18 @@
 Static website for the VPN service FRKN ("Рилзопровод"). Pure HTML/CSS/JS, no build step, served by Nginx.
 High-level overview: [ARCHITECTURE.md](docs/ARCHITECTURE.md). Commands & deploy: [RUNBOOK.md](docs/RUNBOOK.md).
 
+## HUMANS.md — статус работы
+
+В корне репозитория есть `HUMANS.md` — человекочитаемый статус: ветка, текущая задача, что сделано, что дальше, блокеры.
+
+- В начале задачи обнови `Current`: ветка, задача, статус, дата.
+- В конце задачи добавь пункт в `Done` (дата, короткое описание, commit hash если есть) и обнови `Next`.
+- `Done` держи коротким: последние 5–10 пунктов; полная история — в git.
+- `HUMANS.md` — это «что делаем сейчас», `AGENTS.md` — «как работаем». Не дублируй правила.
+- Не пиши секреты: токены, пароли, приватные ключи.
+- Для кросс-репо задач используй одинаковый короткий Task ID и ссылки на другие `HUMANS.md`.
+- Если задача заблокирована — зафиксируй это в `Blockers / Notes`, а не только в чате.
+
 ## Tone
 
 "На ты", concise, irony ok, no pathos. Technical terms as-is. Code comments only where not self-evident.
