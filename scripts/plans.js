@@ -86,8 +86,8 @@
       id: "standard",
       betaOnly: false,
       ru: {
-        name: "Обычный",
-        tagline: "Все обычные серверы",
+        name: "Золотой Стандарт",
+        tagline: "Комфорт для ежедневного использования: YouTube и соцсети",
         includes: [
           "Безлимитный трафик",
           "Высокая скорость",
@@ -95,8 +95,8 @@
         ],
       },
       en: {
-        name: "Standard",
-        tagline: "All regular servers",
+        name: "Gold Standard",
+        tagline: "Comfort for everyday use: YouTube and social media",
         includes: [
           "Unlimited traffic",
           "High speed",
@@ -122,42 +122,42 @@
       id: "bs-prem",
       betaOnly: true,
       ru: {
-        name: "BS Premium",
+        name: "Белые Слоны",
         tagline: "Работает там, где ничего не работает",
-        includes: ["Серверы BS Premium", "Безлимитный трафик"],
+        includes: ["Серверы Белые Слоны", "Безлимитный трафик"],
       },
       en: {
-        name: "BS Premium",
+        name: "White Elephants",
         tagline: "Works where nothing else does",
-        includes: ["BS Premium servers", "Unlimited traffic"],
+        includes: ["White Elephants servers", "Unlimited traffic"],
       },
     },
     {
       id: "standard-gaming",
       betaOnly: true,
       ru: {
-        name: "Обычный + Игровой",
-        tagline: "Обычные и игровые серверы",
-        includes: ["Все обычные серверы", "Игровые серверы"],
+        name: "Золотой + Игровой",
+        tagline: "Стандарт и серверы в Турции",
+        includes: ["Серверы Золотого Стандарта", "Игровые серверы"],
       },
       en: {
-        name: "Standard + Gaming",
-        tagline: "Regular and gaming servers",
-        includes: ["All regular servers", "Gaming servers"],
+        name: "Gold + Gaming",
+        tagline: "Standard and Turkey servers",
+        includes: ["Gold Standard servers", "Gaming servers"],
       },
     },
     {
       id: "standard-bs-prem",
       betaOnly: true,
       ru: {
-        name: "Обычный + BS Premium",
-        tagline: "Обычные серверы и BS Premium",
-        includes: ["Все обычные серверы", "Серверы BS Premium"],
+        name: "Золотой + Белые Слоны",
+        tagline: "Стандарт и Белые Слоны",
+        includes: ["Серверы Золотого Стандарта", "Серверы Белые Слоны"],
       },
       en: {
-        name: "Standard + BS Premium",
-        tagline: "Regular servers and BS Premium",
-        includes: ["All regular servers", "BS Premium servers"],
+        name: "Gold + White Elephants",
+        tagline: "Standard and White Elephants",
+        includes: ["Gold Standard servers", "White Elephants servers"],
       },
     },
     {
@@ -167,18 +167,18 @@
         name: "Полный",
         tagline: "Все серверы сразу",
         includes: [
-          "Все обычные серверы",
+          "Серверы Золотого Стандарта",
           "Игровые серверы",
-          "Серверы BS Premium",
+          "Серверы Белые Слоны",
         ],
       },
       en: {
         name: "Full",
         tagline: "Every server at once",
         includes: [
-          "All regular servers",
+          "Gold Standard servers",
           "Gaming servers",
-          "BS Premium servers",
+          "White Elephants servers",
         ],
       },
     },
@@ -192,6 +192,8 @@
       chooseShort: "Выбрать",
       productLabel: "Тариф",
       perDay: "/день",
+      premiumName: "Premium",
+      premiumTagline: "Выделенный IP",
     },
     en: {
       badge: "UNLIMITED",
@@ -200,6 +202,8 @@
       chooseShort: "Choose",
       productLabel: "Plan",
       perDay: "/day",
+      premiumName: "Premium",
+      premiumTagline: "Dedicated IP",
     },
   };
 
@@ -333,10 +337,8 @@
       ".product-chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:0 auto 22px;max-width:1240px;padding:0 16px}",
       ".product-chip{display:flex;flex-direction:column;gap:2px;align-items:flex-start;min-width:0;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 16px;color:#e8e8e8;cursor:pointer;font:inherit;text-align:left;transition:border-color .15s,background .15s,box-shadow .15s}",
       ".product-chip:hover{border-color:rgba(255,255,255,.3)}",
-      ".product-chip.primary{border-color:rgba(91,124,250,.7);background:rgba(91,124,250,.16);box-shadow:inset 0 0 0 1px rgba(91,124,250,.25)}",
-      ".product-chip.primary .chip-name{color:#fff}",
-      ".product-chip.primary:hover{border-color:rgba(91,124,250,1)}",
       ".product-chip.active{border-color:#22c55e;background:rgba(34,197,94,.16);box-shadow:inset 0 0 0 1px rgba(34,197,94,.35)}",
+      ".product-chip-link{text-decoration:none}",
       ".product-chip .chip-name{font-weight:600;font-size:15px}",
       ".product-chip .chip-tagline{font-size:12px;color:#9aa0a6;line-height:1.25}",
       "@media (max-width:1100px){.product-chips{grid-template-columns:repeat(3,minmax(0,1fr))}}",
@@ -462,6 +464,23 @@
     return out;
   }
 
+  // Premium is sold through Telegram, not the gateway: same card shape, but a
+  // link to the landing instead of a selectable product.
+  function premiumChipHtml() {
+    var t = strings();
+    var href = LANG === "ru" ? "/premium/" : "/en/premium/";
+    return (
+      '<a class="product-chip product-chip-link" href="' +
+      href +
+      '"><span class="chip-name">' +
+      escapeHtml(t.premiumName) +
+      " ↗</span>" +
+      '<span class="chip-tagline">' +
+      escapeHtml(t.premiumTagline) +
+      "</span></a>"
+    );
+  }
+
   function renderChips(container) {
     var chips = selectableProducts();
     if (chips.length < 2) {
@@ -477,14 +496,8 @@
       .map(function (product) {
         var info = localized(product);
         var active = product.id === selected;
-        // The three base products are the main offers; the bundles stay quiet.
-        var primary =
-          product.id === "standard" ||
-          product.id === "gaming" ||
-          product.id === "bs-prem";
         return (
           '<button type="button" class="product-chip' +
-          (primary ? " primary" : "") +
           (active ? " active" : "") +
           '" data-product="' +
           escapeHtml(product.id) +
@@ -500,8 +513,8 @@
           "</button>"
         );
       })
-      .join("");
-    container.querySelectorAll(".product-chip").forEach(function (chip) {
+      .join("") + premiumChipHtml();
+    container.querySelectorAll("button.product-chip").forEach(function (chip) {
       chip.addEventListener("click", function () {
         selectProduct(chip.dataset.product);
       });
