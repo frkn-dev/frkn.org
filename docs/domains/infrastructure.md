@@ -51,7 +51,7 @@ Tor side: `tor` package, `torrc` has `HiddenServiceDir /var/lib/tor/frkn-onion/`
 | Env | How | Notes |
 |---|---|---|
 | `prod` `frkn.org` | `/opt/frkn.org` + rsync mirror `/opt/mirror/frkn.org/` | host is the api.frkn.org box |
-| `prod` `frkn.app` | `/opt/frkn.app` (`nginx-frkn-app.conf`) | Dopamine mini-site; `/preset/` → CSV inbox; other paths 302 → frkn.org |
+| `prod` `frkn.app` | `/opt/frkn.app` (`nginx-frkn-app.conf`) | Dopamine landing: `/` ← `dopamine/index.html`, `/en/` ← `dopamine/en/index.html`; downloads at `/dopamine/*.pkg\|apk\|bin`; `/preset/` → CSV inbox; other paths 302 → frkn.org |
 | `onion` | Tor → `127.0.0.1:8080` → same `/opt/frkn.org` | mirrors prod; API via `/api` proxy |
 | `beta` `beta.frkn.org` | `/opt/beta/frkn.org/` | vhost in `sites-available/api` |
 | `beta` `beta.frkn.app` | `/opt/beta/frkn.app/` | docroot ready; wire DNS+nginx when needed |
@@ -68,6 +68,12 @@ Layout on disk (siblings):
 ```
 
 Preset queue CSV: `/opt/frkn.app/preset/requests.csv` (not web-served).
+
+Dopamine pages are served from `/opt/frkn.app/dopamine/`: `https://frkn.app/` is
+`dopamine/index.html`, `https://frkn.app/en/` is `dopamine/en/index.html`.
+Exact page paths (`/dopamine/`, `/dopamine/en/`) 301 to those roots; binary
+downloads (`/dopamine/*.pkg|apk|bin`) keep working. `frkn.org/dopamine/*` redirects
+to frkn.app. Release steps: see RUNBOOK → "Dopamine release".
 
 ## Misc
 
