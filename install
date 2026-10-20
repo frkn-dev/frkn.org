@@ -36,7 +36,7 @@ die() { printf '[frkn-install] ERROR: %s\n' "$*" >&2; exit 1; }
 
 is_shared_env() {
   case "$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')" in
-    dev|development|ru|wl|prod|production|experimental|exp|gaming) return 0 ;;
+    dev|development|ru|wl|prod|production|experimental|exp|gaming|bs|bs-prem|bsprem) return 0 ;;
     *) return 1 ;;
   esac
 }
