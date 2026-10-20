@@ -9,6 +9,7 @@
 //   POST /promocode/validate                — pass
 //   POST /payment/platega/subscription/create → {url: "#"}
 //   GET /devices/options, /subscription/{id}.connections — devices (optional)
+//   PATCH /devices/{connectionId}?subscription_id= — include_in_main toggle
 // Run: node tools/mock-api/serve.js  (port 3000)
 const http = require("http");
 const crypto = require("crypto");
@@ -166,8 +167,42 @@ const WG_NODES = [
   { label: "WireGuard (mock)", config: "[Interface]\nPrivateKey=WWWG\nAddress=10.0.0.5/32\n\n[Peer]\nPublicKey=HHHH\nEndpoint=wg.example.com:51820\nAllowedIPs=0.0.0.0/0\n" },
 ];
 
+// Каталог цен витрины (GET /payment/plans) — те же 24 цены продуктов, что и в
+// config-example.toml payment-gw, плюс короткие стандартные и lite-пакеты.
+// Витрина (scripts/plans.js) берёт цены отсюда, поэтому e2e проверяет, что
+// показанные цены совпадают с каталогом для всех шести продуктов.
+const PRODUCT_PRICES = {
+  standard: { 3: 100, 7: 200, 14: 300, 30: 500, 90: 1300, 180: 2700, 365: 4500 },
+  gaming: { 30: 300, 90: 780, 180: 1620, 365: 2700 },
+  "bs-prem": { 30: 500, 90: 1300, 180: 2700, 365: 4500 },
+  "standard-gaming": { 30: 700, 90: 1820, 180: 3780, 365: 6300 },
+  "standard-bs-prem": { 30: 700, 90: 1820, 180: 3780, 365: 6300 },
+  full: { 30: 800, 90: 2080, 180: 4320, 365: 7200 },
+};
+const LITE_PRICES = [
+  [1, 67, 69],
+  [5, 167, 169],
+  [10, 267, 269],
+  [50, 367, 369],
+];
+const PLANS = (() => {
+  const out = [];
+  for (const [product, days] of Object.entries(PRODUCT_PRICES)) {
+    for (const [day, price] of Object.entries(days)) {
+      out.push({ kind: "standard", product, days: Number(day), price, bonus_days: 7 });
+    }
+  }
+  for (const [gb, price, alt] of LITE_PRICES) {
+    out.push({ kind: "lite", product: "standard", days: 0, traffic_gib: gb, price, alt_price: alt });
+  }
+  return out;
+})();
+
 const SUB = {
   id: "demo-uuid-0000",
+  // `MOCK_PLAN_KIND=selfhosted node serve.js` switches the cabinet into the
+  // selfhosted mode so the users card (/private/*) can be exercised locally.
+  plan_kind: process.env.MOCK_PLAN_KIND || "standard",
   limit_bytes: 0,
   uplink: 123456789,
   downlink: 987654321,
@@ -205,14 +240,78 @@ const SUB = {
       share_token: "tok-1",
       share_url: "frkn://sub/demo-uuid-0000",
       scope: null,
+      include_in_main: true,
+    },
+    {
+      id: "conn-2",
+      proto: "Xray",
+      env: "wl",
+      label: "Рабочий ноутбук",
+      uplink: 333,
+      downlink: 444,
+      share_token: "tok-2",
+      share_url: "frkn://sub/demo-uuid-0000-2",
+      scope: null,
+      include_in_main: false,
     },
   ],
   scope: null,
 };
 
+// Selfhosted cabinet fixture: the account's own nodes and the child
+// subscriptions it hands out (users). Feeds scripts/selfhosted-users.js via
+// GET /private/state, GET /private/nodes, GET/POST /private/users and
+// DELETE /private/users/{child}.
+const SH_NODES = [
+  {
+    uuid: "node-1",
+    hostname: "de1.frkn.org",
+    label: "Frankfurt",
+    country: "DE",
+    status: "Online",
+    env: "custompersonal111122223333",
+    inbounds: ["AmneziaWg"],
+  },
+  {
+    uuid: "node-2",
+    hostname: "fi1.frkn.org",
+    label: "Helsinki",
+    country: "FI",
+    status: "Offline",
+    env: "custompersonal111122223333",
+    inbounds: ["AmneziaWgMobile"],
+  },
+  {
+    uuid: "node-3",
+    hostname: "nl1.frkn.org",
+    label: "Amsterdam",
+    country: "NL",
+    status: "Online",
+    env: "custompersonal111122223333",
+    // No AWG inbound: listed, but not selectable for a user.
+    inbounds: ["Hysteria2"],
+  },
+];
+const SH_USERS = [
+  {
+    subscription_id: "child-1",
+    subscription_url: "frkn://sub/child-1",
+    all_servers: true,
+    node_ids: [],
+    connections: 1,
+    created_at: new Date().toISOString(),
+  },
+];
+const shState = () => ({
+  subscription_id: "demo-uuid-0000",
+  plan_kind: "selfhosted",
+  servers: { used: SH_NODES.length, limit: 5, remaining: 2 },
+  users: { used: SH_USERS.length, limit: 20, remaining: 20 - SH_USERS.length },
+});
+
 function cors(res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 }
 
@@ -222,7 +321,22 @@ function json(res, obj, code = 200) {
   res.end(body);
 }
 
-const server = http.createServer((req, res) => {
+function readJson(req) {
+  return new Promise((resolve, reject) => {
+    let body = "";
+    req.on("data", (chunk) => (body += chunk));
+    req.on("end", () => {
+      try {
+        resolve(body ? JSON.parse(body) : {});
+      } catch (e) {
+        reject(e);
+      }
+    });
+    req.on("error", reject);
+  });
+}
+
+const server = http.createServer(async (req, res) => {
   cors(res);
   if (req.method === "OPTIONS") { res.writeHead(204); res.end(); return; }
 
@@ -230,6 +344,16 @@ const server = http.createServer((req, res) => {
   const p = u.pathname;
 
   try {
+    if (req.method === "PATCH" && p.startsWith("/devices/")) {
+      const connectionId = decodeURIComponent(p.slice("/devices/".length));
+      const body = await readJson(req);
+      const conn = SUB.connections.find((c) => c.id === connectionId);
+      if (!conn || typeof body.include_in_main !== "boolean") {
+        return json(res, { status: 400, message: "bad request" }, 400);
+      }
+      conn.include_in_main = body.include_in_main;
+      return json(res, { status: 200, message: "ok" });
+    }
     if (req.method === "GET" && p.startsWith("/subscription/")) {
       return json(res, SUB);
     }
@@ -253,6 +377,54 @@ const server = http.createServer((req, res) => {
     }
     if (req.method === "GET" && p === "/referrals") {
       return json(res, { status: 200, response: { count: 0 } });
+    }
+    if (req.method === "GET" && p === "/payment/plans") {
+      return json(res, PLANS);
+    }
+    // Selfhosted account (see scripts/selfhosted-users.js).
+    if (req.method === "GET" && p === "/private/state") {
+      return json(res, { status: 200, message: "Ok", response: shState() });
+    }
+    if (req.method === "GET" && p === "/private/nodes") {
+      return json(res, { status: 200, message: "Ok", response: SH_NODES });
+    }
+    if (req.method === "GET" && p === "/private/users") {
+      return json(res, { status: 200, message: "Ok", response: SH_USERS });
+    }
+    if (req.method === "POST" && p === "/private/users") {
+      const body = await readJson(req);
+      const all = !!body.all_servers;
+      const id = `child-${SH_USERS.length + 1}`;
+      SH_USERS.push({
+        subscription_id: id,
+        subscription_url: `frkn://sub/${id}`,
+        all_servers: all,
+        node_ids: all ? [] : body.node_ids || [],
+        connections: all ? 1 : (body.node_ids || []).length,
+        created_at: new Date().toISOString(),
+      });
+      return json(res, {
+        status: 200,
+        message: "Ok",
+        response: {
+          subscription_id: id,
+          subscription_url: `frkn://sub/${id}`,
+          all_servers: all,
+          node_ids: all ? [] : body.node_ids || [],
+          connections: [],
+          users: shState().users,
+        },
+      });
+    }
+    if (req.method === "DELETE" && p.startsWith("/private/users/")) {
+      const id = decodeURIComponent(p.slice("/private/users/".length));
+      const at = SH_USERS.findIndex((u) => u.subscription_id === id);
+      if (at !== -1) SH_USERS.splice(at, 1);
+      return json(res, {
+        status: 200,
+        message: "Ok",
+        response: { subscription_id: id, deleted: true, connections_deleted: 1 },
+      });
     }
     if (req.method === "GET" && p === "/devices/options") {
       return json(res, { status: 200, response: { dev: [{ id: "n1", name: "Белкон-1" }] } });
@@ -283,8 +455,8 @@ const server = http.createServer((req, res) => {
   }
 });
 
-// Фикстуры переиспользует e2e (tools/e2e/awg-zip-test.mjs).
-module.exports = { AWG_NODES, SUB };
+// Фикстуры переиспользует e2e (tools/e2e/awg-zip-test.mjs, tools/e2e/plans-test.mjs).
+module.exports = { AWG_NODES, SUB, PLANS, PRODUCT_PRICES };
 
 if (require.main === module) {
   // MOCK_HOST=0.0.0.0 — слушать на всех интерфейсах (проверка с телефона в

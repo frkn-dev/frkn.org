@@ -40,3 +40,7 @@ frkn-awg-dev/
 
 *.msi
 *.msi
+
+# Python bytecode
+__pycache__/
+*.pyc

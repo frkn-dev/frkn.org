@@ -1196,7 +1196,7 @@
         margin-bottom: 6px;
       }
 
-      .device-form label.device-main-feed {
+      label.device-main-feed {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -1204,11 +1204,11 @@
         color: var(--tg-text);
       }
 
-      .device-form label.device-main-feed.hidden {
+      label.device-main-feed.hidden {
         display: none;
       }
 
-      .device-form label.device-main-feed input {
+      label.device-main-feed input {
         width: auto;
         padding: 0;
       }
@@ -1878,9 +1878,9 @@
                 <label for="deviceNodeSelect">Сервер</label>
                 <select id="deviceNodeSelect"></select>
               </div>
-              <label class="device-main-feed hidden" id="deviceMainFeedRow">
+              <label class="device-main-feed" id="deviceMainFeedRow">
                 <input type="checkbox" id="deviceMainFeed" />
-                Добавить сервер в общую подписку
+                Добавить устройство в общую подписку
               </label>
               <div class="device-form-error" id="deviceFormError"></div>
               <button type="button" class="renew-action-btn primary" id="deviceSubmitBtn">
@@ -1978,6 +1978,7 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <script src="/scripts/utils.js?v=1"></script>
+    <script src="/scripts/plans.js?v=6"></script>
 
     <script>
       // --- Telegram WebApp Init ---
@@ -2983,6 +2984,14 @@
           if (errorEl) errorEl.style.display = "none";
 
           renderSubscriptionData(data, subId, currentEnv);
+          // Продление всегда остаётся на продукте подписки: страница берёт
+          // цены продукта из каталога (scripts/plans.js).
+          window.__frknSubProduct = data.product || "standard";
+          window.dispatchEvent(
+            new CustomEvent("frkn:subscription-loaded", {
+              detail: { id: subId, product: window.__frknSubProduct },
+            }),
+          );
           initDevices(data, subId);
         } catch (err) {
           console.error("❌ Критическая ошибка:", err);
@@ -3368,6 +3377,24 @@
           meta.textContent = `${c.proto || ""} · ${envName} · ${traffic}`;
           info.appendChild(name);
           info.appendChild(meta);
+          if (typeof c.include_in_main === "boolean") {
+            const mainFeedLabel = document.createElement("label");
+            mainFeedLabel.className = "device-main-feed device-item-meta";
+            mainFeedLabel.style.marginTop = "8px";
+            const mainFeed = document.createElement("input");
+            mainFeed.type = "checkbox";
+            mainFeed.className = "device-main-feed-checkbox";
+            mainFeed.dataset.connectionId = c.id;
+            mainFeed.checked = c.include_in_main;
+            mainFeed.addEventListener("change", () =>
+              updateDeviceMainFeed(c, mainFeed),
+            );
+            mainFeedLabel.appendChild(mainFeed);
+            mainFeedLabel.appendChild(
+              document.createTextNode("В общей подписке"),
+            );
+            info.appendChild(mainFeedLabel);
+          }
           const actions = document.createElement("div");
           actions.style.display = "flex";
           actions.style.alignItems = "center";
@@ -3390,6 +3417,34 @@
           listEl.appendChild(item);
         });
         if (emptyEl) emptyEl.classList.toggle("hidden", devices.length > 0);
+      }
+
+      async function updateDeviceMainFeed(conn, box) {
+        const previous = conn.include_in_main;
+        const includeInMain = box.checked;
+        box.disabled = true;
+        try {
+          const r = await fetch(
+            `${API_BASE}/devices/${encodeURIComponent(conn.id)}?subscription_id=${encodeURIComponent(devicesSubId)}`,
+            {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ include_in_main: includeInMain }),
+            },
+          );
+          const j = await r.json().catch(() => null);
+          if (r.ok && j && j.status === 200 && j.message === "ok") {
+            await refreshDevices();
+            return;
+          }
+          box.checked = previous;
+          alert("Не удалось изменить настройку общей подписки");
+        } catch (e) {
+          box.checked = previous;
+          alert("Сетевая ошибка — попробуйте ещё раз");
+        } finally {
+          box.disabled = false;
+        }
       }
 
       async function refreshDevices() {
@@ -3863,16 +3918,7 @@
 
       function syncDeviceMainFeed() {
         const row = document.getElementById("deviceMainFeedRow");
-        const box = document.getElementById("deviceMainFeed");
-        const envSelect = document.getElementById("deviceEnvSelect");
-        if (!row) return;
-        const show =
-          deviceScope &&
-          deviceScope.kind === "personal" &&
-          envSelect &&
-          envSelect.value === deviceScope.env;
-        row.classList.toggle("hidden", !show);
-        if (!show && box) box.checked = false;
+        if (row) row.classList.remove("hidden");
       }
 
       // Выбор сервера для привязки устройства (GET /devices/nodes). Без
@@ -4423,6 +4469,27 @@
           : null;
         let appliedRenewPromo = null;
         let currentRenewDiscountedPrice = null;
+        // Продление только на продукт подписки: срок и цены — из каталога
+        // (scripts/plans.js), сменить продукт при продлении нельзя.
+        let renewProduct = window.__frknSubProduct || "standard";
+
+        window.addEventListener("frkn:subscription-loaded", async (e) => {
+          renewProduct = e.detail?.product || "standard";
+          if (window.FRKNPlans) await window.FRKNPlans.ready;
+          const keep =
+            window.FRKNPlans &&
+            window.FRKNPlans.renewOptions(
+              renewDurationSelect,
+              renewProduct,
+              selectedRenewDuration,
+            );
+          if (keep) {
+            selectedRenewDuration = keep;
+            appliedRenewPromo = null;
+            currentRenewDiscountedPrice = null;
+            updateRenewPriceDisplay();
+          }
+        });
 
         function getSelectedRenewPrice() {
           if (!renewDurationSelect) return 0;
@@ -4475,6 +4542,7 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                   duration: selectedRenewDuration,
+                  product: renewProduct,
                   promocode: code,
                 }),
               });

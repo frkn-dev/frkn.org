@@ -1268,7 +1268,7 @@
         margin-bottom: 6px;
       }
 
-      .device-form label.device-main-feed {
+      label.device-main-feed {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -1276,11 +1276,11 @@
         color: var(--text);
       }
 
-      .device-form label.device-main-feed.hidden {
+      label.device-main-feed.hidden {
         display: none;
       }
 
-      .device-form label.device-main-feed input {
+      label.device-main-feed input {
         width: auto;
         padding: 0;
       }
@@ -2826,6 +2826,49 @@
         font-size: 13px;
       }
 
+      .selfhosted-empty {
+        margin: 0 0 16px;
+        padding: 16px;
+        border: 1px dashed rgba(91, 124, 250, 0.5);
+        border-radius: 12px;
+        background: rgba(91, 124, 250, 0.08);
+      }
+
+      .selfhosted-empty h3 {
+        margin: 0 0 8px;
+        font-size: 1.05rem;
+      }
+
+      .selfhosted-empty p {
+        margin: 0 0 10px;
+        opacity: 0.85;
+      }
+
+      .selfhosted-create {
+        margin-top: 16px;
+      }
+
+      /* Selfhosted account caps: servers (own nodes) and users (child
+         subscriptions) — "N of M". */
+      .selfhosted-limits {
+        margin: 0 0 14px;
+        padding: 12px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        font-size: 13px;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .selfhosted-limits .selfhosted-limit-row b {
+        color: #fff;
+      }
+
+      .selfhosted-limits .is-full {
+        color: #fbbf24;
+      }
+
       .traffic-summary {
         border-top: 1px solid var(--border);
         padding-top: 20px;
@@ -3267,6 +3310,16 @@
           ></div>
         </form>
 
+        <div class="selfhosted-create">
+          <p class="small">
+            No subscription? Host your own node — a selfhosted account is
+            created right away, no activation key needed.
+          </p>
+          <button id="create-selfhosted-account" class="btn ghost" type="button">
+            Create a selfhosted account
+          </button>
+        </div>
+
         <div class="error-actions">
           <a href="https://t.me/frkn_support"
             ><button class="btn try">Contact support</button></a
@@ -3420,6 +3473,17 @@
 
           <!-- Connection card -->
           <div class="dashboard-card connection-card">
+            <div class="selfhosted-empty hidden" id="selfhosted-empty">
+              <h3>No nodes yet</h3>
+              <p>
+                Your account is ready. Install a node on your own server — and
+                your servers show up in this subscription. The install command
+                is behind the “Own node” button below.
+              </p>
+              <a class="node-install-more" href="/en/selfhosted/"
+                >Install guide</a
+              >
+            </div>
             <div class="connection-link-section">
               <div class="connection-title-row">
                 <h2>
@@ -3551,6 +3615,13 @@
               </div>
             </div>
 
+            <!-- Account caps: how many own nodes and users it may hold.
+                 Shown in selfhosted mode only. -->
+            <div class="selfhosted-limits hidden" id="selfhosted-limits"></div>
+            <!-- Selfhosted account users (child subscriptions on the account's
+                 own nodes): list, create, revoke. Rendered by
+                 scripts/selfhosted-users.js. -->
+            <div class="selfhosted-users hidden" id="selfhosted-users"></div>
             <div class="node-install-row">
               <button
                 class="device-picker-toggle"
@@ -3714,9 +3785,9 @@
                 <label for="deviceNodeSelect">Server</label>
                 <select id="deviceNodeSelect"></select>
               </div>
-              <label class="device-main-feed hidden" id="deviceMainFeedRow">
+              <label class="device-main-feed" id="deviceMainFeedRow">
                 <input type="checkbox" id="deviceMainFeed" />
-                Add the server to the main subscription
+                Include the device in the main subscription
               </label>
               <div class="device-form-error" id="deviceFormError"></div>
               <button type="button" class="btn try" id="deviceSubmitBtn">
@@ -4015,6 +4086,8 @@
     </div>
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/utils.js?v=1"></script>
+    <script src="/scripts/plans.js?v=6"></script>
+    <script src="/scripts/selfhosted-users.js?v=1"></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script src="/scripts/lk-tour.js?v=1" defer></script>
@@ -4267,6 +4340,14 @@
 
           showSuccess();
           renderSubscriptionData(data, subId, currentEnv);
+          // A renewal always stays on the subscription's product, so the page
+          // takes that product's prices from the catalogue (scripts/plans.js).
+          window.__frknSubProduct = data.product || "standard";
+          window.dispatchEvent(
+            new CustomEvent("frkn:subscription-loaded", {
+              detail: { id: subId, product: window.__frknSubProduct },
+            }),
+          );
           initDevices(data, subId);
         } catch (err) {
           console.error("❌ Critical error:", err);
@@ -4589,10 +4670,107 @@
         });
       }
 
+      // Selfhosted account caps: servers (own nodes) and users (child
+      // subscriptions) — "N of M · K free". GET /private/state feeds the block
+      // above and the "no slots left" message shown when the install command
+      // is requested. The texts live inside the function so its correctness
+      // doesn't depend on neighbouring declarations being evaluated first.
+      async function refreshSelfhostedLimits() {
+        const box = document.getElementById("selfhosted-limits");
+        const subId = getSubId();
+        if (!box || !subId) return null;
+        const t = {
+          servers: "Servers",
+          users: "Users",
+          of: "of",
+          free: "free",
+          full: "no free slots",
+        };
+        const row = (kind, label, usage) => {
+          const used = Number(usage && usage.used) || 0;
+          const limit = Number(usage && usage.limit) || 0;
+          const remaining = Math.max(
+            0,
+            Number(usage && usage.remaining) || limit - used,
+          );
+          const free = remaining > 0 ? `${t.free} ${remaining}` : t.full;
+          return (
+            `<div class="selfhosted-limit-row" data-kind="${kind}">` +
+            `${label}: <b class="${used >= limit ? "is-full" : ""}">${used}</b> ` +
+            `${t.of} <b>${limit}</b> · ${free}</div>`
+          );
+        };
+        let state = null;
+        try {
+          const r = await fetch(
+            `${API_BASE}/private/state?subscription_id=${encodeURIComponent(subId)}`,
+          );
+          const data = await r.json().catch(() => ({}));
+          if (r.ok && data && data.response) state = data.response;
+        } catch (e) {}
+        if (!state) {
+          // API without /private/state (site deployed before the api): just
+          // keep the block hidden instead of showing an error to the user.
+          box.classList.add("hidden");
+          return null;
+        }
+        box.innerHTML =
+          row("servers", t.servers, state.servers) +
+          row("users", t.users, state.users);
+        box.classList.remove("hidden");
+        return state;
+      }
+
+      // Selfhosted account: no expiry and no shared connections, so the
+      // paid-only blocks (renew, traffic top-up, referral) make no sense.
+      // Hide them and show the hint while the account still has no nodes.
+      function applySelfhostedMode(liveConns) {
+        document.body.classList.add("plan-selfhosted");
+        // Inline style, not `.hidden`: `.secondary-btn`/`.renew-main-btn` set
+        // `display` later in the sheet and would override `.hidden`.
+        const hide = (id) => {
+          const el = document.getElementById(id);
+          if (el) el.style.display = "none";
+        };
+        hide("scrollToAdd");
+        hide("traffic-limit-block");
+        hide("topup-block");
+        hide("openReferralModal");
+
+        const banner = document.getElementById("urgency-banner");
+        if (banner) {
+          banner.className = "";
+          banner.innerHTML = "";
+        }
+
+        const empty = liveConns === 0;
+        document
+          .querySelectorAll(".connection-link-section, .quick-start-section")
+          .forEach((el) => el.classList.toggle("hidden", empty));
+        const emptyEl = document.getElementById("selfhosted-empty");
+        if (emptyEl) emptyEl.classList.toggle("hidden", !empty);
+
+        // Pull the "N of M" numbers from /private/state, then mount the users
+        // card (shared scripts/selfhosted-users.js): it lists, creates and
+        // revokes users and refreshes the counters through onChange, so no
+        // second /private/state request is needed.
+        refreshSelfhostedLimits().then((usage) => {
+          if (window.FRKNShUsers && typeof window.FRKNShUsers.mount === "function") {
+            window.FRKNShUsers.mount({
+              apiBase: API_BASE,
+              subId: getSubId(),
+              state: usage,
+              onChange: () => refreshSelfhostedLimits(),
+            });
+          }
+        });
+      }
+
       function renderSubscriptionData(data, subId, currentEnv) {
         const statusEl = document.getElementById("status-text");
         const daysEl = document.getElementById("days");
         const planKind = data.plan_kind || "standard";
+        const isSelfhosted = planKind === "selfhosted";
         const expiryDate = data.expires ? new Date(data.expires) : null;
         const usedBytes = data.used_bytes || 0;
         const limitBytes = data.limit_bytes || 0;
@@ -4601,6 +4779,8 @@
           : 0;
         const liteExhausted =
           planKind === "lite" && (usedBytes >= limitBytes || liveConns === 0);
+
+        if (isSelfhosted) applySelfhostedMode(liveConns);
 
         // Trial and Early Adopter badges
         // Early Adopter badges (Trial больше не раздаём — плашка убрана)
@@ -4673,7 +4853,7 @@
           if (!btn || !box || !cmd || !copyBtn || !subId) return;
           const key = "frkn-inst:" + subId;
           const defaultNote =
-            "Paste this on your server. The command lasts one hour. Don't request another — three slots.";
+            "Paste this on your server. The command lasts one hour. Don't request another — the account's server count is limited.";
           function readSaved() {
             try {
               const saved = JSON.parse(localStorage.getItem(key) || "null");
@@ -4720,6 +4900,21 @@
                 cmd.textContent = "";
                 box.classList.remove("hidden");
                 btn.classList.add("is-open");
+                return;
+              }
+              if (r.status === 409) {
+                // server_limit_reached / user_limit_reached: e.g. 3 of 3.
+                const info = (data && data.response) || {};
+                const used = Number(info.used) || 0;
+                const limit = Number(info.limit) || 0;
+                note.textContent =
+                  info.code === "user_limit_reached"
+                    ? `All users already used: ${used} of ${limit}. Delete one or contact support.`
+                    : `No free servers: ${used} of ${limit}. Delete a node in the cabinet or contact support.`;
+                cmd.textContent = "";
+                box.classList.remove("hidden");
+                btn.classList.add("is-open");
+                refreshSelfhostedLimits();
                 return;
               }
               const token = data.response && data.response.token;
@@ -5073,6 +5268,24 @@
           meta.textContent = `${c.proto || ""} · ${envName} · ${traffic}`;
           info.appendChild(name);
           info.appendChild(meta);
+          if (typeof c.include_in_main === "boolean") {
+            const mainFeedLabel = document.createElement("label");
+            mainFeedLabel.className = "device-main-feed device-item-meta";
+            mainFeedLabel.style.marginTop = "8px";
+            const mainFeed = document.createElement("input");
+            mainFeed.type = "checkbox";
+            mainFeed.className = "device-main-feed-checkbox";
+            mainFeed.dataset.connectionId = c.id;
+            mainFeed.checked = c.include_in_main;
+            mainFeed.addEventListener("change", () =>
+              updateDeviceMainFeed(c, mainFeed),
+            );
+            mainFeedLabel.appendChild(mainFeed);
+            mainFeedLabel.appendChild(
+              document.createTextNode("In the main subscription"),
+            );
+            info.appendChild(mainFeedLabel);
+          }
           const actions = document.createElement("div");
           actions.style.display = "flex";
           actions.style.alignItems = "center";
@@ -5095,6 +5308,34 @@
           listEl.appendChild(item);
         });
         if (emptyEl) emptyEl.classList.toggle("hidden", devices.length > 0);
+      }
+
+      async function updateDeviceMainFeed(conn, box) {
+        const previous = conn.include_in_main;
+        const includeInMain = box.checked;
+        box.disabled = true;
+        try {
+          const r = await fetch(
+            `${API_BASE}/devices/${encodeURIComponent(conn.id)}?subscription_id=${encodeURIComponent(devicesSubId)}`,
+            {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ include_in_main: includeInMain }),
+            },
+          );
+          const j = await r.json().catch(() => null);
+          if (r.ok && j && j.status === 200 && j.message === "ok") {
+            await refreshDevices();
+            return;
+          }
+          box.checked = previous;
+          alert("Failed to update the main subscription setting");
+        } catch (e) {
+          box.checked = previous;
+          alert("Network error — please try again");
+        } finally {
+          box.disabled = false;
+        }
       }
 
       async function refreshDevices() {
@@ -5562,16 +5803,7 @@
 
       function syncDeviceMainFeed() {
         const row = document.getElementById("deviceMainFeedRow");
-        const box = document.getElementById("deviceMainFeed");
-        const envSelect = document.getElementById("deviceEnvSelect");
-        if (!row) return;
-        const show =
-          deviceScope &&
-          deviceScope.kind === "personal" &&
-          envSelect &&
-          envSelect.value === deviceScope.env;
-        row.classList.toggle("hidden", !show);
-        if (!show && box) box.checked = false;
+        if (row) row.classList.remove("hidden");
       }
 
       // Server selector for the device pin (GET /devices/nodes). No default
@@ -7219,6 +7451,44 @@
           });
         }
 
+        // Create an empty selfhosted account — no activation key needed.
+        const createAccountBtn = document.getElementById(
+          "create-selfhosted-account",
+        );
+        if (createAccountBtn) {
+          createAccountBtn.addEventListener("click", async (e) => {
+            e.preventDefault();
+            if (error) error.textContent = "";
+            const label = createAccountBtn.textContent;
+            createAccountBtn.disabled = true;
+            createAccountBtn.textContent = "Creating…";
+            try {
+              const r = await fetch(`${API_BASE}/private/account`, {
+                method: "POST",
+              });
+              const data = await r.json().catch(() => ({}));
+              const id =
+                (data && data.response && data.response.subscription_id) ||
+                (data && data.subscription_id);
+              if (!r.ok || !id) {
+                if (error)
+                  error.textContent =
+                    "❌ Could not create the account, try again later";
+                return;
+              }
+              try {
+                localStorage.setItem("frkn_sub_id", id);
+              } catch (e2) {}
+              window.location.href = `/en/subscription?id=${encodeURIComponent(id)}`;
+            } catch (err) {
+              if (error) error.textContent = "❌ No connection to the API";
+            } finally {
+              createAccountBtn.disabled = false;
+              createAccountBtn.textContent = label;
+            }
+          });
+        }
+
         // Subscription renewal
         const renewDurationSelect = document.getElementById("renewDuration");
         const renewPromoInput = document.getElementById("renewPromo");
@@ -7232,6 +7502,27 @@
           : null;
         let appliedRenewPromo = null;
         let currentRenewDiscountedPrice = null;
+        // A renewal only ever stays on the subscription's product: durations
+        // and prices come from the catalogue (scripts/plans.js).
+        let renewProduct = window.__frknSubProduct || "standard";
+
+        window.addEventListener("frkn:subscription-loaded", async (e) => {
+          renewProduct = e.detail?.product || "standard";
+          if (window.FRKNPlans) await window.FRKNPlans.ready;
+          const keep =
+            window.FRKNPlans &&
+            window.FRKNPlans.renewOptions(
+              renewDurationSelect,
+              renewProduct,
+              selectedRenewDuration,
+            );
+          if (keep) {
+            selectedRenewDuration = keep;
+            appliedRenewPromo = null;
+            currentRenewDiscountedPrice = null;
+            updateRenewPriceDisplay();
+          }
+        });
 
         function getSelectedRenewPrice() {
           if (!renewDurationSelect) return 0;
@@ -7288,6 +7579,7 @@
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
                     duration: selectedRenewDuration,
+                    product: renewProduct,
                     promocode: code,
                   }),
                 },

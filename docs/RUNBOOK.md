@@ -33,13 +33,36 @@ Note: `dopamine/*.dmg|*.pkg` are gitignored but NOT excluded from rsync — they
 
 The Tor mirror (`nginx-onion.conf`) shares the same `/opt/frkn.org` root — `deploy-site.sh` updates it too, no extra step. Nginx config changes (any vhost) are NOT deployed by the scripts: `scp` the conf, `nginx -t && systemctl reload nginx`.
 
+### Dopamine release (`dopamine/`)
+
+The Dopamine landing lives on **frkn.app**, not frkn.org: nginx serves
+`/opt/frkn.app/dopamine/index.html` as `https://frkn.app/` and
+`/opt/frkn.app/dopamine/en/index.html` as `https://frkn.app/en/`.
+Exact page paths (`/dopamine`, `/dopamine/`, `/dopamine/index.html`, `/dopamine/en/…`)
+301-redirect to the root; files under `/dopamine/` (pkg/apk/bin) are still served as-is.
+`frkn.org/dopamine/*` also redirects to frkn.app.
+
+1. Drop builds into `dopamine/` — `*.pkg|*.msi|*.apk|*.bin` are gitignored.
+2. Bump links + version badge in `dopamine/index.html` and `dopamine/en/index.html`.
+3. Deploy: `./deploy-app.sh` (whole tree), or dopamine-only to avoid shipping unrelated WIP:
+   ```bash
+   RSYNC_RSH="ssh -i ~/.ssh/ed25519_frkn" \
+     rsync -av --chmod=F644 dopamine/index.html root@141.133.173.16:/opt/frkn.app/dopamine/
+   # same for dopamine/en/index.html → /opt/frkn.app/dopamine/en/
+   # and the new binaries → /opt/frkn.app/dopamine/
+   ```
+4. Check: `curl -s https://frkn.app/ | grep -o 'v4\.8\.14\.[0-9]*'`,
+   `curl -s https://frkn.app/en/ | …`, and
+   `curl -sI https://frkn.app/dopamine/<file>` → 200 + Content-Length = local size.
+   `/opt/frkn.org` is a legacy copy and is NOT what frkn.app serves.
+
 ## CI
 
 `.github/workflows/pages.yml` — "Deploy static content to Pages". Triggers: push to `main` + `workflow_dispatch`. Steps: checkout → configure-pages → upload-pages-artifact (repo root) → deploy-pages. No build, no tests.
 
 ## Quality checks
 
-Two site-local sanity tools: a **mock API server** (no api.frkn.org needed) and an **e2e test** for the subscription wizard.
+Site-local sanity tools: a **mock API server** (no api.frkn.org needed) and **jsdom e2e tests** for the subscription cabinet.
 
 ### Mock API for /subscription (AWG wizard, devices, email binding)
 
@@ -124,12 +147,48 @@ through JSZip. Fixtures are shared with the mock API (`serve.js` exports
 `AWG_NODES`). Skips with exit 0 if jsDelivr is unreachable. Exit 0/1 so it
 can be hooked to CI later.
 
+### e2e — named devices in the main subscription
+
+```bash
+cd tools/e2e && npm install && node devices-main-feed-test.mjs
+AWG_E2E_LANG=en node devices-main-feed-test.mjs
+AWG_E2E_PAGE=app node devices-main-feed-test.mjs  # Telegram Mini App (RU)
+```
+
+jsdom-driven test with no live server or CDN dependency. Checks RU/EN labels,
+initial true/false states, default and explicit `include_in_main` create
+payloads, preserving the create choice across environment changes, PATCH
+method/URL/body and pending state, refresh after success, and rollback with a
+localized error after failure. Fixtures are shared with `mock-api/serve.js`.
+
+### e2e — selfhosted account
+
+```bash
+cd tools/e2e && npm install && node selfhosted-account-test.mjs
+AWG_E2E_LANG=en node selfhosted-account-test.mjs
+```
+
+jsdom-driven test with no live server or CDN dependency. For
+`plan_kind=selfhosted` it asserts the paid-only blocks (renew, traffic top-up,
+referral) are not rendered and the «no nodes yet» empty state shows while the
+account has no connections; for `plan_kind=standard` it asserts they stay. It
+also checks the limits block fed by `GET /private/state` («Серверы: 1 из 3 ·
+свободно 2» / «Servers: 1 of 3 · free 2», the amber `is-full` marker at 3/3)
+and that a `409 server_limit_reached` from `POST /private/install-token` shows
+the localized "no free servers" message instead of an install command. On the
+error screen it clicks «Create a selfhosted account», checks the
+`POST /private/account` call, the stored uuid (used for the redirect) and the
+localized error on failure. Keeps the inline `<style>` so the computed
+`display` of the hidden buttons is real.
+
 After any edit to /subscription verify manually:
 
 1. `docker build -t frkn-org . && docker run --rm -p 8080:80 frkn-org`
 2. `curl http://localhost:8080/health` → `ok`
 3. `cd tools/e2e && node awg-zip-test.mjs` → ✅
-4. Open affected pages in browser; check console for fetch errors and 404s on partials/assets.
+4. `node devices-main-feed-test.mjs && AWG_E2E_LANG=en node devices-main-feed-test.mjs` → ✅
+5. `node selfhosted-account-test.mjs && AWG_E2E_LANG=en node selfhosted-account-test.mjs` → ✅
+6. Open affected pages in browser; check console for fetch errors and 404s on partials/assets.
 
 ## Screenshots (visual check)
 

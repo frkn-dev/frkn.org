@@ -413,7 +413,7 @@
         margin-bottom: 6px;
       }
 
-      .device-form label.device-main-feed {
+      label.device-main-feed {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -421,11 +421,11 @@
         color: var(--text);
       }
 
-      .device-form label.device-main-feed.hidden {
+      label.device-main-feed.hidden {
         display: none;
       }
 
-      .device-form label.device-main-feed input {
+      label.device-main-feed input {
         width: auto;
         padding: 0;
       }
@@ -2839,6 +2839,49 @@
         font-size: 13px;
       }
 
+      .selfhosted-empty {
+        margin: 0 0 16px;
+        padding: 16px;
+        border: 1px dashed rgba(91, 124, 250, 0.5);
+        border-radius: 12px;
+        background: rgba(91, 124, 250, 0.08);
+      }
+
+      .selfhosted-empty h3 {
+        margin: 0 0 8px;
+        font-size: 1.05rem;
+      }
+
+      .selfhosted-empty p {
+        margin: 0 0 10px;
+        opacity: 0.85;
+      }
+
+      .selfhosted-create {
+        margin-top: 16px;
+      }
+
+      /* Лимиты selfhosted-аккаунта: серверы (свои ноды) и пользователи
+         (child-подписки) — «N из M». */
+      .selfhosted-limits {
+        margin: 0 0 14px;
+        padding: 12px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        font-size: 13px;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .selfhosted-limits .selfhosted-limit-row b {
+        color: #fff;
+      }
+
+      .selfhosted-limits .is-full {
+        color: #fbbf24;
+      }
+
       .traffic-summary {
         border-top: 1px solid var(--border);
         padding-top: 20px;
@@ -3280,6 +3323,16 @@
           ></div>
         </form>
 
+        <div class="selfhosted-create">
+          <p class="small">
+            Нет подписки? Подними свою ноду — selfhosted-аккаунт создаётся
+            сразу, без ключа активации.
+          </p>
+          <button id="create-selfhosted-account" class="btn ghost" type="button">
+            Создать selfhosted-аккаунт
+          </button>
+        </div>
+
         <div class="error-actions">
           <a href="https://t.me/frkn_support"
             ><button class="btn try">Написать в поддержку</button></a
@@ -3433,6 +3486,17 @@
 
           <!-- Блок 2: Подключение -->
           <div class="dashboard-card connection-card">
+            <div class="selfhosted-empty hidden" id="selfhosted-empty">
+              <h3>Своих нод пока нет</h3>
+              <p>
+                Аккаунт создан. Поставь ноду на своём сервере — и в подписке
+                появятся твои серверы. Команда установки — за кнопкой «Своя
+                нода» ниже.
+              </p>
+              <a class="node-install-more" href="/selfhosted/"
+                >Инструкция по установке</a
+              >
+            </div>
             <div class="connection-link-section">
               <div class="connection-title-row">
                 <h2>
@@ -3562,6 +3626,13 @@
               </div>
             </div>
 
+            <!-- Лимиты аккаунта: сколько своих нод и пользователей можно
+                 завести. Показывается только в selfhosted-режиме. -->
+            <div class="selfhosted-limits hidden" id="selfhosted-limits"></div>
+            <!-- Пользователи selfhosted-аккаунта (child-подписки на своих
+                 нодах): список, создание, отзыв. Рисует
+                 scripts/selfhosted-users.js. -->
+            <div class="selfhosted-users hidden" id="selfhosted-users"></div>
             <div class="node-install-row">
               <button
                 class="device-picker-toggle"
@@ -3725,9 +3796,9 @@
                 <label for="deviceNodeSelect">Сервер</label>
                 <select id="deviceNodeSelect"></select>
               </div>
-              <label class="device-main-feed hidden" id="deviceMainFeedRow">
+              <label class="device-main-feed" id="deviceMainFeedRow">
                 <input type="checkbox" id="deviceMainFeed" />
-                Добавить сервер в общую подписку
+                Добавить устройство в общую подписку
               </label>
               <div class="device-form-error" id="deviceFormError"></div>
               <button type="button" class="btn try" id="deviceSubmitBtn">
@@ -4037,6 +4108,8 @@
     </div>
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/utils.js?v=1"></script>
+    <script src="/scripts/plans.js?v=6"></script>
+    <script src="/scripts/selfhosted-users.js?v=1"></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script src="/scripts/lk-tour.js?v=1" defer></script>
@@ -4302,6 +4375,14 @@
 
           showSuccess();
           renderSubscriptionData(data, subId, currentEnv);
+          // Продление всегда остаётся на продукте подписки, поэтому страница
+          // берёт цены продукта из каталога (scripts/plans.js).
+          window.__frknSubProduct = data.product || "standard";
+          window.dispatchEvent(
+            new CustomEvent("frkn:subscription-loaded", {
+              detail: { id: subId, product: window.__frknSubProduct },
+            }),
+          );
           initEmailBinding(subId);
           initDevices(data, subId);
         } catch (err) {
@@ -4630,6 +4711,7 @@
         const statusEl = document.getElementById("status-text");
         const daysEl = document.getElementById("days");
         const planKind = data.plan_kind || "standard";
+        const isSelfhosted = planKind === "selfhosted";
         const expiryDate = data.expires ? new Date(data.expires) : null;
         const usedBytes = data.used_bytes || 0;
         const limitBytes = data.limit_bytes || 0;
@@ -4638,6 +4720,8 @@
           : 0;
         const liteExhausted =
           planKind === "lite" && (usedBytes >= limitBytes || liveConns === 0);
+
+        if (isSelfhosted) applySelfhostedMode(liveConns);
 
         // Early Adopter badges (Trial больше не раздаём — плашка убрана)
         const earlyAdopterPill = document.getElementById("early-adopter-pill");
@@ -4709,7 +4793,7 @@
           if (!btn || !box || !cmd || !copyBtn || !subId) return;
           const key = "frkn-inst:" + subId;
           const defaultNote =
-            "Вставь на своём сервере. Команда живёт час. Повторно не жми — слотов три.";
+            "Вставь на своём сервере. Команда живёт час. Повторно не жми — число серверов у аккаунта ограничено.";
           function readSaved() {
             try {
               const saved = JSON.parse(localStorage.getItem(key) || "null");
@@ -4755,6 +4839,20 @@
                   "Уже три живых команды. Подожди час или поставь ноду одной из прошлых.";
                 cmd.textContent = "";
                 setOpen(true);
+                return;
+              }
+              if (r.status === 409) {
+                // server_limit_reached / user_limit_reached: 3 из 3 и т.п.
+                const info = (data && data.response) || {};
+                const used = Number(info.used) || 0;
+                const limit = Number(info.limit) || 0;
+                note.textContent =
+                  info.code === "user_limit_reached"
+                    ? `Пользователей уже ${used} из ${limit}. Удали лишнего или напиши в поддержку.`
+                    : `Свободных серверов нет: ${used} из ${limit}. Удали ноду в кабинете или напиши в поддержку.`;
+                cmd.textContent = "";
+                setOpen(true);
+                refreshSelfhostedLimits();
                 return;
               }
               const token = data.response && data.response.token;
@@ -4804,6 +4902,102 @@
         document.getElementById("qr-modal").onclick = () => {
           document.getElementById("qr-modal").classList.add("hidden");
         };
+
+        // Лимиты selfhosted-аккаунта: серверы (свои ноды) и пользователи
+        // (child-подписки) — «N из M · свободно K». GET /private/state —
+        // источник цифр для блока выше и для сообщения «слотов нет» при
+        // выдаче команды установки. Тексты держим внутри функции, чтобы не
+        // зависеть от порядка выполнения соседних констант.
+        async function refreshSelfhostedLimits() {
+          const box = document.getElementById("selfhosted-limits");
+          const subId = getSubId();
+          if (!box || !subId) return null;
+          const t = {
+            servers: "Серверы",
+            users: "Пользователи",
+            of: "из",
+            free: "свободно",
+            full: "свободных слотов нет",
+          };
+          const row = (kind, label, usage) => {
+            const used = Number(usage && usage.used) || 0;
+            const limit = Number(usage && usage.limit) || 0;
+            const remaining = Math.max(
+              0,
+              Number(usage && usage.remaining) || limit - used,
+            );
+            const free = remaining > 0 ? `${t.free} ${remaining}` : t.full;
+            return (
+              `<div class="selfhosted-limit-row" data-kind="${kind}">` +
+              `${label}: <b class="${used >= limit ? "is-full" : ""}">${used}</b> ` +
+              `${t.of} <b>${limit}</b> · ${free}</div>`
+            );
+          };
+          let state = null;
+          try {
+            const r = await fetch(
+              `${API_BASE}/private/state?subscription_id=${encodeURIComponent(subId)}`,
+            );
+            const data = await r.json().catch(() => ({}));
+            if (r.ok && data && data.response) state = data.response;
+          } catch (e) {}
+          if (!state) {
+            // API без /private/state (сайт задеплоен раньше api): просто не
+            // показываем блок, а не пугаем пользователя ошибкой.
+            box.classList.add("hidden");
+            return null;
+          }
+          box.innerHTML =
+            row("servers", t.servers, state.servers) +
+            row("users", t.users, state.users);
+          box.classList.remove("hidden");
+          return state;
+        }
+
+        // Selfhosted-аккаунт: без срока истечения и без общих подключений,
+        // поэтому платные блоки (продление, докупка трафика, реферал) тут не
+        // имеют смысла. Скрываем их и показываем подсказку, пока нет нод.
+        function applySelfhostedMode(liveConns) {
+          document.body.classList.add("plan-selfhosted");
+          // Инлайн-стиль, а не .hidden: .secondary-btn/.renew-main-btn задают
+          // display позже в таблице стилей и перебивают .hidden.
+          const hide = (id) => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = "none";
+          };
+          hide("scrollToAdd");
+          hide("traffic-limit-block");
+          hide("topup-block");
+          hide("openReferralModal");
+
+          const banner = document.getElementById("urgency-banner");
+          if (banner) {
+            banner.className = "";
+            banner.innerHTML = "";
+          }
+
+          const empty = liveConns === 0;
+          document
+            .querySelectorAll(".connection-link-section, .quick-start-section")
+            .forEach((el) => el.classList.toggle("hidden", empty));
+          const emptyEl = document.getElementById("selfhosted-empty");
+          if (emptyEl) emptyEl.classList.toggle("hidden", !empty);
+
+          // Цифры «N из M» подтягиваем из /private/state, а затем монтируем
+          // карточку пользователей (общий скрипт scripts/selfhosted-users.js):
+          // она показывает список, создание и отзыв, а счётчики обновляет
+          // через onChange — второго запроса /private/state не нужно.
+          refreshSelfhostedLimits().then((usage) => {
+            if (window.FRKNShUsers && typeof window.FRKNShUsers.mount === "function") {
+              window.FRKNShUsers.mount({
+                apiBase: API_BASE,
+                subId: getSubId(),
+                state: usage,
+                onChange: () => refreshSelfhostedLimits(),
+              });
+            }
+          });
+        }
 
         function renderUrgencyBanner(diffMs, diffDays, planKind) {
           const banner = document.getElementById("urgency-banner");
@@ -5146,6 +5340,24 @@
           meta.textContent = `${c.proto || ""} · ${envName} · ${traffic}`;
           info.appendChild(name);
           info.appendChild(meta);
+          if (typeof c.include_in_main === "boolean") {
+            const mainFeedLabel = document.createElement("label");
+            mainFeedLabel.className = "device-main-feed device-item-meta";
+            mainFeedLabel.style.marginTop = "8px";
+            const mainFeed = document.createElement("input");
+            mainFeed.type = "checkbox";
+            mainFeed.className = "device-main-feed-checkbox";
+            mainFeed.dataset.connectionId = c.id;
+            mainFeed.checked = c.include_in_main;
+            mainFeed.addEventListener("change", () =>
+              updateDeviceMainFeed(c, mainFeed),
+            );
+            mainFeedLabel.appendChild(mainFeed);
+            mainFeedLabel.appendChild(
+              document.createTextNode("В общей подписке"),
+            );
+            info.appendChild(mainFeedLabel);
+          }
           const actions = document.createElement("div");
           actions.style.display = "flex";
           actions.style.alignItems = "center";
@@ -5168,6 +5380,34 @@
           listEl.appendChild(item);
         });
         if (emptyEl) emptyEl.classList.toggle("hidden", devices.length > 0);
+      }
+
+      async function updateDeviceMainFeed(conn, box) {
+        const previous = conn.include_in_main;
+        const includeInMain = box.checked;
+        box.disabled = true;
+        try {
+          const r = await fetch(
+            `${API_BASE}/devices/${encodeURIComponent(conn.id)}?subscription_id=${encodeURIComponent(devicesSubId)}`,
+            {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ include_in_main: includeInMain }),
+            },
+          );
+          const j = await r.json().catch(() => null);
+          if (r.ok && j && j.status === 200 && j.message === "ok") {
+            await refreshDevices();
+            return;
+          }
+          box.checked = previous;
+          alert("Не удалось изменить настройку общей подписки");
+        } catch (e) {
+          box.checked = previous;
+          alert("Сетевая ошибка — попробуйте ещё раз");
+        } finally {
+          box.disabled = false;
+        }
       }
 
       async function refreshDevices() {
@@ -5642,16 +5882,7 @@
 
       function syncDeviceMainFeed() {
         const row = document.getElementById("deviceMainFeedRow");
-        const box = document.getElementById("deviceMainFeed");
-        const envSelect = document.getElementById("deviceEnvSelect");
-        if (!row) return;
-        const show =
-          deviceScope &&
-          deviceScope.kind === "personal" &&
-          envSelect &&
-          envSelect.value === deviceScope.env;
-        row.classList.toggle("hidden", !show);
-        if (!show && box) box.checked = false;
+        if (row) row.classList.remove("hidden");
       }
 
       // Server selector for the device pin (GET /devices/nodes). No default
@@ -7299,6 +7530,44 @@
           });
         }
 
+        // Создание пустого selfhosted-аккаунта без ключа активации.
+        const createAccountBtn = document.getElementById(
+          "create-selfhosted-account",
+        );
+        if (createAccountBtn) {
+          createAccountBtn.addEventListener("click", async (e) => {
+            e.preventDefault();
+            if (error) error.textContent = "";
+            const label = createAccountBtn.textContent;
+            createAccountBtn.disabled = true;
+            createAccountBtn.textContent = "Создаём…";
+            try {
+              const r = await fetch(`${API_BASE}/private/account`, {
+                method: "POST",
+              });
+              const data = await r.json().catch(() => ({}));
+              const id =
+                (data && data.response && data.response.subscription_id) ||
+                (data && data.subscription_id);
+              if (!r.ok || !id) {
+                if (error)
+                  error.textContent =
+                    "❌ Не удалось создать аккаунт, попробуй позже";
+                return;
+              }
+              try {
+                localStorage.setItem("frkn_sub_id", id);
+              } catch (e2) {}
+              window.location.href = `/subscription?id=${encodeURIComponent(id)}`;
+            } catch (err) {
+              if (error) error.textContent = "❌ Нет связи с API";
+            } finally {
+              createAccountBtn.disabled = false;
+              createAccountBtn.textContent = label;
+            }
+          });
+        }
+
         // Продление подписки
         const renewDurationSelect = document.getElementById("renewDuration");
         const renewPromoInput = document.getElementById("renewPromo");
@@ -7312,6 +7581,27 @@
           : null;
         let appliedRenewPromo = null;
         let currentRenewDiscountedPrice = null;
+        // Продление только на продукт подписки: срок и цены — из каталога
+        // (scripts/plans.js), сменить продукт при продлении нельзя.
+        let renewProduct = window.__frknSubProduct || "standard";
+
+        window.addEventListener("frkn:subscription-loaded", async (e) => {
+          renewProduct = e.detail?.product || "standard";
+          if (window.FRKNPlans) await window.FRKNPlans.ready;
+          const keep =
+            window.FRKNPlans &&
+            window.FRKNPlans.renewOptions(
+              renewDurationSelect,
+              renewProduct,
+              selectedRenewDuration,
+            );
+          if (keep) {
+            selectedRenewDuration = keep;
+            appliedRenewPromo = null;
+            currentRenewDiscountedPrice = null;
+            updateRenewPriceDisplay();
+          }
+        });
 
         function getSelectedRenewPrice() {
           if (!renewDurationSelect) return 0;
@@ -7368,6 +7658,7 @@
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({
                     duration: selectedRenewDuration,
+                    product: renewProduct,
                     promocode: code,
                   }),
                 },

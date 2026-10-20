@@ -60,6 +60,7 @@ Features:
 - QR code (jsDelivr `qrcode` lib) of the connection link.
 - Client picker from local `vpn-clients.json` (3.6 KB): dopamine, happ, v2raytun, hiddify, streisand, shadowrocket, etc.
 - Traffic/connection details: `GET /info/connections/wireguard`, `/info/connections/amneziawg`.
+- Named devices (same controls in `subscription/`, `en/subscription/`, `app/`): the create form always shows an unchecked-by-default «include in main subscription» checkbox and sends it as `include_in_main` in `POST /devices`. For every named connection with a boolean `include_in_main`, the list shows a checkbox initialized from the API. Changes use `PATCH /devices/{connectionId}?subscription_id=...`, disable the checkbox while pending, refresh on success, and restore the previous state with a localized error on failure.
 - Bulk `.conf` archives via client-side JSZip (jsDelivr `jszip`) in the AWG wizard step, three buttons (same logic in `subscription/`, `en/subscription/`, `app/`):
   - **«Скачать все»** (`#awg-download-all`) → `frkn-awg-<env>.zip`: configs exactly as the API serves them, every node, untouched (the API emits **AmneziaWG 3.1** configs).
   - **«AmneziaWG 3.x»** (`#awg-download-all-3x`) → `frkn-awg-<env>-awg3x.zip`: `toAwgClientConfig(config, "3.1")` — every node, the full 3.1 `[Interface]` key set kept, empty values (`I2 = `) and comments dropped. Needs an official client from Aug 2026 or newer (Windows 3.1.0, Android v3.1.20260814 from GitHub releases, iOS/macOS with the 3.1 parser).
@@ -68,6 +69,8 @@ Features:
   - Field matrix verified against amneziawg-windows `conf/parser.go` (master, v0.2.0), amneziawg-android `Interface.java` (2.0.1, v3.0.1, master), `Tunnel.java`, amneziawg-tools `awg-quick`.
 - Email binding: `POST /validate/email` → `POST /account`.
 - Key activation, referral (`GET /referrals?code=`), renewal with promocode → `POST /payment/platega/subscription/create`.
+- Selfhosted account (`plan_kind=selfhosted`, `expires=null`, personal env, no shared connections): the error screen's «Создать selfhosted-аккаунт» / «Create a selfhosted account» button opens one with `POST /private/account` and redirects to `?id=<uuid>` (existing UUID form stays as login). In the cabinet, `applySelfhostedMode()` hides the paid-only blocks (renew `#scrollToAdd`, traffic top-up `#traffic-limit-block`/`#topup-block`, referral `#openReferralModal`) and, while the account has no live connections, hides the connection/quick-start sections and shows `#selfhosted-empty` with the install guide. Hiding uses inline `style.display` because `.secondary-btn`/`.renew-main-btn` set `display` after `.hidden`.
+- Selfhosted limits: `applySelfhostedMode()` also calls `refreshSelfhostedLimits()` (`GET /private/state?subscription_id=`) and renders `#selfhosted-limits` as «Серверы: N из M · свободно K» / «Servers: N of M · free K» (users row likewise; the used number turns amber via `.is-full` once it reaches the cap). «Своя нода» (`POST /private/install-token`) shows a localized message instead of a command on `409` `server_limit_reached` / `user_limit_reached` and re-reads the counters. Standard plans never show the block.
 
 ## `sub/` — short-code entry to the cabinet
 
