@@ -649,6 +649,8 @@
         <a href="/en/activate" class="text-link">Activate it here</a>
       </p>
 
+      <div id="product-chips" class="product-chips" style="display: none"></div>
+
       <div class="pricing-section">
         <div class="pricing-grid pricing-grid-main">
           <div class="price-card accent-border" data-duration="30" data-price="6.50">
@@ -871,6 +873,11 @@
 
     <script src="/scripts/utils.js?v=1"></script>
     <script>
+      // Catalogue prices are in roubles; this market displays dollars.
+      window.FRKN_PLAN_CURRENCY = { rate: 0.013, symbol: "$", prefix: true };
+    </script>
+    <script src="/scripts/plans.js?v=1"></script>
+    <script>
       // --- Configuration ---
       const isLocal =
         window.location.hostname === "localhost" ||
@@ -1029,6 +1036,7 @@
           const btn = card.querySelector(".buy-button");
           const duration = parseInt(btn.dataset.duration);
           const basePrice = parseInt(btn.dataset.price);
+          const product = btn.dataset.product || "standard";
           try {
             const response = await apiFetch(
               `/promocode/validate`,
@@ -1037,6 +1045,7 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                   duration,
+                  product,
                   promocode: promoCode.toUpperCase(),
                 }),
               },
@@ -1069,6 +1078,23 @@
       }
 
       // --- Update modal display (for CURRENT order) ---
+      // What the chosen tariff product includes (known by scripts/plans.js).
+      function syncProductIncludes() {
+        if (!modalTotalWrapper || !currentOrder) return;
+        const list = window.FRKNPlans
+          ? window.FRKNPlans.includes(currentOrder.product)
+          : [];
+        if (!list.length) return;
+        const ul = document.createElement("ul");
+        ul.id = "product-includes";
+        list.forEach((line) => {
+          const li = document.createElement("li");
+          li.textContent = "• " + line;
+          ul.appendChild(li);
+        });
+        modalTotalWrapper.appendChild(ul);
+      }
+
       function updateModalDisplay() {
         if (!currentOrder) return;
         const { duration, price: finalPrice, originalPrice } = currentOrder;
@@ -1079,6 +1105,7 @@
         } else {
           modalTotalWrapper.innerHTML = `<div><div class="modal-total">$${finalPrice}</div><div style="font-size: 14px; margin-top: 8px; color: #888;">≈ $${pricePerDay}/day</div></div>`;
         }
+        syncProductIncludes();
       }
 
       // --- Apply promo code to CURRENT order in modal ---
@@ -1104,6 +1131,7 @@
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 duration: currentOrder.duration,
+                product: currentOrder.product,
                 promocode: promoValue,
               }),
             },
@@ -1185,12 +1213,25 @@
         let originalPrice = basePrice;
         if (element && element.dataset.discountedPrice)
           finalPrice = parseInt(element.dataset.discountedPrice);
+        // Tariff product: plan cards carry it in the DOM, traffic packages
+        // (lite) are always the classic product.
+        const trafficGib =
+          element && element.dataset.gb ? parseInt(element.dataset.gb) : null;
+        const product = trafficGib
+          ? "standard"
+          : (element && element.dataset.product) ||
+            (window.FRKNPlans && window.FRKNPlans.selected) ||
+            "standard";
         currentOrder = {
           duration: parseInt(duration),
           price: finalPrice,
           originalPrice: originalPrice,
           promo: null,
           referral: null,
+          kind: trafficGib ? "lite" : "standard",
+          product: product,
+          trafficGib: trafficGib,
+          altPrice: element && element.dataset.alt === "true",
         };
         promoInput.value = urlPromoCode || "";
         promoInput.style.borderColor = "";
@@ -1249,13 +1290,28 @@
           if (applyRefBtn) applyRefBtn.style.display = "flex";
         }
         updateModalDisplay();
+        const productName =
+          window.FRKNPlans && currentOrder.product !== "standard"
+            ? window.FRKNPlans.name(currentOrder.product)
+            : null;
         document.getElementById("modal-title").innerHTML =
-          `Checkout<br>for ${duration} days`;
+          `Checkout<br>for ${duration} days${
+            productName ? ` · ${productName}` : ""
+          }`;
         paymentModal.classList.add("active");
       }
 
       // --- Page initialization ---
       async function initializePage() {
+        // scripts/plans.js may re-render the cards; wait for the catalogue so
+        // per-day prices and promos use the actual prices.
+        if (window.FRKNPlans) {
+          try {
+            await window.FRKNPlans.ready;
+          } catch (e) {
+            console.warn("[pay] plans catalogue failed:", e);
+          }
+        }
         // 1. Base prices per day
         document.querySelectorAll(".price-card").forEach((card) => {
           const btn = card.querySelector(".buy-button");
@@ -1274,12 +1330,16 @@
       }
 
       // --- Event handlers ---
-      document.querySelectorAll(".buy-button").forEach((btn) =>
-        btn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          openModal(btn.dataset.duration, btn.dataset.price, btn);
-        }),
-      );
+      // Delegated: scripts/plans.js may (re)render the plan cards.
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".buy-button");
+        if (!btn) return;
+        openModal(btn.dataset.duration, btn.dataset.price, btn);
+      });
+      // Switching the tariff product re-renders the cards: restore the URL promo.
+      window.addEventListener("frkn:plans-rendered", () => {
+        if (urlPromoCode) applyDiscountToCards(urlPromoCode);
+      });
       document
         .getElementById("apply-promo-btn")
         ?.addEventListener("click", () =>
@@ -1335,6 +1395,7 @@
                 },
                 body: JSON.stringify({
                   duration: currentOrder.duration,
+                  product: currentOrder.product,
                   promocode: currentOrder.promo || null,
                   refCode: currentOrder.referral || null,
                 }),
@@ -1380,6 +1441,7 @@
               },
               body: JSON.stringify({
                 duration: currentOrder.duration,
+                product: currentOrder.product,
                 promocode: currentOrder.promo || null,
                 refCode: currentOrder.referral || null,
               }),

@@ -815,6 +815,7 @@
               <h3>1 ГБ</h3>
               <div class="duration">живёт, пока не кончится</div>
               <div class="cost-wrapper">
+                <span class="old-price"></span>
                 <div class="cost">67₽</div>
               </div>
               <button
@@ -845,6 +846,7 @@
               <h3>5 ГБ</h3>
               <div class="duration">живёт, пока не кончится</div>
               <div class="cost-wrapper">
+                <span class="old-price"></span>
                 <div class="cost">167₽</div>
               </div>
               <button
@@ -875,6 +877,7 @@
               <h3>10 ГБ</h3>
               <div class="duration">живёт, пока не кончится</div>
               <div class="cost-wrapper">
+                <span class="old-price"></span>
                 <div class="cost">267₽</div>
               </div>
               <button
@@ -905,6 +908,7 @@
               <h3>50 ГБ</h3>
               <div class="duration">живёт, пока не кончится</div>
               <div class="cost-wrapper">
+                <span class="old-price"></span>
                 <div class="cost">367₽</div>
               </div>
               <button
@@ -930,6 +934,11 @@
       </div>
 
       <div id="section-unlimited">
+        <div
+          id="product-chips"
+          class="product-chips"
+          style="display: none"
+        ></div>
         <div class="pricing-section">
           <div class="pricing-grid pricing-grid-main">
             <div
@@ -1174,6 +1183,7 @@
     </div>
 
     <script src="/scripts/utils.js?v=1"></script>
+    <script src="/scripts/plans.js?v=1"></script>
     <script>
       // --- Конфигурация ---
       const isLocal =
@@ -1337,6 +1347,7 @@
           const duration = parseInt(btn.dataset.duration);
           const basePrice = parseInt(btn.dataset.price);
           const gb = btn.dataset.gb ? parseInt(btn.dataset.gb) : null;
+          const product = gb ? "standard" : btn.dataset.product || "standard";
           try {
             const response = await apiFetch(`/promocode/validate`, {
               method: "POST",
@@ -1344,6 +1355,7 @@
               body: JSON.stringify({
                 duration,
                 ...(gb ? { kind: "lite", traffic_gib: gb } : {}),
+                product,
                 promocode: promoCode.toUpperCase(),
               }),
             });
@@ -1379,6 +1391,23 @@
       }
 
       // --- Обновление отображения в модалке (для ТЕКУЩЕГО заказа) ---
+      // Что входит в выбранный тарифный продукт (состав известен scripts/plans.js).
+      function syncProductIncludes() {
+        if (!modalTotalWrapper || !currentOrder) return;
+        const list = window.FRKNPlans
+          ? window.FRKNPlans.includes(currentOrder.product)
+          : [];
+        if (!list.length) return;
+        const ul = document.createElement("ul");
+        ul.id = "product-includes";
+        list.forEach((line) => {
+          const li = document.createElement("li");
+          li.textContent = "• " + line;
+          ul.appendChild(li);
+        });
+        modalTotalWrapper.appendChild(ul);
+      }
+
       function syncPayButtons() {
         if (!plantaPayBtn || !currentOrder) return;
         plantaPayBtn.style.display = "";
@@ -1394,6 +1423,7 @@
             finalPrice < originalPrice
               ? `<div><span class="modal-old-price">${originalPrice}₽</span><span class="modal-discount-price">${finalPrice}₽</span><div style="font-size: 14px; margin-top: 8px; color: #22c55e;">${gbLabel}</div></div>`
               : `<div><div class="modal-total">${finalPrice}₽</div><div style="font-size: 14px; margin-top: 8px; color: #888;">${gbLabel}</div></div>`;
+          syncProductIncludes();
           syncPayButtons();
           return;
         }
@@ -1404,6 +1434,7 @@
         } else {
           modalTotalWrapper.innerHTML = `<div><div class="modal-total">${finalPrice}₽</div><div style="font-size: 14px; margin-top: 8px; color: #888;">≈ ${pricePerDay}₽/день</div></div>`;
         }
+        syncProductIncludes();
         syncPayButtons();
       }
 
@@ -1435,6 +1466,7 @@
                     alt_price: currentOrder.altPrice === true,
                   }
                 : {}),
+              product: currentOrder.product,
               promocode: promoValue,
             }),
           });
@@ -1523,6 +1555,13 @@
         }
         const trafficGib =
           element && element.dataset.gb ? parseInt(element.dataset.gb) : null;
+        // Тарифный продукт. Пакеты трафика (lite) всегда «стандартный» продукт;
+        // у карточек тарифов продукт лежит в DOM (иначе — выбранный чип).
+        const product = trafficGib
+          ? "standard"
+          : (element && element.dataset.product) ||
+            (window.FRKNPlans && window.FRKNPlans.selected) ||
+            "standard";
         currentOrder = {
           duration: parseInt(duration),
           price: finalPrice,
@@ -1530,6 +1569,7 @@
           promo: null,
           referral: null,
           kind: trafficGib ? "lite" : "standard",
+          product: product,
           trafficGib: trafficGib,
           altPrice: override ? override.alt === true : false,
         };
@@ -1591,14 +1631,29 @@
           if (applyRefBtn) applyRefBtn.style.display = "flex";
         }
         updateModalDisplay();
+        const productName =
+          !trafficGib && window.FRKNPlans
+            ? window.FRKNPlans.name(currentOrder.product)
+            : null;
         document.getElementById("modal-title").innerHTML = trafficGib
           ? `Покупка трафика<br>${trafficGib} ГБ`
-          : `Оформление подписки<br>на ${duration} дней`;
+          : `Оформление подписки<br>на ${duration} дней${
+              productName ? ` · ${productName}` : ""
+            }`;
         paymentModal.classList.add("active");
       }
 
       // --- Инициализация страницы ---
       async function initializePage() {
+        // Каталог тарифов (scripts/plans.js) может перерисовать карточки —
+        // ждём его, чтобы ₽/день и промо считались по актуальным ценам.
+        if (window.FRKNPlans) {
+          try {
+            await window.FRKNPlans.ready;
+          } catch (e) {
+            console.warn("[pay] plans catalogue failed:", e);
+          }
+        }
         // 1. Базовые цены за день
         document.querySelectorAll(".price-card").forEach((card) => {
           const btn = card.querySelector(".buy-button");
@@ -1625,19 +1680,23 @@
           ? raw
           : null;
       }
-      document.querySelectorAll(".buy-button").forEach((btn) =>
-        btn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          openModal(
-            btn.dataset.duration,
-            btn.dataset.price,
-            btn,
-            btn.dataset.alt === "true"
-              ? { price: parseInt(btn.dataset.price, 10), alt: true }
-              : undefined,
-          );
-        }),
-      );
+      // Делегирование: карточки тарифов может перерисовать scripts/plans.js.
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".buy-button");
+        if (!btn) return;
+        openModal(
+          btn.dataset.duration,
+          btn.dataset.price,
+          btn,
+          btn.dataset.alt === "true"
+            ? { price: parseInt(btn.dataset.price, 10), alt: true }
+            : undefined,
+        );
+      });
+      // Смена тарифного продукта перерисовывает карточки — возвращаем скидку из URL.
+      window.addEventListener("frkn:plans-rendered", () => {
+        if (urlPromoCode) applyDiscountToCards(urlPromoCode);
+      });
       document.querySelectorAll(".price-option").forEach((opt) =>
         opt.addEventListener("click", (e) => {
           e.stopPropagation();
@@ -1725,6 +1784,7 @@
                       alt_price: currentOrder.altPrice === true,
                     }
                   : {}),
+                product: currentOrder.product,
                 promocode: currentOrder.promo || null,
                 refCode: currentOrder.referral || null,
                 email: orderEmail(),
@@ -1780,6 +1840,7 @@
                       alt_price: currentOrder.altPrice === true,
                     }
                   : {}),
+                product: currentOrder.product,
                 promocode: currentOrder.promo || null,
                 refCode: currentOrder.referral || null,
                 email: orderEmail(),
