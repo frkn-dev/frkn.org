@@ -426,8 +426,34 @@ const server = http.createServer(async (req, res) => {
         response: { subscription_id: id, deleted: true, connections_deleted: 1 },
       });
     }
+    // Named device creation (POST /devices). The cabinet no longer pins a
+    // device to a node, so node_id is optional here as well.
+    if (req.method === "POST" && p === "/devices") {
+      const body = await readJson(req);
+      if (!body || !body.env || !body.proto) {
+        return json(res, { status: 400, message: "bad request" }, 400);
+      }
+      const id = `conn-${SUB.connections.length + 1}`;
+      SUB.connections.push({
+        id,
+        proto: body.proto,
+        env: body.env,
+        label: body.label || "",
+        uplink: 0,
+        downlink: 0,
+        share_token: `tok-${SUB.connections.length + 1}`,
+        share_url: `frkn://sub/${SUB.id}-${SUB.connections.length + 1}`,
+        scope: null,
+        include_in_main: body.include_in_main === true,
+      });
+      return json(res, { status: 200, message: "ok" });
+    }
     if (req.method === "GET" && p === "/devices/options") {
-      return json(res, { status: 200, response: { dev: [{ id: "n1", name: "Белкон-1" }] } });
+      // Same shape as mrkting: env -> [Tag, ...] (strings, not objects).
+      return json(res, {
+        status: 200,
+        response: { dev: ["AmneziaWg", "AmneziaWgMobile"], ru: ["Wireguard"] },
+      });
     }
     if (req.method === "POST" && p === "/validate/email") {
       return json(res, { status: 200 });

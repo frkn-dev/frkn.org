@@ -3781,10 +3781,6 @@
                 <label for="deviceProtoSelect">Protocol</label>
                 <select id="deviceProtoSelect"></select>
               </div>
-              <div>
-                <label for="deviceNodeSelect">Server</label>
-                <select id="deviceNodeSelect"></select>
-              </div>
               <label class="device-main-feed" id="deviceMainFeedRow">
                 <input type="checkbox" id="deviceMainFeed" />
                 Include the device in the main subscription
@@ -3811,11 +3807,11 @@
               <h4>FRKN Dopamine app</h4>
               <div id="deviceShareContent"></div>
               <div class="devices-hint">
-                Both links above grant the same single-server access: frkn://
-                for the FRKN Dopamine app, https for INCY/Streisand/Clash.
-                Happ is not recommended because of RKN blocks. The
-                recipient sees the server under this device's name. The "Revoke"
-                button kills both links at once.
+                Both links above grant access to every server in the region:
+                frkn:// for the FRKN Dopamine app, https for
+                INCY/Streisand/Clash. Happ is not recommended because of RKN
+                blocks. The recipient sees the server under this device's name.
+                The "Revoke" button kills both links at once.
               </div>
             </div>
 
@@ -5797,57 +5793,12 @@
           opt.textContent = p;
           protoSelect.appendChild(opt);
         });
-        loadDeviceNodes();
         syncDeviceMainFeed();
       }
 
       function syncDeviceMainFeed() {
         const row = document.getElementById("deviceMainFeedRow");
         if (row) row.classList.remove("hidden");
-      }
-
-      // Server selector for the device pin (GET /devices/nodes). No default
-      // "all servers" option — the user always picks a concrete node.
-      let deviceNodesReqSeq = 0;
-      async function loadDeviceNodes() {
-        const envSelect = document.getElementById("deviceEnvSelect");
-        const protoSelect = document.getElementById("deviceProtoSelect");
-        const nodeSelect = document.getElementById("deviceNodeSelect");
-        if (!envSelect || !protoSelect || !nodeSelect) return;
-        const seq = ++deviceNodesReqSeq;
-        nodeSelect.innerHTML = "";
-        const placeholder = document.createElement("option");
-        placeholder.value = "";
-        placeholder.textContent = "Select a server…";
-        nodeSelect.appendChild(placeholder);
-        if (!envSelect.value || !protoSelect.value) return;
-        nodeSelect.disabled = true;
-        try {
-          const r = await fetch(
-            `${API_BASE}/devices/nodes?env=${encodeURIComponent(envSelect.value)}&proto=${encodeURIComponent(protoSelect.value)}&subscription_id=${encodeURIComponent(devicesSubId)}`,
-          );
-          const j = await r.json().catch(() => null);
-          if (seq !== deviceNodesReqSeq) return; // stale response
-          if (r.ok && j && Array.isArray(j.response)) {
-            j.response.forEach((n) => {
-              const opt = document.createElement("option");
-              opt.value = n.node_id;
-              opt.textContent = n.label || n.hostname;
-              nodeSelect.appendChild(opt);
-            });
-            if (!j.response.length) {
-              placeholder.textContent = "No servers available";
-            }
-          } else {
-            placeholder.textContent = "Failed to load servers";
-          }
-        } catch (e) {
-          if (seq === deviceNodesReqSeq) {
-            placeholder.textContent = "Failed to load servers";
-          }
-        } finally {
-          if (seq === deviceNodesReqSeq) nodeSelect.disabled = false;
-        }
       }
 
       function setDeviceFormError(msg) {
@@ -5858,10 +5809,8 @@
       function hideDeviceForm() {
         const form = document.getElementById("deviceForm");
         const input = document.getElementById("deviceLabelInput");
-        const nodeSelect = document.getElementById("deviceNodeSelect");
         if (form) form.classList.add("hidden");
         if (input) input.value = "";
-        if (nodeSelect) nodeSelect.innerHTML = "";
         const mainFeed = document.getElementById("deviceMainFeed");
         if (mainFeed) mainFeed.checked = false;
         setDeviceFormError("");
@@ -5871,7 +5820,6 @@
         const input = document.getElementById("deviceLabelInput");
         const envSelect = document.getElementById("deviceEnvSelect");
         const protoSelect = document.getElementById("deviceProtoSelect");
-        const nodeSelect = document.getElementById("deviceNodeSelect");
         const submitBtn = document.getElementById("deviceSubmitBtn");
         const label = (input?.value || "").trim();
         if (label.length < 1 || label.length > 64) {
@@ -5880,10 +5828,6 @@
         }
         if (!envSelect?.value || !protoSelect?.value) {
           setDeviceFormError("Select region and protocol");
-          return;
-        }
-        if (!nodeSelect?.value) {
-          setDeviceFormError("Select a server");
           return;
         }
         if (submitBtn) submitBtn.disabled = true;
@@ -5897,7 +5841,6 @@
               env: envSelect.value,
               proto: protoSelect.value,
               label,
-              node_id: nodeSelect.value,
               include_in_main:
                 document.getElementById("deviceMainFeed")?.checked === true,
             }),
@@ -7413,11 +7356,6 @@
 
         if (deviceEnvSelect) {
           deviceEnvSelect.addEventListener("change", fillDeviceProtoSelect);
-        }
-
-        const deviceProtoSelect = document.getElementById("deviceProtoSelect");
-        if (deviceProtoSelect) {
-          deviceProtoSelect.addEventListener("change", loadDeviceNodes);
         }
 
         if (deviceLabelInput) {
