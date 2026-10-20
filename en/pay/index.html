@@ -151,8 +151,9 @@
         content: "🔥 Popular";
         position: absolute;
         top: -6px;
-        left: 50%;
-        transform: translateX(-50%);
+        /* Left-aligned: on the 4-column beta grid a centred badge collides
+           with the ∞ badge in the top-right corner. */
+        left: 14px;
         font-size: 12px;
         font-weight: 600;
         background: linear-gradient(135deg, var(--accent-secondary), #15803d);
@@ -245,7 +246,9 @@
         filter: invert(1);
       }
       .pricing-grid-main {
-        grid-template-columns: repeat(3, minmax(280px, 1fr));
+        /* 3 cards on prod, 4 on beta (one per sold duration) — auto-fit keeps
+           a single row either way and never leaves a lone card on its own row. */
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         align-items: stretch;
       }
       .card-subtitle {
@@ -876,7 +879,7 @@
       // Catalogue prices are in roubles; this market displays dollars.
       window.FRKN_PLAN_CURRENCY = { rate: 0.013, symbol: "$", prefix: true };
     </script>
-    <script src="/scripts/plans.js?v=1"></script>
+    <script src="/scripts/plans.js?v=4"></script>
     <script>
       // --- Configuration ---
       const isLocal =

@@ -109,13 +109,13 @@
       betaOnly: true,
       ru: {
         name: "Игровой",
-        tagline: "Только игровые серверы",
-        includes: ["Игровые серверы", "Безлимитный трафик"],
+        tagline: "Серверы в Турции",
+        includes: ["Игровые серверы в Турции", "Безлимитный трафик"],
       },
       en: {
         name: "Gaming",
-        tagline: "Gaming servers only",
-        includes: ["Gaming servers", "Unlimited traffic"],
+        tagline: "Servers in Turkey",
+        includes: ["Gaming servers in Turkey", "Unlimited traffic"],
       },
     },
     {
@@ -123,12 +123,12 @@
       betaOnly: true,
       ru: {
         name: "BS Premium",
-        tagline: "Только серверы BS Premium",
+        tagline: "Работает там, где ничего не работает",
         includes: ["Серверы BS Premium", "Безлимитный трафик"],
       },
       en: {
         name: "BS Premium",
-        tagline: "BS Premium servers only",
+        tagline: "Works where nothing else does",
         includes: ["BS Premium servers", "Unlimited traffic"],
       },
     },
@@ -330,12 +330,17 @@
     var style = document.createElement("style");
     style.id = "frkn-plans-styles";
     style.textContent = [
-      ".product-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 auto 22px;max-width:1100px;padding:0 16px}",
-      ".product-chip{display:flex;flex-direction:column;gap:2px;align-items:flex-start;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 16px;color:#e8e8e8;cursor:pointer;font:inherit;text-align:left;transition:border-color .15s,background .15s}",
+      ".product-chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:0 auto 22px;max-width:1240px;padding:0 16px}",
+      ".product-chip{display:flex;flex-direction:column;gap:2px;align-items:flex-start;min-width:0;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 16px;color:#e8e8e8;cursor:pointer;font:inherit;text-align:left;transition:border-color .15s,background .15s,box-shadow .15s}",
       ".product-chip:hover{border-color:rgba(255,255,255,.3)}",
-      ".product-chip.active{border-color:#22c55e;background:rgba(34,197,94,.12)}",
+      ".product-chip.primary{border-color:rgba(91,124,250,.7);background:rgba(91,124,250,.16);box-shadow:inset 0 0 0 1px rgba(91,124,250,.25)}",
+      ".product-chip.primary .chip-name{color:#fff}",
+      ".product-chip.primary:hover{border-color:rgba(91,124,250,1)}",
+      ".product-chip.active{border-color:#22c55e;background:rgba(34,197,94,.16);box-shadow:inset 0 0 0 1px rgba(34,197,94,.35)}",
       ".product-chip .chip-name{font-weight:600;font-size:15px}",
-      ".product-chip .chip-tagline{font-size:12px;color:#9aa0a6}",
+      ".product-chip .chip-tagline{font-size:12px;color:#9aa0a6;line-height:1.25}",
+      "@media (max-width:1100px){.product-chips{grid-template-columns:repeat(3,minmax(0,1fr))}}",
+      "@media (max-width:620px){.product-chips{grid-template-columns:repeat(2,minmax(0,1fr))}}",
       "#product-includes{margin:8px 0 0;padding:0;list-style:none;font-size:13px;color:#9aa0a6}",
       "#product-includes li{margin:2px 0}",
     ].join("");
@@ -464,14 +469,22 @@
       container.style.display = "none";
       return;
     }
-    container.style.display = "flex";
+    // Inline style, because the markup starts with display:none. Must match
+    // the grid the injected stylesheet sets up.
+    container.style.display = "grid";
     container.setAttribute("aria-label", strings().productLabel);
     container.innerHTML = chips
       .map(function (product) {
         var info = localized(product);
         var active = product.id === selected;
+        // The three base products are the main offers; the bundles stay quiet.
+        var primary =
+          product.id === "standard" ||
+          product.id === "gaming" ||
+          product.id === "bs-prem";
         return (
           '<button type="button" class="product-chip' +
+          (primary ? " primary" : "") +
           (active ? " active" : "") +
           '" data-product="' +
           escapeHtml(product.id) +
