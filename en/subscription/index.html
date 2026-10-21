@@ -4750,11 +4750,6 @@
         const emptyEl = document.getElementById("selfhosted-empty");
         if (emptyEl) emptyEl.classList.toggle("hidden", !empty);
 
-        // Own-server stats card (scripts/selfhosted-servers.js): polls the api
-        // every 15s and hides itself while the account has no nodes yet.
-        if (window.FRKNShServers && typeof window.FRKNShServers.mount === "function") {
-          window.FRKNShServers.mount({ apiBase: API_BASE, subId: getSubId() });
-        }
 
         // Pull the "N of M" numbers from /private/state, then mount the users
         // card (shared scripts/selfhosted-users.js): it lists, creates and
@@ -4787,6 +4782,13 @@
           planKind === "lite" && (usedBytes >= limitBytes || liveConns === 0);
 
         if (isSelfhosted) applySelfhostedMode(liveConns);
+
+        // Own-server stats card (scripts/selfhosted-servers.js). Any plan can
+        // own nodes — a personal account has exactly one — so the card is
+        // mounted for everyone and hides itself when the api reports none.
+        if (window.FRKNShServers && typeof window.FRKNShServers.mount === "function") {
+          window.FRKNShServers.mount({ apiBase: API_BASE, subId });
+        }
 
         // Trial and Early Adopter badges
         // Early Adopter badges (Trial больше не раздаём — плашка убрана)
