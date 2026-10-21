@@ -3821,11 +3821,14 @@
               <h4>Приложение FRKN Dopamine</h4>
               <div id="deviceShareContent"></div>
               <div class="devices-hint">
-                Обе ссылки выше — один доступ ко всем серверам региона:
-                frkn:// для приложения FRKN Dopamine, https — для
-                INCY/Streisand/Clash. Happ не рекомендуется из-за блокировок
-                РКН. У получателя сервер появится с именем этого устройства.
-                Кнопка «Отозвать» гасит обе ссылки сразу.
+                По умолчанию ссылка открывает все серверы региона — получатель
+                сам выбирает, куда подключаться. Можно ограничить одним
+                сервером. frkn:// — для приложения FRKN Dopamine, https — для
+                INCY/Streisand/Clash (Happ не рекомендуется из-за блокировок
+                РКН). У получателя сервер появится с именем этого устройства.
+                Для WireGuard/AmneziaWG ссылка всегда отдаёт один сервер: у
+                каждой ноды свои ключи. Кнопка «Отозвать» гасит обе ссылки
+                сразу.
               </div>
             </div>
 
@@ -4107,7 +4110,7 @@
     </div>
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/utils.js?v=1"></script>
-    <script src="/scripts/plans.js?v=6"></script>
+    <script src="/scripts/plans.js?v=7"></script>
     <script src="/scripts/selfhosted-servers.js?v=1"></script>
     <script src="/scripts/selfhosted-users.js?v=1"></script>
     <script src="/scripts/i18n.js?v=2"></script>
@@ -5509,6 +5512,16 @@
         section.classList.remove("hidden");
         content.innerHTML = "";
         if (conn.share_url) {
+          // Область действия ссылки: весь регион или один сервер.
+          const scope = document.createElement("div");
+          scope.className = "devices-hint";
+          scope.id = "deviceShareScope";
+          scope.textContent = "Ссылка открывает все серверы региона";
+          content.appendChild(scope);
+          if (conn.share_node_id) {
+            scope.textContent = "Ссылка открывает один сервер";
+            resolveShareNodeLabel(conn, scope);
+          }
           const appLabel = document.createElement("div");
           appLabel.className = "devices-hint";
           appLabel.textContent = "Ссылка для приложения:";
@@ -5560,22 +5573,82 @@
             content.appendChild(feedRow);
           }
         } else {
+          // Пока ссылки нет — выбираем область действия: весь регион
+          // (по умолчанию) или один конкретный сервер.
+          const picker = document.createElement("div");
+          picker.className = "device-form";
+          picker.style.borderTop = "0";
+          picker.style.paddingTop = "0";
+          picker.style.marginTop = "0";
+          const field = document.createElement("div");
+          const label = document.createElement("label");
+          label.setAttribute("for", "deviceShareNodeSelect");
+          label.textContent = "Сервер для ссылки";
+          const select = document.createElement("select");
+          select.id = "deviceShareNodeSelect";
+          const allOpt = document.createElement("option");
+          allOpt.value = "";
+          allOpt.textContent = "Все серверы региона";
+          select.appendChild(allOpt);
+          field.appendChild(label);
+          field.appendChild(select);
+          picker.appendChild(field);
+          content.appendChild(picker);
+          loadShareNodes(conn, select);
           const err = document.createElement("div");
           err.className = "device-form-error";
           err.id = "deviceShareError";
           content.appendChild(
-            deviceBtn(
-              "Создать ссылку для приложения",
-              "device-connect-btn",
-              () => createDeviceShare(conn),
+            deviceBtn("Создать ссылку", "device-connect-btn", () =>
+              createDeviceShare(conn),
             ),
           );
           content.appendChild(err);
         }
       }
 
+      // Серверы для выбора области действия шар-ссылки (GET /devices/nodes).
+      // Пустой вариант = весь регион: получатель увидит все серверы.
+      async function loadShareNodes(conn, select) {
+        if (!select) return;
+        try {
+          const r = await fetch(
+            `${API_BASE}/devices/nodes?env=${encodeURIComponent(conn.env)}&proto=${encodeURIComponent(conn.proto)}&subscription_id=${encodeURIComponent(devicesSubId)}`,
+          );
+          const j = await r.json().catch(() => null);
+          if (!r.ok || !j || !Array.isArray(j.response)) return;
+          j.response.forEach((n) => {
+            const opt = document.createElement("option");
+            opt.value = n.node_id;
+            opt.textContent = n.label || n.hostname;
+            select.appendChild(opt);
+          });
+        } catch (e) {
+          // Список не критичен: остаётся вариант «все серверы».
+        }
+      }
+
+      // Имя ноды для уже выданной ссылки, закреплённой на сервере.
+      async function resolveShareNodeLabel(conn, el) {
+        try {
+          const r = await fetch(
+            `${API_BASE}/devices/nodes?env=${encodeURIComponent(conn.env)}&proto=${encodeURIComponent(conn.proto)}&subscription_id=${encodeURIComponent(devicesSubId)}`,
+          );
+          const j = await r.json().catch(() => null);
+          if (!r.ok || !j || !Array.isArray(j.response)) return;
+          const node = j.response.find((n) => n.node_id === conn.share_node_id);
+          if (node) {
+            el.textContent = `Ссылка открывает один сервер: ${node.label || node.hostname}`;
+          }
+        } catch (e) {
+          // Оставляем нейтральный текст.
+        }
+      }
+
       async function createDeviceShare(conn) {
         const errEl = document.getElementById("deviceShareError");
+        const nodeSelect = document.getElementById("deviceShareNodeSelect");
+        const nodeId = nodeSelect ? nodeSelect.value : "";
         const setErr = (m) => {
           if (errEl) errEl.textContent = m || "";
         };
@@ -5587,6 +5660,7 @@
             body: JSON.stringify({
               subscription_id: devicesSubId,
               connection_id: conn.id,
+              node_id: nodeId || null,
             }),
           });
           const j = await r.json().catch(() => null);
