@@ -308,15 +308,63 @@
         padding: 10px;
         font-size: 14px;
       }
+      .buy-button.alt {
+        margin-top: 8px;
+        background: transparent;
+        color: var(--text-main);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: none;
+      }
+      .buy-button.alt:hover {
+        background: rgba(91, 124, 250, 0.12);
+      }
+      .pricing-grid-traffic {
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 16px;
+      }
+      .pay-tabs {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+      .pay-tab {
+        padding: 14px 28px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        background: transparent;
+        color: var(--text-dim);
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .pay-tab:hover {
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .pay-tab.active {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+        box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
+      }
       @media (max-width: 960px) {
         .pricing-grid-main {
           grid-template-columns: 1fr;
+        }
+        .pricing-grid-traffic {
+          grid-template-columns: repeat(2, 1fr);
         }
         .extra-options .pricing-grid-extra {
           grid-template-columns: repeat(2, 1fr);
         }
       }
       @media (max-width: 480px) {
+        .pricing-grid-traffic {
+          grid-template-columns: 1fr;
+        }
         .extra-options .pricing-grid-extra {
           grid-template-columns: 1fr;
         }
@@ -652,7 +700,152 @@
         <a href="/en/activate" class="text-link">Activate it here</a>
       </p>
 
-      <div id="product-chips" class="product-chips" style="display: none"></div>
+      <div class="pay-tabs">
+        <button class="pay-tab active" id="tab-unlimited" type="button">
+          Unlimited plans
+        </button>
+
+        <button class="pay-tab" id="tab-traffic" type="button">
+          Buy traffic
+        </button>
+      </div>
+
+      <div id="section-traffic" style="display: none">
+        <div class="pricing-section">
+          <div class="pricing-grid pricing-grid-traffic">
+            <div
+              class="price-card compact"
+              data-duration="0"
+              data-gb="1"
+              data-price="0.87"
+            >
+              <h3>1 GB</h3>
+              <div class="duration">lasts until it runs out</div>
+              <div class="cost-wrapper">
+                <span class="old-price"></span>
+                <div class="cost">$0.87</div>
+              </div>
+              <button
+                class="buy-button"
+                data-duration="0"
+                data-gb="1"
+                data-price="0.87"
+              >
+                Zoomers $0.87
+              </button>
+              <button
+                class="buy-button alt"
+                data-duration="0"
+                data-gb="1"
+                data-price="0.90"
+                data-alt="true"
+              >
+                Millennials $0.90
+              </button>
+            </div>
+
+            <div
+              class="price-card compact"
+              data-duration="0"
+              data-gb="5"
+              data-price="2.17"
+            >
+              <h3>5 GB</h3>
+              <div class="duration">lasts until it runs out</div>
+              <div class="cost-wrapper">
+                <span class="old-price"></span>
+                <div class="cost">$2.17</div>
+              </div>
+              <button
+                class="buy-button"
+                data-duration="0"
+                data-gb="5"
+                data-price="2.17"
+              >
+                Zoomers $2.17
+              </button>
+              <button
+                class="buy-button alt"
+                data-duration="0"
+                data-gb="5"
+                data-price="2.20"
+                data-alt="true"
+              >
+                Millennials $2.20
+              </button>
+            </div>
+
+            <div
+              class="price-card compact"
+              data-duration="0"
+              data-gb="10"
+              data-price="3.47"
+            >
+              <h3>10 GB</h3>
+              <div class="duration">lasts until it runs out</div>
+              <div class="cost-wrapper">
+                <span class="old-price"></span>
+                <div class="cost">$3.47</div>
+              </div>
+              <button
+                class="buy-button"
+                data-duration="0"
+                data-gb="10"
+                data-price="3.47"
+              >
+                Zoomers $3.47
+              </button>
+              <button
+                class="buy-button alt"
+                data-duration="0"
+                data-gb="10"
+                data-price="3.50"
+                data-alt="true"
+              >
+                Millennials $3.50
+              </button>
+            </div>
+
+            <div
+              class="price-card compact"
+              data-duration="0"
+              data-gb="50"
+              data-price="4.77"
+            >
+              <h3>50 GB</h3>
+              <div class="duration">lasts until it runs out</div>
+              <div class="cost-wrapper">
+                <span class="old-price"></span>
+                <div class="cost">$4.77</div>
+              </div>
+              <button
+                class="buy-button"
+                data-duration="0"
+                data-gb="50"
+                data-price="4.77"
+              >
+                Zoomers $4.77
+              </button>
+              <button
+                class="buy-button alt"
+                data-duration="0"
+                data-gb="50"
+                data-price="4.80"
+                data-alt="true"
+              >
+                Millennials $4.80
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="section-unlimited">
+        <div
+          id="product-chips"
+          class="product-chips"
+          style="display: none"
+        ></div>
 
       <div class="pricing-section">
         <div class="pricing-grid pricing-grid-main">
@@ -781,6 +974,7 @@
           </div>
         </div>
       </div>
+      </div>
 
       <div class="pay-benefits">
         <div class="pay-benefit-card">
@@ -879,7 +1073,7 @@
       // Catalogue prices are in roubles; this market displays dollars.
       window.FRKN_PLAN_CURRENCY = { rate: 0.013, symbol: "$", prefix: true };
     </script>
-    <script src="/scripts/plans.js?v=6"></script>
+    <script src="/scripts/plans.js?v=7"></script>
     <script>
       // --- Configuration ---
       const isLocal =
@@ -1039,7 +1233,8 @@
           const btn = card.querySelector(".buy-button");
           const duration = parseInt(btn.dataset.duration);
           const basePrice = parseInt(btn.dataset.price);
-          const product = btn.dataset.product || "standard";
+          const gb = btn.dataset.gb ? parseInt(btn.dataset.gb) : null;
+          const product = gb ? "standard" : btn.dataset.product || "standard";
           try {
             const response = await apiFetch(
               `/promocode/validate`,
@@ -1048,6 +1243,7 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                   duration,
+                  ...(gb ? { kind: "lite", traffic_gib: gb } : {}),
                   product,
                   promocode: promoCode.toUpperCase(),
                 }),
@@ -1101,6 +1297,14 @@
       function updateModalDisplay() {
         if (!currentOrder) return;
         const { duration, price: finalPrice, originalPrice } = currentOrder;
+        if (currentOrder.kind === "lite") {
+          const gbLabel = `${currentOrder.trafficGib} GB of traffic`;
+          modalTotalWrapper.innerHTML =
+            finalPrice < originalPrice
+              ? `<div><span class="modal-old-price">$${originalPrice}</span><span class="modal-discount-price">$${finalPrice}</span><div style="font-size: 14px; margin-top: 8px; color: #22c55e;">${gbLabel}</div></div>`
+              : `<div><div class="modal-total">$${finalPrice}</div><div style="font-size: 14px; margin-top: 8px; color: #888;">${gbLabel}</div></div>`;
+          return;
+        }
         const pricePerDay = (finalPrice / duration).toFixed(1);
         if (finalPrice < originalPrice) {
           const originalPricePerDay = (originalPrice / duration).toFixed(1);
@@ -1134,6 +1338,13 @@
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 duration: currentOrder.duration,
+                ...(currentOrder.kind === "lite"
+                  ? {
+                      kind: "lite",
+                      traffic_gib: currentOrder.trafficGib,
+                      alt_price: currentOrder.altPrice === true,
+                    }
+                  : {}),
                 product: currentOrder.product,
                 promocode: promoValue,
               }),
@@ -1297,10 +1508,11 @@
           window.FRKNPlans && currentOrder.product !== "standard"
             ? window.FRKNPlans.name(currentOrder.product)
             : null;
-        document.getElementById("modal-title").innerHTML =
-          `Checkout<br>for ${duration} days${
-            productName ? ` · ${productName}` : ""
-          }`;
+        document.getElementById("modal-title").innerHTML = trafficGib
+          ? `Traffic purchase<br>${trafficGib} GB`
+          : `Checkout<br>for ${duration} days${
+              productName ? ` · ${productName}` : ""
+            }`;
         paymentModal.classList.add("active");
       }
 
@@ -1377,6 +1589,21 @@
             : "More options";
         });
       }
+      const tabTraffic = document.getElementById("tab-traffic");
+      const tabUnlimited = document.getElementById("tab-unlimited");
+      const sectionTraffic = document.getElementById("section-traffic");
+      const sectionUnlimited = document.getElementById("section-unlimited");
+      function selectPayTab(which) {
+        const traffic = which === "traffic";
+        tabTraffic?.classList.toggle("active", traffic);
+        tabUnlimited?.classList.toggle("active", !traffic);
+        if (sectionTraffic)
+          sectionTraffic.style.display = traffic ? "" : "none";
+        if (sectionUnlimited)
+          sectionUnlimited.style.display = traffic ? "none" : "";
+      }
+      tabTraffic?.addEventListener("click", () => selectPayTab("traffic"));
+      tabUnlimited?.addEventListener("click", () => selectPayTab("unlimited"));
       if (payBtn) {
         payBtn.onclick = async () => {
           if (!currentOrder) {
@@ -1398,6 +1625,13 @@
                 },
                 body: JSON.stringify({
                   duration: currentOrder.duration,
+                  ...(currentOrder.kind === "lite"
+                    ? {
+                        kind: "lite",
+                        traffic_gib: currentOrder.trafficGib,
+                        alt_price: currentOrder.altPrice === true,
+                      }
+                    : {}),
                   product: currentOrder.product,
                   promocode: currentOrder.promo || null,
                   refCode: currentOrder.referral || null,
@@ -1444,6 +1678,13 @@
               },
               body: JSON.stringify({
                 duration: currentOrder.duration,
+                ...(currentOrder.kind === "lite"
+                  ? {
+                      kind: "lite",
+                      traffic_gib: currentOrder.trafficGib,
+                      alt_price: currentOrder.altPrice === true,
+                    }
+                  : {}),
                 product: currentOrder.product,
                 promocode: currentOrder.promo || null,
                 refCode: currentOrder.referral || null,

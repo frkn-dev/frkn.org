@@ -121,6 +121,10 @@
     {
       id: "bs-prem",
       betaOnly: true,
+      // Not sold: the bs-prem infrastructure never came up, so the showcase
+      // must not advertise it (kept here so the product can be re-enabled in
+      // one line once the env works).
+      disabled: true,
       ru: {
         name: "Белые Слоны",
         tagline: "Работает там, где ничего не работает",
@@ -149,6 +153,8 @@
     {
       id: "standard-bs-prem",
       betaOnly: true,
+      disabled: true, // depends on bs-prem, which is not sold
+
       ru: {
         name: "Стандарт + Белые Слоны",
         tagline: "Стандарт и Белые Слоны",
@@ -163,6 +169,7 @@
     {
       id: "full",
       betaOnly: true,
+      disabled: true, // includes the White Elephants env, which is not sold
       ru: {
         name: "Полный",
         tagline: "Все серверы сразу",
@@ -462,6 +469,8 @@
     var out = [];
     for (var i = 0; i < PRODUCTS.length; i++) {
       var product = PRODUCTS[i];
+      // `disabled` products are not sold at all (hidden on beta and prod).
+      if (product.disabled) continue;
       if (product.betaOnly && !isBeta) continue;
       // Only offer a product the gateway actually sells.
       if (soldDurations(product.id).length === 0) continue;
@@ -525,7 +534,7 @@
     var bundles = [];
     for (var i = 0; i < chips.length; i++) {
       var id = chips[i].id;
-      if (id === "standard" || id === "gaming" || id === "bs-prem") base.push(chips[i]);
+      if (id === "standard" || id === "gaming") base.push(chips[i]);
       else bundles.push(chips[i]);
     }
 

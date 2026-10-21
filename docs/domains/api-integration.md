@@ -12,6 +12,11 @@ Catalog of every `api.frkn.org` endpoint and which page calls it. Load when touc
 | `GET /subscription/{id}` | subscription status by UUID; `plan_kind` (`standard`/`lite`/`premium`/`selfhosted`); named `connections[]` include boolean `include_in_main` | `subscription/`, `profile/`, `app/` |
 | `POST /devices` | create a named device; `include_in_main: false` = separate link only, `true` = also in the main subscription | `subscription/`, `app/` |
 | `PATCH /devices/{connectionId}?subscription_id=...` | update a named device with body `{"include_in_main":true|false}`; success `{"status":200,"message":"ok"}` | `subscription/`, `app/` |
+| `GET /devices/options` | available envs → protocols for the device form (`{env: [proto,…]}`); `503` when devices are off | `subscription/`, `en/subscription/`, `app/` |
+| `GET /devices/nodes?env=&proto=&subscription_id=` | online nodes of an env+proto with display labels (share scope labels) | `subscription/` |
+| `POST /devices/share` | mint a device share link: `{"subscription_id","connection_id","node_id"?}`; `node_id` null = the whole env. Returns `frkn://conn/…` + `/sub/<token>` feed | `subscription/`, `app/` |
+| `POST /devices/share/sub` | mint a **shared subscription**: `{"subscription_id","env","proto"}` → `frkn://sub/shared/<uuid>`; the recipient imports every server of that env+proto (idempotent per region+protocol, `404` when the subscription does not own the env) | `subscription/`, `en/subscription/` |
+| `DELETE /devices/share/{token}?subscription_id=` | revoke any share token (device or region); `404` when already revoked | `subscription/`, `en/subscription/`, `app/` |
 | `POST /private/account` | open an empty selfhosted account (`plan_kind=selfhosted`, no expiry, personal env) → `{subscription_id, plan_kind, scope_env}`; public, per-IP rate-limited | `subscription/`, `en/subscription/` |
 | `POST /private/install-token` | mint a 1 h node install token for a subscription (selfhosted "Own node"); `409` + `response.code = server_limit_reached` when the account's server cap is already used up | `subscription/`, `en/subscription/` |
 | `GET /private/nodes?subscription_id=` | list the subscription's own nodes | `subscription/` |

@@ -3615,6 +3615,9 @@
               </div>
             </div>
 
+            <!-- Own server stats: live CPU/RAM/disk/network plus a 24h chart.
+                 Rendered by scripts/selfhosted-servers.js. -->
+            <div class="selfhosted-servers hidden" id="selfhosted-servers"></div>
             <!-- Account caps: how many own nodes and users it may hold.
                  Shown in selfhosted mode only. -->
             <div class="selfhosted-limits hidden" id="selfhosted-limits"></div>
@@ -3781,10 +3784,6 @@
                 <label for="deviceProtoSelect">Protocol</label>
                 <select id="deviceProtoSelect"></select>
               </div>
-              <div>
-                <label for="deviceNodeSelect">Server</label>
-                <select id="deviceNodeSelect"></select>
-              </div>
               <label class="device-main-feed" id="deviceMainFeedRow">
                 <input type="checkbox" id="deviceMainFeed" />
                 Include the device in the main subscription
@@ -3797,6 +3796,35 @@
 
             <div class="devices-hint">
               Traffic stats update with a few minutes delay.
+            </div>
+
+            <div class="device-section hidden" id="sharedSubsSection">
+              <h4>Share access</h4>
+              <div
+                class="device-form"
+                id="sharedSubForm"
+                style="border-top: 0; padding-top: 0; margin-top: 0"
+              >
+                <div>
+                  <label for="sharedSubEnv">Region</label>
+                  <select id="sharedSubEnv"></select>
+                </div>
+                <div>
+                  <label for="sharedSubProto">Protocol</label>
+                  <select id="sharedSubProto"></select>
+                </div>
+                <button type="button" class="btn try" id="sharedSubCreateBtn">
+                  Create link
+                </button>
+                <div class="device-form-error" id="sharedSubError"></div>
+              </div>
+              <div id="sharedSubsList"></div>
+              <div class="devices-hint">
+                The frkn://sub/shared/… link is a subscription to every server
+                of the chosen region for the FRKN Dopamine app: the recipient
+                sees the whole list and picks where to connect. The https link
+                is for third-party clients (INCY, Streisand, Clash).
+              </div>
             </div>
           </div>
 
@@ -3811,11 +3839,14 @@
               <h4>FRKN Dopamine app</h4>
               <div id="deviceShareContent"></div>
               <div class="devices-hint">
-                Both links above grant the same single-server access: frkn://
-                for the FRKN Dopamine app, https for INCY/Streisand/Clash.
-                Happ is not recommended because of RKN blocks. The
-                recipient sees the server under this device's name. The "Revoke"
-                button kills both links at once.
+                The link opens every server in the device's region — the
+                recipient picks where to connect. frkn:// is for the FRKN
+                Dopamine app, https for INCY/Streisand/Clash (Happ is not
+                recommended because of RKN blocks). The recipient sees the
+                server under this device's name. For WireGuard/AmneziaWG the
+                link always yields one server: keys are per node. The "Revoke"
+                button kills both links at once. Links for whole regions (any
+                device) live in "Share access" in the devices list.
               </div>
             </div>
 
@@ -4086,7 +4117,8 @@
     </div>
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/utils.js?v=1"></script>
-    <script src="/scripts/plans.js?v=6"></script>
+    <script src="/scripts/plans.js?v=7"></script>
+    <script src="/scripts/selfhosted-servers.js?v=1"></script>
     <script src="/scripts/selfhosted-users.js?v=1"></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
@@ -4750,6 +4782,7 @@
         const emptyEl = document.getElementById("selfhosted-empty");
         if (emptyEl) emptyEl.classList.toggle("hidden", !empty);
 
+
         // Pull the "N of M" numbers from /private/state, then mount the users
         // card (shared scripts/selfhosted-users.js): it lists, creates and
         // revokes users and refreshes the counters through onChange, so no
@@ -4781,6 +4814,13 @@
           planKind === "lite" && (usedBytes >= limitBytes || liveConns === 0);
 
         if (isSelfhosted) applySelfhostedMode(liveConns);
+
+        // Own-server stats card (scripts/selfhosted-servers.js). Any plan can
+        // own nodes — a personal account has exactly one — so the card is
+        // mounted for everyone and hides itself when the api reports none.
+        if (window.FRKNShServers && typeof window.FRKNShServers.mount === "function") {
+          window.FRKNShServers.mount({ apiBase: API_BASE, subId });
+        }
 
         // Trial and Early Adopter badges
         // Early Adopter badges (Trial больше не раздаём — плашка убрана)
@@ -5239,6 +5279,8 @@
         devicesData = data;
         deviceScope = data.scope || null;
         renderDevicesList(data.connections);
+        renderSharedSubs();
+        fillSharedSubSelects();
         loadDeviceOptions();
       }
 
@@ -5429,6 +5471,15 @@
         section.classList.remove("hidden");
         content.innerHTML = "";
         if (conn.share_url) {
+          // Scope of the link: the whole region or one server.
+          const scope = document.createElement("div");
+          scope.className = "devices-hint";
+          scope.textContent = "The link opens every server in the region";
+          content.appendChild(scope);
+          if (conn.share_node_id) {
+            scope.textContent = "The link opens one server";
+            resolveShareNodeLabel(conn, scope);
+          }
           const appLabel = document.createElement("div");
           appLabel.className = "devices-hint";
           appLabel.textContent = "App link:";
@@ -5480,15 +5531,34 @@
             content.appendChild(feedRow);
           }
         } else {
+          // No link yet: it opens every server of the device's region.
+          // Links for other regions live in "Share access".
           const err = document.createElement("div");
           err.className = "device-form-error";
           err.id = "deviceShareError";
           content.appendChild(
-            deviceBtn("Create app link", "device-connect-btn", () =>
+            deviceBtn("Create link", "device-connect-btn", () =>
               createDeviceShare(conn),
             ),
           );
           content.appendChild(err);
+        }
+      }
+
+      // Node name for an existing link pinned to one server.
+      async function resolveShareNodeLabel(conn, el) {
+        try {
+          const r = await fetch(
+            `${API_BASE}/devices/nodes?env=${encodeURIComponent(conn.env)}&proto=${encodeURIComponent(conn.proto)}&subscription_id=${encodeURIComponent(devicesSubId)}`,
+          );
+          const j = await r.json().catch(() => null);
+          if (!r.ok || !j || !Array.isArray(j.response)) return;
+          const node = j.response.find((n) => n.node_id === conn.share_node_id);
+          if (node) {
+            el.textContent = `The link opens one server: ${node.label || node.hostname}`;
+          }
+        } catch (e) {
+          // Keep the neutral text.
         }
       }
 
@@ -5523,28 +5593,7 @@
       }
 
       async function revokeDeviceShare(conn) {
-        if (
-          !confirm(
-            "Revoke this link? The device you shared it with will lose access immediately.",
-          )
-        ) {
-          return;
-        }
-        try {
-          const r = await fetch(
-            `${API_BASE}/devices/share/${encodeURIComponent(conn.share_token)}?subscription_id=${encodeURIComponent(devicesSubId)}`,
-            { method: "DELETE" },
-          );
-          const j = await r.json().catch(() => null);
-          // 404 = already revoked — treat as success
-          if ((r.ok && j && j.status === 200) || (j && j.status === 404)) {
-            await refreshDevices();
-            return;
-          }
-          alert((j && j.message) || "Failed to revoke link");
-        } catch (e) {
-          alert("Network error — please try again");
-        }
+        return revokeShareToken(conn.share_token);
       }
 
       function isWgFamilyDevice(conn) {
@@ -5737,6 +5786,7 @@
           deviceOptions = j.response;
           if (addBtn) addBtn.classList.remove("hidden");
           fillDeviceEnvSelect();
+          fillSharedSubSelects();
         } catch (e) {
           // 503 or network error — the add button stays hidden
           deviceOptions = null;
@@ -5797,57 +5847,176 @@
           opt.textContent = p;
           protoSelect.appendChild(opt);
         });
-        loadDeviceNodes();
         syncDeviceMainFeed();
+      }
+
+      // ---- Share access: one subscription link for a whole region ----
+
+      function fillSharedSubSelects() {
+        const envSelect = document.getElementById("sharedSubEnv");
+        const protoSelect = document.getElementById("sharedSubProto");
+        const section = document.getElementById("sharedSubsSection");
+        // Devices are off on the backend — region sharing is unavailable too
+        if (section) section.classList.toggle("hidden", !deviceOptions);
+        if (!envSelect || !protoSelect || !deviceOptions) return;
+        const prevEnv = envSelect.value;
+        envSelect.innerHTML = "";
+        const envs = getAvailableDeviceEnvs();
+        envs.forEach((env) => {
+          const opt = document.createElement("option");
+          opt.value = env;
+          opt.textContent = deviceEnvDisplayName(env);
+          envSelect.appendChild(opt);
+        });
+        if (prevEnv && envs.includes(prevEnv)) envSelect.value = prevEnv;
+        fillSharedSubProtoSelect();
+      }
+
+      function fillSharedSubProtoSelect() {
+        const envSelect = document.getElementById("sharedSubEnv");
+        const protoSelect = document.getElementById("sharedSubProto");
+        if (!envSelect || !protoSelect) return;
+        const env = envSelect.value;
+        const isScopeEnv = deviceScope && env === deviceScope.env;
+        const protos = isScopeEnv
+          ? deviceScope.protos || []
+          : (deviceOptions && deviceOptions[env]) || [];
+        protoSelect.innerHTML = "";
+        protos.forEach((p) => {
+          const opt = document.createElement("option");
+          opt.value = p;
+          opt.textContent = p;
+          protoSelect.appendChild(opt);
+        });
+      }
+
+      function renderSharedSubs() {
+        const list = document.getElementById("sharedSubsList");
+        if (!list) return;
+        list.innerHTML = "";
+        const subs = (devicesData && devicesData.shared_subs) || [];
+        subs.forEach((s) => {
+          const box = document.createElement("div");
+          box.className = "device-share-box";
+          const title = document.createElement("div");
+          title.className = "devices-hint";
+          title.textContent = `${deviceEnvDisplayName(s.env)} · ${s.proto}`;
+          const appBox = document.createElement("div");
+          appBox.className = "device-link-box";
+          appBox.textContent = s.share_url;
+          const row = document.createElement("div");
+          row.className = "device-actions-row";
+          row.appendChild(
+            deviceBtn("Copy", "device-connect-btn", () =>
+              copyText(s.share_url, "Link copied"),
+            ),
+          );
+          row.appendChild(
+            deviceBtn("QR", "device-connect-btn", () =>
+              showDeviceQr(s.share_url),
+            ),
+          );
+          row.appendChild(
+            deviceBtn("Revoke", "device-danger-btn", () =>
+              revokeShareToken(s.share_token),
+            ),
+          );
+          box.appendChild(title);
+          box.appendChild(appBox);
+          box.appendChild(row);
+          if (s.share_feed_url) {
+            const feedBox = document.createElement("div");
+            feedBox.className = "device-link-box";
+            feedBox.textContent = s.share_feed_url;
+            const feedRow = document.createElement("div");
+            feedRow.className = "device-actions-row";
+            feedRow.appendChild(
+              deviceBtn("Copy https", "device-connect-btn", () =>
+                copyText(s.share_feed_url, "Link copied"),
+              ),
+            );
+            feedRow.appendChild(
+              deviceBtn("QR", "device-connect-btn", () =>
+                showDeviceQr(s.share_feed_url),
+              ),
+            );
+            box.appendChild(feedBox);
+            box.appendChild(feedRow);
+          }
+          list.appendChild(box);
+        });
+      }
+
+      async function createSharedSub() {
+        const envSelect = document.getElementById("sharedSubEnv");
+        const protoSelect = document.getElementById("sharedSubProto");
+        const btn = document.getElementById("sharedSubCreateBtn");
+        const errEl = document.getElementById("sharedSubError");
+        const setErr = (m) => {
+          if (errEl) errEl.textContent = m || "";
+        };
+        setErr("");
+        if (!envSelect?.value || !protoSelect?.value) {
+          setErr("Pick a region and a protocol");
+          return;
+        }
+        if (btn) btn.disabled = true;
+        try {
+          const r = await fetch(`${API_BASE}/devices/share/sub`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              subscription_id: devicesSubId,
+              env: envSelect.value,
+              proto: protoSelect.value,
+            }),
+          });
+          const j = await r.json().catch(() => null);
+          if (r.ok && j && j.status === 200) {
+            await refreshDevices();
+            return;
+          }
+          if (j && j.status === 429) {
+            setErr("Too many requests — wait a minute and try again.");
+          } else {
+            setErr((j && j.message) || "Failed to create link");
+          }
+        } catch (e) {
+          setErr("Network error — please try again");
+        } finally {
+          if (btn) btn.disabled = false;
+        }
+      }
+
+      async function revokeShareToken(token) {
+        if (!token) return;
+        if (
+          !confirm(
+            "Revoke this link? Whoever you shared it with loses access immediately.",
+          )
+        ) {
+          return;
+        }
+        try {
+          const r = await fetch(
+            `${API_BASE}/devices/share/${encodeURIComponent(token)}?subscription_id=${encodeURIComponent(devicesSubId)}`,
+            { method: "DELETE" },
+          );
+          const j = await r.json().catch(() => null);
+          // 404 = already revoked — treat as success
+          if ((r.ok && j && j.status === 200) || (j && j.status === 404)) {
+            await refreshDevices();
+            return;
+          }
+          alert((j && j.message) || "Failed to revoke link");
+        } catch (e) {
+          alert("Network error — please try again");
+        }
       }
 
       function syncDeviceMainFeed() {
         const row = document.getElementById("deviceMainFeedRow");
         if (row) row.classList.remove("hidden");
-      }
-
-      // Server selector for the device pin (GET /devices/nodes). No default
-      // "all servers" option — the user always picks a concrete node.
-      let deviceNodesReqSeq = 0;
-      async function loadDeviceNodes() {
-        const envSelect = document.getElementById("deviceEnvSelect");
-        const protoSelect = document.getElementById("deviceProtoSelect");
-        const nodeSelect = document.getElementById("deviceNodeSelect");
-        if (!envSelect || !protoSelect || !nodeSelect) return;
-        const seq = ++deviceNodesReqSeq;
-        nodeSelect.innerHTML = "";
-        const placeholder = document.createElement("option");
-        placeholder.value = "";
-        placeholder.textContent = "Select a server…";
-        nodeSelect.appendChild(placeholder);
-        if (!envSelect.value || !protoSelect.value) return;
-        nodeSelect.disabled = true;
-        try {
-          const r = await fetch(
-            `${API_BASE}/devices/nodes?env=${encodeURIComponent(envSelect.value)}&proto=${encodeURIComponent(protoSelect.value)}&subscription_id=${encodeURIComponent(devicesSubId)}`,
-          );
-          const j = await r.json().catch(() => null);
-          if (seq !== deviceNodesReqSeq) return; // stale response
-          if (r.ok && j && Array.isArray(j.response)) {
-            j.response.forEach((n) => {
-              const opt = document.createElement("option");
-              opt.value = n.node_id;
-              opt.textContent = n.label || n.hostname;
-              nodeSelect.appendChild(opt);
-            });
-            if (!j.response.length) {
-              placeholder.textContent = "No servers available";
-            }
-          } else {
-            placeholder.textContent = "Failed to load servers";
-          }
-        } catch (e) {
-          if (seq === deviceNodesReqSeq) {
-            placeholder.textContent = "Failed to load servers";
-          }
-        } finally {
-          if (seq === deviceNodesReqSeq) nodeSelect.disabled = false;
-        }
       }
 
       function setDeviceFormError(msg) {
@@ -5858,10 +6027,8 @@
       function hideDeviceForm() {
         const form = document.getElementById("deviceForm");
         const input = document.getElementById("deviceLabelInput");
-        const nodeSelect = document.getElementById("deviceNodeSelect");
         if (form) form.classList.add("hidden");
         if (input) input.value = "";
-        if (nodeSelect) nodeSelect.innerHTML = "";
         const mainFeed = document.getElementById("deviceMainFeed");
         if (mainFeed) mainFeed.checked = false;
         setDeviceFormError("");
@@ -5871,7 +6038,6 @@
         const input = document.getElementById("deviceLabelInput");
         const envSelect = document.getElementById("deviceEnvSelect");
         const protoSelect = document.getElementById("deviceProtoSelect");
-        const nodeSelect = document.getElementById("deviceNodeSelect");
         const submitBtn = document.getElementById("deviceSubmitBtn");
         const label = (input?.value || "").trim();
         if (label.length < 1 || label.length > 64) {
@@ -5880,10 +6046,6 @@
         }
         if (!envSelect?.value || !protoSelect?.value) {
           setDeviceFormError("Select region and protocol");
-          return;
-        }
-        if (!nodeSelect?.value) {
-          setDeviceFormError("Select a server");
           return;
         }
         if (submitBtn) submitBtn.disabled = true;
@@ -5897,7 +6059,6 @@
               env: envSelect.value,
               proto: protoSelect.value,
               label,
-              node_id: nodeSelect.value,
               include_in_main:
                 document.getElementById("deviceMainFeed")?.checked === true,
             }),
@@ -7415,9 +7576,14 @@
           deviceEnvSelect.addEventListener("change", fillDeviceProtoSelect);
         }
 
-        const deviceProtoSelect = document.getElementById("deviceProtoSelect");
-        if (deviceProtoSelect) {
-          deviceProtoSelect.addEventListener("change", loadDeviceNodes);
+        const sharedSubEnv = document.getElementById("sharedSubEnv");
+        const sharedSubCreateBtn =
+          document.getElementById("sharedSubCreateBtn");
+        if (sharedSubEnv) {
+          sharedSubEnv.addEventListener("change", fillSharedSubProtoSelect);
+        }
+        if (sharedSubCreateBtn) {
+          sharedSubCreateBtn.addEventListener("click", () => createSharedSub());
         }
 
         if (deviceLabelInput) {
