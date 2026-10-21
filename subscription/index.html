@@ -3626,6 +3626,9 @@
               </div>
             </div>
 
+            <!-- Статистика своих серверов: живые CPU/RAM/диск/сеть и график
+                 за 24 часа. Рисует scripts/selfhosted-servers.js. -->
+            <div class="selfhosted-servers hidden" id="selfhosted-servers"></div>
             <!-- Лимиты аккаунта: сколько своих нод и пользователей можно
                  завести. Показывается только в selfhosted-режиме. -->
             <div class="selfhosted-limits hidden" id="selfhosted-limits"></div>
@@ -4105,6 +4108,7 @@
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/utils.js?v=1"></script>
     <script src="/scripts/plans.js?v=6"></script>
+    <script src="/scripts/selfhosted-servers.js?v=1"></script>
     <script src="/scripts/selfhosted-users.js?v=1"></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
@@ -4978,6 +4982,12 @@
             .forEach((el) => el.classList.toggle("hidden", empty));
           const emptyEl = document.getElementById("selfhosted-empty");
           if (emptyEl) emptyEl.classList.toggle("hidden", !empty);
+
+        // Own-server stats card (scripts/selfhosted-servers.js): polls the api
+        // every 15s and hides itself while the account has no nodes yet.
+        if (window.FRKNShServers && typeof window.FRKNShServers.mount === "function") {
+          window.FRKNShServers.mount({ apiBase: API_BASE, subId: getSubId() });
+        }
 
           // Цифры «N из M» подтягиваем из /private/state, а затем монтируем
           // карточку пользователей (общий скрипт scripts/selfhosted-users.js):

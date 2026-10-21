@@ -3615,6 +3615,9 @@
               </div>
             </div>
 
+            <!-- Own server stats: live CPU/RAM/disk/network plus a 24h chart.
+                 Rendered by scripts/selfhosted-servers.js. -->
+            <div class="selfhosted-servers hidden" id="selfhosted-servers"></div>
             <!-- Account caps: how many own nodes and users it may hold.
                  Shown in selfhosted mode only. -->
             <div class="selfhosted-limits hidden" id="selfhosted-limits"></div>
@@ -4083,6 +4086,7 @@
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/utils.js?v=1"></script>
     <script src="/scripts/plans.js?v=6"></script>
+    <script src="/scripts/selfhosted-servers.js?v=1"></script>
     <script src="/scripts/selfhosted-users.js?v=1"></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
@@ -4745,6 +4749,12 @@
           .forEach((el) => el.classList.toggle("hidden", empty));
         const emptyEl = document.getElementById("selfhosted-empty");
         if (emptyEl) emptyEl.classList.toggle("hidden", !empty);
+
+        // Own-server stats card (scripts/selfhosted-servers.js): polls the api
+        // every 15s and hides itself while the account has no nodes yet.
+        if (window.FRKNShServers && typeof window.FRKNShServers.mount === "function") {
+          window.FRKNShServers.mount({ apiBase: API_BASE, subId: getSubId() });
+        }
 
         // Pull the "N of M" numbers from /private/state, then mount the users
         // card (shared scripts/selfhosted-users.js): it lists, creates and

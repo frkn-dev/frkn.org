@@ -388,6 +388,61 @@ const server = http.createServer(async (req, res) => {
     if (req.method === "GET" && p === "/private/nodes") {
       return json(res, { status: 200, message: "Ok", response: SH_NODES });
     }
+    // Live gauges for the servers card (scripts/selfhosted-servers.js).
+    if (req.method === "GET" && p === "/private/nodes/stats") {
+      return json(res, {
+        status: 200,
+        message: "Ok",
+        response: SH_NODES.map((n, i) => ({
+          ...n,
+          address: `203.0.113.${i + 10}`,
+          metrics: {
+            cpu_percent: [7.4, 0, 63.2][i] || 12,
+            memory_percent: [41.8, 0, 77.5][i] || 30,
+            memory_used_bytes: 2147483648,
+            memory_total_bytes: 4294967296,
+            disk_usage_percent: [23.1, 0, 58.9][i] || 20,
+            network_rx_bps: [1250000, 0, 9600000][i] || 400000,
+            network_tx_bps: [480000, 0, 3100000][i] || 120000,
+            load_percent: [41.8, 0, 77.5][i] || 30,
+          },
+          traffic: {
+            uplink: [10737418240, 0, 3221225472][i] || 0,
+            downlink: [48318382080, 0, 9663676416][i] || 0,
+            connections: [3, 0, 1][i] || 0,
+          },
+        })),
+      });
+    }
+    // 24h history: a smooth synthetic curve, enough to eyeball the chart.
+    if (req.method === "GET" && p.startsWith("/private/nodes/") && p.endsWith("/series")) {
+      const uuid = decodeURIComponent(p.slice("/private/nodes/".length, -"/series".length));
+      if (!SH_NODES.some((n) => n.uuid === uuid)) {
+        return json(res, { status: 404, message: "node not found" }, 404);
+      }
+      const q = new URL(req.url, "http://localhost");
+      const to = Number(q.searchParams.get("to")) || Date.now();
+      const from = Number(q.searchParams.get("from")) || to - 86400000;
+      const points = 96;
+      const step = (to - from) / points;
+      const wave = (ts, base, amp) =>
+        Math.round((base + amp * Math.sin((ts - from) / 3600000)) * 100) / 100;
+      const series = (base, amp) =>
+        Array.from({ length: points }, (_, i) => {
+          const ts = Math.round(from + i * step);
+          return [ts, wave(ts, base, amp)];
+        });
+      return json(res, {
+        status: 200,
+        message: "Ok",
+        response: {
+          cpu_percent: series(24, 18),
+          memory_percent: series(46, 6),
+          network_rx_bps: series(2400000, 1800000),
+          network_tx_bps: series(900000, 600000),
+        },
+      });
+    }
     if (req.method === "GET" && p === "/private/users") {
       return json(res, { status: 200, message: "Ok", response: SH_USERS });
     }
