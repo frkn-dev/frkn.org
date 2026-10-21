@@ -3808,6 +3808,35 @@
             <div class="devices-hint">
               Трафик обновляется с задержкой в несколько минут.
             </div>
+
+            <div class="device-section hidden" id="sharedSubsSection">
+              <h4>Поделиться доступом</h4>
+              <div
+                class="device-form"
+                id="sharedSubForm"
+                style="border-top: 0; padding-top: 0; margin-top: 0"
+              >
+                <div>
+                  <label for="sharedSubEnv">Регион</label>
+                  <select id="sharedSubEnv"></select>
+                </div>
+                <div>
+                  <label for="sharedSubProto">Протокол</label>
+                  <select id="sharedSubProto"></select>
+                </div>
+                <button type="button" class="btn try" id="sharedSubCreateBtn">
+                  Создать ссылку
+                </button>
+                <div class="device-form-error" id="sharedSubError"></div>
+              </div>
+              <div id="sharedSubsList"></div>
+              <div class="devices-hint">
+                Ссылка frkn://sub/shared/… — подписка на все серверы выбранного
+                региона для приложения FRKN Dopamine: получатель видит весь
+                список серверов и сам выбирает, куда подключаться. https-ссылка
+                — для сторонних клиентов (INCY, Streisand, Clash).
+              </div>
+            </div>
           </div>
 
           <div id="deviceDetailView" class="hidden">
@@ -3821,14 +3850,15 @@
               <h4>Приложение FRKN Dopamine</h4>
               <div id="deviceShareContent"></div>
               <div class="devices-hint">
-                По умолчанию ссылка открывает все серверы региона — получатель
-                сам выбирает, куда подключаться. Можно ограничить одним
-                сервером. frkn:// — для приложения FRKN Dopamine, https — для
-                INCY/Streisand/Clash (Happ не рекомендуется из-за блокировок
-                РКН). У получателя сервер появится с именем этого устройства.
-                Для WireGuard/AmneziaWG ссылка всегда отдаёт один сервер: у
-                каждой ноды свои ключи. Кнопка «Отозвать» гасит обе ссылки
-                сразу.
+                Ссылка открывает все серверы региона устройства, получатель
+                сам выбирает, куда подключаться. frkn:// — для приложения FRKN
+                Dopamine, https — для INCY/Streisand/Clash (Happ не
+                рекомендуется из-за блокировок РКН). У получателя сервер
+                появится с именем этого устройства. Для
+                WireGuard/AmneziaWG ссылка всегда отдаёт один сервер: у каждой
+                ноды свои ключи. Кнопка «Отозвать» гасит обе ссылки сразу.
+                Ссылки на целые регионы (для любых устройств) — в блоке
+                «Поделиться доступом» в списке устройств.
               </div>
             </div>
 
@@ -5322,6 +5352,8 @@
         devicesData = data;
         deviceScope = data.scope || null;
         renderDevicesList(data.connections);
+        renderSharedSubs();
+        fillSharedSubSelects();
         loadDeviceOptions();
       }
 
@@ -5573,28 +5605,9 @@
             content.appendChild(feedRow);
           }
         } else {
-          // Пока ссылки нет — выбираем область действия: весь регион
-          // (по умолчанию) или один конкретный сервер.
-          const picker = document.createElement("div");
-          picker.className = "device-form";
-          picker.style.borderTop = "0";
-          picker.style.paddingTop = "0";
-          picker.style.marginTop = "0";
-          const field = document.createElement("div");
-          const label = document.createElement("label");
-          label.setAttribute("for", "deviceShareNodeSelect");
-          label.textContent = "Сервер для ссылки";
-          const select = document.createElement("select");
-          select.id = "deviceShareNodeSelect";
-          const allOpt = document.createElement("option");
-          allOpt.value = "";
-          allOpt.textContent = "Все серверы региона";
-          select.appendChild(allOpt);
-          field.appendChild(label);
-          field.appendChild(select);
-          picker.appendChild(field);
-          content.appendChild(picker);
-          loadShareNodes(conn, select);
+          // Пока ссылки нет: она открывает все серверы региона
+          // устройства. Ссылки на другие регионы — в блоке
+          // «Поделиться доступом».
           const err = document.createElement("div");
           err.className = "device-form-error";
           err.id = "deviceShareError";
@@ -5604,27 +5617,6 @@
             ),
           );
           content.appendChild(err);
-        }
-      }
-
-      // Серверы для выбора области действия шар-ссылки (GET /devices/nodes).
-      // Пустой вариант = весь регион: получатель увидит все серверы.
-      async function loadShareNodes(conn, select) {
-        if (!select) return;
-        try {
-          const r = await fetch(
-            `${API_BASE}/devices/nodes?env=${encodeURIComponent(conn.env)}&proto=${encodeURIComponent(conn.proto)}&subscription_id=${encodeURIComponent(devicesSubId)}`,
-          );
-          const j = await r.json().catch(() => null);
-          if (!r.ok || !j || !Array.isArray(j.response)) return;
-          j.response.forEach((n) => {
-            const opt = document.createElement("option");
-            opt.value = n.node_id;
-            opt.textContent = n.label || n.hostname;
-            select.appendChild(opt);
-          });
-        } catch (e) {
-          // Список не критичен: остаётся вариант «все серверы».
         }
       }
 
@@ -5647,8 +5639,6 @@
 
       async function createDeviceShare(conn) {
         const errEl = document.getElementById("deviceShareError");
-        const nodeSelect = document.getElementById("deviceShareNodeSelect");
-        const nodeId = nodeSelect ? nodeSelect.value : "";
         const setErr = (m) => {
           if (errEl) errEl.textContent = m || "";
         };
@@ -5660,7 +5650,6 @@
             body: JSON.stringify({
               subscription_id: devicesSubId,
               connection_id: conn.id,
-              node_id: nodeId || null,
             }),
           });
           const j = await r.json().catch(() => null);
@@ -5681,28 +5670,7 @@
       }
 
       async function revokeDeviceShare(conn) {
-        if (
-          !confirm(
-            "Отозвать ссылку? Устройство, которому вы её отправили, потеряет доступ сразу.",
-          )
-        ) {
-          return;
-        }
-        try {
-          const r = await fetch(
-            `${API_BASE}/devices/share/${encodeURIComponent(conn.share_token)}?subscription_id=${encodeURIComponent(devicesSubId)}`,
-            { method: "DELETE" },
-          );
-          const j = await r.json().catch(() => null);
-          // 404 = уже отозван — трактуем как успех
-          if ((r.ok && j && j.status === 200) || (j && j.status === 404)) {
-            await refreshDevices();
-            return;
-          }
-          alert((j && j.message) || "Не удалось отозвать ссылку");
-        } catch (e) {
-          alert("Сетевая ошибка — попробуйте ещё раз");
-        }
+        return revokeShareToken(conn.share_token);
       }
 
       function isWgFamilyDevice(conn) {
@@ -5898,6 +5866,7 @@
           deviceOptions = j.response;
           if (addBtn) addBtn.classList.remove("hidden");
           fillDeviceEnvSelect();
+          fillSharedSubSelects();
         } catch (e) {
           // 503 или сетевая ошибка — кнопка добавления остаётся скрытой
           deviceOptions = null;
@@ -5959,6 +5928,172 @@
           protoSelect.appendChild(opt);
         });
         syncDeviceMainFeed();
+      }
+
+      // ---- Поделиться доступом: ссылка-подписка на весь регион ----
+
+      function fillSharedSubSelects() {
+        const envSelect = document.getElementById("sharedSubEnv");
+        const protoSelect = document.getElementById("sharedSubProto");
+        const section = document.getElementById("sharedSubsSection");
+        // Устройства выключены на бэкенде — шар региона тоже недоступен
+        if (section) section.classList.toggle("hidden", !deviceOptions);
+        if (!envSelect || !protoSelect || !deviceOptions) return;
+        const prevEnv = envSelect.value;
+        envSelect.innerHTML = "";
+        const envs = getAvailableDeviceEnvs();
+        envs.forEach((env) => {
+          const opt = document.createElement("option");
+          opt.value = env;
+          opt.textContent = deviceEnvDisplayName(env);
+          envSelect.appendChild(opt);
+        });
+        if (prevEnv && envs.includes(prevEnv)) envSelect.value = prevEnv;
+        fillSharedSubProtoSelect();
+      }
+
+      function fillSharedSubProtoSelect() {
+        const envSelect = document.getElementById("sharedSubEnv");
+        const protoSelect = document.getElementById("sharedSubProto");
+        if (!envSelect || !protoSelect) return;
+        const env = envSelect.value;
+        const isScopeEnv = deviceScope && env === deviceScope.env;
+        const protos = isScopeEnv
+          ? deviceScope.protos || []
+          : (deviceOptions && deviceOptions[env]) || [];
+        protoSelect.innerHTML = "";
+        protos.forEach((p) => {
+          const opt = document.createElement("option");
+          opt.value = p;
+          opt.textContent = p;
+          protoSelect.appendChild(opt);
+        });
+      }
+
+      function renderSharedSubs() {
+        const list = document.getElementById("sharedSubsList");
+        if (!list) return;
+        list.innerHTML = "";
+        const subs = (devicesData && devicesData.shared_subs) || [];
+        subs.forEach((s) => {
+          const box = document.createElement("div");
+          box.className = "device-share-box";
+          const title = document.createElement("div");
+          title.className = "devices-hint";
+          title.textContent = `${deviceEnvDisplayName(s.env)} · ${s.proto}`;
+          const appBox = document.createElement("div");
+          appBox.className = "device-link-box";
+          appBox.textContent = s.share_url;
+          const row = document.createElement("div");
+          row.className = "device-actions-row";
+          row.appendChild(
+            deviceBtn("Копировать", "device-connect-btn", () =>
+              copyText(s.share_url, "Ссылка скопирована"),
+            ),
+          );
+          row.appendChild(
+            deviceBtn("QR", "device-connect-btn", () =>
+              showDeviceQr(s.share_url),
+            ),
+          );
+          row.appendChild(
+            deviceBtn("Отозвать", "device-danger-btn", () =>
+              revokeShareToken(s.share_token),
+            ),
+          );
+          box.appendChild(title);
+          box.appendChild(appBox);
+          box.appendChild(row);
+          if (s.share_feed_url) {
+            const feedBox = document.createElement("div");
+            feedBox.className = "device-link-box";
+            feedBox.textContent = s.share_feed_url;
+            const feedRow = document.createElement("div");
+            feedRow.className = "device-actions-row";
+            feedRow.appendChild(
+              deviceBtn("Копировать https", "device-connect-btn", () =>
+                copyText(s.share_feed_url, "Ссылка скопирована"),
+              ),
+            );
+            feedRow.appendChild(
+              deviceBtn("QR", "device-connect-btn", () =>
+                showDeviceQr(s.share_feed_url),
+              ),
+            );
+            box.appendChild(feedBox);
+            box.appendChild(feedRow);
+          }
+          list.appendChild(box);
+        });
+      }
+
+      async function createSharedSub() {
+        const envSelect = document.getElementById("sharedSubEnv");
+        const protoSelect = document.getElementById("sharedSubProto");
+        const btn = document.getElementById("sharedSubCreateBtn");
+        const errEl = document.getElementById("sharedSubError");
+        const setErr = (m) => {
+          if (errEl) errEl.textContent = m || "";
+        };
+        setErr("");
+        if (!envSelect?.value || !protoSelect?.value) {
+          setErr("Выберите регион и протокол");
+          return;
+        }
+        if (btn) btn.disabled = true;
+        try {
+          const r = await fetch(`${API_BASE}/devices/share/sub`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              subscription_id: devicesSubId,
+              env: envSelect.value,
+              proto: protoSelect.value,
+            }),
+          });
+          const j = await r.json().catch(() => null);
+          if (r.ok && j && j.status === 200) {
+            await refreshDevices();
+            return;
+          }
+          if (j && j.status === 429) {
+            setErr(
+              "Слишком частые запросы — подождите минуту и попробуйте снова.",
+            );
+          } else {
+            setErr((j && j.message) || "Не удалось создать ссылку");
+          }
+        } catch (e) {
+          setErr("Сетевая ошибка — попробуйте ещё раз");
+        } finally {
+          if (btn) btn.disabled = false;
+        }
+      }
+
+      async function revokeShareToken(token) {
+        if (!token) return;
+        if (
+          !confirm(
+            "Отозвать ссылку? Тот, кому вы её отправили, потеряет доступ сразу.",
+          )
+        ) {
+          return;
+        }
+        try {
+          const r = await fetch(
+            `${API_BASE}/devices/share/${encodeURIComponent(token)}?subscription_id=${encodeURIComponent(devicesSubId)}`,
+            { method: "DELETE" },
+          );
+          const j = await r.json().catch(() => null);
+          // 404 = уже отозван — трактуем как успех
+          if ((r.ok && j && j.status === 200) || (j && j.status === 404)) {
+            await refreshDevices();
+            return;
+          }
+          alert((j && j.message) || "Не удалось отозвать ссылку");
+        } catch (e) {
+          alert("Сетевая ошибка — попробуйте ещё раз");
+        }
       }
 
       function syncDeviceMainFeed() {
@@ -7476,6 +7611,16 @@
 
         if (deviceEnvSelect) {
           deviceEnvSelect.addEventListener("change", fillDeviceProtoSelect);
+        }
+
+        const sharedSubEnv = document.getElementById("sharedSubEnv");
+        const sharedSubCreateBtn =
+          document.getElementById("sharedSubCreateBtn");
+        if (sharedSubEnv) {
+          sharedSubEnv.addEventListener("change", fillSharedSubProtoSelect);
+        }
+        if (sharedSubCreateBtn) {
+          sharedSubCreateBtn.addEventListener("click", () => createSharedSub());
         }
 
         if (deviceLabelInput) {
