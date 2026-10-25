@@ -1199,6 +1199,36 @@
         word-break: break-word;
       }
 
+      /* Устройства: окно раскрывается в страницу ЛК — без карточки вокруг. */
+      .devices-modal {
+        max-width: 1040px;
+        width: 96vw;
+        max-height: 92vh;
+        overflow-y: auto;
+      }
+      .devices-modal.devices-page {
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+        padding: 0;
+      }
+      .devices-modal.devices-page .renew-modal-title,
+      .devices-modal.devices-page .renew-modal-subtitle {
+        display: none;
+      }
+      .devices-modal.devices-page .renew-modal-close {
+        position: fixed;
+        top: 16px;
+        right: 20px;
+        z-index: 30;
+      }
+
+      /* Роутер — отдельный коннект: общая подписка в этом режиме недоступна. */
+      .device-main-feed.router-off {
+        opacity: 0.45;
+        pointer-events: none;
+      }
+
       .device-item-meta {
         color: var(--muted);
         font-size: 12px;
@@ -3333,6 +3363,7 @@
 
       <main class="main-content" id="main-content">
         <div id="urgency-banner"></div>
+        <div id="premium-expiry-banner" class="hidden"></div>
         <div class="dashboard-grid">
           <!-- Status card -->
           <div class="dashboard-card status-card">
@@ -3732,7 +3763,7 @@
       </div>
 
       <div id="user-devices-modal" class="renew-modal hidden">
-        <div class="renew-modal-content" style="max-width: 560px">
+        <div class="renew-modal-content devices-modal" id="devicesModalContent">
           <button
             type="button"
             class="renew-modal-close"
@@ -3789,6 +3820,19 @@
                 Include the device in the main subscription
               </label>
               <div class="device-form-error" id="deviceFormError"></div>
+              <label class="device-main-feed" id="routerModeRow">
+                <input type="checkbox" id="routerMode" />
+                Router — a static config pinned to one server
+              </label>
+              <div class="hidden" id="routerNodeRow">
+                <label for="routerNodeSelect">Server</label>
+                <select id="routerNodeSelect"></select>
+                <div class="devices-hint" style="margin-top: 6px">
+                  A router cannot pick a server the way the app does, so the
+                  connection is pinned to one server and never conflicts with
+                  the main subscription.
+                </div>
+              </div>
               <button type="button" class="btn try" id="deviceSubmitBtn">
                 Create
               </button>
@@ -3798,34 +3842,6 @@
               Traffic stats update with a few minutes delay.
             </div>
 
-            <div class="device-section hidden" id="sharedSubsSection">
-              <h4>Share access</h4>
-              <div
-                class="device-form"
-                id="sharedSubForm"
-                style="border-top: 0; padding-top: 0; margin-top: 0"
-              >
-                <div>
-                  <label for="sharedSubEnv">Region</label>
-                  <select id="sharedSubEnv"></select>
-                </div>
-                <div>
-                  <label for="sharedSubProto">Protocol</label>
-                  <select id="sharedSubProto"></select>
-                </div>
-                <button type="button" class="btn try" id="sharedSubCreateBtn">
-                  Create link
-                </button>
-                <div class="device-form-error" id="sharedSubError"></div>
-              </div>
-              <div id="sharedSubsList"></div>
-              <div class="devices-hint">
-                The frkn://sub/shared/… link is a subscription to every server
-                of the chosen region for the FRKN Dopamine app: the recipient
-                sees the whole list and picks where to connect. The https link
-                is for third-party clients (INCY, Streisand, Clash).
-              </div>
-            </div>
           </div>
 
           <div id="deviceDetailView" class="hidden">
@@ -4799,6 +4815,45 @@
         });
       }
 
+      // A premium slot lives on its own node with its own term, and the generic
+      // subscription banner says nothing about it. Show a dedicated banner when
+      // the term is close (a week) or already gone.
+      function renderPremiumExpiry(scope) {
+        const el = document.getElementById("premium-expiry-banner");
+        if (!el) return;
+        const isPremium = !!scope && !!scope.kind && scope.kind !== "personal";
+        // Срок премиума свой (`premium_until`): он не совпадает со сроком
+        // подписки и живёт отдельно — поэтому берём только его.
+        const untilRaw = scope && scope.premium_until ? scope.premium_until : null;
+        const until = untilRaw ? new Date(untilRaw) : null;
+        if (!isPremium || !until || isNaN(until.getTime())) {
+          el.className = "hidden";
+          el.innerHTML = "";
+          return;
+        }
+        const days = Math.ceil((until.getTime() - Date.now()) / 86400000);
+        const dateStr = until.toLocaleDateString("en-US", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+        const link =
+          "<a href='https://t.me/frkn_support' target='_blank' rel='noopener noreferrer' style='color:inherit; text-decoration: underline;'>support</a>";
+        if (days < 0) {
+          el.className = "urgency-banner critical";
+          el.innerHTML = `🚨 Your premium slot expired on ${dateStr}. To renew, contact ${link}.`;
+          return;
+        }
+        if (days <= 7) {
+          const word = days === 1 ? "day" : "days";
+          el.className = "urgency-banner";
+          el.innerHTML = `⏳ Premium expires in ${days} ${word} — ${dateStr}. Renewal: ${link}.`;
+          return;
+        }
+        el.className = "hidden";
+        el.innerHTML = "";
+      }
+
       function renderSubscriptionData(data, subId, currentEnv) {
         const statusEl = document.getElementById("status-text");
         const daysEl = document.getElementById("days");
@@ -4821,6 +4876,7 @@
         if (window.FRKNShServers && typeof window.FRKNShServers.mount === "function") {
           window.FRKNShServers.mount({ apiBase: API_BASE, subId });
         }
+        renderPremiumExpiry(data.scope);
 
         // Trial and Early Adopter badges
         // Early Adopter badges (Trial больше не раздаём — плашка убрана)
@@ -5307,7 +5363,7 @@
           name.textContent = c.label;
           const meta = document.createElement("div");
           meta.className = "device-item-meta";
-          meta.textContent = `${c.proto || ""} · ${envName} · ${traffic}`;
+          meta.textContent = `${prettyProto(c.proto)} · ${envName} · ${traffic}`;
           info.appendChild(name);
           info.appendChild(meta);
           if (typeof c.include_in_main === "boolean") {
@@ -5408,16 +5464,22 @@
         currentDetailConnId = null;
         const listView = document.getElementById("devicesListView");
         const detailView = document.getElementById("deviceDetailView");
+        const content = document.getElementById("devicesModalContent");
         if (listView) listView.classList.remove("hidden");
         if (detailView) detailView.classList.add("hidden");
+        if (content) content.classList.remove("devices-page");
       }
 
       function openDeviceDetail(connId) {
         currentDetailConnId = connId;
         const listView = document.getElementById("devicesListView");
         const detailView = document.getElementById("deviceDetailView");
+        const content = document.getElementById("devicesModalContent");
         if (listView) listView.classList.add("hidden");
         if (detailView) detailView.classList.remove("hidden");
+        // Детальный вид — это страница: карточку-обёртку и заголовок убираем,
+        // крестик остаётся в углу страницы.
+        if (content) content.classList.add("devices-page");
         renderDeviceDetail(connId);
       }
 
@@ -5453,7 +5515,7 @@
           const traffic = formatBytes(
             (conn.uplink || 0) + (conn.downlink || 0),
           );
-          metaEl.textContent = `${conn.proto || ""} · ${envName} · ${traffic}`;
+          metaEl.textContent = `${prettyProto(conn.proto)} · ${envName} · ${traffic}`;
         }
         renderDeviceShareSection(conn);
         renderDeviceFeedSection(conn);
@@ -5708,13 +5770,18 @@
             );
             if (!r.ok) throw new Error("HTTP " + r.status);
             const j = await r.json();
-            blocks = (j.nodes || []).map((n) => n.config).filter(Boolean);
+            blocks = (j.nodes || [])
+              .filter((n) => n.config)
+              .map((n) => ({
+                config: n.config,
+                label: localizeCountryName(n.label),
+              }));
           } else {
             const r = await fetch(buildDeviceFeedUrl(conn, "txt"));
             if (!r.ok) throw new Error("HTTP " + r.status);
             const text = await r.text();
             const parsed = parseDeviceConfigs(text);
-            blocks = parsed.blocks;
+            blocks = parsed.blocks.map((config) => ({ config, label: "" }));
             connLines = parsed.connLines;
           }
           listEl.innerHTML = "";
@@ -5725,22 +5792,29 @@
             listEl.appendChild(empty);
             return;
           }
-          const baseName = sanitizeDeviceFileName(conn.label);
+          // Node name = the config's country: the label used to be dropped, so every file was “WireGuard #N”.
+          const configLabels = prepareNodeLabels(
+            blocks.map((b, i) => ({
+              label: b.label
+                ? nodeConfigLabel(conn.proto, b.label)
+                : `${prettyProto(conn.proto)} #${i + 1}`,
+            })),
+          );
           blocks.forEach((block, i) => {
             const item = document.createElement("div");
             item.className = "device-config-item";
             const preview = document.createElement("div");
             preview.className = "device-config-preview";
-            preview.textContent = `WireGuard #${i + 1}`;
+            preview.textContent = configLabels[i];
             const row = document.createElement("div");
             row.className = "device-actions-row";
             row.appendChild(
               deviceBtn("Download .conf", "device-connect-btn", () =>
-                downloadWG(block, `${baseName}-${i + 1}`),
+                downloadWG(block.config, sanitizeDeviceFileName(configLabels[i])),
               ),
             );
             row.appendChild(
-              deviceBtn("QR", "device-connect-btn", () => showDeviceQr(block)),
+              deviceBtn("QR", "device-connect-btn", () => showDeviceQr(block.config)),
             );
             item.appendChild(preview);
             item.appendChild(row);
@@ -5822,12 +5896,15 @@
         const envSelect = document.getElementById("deviceEnvSelect");
         if (!envSelect) return;
         envSelect.innerHTML = "";
-        getAvailableDeviceEnvs().forEach((env) => {
+        const envs = getAvailableDeviceEnvs();
+        envs.forEach((env) => {
           const opt = document.createElement("option");
           opt.value = env;
           opt.textContent = deviceEnvDisplayName(env);
           envSelect.appendChild(opt);
         });
+        // По умолчанию — основной регион.
+        if (envs.includes("dev")) envSelect.value = "dev";
         fillDeviceProtoSelect();
       }
 
@@ -5844,9 +5921,14 @@
         protos.forEach((p) => {
           const opt = document.createElement("option");
           opt.value = p;
-          opt.textContent = p;
+          opt.textContent = prettyProto(p);
           protoSelect.appendChild(opt);
         });
+        // По умолчанию — мобильный AmneziaWG, он же рекомендованный.
+        const preferred = ["AmneziaWgMobile", "AmneziaWg"].find((p) =>
+          protos.includes(p),
+        );
+        if (preferred) protoSelect.value = preferred;
         syncDeviceMainFeed();
       }
 
@@ -6028,10 +6110,74 @@
         const form = document.getElementById("deviceForm");
         const input = document.getElementById("deviceLabelInput");
         if (form) form.classList.add("hidden");
+        const sharedBack = document.getElementById("sharedSubsSection");
+        if (sharedBack && deviceOptions) sharedBack.classList.remove("hidden");
         if (input) input.value = "";
         const mainFeed = document.getElementById("deviceMainFeed");
         if (mainFeed) mainFeed.checked = false;
         setDeviceFormError("");
+      }
+
+      async function loadRouterNodes() {
+        const sel = document.getElementById("routerNodeSelect");
+        const envSel = document.getElementById("deviceEnvSelect");
+        const protoSel = document.getElementById("deviceProtoSelect");
+        if (!sel || !envSel || !protoSel) return;
+        sel.innerHTML = '<option value="">Loading…</option>';
+        try {
+          const r = await fetch(
+            `${API_BASE}/devices/nodes?env=${encodeURIComponent(envSel.value)}&proto=${encodeURIComponent(protoSel.value)}&subscription_id=${encodeURIComponent(devicesSubId)}`,
+          );
+          const j = await r.json().catch(() => null);
+          const nodes = (j && j.response) || [];
+          if (!nodes.length) {
+            sel.innerHTML = '<option value="">No servers available</option>';
+            return;
+          }
+          sel.innerHTML = nodes
+            .map((n) => `<option value="${n.node_id}">${n.label || n.hostname}</option>`)
+            .join("");
+        } catch (e) {
+          sel.innerHTML = '<option value="">Failed to load</option>';
+        }
+      }
+
+      function bindRouterMode() {
+        const mode = document.getElementById("routerMode");
+        const row = document.getElementById("routerNodeRow");
+        if (!mode || mode.dataset.bound) return;
+        mode.dataset.bound = "1";
+        const mainFeed = document.getElementById("deviceMainFeed");
+        const mainFeedRow = document.getElementById("deviceMainFeedRow");
+        mode.addEventListener("change", () => {
+          if (row) row.classList.toggle("hidden", !mode.checked);
+          // Режимы исключают друг друга: роутерный коннект не может быть в
+          // общей подписке, иначе в приложении он ломает выбор сервера.
+          if (mode.checked) {
+            if (mainFeed) {
+              mainFeed.checked = false;
+              mainFeed.disabled = true;
+            }
+            if (mainFeedRow) mainFeedRow.classList.add("router-off");
+            loadRouterNodes();
+          } else {
+            if (mainFeed) mainFeed.disabled = false;
+            if (mainFeedRow) mainFeedRow.classList.remove("router-off");
+          }
+        });
+        if (mainFeed) {
+          mainFeed.addEventListener("change", () => {
+            if (mainFeed.checked && mode.checked) {
+              mode.checked = false;
+              mode.dispatchEvent(new Event("change"));
+            }
+          });
+        }
+        ["deviceEnvSelect", "deviceProtoSelect"].forEach((id) => {
+          document.getElementById(id)?.addEventListener("change", () => {
+            if (mode.checked) loadRouterNodes();
+          });
+        });
       }
 
       async function submitDeviceCreate() {
@@ -6050,6 +6196,16 @@
         }
         if (submitBtn) submitBtn.disabled = true;
         setDeviceFormError("");
+          const routerMode =
+            document.getElementById("routerMode")?.checked === true;
+          let nodeId = null;
+          if (routerMode) {
+            nodeId = document.getElementById("routerNodeSelect")?.value || "";
+            if (!nodeId) {
+              setDeviceFormError("Pick a server for the router");
+              return;
+            }
+          }
         try {
           const r = await fetch(`${API_BASE}/devices`, {
             method: "POST",
@@ -6059,8 +6215,11 @@
               env: envSelect.value,
               proto: protoSelect.value,
               label,
+              node_id: nodeId,
               include_in_main:
-                document.getElementById("deviceMainFeed")?.checked === true,
+                routerMode
+                  ? false
+                  : document.getElementById("deviceMainFeed")?.checked === true,
             }),
           });
           const j = await r.json().catch(() => null);
@@ -6745,8 +6904,12 @@
           .then((r) => r.json())
           .then((data) => {
             const nodes = data.nodes || [];
-            const labels = prepareNodeLabels(nodes);
-            const names = awgTunnelNames(nodes.map((n) => n.label));
+            const labels = prepareNodeLabels(
+              nodes.map((n) => ({ label: nodeConfigLabel("Wireguard", n.label) })),
+            );
+            const names = awgTunnelNames(
+              nodes.map((n) => nodeConfigLabel("Wireguard", n.label)),
+            );
 
             container.innerHTML = `
             <ul class="proxy-list">
@@ -6802,9 +6965,97 @@
           .replace(/\$/g, "\\$");
       }
 
+      // Название страны для конфига. label ноды бывает «PL1», «EST1»,
+      // «France AWG3.1» — в списке конфигов это ничего не говорит, а раньше
+      // он вообще выбрасывался. Не распознали страну — отдаём label как есть.
+      const COUNTRY_RULES = [
+        [/poland|^pl\d*\b|\bpl\b/i, "pl"],
+        [/estonia|eesti|^est\d*\b/i, "ee"],
+        [/france|^fr\d*\b/i, "fr"],
+        [/netherlands|holland|^nl\d*\b|\bnl\b/i, "nl"],
+        [/latvia|^lv\d*\b|\blv\b/i, "lv"],
+        [/lithuania|^lt\d*\b/i, "lt"],
+        [/germany|deutschland|^de\d*\b/i, "de"],
+        [/finland|suomi|^fi\d*\b/i, "fi"],
+        [/sweden|^swe\d*\b|^se\d*\b/i, "se"],
+        [/kazakh|^kz\d*\b/i, "kz"],
+        [/kyrgyz|^kg\d*\b|\bkg\b/i, "kg"],
+        [/singapore|^sg\d*\b/i, "sg"],
+        [/united states|\busa\b|^us\d*\b|\bus\b/i, "us"],
+        [/russia|moscow|^ru\d*\b|^ru\b/i, "ru"],
+        [/czech|^cz\d*\b/i, "cz"],
+        [/ukraine|^ua\d*\b/i, "ua"],
+        [/turkey|türkiye|^tr\d*\b/i, "tr"],
+        [/armenia|^am\d*\b/i, "am"],
+        [/georgia|^ge\d*\b/i, "ge"],
+        [/moldova|^md\d*\b/i, "md"],
+        [/serbia|^rs\d*\b/i, "rs"],
+        [/hong ?kong|^hk\d*\b/i, "hk"],
+        [/japan|^jp\d*\b/i, "jp"],
+        [/canada|^ca\d*\b/i, "ca"],
+      ];
+      const COUNTRY_NAMES = {
+        pl: "Poland", ee: "Estonia", fr: "France", nl: "Netherlands",
+        lv: "Latvia", lt: "Lithuania", de: "Germany", fi: "Finland",
+        se: "Sweden", kz: "Kazakhstan", kg: "Kyrgyzstan", sg: "Singapore",
+        us: "United States", ru: "Russia", ua: "Ukraine", cz: "Czechia",
+        tr: "Turkey", am: "Armenia", ge: "Georgia", md: "Moldova",
+        rs: "Serbia", hk: "Hong Kong", jp: "Japan", ca: "Canada",
+      };
+
+      // Protocol + node name in the config label: the list used to say
+      // "WireGuard #1/#2", AWG was indistinguishable from WG, and several
+      // nodes in one country looked identical.
+      const PROTO_SHORT = {
+        AmneziaWg: "AWG",
+        AmneziaWgMobile: "AWG Mobile",
+        Wireguard: "WG",
+        Hysteria2: "Hysteria2",
+        Mtproto: "MTProto",
+        XrayVless: "VLESS",
+        XrayVlessReality: "VLESS",
+        Vless: "VLESS",
+        Vmess: "VMess",
+        Shadowsocks: "SS",
+      };
+
+      function prettyProto(proto) {
+        return PROTO_SHORT[proto] || String(proto || "");
+      }
+
+      // Country + the node's own code (PL1, EST1), while a human-readable node
+      // name ("RU Рилзопровод", "Moscow") is kept as is — that is the
+      // connection name, the same one the wizard shows.
+      function nodeConfigLabel(proto, rawLabel) {
+        const raw = String(rawLabel || "").trim();
+        const country = localizeCountryName(raw);
+        // Только короткие коды (PL1, EST1) получают страну впереди; настоящие
+        // имена нод («RU Рилзопровод», «Moscow») остаются как есть.
+        const isCode = /^[A-Za-z]{1,4}\d{0,3}$/.test(raw);
+        const base =
+          isCode && country && country !== raw
+            ? `${country} - ${raw}`
+            : raw || country;
+        const short = prettyProto(proto);
+        if (!short) return base;
+        return base ? `${short} - ${base}` : short;
+      }
+
+      function localizeCountryName(label) {
+        const raw = String(label || "").trim();
+        if (!raw) return "";
+        for (const [re, code] of COUNTRY_RULES) {
+          if (re.test(raw)) return COUNTRY_NAMES[code] || raw;
+        }
+        return raw;
+      }
+
       function prepareNodeLabels(nodes) {
+        // Составную подпись собирает nodeConfigLabel; здесь только чистим и
+        // разводим дубли, иначе повторная локализация съест имя ноды.
         const cleaned = nodes.map((n) =>
           String(n.label || "")
+
             .replace(/[^\p{L}\p{N}\s\-()]/gu, "")
             .replace(/\s+/g, " ")
             .trim(),
@@ -7059,8 +7310,12 @@
           .then((r) => r.json())
           .then((data) => {
             const nodes = data.nodes || [];
-            const labels = prepareNodeLabels(nodes);
-            const names = awgTunnelNames(nodes.map((n) => n.label));
+            const labels = prepareNodeLabels(
+              nodes.map((n) => ({ label: nodeConfigLabel("AmneziaWg", n.label) })),
+            );
+            const names = awgTunnelNames(
+              nodes.map((n) => nodeConfigLabel("AmneziaWg", n.label)),
+            );
             const compat = nodes.map((n) => toAwgClientConfig(n.config, "2.0"));
             const compatIdx = [];
             const blockedIdx = [];
@@ -7565,6 +7820,15 @@
             e.preventDefault();
             const form = document.getElementById("deviceForm");
             if (form) form.classList.toggle("hidden");
+            // Пока открыта форма создания, блок «Поделиться доступом» прячем:
+            // иначе в модале две синие кнопки создания подряд.
+            const shared = document.getElementById("sharedSubsSection");
+            if (shared && form) {
+              shared.classList.toggle(
+                "hidden",
+                !form.classList.contains("hidden") || !deviceOptions,
+              );
+            }
           });
         }
 
@@ -7585,6 +7849,7 @@
         if (sharedSubCreateBtn) {
           sharedSubCreateBtn.addEventListener("click", () => createSharedSub());
         }
+        bindRouterMode();
 
         if (deviceLabelInput) {
           deviceLabelInput.addEventListener("keypress", (e) => {
