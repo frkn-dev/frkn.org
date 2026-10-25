@@ -704,6 +704,7 @@
     <meta name="twitter:title" content="Dopamine — приложение от FRKN" />
     <meta name="twitter:description" content="Dopamine — клиент для подключения к VPN от FRKN. Скачайте приложение или перейдите в магазин." />
     <meta name="twitter:image" content="https://frkn.org/Images/og.png" />
+    <script src="/scripts/api-fallback.js?v=2"></script>
   </head>
 
   <body>
@@ -735,16 +736,17 @@
         <div class="version-row">
           <div class="version-stack">
             <details class="version-notes">
-              <summary class="version-badge"><b>v4.8.14.70</b> обновлено 20.10.2026</summary>
+              <summary class="version-badge"><b>v4.8.14.70</b> обновлено 23.10.2026</summary>
               <div class="old-pop version-notes-pop">
                 <div class="notes-block">
                   <div class="notes-ver">4.8.14.70</div>
-                  <div class="notes-plat">Android, iOS, macOS, Linux</div>
+                  <div class="notes-plat">Android, iOS, macOS, Linux, Windows</div>
                   <ul>
                     <li>В списке серверов появился фильтр «All» и группировка по локациям: одна карточка на город вместо набора протоколов.</li>
                     <li>Если подписок несколько, можно выбрать нужную: All или «Подписка 1», «Подписка 2»…</li>
                     <li>Подписки обновляются независимо: серверы одной больше не затирают другую.</li>
                     <li>Настройка «Локальные подсети»: адреса, которые всегда идут мимо VPN, даже при включённом KillSwitch.</li>
+                    <li><b>Windows:</b> раздельное туннелирование применяется на каждой активации — исключённые приложения действительно идут мимо VPN. Steam и игры перезапускать после подключения.</li>
                   </ul>
                 </div>
                 <div class="notes-block">
@@ -922,11 +924,11 @@
             <div class="download-hint">
               Установщик <br />
               .msi<br />
-4.8.14.61
+4.8.14.70
             </div>
 
             <a
-              href="/dopamine/Dopamine-4.8.14.61-win64.msi"
+              href="/dopamine/Dopamine-4.8.14.70-win64.msi"
               class="download-btn"
               download
             >

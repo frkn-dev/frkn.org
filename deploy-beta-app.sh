@@ -26,6 +26,7 @@ rsync -avz --progress --delete \
   --exclude='dopamine/*.bin' \
   --exclude='preset/requests.csv' \
   --exclude='preset/requests.csv.*' \
+  --exclude='b/' \
   ./ "${HOST}:${REMOTE_DIR}/"
 
 shopt -s nullglob

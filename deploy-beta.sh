@@ -25,6 +25,7 @@ rsync -avz --progress --delete \
   --exclude='dopamine/*.apk' \
   --exclude='dopamine/*.dmg' \
   --exclude='dopamine/*.bin' \
+  --exclude='b/_archive/' \
   ./ "${HOST}:${REMOTE_DIR}/"
 
 shopt -s nullglob

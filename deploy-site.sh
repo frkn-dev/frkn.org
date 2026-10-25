@@ -29,6 +29,7 @@ rsync -av --progress --delete \
     --exclude='dopamine/*.apk' \
     --exclude='dopamine/*.dmg' \
     --exclude='dopamine/*.bin' \
+  --exclude='b/_archive/' \
     --exclude='node_modules/' \
     --exclude='__pycache__/' \
     ./ "${HOST}:${REMOTE_DIR}/"

@@ -704,6 +704,7 @@
     <meta name="twitter:title" content="Dopamine — app by FRKN" />
     <meta name="twitter:description" content="Dopamine — a client to connect to FRKN VPN. Download the app or go to the store." />
     <meta name="twitter:image" content="https://frkn.org/Images/og.png" />
+    <script src="/scripts/api-fallback.js?v=2"></script>
   </head>
 
   <body>
@@ -735,16 +736,17 @@
         <div class="version-row">
           <div class="version-stack">
             <details class="version-notes">
-              <summary class="version-badge"><b>v4.8.14.70</b> updated 20.10.2026</summary>
+              <summary class="version-badge"><b>v4.8.14.70</b> updated 23.10.2026</summary>
               <div class="old-pop version-notes-pop">
                 <div class="notes-block">
                   <div class="notes-ver">4.8.14.70</div>
-                  <div class="notes-plat">Android, iOS, macOS, Linux</div>
+                  <div class="notes-plat">Android, iOS, macOS, Linux, Windows</div>
                   <ul>
                     <li>The server list gets an "All" filter and location grouping: one card per city instead of a set of protocols.</li>
                     <li>With several subscriptions, pick the one you need: All, "Subscription 1", "Subscription 2"…</li>
                     <li>Subscriptions refresh independently: servers from one no longer overwrite another.</li>
                     <li>"Local subnets" setting: addresses that always bypass the VPN, even with the kill switch on.</li>
+                    <li><b>Windows:</b> split tunneling is applied on every activation, so excluded apps really bypass the VPN. Restart Steam and games after connecting.</li>
                   </ul>
                 </div>
                 <div class="notes-block">
@@ -919,9 +921,9 @@
               </svg>
             </div>
             <div class="download-name">Windows</div>
-            <div class="download-hint">.msi installer<br />4.8.14.61</div>
+            <div class="download-hint">.msi installer<br />4.8.14.70</div>
             <a
-              href="/dopamine/Dopamine-4.8.14.61-win64.msi"
+              href="/dopamine/Dopamine-4.8.14.70-win64.msi"
               class="download-btn"
               download
             >
