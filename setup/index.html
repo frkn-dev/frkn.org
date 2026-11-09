@@ -637,7 +637,7 @@
         </div>
 
         <!-- incy -->
-        <div class="setup-card wide" data-platform="all">
+        <div class="setup-card wide" data-platform="mobile desktop">
           <div class="setup-card-header">
             <span class="platform-icon" aria-label="INCY">🌐</span>
             <h2>INCY</h2>
@@ -753,10 +753,13 @@
           btn.classList.add("active");
 
           document.querySelectorAll(".setup-card").forEach((card) => {
+            // `data-platform` is a space-separated list, so a card can belong
+            // to several tabs (INCY is desktop+mobile but never a router).
+            const platforms = (card.dataset.platform || "").split(/\s+/);
             if (
               filter === "all" ||
-              card.dataset.platform === filter ||
-              card.dataset.platform === "all"
+              platforms.includes(filter) ||
+              platforms.includes("all")
             ) {
               card.classList.remove("hidden");
             } else {

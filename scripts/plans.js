@@ -106,7 +106,7 @@
     },
     {
       id: "gaming",
-      betaOnly: true,
+      betaOnly: false,
       ru: {
         name: "Игровой",
         tagline: "Серверы в Турции",
@@ -138,7 +138,7 @@
     },
     {
       id: "standard-gaming",
-      betaOnly: true,
+      betaOnly: false,
       ru: {
         name: "Стандарт + Игровой",
         tagline: "Стандарт и серверы в Турции",
@@ -219,7 +219,7 @@
       3: "3 дня",
       7: "7 дней",
       14: "14 дней",
-      30: "1 месяц",
+      31: "1 месяц",
       90: "3 месяца",
       180: "6 месяцев",
       365: "1 год",
@@ -228,7 +228,7 @@
       3: "3 days",
       7: "7 days",
       14: "14 days",
-      30: "1 month",
+      31: "1 month",
       90: "3 months",
       180: "6 months",
       365: "1 year",
@@ -709,7 +709,16 @@
     // deployed before the gateway): keep the static HTML prices, and leave the
     // product selector out: chips with no prices behind them are worse than
     // none. `syncCardPrices` below is a no-op in that case.
-    if (document.getElementById("product-chips") && isBeta && catalog) render();
+    //
+    // The selector appears as soon as more than one product is sold, not only
+    // on beta: gaming is a production product now, and without chips the page
+    // would keep showing the fixed standard cards.
+    if (
+      document.getElementById("product-chips") &&
+      catalog &&
+      selectableProducts().length > 1
+    )
+      render();
     // Traffic (lite) packages are never re-rendered, only price-synced.
     syncCardPrices();
   }

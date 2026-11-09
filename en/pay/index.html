@@ -686,8 +686,10 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="/home-v2.css?v=19" />
+    <link rel="stylesheet" href="/pay-v2.css?v=4" />
   </head>
-  <body>
+  <body class="home-v2 pay-v2 pay-v2-en">
     <div class="container">
       <header>
         <div id="logo-container"></div>
@@ -849,17 +851,17 @@
 
       <div class="pricing-section">
         <div class="pricing-grid pricing-grid-main">
-          <div class="price-card accent-border" data-duration="30" data-price="6.50">
+          <div class="price-card accent-border" data-duration="31" data-price="6.50">
             <div class="card-subtitle">Try Reelsoprovod</div>
             <h3>1 month</h3>
-            <div class="duration">30 days of access</div>
+            <div class="duration">31 days of access</div>
             <div class="cost-wrapper">
               <span class="old-price"></span>
               <div class="cost">$6.50</div>
             </div>
             <div class="savings-text regular">Regular price</div>
             <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="30" data-price="6.50">
+            <button class="buy-button" data-duration="31" data-price="6.50">
               Choose plan
             </button>
             <ul class="feature-list">
@@ -1051,17 +1053,17 @@
             margin-top: 15px;
           "
         >
-          🔒 Secure payment by card, SBP, crypto
+          Secure payment by card, SBP, crypto
         </p>
         <p style="font-size: 13px; text-align: center; margin-top: 15px">
-          ⚠️ Do not close this window until payment is confirmed
+          Important: do not close this window until payment is confirmed
         </p>
       </div>
     </div>
 
     <div id="error-popup" class="popup-overlay">
       <div class="popup-content">
-        <div style="font-size: 40px; margin-bottom: 10px">⚠️</div>
+        <div class="popup-icon">!</div>
         <h2 style="margin: 0 0 10px 0">Error</h2>
         <p id="popup-message" style="color: #aaa"></p>
         <button onclick="closePopup()">Got it</button>
@@ -1073,7 +1075,7 @@
       // Catalogue prices are in roubles; this market displays dollars.
       window.FRKN_PLAN_CURRENCY = { rate: 0.013, symbol: "$", prefix: true };
     </script>
-    <script src="/scripts/plans.js?v=7"></script>
+    <script src="/scripts/plans.js?v=9"></script>
     <script>
       // --- Configuration ---
       const isLocal =

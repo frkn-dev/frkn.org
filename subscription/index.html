@@ -2891,26 +2891,7 @@
         margin-top: 16px;
       }
 
-      /* Лимиты selfhosted-аккаунта: серверы (свои ноды) и пользователи
-         (child-подписки) — «N из M». */
-      .selfhosted-limits {
-        margin: 0 0 14px;
-        padding: 12px 16px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.04);
-        font-size: 13px;
-        line-height: 1.7;
-        color: var(--muted);
-      }
-
-      .selfhosted-limits .selfhosted-limit-row b {
-        color: #fff;
-      }
-
-      .selfhosted-limits .is-full {
-        color: #fbbf24;
-      }
+      /* Limits live in the «Серверы» / «Пользователи» card headers. */
 
       .traffic-summary {
         border-top: 1px solid var(--border);
@@ -3660,9 +3641,6 @@
             <!-- Статистика своих серверов: живые CPU/RAM/диск/сеть и график
                  за 24 часа. Рисует scripts/selfhosted-servers.js. -->
             <div class="selfhosted-servers hidden" id="selfhosted-servers"></div>
-            <!-- Лимиты аккаунта: сколько своих нод и пользователей можно
-                 завести. Показывается только в selfhosted-режиме. -->
-            <div class="selfhosted-limits hidden" id="selfhosted-limits"></div>
             <!-- Пользователи selfhosted-аккаунта (child-подписки на своих
                  нодах): список, создание, отзыв. Рисует
                  scripts/selfhosted-users.js. -->
@@ -4058,15 +4036,15 @@
                   <option value="3" data-price="100">3 дня — 100 ₽</option>
                   <option value="7" data-price="200">7 дней — 200 ₽</option>
                   <option value="14" data-price="300">14 дней — 300 ₽</option>
-                  <option value="30" data-price="500" selected>
-                    30 дней — 500 ₽
+                  <option value="31" data-price="500" selected>
+                    31 день — 500 ₽
                   </option>
-                  <option value="90" data-price="1500">90 дней — 1500 ₽</option>
+                  <option value="90" data-price="1300">90 дней — 1300 ₽</option>
                   <option value="180" data-price="2700">
                     180 дней — 2700 ₽
                   </option>
-                  <option value="365" data-price="5000">
-                    365 дней — 5000 ₽
+                  <option value="365" data-price="4500">
+                    365 дней — 4500 ₽
                   </option>
                 </select>
               </div>
@@ -4156,9 +4134,9 @@
     </div>
     <script src="/scripts/analytics.js" defer></script>
     <script src="/scripts/utils.js?v=1"></script>
-    <script src="/scripts/plans.js?v=7"></script>
-    <script src="/scripts/selfhosted-servers.js?v=1"></script>
-    <script src="/scripts/selfhosted-users.js?v=1"></script>
+    <script src="/scripts/plans.js?v=9"></script>
+    <script src="/scripts/selfhosted-servers.js?v=2"></script>
+    <script src="/scripts/selfhosted-users.js?v=2"></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script src="/scripts/lk-tour.js?v=1" defer></script>
@@ -4810,6 +4788,7 @@
           planKind === "lite" && (usedBytes >= limitBytes || liveConns === 0);
 
         if (isSelfhosted) applySelfhostedMode(liveConns);
+        else refreshPrivateWorkspace();
 
         // Own-server stats card (scripts/selfhosted-servers.js). Any plan can
         // own nodes — a personal account has exactly one — so the card is
@@ -4948,7 +4927,7 @@
                     : `Свободных серверов нет: ${used} из ${limit}. Удали ноду в кабинете или напиши в поддержку.`;
                 cmd.textContent = "";
                 setOpen(true);
-                refreshSelfhostedLimits();
+                refreshPrivateState();
                 return;
               }
               const token = data.response && data.response.token;
@@ -4999,36 +4978,13 @@
           document.getElementById("qr-modal").classList.add("hidden");
         };
 
-        // Лимиты selfhosted-аккаунта: серверы (свои ноды) и пользователи
-        // (child-подписки) — «N из M · свободно K». GET /private/state —
-        // источник цифр для блока выше и для сообщения «слотов нет» при
-        // выдаче команды установки. Тексты держим внутри функции, чтобы не
-        // зависеть от порядка выполнения соседних констант.
-        async function refreshSelfhostedLimits() {
-          const box = document.getElementById("selfhosted-limits");
+        // Private-resource counters: own servers and child users. The numbers
+        // live in the «Серверы» and «Пользователи» card headers, not in a
+        // separate block. GET /private/state is also the source for the
+        // "no slots left" message when minting an install command.
+        async function refreshPrivateState() {
           const subId = getSubId();
-          if (!box || !subId) return null;
-          const t = {
-            servers: "Серверы",
-            users: "Пользователи",
-            of: "из",
-            free: "свободно",
-            full: "свободных слотов нет",
-          };
-          const row = (kind, label, usage) => {
-            const used = Number(usage && usage.used) || 0;
-            const limit = Number(usage && usage.limit) || 0;
-            const remaining = Math.max(
-              0,
-              Number(usage && usage.remaining) || limit - used,
-            );
-            const free = remaining > 0 ? `${t.free} ${remaining}` : t.full;
-            return (
-              `<div class="selfhosted-limit-row" data-kind="${kind}">` +
-              `${label}: <b class="${used >= limit ? "is-full" : ""}">${used}</b> ` +
-              `${t.of} <b>${limit}</b> · ${free}</div>`
-            );
-          };
+          if (!subId) return null;
           let state = null;
           try {
             const r = await fetch(
@@ -5038,16 +4994,53 @@
             if (r.ok && data && data.response) state = data.response;
           } catch (e) {}
           if (!state) {
-            // API без /private/state (сайт задеплоен раньше api): просто не
-            // показываем блок, а не пугаем пользователя ошибкой.
-            box.classList.add("hidden");
+            // API without /private/state (site deployed before the api): leave
+            // the cards with their plain counts instead of showing an error.
             return null;
           }
-          box.innerHTML =
-            row("servers", t.servers, state.servers) +
-            row("users", t.users, state.users);
-          box.classList.remove("hidden");
+          // The caps are shown for selfhosted accounts and for regular-plan
+          // resellers (child users or caps above the 3/20 defaults). A plain
+          // account with one personal node keeps the compact count.
+          const isSelfhosted = state.plan_kind === "selfhosted";
+          const hasPrivateSetup =
+            (Number(state.users && state.users.used) || 0) > 0 ||
+            (Number(state.servers && state.servers.limit) || 0) !== 3 ||
+            (Number(state.users && state.users.limit) || 0) !== 20;
+          if (
+            (isSelfhosted || hasPrivateSetup) &&
+            window.FRKNShServers &&
+            typeof window.FRKNShServers.setLimits === "function"
+          ) {
+            window.FRKNShServers.setLimits(state.servers);
+          }
           return state;
+        }
+
+        // Mount the shared users card for a regular account that uses the
+        // private-resource features. A plain account with 0 / 20 and no users
+        // must not get an empty "Users" card.
+        function refreshPrivateWorkspace() {
+          refreshPrivateState().then((usage) => {
+            if (!usage) return;
+            const users = usage.users || {};
+            const used = Number(users.used) || 0;
+            const limit = Number(users.limit) || 0;
+            if (used > 0 || (limit > 0 && limit !== 20)) {
+              mountPrivateUsers(usage);
+            }
+          });
+        }
+
+        function mountPrivateUsers(usage) {
+          if (!window.FRKNShUsers || typeof window.FRKNShUsers.mount !== "function") {
+            return;
+          }
+          window.FRKNShUsers.mount({
+            apiBase: API_BASE,
+            subId: getSubId(),
+            state: usage,
+            onChange: () => refreshPrivateState(),
+          });
         }
 
         // Selfhosted-аккаунт: без срока истечения и без общих подключений,
@@ -5084,15 +5077,8 @@
           // карточку пользователей (общий скрипт scripts/selfhosted-users.js):
           // она показывает список, создание и отзыв, а счётчики обновляет
           // через onChange — второго запроса /private/state не нужно.
-          refreshSelfhostedLimits().then((usage) => {
-            if (window.FRKNShUsers && typeof window.FRKNShUsers.mount === "function") {
-              window.FRKNShUsers.mount({
-                apiBase: API_BASE,
-                subId: getSubId(),
-                state: usage,
-                onChange: () => refreshSelfhostedLimits(),
-              });
-            }
+          refreshPrivateState().then((usage) => {
+            if (usage) mountPrivateUsers(usage);
           });
         }
 

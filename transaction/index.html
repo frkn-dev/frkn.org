@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frkn Privacy — Активация</title>
+    <title>FRKN — Оплата</title>
     <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon">
     <link rel="apple-touch-icon" href="/Images/apple-touch-icon.png" sizes="180x180">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -129,10 +129,13 @@
         max-width: 320px;
       }
     </style>
+    <link rel="stylesheet" href="/home-v2.css?v=19" />
+    <link rel="stylesheet" href="/flow-v2.css?v=1" />
   </head>
 
-  <body>
+  <body class="home-v2 flow-v2 transaction-v2">
     <div class="container">
+      <div class="flow-brand"><a href="/">FRKN</a><span>ОПЛАТА</span></div>
       <div id="waiting-section">
         <h1 class="hero-title" style="font-size: 24px; margin-bottom: 10px">
           Проверяем платёж
@@ -145,7 +148,7 @@
 
       <div id="success-section">
         <h2 style="color: #22c55e; font-size: 24px; margin-bottom: 10px">
-          Оплата принята! 🚀
+          Оплата принята
         </h2>
         <p style="color: #888; font-size: 14px; margin-bottom: 30px">
           Ваш ключ активации готов:
@@ -168,12 +171,12 @@
         <div class="key-container">
           <div class="key-text" id="subscription-key">ЗАГРУЗКА...</div>
           <button class="copy-icon-btn" onclick="copyKey()" id="copy-btn">
-            📋
+            Копировать
           </button>
         </div>
 
         <button class="btn-pay" id="auto-activate-btn">
-          🚀 Активировать сейчас
+          Активировать сейчас
         </button>
 
         <div
@@ -199,7 +202,7 @@
 
       <div id="subscription-success-section" style="display: none;">
         <h2 style="color: #22c55e; font-size: 24px; margin-bottom: 10px">
-          Оплата принята! 🚀
+          Оплата принята
         </h2>
         <p id="subscription-success-message" style="color: #888; font-size: 14px; margin-bottom: 30px">
           Ваша подписка продлена.
@@ -211,7 +214,7 @@
 
       <div id="error-popup" class="popup-overlay">
         <div class="popup-content">
-          <div style="font-size: 40px; margin-bottom: 15px">⚠️</div>
+          <div class="popup-icon">!</div>
           <h2 style="margin: 0 0 10px 0; font-size: 20px">Ошибка</h2>
           <p
             id="popup-message"
@@ -269,9 +272,9 @@
         const keyText = document.getElementById("subscription-key").innerText;
         const btn = document.getElementById("copy-btn");
         navigator.clipboard.writeText(keyText).then(() => {
-          btn.innerText = "✅";
+          btn.innerText = "Скопировано";
           setTimeout(() => {
-            btn.innerText = "📋";
+            btn.innerText = "Копировать";
           }, 2000);
         });
       }
@@ -345,7 +348,7 @@
                 "block";
               document.querySelector(
                 "#subscription-success-section h2",
-              ).innerText = "Спасибо за донат! ❤️";
+              ).innerText = "Спасибо за донат!";
               document.getElementById(
                 "subscription-success-message",
               ).innerText = "Ваш платёж получен.";

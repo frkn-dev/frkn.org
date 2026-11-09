@@ -7,13 +7,13 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
 
-    <meta property="og:title" content="Активировать Ключ FRKN Рилзопровод" />
+    <meta property="og:title" content="Вход в Личный Кабинет FRKN Рилзопровод" />
     <meta property="og:site_name" content="frkn" />
     <meta name="theme-color" content="#0b0d12" />
     <link rel="canonical" href="https://frkn.org/activate/" />
     <meta
       property="og:description"
-      content="Активировать Ключ FRKN Рилзопровод"
+      content="Вход в Личный Кабинет FRKN Рилзопровод"
     />
     <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
     <meta property="og:image:width" content="1200" />
@@ -25,7 +25,7 @@
     <meta name="twitter:description" content="Активировать Ключ" />
     <meta name="twitter:image" content="https://frkn.org/Images/preview.jpeg" />
     <meta name="robots" content="index, follow" />
-    <title>FRKN Активация ключа</title>
+    <title>FRKN — Вход в Личный Кабинет</title>
     <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon">
     <link rel="apple-touch-icon" href="/Images/apple-touch-icon.png" sizes="180x180">
     <link rel="stylesheet" href="/styles.css?v=9" />
@@ -657,9 +657,11 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="/home-v2.css?v=19" />
+    <link rel="stylesheet" href="/flow-v2.css?v=2" />
   </head>
 
-  <body>
+  <body class="home-v2 flow-v2 activate-v2">
     <div class="container">
       <header>
         <div id="logo-container"></div>
@@ -667,29 +669,23 @@
 
       <div class="activate-page">
         <div class="activate-hero">
-          <h1>Активация ключа</h1>
-          <p>Введи ключ доступа, чтобы активировать подписку на Рилзопровод.</p>
+          <h1>Вход в Личный Кабинет</h1>
+          <p>Одно поле: ID подписки для входа или ключ для активации.</p>
         </div>
 
         <div class="activate-card">
-          <div class="activate-card-header">
-            <div class="key-icon">🔑</div>
-            <h2>Активируй ключ</h2>
-            <p>Ключ выглядит как набор букв и цифр через дефис</p>
-          </div>
-
           <form id="activateKeyForm">
             <div class="input-group">
-              <label for="keyId">Ключ доступа</label>
               <input
                 type="text"
                 id="keyId"
                 name="key"
-                placeholder="KKKKK-LLLLL-MMMMM-NNNNN-FFFFF-X"
+                placeholder="UUID или ключ активации"
+                aria-label="ID подписки или ключ активации"
                 required
                 autocomplete="off"
               />
-              <span class="input-hint">Формат: XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-X</span>
+              <span class="input-hint">ID — UUID из письма. Ключ — XXXXX-XXXXX-XXXXX-XXXXX-XXXXX-X</span>
             </div>
 
             <div class="input-group" style="display: none;">
@@ -703,79 +699,18 @@
               />
             </div>
 
-            <button class="btn-activate" type="submit">Активировать</button>
+            <button class="btn-activate" type="submit">Войти</button>
           </form>
 
           <div id="activationMessage" class="activation-message"></div>
 
           <div class="activate-links">
+            <a href="/info/subscriptions/">Где взять ID?</a>
             <a href="/pay">Купить ключ</a>
             <a href="/info/activation-keys/">Что такое ключ активации?</a>
           </div>
         </div>
 
-        <div class="activate-benefits">
-          <div class="benefit-card">
-            <div class="benefit-icon green">🛡️</div>
-            <div class="benefit-content">
-              <h4>Без карты и автосписаний</h4>
-              <p>
-                Платишь один раз — получаешь ключ. Никакой привязки банковской
-                карты, никаких подписок и скрытых списаний. Только ты решаешь,
-                когда пополнить доступ.
-              </p>
-            </div>
-          </div>
-
-          <div class="benefit-card">
-            <div class="benefit-icon blue">➕</div>
-            <div class="benefit-content">
-              <h4>Дни складываются</h4>
-              <p>
-                Активация ключа добавляет дни к текущей подписке, а не обнуляет
-                её. Уже имеющийся срок доступа не сгорает — только прибавляется.
-              </p>
-            </div>
-          </div>
-
-          <div class="benefit-card wide">
-            <div class="benefit-icon purple">🎁</div>
-            <div class="benefit-content">
-              <h4>Можно подарить</h4>
-              <p>
-                Ключ не привязан к аккаунту до активации. Отправь другу в
-                мессенджер — пусть сам активирует, когда ему удобно.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="activate-faq">
-          <h3>Частые вопросы</h3>
-
-          <div class="faq-item">
-            <h4>Где взять ключ?</h4>
-            <p>
-              Ключ можно купить на странице <a href="/pay" style="color: var(--accent); text-decoration: underline;">Тарифы</a> или получить в подарок от друга.
-            </p>
-          </div>
-
-          <div class="faq-item">
-            <h4>Что делать после активации?</h4>
-            <p>
-              После успешной активации ты попадёшь в личный кабинет, где можно
-              скопировать ссылку подписки и настроить любое устройство.
-            </p>
-          </div>
-
-          <div class="faq-item">
-            <h4>Ключ можно использовать повторно?</h4>
-            <p>
-              Нет, каждый ключ одноразовый. После активации он привязывается к
-              созданной подписке.
-            </p>
-          </div>
-        </div>
       </div>
 
       <div id="footer-container"></div>
@@ -784,7 +719,7 @@
     <!-- Модальное окно подтверждения активации -->
     <div id="activationModal" class="modal">
       <div class="modal-content">
-        <div class="modal-icon">🔑</div>
+        <div class="modal-icon"><img src="/Images/link.png" alt="" aria-hidden="true" /></div>
         <h2 class="modal-title">Активация ключа</h2>
         <div class="modal-description">
           Ты собираешься активировать ключ для получения доступа к Рилзопроводу
@@ -858,18 +793,21 @@
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script src="/scripts/utils.js?v=1"></script>
-    <script src="/scripts/plans.js?v=7"></script>
+    <script src="/scripts/plans.js?v=9"></script>
 
     <script>
       const params = new URLSearchParams(window.location.search);
-      const keyFromUrl = params.get("key") || params.get("code");
+      const keyFromUrl = params.get("key") || params.get("code") || params.get("promo");
       const refCodeFromUrl = params.get("ref") || params.get("referral");
+      const subIdFromUrl =
+        params.get("id") || params.get("subscription") || params.get("uuid");
+      const prefillValue = keyFromUrl || subIdFromUrl;
 
-      if (keyFromUrl) {
+      if (prefillValue) {
         const keyInput = document.getElementById("keyId");
         if (keyInput) {
-          keyInput.value = keyFromUrl;
-          keyInput.style.borderColor = "#22c55e";
+          keyInput.value = prefillValue;
+          keyInput.style.borderColor = "#075cff";
         }
       }
 
@@ -877,7 +815,7 @@
         const refInput = document.getElementById("refCodeId");
         if (refInput) {
           refInput.value = refCodeFromUrl;
-          refInput.style.borderColor = "#22c55e";
+          refInput.style.borderColor = "#075cff";
         }
       }
     </script>
@@ -1041,14 +979,23 @@
           e.preventDefault();
           clearMessage();
 
-          const keyValue = document
+          const rawValue = document
             .getElementById("keyId")
-            .value.trim()
-            .toUpperCase();
+            .value.trim();
+          const keyValue = rawValue.toUpperCase();
           const refCode = document.getElementById("refCodeId").value.trim();
 
-          if (!keyValue) {
-            showMessage("❌ Введите ключ активации", "error");
+          if (!rawValue) {
+            showMessage("❌ Введите ID подписки или ключ активации", "error");
+            return;
+          }
+
+          const uuidRegex =
+            /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+          if (uuidRegex.test(rawValue)) {
+            showMessage("✅ Открываем подписку...", "success");
+            window.location.href = `/subscription?id=${encodeURIComponent(rawValue)}`;
             return;
           }
 
@@ -1056,7 +1003,10 @@
           const keyRegex = /^[A-Z0-9]{26}$|^[A-Z0-9]{31}$/;
 
           if (!keyRegex.test(keyValueClean)) {
-            showMessage("❌ Неверный формат ключа", "error");
+            showMessage(
+              "❌ Введите корректный ID подписки или ключ активации",
+              "error",
+            );
             return;
           }
 

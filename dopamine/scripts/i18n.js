@@ -1,27 +1,13 @@
 (function () {
   const path = window.location.pathname;
-  const langMatch = path.match(/^\/(en|fa)\//);
+  const langMatch = path.match(/^\/(en)\//);
   const currentLang = langMatch ? langMatch[1] : "ru";
-
-  // Pages that actually have a /fa/ translation
-  const FA_PAGES = new Set(["/", "/pay/", "/subscription/"]);
-
-  function hasFaVersion(path) {
-    // Normalize path to always end with /
-    const normalized = path.endsWith("/") ? path : path + "/";
-    return FA_PAGES.has(normalized);
-  }
 
   function getPairUrl(targetLang) {
     if (targetLang === currentLang) return null;
 
     // Получаем путь без языкового префикса
-    const rest = path.replace(/^\/(en|fa)\//, "/");
-
-    if (targetLang === "fa") {
-      if (!hasFaVersion(rest)) return null;
-      return "/fa" + rest;
-    }
+    const rest = path.replace(/^\/(en)\//, "/");
 
     if (targetLang === "en") {
       return "/en" + rest;
@@ -40,7 +26,9 @@
 
   function autoRedirect() {
     const saved = localStorage.getItem("frkn-lang");
-    if (!saved || saved === currentLang) {
+    // Persian was dropped from the site; a stale "fa" in localStorage must not
+    // keep trying to switch a language that no longer exists.
+    if (!saved || (saved !== "ru" && saved !== "en") || saved === currentLang) {
       sessionStorage.removeItem("frkn-lang-redirect-count");
       return;
     }

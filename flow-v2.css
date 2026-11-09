@@ -1,0 +1,690 @@
+/* Shared V2 skin for the account, payment-return and short-code pages.
+   Layout and JS stay in the original pages; this file only restyles them. */
+
+body.home-v2.flow-v2 {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% -12%, rgba(0, 102, 255, 0.14), transparent 36%),
+    #050505;
+  color: #f4f4f5;
+}
+
+.flow-v2 .container {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 26px 24px 48px;
+}
+
+.flow-v2 header {
+  margin-bottom: 32px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.flow-v2 .text-link {
+  color: #4d8cff;
+  text-decoration: none;
+}
+
+.flow-v2 .text-link:hover {
+  color: #8fb5ff;
+}
+
+/* Activation / sign-in */
+.activate-v2 .login-link {
+  display: none;
+}
+
+.activate-v2 .activate-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 16px 0 30px;
+}
+
+.activate-v2 .activate-hero {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.activate-v2 .activate-hero h1 {
+  margin: 0 0 12px;
+  color: #fff;
+  font-size: clamp(38px, 6vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-shadow: 0 0 36px rgba(0, 102, 255, 0.28);
+}
+
+.activate-v2 .activate-hero p {
+  max-width: 560px;
+  margin: 0 auto;
+  color: #a1a1aa;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.activate-v2 .activate-card {
+  padding: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: #0c0d10;
+}
+
+.activate-v2 .activate-card::before {
+  display: none;
+}
+
+.activate-v2 .activate-card-header {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.activate-v2 .key-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: 0 0 12px;
+  border: 0;
+  border-radius: 9px;
+  background: rgba(0, 102, 255, 0.14);
+  color: #7aa7ff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.activate-v2 .key-icon img {
+  width: 17px;
+  height: 17px;
+  filter: invert(1);
+  opacity: 0.9;
+}
+
+.activate-v2 .key-icon-id {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.activate-v2 .activate-card-header h2 {
+  margin: 0;
+  color: #f4f4f5;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.activate-v2 .activate-card-header p {
+  margin: 6px 0 0;
+  color: #8b949e;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.activate-v2 .activate-divider {
+  height: 1px;
+  margin: 26px 0;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.activate-v2 .input-group {
+  margin-bottom: 16px;
+}
+
+.activate-v2 .input-group label {
+  margin-bottom: 7px;
+  color: #a1a1aa;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.activate-v2 .input-group input {
+  padding: 12px;
+  border: 1px solid #252a33;
+  border-radius: 10px;
+  background: #111318;
+  color: #f4f4f5;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.activate-v2 .input-group input:focus {
+  border-color: rgba(0, 102, 255, 0.7);
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12);
+}
+
+.activate-v2 .input-hint {
+  color: #71717a;
+  font-size: 10px;
+}
+
+.activate-v2 .btn-activate {
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #075cff;
+  color: #fff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.activate-v2 .btn-activate:hover {
+  background: #1a75ff;
+  box-shadow: none;
+  transform: none;
+}
+
+.activate-v2 .btn-login {
+  background: rgba(0, 102, 255, 0.28);
+}
+
+.activate-v2 .btn-login:hover {
+  background: rgba(0, 102, 255, 0.4);
+}
+
+.activate-v2 .activation-message {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 9px;
+  font-size: 11px;
+}
+
+.activate-v2 .activation-message.error {
+  background: rgba(248, 113, 113, 0.1);
+  color: #fca5a5;
+}
+
+.activate-v2 .activation-message.success {
+  background: rgba(52, 211, 153, 0.1);
+  color: #6ee7b7;
+}
+
+.activate-v2 .activation-message.info {
+  background: rgba(0, 102, 255, 0.1);
+  color: #93b4ff;
+}
+
+.activate-v2 .activate-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.activate-v2 .activate-links a {
+  padding: 7px 9px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #8b949e;
+  font-size: 10px;
+  text-decoration: none;
+}
+
+.activate-v2 .activate-links a:hover {
+  background: rgba(0, 102, 255, 0.14);
+  color: #fff;
+}
+
+.activate-v2 .activate-benefits {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 28px 0;
+}
+
+.activate-v2 .benefit-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: #111215;
+  text-align: left;
+}
+
+.activate-v2 .benefit-card:hover {
+  border-color: rgba(0, 102, 255, 0.35);
+}
+
+.activate-v2 .benefit-card.wide {
+  grid-column: 1 / -1;
+}
+
+.activate-v2 .benefit-icon {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(0, 102, 255, 0.14);
+  font-size: 12px;
+}
+
+.activate-v2 .benefit-icon.green {
+  background: rgba(52, 211, 153, 0.1);
+}
+
+.activate-v2 .benefit-icon.blue,
+.activate-v2 .benefit-icon.purple {
+  background: rgba(0, 102, 255, 0.14);
+}
+
+.activate-v2 .benefit-icon img {
+  width: 16px;
+  height: 16px;
+  filter: invert(1);
+  opacity: 0.9;
+}
+
+.activate-v2 .benefit-content h4 {
+  margin: 0 0 4px;
+  color: #f4f4f5;
+  font-size: 11px;
+}
+
+.activate-v2 .benefit-content p {
+  margin: 0;
+  color: #8b949e;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.activate-v2 .activate-faq {
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: #0c0d10;
+}
+
+.activate-v2 .activate-faq h3 {
+  margin: 0 0 8px;
+  color: #f4f4f5;
+  font-size: 12px;
+}
+
+.activate-v2 .faq-item {
+  padding: 10px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.activate-v2 .faq-item h4 {
+  margin: 0 0 4px;
+  color: #d4d4d8;
+  font-size: 11px;
+}
+
+.activate-v2 .faq-item p {
+  margin: 0;
+  color: #8b949e;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.activate-v2 .faq-item a {
+  color: #4d8cff !important;
+  text-decoration: none !important;
+}
+
+/* Activation confirmation modal */
+.flow-v2 .modal {
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.flow-v2 .modal-content {
+  max-width: 460px;
+  padding: 26px;
+  border: 1px solid #252a33;
+  border-radius: 18px;
+  background: #0c0d10;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+
+.flow-v2 .modal-icon {
+  width: 32px;
+  height: 32px;
+  margin: 0 0 12px;
+  border: 0;
+  border-radius: 9px;
+  background: rgba(0, 102, 255, 0.14);
+  color: #7aa7ff;
+  font-size: 12px;
+}
+
+.flow-v2 .modal-icon img {
+  width: 17px;
+  height: 17px;
+  filter: invert(1);
+}
+
+.flow-v2 .modal-title {
+  color: #f4f4f5;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+
+.flow-v2 .modal-description {
+  color: #8b949e;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.flow-v2 .key-label {
+  color: #71717a;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+}
+
+.flow-v2 .key-display {
+  padding: 12px;
+  border: 1px solid rgba(0, 102, 255, 0.35);
+  border-radius: 9px;
+  background: #111318;
+  color: #7aa7ff;
+  font-size: 12px;
+}
+
+.flow-v2 .days-number,
+.flow-v2 .days-highlight {
+  color: #fff;
+}
+
+.flow-v2 .info-box,
+.flow-v2 .warning-box {
+  border: 1px solid #252a33;
+  border-radius: 10px;
+  background: #111215;
+  color: #8b949e;
+  font-size: 10px;
+}
+
+.flow-v2 .info-title,
+.flow-v2 .warning-title {
+  color: #d4d4d8;
+  font-size: 10px;
+}
+
+.flow-v2 .warning-box {
+  border-color: rgba(251, 191, 36, 0.2);
+}
+
+.flow-v2 .warning-title {
+  color: #fbbf24;
+}
+
+.flow-v2 .btn-modal {
+  border: 0;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 11px;
+}
+
+.flow-v2 .btn-confirm {
+  background: #075cff;
+  color: #fff;
+}
+
+.flow-v2 .btn-confirm:hover {
+  background: #1a75ff;
+}
+
+.flow-v2 .btn-cancel {
+  background: rgba(255, 255, 255, 0.06);
+  color: #d4d4d8;
+}
+
+.flow-v2 .btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* /sub short-code redirect */
+.sub-v2 .sub-redirect {
+  min-height: 100vh;
+  padding: 24px;
+  background: transparent;
+}
+
+.sub-v2 .sub-card {
+  max-width: 420px;
+  padding: 32px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: #0c0d10;
+  text-align: center;
+}
+
+.sub-v2 .sub-spinner {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto 16px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #075cff;
+}
+
+.sub-v2 .sub-card h1 {
+  margin: 0 0 8px;
+  color: #f4f4f5;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.sub-v2 .sub-card p {
+  margin: 0 0 16px;
+  color: #8b949e;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.sub-v2 .sub-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.sub-v2 .sub-actions a {
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #8b949e;
+  font-size: 10px;
+  text-decoration: none;
+}
+
+.sub-v2 .sub-actions a:hover {
+  background: rgba(0, 102, 255, 0.14);
+  color: #fff;
+}
+
+/* /transaction/fail */
+.fail-v2 .container {
+  max-width: 560px;
+  min-height: auto;
+  padding: 56px 24px 40px;
+  text-align: center;
+}
+
+.fail-v2 h1 {
+  color: #f4f4f5;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.fail-v2 #status {
+  color: #8b949e;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.fail-v2 .text-link {
+  color: #4d8cff;
+}
+
+/* /transaction */
+.transaction-v2 {
+  display: block !important;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.transaction-v2 .container {
+  max-width: 560px;
+  min-height: auto;
+  padding: 56px 24px 40px;
+  text-align: center;
+}
+
+.transaction-v2 .flow-brand {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 48px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f4f4f5;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+}
+
+.transaction-v2 .flow-brand a {
+  color: #f4f4f5;
+  text-decoration: none;
+}
+
+.transaction-v2 .flow-brand span {
+  color: #4d8cff;
+  font-size: 9px;
+}
+
+.transaction-v2 .hero-title,
+.transaction-v2 #waiting-section h1 {
+  color: #f4f4f5 !important;
+  font-size: 32px !important;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.transaction-v2 .loader {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #252a33;
+  border-top-color: #075cff;
+}
+
+.transaction-v2 #status {
+  color: #8b949e !important;
+  font-size: 12px !important;
+}
+
+.transaction-v2 #success-section h2,
+.transaction-v2 #subscription-success-section h2 {
+  color: #f4f4f5 !important;
+  font-size: 28px !important;
+  letter-spacing: -0.03em;
+}
+
+.transaction-v2 #success-section > p,
+.transaction-v2 #subscription-success-message {
+  color: #8b949e !important;
+  font-size: 12px !important;
+}
+
+.transaction-v2 .key-container {
+  border: 1px solid #252a33;
+  border-radius: 10px;
+  background: #111318;
+}
+
+.transaction-v2 .key-text {
+  color: #7aa7ff;
+  font-size: 12px;
+}
+
+.transaction-v2 .copy-icon-btn {
+  color: #8b949e;
+  font-size: 11px;
+}
+
+.transaction-v2 .btn-pay {
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #075cff;
+  color: #fff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.transaction-v2 .btn-pay:hover {
+  background: #1a75ff;
+  transform: none;
+}
+
+.transaction-v2 #success-section > div[style],
+.transaction-v2 #success-section div[style] {
+  color: #71717a !important;
+  font-size: 10px !important;
+}
+
+.transaction-v2 .popup-overlay {
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.transaction-v2 .popup-content {
+  padding: 26px;
+  border: 1px solid #252a33;
+  border-radius: 18px;
+  background: #0c0d10;
+}
+
+.transaction-v2 .popup-icon {
+  color: #7aa7ff;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.transaction-v2 .popup-content h2 {
+  color: #f4f4f5;
+  font-size: 20px;
+}
+
+.transaction-v2 .popup-content button {
+  border: 0;
+  border-radius: 9px;
+  background: rgba(0, 102, 255, 0.3);
+  color: #fff;
+  font-family: inherit;
+  font-size: 11px;
+}
+
+.transaction-v2 #footer-container {
+  opacity: 0.8 !important;
+}
+
+@media (max-width: 700px) {
+  .activate-v2 .activate-benefits {
+    grid-template-columns: 1fr;
+  }
+
+  .activate-v2 .benefit-card.wide {
+    grid-column: auto;
+  }
+
+  .activate-v2 .activate-card,
+  .flow-v2 .modal-content {
+    padding: 20px;
+  }
+}

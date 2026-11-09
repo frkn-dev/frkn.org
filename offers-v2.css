@@ -1,0 +1,569 @@
+/* V2 skin for the premium / self-hosted / trade-in / pay-later pages.
+   Page markup and behaviour stay intact; this file only aligns the visual
+   language with the landing page. */
+
+body.home-v2.offers-v2 {
+  --accent: #075cff;
+  --accent-2: #4d8cff;
+  --card: #0c0d10;
+  --muted: #8b949e;
+  --border: #252a33;
+  background:
+    radial-gradient(circle at 50% -12%, rgba(0, 102, 255, 0.13), transparent 36%),
+    #050505;
+  color: #f4f4f5;
+}
+
+.offers-v2 .container {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 26px 24px 44px;
+}
+
+.offers-v2 h1,
+.offers-v2 h2,
+.offers-v2 h3,
+.offers-v2 h4 {
+  color: #f4f4f5;
+}
+
+.offers-v2 a {
+  color: #4d8cff;
+}
+
+/* Shared buttons */
+.offers-v2 .btn,
+.offers-v2 .btn.try,
+.offers-v2 .btn-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #075cff;
+  color: #fff;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.offers-v2 .btn:hover,
+.offers-v2 .btn.try:hover,
+.offers-v2 .btn-submit:hover {
+  background: #1a75ff;
+  box-shadow: none;
+  transform: none;
+}
+
+.offers-v2 .btn.ghost,
+.offers-v2 .btn-telegram {
+  background: rgba(255, 255, 255, 0.055);
+  color: #d4d4d8;
+  border: 0;
+}
+
+.offers-v2 .btn.ghost:hover,
+.offers-v2 .btn-telegram:hover {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+/* Premium + promise */
+.offers-v2 .of-hero {
+  margin: 24px 0 26px;
+}
+
+.offers-v2 .of-hero h1 {
+  max-width: 780px;
+  margin: 0 0 14px;
+  font-size: clamp(38px, 5.5vw, 56px);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  text-shadow: 0 0 36px rgba(0, 102, 255, 0.25);
+}
+
+.offers-v2 .of-hero h1.of-title-ip {
+  max-width: 900px;
+  font-size: clamp(28px, 3.8vw, 42px);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.offers-v2 .of-hero p {
+  max-width: 720px;
+  margin: 0 0 18px;
+  color: #a1a1aa;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.offers-v2 .of-actions {
+  gap: 8px;
+}
+
+.offers-v2 .of-nav {
+  gap: 6px;
+  margin: 4px 0 24px;
+}
+
+.offers-v2 .of-nav a {
+  min-height: 30px;
+  padding: 6px 11px;
+  border: 0;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #8b949e;
+  font-size: 10px;
+}
+
+.offers-v2 .of-nav a:hover,
+.offers-v2 .of-nav a.active {
+  background: rgba(0, 102, 255, 0.24);
+  color: #fff;
+}
+
+.offers-v2 .of-why {
+  max-width: 720px;
+  margin: 28px 0 30px;
+}
+
+.offers-v2 .of-why h2 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.offers-v2 .of-why p,
+.offers-v2 .of-card p,
+.offers-v2 .of-note {
+  color: #8b949e;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.offers-v2 .of-prices {
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.offers-v2 .of-price {
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: #111215;
+}
+
+.offers-v2 .of-price.hot {
+  border-color: rgba(0, 102, 255, 0.55);
+  background: linear-gradient(145deg, rgba(0, 102, 255, 0.12), #0c0d10 70%);
+}
+
+.offers-v2 .of-price small {
+  color: #4d8cff;
+  font-size: 9px;
+}
+
+.offers-v2 .of-price b {
+  font-size: 30px;
+  color: #fff;
+}
+
+.offers-v2 .of-price span {
+  color: #8b949e;
+  font-size: 11px;
+}
+
+.offers-v2 .of-grid {
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.offers-v2 .of-card {
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: #111215;
+}
+
+.offers-v2 .of-card h2 {
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.offers-v2 .of-icon {
+  margin-bottom: 10px;
+}
+
+.offers-v2 .of-icon img {
+  width: 20px;
+  height: 20px;
+  filter: invert(1);
+  opacity: 0.9;
+}
+
+.offers-v2 .of-note {
+  margin: -8px 0 22px;
+}
+
+.offers-v2 .of-steps > li {
+  padding: 14px 14px 14px 46px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: #111215;
+}
+
+.offers-v2 .of-steps > li::before {
+  color: #4d8cff;
+}
+
+.offers-v2 .of-steps h2 {
+  margin: 0 0 4px;
+  font-size: 12px;
+}
+
+.offers-v2 .of-steps p {
+  color: #8b949e;
+  font-size: 11px;
+}
+
+.offers-v2 .of-end {
+  padding: 22px;
+  border: 1px solid rgba(0, 102, 255, 0.35);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(0, 102, 255, 0.1), #0c0d10 70%);
+}
+
+.offers-v2 .of-end h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.offers-v2 .of-end p {
+  color: #8b949e;
+  font-size: 11px;
+}
+
+/* Trade-in */
+.switch-v2 .switch-page {
+  max-width: 820px;
+  padding: 16px 0 30px;
+}
+
+.switch-v2 .switch-hero {
+  margin-bottom: 32px;
+}
+
+.switch-v2 .switch-hero h1 {
+  margin: 0 0 14px;
+  font-size: clamp(34px, 4.6vw, 48px);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  text-shadow: 0 0 36px rgba(0, 102, 255, 0.25);
+}
+
+.switch-v2 .switch-hero p {
+  max-width: 620px;
+  color: #a1a1aa;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.switch-v2 .switch-badge {
+  margin-bottom: 18px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(0, 102, 255, 0.14);
+  color: #93b4ff;
+  font-size: 10px;
+}
+
+.switch-v2 .switch-section {
+  margin-bottom: 30px;
+}
+
+.switch-v2 .switch-section h2 {
+  margin: 0 0 14px;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+}
+
+.switch-v2 .terms-grid,
+.switch-v2 .reasons-grid {
+  gap: 10px;
+}
+
+.switch-v2 .terms-card,
+.switch-v2 .reason-card,
+.switch-v2 .step-card-horizontal,
+.switch-v2 .form-card,
+.switch-v2 .faq-item {
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: #111215;
+}
+
+.switch-v2 .terms-card h3,
+.switch-v2 .reason-card h4,
+.switch-v2 .step-content h4,
+.switch-v2 .form-card h2 {
+  font-size: 12px;
+}
+
+.switch-v2 .terms-card ul,
+.switch-v2 .reason-card p,
+.switch-v2 .step-content p,
+.switch-v2 .form-card > .form-subtitle,
+.switch-v2 .faq-item p {
+  color: #8b949e;
+  font-size: 11px;
+}
+
+.switch-v2 .terms-card h3 img,
+.switch-v2 .reason-icon img {
+  width: 16px;
+  height: 16px;
+  filter: invert(1);
+}
+
+.switch-v2 .reason-icon {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 10px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(0, 102, 255, 0.14);
+}
+
+.switch-v2 .reason-card:hover {
+  border-color: rgba(0, 102, 255, 0.45);
+}
+
+.switch-v2 .step-number {
+  width: 28px;
+  height: 28px;
+  background: rgba(0, 102, 255, 0.28);
+  color: #fff;
+  font-size: 10px;
+}
+
+.switch-v2 .form-card::before {
+  display: none;
+}
+
+.switch-v2 .form-group label {
+  color: #a1a1aa;
+  font-size: 10px;
+}
+
+.switch-v2 .form-group input,
+.switch-v2 .form-group textarea {
+  padding: 10px 12px;
+  border: 1px solid #252a33;
+  border-radius: 9px;
+  background: #111318;
+  color: #f4f4f5;
+  font-size: 12px;
+}
+
+.switch-v2 .form-group input:focus,
+.switch-v2 .form-group textarea:focus {
+  border-color: rgba(0, 102, 255, 0.7);
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12);
+}
+
+.switch-v2 .file-hint {
+  color: #71717a;
+  font-size: 10px;
+}
+
+.switch-v2 .or-divider {
+  color: #71717a;
+  font-size: 10px;
+}
+
+/* Self-hosted */
+.selfhosted-v2 .sh-hero {
+  margin: 24px 0 26px;
+}
+
+.selfhosted-v2 .sh-hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(38px, 5.5vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  text-shadow: 0 0 36px rgba(0, 102, 255, 0.25);
+}
+
+.selfhosted-v2 .sh-hero p {
+  max-width: 780px;
+  color: #a1a1aa;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.selfhosted-v2 .sh-beta-tag {
+  padding: 3px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(0, 102, 255, 0.16);
+  color: #93b4ff;
+  font-size: 9px;
+  vertical-align: middle;
+}
+
+.selfhosted-v2 .sh-limits {
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.selfhosted-v2 .sh-limits article {
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: #111215;
+}
+
+.selfhosted-v2 .sh-limits-kicker {
+  color: #4d8cff;
+  font-size: 9px;
+}
+
+.selfhosted-v2 .sh-limits h2 {
+  font-size: 14px;
+}
+
+.selfhosted-v2 .sh-limits p {
+  color: #8b949e;
+  font-size: 10px;
+}
+
+.selfhosted-v2 .sh-shots {
+  gap: 12px;
+}
+
+.selfhosted-v2 .sh-shots img {
+  border-radius: 14px;
+}
+
+.selfhosted-v2 .sh-beta {
+  border: 1px solid rgba(0, 102, 255, 0.35);
+  border-radius: 12px;
+  background: rgba(0, 102, 255, 0.08);
+}
+
+.selfhosted-v2 .sh-beta p,
+.selfhosted-v2 .sh-beta a {
+  color: #93b4ff;
+  font-size: 11px;
+}
+
+.selfhosted-v2 .sh-toolbar {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.selfhosted-v2 .sh-os-btn {
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #8b949e;
+  font-size: 10px;
+}
+
+.selfhosted-v2 .sh-os-btn.active {
+  background: rgba(0, 102, 255, 0.24);
+  color: #fff;
+}
+
+.selfhosted-v2 .sh-skill {
+  border-radius: 8px;
+  font-size: 10px;
+}
+
+.selfhosted-v2 .sh-steps > li {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: #111215;
+}
+
+.selfhosted-v2 .sh-steps > li::before {
+  color: #4d8cff;
+}
+
+.selfhosted-v2 .sh-steps h3 {
+  color: #f4f4f5;
+  font-size: 13px;
+}
+
+.selfhosted-v2 .sh-steps p,
+.selfhosted-v2 .sh-steps li,
+.selfhosted-v2 .sh-card p,
+.selfhosted-v2 .sh-card li {
+  color: #8b949e;
+  font-size: 11px;
+}
+
+.selfhosted-v2 .sh-cmd {
+  border: 1px solid #252a33;
+  border-radius: 9px;
+  background: #0a0b0e;
+}
+
+.selfhosted-v2 .sh-cmd code {
+  color: #a1a1aa;
+  font-size: 10px;
+}
+
+.selfhosted-v2 .sh-cmd button {
+  border-radius: 7px;
+  background: rgba(0, 102, 255, 0.18);
+  color: #93b4ff;
+}
+
+.selfhosted-v2 .sh-card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: #111215;
+}
+
+.selfhosted-v2 .sh-badge {
+  border-radius: 6px;
+  background: rgba(0, 102, 255, 0.14);
+  color: #93b4ff;
+}
+
+.selfhosted-v2 .sh-profiles-more > summary,
+.selfhosted-v2 .sh-debug summary {
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+@media (max-width: 820px) {
+  .offers-v2 .of-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .offers-v2 .container {
+    padding: 20px 16px 32px;
+  }
+
+  .offers-v2 .of-grid,
+  .offers-v2 .of-prices {
+    grid-template-columns: 1fr;
+  }
+
+  .offers-v2 .of-hero h1,
+  .switch-v2 .switch-hero h1,
+  .selfhosted-v2 .sh-hero h1 {
+    font-size: 36px;
+  }
+}

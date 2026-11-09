@@ -1,12 +1,46 @@
 <div class="logo-with-lang">
   <div class="header-left">
     <div class="logo">
-      <a href="/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN</a>
+      <a href="/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN<span class="logo-suffix">// Рилзопровод // Dopamine</span></a>
     </div>
     <div class="logo-tagline">PRIVACY IS OUR RELIGION</div>
+    <style>
+      .logo-tagline {
+        color: #4d8cff;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 0.24em;
+        margin-top: 4px;
+      }
+
+      body.home-v2 .logo-tagline {
+        display: block;
+      }
+
+      body.home-v2.home-page .logo-tagline {
+        display: none;
+      }
+          .logo-suffix {
+        color: #6b7280;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        white-space: nowrap;
+      }
+
+      .logo a::after {
+        content: none !important;
+        display: none !important;
+      }
+
+      @media (max-width: 900px) {
+        .logo-suffix {
+          display: none;
+        }
+      }
+    </style>
   </div>
   <div class="header-right">
-    <a href="/profile" class="login-link">Войти</a>
     <div class="lang-switcher compact">
       <button class="lang-btn active" data-lang-switch="ru" aria-label="Русский">RU</button>
       <button class="lang-btn" data-lang-switch="en" aria-label="English">EN</button>

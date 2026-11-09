@@ -1,26 +1,34 @@
 <!doctype html>
 <html lang="ru">
   <head>
-    <meta property="og:title" content="frkn | privacy company – Рилзопровод" />
-    <meta property="og:site_name" content="frkn" />
-    <meta name="theme-color" content="#090B10" />
+    <meta property="og:title" content="FRKN Рилзопровод — твой личный проводник в интернет" />
+    <meta property="og:site_name" content="FRKN" />
+    <meta name="theme-color" content="#050505" />
     <link rel="canonical" href="https://frkn.org" />
     <meta
       property="og:description"
-      content="Безопасный и быстрый доступ к интернету. frkn — приватность в один клик."
+      content="Без логов и регистрации. Один ключ на все устройства. Скачай Dopamine и подключайся."
     />
-    <meta property="og:image" content="https://frkn.org/Images/preview.jpeg" />
+    <meta property="og:image" content="https://frkn.org/Images/og-preview-2026-ru.png" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="FRKN Рилзопровод — быстрый интернет без логов и регистрации" />
     <meta property="og:url" content="https://frkn.org" />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:locale:alternate" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="frkn | privacy company – Рилзопровод" />
+    <meta name="twitter:title" content="FRKN Рилзопровод — твой личный проводник в интернет" />
     <meta
       name="twitter:description"
-      content="Безопасный и быстрый доступ к любимым сервисам"
+      content="Без логов и регистрации. Один ключ на все устройства. Скачай Dopamine и подключайся."
     />
-    <meta name="twitter:image" content="https://frkn.org/Images/preview.jpeg" />
+    <meta name="twitter:image" content="https://frkn.org/Images/og-preview-2026-ru.png" />
+    <meta name="twitter:image:alt" content="FRKN Рилзопровод — быстрый интернет без логов и регистрации" />
+    <meta name="twitter:image:type" content="image/png" />
+    <meta name="twitter:image:width" content="1200" />
+    <meta name="twitter:image:height" content="630" />
     <meta name="robots" content="index, follow" />
     <meta charset="UTF-8" />
     <meta
@@ -38,293 +46,321 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles.css?v=22" />
-    <style>
-      .lp-sub { color: var(--muted); margin: -8px 0 25px; font-size: 15px; }
-      .lp-grid-4 { grid-template-columns: repeat(4, 1fr); }
-      .lp-price-note { font-size: 11px; color: var(--muted); margin: 0 0 14px; line-height: 1.5; }
-      .lp-price-option { cursor: pointer; padding: 2px 4px; border-radius: 6px; transition: all 0.15s ease; }
-      .lp-price-option:hover { color: var(--accent); background: rgba(56, 189, 248, 0.12); }
-      .lp-unlim { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px; color: #22d3ee; margin-bottom: 8px; }
-      .lp-spacer { margin-top: 56px; }
-      .pl-card .btn + .btn { margin-top: 8px; }
-    </style>
+    <link rel="stylesheet" href="/home-v2.css?v=21" />
   </head>
-  <body class="landing-page">
+  <body class="home-v2 home-page">
     <div class="container">
       <header>
         <div id="logo-container"></div>
       </header>
-      <section class="hero">
-        <div class="hero-content">
-          <span class="money-back-badge">Не понравится — вернём деньги</span>
-          <div>
-            <h1 class="hero-title">Рилзопровод</h1>
-            <p class="hero-subtitle">
-              Твой личный проводник в быстрый интернет.<br />
-              Без лагов — для видео в 4K.
-            </p>
-          </div>
-          <div class="cta-group">
-            <div
-              style="
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-                align-items: center;
-                justify-content: flex-start;
-                width: 100%;
-              "
-            >
-              <a href="/dopamine"
-                ><button
-                  class="btn try"
-                  style="padding: 14px 24px; font-size: 15px"
-                >
-                  Скачать
-                </button></a
-              >
-              <a href="/pay"
-                ><button
-                  class="btn ghost btn-fire"
-                  style="padding: 14px 24px; font-size: 15px"
-                >
-                  Купить
-                </button></a
-              >
-              <div class="hero-btn-break"></div>
 
-              <button
-                class="btn ghost hero-btn-small"
-                onclick="window.open('https://t.me/unlock_internet_bot', '_blank')"
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  gap: 8px;
-                "
-              >
-                <img src="https://cdn.simpleicons.org/telegram" alt="" />
-                Бесплатные TG прокси
-              </button>
+      <section class="home-hero">
+        <div class="home-eyebrow">Privacy is our religion</div>
+        <div class="home-chips">
+          <span class="home-chip">
+            <img src="/Images/privacy.png" alt="" aria-hidden="true" />
+            Без регистрации
+          </span>
+          <span class="home-chip">
+            <img src="/Images/nologs.png" alt="" aria-hidden="true" />
+            Без логов
+          </span>
+          <span class="home-chip">
+            <img src="/Images/unlim.png" alt="" aria-hidden="true" />
+            Без лимитов
+          </span>
+        </div>
 
-              <a href="/switch-to-frkn"
-                ><button class="btn ghost hero-btn-small">Trade-In</button></a
-              >
-              <a href="/activate"
-                ><button class="btn ghost hero-btn-small">
-                  Активировать ключ
-                </button></a
-              >
-              <a href="/promise/"
-                ><button class="btn ghost hero-btn-small">
-                  Обещанный платёж
-                </button></a
-              >
-              <div class="hero-btn-break"></div>
-              <a href="https://frkn.app/selfhosted"
-                ><button class="btn ghost hero-btn-small">Селфхостед</button></a
-              >
-              <a href="/premium/"
-                ><button class="btn ghost hero-btn-small">Выделенный IP</button></a
-              >
+        <h1 class="home-title">Рилзопровод</h1>
+
+        <p class="home-subtitle">
+          Твой личный проводник в быстрый интернет.<br />
+          Без лагов — для видео в 4K.
+        </p>
+        <span class="money-back-badge">Не понравится — вернём деньги</span>
+
+        <a
+          class="connect-orb"
+          href="/dopamine"
+          aria-label="Скачать Dopamine"
+        >
+          <span class="connect-orb-ring" aria-hidden="true"></span>
+          <img
+            class="connect-orb-ptero"
+            src="/Images/pterodactyl.png"
+            alt=""
+            aria-hidden="true"
+          />
+          <span class="connect-orb-content">
+            <span class="connect-orb-action">Скачать</span>
+            <span class="connect-orb-hint">Dopamine для всех устройств</span>
+          </span>
+        </a>
+
+
+        <div class="node-card">
+          <div class="node-card-head">
+            <div>
+              <div class="node-card-label">Выбранный узел</div>
+              <div class="node-card-name">
+                Netherlands
+                <span class="node-dot" aria-hidden="true"></span>
+              </div>
+              <div class="node-protocols">AmneziaWG / Wireguard / Hysteria2 / Vless</div>
+            </div>
+            <div class="node-ping">
+              <span id="nodePing">—</span><small>мс</small>
             </div>
           </div>
-        <section class="trust-gallery" id="trust">
-          <details>
-            <summary>
-              <span class="trust-summary-top">
-                <h2>Нам доверяют</h2>
-                <span class="trust-chevron" aria-hidden="true"></span>
+          <div class="node-card-meta">
+            <div class="node-countries-head">
+              <span class="node-countries-label">Доступные страны</span>
+              <span class="node-countries-count" id="countryCount"></span>
+            </div>
+            <div class="node-country-list" id="countryList">
+              <span class="node-country-empty">загрузка…</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="home-actions">
+          <div class="home-action-row">
+            <a href="/pay" class="home-action home-action-primary">Хочу подключиться</a>
+            <button
+              type="button"
+              class="home-action"
+              onclick="window.open('https://t.me/unlock_internet_bot', '_blank')"
+            >
+              Бесплатновые ТГ прокси
+            </button>
+            <a href="/activate" class="home-action">Активировать Ключ</a>
+          </div>
+
+          <div class="home-action-divider" aria-hidden="true"></div>
+
+          <div class="home-action-row">
+            <a href="https://frkn.app/selfhosted" class="home-action">Селфхостед</a>
+            <a href="/premium/" class="home-action">Premium // Выделенный IP</a>
+          </div>
+
+          <div class="home-action-row">
+            <a href="/switch-to-frkn" class="home-action">Trade-In</a>
+            <a href="/promise/" class="home-action">Обещанный платёж</a>
+          </div>
+        </div>
+
+      </section>
+
+      <div class="home-disclosures">
+      <section class="trust-gallery" id="trust">
+        <details>
+          <summary>
+            <span class="trust-summary-top">
+              <h2>Нам доверяют</h2>
+              <span class="trust-chevron" aria-hidden="true"></span>
+            </span>
+            <ul class="trust-points">
+              <li class="trust-paid" id="paidCounter" hidden>
+                <strong id="paidCount"></strong> челиксов уже выбрали FRKN Рилзопровод
+              </li>
+              <li>Хвостатые пользователи рилзопровода.</li>
+            </ul>
+          </summary>
+          <div class="trust-grid" data-page-size="6"></div>
+          <div class="trust-pager">
+            <button type="button" class="trust-prev" aria-label="Назад">‹</button>
+            <span class="trust-page"></span>
+            <button type="button" class="trust-next" aria-label="Вперёд">›</button>
+          </div>
+        </details>
+      </section>
+
+      <section class="trust-gallery advantages-gallery" id="advantages">
+        <details>
+          <summary>
+            <span class="trust-summary-top">
+              <h2>Наши преимущества</h2>
+              <span class="trust-chevron" aria-hidden="true"></span>
+            </span>
+            <p class="lp-sub">Почему с нами удобно.</p>
+          </summary>
+          <div class="advantage-grid">
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/nologs.png" alt="" aria-hidden="true" />
               </span>
-              <p class="lp-sub">Хвостатые пользователи рилзопровода.</p>
-            </summary>
-            <div class="trust-grid" data-page-size="6"></div>
-            <div class="trust-pager">
-              <button type="button" class="trust-prev" aria-label="Назад">‹</button>
-              <span class="trust-page"></span>
-              <button type="button" class="trust-next" aria-label="Вперёд">›</button>
+              <div>
+                <h3>Без логов и регистраций</h3>
+                <p>Не храним историю просмотров и не просим email — доступ по ключу.</p>
+              </div>
             </div>
-          </details>
-        </section>
-        </div>
-      </section>
-      <section id="trial" class="trial-section">
-        <div class="trial-container">
-          <div class="trial-info">
-            <h2>
-              Вечный Доступ в Интернет
-              <span
-                style="
-                  color: var(--accent-2);
-                  font-size: 0.55em;
-                  vertical-align: middle;
-                  white-space: nowrap;
-                "
-                >от 67₽</span
-              >
-            </h2>
-            <p>
-              Даже если у вас есть VPN — это лучший вариант сохранить доступ.
-              Гигабайт живёт вечно.
-            </p>
-            <div class="trial-steps">
-              <span>1. Оплата</span>
-              <span class="active">2. Интернет</span>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/smartphone.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Собственное приложение</h3>
+                <p>Dopamine — наше собственное приложение, а не сторонняя обёртка.</p>
+              </div>
             </div>
-            <p class="small">
-              Без почты и регистрации — ключ покажем на странице сразу после
-              оплаты.
-            </p>
-          </div>
-          <div id="trialForm" class="trial-form">
-            <input
-              type="email"
-              id="trialEmail"
-              placeholder="Твой e-mail (необязательно)"
-            />
-            <p class="small" style="margin: 0 0 10px; color: var(--muted); font-size: 12px">
-              Нужен для напоминаний и уведомлений — необязательно. Можно
-              указать позже в Личном Кабинете.
-            </p>
-            <button
-              class="btn try trial-buy-btn"
-              type="button"
-              data-price="67"
-            >
-              Я зумер — 1 ГБ за 67₽
-            </button>
-            <button
-              class="btn ghost trial-buy-btn"
-              type="button"
-              data-price="69"
-              data-alt="true"
-            >
-              Я миллениал — 69₽
-            </button>
-            <p id="message" class="status-message"></p>
-          </div>
-        </div>
-      </section>
-      <section class="pricing-landing">
-        <h2>Безлимитные Тарифы</h2>
-        <p class="lp-sub">с оплатой за время — ∞ трафика</p>
-        <div class="pricing-landing-grid">
-          <div class="pl-card">
-            <div class="lp-unlim">∞ БЕЗЛИМИТ</div>
-            <h3>1 месяц</h3>
-            <div class="pl-duration">30 дней</div>
-            <div class="pl-cost">500₽</div>
-            <a href="/pay" class="btn try">Купить</a>
-          </div>
-          <div class="pl-card">
-            <div class="lp-unlim">∞ БЕЗЛИМИТ</div>
-            <h3>3 месяца</h3>
-            <div class="pl-duration">90 дней</div>
-            <div class="pl-cost">1300₽</div>
-            <a href="/pay" class="btn try">Купить</a>
-          </div>
-          <div class="pl-card">
-            <div class="lp-unlim">∞ БЕЗЛИМИТ</div>
-            <h3>12 месяцев</h3>
-            <div class="pl-duration">365 дней</div>
-            <div class="pl-cost">4500₽</div>
-            <a href="/pay" class="btn try">Купить</a>
-          </div>
-        </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/heart.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Живая поддержка</h3>
+                <p>Отвечает человек, а не AI-агент.</p>
+              </div>
+            </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/unlim.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Без ограничений</h3>
+                <p>Любое количество устройств и безлимитный трафик 24/7.</p>
+              </div>
+            </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/proto.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Современные протоколы</h3>
+                <p>Проверенные технологии шифрования для стабильного доступа.</p>
+              </div>
+            </div>
 
-        <h2 class="lp-spacer">Вечные Тарифы</h2>
-        <p class="lp-sub">с оплатой за гигабайты — трафик не сгорает</p>
-        <div class="pricing-landing-grid lp-grid-4">
-          <div class="pl-card">
-            <h3>1 ГБ</h3>
-            <div class="pl-duration">живёт, пока не кончится</div>
-            <div class="pl-cost">67₽</div>
-            <button class="btn try trial-buy-btn" data-gb="1" data-price="67">Зумерам 67₽</button>
-            <button class="btn ghost trial-buy-btn" data-gb="1" data-price="69" data-alt="true">Миллениалам 69₽</button>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/copy-white.png" alt="" aria-hidden="true" class="advantage-icon-white" />
+              </span>
+              <div>
+                <h3>Опенсорс</h3>
+                <p>Исходники открыты: можно проверить, что внутри.</p>
+              </div>
+            </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/responsive-app.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Работает на iOS, Android, TV, роутерах, Windows, macOS, Linux</h3>
+                <p>Один аккаунт и один ключ на всех устройствах.</p>
+              </div>
+            </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/arrows.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Умный роутинг</h3>
+                <p>Не нужно постоянно отключать или включать соединение.</p>
+              </div>
+            </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/electric.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Работает там, где ничего не работает</h3>
+                <p>Запасные каналы и автоматический выбор маршрута.</p>
+              </div>
+            </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/split.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Раздельный туннель</h3>
+                <p>VPN только для выбранных приложений — или наоборот, для всего, кроме них.</p>
+              </div>
+            </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/shield.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Kill Switch</h3>
+                <p>При обрыве соединения трафик не уходит мимо туннеля.</p>
+              </div>
+            </div>
+
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/tag.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Вечные гигабайты</h3>
+                <p>Купленный трафик не сгорает и не требует продления.</p>
+              </div>
+            </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/world.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Автовыбор сервера</h3>
+                <p>Сам находит лучший сервер по пингу и доступности.</p>
+              </div>
+            </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/signal-status.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Живой пинг</h3>
+                <p>Видно реальную задержку до каждого сервера, а не абстрактный «быстрый VPN».</p>
+              </div>
+            </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/add.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Свои серверы</h3>
+                <p>Можно подключить собственные ноды через self-hosted.</p>
+              </div>
+            </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/map.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Выделенный IP</h3>
+                <p>Premium-слот с личным адресом без соседей.</p>
+              </div>
+            </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/link.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Мгновенный ключ</h3>
+                <p>Доступ сразу после оплаты, без email и ожидания.</p>
+              </div>
+            </div>
+            <div class="advantage-card">
+              <span class="advantage-icon">
+                <img src="/Images/money-back-guarantee.png" alt="" aria-hidden="true" />
+              </span>
+              <div>
+                <h3>Возврат денег</h3>
+                <p>Не подошло — вернём деньги.</p>
+              </div>
+            </div>
           </div>
-          <div class="pl-card">
-            <h3>5 ГБ</h3>
-            <div class="pl-duration">живёт, пока не кончится</div>
-            <div class="pl-cost">167₽</div>
-            <button class="btn try trial-buy-btn" data-gb="5" data-price="167">Зумерам 167₽</button>
-            <button class="btn ghost trial-buy-btn" data-gb="5" data-price="169" data-alt="true">Миллениалам 169₽</button>
-          </div>
-          <div class="pl-card">
-            <h3>10 ГБ</h3>
-            <div class="pl-duration">живёт, пока не кончится</div>
-            <div class="pl-cost">267₽</div>
-            <button class="btn try trial-buy-btn" data-gb="10" data-price="267">Зумерам 267₽</button>
-            <button class="btn ghost trial-buy-btn" data-gb="10" data-price="269" data-alt="true">Миллениалам 269₽</button>
-          </div>
-          <div class="pl-card">
-            <h3>50 ГБ</h3>
-            <div class="pl-duration">живёт, пока не кончится</div>
-            <div class="pl-cost">367₽</div>
-            <button class="btn try trial-buy-btn" data-gb="50" data-price="367">Зумерам 367₽</button>
-            <button class="btn ghost trial-buy-btn" data-gb="50" data-price="369" data-alt="true">Миллениалам 369₽</button>
-          </div>
-        </div>
+        </details>
       </section>
-      <section class="features-grid">
-        <div class="feature-mini">
-          <div class="feature-icon">
-            <img src="/Images/nologs.png" alt="" style="transform: scale(0.85)" />
-          </div>
-          <div>
-            <h3>Без логов и регистраций</h3>
-            <p>Мы не храним историю ваших просмотров. Вообще.</p>
-          </div>
-        </div>
-        <div class="feature-mini">
-          <div class="feature-icon">
-            <img src="/Images/unlim.png" alt="" />
-          </div>
-          <div>
-            <h3>Без ограничений</h3>
-            <p>Любое количество устройств и безлимитный трафик 24/7.</p>
-          </div>
-        </div>
-        <div class="feature-mini">
-          <div class="feature-icon">
-            <img src="/Images/proto.png" alt="" />
-          </div>
-          <div>
-            <h3>Современные протоколы</h3>
-            <p>Только проверенные технологии шифрования.</p>
-          </div>
-        </div>
-      </section>
+      </div>
+
       <div id="footer-container"></div>
     </div>
+
     <script src="/scripts/analytics.js" defer></script>
-    <script src="/scripts/trial.js?v=6"></script>
     <script src="/scripts/i18n.js?v=2"></script>
     <script src="/scripts/containers.js?v=3"></script>
     <script src="/scripts/trust-gallery.js?v=6"></script>
-    <script>
-      if (window.location.hash === "#trial") {
-        document
-          .getElementById("trial")
-          .scrollIntoView({ behavior: "smooth" });
-      }
-
-      const trialContainer = document.querySelector(".trial-container");
-      if (trialContainer && "IntersectionObserver" in window) {
-        const trialObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                trialContainer.classList.add("in-view");
-                trialObserver.unobserve(trialContainer);
-              }
-            });
-          },
-          { threshold: 0.3 },
-        );
-        trialObserver.observe(trialContainer);
-      } else if (trialContainer) {
-        trialContainer.classList.add("in-view");
-      }
-    </script>
+    <script src="/scripts/home-v2.js?v=7"></script>
   </body>
 </html>

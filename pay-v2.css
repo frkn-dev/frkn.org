@@ -1,0 +1,630 @@
+/* Pay page V2: same OLED / neon-blue language as the new landing page.
+   The checkout markup and all JS hooks stay untouched; this file only
+   restyles the existing classes. */
+
+body.pay-v2 {
+  background:
+    radial-gradient(circle at 50% -10%, rgba(0, 102, 255, 0.13), transparent 34%),
+    #050505;
+  color: #f4f4f5;
+}
+
+.pay-v2 .container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 26px 24px 40px;
+}
+
+.pay-v2 header {
+  margin-bottom: 34px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.pay-v2 .hero-title {
+  margin: 18px 0 12px;
+  color: #fff;
+  font-size: clamp(38px, 6vw, 58px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-align: center;
+  text-shadow: 0 0 36px rgba(0, 102, 255, 0.3);
+}
+
+.pay-v2 .subtitle {
+  max-width: 650px;
+  margin: 0 auto 30px;
+  color: #a1a1aa;
+  font-size: 14px;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.pay-v2 .subtitle .text-link {
+  color: #4d8cff;
+  text-decoration: none;
+}
+
+.pay-v2 .subtitle .text-link:hover {
+  color: #8fb5ff;
+}
+
+/* Tabs */
+.pay-v2 .pay-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.pay-v2 .pay-tab {
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #a1a1aa;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.pay-v2 .pay-tab:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.pay-v2 .pay-tab.active {
+  background: rgba(0, 102, 255, 0.28);
+  color: #fff;
+  box-shadow: 0 0 22px rgba(0, 102, 255, 0.16);
+}
+
+/* Product chips are injected by plans.js: flatten its two rows into one
+   equal-width row and override the old green active state. */
+.pay-v2 .product-chips {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 1000px;
+  margin: 0 auto 22px;
+  padding: 0;
+}
+
+.pay-v2 .chips-row {
+  display: contents;
+}
+
+.pay-v2 .product-chip {
+  flex: 1 1 calc(25% - 6px);
+  min-width: 0;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #d4d4d8;
+  box-shadow: none;
+}
+
+.pay-v2 .product-chip:hover {
+  border-color: transparent;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.pay-v2 .product-chip.active {
+  border: 0;
+  background: rgba(0, 102, 255, 0.28);
+  box-shadow: 0 0 20px rgba(0, 102, 255, 0.16);
+}
+
+.pay-v2 .product-chip .chip-name {
+  color: #f4f4f5;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pay-v2 .product-chip .chip-tagline {
+  color: #8b949e;
+  font-size: 10px;
+}
+
+/* Grids and cards */
+.pay-v2 .pricing-grid {
+  gap: 12px;
+}
+
+.pay-v2 .pricing-grid-main {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  align-items: stretch;
+}
+
+.pay-v2 .pricing-grid-traffic,
+.pay-v2 .pricing-grid-extra {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.pay-v2 .price-card {
+  padding: 20px 18px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: linear-gradient(145deg, #12141a 0%, #0a0b0e 100%);
+  text-align: left;
+  cursor: default;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.pay-v2 .price-card:hover {
+  border-color: rgba(0, 102, 255, 0.55);
+  background: linear-gradient(145deg, #151922 0%, #0b0d12 100%);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+.pay-v2 .price-card.accent-border {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(145deg, #12141a 0%, #0a0b0e 100%);
+}
+
+.pay-v2 .price-card.recommended {
+  border: 1px solid rgba(0, 102, 255, 0.65);
+  background: linear-gradient(145deg, rgba(0, 102, 255, 0.12), #0a0b0e 65%);
+}
+
+.pay-v2 .price-card.popular {
+  border: 1px solid rgba(0, 102, 255, 0.65);
+  background: linear-gradient(145deg, rgba(0, 102, 255, 0.12), #0a0b0e 65%);
+}
+
+.pay-v2 .price-card.popular::before,
+.pay-v2 .price-card.recommended::before {
+  top: 0;
+  left: 16px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: #075cff;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  content: "ПОПУЛЯРНО";
+}
+
+.pay-v2 .price-card.popular::before {
+  content: "ВЫГОДНО";
+}
+
+.pay-v2.pay-v2-en .price-card.recommended::before {
+  content: "POPULAR";
+}
+
+.pay-v2.pay-v2-en .price-card.popular::before {
+  content: "BEST VALUE";
+}
+
+.pay-v2 .price-card h3 {
+  margin-bottom: 5px;
+  color: #f4f4f5;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.pay-v2 .price-card .duration {
+  margin-bottom: 14px;
+  color: #71717a;
+  font-size: 10px;
+}
+
+.pay-v2 .card-subtitle {
+  min-height: 0;
+  margin-bottom: 6px;
+  color: #8b949e;
+  font-size: 10px;
+}
+
+.pay-v2 .cost-wrapper {
+  margin-bottom: 8px;
+}
+
+.pay-v2 .cost {
+  color: #fff;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.pay-v2 .cost small {
+  color: #71717a;
+  font-size: 13px;
+}
+
+.pay-v2 .old-price {
+  color: #71717a;
+  font-size: 13px;
+}
+
+.pay-v2 .savings-text {
+  margin: 0 0 12px;
+  color: #4d8cff;
+  font-size: 10px;
+}
+
+.pay-v2 .savings-text.regular {
+  color: #71717a;
+}
+
+.pay-v2 .price-per-day {
+  color: #71717a;
+  font-size: 10px;
+}
+
+.pay-v2 .unlimited-badge {
+  position: absolute;
+  display: inline-block;
+  top: 14px;
+  right: 14px;
+  left: auto;
+  width: auto;
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: rgba(0, 102, 255, 0.18);
+  color: #7aa7ff;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  box-shadow: none;
+}
+
+.pay-v2 .buy-button {
+  width: 100%;
+  margin-top: 4px;
+  padding: 11px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(0, 102, 255, 0.3);
+  color: #fff;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background 0.2s ease;
+}
+
+.pay-v2 .buy-button:hover {
+  background: rgba(0, 102, 255, 0.45);
+  box-shadow: none;
+  transform: none;
+}
+
+.pay-v2 .buy-button.alt {
+  margin-top: 7px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.05);
+  color: #c4c4cc;
+}
+
+.pay-v2 .buy-button.alt:hover {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.pay-v2 .feature-list {
+  margin-top: 14px;
+  color: #8b949e;
+  font-size: 10px;
+}
+
+.pay-v2 .feature-list li {
+  margin: 6px 0;
+}
+
+.pay-v2 .feature-list li::before {
+  width: 12px;
+  height: 12px;
+  opacity: 0.85;
+}
+
+.pay-v2 .price-card.compact {
+  padding: 16px 14px;
+}
+
+.pay-v2 .price-card.compact h3 {
+  font-size: 15px;
+}
+
+.pay-v2 .price-card.compact .cost {
+  font-size: 26px;
+}
+
+.pay-v2 .price-card.compact .buy-button {
+  padding: 10px;
+  font-size: 10px;
+}
+
+/* Extra options */
+.pay-v2 .extra-options-toggle {
+  margin: 10px 0 24px;
+}
+
+.pay-v2 .extra-options-toggle a {
+  display: inline-block;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #a1a1aa;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.pay-v2 .extra-options-toggle a:hover {
+  background: rgba(0, 102, 255, 0.16);
+  color: #fff;
+}
+
+/* Benefits */
+.pay-v2 .pay-benefits {
+  gap: 12px;
+  margin: 36px 0 34px;
+}
+
+.pay-v2 .pay-benefit-card {
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: #111215;
+}
+
+.pay-v2 .pay-benefit-icon {
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 9px;
+  background: rgba(0, 102, 255, 0.14);
+}
+
+.pay-v2 .pay-benefit-icon.green {
+  background: rgba(52, 211, 153, 0.1);
+}
+
+.pay-v2 .pay-benefit-icon img {
+  width: 20px;
+  height: 20px;
+  filter: invert(1);
+  opacity: 0.9;
+}
+
+.pay-v2 .pay-benefit-content h4 {
+  color: #f4f4f5;
+  font-size: 12px;
+}
+
+.pay-v2 .pay-benefit-content p {
+  color: #8b949e;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+/* Modal */
+.pay-v2 .modal-overlay {
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.pay-v2 .modal-content {
+  max-width: 480px;
+  padding: 28px;
+  border: 1px solid #252a33;
+  border-radius: 18px;
+  background: #0c0d10;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+
+.pay-v2 .modal-content h2 {
+  color: #f4f4f5;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+.pay-v2 .close-modal {
+  color: #71717a;
+}
+
+.pay-v2 .close-modal:hover {
+  color: #fff;
+}
+
+.pay-v2 .form-group {
+  margin-bottom: 18px;
+}
+
+.pay-v2 .form-group label {
+  color: #a1a1aa;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pay-v2 .form-group input {
+  padding: 11px 12px;
+  border: 1px solid #252a33;
+  border-radius: 10px;
+  background: #111318;
+  color: #f4f4f5;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.pay-v2 .form-group input:focus {
+  border-color: rgba(0, 102, 255, 0.7);
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.12);
+  outline: none;
+}
+
+.pay-v2 .promo-input-wrapper {
+  gap: 7px;
+}
+
+.pay-v2 .apply-promo-btn {
+  padding: 0 13px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #d4d4d8;
+  font-family: inherit;
+  font-size: 10px;
+}
+
+.pay-v2 .apply-promo-btn:hover {
+  background: rgba(0, 102, 255, 0.18);
+}
+
+.pay-v2 .promo-info {
+  color: #71717a;
+  font-size: 10px;
+}
+
+.pay-v2 .modal-total-wrapper {
+  border-top: 1px solid #252a33;
+  border-bottom: 1px solid #252a33;
+  padding: 14px 0;
+  margin: 18px 0;
+}
+
+.pay-v2 .modal-total {
+  color: #fff;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.pay-v2 .btn-pay {
+  width: 100%;
+  padding: 13px;
+  border: 0;
+  border-radius: 10px;
+  background: #075cff;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.pay-v2 .btn-pay:hover {
+  background: #1a75ff;
+}
+
+.pay-v2 .btn-pay:disabled {
+  opacity: 0.5;
+}
+
+.pay-v2 .btn-pay-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: #d4d4d8;
+}
+
+.pay-v2 .btn-pay-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.pay-v2 .modal-footnotes {
+  color: #71717a;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.pay-v2 .planta-waiting {
+  color: #a1a1aa;
+  font-size: 11px;
+}
+
+/* Error popup */
+.pay-v2 .popup-overlay {
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.pay-v2 .popup-content {
+  padding: 26px;
+  border: 1px solid #252a33;
+  border-radius: 18px;
+  background: #0c0d10;
+}
+
+.pay-v2 .popup-content h2 {
+  color: #f4f4f5;
+  font-size: 20px;
+}
+
+.pay-v2 .popup-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  background: rgba(0, 102, 255, 0.16);
+  color: #7aa7ff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.pay-v2 .popup-content button {
+  border: 0;
+  border-radius: 10px;
+  background: rgba(0, 102, 255, 0.3);
+  color: #fff;
+  padding: 9px 14px;
+  font-family: inherit;
+  font-size: 11px;
+}
+
+@media (max-width: 820px) {
+  .pay-v2 .product-chip {
+    flex-basis: calc(50% - 4px);
+  }
+}
+
+@media (max-width: 900px) {
+  .pay-v2 .pricing-grid-main {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pay-v2 .pricing-grid-traffic,
+  .pay-v2 .pricing-grid-extra {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pay-v2 .pay-benefits {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .pay-v2 .container {
+    padding: 20px 16px 32px;
+  }
+
+  .pay-v2 .product-chip {
+    flex-basis: calc(50% - 4px);
+  }
+
+  .pay-v2 .pricing-grid-main,
+  .pay-v2 .pricing-grid-traffic,
+  .pay-v2 .pricing-grid-extra {
+    grid-template-columns: 1fr;
+  }
+
+  .pay-v2 .modal-content {
+    padding: 22px;
+  }
+}
