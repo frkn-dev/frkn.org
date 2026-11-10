@@ -502,8 +502,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   plantaBtn.onclick = async () => {
-    // Planta rejects tiny invoices (its own anti-fraud limit).
-    if (!currentOrder || Number(currentOrder.price) < 100) return;
+    if (!currentOrder) return;
     plategaBtn.disabled = true;
     waitingEl.style.display = "block";
     try {

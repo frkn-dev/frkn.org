@@ -1819,14 +1819,6 @@
       }
       if (plantaPayBtn) {
         plantaPayBtn.onclick = async () => {
-          // Planta refuses invoices under 100 ₽ — hide the button instead of
-          // letting the user hit a gateway error.
-          if (currentOrder && Number(String(currentOrder.price)) < 100) {
-            showError(
-              "Оплата СБП доступна от 100 ₽. Для меньшей суммы выбери другой способ.",
-            );
-            return;
-          }
           if (!currentOrder) {
             showError("Заказ не найден. Попробуйте выбрать тариф заново.");
             return;
