@@ -7149,6 +7149,11 @@
         return String(hostname || "").split(".")[0].trim();
       }
 
+      // Имя ноды в подписи: дефисы -> точки, «tw.ru.msk.core.01».
+      function nodeDottedHost(hostname) {
+        return nodeShortHost(hostname).replace(/-/g, ".");
+      }
+
       function isNotationHost(hostname) {
         return /\.beacon\.frkn\.org$/i.test(String(hostname || ""));
       }
@@ -7172,8 +7177,14 @@
 
         const used = {};
         return cleaned.map(({ proto, label, host, notation }) => {
-          // имя ноды приоритетнее: оно уникально и говорит, куда подключаемся
-          if (host && notation) return nodeConfigLabel(proto, host);
+          // пул + имя ноды: пул говорит, зачем нода, имя — куда подключаемся.
+          // Добавляем имя только когда подпись неоднозначна (три ноды пула с
+          // одним label) или подписи нет: у «AT AWG EU-09» имя уже в подписи.
+          if (host && notation) {
+            const dotted = nodeDottedHost(host);
+            if (!label) return nodeConfigLabel(proto, dotted);
+            if (counts[label] > 1) return nodeConfigLabel(proto, `${label} - ${dotted}`);
+          }
           if (counts[label] <= 1) return nodeConfigLabel(proto, label);
           if (host) return nodeConfigLabel(proto, host);
           used[label] = (used[label] || 0) + 1;
