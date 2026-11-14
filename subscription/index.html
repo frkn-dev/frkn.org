@@ -5884,9 +5884,9 @@
           // Имя ноды = страна конфига: раньше label терялся и файлы звались «WireGuard #N».
           const configLabels = prepareNodeLabels(
             blocks.map((b, i) => ({
-              label: b.label
-                ? nodeConfigLabel(conn.proto, b.label)
-                : `${prettyProto(conn.proto)} #${i + 1}`,
+              proto: conn.proto,
+              label: b.label || `${prettyProto(conn.proto)} #${i + 1}`,
+              hostname: b.hostname,
             })),
           );
           blocks.forEach((block, i) => {
@@ -6991,7 +6991,8 @@
             const nodes = data.nodes || [];
             const labels = prepareNodeLabels(
               nodes.map((n) => ({
-                label: nodeConfigLabel("Wireguard", n.label),
+                proto: "Wireguard",
+                label: n.label,
                 hostname: n.hostname,
               })),
             );
@@ -7138,27 +7139,24 @@
         return raw;
       }
 
-      // Короткий код ноды из hostname: msk-tw.frkn.org -> MSK-TW,
-      // eu01.frkn.org -> EU-01. Нужен, когда у нескольких нод один label
-      // (пул «RU Рилзопровод»): раньше к ним клеился порядковый номер, и в
-      // списке конфигов было «RU Рилзопровод 1/2/3» без понимания, где кто.
-      function nodeCode(hostname) {
-        const short = String(hostname || "").split(".")[0].trim();
-        if (!short) return "";
-        const upper = short.toUpperCase();
-        // msk-tw -> MSK-TW, eu01 -> EU-01
-        return upper.replace(/^([A-Z]{2,4})(\d{1,2})$/, "$1-$2");
+      // Имя ноды для списка конфигов. Если у нескольких нод одинаковый label
+      // (пул «RU Рилзопровод» на трёх машинах), показываем хостнейм ноды —
+      // раньше к ним клеился порядковый номер («RU Рилзопровод 1/2/3»), и было
+      // непонятно, где какая машина. Хостнейм теперь по нотации зоны:
+      // tw-ru-msk-core-01.beacon.frkn.org.
+      function nodeShortHost(hostname) {
+        return String(hostname || "").split(".")[0].trim();
       }
 
       function prepareNodeLabels(nodes) {
-        // Составную подпись собирает nodeConfigLabel; здесь только чистим и
-        // разводим дубли, иначе повторная локализация съест имя ноды.
+        // nodes: [{ proto, label, hostname }]
         const cleaned = nodes.map((n) => ({
+          proto: n.proto || "",
           label: String(n.label || "")
             .replace(/[^\p{L}\p{N}\s\-()]/gu, "")
             .replace(/\s+/g, " ")
             .trim(),
-          code: nodeCode(n.hostname),
+          host: nodeShortHost(n.hostname),
         }));
 
         const counts = {};
@@ -7167,16 +7165,13 @@
         });
 
         const used = {};
-        const seenCodes = {};
-        return cleaned.map(({ label, code }) => {
-          if (counts[label] <= 1) return label;
+        return cleaned.map(({ proto, label, host }) => {
+          if (counts[label] <= 1) return nodeConfigLabel(proto, label);
+          // дубли пула: имя = хостнейм ноды; если его нет (старый api) —
+          // прежний порядковый номер
+          if (host) return nodeConfigLabel(proto, host);
           used[label] = (used[label] || 0) + 1;
-          // Код ноды — если он есть и ещё не занят; иначе порядковый номер.
-          if (code && !seenCodes[code]) {
-            seenCodes[code] = true;
-            return `${label} (${code})`;
-          }
-          return `${label} ${used[label]}`;
+          return nodeConfigLabel(proto, `${label} ${used[label]}`);
         });
       }
 
@@ -7416,7 +7411,8 @@
             const nodes = data.nodes || [];
             const labels = prepareNodeLabels(
               nodes.map((n) => ({
-                label: nodeConfigLabel("AmneziaWg", n.label),
+                proto: "AmneziaWg",
+                label: n.label,
                 hostname: n.hostname,
               })),
             );

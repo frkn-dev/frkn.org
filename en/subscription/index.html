@@ -5795,9 +5795,9 @@
           // Node name = the config's country: the label used to be dropped, so every file was “WireGuard #N”.
           const configLabels = prepareNodeLabels(
             blocks.map((b, i) => ({
-              label: b.label
-                ? nodeConfigLabel(conn.proto, b.label)
-                : `${prettyProto(conn.proto)} #${i + 1}`,
+              proto: conn.proto,
+              label: b.label || `${prettyProto(conn.proto)} #${i + 1}`,
+              hostname: b.hostname,
             })),
           );
           blocks.forEach((block, i) => {
