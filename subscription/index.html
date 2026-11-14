@@ -7139,13 +7139,18 @@
         return raw;
       }
 
-      // Имя ноды для списка конфигов. Если у нескольких нод одинаковый label
-      // (пул «RU Рилзопровод» на трёх машинах), показываем хостнейм ноды —
-      // раньше к ним клеился порядковый номер («RU Рилзопровод 1/2/3»), и было
-      // непонятно, где какая машина. Хостнейм теперь по нотации зоны:
-      // tw-ru-msk-core-01.beacon.frkn.org.
+      // Имя ноды для списка конфигов. Одна строка списка — это одно
+      // подключение, а оно живёт на конкретной ноде, поэтому подписываем её
+      // именем ноды: пул («RU Рилзопровод») одинаков у трёх машин и читается
+      // как «один сервер на пул». Ноды в зоне beacon названы по нотации
+      // (tw-ru-msk-core-01, aeza-fr-par-wl-01), их короткое имя и берём;
+      // для всего остального (премиум-слоты, старые имена) остаётся label.
       function nodeShortHost(hostname) {
         return String(hostname || "").split(".")[0].trim();
+      }
+
+      function isNotationHost(hostname) {
+        return /\.beacon\.frkn\.org$/i.test(String(hostname || ""));
       }
 
       function prepareNodeLabels(nodes) {
@@ -7157,6 +7162,7 @@
             .replace(/\s+/g, " ")
             .trim(),
           host: nodeShortHost(n.hostname),
+          notation: isNotationHost(n.hostname),
         }));
 
         const counts = {};
@@ -7165,10 +7171,10 @@
         });
 
         const used = {};
-        return cleaned.map(({ proto, label, host }) => {
+        return cleaned.map(({ proto, label, host, notation }) => {
+          // имя ноды приоритетнее: оно уникально и говорит, куда подключаемся
+          if (host && notation) return nodeConfigLabel(proto, host);
           if (counts[label] <= 1) return nodeConfigLabel(proto, label);
-          // дубли пула: имя = хостнейм ноды; если его нет (старый api) —
-          // прежний порядковый номер
           if (host) return nodeConfigLabel(proto, host);
           used[label] = (used[label] || 0) + 1;
           return nodeConfigLabel(proto, `${label} ${used[label]}`);
