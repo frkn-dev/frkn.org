@@ -892,6 +892,39 @@ body {
   font-family: "IBM Plex Mono", monospace;
   background: var(--bg);
 }
+/* ================= ABSTRACT PARALLAX BACKGROUND ================= */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  will-change: transform;
+}
+body::before {
+  inset: -16%;
+  transform: var(--bg-t1, translate3d(0, 0, 0));
+  background:
+    radial-gradient(46rem 34rem at 12% -2%, rgba(91, 124, 250, 0.30), transparent 70%),
+    radial-gradient(50rem 40rem at 98% 6%, rgba(56, 189, 248, 0.30), transparent 70%),
+    radial-gradient(48rem 40rem at 46% 76%, rgba(139, 92, 246, 0.26), transparent 72%),
+    radial-gradient(32rem 26rem at 90% 80%, rgba(14, 165, 233, 0.20), transparent 66%);
+  filter: saturate(1.15);
+}
+body::after {
+  inset: -6%;
+  transform: var(--bg-t2, translate3d(0, 0, 0));
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1.2px, transparent 1.2px);
+  background-size: 30px 30px;
+  -webkit-mask-image: radial-gradient(ellipse 92% 74% at 50% 0%, #000 0%, transparent 74%);
+  mask-image: radial-gradient(ellipse 92% 74% at 50% 0%, #000 0%, transparent 74%);
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    transform: none !important;
+  }
+}
 a {
   color: inherit;
   text-decoration: none;
