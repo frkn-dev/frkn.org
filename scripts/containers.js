@@ -122,11 +122,11 @@ function initBgParallax() {
     const sy = scrollP * 90;
     document.body.style.setProperty(
       "--bg-t1",
-      `translate3d(${(mx * 26).toFixed(1)}px, ${(-sy + my * 18).toFixed(1)}px, 0)`
+      `translate3d(${(mx * 130).toFixed(1)}px, ${(-sy + my * 90).toFixed(1)}px, 0)`
     );
     document.body.style.setProperty(
       "--bg-t2",
-      `translate3d(${(mx * -12).toFixed(1)}px, ${(-sy * 0.45 + my * -9).toFixed(1)}px, 0)`
+      `translate3d(${(mx * -60).toFixed(1)}px, ${(-sy * 0.45 + my * -45).toFixed(1)}px, 0)`
     );
   }
 
@@ -149,17 +149,17 @@ function initBgParallax() {
   let particles = [];
   const worldPad = 360;
   const COLORS = ["56,189,248", "91,124,250", "139,92,246", "14,165,233", "230,232,239"];
-  const LINK = 120;
+  const LINK = 170;
 
   function seed() {
-    const count = Math.min(200, Math.max(50, Math.floor((W * H) / 9500)));
+    const count = Math.min(320, Math.max(70, Math.floor((W * H) / 5200)));
     particles = Array.from({ length: count }, () => ({
       x: Math.random() * W,
       y: Math.random() * (H + worldPad),
       depth: 0.3 + Math.random() * 0.7,
       r: 0.6 + Math.random() * 1.9,
       a: 0.25 + Math.random() * 0.55,
-      glow: Math.random() < 0.18,
+      glow: Math.random() < 0.24,
       vy: 6 + Math.random() * 26,
       sway: 8 + Math.random() * 24,
       phase: Math.random() * Math.PI * 2,
@@ -200,15 +200,15 @@ function initBgParallax() {
     const sx = new Float32Array(particles.length);
     const sy = new Float32Array(particles.length);
 
-    for (let i = 0; i < particles.length; i++) {
+for (let i = 0; i < particles.length; i++) {
       const pt = particles[i];
       const rate = 0.12 + 0.6 * pt.depth;
-      let yy = pt.y - p * H * rate - time * pt.vy * pt.depth;
+      let yy = pt.y - p * H * rate - time * pt.vy * pt.depth + my * 350 * pt.depth;
       yy = ((yy % worldH) + worldH) % worldH;
-      let xx = pt.x + Math.sin(time * 0.5 + pt.phase) * pt.sway * pt.depth;
+      let xx = pt.x + Math.sin(time * 0.5 + pt.phase) * pt.sway * pt.depth + mx * 450 * pt.depth;
       xx = ((xx % W) + W) % W;
-sx[i] = xx + mx * 90 * pt.depth;
-        sy[i] = yy + my * 70 * pt.depth;
+      sx[i] = xx;
+      sy[i] = yy;
     }
 
     ctx.lineWidth = 1;
@@ -218,7 +218,7 @@ sx[i] = xx + mx * 90 * pt.depth;
         const dy = sy[i] - sy[j];
         const d2 = dx * dx + dy * dy;
         if (d2 < LINK * LINK) {
-          const alpha = (1 - Math.sqrt(d2) / LINK) * 0.16;
+          const alpha = (1 - Math.sqrt(d2) / LINK) * 0.26;
           ctx.strokeStyle = "rgba(125,185,250," + alpha.toFixed(3) + ")";
           ctx.beginPath();
           ctx.moveTo(sx[i], sy[i]);
