@@ -152,7 +152,7 @@ function initBgParallax() {
   const LINK = 170;
 
   function seed() {
-    const count = Math.min(320, Math.max(70, Math.floor((W * H) / 5200)));
+    const count = Math.min(420, Math.max(70, Math.floor((W * H) / 4000)));
     particles = Array.from({ length: count }, () => ({
       x: Math.random() * W,
       y: Math.random() * (H + worldPad),
