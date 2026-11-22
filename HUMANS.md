@@ -2,10 +2,10 @@
 
 ## Current
 - **Repo:** frkn.org
-- **Branch:** `main`
-- **Task:** блог /b переведён в архив, публикация — точечно (`tools/blog.mjs` + скилл `b-text-publishing`)
-- **Status:** **прод выкачен 2026-10-24**: все 49 текстов сняты с публикации (`/b/<slug>/` → 404), `/b/` отдаёт пустое состояние, `rss.xml` без item'ов; тексты лежат в `b/_archive/` (вне деплоя) с метаданными в `manifest.json`. Публикация/снятие — `node tools/blog.mjs publish|unpublish <slug>` + точечный rsync `b/`
-- **Updated:** 2026-10-24
+- **Branch:** `feature/abstract-parallax-bg`
+- **Task:** абстрактный параллакс-фон для «обычных» страниц (не `b/`, `app/`, `metrics/`)
+- **Status:** сделано локально (не закоммичено): в `styles.css` — фикс-слои `body::before` (4 цветных орба: индиго/циан/фиолет/циан-2) и `body::after` (точечная сетка с маской), оба `z-index:-1`; параллакс (скролл + мышь) в `scripts/containers.js` через CSS-переменные `--bg-t1/--bg-t2`, `prefers-reduced-motion` уважается. Cache-bust: `styles.css?v=23`, `containers.js?v=4`. Проверено visual-check: орбы видны, контраст текста ок, горизонтального скролла нет, вёрстка не съехала (desktop+mobile, `/`, `/pay/`, `/en/`)
+- **Updated:** 2026-11-22
 
 ## Done
 - 2026-10-24 — **блог /b: весь контент в непубличный архив**. 49 текстов перенесены в `b/_archive/<slug>/`, `/b/index.html` отдаёт пустой список, `rss.xml` — 0 item'ов, на проде все `/b/<slug>/` → 404, `/b/_archive/` → 404. Метаданные (`title/iso/excerpt`) собраны в `b/_archive/manifest.json`. Новый инструмент `tools/blog.mjs` (`list|publish|unpublish|archive-all|rebuild`) переносит каталог и пересобирает индекс+rss; `deploy-site.sh`/`deploy-beta.sh` получили `--exclude='b/_archive/'`, прод синкался точечно `rsync -av --delete --exclude='_archive/' b/`. Проверено round-trip: publish → карточка+item, unpublish → пусто. Порядок работы записан в `docs/domains/blog.md` и в скилле `b-text-publishing`.

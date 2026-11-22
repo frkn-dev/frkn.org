@@ -4,6 +4,7 @@ const suffix = langMatch ? `.${langMatch[1]}` : "";
 const lang = langMatch ? langMatch[1] : "ru";
 
 injectStatusBadge(lang);
+initBgParallax();
 
 document.addEventListener("DOMContentLoaded", () => {
   load(`/container/footer${suffix}.html`, "footer-container");
@@ -102,4 +103,157 @@ function injectStatusBadge(lang) {
 
   document.head.appendChild(style);
   document.body.appendChild(badge);
+}
+
+function initBgParallax() {
+  if (!document.body) return;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const docEl = document.documentElement;
+
+  // ---- orbs parallax (CSS vars) ----
+  let mx = 0;
+  let my = 0;
+
+  function applyOrbs(scrollP) {
+    if (reduced) return;
+    const sy = scrollP * 90;
+    document.body.style.setProperty(
+      "--bg-t1",
+      `translate3d(${(mx * 26).toFixed(1)}px, ${(-sy + my * 18).toFixed(1)}px, 0)`
+    );
+    document.body.style.setProperty(
+      "--bg-t2",
+      `translate3d(${(mx * -12).toFixed(1)}px, ${(-sy * 0.45 + my * -9).toFixed(1)}px, 0)`
+    );
+  }
+
+  // ---- particles ----
+  const canvas = document.createElement("canvas");
+  canvas.id = "bg-particles";
+  canvas.setAttribute("aria-hidden", "true");
+  Object.assign(canvas.style, {
+    position: "fixed",
+    inset: "0",
+    zIndex: "-1",
+    pointerEvents: "none",
+  });
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext("2d");
+
+  let W = 0;
+  let H = 0;
+  let dpr = 1;
+  let particles = [];
+  const worldPad = 360;
+  const COLORS = ["56,189,248", "91,124,250", "139,92,246", "14,165,233", "230,232,239"];
+  const LINK = 120;
+
+  function seed() {
+    const count = Math.min(110, Math.max(36, Math.floor((W * H) / 18000)));
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * W,
+      y: Math.random() * (H + worldPad),
+      depth: 0.3 + Math.random() * 0.7,
+      r: 0.6 + Math.random() * 1.9,
+      a: 0.25 + Math.random() * 0.55,
+      glow: Math.random() < 0.18,
+      vy: 6 + Math.random() * 26,
+      sway: 8 + Math.random() * 24,
+      phase: Math.random() * Math.PI * 2,
+      color: COLORS[(Math.random() * COLORS.length) | 0],
+    }));
+  }
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = Math.floor(W * dpr);
+    canvas.height = Math.floor(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    seed();
+  }
+
+  let last = performance.now();
+  let time = 0;
+  let rafId = 0;
+
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    time += dt;
+
+    const max = docEl.scrollHeight - window.innerHeight;
+    const p = max > 0 ? window.scrollY / max : 0;
+    applyOrbs(p);
+
+    ctx.clearRect(0, 0, W, H);
+
+    const worldH = H + worldPad;
+    const sx = new Float32Array(particles.length);
+    const sy = new Float32Array(particles.length);
+
+    for (let i = 0; i < particles.length; i++) {
+      const pt = particles[i];
+      const rate = 0.12 + 0.6 * pt.depth;
+      let yy = pt.y - p * H * rate - time * pt.vy * pt.depth;
+      yy = ((yy % worldH) + worldH) % worldH;
+      let xx = pt.x + Math.sin(time * 0.5 + pt.phase) * pt.sway * pt.depth;
+      xx = ((xx % W) + W) % W;
+      sx[i] = xx + mx * 34 * pt.depth;
+      sy[i] = yy + my * 26 * pt.depth;
+    }
+
+    ctx.lineWidth = 1;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = sx[i] - sx[j];
+        const dy = sy[i] - sy[j];
+        const d2 = dx * dx + dy * dy;
+        if (d2 < LINK * LINK) {
+          const alpha = (1 - Math.sqrt(d2) / LINK) * 0.16;
+          ctx.strokeStyle = "rgba(125,185,250," + alpha.toFixed(3) + ")";
+          ctx.beginPath();
+          ctx.moveTo(sx[i], sy[i]);
+          ctx.lineTo(sx[j], sy[j]);
+          ctx.stroke();
+        }
+      }
+    }
+
+    for (let i = 0; i < particles.length; i++) {
+      const pt = particles[i];
+      if (pt.glow) {
+        ctx.fillStyle = "rgba(" + pt.color + "," + (pt.a * 0.16).toFixed(3) + ")";
+        ctx.beginPath();
+        ctx.arc(sx[i], sy[i], pt.r * 6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.fillStyle = "rgba(" + pt.color + "," + pt.a.toFixed(3) + ")";
+      ctx.beginPath();
+      ctx.arc(sx[i], sy[i], pt.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function tick(now) {
+    frame(now);
+    rafId = requestAnimationFrame(tick);
+  }
+
+  window.addEventListener("resize", resize);
+  window.addEventListener(
+    "pointermove",
+    (e) => {
+      mx = (e.clientX / window.innerWidth - 0.5) * 2;
+      my = (e.clientY / window.innerHeight - 0.5) * 2;
+    },
+    { passive: true }
+  );
+
+  resize();
+  if (!reduced) {
+    rafId = requestAnimationFrame(tick);
+  }
 }
