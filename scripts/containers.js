@@ -114,6 +114,8 @@ function initBgParallax() {
   // ---- orbs parallax (CSS vars) ----
   let mx = 0;
   let my = 0;
+  let tx = 0;
+  let ty = 0;
 
   function applyOrbs(scrollP) {
     if (reduced) return;
@@ -150,7 +152,7 @@ function initBgParallax() {
   const LINK = 120;
 
   function seed() {
-    const count = Math.min(110, Math.max(36, Math.floor((W * H) / 18000)));
+    const count = Math.min(200, Math.max(50, Math.floor((W * H) / 9500)));
     particles = Array.from({ length: count }, () => ({
       x: Math.random() * W,
       y: Math.random() * (H + worldPad),
@@ -186,6 +188,10 @@ function initBgParallax() {
 
     const max = docEl.scrollHeight - window.innerHeight;
     const p = max > 0 ? window.scrollY / max : 0;
+
+    mx += (tx - mx) * (1 - Math.exp(-dt * 6));
+    my += (ty - my) * (1 - Math.exp(-dt * 6));
+
     applyOrbs(p);
 
     ctx.clearRect(0, 0, W, H);
@@ -201,8 +207,8 @@ function initBgParallax() {
       yy = ((yy % worldH) + worldH) % worldH;
       let xx = pt.x + Math.sin(time * 0.5 + pt.phase) * pt.sway * pt.depth;
       xx = ((xx % W) + W) % W;
-      sx[i] = xx + mx * 34 * pt.depth;
-      sy[i] = yy + my * 26 * pt.depth;
+sx[i] = xx + mx * 90 * pt.depth;
+        sy[i] = yy + my * 70 * pt.depth;
     }
 
     ctx.lineWidth = 1;
@@ -246,8 +252,8 @@ function initBgParallax() {
   window.addEventListener(
     "pointermove",
     (e) => {
-      mx = (e.clientX / window.innerWidth - 0.5) * 2;
-      my = (e.clientY / window.innerHeight - 0.5) * 2;
+      tx = (e.clientX / window.innerWidth - 0.5) * 2;
+      ty = (e.clientY / window.innerHeight - 0.5) * 2;
     },
     { passive: true }
   );
