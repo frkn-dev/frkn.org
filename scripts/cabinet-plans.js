@@ -258,16 +258,8 @@
     });
     actions.appendChild(btn);
 
-    // A second provider (SBP) exists in payment.routes; it is offered only once
-    // the gateway can actually take this plan.
-    if (PLAN_GATEWAY_READY && !reason) {
-      var sbp = el("button", "plan-sbp-btn", T.sbp);
-      sbp.type = "button";
-      sbp.addEventListener("click", function () {
-        startPurchase(plan, sbp, note, subId, "planta", reasonEl, packSelect);
-      });
-      actions.appendChild(sbp);
-    }
+    // Only Platega is offered in the cabinet: the second provider (SBP/planta)
+    // stays in payment.routes but is not shown to users.
 
     root.appendChild(actions);
 
