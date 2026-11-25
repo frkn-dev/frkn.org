@@ -1,0 +1,288 @@
+/* V2 skin for frkn.app / the Dopamine landing.
+   Page markup and download logic stay untouched. */
+
+body.home-v2.dopamine-v2 {
+  --bg: #050505;
+  --card: #0c0d10;
+  --text: #f4f4f5;
+  --muted: #8b949e;
+  --accent: #075cff;
+  --accent-2: #4d8cff;
+  --border: #252a33;
+  background:
+    radial-gradient(circle at 50% -12%, rgba(0, 102, 255, 0.14), transparent 36%),
+    #050505;
+  color: #f4f4f5;
+}
+
+.dopamine-v2 .container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 26px 24px 44px;
+}
+
+.dopamine-v2 .dopamine-hero {
+  padding: 30px 20px 32px;
+}
+
+.dopamine-v2 .dopamine-title {
+  color: #fff;
+  font-size: clamp(52px, 8vw, 78px);
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+  text-shadow: 0 0 42px rgba(0, 102, 255, 0.3);
+}
+
+.dopamine-v2 .dopamine-tagline {
+  max-width: 620px;
+  color: #a1a1aa;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.dopamine-v2 .powered-by {
+  padding: 7px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #8b949e;
+  font-size: 11px;
+  margin-bottom: 28px;
+}
+
+.dopamine-v2 .powered-by:hover {
+  background: rgba(0, 102, 255, 0.14);
+  border-color: transparent;
+  color: #fff;
+}
+
+.dopamine-v2 .powered-by b {
+  color: #f4f4f5;
+}
+
+.dopamine-v2 .app-extra {
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.dopamine-v2 .app-extra a,
+.dopamine-v2 .setup-guide {
+  padding: 6px 11px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #8b949e;
+  font-size: 10px;
+}
+
+.dopamine-v2 .app-extra a:hover,
+.dopamine-v2 .setup-guide:hover {
+  background: rgba(0, 102, 255, 0.14);
+  color: #fff;
+}
+
+.dopamine-v2 .version-row {
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.dopamine-v2 .version-badge,
+.dopamine-v2 .old-versions > summary {
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #8b949e;
+  font-size: 10px;
+}
+
+.dopamine-v2 .version-badge b {
+  color: #93b4ff;
+}
+
+.dopamine-v2 .download-count {
+  color: #71717a;
+  font-size: 10px;
+}
+
+.dopamine-v2 .download-count strong {
+  color: #4d8cff;
+}
+
+.dopamine-v2 .download-grid {
+  gap: 10px;
+}
+
+.dopamine-v2 .download-card {
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: #111215;
+}
+
+.dopamine-v2 .download-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 102, 255, 0.5);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.3);
+}
+
+.dopamine-v2 .download-icon {
+  margin-bottom: 8px;
+}
+
+.dopamine-v2 .download-name {
+  color: #f4f4f5;
+  font-size: 13px;
+}
+
+.dopamine-v2 .download-hint {
+  color: #8b949e;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.dopamine-v2 .download-btn {
+  padding: 10px 12px;
+  border-radius: 9px;
+  background: #075cff;
+  font-size: 11px;
+}
+
+.dopamine-v2 .download-btn:hover {
+  background: #1a75ff;
+  opacity: 1;
+}
+
+.dopamine-v2 .download-btn.placeholder {
+  border: 0;
+  background: rgba(255, 255, 255, 0.05);
+  color: #71717a;
+}
+
+.dopamine-v2 .download-btn-row {
+  gap: 7px;
+}
+
+.dopamine-v2 .download-section {
+  margin-bottom: 34px;
+}
+
+.dopamine-v2 .feature-group {
+  margin-bottom: 26px;
+}
+
+.dopamine-v2 .feature-group-title {
+  color: #4d8cff;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+}
+
+.dopamine-v2 .features-grid-simple {
+  gap: 10px;
+}
+
+.dopamine-v2 .feature-item {
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: #111215;
+}
+
+.dopamine-v2 .feature-item:hover {
+  transform: none;
+  border-color: rgba(0, 102, 255, 0.4);
+}
+
+.dopamine-v2 .feature-emoji img {
+  width: 18px;
+  height: 18px;
+  filter: invert(1);
+  opacity: 0.9;
+}
+
+.dopamine-v2 .feature-item h4 {
+  color: #f4f4f5;
+  font-size: 12px;
+}
+
+.dopamine-v2 .feature-item p {
+  color: #8b949e;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.dopamine-v2 .feature-item a,
+.dopamine-v2 .feature-cta {
+  color: #4d8cff;
+  font-size: 10px;
+}
+
+.dopamine-v2 .features-section h2,
+.dopamine-v2 .screenshots-section h2 {
+  color: #f4f4f5;
+  font-size: 18px;
+}
+
+.dopamine-v2 .screenshots-grid {
+  gap: 12px;
+}
+
+.dopamine-v2 .phone-shot {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: #111215;
+}
+
+.dopamine-v2 .shot-caption {
+  color: #71717a;
+  font-size: 10px;
+}
+
+.dopamine-v2 .old-pop,
+.dopamine-v2 .version-notes-pop,
+.dopamine-v2 .modal-card {
+  border: 1px solid #252a33;
+  border-radius: 12px;
+  background: #0c0d10;
+}
+
+.dopamine-v2 .old-pop-links a {
+  color: #93b4ff;
+  font-size: 10px;
+}
+
+.dopamine-v2 .old-pop-name,
+.dopamine-v2 .notes-ver {
+  color: #f4f4f5;
+}
+
+.dopamine-v2 .notes-plat,
+.dopamine-v2 .version-notes-pop li {
+  color: #8b949e;
+  font-size: 10px;
+}
+
+.dopamine-v2 .footer-note {
+  color: #71717a;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.dopamine-v2 .footer-note a {
+  color: #4d8cff;
+}
+
+@media (max-width: 760px) {
+  .dopamine-v2 .container {
+    padding: 20px 16px 32px;
+  }
+
+  .dopamine-v2 .download-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dopamine-v2 .dopamine-hero {
+    padding: 22px 8px 28px;
+  }
+}
