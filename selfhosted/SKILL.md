@@ -1,8 +1,8 @@
 ---
 name: install-private-node
 description: >-
-  Install a private FRKN node on the user's Ubuntu or Arch VPS (AmneziaWG, AmneziaWG
-  Mobile, Hysteria2, fnode-agent). Use when the user asks to install, deploy, or set
+  Install a private FRKN node on the user's Ubuntu or Arch VPS (AmneziaWG,
+  Hysteria2, fnode-agent). Use when the user asks to install, deploy, or set
   up their own FRKN node, self-hosted node, or VPS from frkn.org/selfhosted.
 ---
 
@@ -16,17 +16,19 @@ description: >-
 - Это не его VPS — не ставь на текущую машину.
 - Не Ubuntu 22.04/24.04/26.04 и не Arch — стоп.
 - Не root по SSH — стоп.
-- Никогда не передавай `--api-token` и `--env` (`dev`, `ru`, `wl`, `prod` и любые другие).
+- Нет публичного IPv4 или меньше ~1 ГБ RAM — стоп, предупреди пользователя.
+- Никогда не передавай `--api-token` и `--env` (`dev`, `ru`, `wl`, `prod` и любые другие): у приватной ноды окружение шарда, блок адресов и версия ноды приходят из токена.
 
 Токен одноразовый и живёт около часа. В репозиторий, коммит и публичный лог его не пиши.
 
 ## Установка
 
-Зайди на VPS по SSH как root. Проверь ОС и что есть публичный IPv4:
+Зайди на VPS по SSH как root. Проверь ОС, публичный IPv4 и что нужные порты свободны:
 
 ```bash
 . /etc/os-release && echo "$ID $VERSION_ID"
 ip -4 route get 1.1.1.1
+ss -ulpn | grep -E ':(51821|443)\b'
 ```
 
 Дальше только эта команда. `inst_…` замени на токен пользователя:
@@ -35,23 +37,90 @@ ip -4 route get 1.1.1.1
 curl -fsSL https://frkn.org/install | bash -s -- --token inst_…
 ```
 
-Поколение AmneziaWG по умолчанию `3.1`. Если на LTE Mobile не встаёт —
-ставь mobile в `2.0` или `legacy` (и `--force-awg-conf`, если конфиги уже есть):
+Из токена установщик сам берёт `scope_env` шарда, блок адресов и версию fnode —
+ничего из этого не хардкодится и не передаётся флагами.
 
-```bash
-curl -fsSL https://frkn.org/install | bash -s -- --token inst_… \
-  --awg-mobile-version legacy --force-awg-conf
-```
+## Что делает установщик
 
-Повторный прогон на уже стоящей ноде идемпотентен: uuid и
-`/opt/fnode/api.token` переиспользуются, awg/hysteria confs не трогаются
-без `--force-awg-conf`. Свежий `inst_…` после первой регистрации не обязателен,
-если `api.token` уже лежит на диске.
+- Поднимает peer-интерфейс `awg0-peer` на **UDP 51821** (`443` принадлежит
+  hysteria2), адрес `<block>.1/16`.
+- Пишет NAT ровно на блок шарда в `/usr/local/sbin/frkn-peer-nat`; правило
+  висит в PostUp/PostDown включённого `awg-quick@awg0-peer` и переживает ребут.
+- Ставит `pool = "own"` и label/название пула `<Country> | Selfhosted` (полное
+  имя страны) — в приложении одна строка на аккаунт, без выбора пула.
+- Идемпотентен: повторный прогон сохраняет ключи, uuid и конфиги, лечит
+  недостающее и не дублирует NAT.
+- Перечитывает конфиг по `systemctl reload fnode` (SIGHUP): нода
+  перерегистрируется, и api заново публикует authoritative набор пиров.
 
+## После установки
+
+1. Дождись конца скрипта без красных `ERROR`:
+
+   ```bash
+   systemctl is-active fnode
+   ```
+
+   Нужно `active`. В системе сервис называется `fnode` — это fnode-agent.
+   Если нет — пришли `systemctl status fnode --no-pager` пользователю и остановись.
+
+2. Пользователь обновляет подписку в Dopamine. В списке появляется строка
+   **«Страна | Selfhosted»** с пилюлями протоколов; подключение выходит через
+   IP его машины.
+
+3. Нода обслуживает только этот аккаунт: пиры других пользователей на неё не
+   публикуются (unicast `peers-init-<node_uuid>`), даже если кто-то знает uuid
+   аккаунта.
+
+## Повторный прогон и восстановление
+
+- Повторный прогон идемпотентен: uuid и `/opt/fnode/api.token`
+  переиспользуются, awg/hysteria confs не трогаются без `--force-awg-conf`.
+  Свежий `inst_…` после первой регистрации не обязателен, если `api.token`
+  уже лежит на диске.
+- Порт `51821` занят → задай другой порт окружением (это не флаг):
+
+  ```bash
+  curl -fsSL https://frkn.org/install | PEER_PORT=52821 bash -s -- --token inst_…
+  ```
+
+  Порт должен быть открыт в файрволе и в панели хостера.
+- Строки ноды нет в приложении → попроси пользователя обновить подписку ещё
+  раз, потом смотри `journalctl -u fnode -n 50`.
+- Потерян снапшот пиров / соединение не встаёт → `systemctl reload fnode`
+  (SIGHUP: перерегистрация и полный re-sync пиров). Если не помогло —
+  одноразовый запуск `/opt/fnode/fnode /opt/fnode/config.toml --peers-resync`:
+  нода один раз игнорирует локальный снапшот. Руками SQL не правь и интерфейс
+  не перезапускай — это не лечит.
+- Удалить ноду → кнопка в списке нод личного кабинета (слот освобождается).
 
 ## Несколько IPv4
 
-Клиент перебирает `node_ips` и берёт адрес, который не заблокирован. Первый в списке — основной, он же `address` (IPv4 с маршрута по умолчанию).
+Точки входа объявляются секцией `[[node.endpoints]]` — одна форма на всех
+уровнях (конфиг ноды → апи → клиент). Первая обязана совпадать с `address`
+(IPv4 с маршрута по умолчанию):
+
+```toml
+[node]
+address = "1.2.3.4"
+
+[[node.endpoints]]
+ip = "1.2.3.4"          # port по умолчанию = порт инбаунда
+weight = 100            # доля трафика, по умолчанию 100
+label = "nl-01"         # только для логов
+
+[[node.endpoints]]
+ip = "5.6.7.8"
+```
+
+Клиент перебирает эти адреса и берёт тот, который не заблокирован.
+
+**DEPRECATED:** старые ключи `node_ips` + `node_weights` работают как раньше
+(если секции нет) и игнорируются с предупреждением, когда секция есть. Нода с
+ними репортит апи `endpoints_legacy: true` (видно в `/status`). Условие
+удаления — ни одной такой ноды; конвертер конфига:
+`env/dev/scripts/migrate-node-endpoints.py` (идемпотентный, с бэкапом,
+`--report` считает прогресс).
 
 При установке скрипт сам добавляет все публичные IPv4, которые уже висят на интерфейсах. Не берёт loopback, `10/8`, `172.16/12`, `192.168/16`, link-local и `100.64/10`.
 
@@ -65,19 +134,43 @@ curl -fsSL https://frkn.org/install | bash -s -- --token inst_… --ips 1.2.3.4,
 
 Нода уже стоит — повторный прогон ок (идемпотентно: uuid + api.token
 переиспользуются, confs не трогаются). Свежий `inst_…` нужен только если
-нет `/opt/fnode/api.token`. Допиши адреса в `node_ips` в
-`/opt/fnode/config.toml` (первый элемент не меняй, он равен `address`) и
-выполни `systemctl restart fnode`.
+нет `/opt/fnode/api.token`. Допиши адреса блоками `[[node.endpoints]]` в
+`/opt/fnode/config.toml` (первый не меняй, он равен `address`) и
+выполни `systemctl reload fnode`.
 
-Профиль по умолчанию `full`: AmneziaWG + AmneziaWG Mobile + Hysteria2 + fnode-agent. Другой — только если пользователь попросил:
+## Профили
 
-- `--profile awg` — AmneziaWG (awg0, Wi‑Fi и роутеры) и AmneziaWG Mobile (awg1, LTE), без Hysteria2. В старых клиентах и на роутерах Mobile может не работать.
-- `--profile hysteria2` — только Hysteria2, и на hostname машины уже есть DNS A
+Профиль по умолчанию `full`: `awg0` + `awg1` + `awg0-peer` (UDP 51821,
+то, через что ходит приложение) + Hysteria2 + fnode-agent. Другой — только если
+пользователь попросил:
 
-Дождись конца скрипта без красных `ERROR`. Потом:
+- `--profile awg` — AmneziaWG (awg0, Wi‑Fi и роутеры), AmneziaWG Mobile
+  (awg1, LTE) и peer-плоскость, без Hysteria2. В старых клиентах и на роутерах
+  Mobile может не работать.
+- `--profile wg` — только plain WireGuard, без peer-плоскости; для роутинга и
+  экспериментов.
+- `--profile hysteria2` — только Hysteria2, и на hostname машины уже есть DNS A.
+
+Поколение AmneziaWG по умолчанию `3.1`. Если на LTE Mobile не встаёт —
+ставь mobile в `2.0` или `legacy` (и `--force-awg-conf`, если конфиги уже есть):
 
 ```bash
-systemctl is-active fnode
+curl -fsSL https://frkn.org/install | bash -s -- --token inst_… \
+  --awg-mobile-version legacy --force-awg-conf
 ```
 
-Нужно `active`. В системе сервис называется `fnode` — это fnode-agent. Если нет — пришли `systemctl status fnode --no-pager` пользователю и остановись. Повтор с тем же `inst_…` после успешной регистрации не нужен: дальше живёт `/opt/fnode/api.token`. Если первой установки не было и токен уже сожгли — проси новый.
+После смены поколения — `systemctl reload fnode` и полный refresh подписки на
+клиенте: старый junk даёт Unknown message / Invalid MAC.
+
+## Проверка
+
+```bash
+systemctl status fnode --no-pager
+test -f /opt/fnode/api.token && echo ok
+ss -ulpn | grep ':51821'
+```
+
+Нужно `active (running)`, `ok` и слушающий UDP `51821`. Токен `inst_…`
+одноразовый: если первой установки не было и токен уже сожгли — проси новый.
+После успешной регистрации живёт `/opt/fnode/api.token`, и повторный прогон
+идёт без нового токена.

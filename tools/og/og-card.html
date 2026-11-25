@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* 1200x630 link-preview card. Render with:
+         chrome --headless --window-size=1200,630 --screenshot=out.png \
+           --force-device-scale-factor=1 "file://$PWD/tools/og/og-card.html?lang=ru"
+      */
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1200px; height: 630px; overflow: hidden; }
+      body {
+        background: #050505;
+        color: #e8e8e8;
+        font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .card { position: relative; width: 1200px; height: 630px; padding: 56px 64px; }
+
+      /* concentric rings, FRDM-style, anchored outside the right edge */
+      .rings { position: absolute; inset: 0; overflow: hidden; }
+      .rings::before,
+      .rings::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 102, 255, 0.22);
+      }
+      .rings::before { width: 900px; height: 900px; right: -330px; top: -135px; }
+      .rings::after { width: 640px; height: 640px; right: -200px; top: -5px; border-color: rgba(0, 102, 255, 0.14); }
+
+      .ptero {
+        position: absolute;
+        right: -10px;
+        top: 150px;
+        width: 440px;
+        opacity: 0.5;
+        mix-blend-mode: screen;
+      }
+
+      .head { position: relative; display: flex; align-items: center; gap: 14px; }
+      .mark {
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        font-family: "IBM Plex Mono", monospace;
+      }
+      .mark b { font-size: 26px; font-weight: 600; letter-spacing: 0.14em; color: #fff; }
+      .mark span { font-size: 17px; letter-spacing: 0.18em; color: #7f8797; text-transform: uppercase; }
+
+      .tagline {
+        position: absolute;
+        right: 64px;
+        top: 62px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #0066ff;
+      }
+
+      .body { position: relative; margin-top: 96px; max-width: 640px; }
+      .eyebrow {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 15px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: #0066ff;
+        margin-bottom: 18px;
+      }
+      h1 {
+        font-size: 50px;
+        line-height: 1.06;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #fff;
+      }
+      h1 .accent { color: #0066ff; }
+      p.sub {
+        margin-top: 22px;
+        font-size: 21px;
+        line-height: 1.45;
+        color: #a6acb8;
+        max-width: 600px;
+      }
+
+      .foot {
+        position: absolute;
+        left: 64px;
+        right: 64px;
+        bottom: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 24px;
+      }
+      .badges {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 15px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #e8e8e8;
+      }
+      .dot { width: 10px; height: 10px; border-radius: 50%; background: #0066ff; box-shadow: 0 0 12px #0066ff; }
+      .domain {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 15px;
+        letter-spacing: 0.18em;
+        color: #7f8797;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="rings"></div>
+      <img class="ptero" src="../../Images/pterodactyl.png" alt="" />
+      <div class="head">
+        <div class="mark"><b>FRKN</b><span>/ privacy company</span></div>
+      </div>
+      <div class="tagline">Privacy is our religion</div>
+
+      <div class="body">
+        <div class="eyebrow" data-ru="Твой личный проводник" data-en="Your own way in"></div>
+        <h1
+          data-ru="VPN для <span class='accent'>iPhone, Android,</span> Windows и macOS"
+          data-en="VPN for <span class='accent'>iPhone, Android,</span> Windows and macOS"
+        ></h1>
+        <p
+          class="sub"
+          data-ru="Без логов и регистрации, безлимит устройств. Банки и Госуслуги работают напрямую."
+          data-en="No logs, no sign-up, unlimited devices. Banking and public services keep working."
+        ></p>
+      </div>
+
+      <div class="foot">
+        <div class="badges"><span class="dot"></span><span id="foot-ru" data-ru="Без логов · Без регистрации · Без лимитов" data-en="No logs · No sign-up · No limits"></span></div>
+        <div class="domain">frkn.org</div>
+      </div>
+    </div>
+    <script>
+      const lang = new URLSearchParams(location.search).get("lang") === "en" ? "en" : "ru";
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-" + lang + "]").forEach((el) => {
+        el.innerHTML = el.getAttribute("data-" + lang);
+      });
+    </script>
+  </body>
+</html>

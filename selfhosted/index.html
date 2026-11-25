@@ -415,8 +415,8 @@
         }
       }
     </style>
-    <link rel="stylesheet" href="/home-v2.css?v=19" />
-    <link rel="stylesheet" href="/offers-v2.css?v=2" />
+    <link rel="stylesheet" href="/dopamine/home-v2.css?v=19" />
+    <link rel="stylesheet" href="/dopamine/offers-v2.css?v=2" />
   </head>
   <body class="home-v2 offers-v2 selfhosted-v2">
     <div class="container">
@@ -444,8 +444,11 @@
         </article>
         <article>
           <p class="sh-limits-kicker">после установки</p>
-          <h2>Коннекшен сразу — обнови подписку в приложении Dopamine.</h2>
-          <p>Если нужно больше коннекшенов — создаются в личном кабинете.</p>
+          <h2>Обнови подписку в Dopamine</h2>
+          <p>
+            В списке появится строка «Страна | Selfhosted». Подключение выходит
+            через IP твоей машины и обслуживает только твой аккаунт.
+          </p>
         </article>
         <article class="sh-limits-wide">
           <p class="sh-limits-kicker">на одну ноду</p>
@@ -505,6 +508,11 @@
               Можно добавить пачку IP: если РКН заблокирует один, клиент
               переберёт остальные и возьмёт рабочий
             </li>
+            <li>
+              около <strong>1 ГБ RAM</strong> и свободные
+              <strong>UDP 51821</strong> и <strong>443</strong> — их открывает
+              установщик
+            </li>
           </ul>
         </li>
         <li>
@@ -531,6 +539,10 @@
             >
             <button type="button" id="sh-copy">Скопировать</button>
           </div>
+          <p class="sh-note" style="margin-top: 0.75rem">
+            Из токена установщик сам берёт окружение шарда, блок адресов и
+            версию ноды — вписывать их руками не нужно.
+          </p>
         </li>
         <li>
           <h3>Жди и проверь</h3>
@@ -545,6 +557,12 @@
             Должно быть <code>active (running)</code>. В системе сервис
             называется <code>fnode</code> — это и есть fnode-agent. Если упало —
             скопируй вывод команды и пришли в поддержку.
+          </p>
+          <p class="sh-note" style="margin-top: 0.5rem">
+            Повторный запуск команды безопасен: ключи, uuid и конфиги
+            сохраняются, установщик лечит недостающее. Конфиг перечитывается
+            командой <code>systemctl reload fnode</code> — она же
+            перерегистрирует ноду и заново собирает список пиров.
           </p>
         </li>
       </ol>
@@ -562,6 +580,11 @@
                 публичный IP (и по желанию домен на этот IP — для Hysteria2).
                 Можно добавить пачку IP: если РКН заблокирует один, клиент
                 переберёт остальные и возьмёт рабочий
+              </li>
+              <li>
+                около <strong>1 ГБ RAM</strong> и свободные
+                <strong>UDP 51821</strong> и <strong>443</strong> — их открывает
+                установщик
               </li>
             </ul>
           </li>
@@ -586,6 +609,10 @@
               >
               <button type="button" id="sh-copy-arch">Скопировать</button>
             </div>
+            <p class="sh-note" style="margin-top: 0.75rem">
+              Из токена установщик сам берёт окружение шарда, блок адресов и
+              версию ноды — вписывать их руками не нужно.
+            </p>
           </li>
           <li>
             <h3>Жди и проверь</h3>
@@ -601,9 +628,39 @@
               называется <code>fnode</code> — это и есть fnode-agent. Если упало —
               скопируй вывод команды и пришли в поддержку.
             </p>
+            <p class="sh-note" style="margin-top: 0.5rem">
+              Повторный запуск команды безопасен: ключи, uuid и конфиги
+              сохраняются, установщик лечит недостающее. Конфиг перечитывается
+              командой <code>systemctl reload fnode</code> — она же
+              перерегистрирует ноду и заново собирает список пиров.
+            </p>
           </li>
         </ol>
       </div>
+
+      <section class="card feature sh-card">
+        <h3>После установки</h3>
+        <ul>
+          <li>
+            Приложение ходит через интерфейс <code>awg0-peer</code> на
+            <strong>UDP 51821</strong> — <code>443</code> занят Hysteria2.
+            NAT открывает ровно блок адресов твоего шарда и переживает
+            перезагрузку.
+          </li>
+          <li>
+            Обнови подписку в Dopamine — в списке появится строка
+            <strong>«Страна | Selfhosted»</strong> с пилюлями протоколов.
+          </li>
+          <li>
+            Подключение выходит через IP твоей машины: это твой сервер, а не
+            общий выход FRKN.
+          </li>
+          <li>
+            Нода обслуживает только твой аккаунт — пиры других пользователей
+            на неё не попадают.
+          </li>
+        </ul>
+      </section>
 
       <section class="card feature sh-card">
         <span class="sh-badge">по желанию</span>
@@ -616,7 +673,8 @@
             <ul>
               <li>
                 без флага — всё сразу (<code>full</code>): awg0 + awg1 +
-                hysteria2 + fnode-agent (без WireGuard)
+                awg0-peer (UDP 51821) + hysteria2 + fnode-agent
+                (без WireGuard)
               </li>
               <li>
                 AmneziaWG и AmneziaWG Mobile, без Hysteria2:
@@ -705,6 +763,25 @@
             личном кабинете.
           </li>
           <li>
+            Порт <code>51821</code> занят → запусти установщик с другим портом:
+            <code>curl -fsSL https://frkn.org/install | PEER_PORT=52821 bash -s -- --token inst_…</code>
+            и открой этот UDP-порт в файрволе.
+          </li>
+          <li>
+            Строки ноды нет в приложении → ещё раз обнови подписку, затем
+            <code>journalctl -u fnode -n 50</code>.
+          </li>
+          <li>
+            Пропал снапшот пиров, подключение не встаёт →
+            <code>systemctl reload fnode</code> (SIGHUP: перерегистрация и
+            полный re-sync пиров). Не помогло — одноразовый запуск
+            <code>/opt/fnode/fnode /opt/fnode/config.toml --peers-resync</code>.
+            Руками SQL не правь и интерфейс не перезапускай.
+          </li>
+          <li>
+            Удалить ноду → в личном кабинете, в списке нод.
+          </li>
+          <li>
             Hysteria2 ругается на сертификат → пропиши DNS A на IP этой машины.
           </li>
         </ul>
@@ -740,6 +817,8 @@
         <p style="margin: 0.85rem 0 0"><strong>UDP через netcat</strong></p>
         <p>
           AmneziaWG слушает <code>51820</code>, Mobile — <code>8443</code>.
+          У своей ноды приложение ходит через <code>awg0-peer</code> —
+          <strong>UDP 51821</strong>, а <code>443</code> занят Hysteria2.
           Поставь netcat и отпусти порт, иначе его держит туннель:
         </p>
         <div class="sh-cmd"><code>apt-get install -y netcat-openbsd</code></div>
@@ -796,15 +875,16 @@
         <div class="sh-cmd"><code>ufw status</code></div>
         <p class="sh-note">
           Если ufw active и портов нет:
+          <code>ufw allow 51821/udp</code>,
           <code>ufw allow 51820/udp</code> и <code>ufw allow 8443/udp</code>.
           Команды нет — ufw не стоит, смотри iptables.
         </p>
         <div class="sh-cmd"><code>iptables -S INPUT</code></div>
         <p class="sh-note">
           Ищешь DROP или REJECT на эти udp-порты. Открыть:
-          <code>iptables -I INPUT -p udp --dport 51820 -j ACCEPT</code>
-          и то же для <code>8443</code>. Панель хостера тоже режет UDP —
-          открой порты и там.
+          <code>iptables -I INPUT -p udp --dport 51821 -j ACCEPT</code>
+          и то же для <code>51820</code> и <code>8443</code>. Панель хостера
+          тоже режет UDP — открой порты и там.
         </p>
 
         <p style="margin: 0.85rem 0 0"><strong>Логи модуля ядра</strong></p>

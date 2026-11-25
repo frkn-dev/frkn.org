@@ -415,8 +415,8 @@
         }
       }
     </style>
-    <link rel="stylesheet" href="/home-v2.css?v=19" />
-    <link rel="stylesheet" href="/offers-v2.css?v=2" />
+    <link rel="stylesheet" href="/dopamine/home-v2.css?v=19" />
+    <link rel="stylesheet" href="/dopamine/offers-v2.css?v=2" />
   </head>
   <body class="home-v2 offers-v2 selfhosted-v2">
     <div class="container">
@@ -443,8 +443,11 @@
         </article>
         <article>
           <p class="sh-limits-kicker">after install</p>
-          <h2>Connection ready — refresh the subscription in Dopamine.</h2>
-          <p>More connections are created in the cabinet.</p>
+          <h2>Refresh the subscription in Dopamine</h2>
+          <p>
+            A “Country | Selfhosted” row appears. Connecting exits through your
+            machine's IP and serves only your account.
+          </p>
         </article>
         <article class="sh-limits-wide">
           <p class="sh-limits-kicker">per node</p>
@@ -504,6 +507,11 @@
               a pack of IPs: if one gets blocked, the client tries the rest
               and picks one that works
             </li>
+            <li>
+              about <strong>1 GB RAM</strong> and free
+              <strong>UDP 51821</strong> and <strong>443</strong> — the
+              installer opens them
+            </li>
           </ul>
         </li>
         <li>
@@ -530,6 +538,10 @@
             >
             <button type="button" id="sh-copy">Copy</button>
           </div>
+          <p class="sh-note" style="margin-top: 0.75rem">
+            The installer takes the shard env, the address block and the node
+            version from the token — you never type them.
+          </p>
         </li>
         <li>
           <h3>Wait and check</h3>
@@ -544,6 +556,11 @@
             Expect <code>active (running)</code>. The service is named
             <code>fnode</code> — that's fnode-agent. If it failed — paste the
             output to support.
+          </p>
+          <p class="sh-note" style="margin-top: 0.5rem">
+            Re-running the command is safe: keys, uuid and configs are kept and
+            the installer heals what is missing. <code>systemctl reload fnode</code>
+            re-reads the config, re-registers the node and rebuilds the peer set.
           </p>
         </li>
       </ol>
@@ -561,6 +578,11 @@
                 public IP (optional domain → that IP for Hysteria2). You can add
                 a pack of IPs: if one gets blocked, the client tries the rest
                 and picks one that works
+              </li>
+              <li>
+                about <strong>1 GB RAM</strong> and free
+                <strong>UDP 51821</strong> and <strong>443</strong> — the
+                installer opens them
               </li>
             </ul>
           </li>
@@ -584,6 +606,10 @@
               >
               <button type="button" id="sh-copy-arch">Copy</button>
             </div>
+            <p class="sh-note" style="margin-top: 0.75rem">
+              The installer takes the shard env, the address block and the node
+              version from the token — you never type them.
+            </p>
           </li>
           <li>
             <h3>Wait and check</h3>
@@ -599,9 +625,36 @@
               <code>fnode</code> — that's fnode-agent. If it failed — paste the
               output to support.
             </p>
+            <p class="sh-note" style="margin-top: 0.5rem">
+              Re-running the command is safe: keys, uuid and configs are kept and
+              the installer heals what is missing. <code>systemctl reload fnode</code>
+              re-reads the config, re-registers the node and rebuilds the peer set.
+            </p>
           </li>
         </ol>
       </div>
+
+      <section class="card feature sh-card">
+        <h3>After install</h3>
+        <ul>
+          <li>
+            The app connects through <code>awg0-peer</code> on
+            <strong>UDP 51821</strong> — <code>443</code> belongs to Hysteria2.
+            NAT covers exactly your shard's address block and survives a reboot.
+          </li>
+          <li>
+            Refresh the subscription in Dopamine — a row
+            <strong>“Country | Selfhosted”</strong> appears with protocol pills.
+          </li>
+          <li>
+            Connecting exits through your machine's IP: it is your server, not a
+            shared FRKN exit.
+          </li>
+          <li>
+            The node serves only your account — other users' peers never reach it.
+          </li>
+        </ul>
+      </section>
 
       <section class="card feature sh-card">
         <span class="sh-badge">optional</span>
@@ -614,7 +667,8 @@
             <ul>
               <li>
                 no flag — everything (<code>full</code>): awg0 + awg1 +
-                hysteria2 + fnode-agent (no WireGuard)
+                awg0-peer (UDP 51821) + hysteria2 + fnode-agent
+                (no WireGuard)
               </li>
               <li>
                 AmneziaWG and AmneziaWG Mobile, no Hysteria2:
@@ -698,6 +752,24 @@
           <li>Not root → <code>sudo -i</code> and try again.</li>
           <li>Token expired / already used → get a new <code>inst_…</code> in the cabinet.</li>
           <li>
+            Port <code>51821</code> is busy → re-run the installer with another
+            port:
+            <code>curl -fsSL https://frkn.org/install | PEER_PORT=52821 bash -s -- --token inst_…</code>
+            and open that UDP port in the firewall.
+          </li>
+          <li>
+            The node row does not appear → refresh the subscription once more,
+            then <code>journalctl -u fnode -n 50</code>.
+          </li>
+          <li>
+            Peer snapshot lost / will not connect →
+            <code>systemctl reload fnode</code> (SIGHUP: re-register and a full
+            peer re-sync). Still broken — a one-shot
+            <code>/opt/fnode/fnode /opt/fnode/config.toml --peers-resync</code>.
+            No manual SQL, no interface restart.
+          </li>
+          <li>Delete the node → in the cabinet, in the node list.</li>
+          <li>
             Hysteria2 cert errors → point a DNS A record at this machine’s IP.
           </li>
         </ul>
@@ -732,6 +804,8 @@
         <p style="margin: 0.85rem 0 0"><strong>UDP via netcat</strong></p>
         <p>
           AmneziaWG listens on <code>51820</code>, Mobile on <code>8443</code>.
+          On your own node the app connects through <code>awg0-peer</code> —
+          <strong>UDP 51821</strong>, and <code>443</code> is Hysteria2's.
           Install netcat and free the port — the tunnel holds it:
         </p>
         <div class="sh-cmd"><code>apt-get install -y netcat-openbsd</code></div>
@@ -789,15 +863,16 @@
         <div class="sh-cmd"><code>ufw status</code></div>
         <p class="sh-note">
           If ufw is active and the ports are missing:
+          <code>ufw allow 51821/udp</code>,
           <code>ufw allow 51820/udp</code> and <code>ufw allow 8443/udp</code>.
           No such command — ufw is not installed, check iptables.
         </p>
         <div class="sh-cmd"><code>iptables -S INPUT</code></div>
         <p class="sh-note">
           Look for DROP or REJECT on those UDP ports. Open them:
-          <code>iptables -I INPUT -p udp --dport 51820 -j ACCEPT</code>
-          and the same for <code>8443</code>. The hoster's panel can block UDP
-          too — open the ports there as well.
+          <code>iptables -I INPUT -p udp --dport 51821 -j ACCEPT</code>
+          and the same for <code>51820</code> and <code>8443</code>. The
+          hoster's panel can block UDP too — open the ports there as well.
         </p>
 
         <p style="margin: 0.85rem 0 0"><strong>Kernel module logs</strong></p>

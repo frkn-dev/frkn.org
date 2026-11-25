@@ -692,6 +692,9 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="/dopamine/home-v2.css?v=21" />
+    <link rel="stylesheet" href="/dopamine/dopamine-v2.css?v=1" />
+
   
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="FRKN" />
@@ -704,9 +707,10 @@
     <meta name="twitter:title" content="Dopamine — app by FRKN" />
     <meta name="twitter:description" content="Dopamine — a client to connect to FRKN VPN. Download the app or go to the store." />
     <meta name="twitter:image" content="https://frkn.org/Images/og.png" />
+    <script src="/scripts/api-fallback.js?v=2"></script>
   </head>
 
-  <body>
+  <body class="home-v2 dopamine-v2">
     <div class="container">
       <header>
         <div id="logo-container"></div>
@@ -735,16 +739,57 @@
         <div class="version-row">
           <div class="version-stack">
             <details class="version-notes">
-              <summary class="version-badge"><b>v4.8.14.70</b> updated 20.10.2026</summary>
+              <summary class="version-badge"><b>v4.8.14.186</b> updated 25.11.2026</summary>
               <div class="old-pop version-notes-pop">
                 <div class="notes-block">
+                  <div class="notes-ver">4.8.14.186</div>
+                  <div class="notes-plat">Android, iOS, macOS, Linux, Windows</div>
+                  <ul>
+                    <li>New connection model: servers are grouped by pool, the tunnel is built on first connect — the list loads instantly.</li>
+                    <li>Super Duper plan: traffic packages sold separately from the base subscription term.</li>
+                    <li>Speed test: every protocol of the pool, ping and download without connecting.</li>
+                    <li>The home server card matches the site: a large name, a coloured ping dot, speed on the right.</li>
+                    <li>Long server names no longer shrink or truncate — they wrap to a second line.</li>
+                    <li>Subscription traffic in Settings matches the cabinet total.</li>
+                    <li>Light theme: the card border and settings icons are readable.</li>
+                  </ul>
+                </div>
+                <div class="notes-block">
+                  <div class="notes-ver">4.8.14.92</div>
+                  <div class="notes-plat">Android, iOS, macOS, Linux, Windows</div>
+                  <ul>
+                    <li>Subscriptions can be removed one by one: a bin button in the subscription selector plus confirmation — other subscriptions and their servers stay untouched.</li>
+                    <li>Subscriptions are labelled with the tail of their id instead of "Subscription 1/2", so it is obvious which one is which.</li>
+                    <li>The refresh button reloads only the selected subscription; with "All" it reloads everything.</li>
+                    <li>With "All protocols" selected, each server row now shows its own protocol.</li>
+                    <li>The support report no longer contains addresses of other servers, and the endpoint check probes this row's own addresses.</li>
+                    <li><b>iOS:</b> the status bar no longer appears upside down while the app loads; Diagnostics moved to the top level of Settings.</li>
+                    <li>The BelySlon and Jolly Roger icons no longer stand out against the app background.</li>
+                    <li><b>Android:</b> fixed the 64-bit build — it shipped without the tunnel libraries.</li>
+                    <li>Memory: the xray core is capped on iOS, smaller list caches and fewer decoded images.</li>
+                  </ul>
+                </div>
+                <div class="notes-block">
+                  <div class="notes-ver">4.8.14.81</div>
+                  <div class="notes-plat">Android, iOS, macOS, Linux, Windows</div>
+                  <ul>
+                    <li>New Connections List screen with clearer flags, the selected-server state and a cleaner connection card.</li>
+                    <li>Connecting is more predictable: one best-option calculation, real traffic confirmation and recovery after Wi‑Fi → LTE handover.</li>
+                    <li>Custom DNS and MTU live in Settings → Connection; the server card shows when values are overridden.</li>
+                    <li>Split tunneling is now a dedicated settings page.</li>
+                    <li><b>Android:</b> removed the light blotch on the server card — the card is flat now.</li>
+                    <li>Stability and telemetry: fewer false “Connected” states, support reports and auto-reconnect.</li>
+                  </ul>
+                </div>
+                <div class="notes-block">
                   <div class="notes-ver">4.8.14.70</div>
-                  <div class="notes-plat">Android, iOS, macOS, Linux</div>
+                  <div class="notes-plat">Android, iOS, macOS, Linux, Windows</div>
                   <ul>
                     <li>The server list gets an "All" filter and location grouping: one card per city instead of a set of protocols.</li>
                     <li>With several subscriptions, pick the one you need: All, "Subscription 1", "Subscription 2"…</li>
                     <li>Subscriptions refresh independently: servers from one no longer overwrite another.</li>
                     <li>"Local subnets" setting: addresses that always bypass the VPN, even with the kill switch on.</li>
+                    <li><b>Windows:</b> split tunneling is applied on every activation, so excluded apps really bypass the VPN. Restart Steam and games after connecting.</li>
                   </ul>
                 </div>
                 <div class="notes-block">
@@ -796,7 +841,66 @@
           </div>
           <details class="old-versions">
             <summary>Previous versions</summary>
-            <div class="old-pop">
+                        <div class="old-pop">
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.81</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.81.apk" download>Android</a>
+                  <a href="/dopamine/frkn-dopamine-4.8.14.81-armeabi-v7a.apk" download>Android 32-bit</a>
+                  <a href="/dopamine/Dopamine-4.8.81-win64.msi" download>Windows</a>
+                  <a href="/dopamine/Dopamine-arm64-4.8.14.81.pkg" download>macOS Apple</a>
+                  <a href="/dopamine/Dopamine-intel-4.8.14.81.pkg" download>macOS Intel</a>
+                  <a href="/dopamine/Dopamine-4.8.14.81-linux-x64.bin" download>Linux</a>
+                </div>
+              </div>
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.70</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.70.apk" download>Android</a>
+                  <a href="/dopamine/frkn-dopamine-4.8.14.70-armeabi-v7a.apk" download>Android 32-bit</a>
+                  <a href="/dopamine/Dopamine-4.8.14.70-win64.msi" download>Windows</a>
+                  <a href="/dopamine/Dopamine-arm64-4.8.14.70.pkg" download>macOS Apple</a>
+                  <a href="/dopamine/Dopamine-intel-4.8.14.70.pkg" download>macOS Intel</a>
+                  <a href="/dopamine/Dopamine-4.8.14.70-linux-x64.bin" download>Linux</a>
+                </div>
+              </div>
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.69</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.69.apk" download>Android</a>
+                  <a href="/dopamine/Dopamine-arm64-4.8.14.69.pkg" download>macOS Apple</a>
+                  <a href="/dopamine/Dopamine-intel-4.8.14.69.pkg" download>macOS Intel</a>
+                </div>
+              </div>
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.67</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.67.apk" download>Android</a>
+                  <a href="/dopamine/Dopamine-arm64-4.8.14.67.pkg" download>macOS Apple</a>
+                  <a href="/dopamine/Dopamine-intel-4.8.14.67.pkg" download>macOS Intel</a>
+                </div>
+              </div>
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.66</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.66-armeabi-v7a.apk" download>Android 32-bit</a>
+                  <a href="/dopamine/Dopamine-arm64-4.8.14.66.pkg" download>macOS Apple</a>
+                  <a href="/dopamine/Dopamine-intel-4.8.14.66.pkg" download>macOS Intel</a>
+                  <a href="/dopamine/Dopamine-4.8.14.66-linux-x64.bin" download>Linux</a>
+                </div>
+              </div>
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.65</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.65.apk" download>Android</a>
+                </div>
+              </div>
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.63</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.63.apk" download>Android</a>
+                </div>
+              </div>
               <div class="old-pop-ver">
                 <div class="old-pop-name">4.8.14.62</div>
                 <div class="old-pop-links">
@@ -823,6 +927,42 @@
                   <a href="/dopamine/Dopamine-intel-4.8.14.60.pkg" download>macOS Intel</a>
                 </div>
               </div>
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.59</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.59.apk" download>Android</a>
+                  <a href="/dopamine/Dopamine-4.8.14.59-win64.msi" download>Windows</a>
+                  <a href="/dopamine/Dopamine-arm64-4.8.14.59.pkg" download>macOS Apple</a>
+                  <a href="/dopamine/Dopamine-intel-4.8.14.59.pkg" download>macOS Intel</a>
+                </div>
+              </div>
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.58</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.58.apk" download>Android</a>
+                  <a href="/dopamine/Dopamine-4.8.14.58-win64.msi" download>Windows</a>
+                  <a href="/dopamine/Dopamine-arm64-4.8.14.58.pkg" download>macOS Apple</a>
+                  <a href="/dopamine/Dopamine-intel-4.8.14.58.pkg" download>macOS Intel</a>
+                </div>
+              </div>
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.57</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.57.apk" download>Android</a>
+                  <a href="/dopamine/Dopamine-4.8.14.57-win64.msi" download>Windows</a>
+                  <a href="/dopamine/Dopamine-arm64-4.8.14.57.pkg" download>macOS Apple</a>
+                </div>
+              </div>
+              <div class="old-pop-ver">
+                <div class="old-pop-name">4.8.14.56</div>
+                <div class="old-pop-links">
+                  <a href="/dopamine/frkn-dopamine-4.8.14.56.apk" download>Android</a>
+                  <a href="/dopamine/Dopamine-4.8.14.56-win64.msi" download>Windows</a>
+                  <a href="/dopamine/Dopamine-arm64-4.8.14.56.pkg" download>macOS Apple</a>
+                  <a href="/dopamine/Dopamine-intel-4.8.14.56.pkg" download>macOS Intel</a>
+                  <a href="/dopamine/Dopamine-4.8.14.56-linux-x64.bin" download>Linux</a>
+                </div>
+              </div>
             </div>
           </details>
           <a class="setup-guide" href="/en/setup/dopamine/" data-ds-setup="en"
@@ -845,10 +985,10 @@
             <div class="download-name">Android</div>
             <div class="download-hint">
               APK file for manual install<br />
-4.8.14.70
+4.8.14.186
             </div>
             <a
-              href="/dopamine/frkn-dopamine-4.8.14.70.apk"
+              href="/dopamine/frkn-dopamine-4.8.14.186.apk"
               class="download-btn"
               download
             >
@@ -879,10 +1019,10 @@
             <div class="download-name">TV and older Android</div>
             <div class="download-hint">
               32-bit build<br />
-              4.8.14.70
+              4.8.14.186
             </div>
             <a
-              href="/dopamine/frkn-dopamine-4.8.14.70-armeabi-v7a.apk"
+              href="/dopamine/frkn-dopamine-4.8.14.186-armeabi-v7a.apk"
               class="download-btn"
               download
             >
@@ -899,7 +1039,7 @@
               </svg>
             </div>
             <div class="download-name">iOS</div>
-            <div class="download-hint">Beta via TestFlight<br />4.8.14.70</div>
+            <div class="download-hint">Beta via TestFlight<br />4.8.14.186</div>
             <a
               href="https://testflight.apple.com/join/g64p8p4h"
               target="_blank"
@@ -919,9 +1059,9 @@
               </svg>
             </div>
             <div class="download-name">Windows</div>
-            <div class="download-hint">.msi installer<br />4.8.14.61</div>
+            <div class="download-hint">.msi installer<br />4.8.14.186</div>
             <a
-              href="/dopamine/Dopamine-4.8.14.61-win64.msi"
+              href="/dopamine/Dopamine-4.8.92-win64.msi"
               class="download-btn"
               download
             >
@@ -938,17 +1078,17 @@
               </svg>
             </div>
             <div class="download-name">macOS</div>
-            <div class="download-hint">.pkg installer<br />4.8.14.70</div>
+            <div class="download-hint">.pkg installer<br />4.8.14.186</div>
             <div class="download-btn-row">
               <a
-                href="/dopamine/Dopamine-arm64-4.8.14.70.pkg"
+                href="/dopamine/Dopamine-arm64-4.8.14.186.pkg"
                 class="download-btn"
                 download
               >
                 Apple Silicon
               </a>
               <a
-                href="/dopamine/Dopamine-intel-4.8.14.70.pkg"
+                href="/dopamine/Dopamine-intel-4.8.14.186.pkg"
                 class="download-btn"
                 download
               >
@@ -979,9 +1119,9 @@
               </svg>
             </div>
             <div class="download-name">Linux</div>
-            <div class="download-hint">.bin · x64<br />4.8.14.70</div>
+            <div class="download-hint">.bin · x64<br />4.8.14.186</div>
             <a
-              href="/dopamine/Dopamine-4.8.14.70-linux-x64.bin"
+              href="/dopamine/Dopamine-4.8.14.186-linux-x64.bin"
               class="download-btn"
               download
             >

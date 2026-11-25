@@ -1,7 +1,7 @@
 <div class="logo-with-lang">
   <div class="header-left">
     <div class="logo">
-      <a href="/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN<span class="logo-suffix">// Рилзопровод // Dopamine</span></a>
+      <a href="/"><img src="/Images/logo.png" alt="FRKN Logo" />FRKN<span class="logo-suffix">// Рилзопровод<span class="logo-suffix-app"> // Dopamine</span></span></a>
     </div>
     <div class="logo-tagline">PRIVACY IS OUR RELIGION</div>
     <style>
@@ -20,7 +20,17 @@
       body.home-v2.home-page .logo-tagline {
         display: none;
       }
-          .logo-suffix {
+          /* The app name rides along only on the front page; every other page
+         keeps the brand to FRKN // Рилзопровод. */
+      .logo-suffix-app {
+        display: none;
+      }
+
+      body.home-page .logo-suffix-app {
+        display: inline;
+      }
+
+      .logo-suffix {
         color: #6b7280;
         font-size: 12px;
         font-weight: 500;
@@ -41,6 +51,7 @@
     </style>
   </div>
   <div class="header-right">
+    <a href="/profile" class="login-link">Войти</a>
     <div class="lang-switcher compact">
       <button class="lang-btn active" data-lang-switch="ru" aria-label="Русский">RU</button>
       <button class="lang-btn" data-lang-switch="en" aria-label="English">EN</button>

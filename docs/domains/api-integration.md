@@ -26,6 +26,7 @@ Catalog of every `api.frkn.org` endpoint and which page calls it. Load when touc
 | `DELETE /private/users/{child_uuid}?subscription_id=<owner>` | revoke a user: cuts its connections (tombstones to the nodes) and frees the slot; foreign/premium/already deleted → uniform `404 user not found` | `subscription/` (API/`tools/e2e`) |
 | `PUT /admin/api/subscriptions/{owner_uuid}/selfhosted-limits` | admin (bearer token) sets `{"server_limit":N,"user_limit":M}`; lowering deletes nothing, the account just can't grow past the cap | admin CLI/panel |
 | `POST /subscription/trial` | create trial subscription | `subscription/` |
+| `POST /subscription/{id}/buy` | may this plan be sold right now + the exact payment-gw call: `{plan}` (`standard`\|`lite`) → `{payment:{method,routes,body}}`; `503 no_live_shard` / `plan_not_configured` = no shard can take a buyer; no price in the api | `subscription/`, `en/subscription/` (`scripts/cabinet-plans.js`) |
 | `GET /sub?id=...&proto=...&format=...` | connection link/QR content per protocol | `subscription/`, `app/` |
 | `GET /short` | short link helper | `subscription/` |
 | `GET s.frkn.org/{code}` | resolve short code → `{subscription_id, subscription_url}` (JSON with `Accept: application/json`, CORS open for frkn.org) | `sub/` |

@@ -34,14 +34,60 @@
         text-align: center;
       }
 
-      .sub-spinner {
-        width: 36px;
-        height: 36px;
-        margin: 0 auto 20px;
-        border: 3px solid rgba(255, 255, 255, 0.15);
-        border-top-color: var(--accent);
-        border-radius: 50%;
-        animation: sub-spin 0.7s linear infinite;
+      /* The boot screen flies the same mascot as the app's speedtest: two
+         460 ms halves, drift up-right / down-left with a small rotation. */
+      .sub-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg);
+      }
+
+      .sub-loader-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .sub-loader-caption {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .sub-dino {
+        width: 56px;
+        height: 56px;
+        display: block;
+        will-change: transform;
+        animation: sub-dino-flight 0.92s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+      }
+
+      @keyframes sub-dino-flight {
+        0% {
+          transform: translate(-3px, 3px) rotate(-10deg);
+        }
+        50% {
+          transform: translate(4px, -3px) rotate(8deg);
+        }
+        100% {
+          transform: translate(-3px, 3px) rotate(-10deg);
+        }
+      }
+
+      @media (max-width: 640px) {
+        .sub-dino {
+          width: 40px;
+          height: 40px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .sub-dino {
+          animation: none;
+        }
       }
 
       @keyframes sub-spin {
@@ -82,11 +128,14 @@
   </head>
   <body>
     <main class="sub-redirect">
-      <div class="sub-card">
-        <div class="sub-spinner" id="spinner"></div>
-        <h1 id="title">Открываем личный кабинет…</h1>
-        <p id="text">Секунду, проверяем код.</p>
-        <div class="sub-actions" id="actions" hidden>
+      <!-- Boot screen is the mascot alone; the card below only exists for errors. -->
+      <div class="sub-loader" id="loader">
+        <img class="sub-dino" src="/Images/pterodactyl.png" alt="" />
+      </div>
+      <div class="sub-card" id="error-card" hidden>
+        <h1 id="title"></h1>
+        <p id="text"></p>
+        <div class="sub-actions" id="actions">
           <a href="/" id="home-link">На главную</a>
           <a href="/activate" id="activate-link">Активировать ключ</a>
         </div>
@@ -99,6 +148,7 @@
 
         var i18n = ru
           ? {
+              loading: "Загрузка…",
               badLink: "Ссылка должна выглядеть как frkn.org/sub/xxxx-xxxx-xx",
               notFound: "Код не найден",
               notFoundText:
@@ -107,6 +157,7 @@
               activate: "Активировать ключ",
             }
           : {
+              loading: "Loading…",
               badLink: "The link should look like frkn.org/sub/xxxx-xxxx-xx",
               notFound: "Code not found",
               notFoundText:
@@ -115,18 +166,19 @@
               activate: "Activate key",
             };
 
-        var spinner = document.getElementById("spinner");
+        var loader = document.getElementById("loader");
+        var errorCard = document.getElementById("error-card");
         var titleEl = document.getElementById("title");
         var textEl = document.getElementById("text");
         var actions = document.getElementById("actions");
 
         function fail(title, text) {
-          spinner.style.display = "none";
+          loader.style.display = "none";
+          errorCard.hidden = false;
           titleEl.textContent = title;
           textEl.textContent = text;
           document.getElementById("home-link").textContent = i18n.home;
           document.getElementById("activate-link").textContent = i18n.activate;
-          actions.hidden = false;
         }
 
         // Коды живут на проде — резолвер всегда s.frkn.org, даже локально
@@ -194,6 +246,9 @@
           })
           .then(function (html) {
             if (!html) return;
+            // The cabinet must not fly the mascot again: this screen already does,
+            // and the second flight after the document swap read as a page blink.
+            try { sessionStorage.setItem("lk_boot_seen", "1"); } catch (e) {}
             document.open();
             document.write(html);
             document.close();

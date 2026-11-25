@@ -504,6 +504,29 @@ body.pay-v2 {
   letter-spacing: -0.04em;
 }
 
+.pay-v2 .modal-warn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  padding: 11px 14px;
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  border-radius: 10px;
+  background: rgba(251, 191, 36, 0.12);
+  color: #fbbf24;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+.pay-v2 .modal-warn .modal-warn-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
 .pay-v2 .btn-pay {
   width: 100%;
   padding: 13px;

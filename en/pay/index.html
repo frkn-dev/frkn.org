@@ -27,8 +27,17 @@
     />
     <meta name="twitter:image" content="https://frkn.org/Images/logo.png" />
     <title>FRKN Privacy — Pricing</title>
-    <link rel="icon" href="/Images/favicon.ico" sizes="any" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/Images/apple-touch-icon.png" sizes="180x180">
+    <link
+      rel="icon"
+      href="/Images/favicon.ico"
+      sizes="any"
+      type="image/x-icon"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/Images/apple-touch-icon.png"
+      sizes="180x180"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -38,14 +47,14 @@
     <link rel="stylesheet" href="/styles.css?v=9" />
     <style>
       :root {
-        --bg-color: var(--bg, #090B10);
+        --bg-color: var(--bg, #090b10);
         --card-bg: var(--card, #121622);
         --card-bg-hover: #1a1f2e;
-        --accent-color: var(--accent, #38BDF8);
+        --accent-color: var(--accent, #38bdf8);
         --accent-secondary: #22c55e;
         --text-main: var(--text, #e6e8ef);
         --text-dim: var(--muted, #9aa1b2);
-        --border-color: var(--border, #1F263A);
+        --border-color: var(--border, #1f263a);
       }
       * {
         margin: 0;
@@ -317,10 +326,59 @@
       }
       .buy-button.alt:hover {
         background: rgba(91, 124, 250, 0.12);
+        box-shadow: none;
+      }
+      @media (max-width: 960px) {
+        .pricing-grid-main {
+          grid-template-columns: 1fr;
+        }
+        .extra-options .pricing-grid-extra {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 480px) {
+        .extra-options .pricing-grid-extra {
+          grid-template-columns: 1fr;
+        }
+      }
+      .price-card.accent-border {
+        border: 2px solid var(--accent-color);
+      }
+      .savings-text.regular {
+        color: var(--text-dim);
+      }
+      .unlimited-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        background: linear-gradient(135deg, #22d3ee, #0ea5e9);
+        color: #04121a;
+        padding: 4px 10px;
+        border-radius: 999px;
+        box-shadow: 0 0 16px rgba(34, 211, 238, 0.35);
       }
       .pricing-grid-traffic {
         grid-template-columns: repeat(4, minmax(180px, 1fr));
         gap: 16px;
+      }
+      .traffic-pricing-note {
+        font-size: 11px;
+        color: var(--text-dim);
+        margin-bottom: 12px;
+        line-height: 1.5;
+      }
+      .price-option {
+        cursor: pointer;
+        padding: 2px 4px;
+        border-radius: 6px;
+        transition: all 0.15s ease;
+      }
+      .price-option:hover {
+        color: var(--accent);
+        background: rgba(91, 124, 250, 0.12);
       }
       .pay-tabs {
         display: flex;
@@ -351,13 +409,7 @@
         box-shadow: 0 0 24px rgba(91, 124, 250, 0.35);
       }
       @media (max-width: 960px) {
-        .pricing-grid-main {
-          grid-template-columns: 1fr;
-        }
         .pricing-grid-traffic {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .extra-options .pricing-grid-extra {
           grid-template-columns: repeat(2, 1fr);
         }
       }
@@ -365,28 +417,20 @@
         .pricing-grid-traffic {
           grid-template-columns: 1fr;
         }
-        .extra-options .pricing-grid-extra {
-          grid-template-columns: 1fr;
-        }
-      }
-      .price-card.accent-border {
-        border: 2px solid var(--accent-color);
-      }
-      .savings-text.regular {
-        color: var(--text-dim);
       }
       .modal-overlay {
         display: none;
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        inset: 0;
         background: rgba(0, 0, 0, 0.85);
         backdrop-filter: blur(10px);
         z-index: 2000;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
+        overflow-y: auto;
+        padding: max(12px, env(safe-area-inset-top)) 12px
+          max(12px, env(safe-area-inset-bottom));
+        -webkit-overflow-scrolling: touch;
       }
       .modal-overlay.active {
         display: flex;
@@ -394,27 +438,55 @@
       .modal-content {
         background: var(--card-bg);
         color: white;
-        padding: 40px;
-        border-radius: 30px;
-        width: 90%;
-        max-width: 450px;
+        padding: 28px 24px 20px;
+        border-radius: 24px;
+        width: min(450px, 100%);
+        max-height: calc(100dvh - 24px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        margin-block: auto;
         position: relative;
         border: 1px solid var(--border-color);
+        box-sizing: border-box;
+      }
+      .modal-content h2 {
+        font-size: 22px;
+        line-height: 1.25;
+        margin: 0 36px 18px 0;
       }
       .close-modal {
         position: absolute;
-        top: 20px;
-        right: 25px;
-        font-size: 32px;
+        top: 14px;
+        right: 16px;
+        font-size: 28px;
         color: #666;
         cursor: pointer;
         transition: color 0.2s;
+        line-height: 1;
+        z-index: 1;
       }
       .close-modal:hover {
         color: #fff;
       }
       .form-group {
-        margin-bottom: 20px;
+        margin-bottom: 14px;
+      }
+      .modal-footnotes {
+        margin-top: 14px;
+        display: grid;
+        gap: 8px;
+        text-align: center;
+        color: #888;
+        font-size: 12px;
+        line-height: 1.4;
+      }
+      .modal-footnotes p {
+        margin: 0;
+      }
+      .modal-footnotes .prefer {
+        color: #aaa;
+        font-size: 13px;
       }
       .form-group label {
         display: block;
@@ -469,13 +541,13 @@
       }
       .modal-total-wrapper {
         text-align: center;
-        margin: 20px 0;
-        padding: 20px;
+        margin: 12px 0 14px;
+        padding: 14px 16px;
         background: rgba(0, 122, 255, 0.1);
         border-radius: 16px;
       }
       .modal-total {
-        font-size: 42px;
+        font-size: 36px;
         font-weight: 800;
         color: var(--accent-secondary);
       }
@@ -486,18 +558,43 @@
         margin-right: 12px;
       }
       .modal-discount-price {
-        font-size: 42px;
+        font-size: 36px;
         font-weight: 800;
         color: var(--accent-secondary);
       }
+      @media (max-width: 480px) {
+        .modal-content {
+          padding: 22px 16px 16px;
+          border-radius: 20px;
+          max-height: calc(100dvh - 16px);
+        }
+        .modal-content h2 {
+          font-size: 18px;
+          margin-bottom: 14px;
+        }
+        .form-group {
+          margin-bottom: 12px;
+        }
+        .form-group input {
+          padding: 12px;
+        }
+        .modal-total,
+        .modal-discount-price {
+          font-size: 32px;
+        }
+        .modal-total-wrapper {
+          margin: 10px 0 12px;
+          padding: 12px;
+        }
+      }
       .btn-pay {
         width: 100%;
-        padding: 16px;
+        padding: 14px;
         background: var(--accent);
         color: #ffffff;
         border: none;
         border-radius: 12px;
-        font-size: 18px;
+        font-size: 17px;
         font-weight: 700;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -687,7 +784,7 @@
       }
     </style>
     <link rel="stylesheet" href="/home-v2.css?v=19" />
-    <link rel="stylesheet" href="/pay-v2.css?v=4" />
+    <link rel="stylesheet" href="/pay-v2.css?v=5" />
   </head>
   <body class="home-v2 pay-v2 pay-v2-en">
     <div class="container">
@@ -848,139 +945,159 @@
           class="product-chips"
           style="display: none"
         ></div>
-
-      <div class="pricing-section">
-        <div class="pricing-grid pricing-grid-main">
-          <div class="price-card accent-border" data-duration="31" data-price="6.50">
-            <div class="card-subtitle">Try Reelsoprovod</div>
-            <h3>1 month</h3>
-            <div class="duration">31 days of access</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">$6.50</div>
+        <div class="pricing-section">
+          <div class="pricing-grid pricing-grid-main">
+            <div
+              class="price-card accent-border"
+              data-duration="31"
+              data-price="6.50"
+            >
+              <span class="unlimited-badge">∞ UNLIMITED</span>
+              <div class="card-subtitle">Try Reelsoprovod</div>
+              <h3>1 month</h3>
+              <div class="duration">31 days of access</div>
+              <div class="cost-wrapper">
+                <span class="old-price"></span>
+                <div class="cost">$6.50</div>
+              </div>
+              <div class="savings-text regular">Regular price</div>
+              <div class="price-per-day"></div>
+              <button class="buy-button" data-duration="31" data-price="6.50">
+                Choose plan
+              </button>
+              <ul class="feature-list">
+                <li>Unlimited traffic</li>
+                <li>High speed</li>
+                <li>Any number of devices</li>
+              </ul>
             </div>
-            <div class="savings-text regular">Regular price</div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="31" data-price="6.50">
-              Choose plan
-            </button>
-            <ul class="feature-list">
-              <li>Unlimited traffic</li>
-              <li>High speed</li>
-              <li>Any number of devices</li>
-            </ul>
-          </div>
 
-          <div
-            class="price-card recommended"
-            data-duration="90"
-            data-price="16.90"
-          >
-            <div class="card-subtitle"></div>
-            <h3>3 months</h3>
-            <div class="duration">90 days of access</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">$16.90</div>
+            <div
+              class="price-card recommended"
+              data-duration="90"
+              data-price="16.90"
+            >
+              <span class="unlimited-badge">∞ UNLIMITED</span>
+              <div class="card-subtitle"></div>
+              <h3>3 months</h3>
+              <div class="duration">90 days of access</div>
+              <div class="cost-wrapper">
+                <span class="old-price"></span>
+                <div class="cost">$16.90</div>
+              </div>
+              <div class="savings-text">Save $2.60</div>
+              <div class="price-per-day"></div>
+              <button class="buy-button" data-duration="90" data-price="16.90">
+                Choose plan
+              </button>
+              <ul class="feature-list">
+                <li>Unlimited traffic</li>
+                <li>High speed</li>
+                <li>Any number of devices</li>
+              </ul>
             </div>
-            <div class="savings-text">Save $2.60</div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="90" data-price="16.90">
-              Choose plan
-            </button>
-            <ul class="feature-list">
-              <li>Unlimited traffic</li>
-              <li>High speed</li>
-              <li>Any number of devices</li>
-            </ul>
-          </div>
 
-          <div class="price-card accent-border" data-duration="365" data-price="58.50">
-            <div class="card-subtitle">For long-term use</div>
-            <h3>12 months</h3>
-            <div class="duration">365 days of access</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">$58.50</div>
+            <div
+              class="price-card accent-border"
+              data-duration="365"
+              data-price="58.50"
+            >
+              <span class="unlimited-badge">∞ UNLIMITED</span>
+              <div class="card-subtitle">For long-term use</div>
+              <h3>12 months</h3>
+              <div class="duration">365 days of access</div>
+              <div class="cost-wrapper">
+                <span class="old-price"></span>
+                <div class="cost">$58.50</div>
+              </div>
+              <div class="savings-text">Save $19.50</div>
+              <div class="price-per-day"></div>
+              <button class="buy-button" data-duration="365" data-price="58.50">
+                Choose plan
+              </button>
+              <ul class="feature-list">
+                <li>Unlimited traffic</li>
+                <li>High speed</li>
+                <li>Any number of devices</li>
+              </ul>
             </div>
-            <div class="savings-text">Save $19.50</div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="365" data-price="58.50">
-              Choose plan
-            </button>
-            <ul class="feature-list">
-              <li>Unlimited traffic</li>
-              <li>High speed</li>
-              <li>Any number of devices</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="extra-options-toggle">
-        <a href="#" id="extra-options-toggle">More options</a>
-      </div>
-
-      <div class="extra-options hidden" id="extra-options">
-        <div class="pricing-grid pricing-grid-extra">
-          <div class="price-card compact" data-duration="3" data-price="1.30">
-            <h3>3 days</h3>
-            <div class="duration">3 days of access</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">$1.30</div>
-            </div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="3" data-price="1.30">
-              Choose
-            </button>
-          </div>
-
-          <div class="price-card compact" data-duration="7" data-price="2.60">
-            <h3>7 days</h3>
-            <div class="duration">7 days of access</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">$2.60</div>
-            </div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="7" data-price="2.60">
-              Choose
-            </button>
-          </div>
-
-          <div class="price-card compact" data-duration="14" data-price="3.90">
-            <h3>14 days</h3>
-            <div class="duration">14 days of access</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">$3.90</div>
-            </div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="14" data-price="3.90">
-              Choose
-            </button>
-          </div>
-
-          <div class="price-card compact" data-duration="180" data-price="35.10">
-            <h3>6 months</h3>
-            <div class="duration">180 days of access</div>
-            <div class="cost-wrapper">
-              <span class="old-price"></span>
-              <div class="cost">$35.10</div>
-            </div>
-            <div class="price-per-day"></div>
-            <button class="buy-button" data-duration="180" data-price="35.10">
-              Choose
-            </button>
           </div>
         </div>
-      </div>
+
+        <div class="extra-options-toggle">
+          <a href="#" id="extra-options-toggle">More options</a>
+        </div>
+
+        <div class="extra-options hidden" id="extra-options">
+          <div class="pricing-grid pricing-grid-extra">
+            <div class="price-card compact" data-duration="3" data-price="1.30">
+              <span class="unlimited-badge">∞ UNLIMITED</span>
+              <h3>3 days</h3>
+              <div class="duration">3 days of access</div>
+              <div class="cost-wrapper">
+                <span class="old-price"></span>
+                <div class="cost">$1.30</div>
+              </div>
+              <div class="price-per-day"></div>
+              <button class="buy-button" data-duration="3" data-price="1.30">
+                Choose
+              </button>
+            </div>
+
+            <div class="price-card compact" data-duration="7" data-price="2.60">
+              <span class="unlimited-badge">∞ UNLIMITED</span>
+              <h3>7 days</h3>
+              <div class="duration">7 days of access</div>
+              <div class="cost-wrapper">
+                <span class="old-price"></span>
+                <div class="cost">$2.60</div>
+              </div>
+              <div class="price-per-day"></div>
+              <button class="buy-button" data-duration="7" data-price="2.60">
+                Choose
+              </button>
+            </div>
+
+            <div class="price-card compact" data-duration="14" data-price="3.90">
+              <span class="unlimited-badge">∞ UNLIMITED</span>
+              <h3>14 days</h3>
+              <div class="duration">14 days of access</div>
+              <div class="cost-wrapper">
+                <span class="old-price"></span>
+                <div class="cost">$3.90</div>
+              </div>
+              <div class="price-per-day"></div>
+              <button class="buy-button" data-duration="14" data-price="3.90">
+                Choose
+              </button>
+            </div>
+
+            <div
+              class="price-card compact"
+              data-duration="180"
+              data-price="35.10"
+            >
+              <span class="unlimited-badge">∞ UNLIMITED</span>
+              <h3>6 months</h3>
+              <div class="duration">180 days of access</div>
+              <div class="cost-wrapper">
+                <span class="old-price"></span>
+                <div class="cost">$35.10</div>
+              </div>
+              <div class="price-per-day"></div>
+              <button class="buy-button" data-duration="180" data-price="35.10">
+                Choose
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="pay-benefits">
         <div class="pay-benefit-card">
-          <div class="pay-benefit-icon green"><img src="/Images/shield.png" alt="" /></div>
+          <div class="pay-benefit-icon green">
+            <img src="/Images/shield.png" alt="" />
+          </div>
           <div class="pay-benefit-content">
             <h4>No card or auto-payments</h4>
             <p>
@@ -989,7 +1106,9 @@
           </div>
         </div>
         <div class="pay-benefit-card">
-          <div class="pay-benefit-icon blue"><img src="/Images/add.png" alt="" /></div>
+          <div class="pay-benefit-icon blue">
+            <img src="/Images/add.png" alt="" />
+          </div>
           <div class="pay-benefit-content">
             <h4>Days stack up</h4>
             <p>
@@ -1026,38 +1145,34 @@
           </div>
           <div class="promo-info" id="ref-info"></div>
         </div>
+        <div class="form-group">
+          <label>Email (optional)</label>
+          <input
+            type="email"
+            id="user-email"
+            placeholder="For the key email and reminders"
+          />
+          <div class="promo-info">You can add it later in your account.</div>
+        </div>
         <div class="modal-total-wrapper" id="modal-total-wrapper"></div>
-        <!-- Planta temporarily hidden while small amounts are disabled.
-        <button class="btn-pay" id="planta-pay-btn">Pay via SBP</button>
+        <div class="modal-warn">
+          <span class="modal-warn-icon">⚠</span>
+          <span>Important: do not close this window until payment is confirmed</span>
+        </div>
+        <!-- Planta (SBP) is hidden: Platega is the main terminal. -->
+        <!--
+        <button class="btn-pay" id="planta-pay-btn">Pay with SBP</button>
         -->
         <button class="btn-pay" id="final-pay-btn">Pay</button>
         <div class="planta-waiting" id="planta-waiting">
-          <span class="loading-spinner"></span> Waiting for the SBP payment
-          link...
+          <span class="loading-spinner"></span> Waiting for the SBP payment link...
         </div>
-        <p
-          style="
-            color: #666;
-            font-size: 11px;
-            text-align: center;
-            margin-top: 20px;
-          "
-        >
-          Payment goes through an external service. We do not store your data.
-        </p>
-        <p
-          style="
-            color: #888;
-            font-size: 13px;
-            text-align: center;
-            margin-top: 15px;
-          "
-        >
-          Secure payment by card, SBP, crypto
-        </p>
-        <p style="font-size: 13px; text-align: center; margin-top: 15px">
-          Important: do not close this window until payment is confirmed
-        </p>
+        <div class="modal-footnotes">
+          <p>
+            Payment goes through an external service. We do not store your payment data.
+          </p>
+          
+        </div>
       </div>
     </div>
 
@@ -1166,6 +1281,7 @@
       }
 
       function formatDuration(days) {
+        if (days === 0) return "traffic packages";
         const map = {
           3: "3 days",
           7: "7 days",
@@ -1179,9 +1295,11 @@
       }
       function getPromoApplicableDurations() {
         const durations = [];
-        document.querySelectorAll(".buy-button[data-discounted-price]").forEach((btn) => {
-          durations.push(parseInt(btn.dataset.duration));
-        });
+        document
+          .querySelectorAll(".buy-button[data-discounted-price]")
+          .forEach((btn) => {
+            durations.push(parseInt(btn.dataset.duration));
+          });
         return [...new Set(durations)].sort((a, b) => a - b);
       }
       function showError(message) {
@@ -1200,7 +1318,7 @@
         currentOrder = null;
       }
 
-      // --- Update price per day on CARD ---
+      // --- Update the per-day price on the card ---
       function updateCardPricePerDay(card, discountedPrice, duration) {
         const pricePerDayElement = card.querySelector(".price-per-day");
         if (pricePerDayElement) {
@@ -1209,7 +1327,7 @@
         }
       }
 
-      // --- Reset card prices to original (no discount) ---
+      // --- Reset card prices to the originals (no discount) ---
       function resetCardPrices() {
         document.querySelectorAll(".price-card").forEach((card) => {
           const btn = card.querySelector(".buy-button");
@@ -1227,7 +1345,7 @@
         });
       }
 
-      // --- Apply discount to cards (for page display) ---
+      // --- Apply the discount to the cards (page display) ---
       async function applyDiscountToCards(promoCode) {
         if (!promoCode) return false;
         let anyDiscountApplied = false;
@@ -1238,19 +1356,16 @@
           const gb = btn.dataset.gb ? parseInt(btn.dataset.gb) : null;
           const product = gb ? "standard" : btn.dataset.product || "standard";
           try {
-            const response = await apiFetch(
-              `/promocode/validate`,
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  duration,
-                  ...(gb ? { kind: "lite", traffic_gib: gb } : {}),
-                  product,
-                  promocode: promoCode.toUpperCase(),
-                }),
-              },
-            );
+            const response = await apiFetch(`/promocode/validate`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                duration,
+                ...(gb ? { kind: "lite", traffic_gib: gb } : {}),
+                product,
+                promocode: promoCode.toUpperCase(),
+              }),
+            });
             if (!response.ok) continue;
             const data = await response.json();
             if (data.is_valid && data.discounted_price < data.original_price) {
@@ -1269,7 +1384,11 @@
               }
               badge.innerText = `-${data.discount_percent}%`;
               updateCardPricePerDay(card, data.discounted_price, duration);
-              updateCardSavings(card, data.discounted_price, data.original_price);
+              updateCardSavings(
+                card,
+                data.discounted_price,
+                data.original_price,
+              );
             }
           } catch (e) {
             console.error(`Failed to validate for duration ${duration}:`, e);
@@ -1278,8 +1397,8 @@
         return anyDiscountApplied;
       }
 
-      // --- Update modal display (for CURRENT order) ---
-      // What the chosen tariff product includes (known by scripts/plans.js).
+      // --- Update the modal display (for the CURRENT order) ---
+      // What the chosen plan includes (the composition is known to scripts/plans.js).
       function syncProductIncludes() {
         if (!modalTotalWrapper || !currentOrder) return;
         const list = window.FRKNPlans
@@ -1296,6 +1415,17 @@
         modalTotalWrapper.appendChild(ul);
       }
 
+      // Platega is the only payment terminal: its button is the primary
+      // action. Planta (SBP) is hidden — this function is the single place
+      // to switch the buttons back when it returns.
+      function syncPayButtons() {
+        if (!currentOrder) return;
+        if (plantaPayBtn) {
+          plantaPayBtn.style.display = "none";
+          plantaPayBtn.disabled = true;
+        }
+        if (payBtn) payBtn.classList.remove("btn-pay-secondary");
+      }
       function updateModalDisplay() {
         if (!currentOrder) return;
         const { duration, price: finalPrice, originalPrice } = currentOrder;
@@ -1305,6 +1435,7 @@
             finalPrice < originalPrice
               ? `<div><span class="modal-old-price">$${originalPrice}</span><span class="modal-discount-price">$${finalPrice}</span><div style="font-size: 14px; margin-top: 8px; color: #22c55e;">${gbLabel}</div></div>`
               : `<div><div class="modal-total">$${finalPrice}</div><div style="font-size: 14px; margin-top: 8px; color: #888;">${gbLabel}</div></div>`;
+          syncPayButtons();
           return;
         }
         const pricePerDay = (finalPrice / duration).toFixed(1);
@@ -1315,9 +1446,10 @@
           modalTotalWrapper.innerHTML = `<div><div class="modal-total">$${finalPrice}</div><div style="font-size: 14px; margin-top: 8px; color: #888;">≈ $${pricePerDay}/day</div></div>`;
         }
         syncProductIncludes();
+        syncPayButtons();
       }
 
-      // --- Apply promo code to CURRENT order in modal ---
+      // --- Apply the promo code to the CURRENT order in the modal ---
       async function applyPromoToCurrentOrder(promoCode) {
         if (!currentOrder) {
           showError("Choose a plan first");
@@ -1325,7 +1457,7 @@
         }
         const promoValue = promoCode?.trim().toUpperCase() || "";
         if (!promoValue) {
-          // Reset discount
+          // Reset the discount
           currentOrder.promo = null;
           currentOrder.price = currentOrder.originalPrice;
           updateModalDisplay();
@@ -1333,25 +1465,22 @@
           return true;
         }
         try {
-          const response = await apiFetch(
-            `/promocode/validate`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                duration: currentOrder.duration,
-                ...(currentOrder.kind === "lite"
-                  ? {
-                      kind: "lite",
-                      traffic_gib: currentOrder.trafficGib,
-                      alt_price: currentOrder.altPrice === true,
-                    }
-                  : {}),
-                product: currentOrder.product,
-                promocode: promoValue,
-              }),
-            },
-          );
+          const response = await apiFetch(`/promocode/validate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              duration: currentOrder.duration,
+              ...(currentOrder.kind === "lite"
+                ? {
+                    kind: "lite",
+                    traffic_gib: currentOrder.trafficGib,
+                    alt_price: currentOrder.altPrice === true,
+                  }
+                : {}),
+              product: currentOrder.product,
+              promocode: promoValue,
+            }),
+          });
           if (!response.ok) throw new Error("Promo code is invalid");
           const data = await response.json();
           if (data.is_valid && data.discounted_price < data.original_price) {
@@ -1360,7 +1489,7 @@
             updateModalDisplay();
             promoInput.style.borderColor = "#22c55e";
             return true;
-          } else throw new Error("Oops, the promo code seems invalid");
+          } else throw new Error("Looks like this promo code is not valid");
         } catch (err) {
           showError(err.message);
           promoInput.style.borderColor = "#ff4444";
@@ -1368,7 +1497,7 @@
         }
       }
 
-      // --- Apply referral code to CURRENT order in modal ---
+      // --- Apply the referral code to the CURRENT order in the modal ---
       async function applyRefToCurrentOrder(refCode) {
         if (!currentOrder) {
           showError("Choose a plan first");
@@ -1384,14 +1513,14 @@
           return true;
         }
 
-        // Test mode: while API is not ready, TESTTEST is treated as valid
+        // Test mode: while the API is not ready, treat TESTTEST as valid
         if (refValue.toUpperCase() === "TESTTEST") {
           currentOrder.referral = refValue;
           refInput.style.borderColor = "#22c55e";
           refInfo.style.display = "block";
           refInfo.className = "promo-info valid";
           refInfo.innerText =
-            "Referral code applied. Your friend will receive 30 days after payment.";
+            "Referral code applied. Your friend gets 30 extra days after your payment.";
           return true;
         }
 
@@ -1399,7 +1528,8 @@
           const response = await apiFetch(
             `/check/ref_code?code=${encodeURIComponent(refValue)}`,
           );
-          if (!response.ok) throw new Error("Failed to validate referral code");
+          if (!response.ok)
+            throw new Error("Could not validate the referral code");
           const data = await response.json();
           if (data.valid) {
             currentOrder.referral = refValue;
@@ -1407,7 +1537,7 @@
             refInfo.style.display = "block";
             refInfo.className = "promo-info valid";
             refInfo.innerText =
-              "Referral code applied. Your friend will receive 30 days after payment.";
+              "Referral code applied. Your friend gets 30 extra days after your payment.";
             return true;
           } else {
             throw new Error("Referral code not found");
@@ -1423,16 +1553,21 @@
         }
       }
 
-      // --- Open modal ---
-      async function openModal(duration, basePrice, element) {
+      // --- Open the modal ---
+      // override: {price, alt} — the price picked by the click ("zoomer"/"millennial")
+      async function openModal(duration, basePrice, element, override = null) {
         let finalPrice = basePrice;
         let originalPrice = basePrice;
         if (element && element.dataset.discountedPrice)
           finalPrice = parseInt(element.dataset.discountedPrice);
-        // Tariff product: plan cards carry it in the DOM, traffic packages
-        // (lite) are always the classic product.
+        if (override && override.price) {
+          finalPrice = override.price;
+          originalPrice = override.price;
+        }
         const trafficGib =
           element && element.dataset.gb ? parseInt(element.dataset.gb) : null;
+        // Plan product. Traffic packs (lite) are always the "standard" product;
+      // plan cards carry the product in the DOM (otherwise — the selected chip).
         const product = trafficGib
           ? "standard"
           : (element && element.dataset.product) ||
@@ -1447,7 +1582,7 @@
           kind: trafficGib ? "lite" : "standard",
           product: product,
           trafficGib: trafficGib,
-          altPrice: element && element.dataset.alt === "true",
+          altPrice: override ? override.alt === true : false,
         };
         promoInput.value = urlPromoCode || "";
         promoInput.style.borderColor = "";
@@ -1460,11 +1595,11 @@
         refInfo.className = "promo-info";
         refInfo.innerText = "";
         if (urlPromoCode) {
-          // Fill promo code from URL
+          // Pre-fill the promo code from the URL
           promoInput.value = urlPromoCode;
           const applyBtn = document.getElementById("apply-promo-btn");
           if (applyBtn) applyBtn.style.display = "none";
-          // Apply only if discount is valid for this card
+          // Apply only if this card really gets a discount
           if (element && element.dataset.discountedPrice) {
             try {
               await applyPromoToCurrentOrder(urlPromoCode);
@@ -1481,14 +1616,15 @@
             promoInfo.classList.add("invalid");
             if (applicable.length > 0) {
               const labels = applicable.map(formatDuration).join(", ");
-              promoInfo.innerText = `Promo code does not apply to this plan. Valid for: ${labels}`;
+              promoInfo.innerText = `This promo code does not apply to this plan. Valid for: ${labels}`;
             } else {
-              promoInfo.innerText = "Promo code is not valid for current plans";
+              promoInfo.innerText =
+                "The promo code is not valid for the current plans";
             }
             updateModalDisplay();
           }
         } else {
-          // If no promo code in URL — show input and button
+          // No promo code in the URL — show the field and the button
           promoInput.value = "";
           promoInput.style.borderColor = "";
           const applyBtn = document.getElementById("apply-promo-btn");
@@ -1507,21 +1643,21 @@
         }
         updateModalDisplay();
         const productName =
-          window.FRKNPlans && currentOrder.product !== "standard"
+          !trafficGib && window.FRKNPlans
             ? window.FRKNPlans.name(currentOrder.product)
             : null;
         document.getElementById("modal-title").innerHTML = trafficGib
-          ? `Traffic purchase<br>${trafficGib} GB`
-          : `Checkout<br>for ${duration} days${
+          ? `Buy traffic<br>${trafficGib} GB`
+          : `Checkout<br>${duration} days${
               productName ? ` · ${productName}` : ""
             }`;
         paymentModal.classList.add("active");
       }
 
-      // --- Page initialization ---
+      // --- Page init ---
       async function initializePage() {
-        // scripts/plans.js may re-render the cards; wait for the catalogue so
-        // per-day prices and promos use the actual prices.
+        // The plan catalogue (scripts/plans.js) may re-render the cards —
+      // wait for it so per-day prices and promos use the current prices.
         if (window.FRKNPlans) {
           try {
             await window.FRKNPlans.ready;
@@ -1529,7 +1665,7 @@
             console.warn("[pay] plans catalogue failed:", e);
           }
         }
-        // 1. Base prices per day
+        // 1. Base per-day prices
         document.querySelectorAll(".price-card").forEach((card) => {
           const btn = card.querySelector(".buy-button");
           const basePrice = parseInt(btn.dataset.price);
@@ -1539,7 +1675,7 @@
           if (pricePerDayElement)
             pricePerDayElement.innerHTML = `≈ $${pricePerDay}/day`;
         });
-        // 2. If promo code in URL - apply discount to all cards on page
+        // 2. A promo code in the URL — apply the discount to every card on the page
         if (urlPromoCode) {
           promoInput.value = urlPromoCode;
           await applyDiscountToCards(urlPromoCode);
@@ -1547,16 +1683,43 @@
       }
 
       // --- Event handlers ---
-      // Delegated: scripts/plans.js may (re)render the plan cards.
+      function orderEmail() {
+        const raw = (document.getElementById("user-email")?.value || "")
+          .trim()
+          .toLowerCase();
+        return /^[a-z0-9._%+-]+@[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(raw)
+          ? raw
+          : null;
+      }
+      // Delegation: scripts/plans.js may re-render the plan cards.
       document.addEventListener("click", (e) => {
         const btn = e.target.closest(".buy-button");
         if (!btn) return;
-        openModal(btn.dataset.duration, btn.dataset.price, btn);
+        openModal(
+          btn.dataset.duration,
+          btn.dataset.price,
+          btn,
+          btn.dataset.alt === "true"
+            ? { price: parseInt(btn.dataset.price, 10), alt: true }
+            : undefined,
+        );
       });
-      // Switching the tariff product re-renders the cards: restore the URL promo.
+      // Switching the plan product re-renders the cards — re-apply the URL discount.
       window.addEventListener("frkn:plans-rendered", () => {
         if (urlPromoCode) applyDiscountToCards(urlPromoCode);
       });
+      document.querySelectorAll(".price-option").forEach((opt) =>
+        opt.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const card = opt.closest(".price-card");
+          if (!card) return;
+          const btn = card.querySelector(".buy-button");
+          openModal(card.dataset.duration, card.dataset.price, btn, {
+            price: parseInt(opt.dataset.price),
+            alt: opt.dataset.alt === "true",
+          });
+        }),
+      );
       document
         .getElementById("apply-promo-btn")
         ?.addEventListener("click", () =>
@@ -1587,7 +1750,7 @@
           const isHidden = extraOptions.classList.contains("hidden");
           extraOptions.classList.toggle("hidden");
           extraToggle.textContent = isHidden
-            ? "Hide additional options"
+            ? "Hide more options"
             : "More options";
         });
       }
@@ -1609,51 +1772,52 @@
       if (payBtn) {
         payBtn.onclick = async () => {
           if (!currentOrder) {
-            showError("Order not found. Please try choosing a plan again.");
+            showError("Order not found. Please pick a plan again.");
             return;
           }
           payBtn.disabled = true;
           const originalText = payBtn.innerText;
           payBtn.innerHTML =
-            '<span class="loading-spinner"></span> Creating invoice...';
+            '<span class="loading-spinner"></span> Creating the invoice...';
           try {
-            const res = await apiFetch(
-              `/payment/platega/key/create`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  "X-Trace-Id": generateTraceId(),
-                },
-                body: JSON.stringify({
-                  duration: currentOrder.duration,
-                  ...(currentOrder.kind === "lite"
-                    ? {
-                        kind: "lite",
-                        traffic_gib: currentOrder.trafficGib,
-                        alt_price: currentOrder.altPrice === true,
-                      }
-                    : {}),
-                  product: currentOrder.product,
-                  promocode: currentOrder.promo || null,
-                  refCode: currentOrder.referral || null,
-                }),
+            const res = await apiFetch(`/payment/platega/key/create`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-Trace-Id": generateTraceId(),
               },
-            );
+              body: JSON.stringify({
+                duration: currentOrder.duration,
+                ...(currentOrder.kind === "lite"
+                  ? {
+                      kind: "lite",
+                      traffic_gib: currentOrder.trafficGib,
+                      alt_price: currentOrder.altPrice === true,
+                    }
+                  : {}),
+                product: currentOrder.product,
+                promocode: currentOrder.promo || null,
+                refCode: currentOrder.referral || null,
+                email: orderEmail(),
+              }),
+            });
             if (!res.ok) {
               const errorData = await res
                 .json()
                 .catch(() => ({ error: "Server error" }));
-              throw new Error(errorData.error || "Failed to create payment");
+              throw new Error(errorData.error || "Could not create the payment");
             }
             const data = await res.json();
             if (data.transactionId) {
-              localStorage.setItem("frkn_last_transaction_id", data.transactionId);
+              localStorage.setItem(
+                "frkn_last_transaction_id",
+                data.transactionId,
+              );
             }
             if (data.status === "PENDING" && data.url) {
               window.location.href = data.url;
             } else {
-              throw new Error("API did not return a payment link");
+              throw new Error("The API did not return a payment link");
             }
           } catch (e) {
             showError(e.message);
@@ -1665,7 +1829,7 @@
       if (plantaPayBtn) {
         plantaPayBtn.onclick = async () => {
           if (!currentOrder) {
-            showError("Order not found. Try selecting a plan again.");
+            showError("Order not found. Please pick a plan again.");
             return;
           }
           plantaPayBtn.disabled = true;
@@ -1690,29 +1854,27 @@
                 product: currentOrder.product,
                 promocode: currentOrder.promo || null,
                 refCode: currentOrder.referral || null,
+                email: orderEmail(),
               }),
             });
             if (!res.ok) {
               const errorData = await res
                 .json()
                 .catch(() => ({ error: "Server error" }));
-              throw new Error(errorData.error || "Failed to create payment");
+              throw new Error(errorData.error || "Could not create the payment");
             }
             const data = await res.json();
             if (!data.transactionId) {
-              throw new Error("API did not return a transaction ID");
+              throw new Error("The API did not return a transaction ID");
             }
             localStorage.setItem(
               "frkn_last_transaction_id",
               data.transactionId,
             );
-            // Planta prod returns the link right in the create response.
             if (data.paymentUrl) {
               window.location.href = data.paymentUrl;
               return;
             }
-            // Otherwise qrLink arrives via postback — poll /payment/check
-            // until paymentUrl shows up.
             const paymentUrl = await pollPlantaPaymentUrl(data.transactionId);
             window.location.href = paymentUrl;
           } catch (e) {
@@ -1724,24 +1886,26 @@
         };
       }
       async function pollPlantaPaymentUrl(txid) {
-        const MAX_ATTEMPTS = 40; // ~2 minutes at 3-second intervals
+        const MAX_ATTEMPTS = 20;
         for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
-          await new Promise((resolve) => setTimeout(resolve, 3000));
+          if (attempt > 0) {
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+          }
           const res = await apiFetch(`/payment/check/${txid}`);
           const data = await res.json().catch(() => ({}));
           if (data.paymentUrl) return data.paymentUrl;
           if (data.status === "failed" || data.status === "cancelled") {
-            throw new Error("Payment cancelled, try again");
+            throw new Error("The payment was cancelled, please try again");
           }
         }
         throw new Error(
-          "SBP did not respond in time. Check the status by transaction ID: " +
-            txid,
+          "SBP did not respond in time. Try card/crypto or check the ID: " + txid,
         );
       }
       window.onclick = (event) => {
         if (event.target === paymentModal) closeModal();
       };
+
       initializePage();
     </script>
     <script src="/scripts/analytics.js" defer></script>

@@ -6,7 +6,9 @@ Platega payment flows across `pay/`, `donate/`, `transaction/`, `activate/`, pro
 
 **Platega** — main. Card / SBP (fast payments) / crypto. Endpoints live under `api.frkn.org/payment/platega/...` (see [api-integration.md](api-integration.md)).
 
-**Planta** — card/SBP. `pay/` has it as the primary button (`#planta-pay-btn`, «Оплата Карта/СБП») → `POST /payment/planta/key/create`; Platega is the secondary «Оплата криптой» button. Unlike Platega, create returns `paymentUrl: null`; the page polls `GET /payment/check/{txid}` (~3 s) until `paymentUrl` appears, then redirects. No email/phone collected — Planta allows invoices without contacts.
+**Platega** — main and, on `/pay`, the only terminal: `#final-pay-btn` «Оплатить» / «Pay» → `POST /payment/platega/key/create` → redirect by `url` (returned immediately). Its own checkout page offers СБП and crypto, so SBP stays reachable after Planta is hidden.
+
+**Planta** — card/SBP, hidden on `/pay`: `#planta-pay-btn` is commented out and `syncPayButtons()` keeps it out (it is the one place to re-enable both buttons). Still offered in the trial modal (`scripts/trial.js`, `#tm-pay-planta`) and in the cabinet renewal (`#renewPlantaBtn`). Flow: create returns `paymentUrl: null`; the page polls `GET /payment/check/{txid}` (~3 s) until `paymentUrl` appears, then redirects. No email/phone collected.
 
 ## Traffic top-up (traffic mode)
 

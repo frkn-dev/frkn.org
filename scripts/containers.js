@@ -45,7 +45,7 @@ function injectStatusBadge(lang) {
   };
 
   const badge = document.createElement("a");
-  badge.href = "https://status.frkn.org/";
+  badge.href = "https://speedtest.frkn.org/";
   badge.target = "_blank";
   badge.rel = "noopener";
   badge.className = "status-badge";

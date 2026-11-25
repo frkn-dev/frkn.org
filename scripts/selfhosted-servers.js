@@ -238,9 +238,10 @@
     var el = state.el;
     var list = el.querySelector(".shs-list");
     var nodes = state.nodes || [];
-    el.querySelector(".shs-count").textContent = nodes.length
-      ? String(nodes.length)
-      : "";
+    const countEl = el.querySelector(".shs-count");
+    if (countEl) {
+      countEl.textContent = nodes.length ? String(nodes.length) : "";
+    }
 
     if (!nodes.length) {
       list.innerHTML =

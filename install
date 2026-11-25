@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-FRKN_INSTALL_VERSION="1.2.6"
-FNODE_VERSION="${FNODE_VERSION:-v0.6.41}"
+FRKN_INSTALL_VERSION="1.3.0"
+# Node build. The private path asks api for the version it runs with and only
+# falls back to this pinned tag when api is unreachable; bump it together with
+# the api release so an offline machine still gets a recent node.
+FNODE_VERSION_FALLBACK="v0.7.47"
+FNODE_VERSION="${FNODE_VERSION:-}"
 API_ENDPOINT="${API_ENDPOINT:-https://api.frkn.org}"
 ZMQ_ENDPOINT="${ZMQ_ENDPOINT:-tcp://api.frkn.org:3001}"
 METRICS_ZMQ_ENDPOINT="${METRICS_ZMQ_ENDPOINT:-tcp://api.frkn.org:3002}"
@@ -16,6 +20,7 @@ API_TOKEN=""
 ENV_NAME="dev"
 LABEL=""
 COUNTRY=""
+COUNTRY_FULL=""
 NODE_UUID=""
 HOSTNAME_OVERRIDE=""
 NODE_IPS="${NODE_IPS:-}"
@@ -23,6 +28,17 @@ MAX_BANDWIDTH_BPS="${MAX_BANDWIDTH_BPS:-200000000}"
 ENV_FILE=""
 AWG_PORT=51820
 AWG_MOBILE_PORT=8443
+# Own-node peer plane. 443 belongs to hysteria2, so the peer interface gets its
+# own port and never fights the HTTPS inbound for it.
+PEER_IFACE="awg0-peer"
+PEER_PORT="${PEER_PORT:-51821}"
+PEER_CONF="/opt/amnezia/awg0-peer.conf"
+PEER_MTU=1420
+# Filled for the private path from the install token (api): the shard env, the
+# address block the interface and NAT must cover, and the node build.
+SCOPE_ENV=""
+ENV_BLOCK=""
+RESOLVED_FNODE_VERSION=""
 AWG_VERSION="${AWG_VERSION:-3.1}"
 AWG_MOBILE_VERSION="${AWG_MOBILE_VERSION:-}"
 FORCE_AWG_CONF=0
@@ -113,6 +129,73 @@ collect_node_ips() {
   done
 }
 
+# ISO code -> English name. The card title carries the country in full ("Czechia
+# | Selfhosted"), so the node label must not be a bare code. Unknown codes fall
+# back to the code itself rather than inventing a name.
+country_full_name() {
+  local cc
+  cc="$(printf '%s' "$1" | tr '[:lower:]' '[:upper:]')"
+  case "$cc" in
+    AE) echo "United Arab Emirates" ;; AM) echo "Armenia" ;;
+    AR) echo "Argentina" ;; AT) echo "Austria" ;; AU) echo "Australia" ;;
+    AZ) echo "Azerbaijan" ;; BA) echo "Bosnia and Herzegovina" ;;
+    BD) echo "Bangladesh" ;; BE) echo "Belgium" ;; BG) echo "Bulgaria" ;;
+    BR) echo "Brazil" ;; BY) echo "Belarus" ;; CA) echo "Canada" ;;
+    CH) echo "Switzerland" ;; CL) echo "Chile" ;; CN) echo "China" ;;
+    CO) echo "Colombia" ;; CY) echo "Cyprus" ;; CZ) echo "Czechia" ;;
+    DE) echo "Germany" ;; DK) echo "Denmark" ;; EE) echo "Estonia" ;;
+    EG) echo "Egypt" ;; ES) echo "Spain" ;; FI) echo "Finland" ;;
+    FR) echo "France" ;; GB) echo "United Kingdom" ;; GE) echo "Georgia" ;;
+    GR) echo "Greece" ;; HK) echo "Hong Kong" ;; HR) echo "Croatia" ;;
+    HU) echo "Hungary" ;; ID) echo "Indonesia" ;; IE) echo "Ireland" ;;
+    IL) echo "Israel" ;; IN) echo "India" ;; IR) echo "Iran" ;;
+    IS) echo "Iceland" ;; IT) echo "Italy" ;; JP) echo "Japan" ;;
+    KG) echo "Kyrgyzstan" ;; KR) echo "South Korea" ;; KZ) echo "Kazakhstan" ;;
+    LT) echo "Lithuania" ;; LU) echo "Luxembourg" ;; LV) echo "Latvia" ;;
+    MD) echo "Moldova" ;; ME) echo "Montenegro" ;; MK) echo "North Macedonia" ;;
+    MX) echo "Mexico" ;; MY) echo "Malaysia" ;; NG) echo "Nigeria" ;;
+    NL) echo "Netherlands" ;; NO) echo "Norway" ;; NZ) echo "New Zealand" ;;
+    PH) echo "Philippines" ;; PK) echo "Pakistan" ;; PL) echo "Poland" ;;
+    PT) echo "Portugal" ;; RO) echo "Romania" ;; RS) echo "Serbia" ;;
+    RU) echo "Russia" ;; SA) echo "Saudi Arabia" ;; SE) echo "Sweden" ;;
+    SG) echo "Singapore" ;; SI) echo "Slovenia" ;; SK) echo "Slovakia" ;;
+    TH) echo "Thailand" ;; TR) echo "Turkey" ;; TW) echo "Taiwan" ;;
+    UA) echo "Ukraine" ;; US) echo "United States" ;; UZ) echo "Uzbekistan" ;;
+    VN) echo "Vietnam" ;; ZA) echo "South Africa" ;;
+    *) printf '%s' "$cc" ;;
+  esac
+}
+
+# `10.89.0.0/16` -> `10.89.0.1/16`: the address the peer interface holds.
+peer_address_for_block() {
+  local block="$1" net bits
+  local -a o
+  net="${block%%/*}"
+  bits="${block##*/}"
+  [[ -n "$bits" ]] || bits=16
+  IFS=. read -r -a o <<< "$net"
+  local n=$(( (o[0] << 24) + (o[1] << 16) + (o[2] << 8) + o[3] ))
+  local size=$(( 1 << (32 - bits) ))
+  n=$(( n / size * size + 1 ))
+  printf '%d.%d.%d.%d/%s' $(( (n >> 24) & 255 )) $(( (n >> 16) & 255 )) \
+    $(( (n >> 8) & 255 )) $(( n & 255 )) "$bits"
+}
+
+# The inverse, for a re-run that only has the interface address.
+block_from_address() {
+  local address="$1" net bits
+  local -a o
+  net="${address%%/*}"
+  bits="${address##*/}"
+  [[ -n "$bits" ]] || bits=16
+  IFS=. read -r -a o <<< "$net"
+  local n=$(( (o[0] << 24) + (o[1] << 16) + (o[2] << 8) + o[3] ))
+  local size=$(( 1 << (32 - bits) ))
+  n=$(( n / size * size ))
+  printf '%d.%d.%d.%d/%s' $(( (n >> 24) & 255 )) $(( (n >> 16) & 255 )) \
+    $(( (n >> 8) & 255 )) $(( n & 255 )) "$bits"
+}
+
 frkn_install_self_check() {
   is_ipv4 1.2.3.4 || die "self-check: 1.2.3.4"
   is_ipv4 999.1.1.1 && die "self-check: 999 should fail"
@@ -127,6 +210,11 @@ frkn_install_self_check() {
   is_public_ipv4 100.128.0.1 || die "self-check: 100.128"
   is_public_ipv4 169.254.1.1 && die "self-check: linklocal"
   [[ "$(format_node_ips 1.1.1.1 8.8.8.8)" == '"1.1.1.1", "8.8.8.8"' ]] || die "self-check: format"
+  [[ "$(peer_address_for_block 10.89.0.0/16)" == "10.89.0.1/16" ]] || die "self-check: peer address"
+  [[ "$(peer_address_for_block 10.128.5.0/24)" == "10.128.5.1/24" ]] || die "self-check: peer address /24"
+  [[ "$(block_from_address 10.89.0.1/16)" == "10.89.0.0/16" ]] || die "self-check: block from address"
+  [[ "$(country_full_name cz)" == "Czechia" ]] || die "self-check: country name"
+  [[ "$(country_full_name ZZ)" == "ZZ" ]] || die "self-check: unknown country"
   log "self-check ok"
 }
 
@@ -218,8 +306,13 @@ usage() {
   cat <<'EOF'
 FRKN node installer (Ubuntu or Arch).
 
-Private:
-  curl -fsSL https://frkn.org/install | bash -s -- --token inst_… [--profile full|awg|wg|hysteria2]
+Private (an own node for one account, no flags needed):
+  curl -fsSL https://frkn.org/install | bash -s -- --token inst_…
+
+  The token names the shard and its address block; the installer brings up the
+  peer interface (UDP ${PEER_PORT}), NATs exactly that block and writes the full
+  scope env into fnode, so the node appears in the app as "<Country> | Selfhosted".
+  Re-running is safe: existing keys/configs and the node uuid are kept.
 
 Core (shared fleet env):
   curl -fsSL https://frkn.org/install | bash -s -- --api-token … --env dev --profile full \
@@ -359,6 +452,12 @@ else
   die "pass --token inst_… (private) or --api-token … (core|premium)"
 fi
 
+if [[ "$MODE" == "private" && "$PROFILE" == "wg" ]]; then
+  # A private node appears in the app through the peer plane; plain WireGuard
+  # announces nothing the api can card yet.
+  die "private nodes speak AmneziaWG — use --profile full (default) or --profile awg"
+fi
+
 print_banner "$MODE"
 
 [[ $EUID -eq 0 ]] || die "run as root"
@@ -492,6 +591,66 @@ ensure_country() {
   fi
   COUNTRY="XX"
   log "WARN: country detect failed, using XX"
+}
+
+# What the token means, resolved before anything is installed: shard env (the
+# bus topic is derived from it, a wrong env means the node never hears the api),
+# address block, node build and the country name for the label.
+# Recover what the first run wrote, for a re-run without a fresh token (or with
+# one that was already burned by a previous install on this machine).
+private_state_from_disk() {
+  local scope="" block="" addr=""
+  scope="$(grep -E '^FRKN_SCOPE_ENV=' /root/.env 2>/dev/null | head -n1 | cut -d= -f2- | tr -d '"[:space:]' || true)"
+  block="$(grep -E '^ENV_BLOCK=' /root/.env 2>/dev/null | head -n1 | cut -d= -f2- | tr -d '"[:space:]' || true)"
+  if [[ -z "$scope" && -f /opt/fnode/config.toml ]]; then
+    scope="$(grep -E '^[[:space:]]*env[[:space:]]*=' /opt/fnode/config.toml | head -n1 | sed -E 's/.*=[[:space:]]*"?([^"]*)"?[[:space:]]*$/\1/' | tr -d '[:space:]')"
+  fi
+  if [[ -z "$block" && -f "$PEER_CONF" ]]; then
+    addr="$(grep -E '^[[:space:]]*Address[[:space:]]*=' "$PEER_CONF" | head -n1 | sed -E 's/.*=[[:space:]]*([0-9.]+\/[0-9]+).*/\1/')"
+    [[ -n "$addr" ]] && block="$(block_from_address "$addr")"
+  fi
+  [[ -n "$scope" && -n "$block" ]] || return 1
+  SCOPE_ENV="$scope"
+  ENV_BLOCK="$block"
+}
+
+private_prepare() {
+  local info scope="" block="" version="" code
+  if [[ -n "$INSTALL_TOKEN" ]]; then
+    info="$(curl -fsS --max-time 20 "$API_ENDPOINT/private/install-token/$INSTALL_TOKEN" 2>/dev/null || true)"
+    if [[ -n "$info" ]]; then
+      scope="$(printf '%s' "$info" | jq -r '.response.scope_env // empty' 2>/dev/null || true)"
+      block="$(printf '%s' "$info" | jq -r '.response.env_block // empty' 2>/dev/null || true)"
+      version="$(printf '%s' "$info" | jq -r '.response.node_version // empty' 2>/dev/null || true)"
+    fi
+    if [[ -n "$scope" && -n "$block" ]]; then
+      SCOPE_ENV="$scope"
+      ENV_BLOCK="$block"
+      RESOLVED_FNODE_VERSION="${version:-}"
+    else
+      log "WARN: token not resolvable (expired/used) — falling back to the state of the previous install"
+      [[ -f /opt/fnode/api.token && -s /opt/fnode/api.token ]] \
+        || die "api did not resolve the install token — mint a new one in the cabinet"
+      private_state_from_disk || die "cannot recover the shard env and block from this machine — mint a new token"
+    fi
+  else
+    [[ -f /opt/fnode/api.token && -s /opt/fnode/api.token ]] || die "private re-run needs /opt/fnode/api.token or a fresh --token inst_…"
+    private_state_from_disk || die "cannot recover the shard env and block — pass a fresh --token"
+  fi
+
+  ENV_NAME="$SCOPE_ENV"
+  if [[ "$NEED_AWG" -eq 1 ]]; then
+    log "shard env=$SCOPE_ENV block=$ENV_BLOCK peer=$PEER_IFACE:$PEER_PORT"
+  else
+    log "shard env=$SCOPE_ENV block=$ENV_BLOCK (no peer plane in profile $PROFILE)"
+  fi
+
+  code="$(printf '%s' "$COUNTRY" | tr '[:lower:]' '[:upper:]')"
+  COUNTRY_FULL="$(country_full_name "$code")"
+  if [[ -z "$LABEL" ]]; then
+    LABEL="${COUNTRY_FULL} | Selfhosted"
+  fi
+  log "label: $LABEL"
 }
 
 install_base_packages() {
@@ -734,6 +893,13 @@ EOF
   bring_up_awg awg0
   bring_up_awg awg1
   systemctl enable "awg-quick@awg0" "awg-quick@awg1" || true
+
+  # The peer plane is what the app connects through; awg0/awg1 stay for the v1
+  # cards. Its own port keeps it clear of hysteria2 on 443.
+  if [[ "$MODE" == "private" ]]; then
+    install_awg_peer
+  fi
+
   pin_kernel_for_reboot
 }
 
@@ -882,6 +1048,102 @@ $(awg_obfuscation_lines "$AWG_MOBILE_VERSION" "$jc" "$jmin" "$jmax" "$s1" "$s2" 
 EOF
 }
 
+# Peer NAT, generated from the shard block and applied by awg-quick itself
+# (PostUp/PostDown of an enabled `awg-quick@awg0-peer`), so it survives a reboot
+# without an extra unit and without hardcoding the uplink name: the default
+# route is read at call time, and repeated calls never stack rules.
+write_peer_nat_helper() {
+  local helper=/usr/local/sbin/frkn-peer-nat
+  cat >"$helper" <<SCRIPT
+#!/bin/sh
+# Managed by the FRKN installer. Masquerade exactly \$BLOCK and nothing else.
+set -eu
+BLOCK="${ENV_BLOCK}"
+action="\${1:-up}"
+iface="\${2:-}"
+[ -n "\$iface" ] || { echo "usage: \$0 up|down <iface>" >&2; exit 2; }
+uplink() { ip route show default 2>/dev/null | awk '{print \$5; exit 0}'; }
+drop_rules() {
+  up=\$(uplink || true)
+  while iptables -C FORWARD -i "\$iface" -j ACCEPT 2>/dev/null; do
+    iptables -D FORWARD -i "\$iface" -j ACCEPT
+  done
+  while iptables -C FORWARD -i "\$iface" -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu 2>/dev/null; do
+    iptables -D FORWARD -i "\$iface" -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+  done
+  [ -n "\$up" ] || return 0
+  while iptables -t nat -C POSTROUTING -s "\$BLOCK" -o "\$up" -j MASQUERADE 2>/dev/null; do
+    iptables -t nat -D POSTROUTING -s "\$BLOCK" -o "\$up" -j MASQUERADE
+  done
+}
+case "\$action" in
+  up)
+    drop_rules
+    iptables -I FORWARD -i "\$iface" -j ACCEPT
+    iptables -I FORWARD -i "\$iface" -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
+    up=\$(uplink || true)
+    if [ -n "\$up" ]; then
+      iptables -t nat -A POSTROUTING -s "\$BLOCK" -o "\$up" -j MASQUERADE
+    else
+      echo "frkn-peer-nat: no default route yet, NAT not applied" >&2
+    fi
+    sysctl -q -w net.ipv4.conf."\$iface".rp_filter=0 2>/dev/null || true
+    ;;
+  down) drop_rules ;;
+  *) echo "usage: \$0 up|down <iface>" >&2; exit 2 ;;
+esac
+SCRIPT
+  chmod 755 "$helper"
+}
+
+# The peer plane: one AmneziaWG interface whose members are created by the api
+# (the api numbers them from ENV_BLOCK). Keys and obfuscation are kept on a
+# re-run; only the address and NAT follow the block when it moves.
+write_awg_peer_conf() {
+  local priv="" obf="" addr
+  [[ -n "$ENV_BLOCK" ]] || die "peer plane needs the shard block (empty) — pass a fresh --token"
+  command -v awg >/dev/null || die "awg not found, cannot generate the peer interface"
+  if [[ -f "$PEER_CONF" ]]; then
+    priv="$(grep -E '^[[:space:]]*PrivateKey[[:space:]]*=' "$PEER_CONF" | head -n1 | sed -E 's/.*=[[:space:]]*//' || true)"
+    obf="$(grep -E '^[[:space:]]*(Jc|Jmin|Jmax|S[1-4]|H[1-4]|I1|RandomTrailers|DisableCookies)[[:space:]]*=' "$PEER_CONF" || true)"
+  fi
+  [[ -n "$priv" ]] || priv="$(awg genkey)"
+  if [[ -z "$obf" ]]; then
+    obf="$(awg_obfuscation_lines "$AWG_VERSION" "$(rand_between 3 8)" "$(rand_between 40 70)" \
+      "$(rand_between 90 150)" "$(rand_between 40 80)" "$(rand_between 40 80)" \
+      "$(rand_between 8 32)" "$(rand_between 8 24)")"
+  fi
+  addr="$(peer_address_for_block "$ENV_BLOCK")"
+
+  mkdir -p /opt/amnezia /etc/amnezia/amneziawg
+  ( umask 077; cat >"$PEER_CONF" <<EOF
+[Interface]
+PrivateKey = ${priv}
+Address = ${addr}
+ListenPort = ${PEER_PORT}
+MTU = ${PEER_MTU}
+
+PostUp = sysctl -w net.ipv4.ip_forward=1; /usr/local/sbin/frkn-peer-nat up %i
+PostDown = /usr/local/sbin/frkn-peer-nat down %i
+
+${obf}
+EOF
+  )
+  chmod 600 "$PEER_CONF"
+  # awg-quick looks in /etc/amnezia/amneziawg/<iface>.conf; keep a real file
+  # there (not a symlink) so the unit works without /opt being mounted early.
+  install -m 600 "$PEER_CONF" "/etc/amnezia/amneziawg/${PEER_IFACE}.conf"
+  log "peer interface ${PEER_IFACE}: ${addr} udp/${PEER_PORT}, NAT ${ENV_BLOCK}"
+}
+
+install_awg_peer() {
+  [[ -n "$ENV_BLOCK" ]] || die "peer plane needs the shard block — pass a fresh --token"
+  write_peer_nat_helper
+  write_awg_peer_conf
+  bring_up_awg "$PEER_IFACE"
+  systemctl enable "awg-quick@${PEER_IFACE}" >/dev/null 2>&1 || true
+}
+
 keep_or_regen_wg_conf() {
   local path="$1" label="$2"
   if [[ -f "$path" && "$FORCE_WG_CONF" -ne 1 ]]; then
@@ -964,8 +1226,11 @@ install_hysteria2() {
     useradd -r -s /bin/false -M hysteria2 || true
   fi
   bin="/opt/hysteria2/hysteria"
-  curl -fsSL -o "$bin" "https://github.com/apernet/hysteria/releases/latest/download/hysteria-linux-${arch}"
-  chmod +x "$bin"
+  # Never overwrite a running binary in place (ETXTBSY → curl "error on write"):
+  # download next to it and rename, which is atomic even while the service runs.
+  curl -fsSL -o "${bin}.new" "https://github.com/apernet/hysteria/releases/latest/download/hysteria-linux-${arch}"
+  chmod +x "${bin}.new"
+  mv -f "${bin}.new" "$bin"
   if [[ ! -f /opt/hysteria2/config.yaml ]]; then
     cat >/opt/hysteria2/config.yaml <<EOF
 listen: :443
@@ -1023,6 +1288,18 @@ detect_arch_fnode() {
   esac
 }
 
+# A fresh VPS often ships ufw enabled with only SSH open; the peer plane and
+# hysteria2 would then be unreachable while every service looks healthy.
+open_private_ports() {
+  [[ "$MODE" == "private" ]] || return 0
+  command -v ufw >/dev/null 2>&1 || return 0
+  ufw status 2>/dev/null | grep -qi '^Status: active' || return 0
+  [[ "$NEED_AWG" -eq 1 ]] && ufw allow "${PEER_PORT}/udp" >/dev/null 2>&1 || true
+  [[ "$NEED_H2" -eq 1 ]] && { ufw allow 443/udp >/dev/null 2>&1 || true; ufw allow 443/tcp >/dev/null 2>&1 || true; }
+  [[ "$NEED_AWG" -eq 1 ]] && ufw allow 51820/udp >/dev/null 2>&1 || true
+  log "ufw: opened peer/hysteria ports"
+}
+
 write_root_env() {
   local token="$1"
   cat >/root/.env <<EOF
@@ -1039,6 +1316,10 @@ API_TOKEN=${token}
 ZMQ_ENDPOINT=${ZMQ_ENDPOINT}
 METRICS_ZMQ_ENDPOINT=${METRICS_ZMQ_ENDPOINT}
 ENV=${ENV_NAME}
+FRKN_SCOPE_ENV=${SCOPE_ENV}
+ENV_BLOCK=${ENV_BLOCK}
+PEER_IFACE=${PEER_IFACE}
+PEER_PORT=${PEER_PORT}
 UUID=${NODE_UUID}
 HOSTNAME=${NODE_HOST}
 ADDRESS=${DEFAULT_IP}
@@ -1057,22 +1338,63 @@ EOF
   fi
 }
 
+# Does `host` resolve to this machine? hysteria2 publishes a card the client
+# dials by name behind an ACME certificate; without the A record the pill is
+# dead on arrival, so an own node announces hysteria2 only when it can hold a
+# certificate for its own name.
+host_points_to_node() {
+  local host="$1" ip="$2"
+  [[ -n "$host" && -n "$ip" ]] || return 1
+  if command -v getent >/dev/null 2>&1; then
+    getent ahostsv4 "$host" 2>/dev/null | awk '{print $1}' | grep -qx "$ip" && return 0
+  fi
+  if command -v dig >/dev/null 2>&1; then
+    dig +short A "$host" 2>/dev/null | grep -qx "$ip" && return 0
+  fi
+  return 1
+}
+
+# One shard, one pool (`own`): the app shows a single row per account and no
+# pool picker. The title is the pool translation, so a node without it appears
+# as its bare pool name; the label carries the same text for the node list.
+write_private_pool_block() {
+  [[ "$MODE" == "private" ]] || return 0
+  local title="${LABEL:-${COUNTRY_FULL} | Selfhosted}"
+  cat <<EOF
+pool = "own"
+pool_translation = { en = "${title}", ru = "${title}", uk = "${title}" }
+EOF
+}
+
 write_fnode_config() {
   local token="$1"
-  local awg_en=false awg_m_en=false wg_en=false h2_en=false
-  local toml_env="$ENV_NAME"
+  local awg_en=false awg_m_en=false wg_en=false h2_en=false peers_en=false
+  local toml_env="$ENV_NAME" node_type="common"
+  # The node type is a required config key; the api forces `selfhosted` on the
+  # private path anyway, but writing it keeps the config honest for the operator.
+  [[ "$MODE" == "private" ]] && node_type="selfhosted"
   if [[ "$MODE" == "premium" && "$toml_env" == custom* ]]; then
     toml_env="${toml_env#custom}"
   fi
   [[ "$NEED_AWG" -eq 1 ]] && awg_en=true && awg_m_en=true
   [[ "$NEED_WG" -eq 1 ]] && wg_en=true
-  [[ "$NEED_H2" -eq 1 ]] && h2_en=true
+  if [[ "$NEED_H2" -eq 1 ]]; then
+    h2_en=true
+    if [[ "$MODE" == "private" && "$PROFILE" == "full" ]] && ! host_points_to_node "$NODE_HOST" "$DEFAULT_IP"; then
+      # No certificate possible: keep the service installed but do not
+      # advertise a card nobody can connect to.
+      h2_en=false
+      log "hysteria2 installed but not announced: ${NODE_HOST} does not resolve to ${DEFAULT_IP} (pass --hostname pointing at this box to enable it)"
+    fi
+  fi
+  # The peer plane is the card the app connects through for an own node.
+  [[ "$MODE" == "private" && "$NEED_AWG" -eq 1 && -n "$ENV_BLOCK" ]] && peers_en=true
   mkdir -p /opt/fnode/snapshots
   cat >/opt/fnode/config.toml <<EOF
 [service]
 snapshot_interval = 60
 snapshot_path = "snapshots/snapshot-agent.bin"
-log_velel = "debug"
+log_level = "info"
 updates_endpoint_zmq = "${ZMQ_ENDPOINT}"
 
 [metrics]
@@ -1105,6 +1427,13 @@ keepalive = 15
 enabled = false
 path = "/opt/teleproxy/config.toml"
 
+# Own-node peer plane: the api creates the members, this interface only carries
+# them. Disabled outside the private path (a shared shard uses awg/awg_mobile).
+[awg_peers]
+enabled = ${peers_en}
+path = "${PEER_CONF}"
+keepalive = 25
+
 [node]
 env = "${toml_env}"
 uuid = "${NODE_UUID}"
@@ -1114,8 +1443,9 @@ address = "${DEFAULT_IP}"
 label = "${LABEL}"
 max_bandwidth_bps = ${MAX_BANDWIDTH_BPS}
 country = "${COUNTRY}"
-type = "common"
+type = "${node_type}"
 node_ips = [$(format_node_ips "${NODE_IP_LIST[@]}")]
+$(write_private_pool_block)
 
 [api]
 endpoint = "${API_ENDPOINT}"
@@ -1125,24 +1455,50 @@ EOF
 
 install_fnode() {
   local token="$1"
-  local arch
+  local arch version pinned
   arch="$(detect_arch_fnode)"
-  log "installing fnode ${FNODE_VERSION} (${arch})…"
+  pinned="${FNODE_VERSION:-}"
   mkdir -p /opt/fnode/snapshots
-  curl -fsSL -o /opt/fnode/fnode \
-    "https://github.com/frkn-dev/fcore/releases/download/${FNODE_VERSION}/node-${arch}"
+  # Priority: --env override, then the version api told us it runs, then the
+  # pinned fallback. Each candidate is tried at the mirror we run (a version can
+  # be published there before GitHub) and then at the GitHub release, so an api
+  # ahead of its release cannot leave the machine without a binary.
+  for version in "$pinned" "${RESOLVED_FNODE_VERSION:-}" "$FNODE_VERSION_FALLBACK"; do
+    [[ -n "$version" ]] || continue
+    for base in "https://frkn.org/install-node/${version}" \
+                "https://github.com/frkn-dev/fcore/releases/download/${version}"; do
+      log "installing fnode ${version} (${arch}) from ${base}…"
+      if curl -fsSL --max-time 120 -o /opt/fnode/fnode.tmp "${base}/node-${arch}" \
+        && [[ -s /opt/fnode/fnode.tmp ]]; then
+        mv /opt/fnode/fnode.tmp /opt/fnode/fnode
+        break 2
+      fi
+      rm -f /opt/fnode/fnode.tmp
+    done
+    log "WARN: no node-${arch} binary for ${version}, trying the next source"
+  done
+  [[ -s /opt/fnode/fnode ]] || die "cannot download a node build for ${arch}"
   chmod +x /opt/fnode/fnode
   write_fnode_config "$token"
   write_root_env "$token"
+  local peer_unit=""
+  if [[ "$MODE" == "private" && "$NEED_AWG" -eq 1 ]]; then
+    # fnode refuses to start without its peer device, so the interface unit is a
+    # hard dependency rather than something we hope has finished booting.
+    peer_unit=" awg-quick@${PEER_IFACE}.service"
+  fi
   cat >/etc/systemd/system/fnode.service <<EOF
 [Unit]
 Description=Fnode
-After=network-online.target
-Wants=network-online.target
+After=network-online.target${peer_unit}
+Wants=network-online.target${peer_unit}
 
 [Service]
 Type=simple
 ExecStart=/opt/fnode/fnode /opt/fnode/config.toml
+# SIGHUP re-registers the node, which makes api publish the authoritative peer
+# set again: 'systemctl reload fnode' repairs a lost snapshot without SQL.
+ExecReload=/bin/kill -HUP \$MAINPID
 Restart=on-failure
 RestartSec=5
 WorkingDirectory=/opt/fnode
@@ -1173,8 +1529,11 @@ private_register_and_token() {
 main() {
   install_base_packages
   ensure_country
-  if [[ "$MODE" == "private" && -z "$LABEL" ]]; then
-    LABEL="${COUNTRY}| Private"
+  # Private: everything that depends on the token is resolved before the first
+  # interface is written — the shard env (bus topic), the address block, the
+  # node build and the card title.
+  if [[ "$MODE" == "private" ]]; then
+    private_prepare
   fi
   if [[ "$NEED_AWG" -eq 1 ]]; then
     install_amneziawg
@@ -1186,6 +1545,8 @@ main() {
     install_hysteria2
   fi
 
+  open_private_ports
+
   local runtime_token
   case "$MODE" in
     core|premium)
@@ -1193,13 +1554,16 @@ main() {
       ;;
     private)
       runtime_token="$(private_register_and_token)"
-      ENV_NAME="dev"
       ;;
   esac
 
   install_fnode "$runtime_token"
 
   log "done. mode=$MODE profile=$PROFILE env=$ENV_NAME country=$COUNTRY awg=$AWG_VERSION mobile=$AWG_MOBILE_VERSION wg=$NEED_WG"
+  if [[ "$MODE" == "private" ]]; then
+    log "peer: awg show ${PEER_IFACE}; block ${ENV_BLOCK} udp/${PEER_PORT}"
+    log "refresh the subscription in the app — the node appears as \"${LABEL}\"; its exit IP is ${DEFAULT_IP}"
+  fi
   log "fnode: systemctl status fnode"
   [[ "$NEED_AWG" -eq 1 ]] && log "awg: awg show awg0; awg show awg1"
   [[ "$NEED_WG" -eq 1 ]] && log "wg: wg show wg0"
