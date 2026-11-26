@@ -1192,7 +1192,7 @@
     </div>
 
     <script src="/scripts/utils.js?v=1"></script>
-    <script src="/scripts/plans.js?v=11"></script>
+    <script src="/scripts/plans.js?v=12"></script>
     <script>
       // --- Конфигурация ---
       const isLocal =
@@ -1771,10 +1771,11 @@
       }
       tabTraffic?.addEventListener("click", () => selectPayTab("traffic"));
       tabUnlimited?.addEventListener("click", () => selectPayTab("unlimited"));
-      // Temporarily off sale while the traffic packs are reworked: on beta the
-      // tab and its grid are gone, so the page sells only unlimited plans.
-      // Prod keeps the tab until the rework is approved.
-      if (window.FRKNPlans && window.FRKNPlans.isBeta) {
+      // Traffic packs are off sale everywhere while they are reworked: the tab
+      // and its grid are removed, so the page sells only unlimited plans. Set
+      // TRAFFIC_PACKS_ON_SALE to true to bring them back (the markup is intact).
+      const TRAFFIC_PACKS_ON_SALE = false;
+      if (!TRAFFIC_PACKS_ON_SALE) {
         tabTraffic?.remove();
         sectionTraffic?.remove();
         selectPayTab("unlimited");

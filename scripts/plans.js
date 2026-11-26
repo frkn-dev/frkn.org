@@ -87,12 +87,6 @@
   // them, but production must not advertise them yet.
   var isBeta = isLocal || host.indexOf("beta.") === 0;
 
-  // Temporarily off sale while the products are reworked (back on sale later):
-  // gaming tiers and traffic packs. The gate is beta-only so prod keeps selling
-  // them until the rework is approved; move the ids into `disabled: true` on the
-  // product itself when it must disappear everywhere.
-  var HIDDEN_ON_BETA = { gaming: true, "standard-gaming": true };
-
   // Product order is the display order. `id` is the wire value accepted by the
   // gateway and stored in fcore (`standard`, `gaming`, ...).
   var PRODUCTS = [
@@ -121,6 +115,9 @@
     {
       id: "gaming",
       betaOnly: false,
+      // Off sale everywhere while the gaming tiers are reworked: flip to false
+      // (or drop the flag) to put it back on the showcase.
+      disabled: true,
       ru: {
         name: "Игровой",
         tagline: "Серверы в Турции",
@@ -153,6 +150,8 @@
     {
       id: "standard-gaming",
       betaOnly: false,
+      // Depends on `gaming`, which is off sale: it goes with it.
+      disabled: true,
       ru: {
         name: "Стандарт + Игровой",
         tagline: "Стандарт и серверы в Турции",
@@ -486,7 +485,6 @@
       // `disabled` products are not sold at all (hidden on beta and prod).
       if (product.disabled) continue;
       if (product.betaOnly && !isBeta) continue;
-      if (isBeta && HIDDEN_ON_BETA[product.id]) continue;
       // Only offer a product the gateway actually sells.
       if (soldDurations(product.id).length === 0) continue;
       out.push(product);

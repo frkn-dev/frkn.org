@@ -250,6 +250,17 @@
             // and the second flight after the document swap read as a page blink.
             try { sessionStorage.setItem("lk_boot_seen", "1"); } catch (e) {}
             document.open();
+            // document.open() empties the document, and the empty document
+            // paints white — on a dark site that is a visible flash between the
+            // mascot and the cabinet. Paint the same background first.
+            var bg = "#090b10";
+            try {
+              var bodyBg = getComputedStyle(document.body).backgroundColor;
+              if (bodyBg && bodyBg !== "rgba(0, 0, 0, 0)") bg = bodyBg;
+            } catch (e) {}
+            document.write(
+              '<style>html,body{background:' + bg + ";margin:0}</style>",
+            );
             document.write(html);
             document.close();
           })
