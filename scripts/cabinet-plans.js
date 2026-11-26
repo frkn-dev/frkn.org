@@ -42,6 +42,7 @@
       unlimited: "без лимита",
       addMore: "Докупить",
       buy: "Купить Super Duper",
+      buyStandard: "Купить",
       connect: "Подключить",
       soon: "Скоро",
       soonNote: "Оплата этого тарифа ещё не подключена — скоро.",
@@ -68,6 +69,7 @@
       unlimited: "unlimited",
       addMore: "Add more",
       buy: "Buy Super Duper",
+      buyStandard: "Buy",
       connect: "Connect",
       soon: "Soon",
       soonNote: "Checkout for this plan is not live yet — soon.",
@@ -144,9 +146,11 @@
     return wrap;
   }
 
+  // Standard: active -> «Докупить» (the renewal dialog with key activation,
+  // promo code and duration); not active -> «Купить» (straight to checkout).
   function buttonLabel(plan) {
     if (plan.plan === "lite") return plan.active ? T.addMore : T.buy;
-    return plan.active ? T.addMore : T.connect;
+    return plan.active ? T.addMore : T.buyStandard;
   }
 
   /* Why the button cannot be pressed right now, or "" when it can. */
@@ -254,6 +258,13 @@
 
     btn.addEventListener("click", function () {
       if (btn.disabled) return;
+      // An active Standard is topped up through the renewal dialog: it holds the
+      // key activation, the promo code and the duration picker. `POST /buy`
+      // would jump straight to the gateway and lose all three.
+      if (plan.plan === "standard" && plan.active) {
+        openRenewDialog();
+        return;
+      }
       startPurchase(plan, btn, note, subId, "platega", reasonEl, packSelect);
     });
     actions.appendChild(btn);

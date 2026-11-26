@@ -1190,7 +1190,7 @@
       // Catalogue prices are in roubles; this market displays dollars.
       window.FRKN_PLAN_CURRENCY = { rate: 0.013, symbol: "$", prefix: true };
     </script>
-    <script src="/scripts/plans.js?v=9"></script>
+    <script src="/scripts/plans.js?v=11"></script>
     <script>
       // --- Configuration ---
       const isLocal =
@@ -1769,6 +1769,17 @@
       }
       tabTraffic?.addEventListener("click", () => selectPayTab("traffic"));
       tabUnlimited?.addEventListener("click", () => selectPayTab("unlimited"));
+      // Temporarily off sale while the traffic packs are reworked: on beta the
+      // tab and its grid are gone, so the page sells only unlimited plans.
+      // Prod keeps the tab until the rework is approved.
+      if (window.FRKNPlans && window.FRKNPlans.isBeta) {
+        tabTraffic?.remove();
+        sectionTraffic?.remove();
+        selectPayTab("unlimited");
+        // A single tab is not a choice: drop the whole bar with it.
+        const tabs = document.querySelector(".pay-tabs");
+        if (tabs && tabs.children.length <= 1) tabs.remove();
+      }
       if (payBtn) {
         payBtn.onclick = async () => {
           if (!currentOrder) {

@@ -42,8 +42,16 @@
 (function () {
   "use strict";
 
+  // The path carries the language on /en/... pages, but the short-link cabinet
+  // (/sub/<code>) writes the English page into a document without that prefix —
+  // there the document's own lang is the only source of truth.
   var langMatch = window.location.pathname.match(/^\/(en|fa)(\/|$)/);
-  var LANG = langMatch ? langMatch[1] : "ru";
+  var docLang = (document.documentElement.lang || "").toLowerCase();
+  var LANG = langMatch
+    ? langMatch[1]
+    : docLang.indexOf("en") === 0
+      ? "en"
+      : "ru";
 
   // Display currency: the catalogue is in roubles, a page may show another
   // unit. Declared by the page before this script:
@@ -78,6 +86,12 @@
   // Non-standard products are beta-only for Release 1: the gateway can sell
   // them, but production must not advertise them yet.
   var isBeta = isLocal || host.indexOf("beta.") === 0;
+
+  // Temporarily off sale while the products are reworked (back on sale later):
+  // gaming tiers and traffic packs. The gate is beta-only so prod keeps selling
+  // them until the rework is approved; move the ids into `disabled: true` on the
+  // product itself when it must disappear everywhere.
+  var HIDDEN_ON_BETA = { gaming: true, "standard-gaming": true };
 
   // Product order is the display order. `id` is the wire value accepted by the
   // gateway and stored in fcore (`standard`, `gaming`, ...).
@@ -472,6 +486,7 @@
       // `disabled` products are not sold at all (hidden on beta and prod).
       if (product.disabled) continue;
       if (product.betaOnly && !isBeta) continue;
+      if (isBeta && HIDDEN_ON_BETA[product.id]) continue;
       // Only offer a product the gateway actually sells.
       if (soldDurations(product.id).length === 0) continue;
       out.push(product);
